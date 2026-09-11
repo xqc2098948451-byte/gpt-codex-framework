@@ -1,5 +1,14 @@
 # GPT–Codex Framework Changelog
 
+## v2.2.1 — Self-Hosting and Publication Authority Corrective Patch
+
+- Added management-only Framework self-hosting validation for the marked `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` project while preserving ordinary consumer isolation.
+- Added catalog-and-manifest checks for the narrow management builtin installed-path exception.
+- Mechanically reject `PASS` without `VERIFIED`, `SYNCED` without verified evidence, and candidate authority combined with final claims or `COMPLETE` state.
+- Local pre-publication results remain `LOCAL_COMPLETE`/`SYNC_PENDING` with `PUBLICATION_CANDIDATE_ONLY` until a separately authorized remote publication is verified.
+- Distinguished verified generic baseline W from management attestation head P and kept the bounded W → verify W → P model without self-reference.
+- Recorded forward-only local reconciliation; this release does not perform GitHub publication and preserves `KERNEL_VERSION = 2.0.0` and `SCHEMA_VERSION = 1`.
+
 ## v2.2.0 — GitHub-backed Project Continuity & Coordination
 
 - Added stable `CONTROL.github.repository_id` binding with durable full-name and default-branch metadata; local remote names remain runtime-only.

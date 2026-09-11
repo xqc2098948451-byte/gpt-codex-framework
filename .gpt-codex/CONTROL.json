@@ -12,8 +12,8 @@
   },
   "governance_profile": "FRAMEWORK_MANAGEMENT",
   "framework": {
-    "adopted_version": "2.2.0",
-    "last_evaluated_version": "2.2.0",
+    "adopted_version": "2.2.1",
+    "last_evaluated_version": "2.2.1",
     "evaluation_result": "ADOPTED"
   },
   "roots": {
@@ -33,7 +33,7 @@
         "reason": "resume and publish the confirmed management baseline",
         "adoption": "COPIED_SNAPSHOT",
         "installed_path": ".gpt-codex/extensions/skills/github-project-continuity",
-        "source_framework_version": "2.2.0",
+        "source_framework_version": "2.2.1",
         "source_checksum": "populate-after-copy"
       }
     ],
@@ -60,7 +60,7 @@
         "reason": "bind management publication to repository 1366213495",
         "adoption": "COPIED_SNAPSHOT",
         "installed_path": ".gpt-codex/extensions/guardrails/github-repository-binding",
-        "source_framework_version": "2.2.0",
+        "source_framework_version": "2.2.1",
         "source_checksum": "populate-after-copy"
       }
     ],

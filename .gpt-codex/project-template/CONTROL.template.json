@@ -11,8 +11,8 @@
   },
   "governance_profile": "STANDARD",
   "framework": {
-    "adopted_version": "2.2.0",
-    "last_evaluated_version": "2.2.0",
+    "adopted_version": "2.2.1",
+    "last_evaluated_version": "2.2.1",
     "evaluation_result": "ADOPTED"
   },
   "roots": {

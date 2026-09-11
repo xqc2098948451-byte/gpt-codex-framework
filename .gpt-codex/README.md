@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.2.0
+# GPT–Codex Framework v2.2.1
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
@@ -92,13 +92,16 @@ The Kernel does **not** know how Git, Docker, React, PostgreSQL, Prometheus, dep
 
 For v2.1.0, bootstrap generates an authoritative `PROJECT_CONTEXT_ID` in `CONTROL.json` and records the project name. The required `cross-project-context-binding` Guardrail is enabled only in `CONTROL.extensions.guardrails[]`. An unbound first bootstrap is read-only and returns a challenge; only the exact second challenge-bound request may create identity and then hard-stop before business work. See `MIGRATION_v2.0_to_v2.1.md` for legacy migration and cross-project protections.
 
-For v2.2.0 GitHub continuity, an adopting project also records exactly three
+For v2.2.1 GitHub continuity, an adopting project also records exactly three
 durable `CONTROL.github` fields: `repository_id`, `repository_full_name`, and
 `default_branch`. The local remote name is never project identity. New work
 requires clean/synced preflight. An already-authorized active work unit may
 continue locally during a remote outage and returns `LOCAL_COMPLETE` with
 `SYNC_PENDING`; formal `PASS` requires the bounded W/P publication protocol
-and live `TOOL_OBSERVED` verification of the remote ref head.
+and live `TOOL_OBSERVED` verification of the remote ref head. A publication
+candidate cannot claim `PASS`, `SYNCED`, or authoritative `COMPLETE`; the
+management-only project uses `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` and may
+self-host only cataloged Framework Built-ins.
 
 ## Framework upgrade
 

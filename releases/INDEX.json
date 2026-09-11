@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "archive_policy": "METADATA_ONLY",
-  "latest_recorded_version": "2.2.0",
+  "latest_recorded_version": "2.2.1",
   "releases": [
     {
       "version": "1.0",
@@ -91,6 +91,13 @@
       "version": "2.2.0",
       "artifact": "gpt-codex-framework-v2.2.0-bootstrap.zip",
       "record": "records/v2.2.0.json",
+      "archive_policy": "METADATA_ONLY",
+      "record_status": "FRAMEWORK_RELEASE"
+    },
+    {
+      "version": "2.2.1",
+      "artifact": "gpt-codex-framework-v2.2.1-bootstrap.zip",
+      "record": "records/v2.2.1.json",
       "archive_policy": "METADATA_ONLY",
       "record_status": "FRAMEWORK_RELEASE"
     }

@@ -1,6 +1,6 @@
-# GPT Bootstrap Prompt — Framework v2.2.0
+# GPT Bootstrap Prompt — Framework v2.2.1
 
-You are bootstrapping or resuming a project using GPT–Codex Framework v2.2.0.
+You are bootstrapping or resuming a project using GPT–Codex Framework v2.2.1.
 
 ## Roots
 
@@ -26,7 +26,7 @@ During ordinary project work, `Framework Kernel` and `Framework Built-ins` are `
 
 Before any adoption or migration, run the read-only Framework Compatibility Scan and return exactly one of `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`.
 
-For an existing versioned binding, migrate once: remove the old versioned auxiliary folder, add the fixed `通用开发框架管理` folder, save the Codex project configuration, and keep that fixed folder for future upgrades.
+For an existing versioned binding, migrate once: remove the old versioned auxiliary folder, add the fixed `通用开发框架管理` folder, save the Codex project configuration, and keep that fixed folder for future upgrades. Framework Management self-hosting is accepted only for the marked management project and cataloged Built-ins.
 
 ## Read first
 
