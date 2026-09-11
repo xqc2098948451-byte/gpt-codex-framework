@@ -19,6 +19,25 @@ from release_framework import (
 
 
 class ReleasePackagingTests(unittest.TestCase):
+    def test_package_release_uses_consumer_projection_boundary(self):
+        root = Path(__file__).resolve().parents[2]
+        with tempfile.TemporaryDirectory() as output:
+            result = package_release(
+                root=root,
+                output_dir=Path(output),
+                kernel_version="2.0.0",
+                schema_version=1,
+                validation_summary={"framework": "PASS", "tests": "PASS"},
+            )
+            with zipfile.ZipFile(result["zip_path"]) as archive:
+                names = set(archive.namelist())
+                payload = b"".join(archive.read(name) for name in names)
+            self.assertFalse(any("docs/superpowers/" in name for name in names))
+            self.assertNotIn(b"cb1e0450-df32-4ff6-8a33-35187b69a866", payload)
+            self.assertNotIn(b"1366213495", payload)
+            self.assertFalse(any(name.endswith("/.gpt-codex/CONTROL.json") for name in names))
+            self.assertFalse(any(name.endswith("/.gpt-codex/STATE.json") for name in names))
+
     def test_management_control_is_excluded_but_generic_control_template_is_included(self):
         self.assertTrue(should_exclude(Path(".gpt-codex/CONTROL.json")))
         self.assertFalse(should_exclude(Path(".gpt-codex/project-template/CONTROL.template.json")))
@@ -80,6 +99,22 @@ class ReleasePackagingTests(unittest.TestCase):
             (root / "AGENTS.md").write_text("framework\n", encoding="utf-8")
             (root / ".gpt-codex").mkdir()
             (root / ".gpt-codex" / "KERNEL.md").write_text("kernel\n", encoding="utf-8")
+            (root / ".gpt-codex" / "release").mkdir()
+            (root / ".gpt-codex" / "release" / "consumer-projection-manifest.json").write_text(
+                json.dumps({
+                    "manifest_version": 1,
+                    "framework_version": "2.0.1",
+                    "projection": "CONSUMER_BOOTSTRAP",
+                    "paths": {
+                        "VERSION": "CONSUMER_REQUIRED",
+                        "AGENTS.md": "CONSUMER_REQUIRED",
+                        ".gpt-codex/KERNEL.md": "CONSUMER_REQUIRED",
+                        ".gpt-codex/release/consumer-projection-manifest.json": "MANAGEMENT_ONLY",
+                        "dist/old.zip": "GENERATED_ARTIFACT",
+                    },
+                }),
+                encoding="utf-8",
+            )
             (root / "dist").mkdir()
             (root / "dist" / "old.zip").write_bytes(b"old")
             (root / "__pycache__").mkdir()

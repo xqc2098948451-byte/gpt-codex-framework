@@ -16,6 +16,13 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 from kernel_rules import KERNEL_VERSION, SCHEMA_VERSION
+from consumer_projection import (
+    ProjectionValidationError,
+    compare_projection_to_zip,
+    load_projection_manifest,
+    scan_consumer_boundary,
+    stage_consumer_projection,
+)
 from release_archive import ensure_release_record, load_release_index
 
 SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
@@ -120,14 +127,27 @@ def package_release(
     sha_path = output_dir / f"{base}.zip.sha256"
     manifest_path = output_dir / f"gpt-codex-framework-v{version}-release.json"
 
-    files = collect_files(root)
-    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-        for source in files:
-            rel = source.relative_to(root).as_posix()
-            _zip_write_deterministic(zf, source, f"{base}/{rel}")
-        bad = zf.testzip()
-        if bad is not None:
-            raise RuntimeError(f"ZIP integrity failure at {bad}")
+    try:
+        manifest = load_projection_manifest(root)
+        with __import__("tempfile").TemporaryDirectory(prefix="gpt-codex-consumer-projection-") as temp:
+            staging_root = Path(temp)
+            files = stage_consumer_projection(root, staging_root, manifest)
+            boundary = scan_consumer_boundary(staging_root, manifest)
+            boundary_failures = [item for values in boundary.values() for item in values]
+            if boundary_failures:
+                raise ProjectionValidationError(json.dumps(boundary, ensure_ascii=False, sort_keys=True))
+            with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+                for relative in files:
+                    source = staging_root / Path(*PurePosixPath(relative).parts)
+                    _zip_write_deterministic(source=source, zf=zf, archive_name=f"{base}/{relative}")
+                bad = zf.testzip()
+                if bad is not None:
+                    raise RuntimeError(f"ZIP integrity failure at {bad}")
+            comparison = compare_projection_to_zip(staging_root, zip_path, base)
+            if not comparison["match"]:
+                raise ProjectionValidationError(json.dumps(comparison, ensure_ascii=False, sort_keys=True))
+    except ProjectionValidationError:
+        raise
 
     sha256 = hashlib.sha256(zip_path.read_bytes()).hexdigest()
     sha_path.write_text(f"{sha256}  {zip_path.name}\n", encoding="utf-8")

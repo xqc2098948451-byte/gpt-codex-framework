@@ -25,7 +25,8 @@ class ConsumerWorkspaceTests(unittest.TestCase):
         self.assertIn("Project is authoritative", self.corpus)
         self.assertIn("Framework is advisory", self.corpus)
         self.assertIn("gpt-codex-framework", self.corpus)
-        self.assertIn("通用开发框架管理", self.corpus)
+        self.assertIn("framework-source", self.corpus)
+        self.assertNotIn("通用开发框架管理", self.corpus)
 
     def test_framework_core_is_read_only_and_adoption_is_a_snapshot_copy(self):
         self.assertIn("Framework Kernel", self.corpus)

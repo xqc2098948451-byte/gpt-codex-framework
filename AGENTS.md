@@ -22,7 +22,7 @@ workspace/
 └── gpt-codex-framework/      # Framework is advisory.
 ```
 
-`gpt-codex-framework` and `通用开发框架管理` are stable folder-name examples. Do not bind a long-lived project configuration to `gpt-codex-framework-v2.0.2-bootstrap`, `gpt-codex-framework-v2.0.3-bootstrap`, or any other versioned Framework Source Folder; those names are not recommended for consumer bindings. Version and compatibility are read from `VERSION`, release metadata, and the compatibility scan.
+`gpt-codex-framework` and `framework-source` are stable folder-name examples. Do not bind a long-lived project configuration to `gpt-codex-framework-v2.0.2-bootstrap`, `gpt-codex-framework-v2.0.3-bootstrap`, or any other versioned Framework Source Folder; those names are not recommended for consumer bindings. Version and compatibility are read from `VERSION`, release metadata, and the compatibility scan.
 
 Every v2.1.0 project also binds GPT instructions and Codex returns to the authoritative `project_context_id` in `CONTROL.json`. After identity migration, `cross-project-context-binding` is a required safety guardrail selected only through `CONTROL.extensions.guardrails[]`. Foreign or stale context is denied or analysis-only.
 
@@ -38,7 +38,7 @@ During ordinary project development, `Framework Kernel` and `Framework Built-ins
 
 Before adopting or migrating, run the read-only Framework Compatibility Scan. Its result is one of `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`.
 
-If a project is currently bound to a versioned folder, perform one migration: remove the old versioned auxiliary folder, add the fixed `通用开发框架管理` folder, save the Codex project configuration, and use that fixed folder for future Framework upgrades.
+If a project is currently bound to a versioned folder, perform one migration: remove the old versioned auxiliary folder, add the fixed `framework-source` folder, save the Codex project configuration, and use that fixed folder for future Framework upgrades.
 
 During ordinary project work:
 

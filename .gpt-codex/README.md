@@ -36,7 +36,7 @@ workspace/
 
 ## Consumer Workspace Setup
 
-Use a fixed, unversioned Framework Source Folder beside each consumer project. `Project is authoritative.` `Framework is advisory.` Recommended fixed names are `gpt-codex-framework` or `通用开发框架管理`.
+Use a fixed, unversioned Framework Source Folder beside each consumer project. `Project is authoritative.` `Framework is advisory.` Recommended fixed names are `gpt-codex-framework` or `framework-source`.
 
 Do not bind a long-lived consumer workspace to `gpt-codex-framework-v2.0.2-bootstrap`, `gpt-codex-framework-v2.0.3-bootstrap`, or another versioned folder. The Framework version comes from `VERSION`, release metadata, and compatibility information; a Framework upgrade replaces the contents of the fixed folder in place.
 
@@ -49,7 +49,7 @@ During ordinary project development:
 
 Before any adoption or migration, run the read-only Framework Compatibility Scan. Continue to use only these results: `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`.
 
-If a consumer currently uses a versioned source folder, migrate once: remove the old versioned auxiliary folder, add the fixed `通用开发框架管理` folder, save the Codex project configuration, and keep using that fixed folder for later Framework upgrades.
+If a consumer currently uses a versioned source folder, migrate once: remove the old versioned auxiliary folder, add the fixed `framework-source` folder, save the Codex project configuration, and keep using that fixed folder for later Framework upgrades.
 
 ## Built-in adoption into the project
 

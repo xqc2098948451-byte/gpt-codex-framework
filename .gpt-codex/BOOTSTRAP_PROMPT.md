@@ -20,13 +20,13 @@ select an ambiguous remote or create/replace a repository automatically.
 
 ## Consumer Workspace Setup
 
-Add the Framework Source Folder once using a fixed, unversioned path such as `gpt-codex-framework` or `通用开发框架管理`. `Project is authoritative.` `Framework is advisory.` Do not bind the consumer workspace to names such as `gpt-codex-framework-v2.0.2-bootstrap` or `gpt-codex-framework-v2.0.3-bootstrap`; those are release artifact names, not long-lived source paths.
+Add the Framework Source Folder once using a fixed, unversioned path such as `gpt-codex-framework` or `framework-source`. `Project is authoritative.` `Framework is advisory.` Do not bind the consumer workspace to names such as `gpt-codex-framework-v2.0.2-bootstrap` or `gpt-codex-framework-v2.0.3-bootstrap`; those are release artifact names, not long-lived source paths.
 
 During ordinary project work, `Framework Kernel` and `Framework Built-ins` are `READ ONLY`. Adopted Built-ins are copied as versioned snapshots into the project-owned `.gpt-codex/extensions/` directory. Framework upgrades update the fixed source folder only and do not automatically modify the project.
 
 Before any adoption or migration, run the read-only Framework Compatibility Scan and return exactly one of `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`.
 
-For an existing versioned binding, migrate once: remove the old versioned auxiliary folder, add the fixed `通用开发框架管理` folder, save the Codex project configuration, and keep that fixed folder for future upgrades. Framework Management self-hosting is accepted only for the marked management project and cataloged Built-ins.
+For an existing versioned binding, migrate once: remove the old versioned auxiliary folder, add the fixed `framework-source` folder, save the Codex project configuration, and keep that fixed folder for future upgrades. Framework Management self-hosting is accepted only for the marked management project and cataloged Built-ins.
 
 ## Read first
 
