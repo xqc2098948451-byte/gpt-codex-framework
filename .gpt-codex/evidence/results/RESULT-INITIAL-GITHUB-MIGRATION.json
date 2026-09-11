@@ -1,0 +1,53 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "MIGRATION-INITIAL-GITHUB-CONTINUITY",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.2.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "cf89dbc0e128ebe1790eb933eab565745f320d49",
+  "remote_head_sha": null,
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "NOT_ATTEMPTED",
+  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+  "git": {
+    "base_sha": null,
+    "implementation_sha": "cf89dbc0e128ebe1790eb933eab565745f320d49",
+    "commit_set": {
+      "work_commit_sha": "cf89dbc0e128ebe1790eb933eab565745f320d49"
+    }
+  },
+  "state_revision": 1,
+  "execution": "CONFIRMED_BASELINE_INITIAL_GITHUB_MIGRATION",
+  "changed": [
+    ".gitignore",
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/"
+  ],
+  "verify": [
+    "framework_validator: PASS",
+    "project_validator: PASS",
+    "tests: PASS 88",
+    "release_sha256: a637a48382a32c28db106263a385e5d3c902dff8b28c2387864fb5c6b80ff8d3",
+    "remote_identity: 1366213495"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/MIGRATION-INITIAL-GITHUB-PREFLIGHT.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "Review live remote verification and accept the confirmed Framework baseline."
+}

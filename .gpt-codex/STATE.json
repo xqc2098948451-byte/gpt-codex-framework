@@ -2,20 +2,21 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 0,
-  "state": "VERIFYING",
+  "revision": 1,
+  "state": "COMPLETE",
   "active_work_unit": "MIGRATION-INITIAL-GITHUB-CONTINUITY",
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
-    ".gpt-codex/evidence/MIGRATION-INITIAL-GITHUB-PREFLIGHT.json"
+    ".gpt-codex/evidence/MIGRATION-INITIAL-GITHUB-PREFLIGHT.json",
+    ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": null,
-    "latest_synced_state_revision": 0,
-    "last_verified_result_ref": null,
-    "sync_status": "SYNC_PENDING"
+    "latest_verified_remote_sha": "cf89dbc0e128ebe1790eb933eab565745f320d49",
+    "latest_synced_state_revision": 1,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json",
+    "sync_status": "SYNCED"
   },
-  "next_action": "Complete bounded W/P publication and live remote verification"
+  "next_action": "Maintain confirmed-baseline-only publication policy"
 }
