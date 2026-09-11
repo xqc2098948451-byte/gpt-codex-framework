@@ -2,36 +2,40 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "work_unit_id": "CORRECTIVE-V2.2.1-SELF-HOSTING-PUBLICATION",
+  "work_unit_id": "PUBLICATION-V2.2.1-W-P",
   "extension": {
     "kind": "SKILL",
     "id": "github-project-continuity",
     "version": "1.0.0"
   },
-  "status": "LOCAL_COMPLETE",
+  "status": "PASS",
   "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
   "source_project_name": "通用开发框架管理",
   "framework_version": "2.2.1",
   "source_github_repository_id": "1366213495",
   "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
   "current_remote_ref": "refs/heads/main",
-  "local_head_sha": "LOCAL_ONLY",
-  "remote_head_sha": null,
-  "sync_status": "SYNC_PENDING",
-  "push_status": "NOT_ATTEMPTED",
-  "remote_verification": "NOT_ATTEMPTED",
-  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
-  "state_revision": 2,
-  "execution": "LOCAL_CORRECTIVE_RELEASE",
+  "local_head_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
+  "remote_head_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
+  "verified_baseline_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 3,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
   "changed": [
     "Framework Management self-hosting validator support",
     "publication authority contract and resume checks",
-    "v2.2.1 release metadata and local artifacts"
+    "v2.2.1 release metadata and local artifacts",
+    "management-only W/P publication attestation"
   ],
   "verify": [
-    "frozen v2.2.0 validator regression: FAIL",
-    "v2.2.1 candidate validator: PENDING",
-    "GitHub write: NOT ATTEMPTED"
+    "accepted baseline validators: PASS",
+    "W normal push: SUCCEEDED",
+    "remote main after W push: VERIFIED at 831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
+    "canonical artifact SHA-256: 44e8bb413917a4fe16bc0cc03d92a4ee2a71ea58145b62b6262398b0e5603fcd",
+    "P is management-only; current Result binds verified publication authority to W and does not claim P was remotely verified before its push"
   ],
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json"
@@ -40,8 +44,8 @@
   "blockers": [],
   "git": {
     "base_sha": "954221c75aca086a901294e26207e3ddd5c189a7",
-    "implementation_sha": "LOCAL_ONLY"
+    "implementation_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318"
   },
   "completion_gate": "GPT_DECISION",
-  "next_gpt_action": "Review local v2.2.1 corrective release evidence and decide whether to authorize a separate confirmed publication work unit."
+  "next_gpt_action": "Verify the current P management-only attestation commit after push and return the final publication packet; no further Framework publication work is authorized."
 }

@@ -2,12 +2,10 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 2,
-  "state": "RECONCILIATION_REQUIRED",
-  "active_work_unit": "CORRECTIVE-V2.2.1-SELF-HOSTING-PUBLICATION",
-  "blockers": [
-    "HISTORICAL_INVALID_PUBLICATION_CLAIM"
-  ],
+  "revision": 3,
+  "state": "COMPLETE",
+  "active_work_unit": "PUBLICATION-V2.2.1-W-P",
+  "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -15,10 +13,10 @@
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": null,
-    "latest_synced_state_revision": 1,
-    "last_verified_result_ref": null,
-    "sync_status": "SYNC_PENDING"
+    "latest_verified_remote_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
+    "latest_synced_state_revision": 3,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
+    "sync_status": "SYNCED"
   },
-  "next_action": "Complete local v2.2.1 corrective verification and await GPT clean-baseline acceptance"
+  "next_action": "Verify the management-only P attestation commit after push; no further Framework publication work is authorized"
 }
