@@ -82,6 +82,20 @@ class ReleaseArchiveTests(unittest.TestCase):
             self.assertEqual(record["publication_policy"], "CONFIRMED_BASELINE_ONLY")
             self.assertEqual(record["github_write_performed"], "NO")
 
+    def test_release_index_sorts_local_corrective_semver(self):
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            record = ensure_release_record(
+                releases_dir=releases,
+                version="2.2.2-local.1",
+                kernel_version="2.0.0",
+                schema_version=1,
+                previous_version="2.2.1",
+            )
+            self.assertEqual(record["version"], "2.2.2-local.1")
+            index = load_release_index(releases)
+            self.assertEqual(index["latest_recorded_version"], "2.2.2-local.1")
+
 
 if __name__ == "__main__":
     unittest.main()

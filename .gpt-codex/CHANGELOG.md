@@ -1,5 +1,13 @@
 # GPT–Codex Framework Changelog
 
+## v2.2.2-local.1 — Local Consumer Dependency Closure Corrective Release
+
+- Repairs the consumer projection dependency closure for `validate_project.py`.
+- Keeps `validate_framework.py` independent from management-only release tooling.
+- Adds isolated extracted-artifact import coverage for consumer validators.
+- Supports local corrective SemVer release metadata without claiming an official
+  upstream release or performing GitHub publication.
+
 ## v2.2.1 — Self-Hosting and Publication Authority Corrective Patch
 
 - Added management-only Framework self-hosting validation for the marked `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` project while preserving ordinary consumer isolation.

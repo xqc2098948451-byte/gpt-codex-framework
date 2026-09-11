@@ -21,6 +21,7 @@ from release_framework import (
 
 
 ROOT = Path(__file__).resolve().parents[2]
+CURRENT_VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 
 
 def _fresh_release_fixture(tmp: str) -> Path:
@@ -56,15 +57,15 @@ def _run_fresh_release(root: Path) -> subprocess.CompletedProcess[str]:
 
 
 def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
-    artifact = root / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"
+    artifact = root / "dist" / f"gpt-codex-framework-v{CURRENT_VERSION}-bootstrap.zip"
     actual = hashlib.sha256(artifact.read_bytes()).hexdigest()
     sidecar = (artifact.with_name(artifact.name + ".sha256")).read_text(encoding="utf-8").split()[0]
     release_json = json.loads(
-        (root / "dist" / "gpt-codex-framework-v2.2.1-release.json").read_text(encoding="utf-8")
+        (root / "dist" / f"gpt-codex-framework-v{CURRENT_VERSION}-release.json").read_text(encoding="utf-8")
     )
-    record = json.loads((root / "releases" / "records" / "v2.2.1.json").read_text(encoding="utf-8"))
+    record = json.loads((root / "releases" / "records" / f"v{CURRENT_VERSION}.json").read_text(encoding="utf-8"))
     index = json.loads((root / "releases" / "INDEX.json").read_text(encoding="utf-8"))
-    entry = next(item for item in index["releases"] if item["version"] == "2.2.1")
+    entry = next(item for item in index["releases"] if item["version"] == CURRENT_VERSION)
     return actual, sidecar, release_json["sha256"], record["artifact_sha256"], entry["artifact_sha256"]
 
 

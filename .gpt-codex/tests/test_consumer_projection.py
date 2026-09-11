@@ -9,6 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / ".gpt-codex" / "scripts"
+CURRENT_VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+CURRENT_PREFIX = f"gpt-codex-framework-v{CURRENT_VERSION}-bootstrap"
 sys.path.insert(0, str(SCRIPTS))
 
 from consumer_projection import (  # noqa: E402
@@ -98,7 +100,7 @@ class ConsumerProjectionTests(unittest.TestCase):
                 "--root",
                 str(ROOT),
                 "--zip",
-                str(ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"),
+                str(ROOT / "dist" / f"{CURRENT_PREFIX}.zip"),
             ],
             capture_output=True,
             text=True,
@@ -129,7 +131,7 @@ class ConsumerProjectionTests(unittest.TestCase):
 
     def test_cli_and_direct_api_use_equivalent_prefix_semantics(self):
         manifest = load_projection_manifest(ROOT)
-        zip_path = ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"
+        zip_path = ROOT / "dist" / f"{CURRENT_PREFIX}.zip"
         with tempfile.TemporaryDirectory() as tmp:
             staging = Path(tmp) / "staging"
             stage_consumer_projection(ROOT, staging, manifest)
@@ -233,7 +235,7 @@ class ConsumerProjectionTests(unittest.TestCase):
             staging = Path(tmp) / "stage"
             zip_path = Path(tmp) / "projection.zip"
             inventory = stage_consumer_projection(ROOT, staging, load_projection_manifest(ROOT))
-            prefix = "gpt-codex-framework-v2.2.1-bootstrap"
+            prefix = CURRENT_PREFIX
             with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
                 for relative in inventory:
                     archive.writestr(f"{prefix}/{relative}", (staging / relative).read_bytes())

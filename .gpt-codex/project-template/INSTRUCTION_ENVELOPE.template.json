@@ -4,7 +4,7 @@
   "target_project_context_id": "PROJECT_CONTEXT_ID",
   "target_project_name": "PROJECT_NAME",
   "expected_state_revision": 0,
-  "framework_version": "2.2.1",
+  "framework_version": "2.2.2-local.1",
   "target_work_unit": "WORK_UNIT_ID",
   "expected_base_sha": "OPTIONAL_BASE_SHA",
   "target_github_repository_id": "OPTIONAL_GITHUB_REPOSITORY_ID",

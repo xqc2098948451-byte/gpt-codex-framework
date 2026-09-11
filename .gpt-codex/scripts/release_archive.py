@@ -9,7 +9,13 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-ARCHIVE_NAME = re.compile(r"^gpt-codex-framework-v(?P<version>\d+\.\d+(?:\.\d+)?)-bootstrap\.zip$")
+SEMVER_PATTERN = (
+    r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*))?"
+    r"(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?"
+)
+ARCHIVE_NAME = re.compile(
+    rf"^gpt-codex-framework-v(?P<version>{SEMVER_PATTERN})-bootstrap\.zip$"
+)
 INDEX_SCHEMA_VERSION = 1
 
 
@@ -17,11 +23,33 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def _version_key(value: str) -> tuple[int, int, int]:
-    parts = [int(x) for x in value.split(".")]
-    while len(parts) < 3:
-        parts.append(0)
-    return tuple(parts[:3])
+def _version_key(value: str) -> tuple[tuple[int, int, int], int, tuple[tuple[int, int | str], ...]]:
+    match = re.fullmatch(
+        rf"(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(?:\.(?P<patch>0|[1-9]\d*))?"
+        rf"(?:-(?P<pre>[0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?",
+        value,
+    )
+    if not match:
+        raise ValueError(f"invalid SemVer: {value!r}")
+    prerelease = match.group("pre")
+    if prerelease is None:
+        prerelease_key: tuple[tuple[int, int | str], ...] = ()
+        stable = 1
+    else:
+        tokens: list[tuple[int, int | str]] = []
+        for token in prerelease.split("."):
+            tokens.append((0, int(token)) if token.isdigit() else (1, token))
+        prerelease_key = tuple(tokens)
+        stable = 0
+    return (
+        (
+            int(match.group("major")),
+            int(match.group("minor")),
+            int(match.group("patch") or 0),
+        ),
+        stable,
+        prerelease_key,
+    )
 
 
 def _write_json(path: Path, value: dict) -> None:

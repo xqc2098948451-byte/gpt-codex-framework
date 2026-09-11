@@ -1,0 +1,17 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "V2.2.2-LOCAL-CORRECTIVE-ORIGIN",
+  "source": "TOOL_OBSERVED",
+  "classification": "MANAGEMENT_ONLY",
+  "project_name": "bond_decision_system",
+  "project_id": "PRJ-BOND-DECISION-SYSTEM",
+  "project_context_id": "912a668b-33b4-4c75-98ab-be2f3e770831",
+  "trigger": "v2.2.1 consumer artifact dependency closure defect discovered during bond_decision_system Framework migration",
+  "source_defective_version": "2.2.1",
+  "source_defective_artifact_sha256": "44e8bb413917a4fe16bc0cc03d92a4ee2a71ea58145b62b6262398b0e5603fcd",
+  "corrective_version": "2.2.2-local.1",
+  "publication_scope": "LOCAL_ONLY",
+  "github_publication": "NOT_AUTHORIZED",
+  "consumer_projection": "EXCLUDES_THIS_RECORD"
+}

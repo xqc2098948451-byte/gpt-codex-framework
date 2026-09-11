@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, sys
+import json, re, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -8,8 +8,19 @@ ROOT = HERE.parent.parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
-from release_framework import read_version
 from context_binding import is_valid_project_context_id, required_guardrail_allows
+
+SEMVER = re.compile(
+    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$"
+)
+
+
+def read_version(root: Path) -> str:
+    value = (Path(root) / "VERSION").read_text(encoding="utf-8").strip()
+    if not SEMVER.fullmatch(value):
+        raise ValueError(f"VERSION must be SemVer, got: {value!r}")
+    return value
 
 
 def load(p):
