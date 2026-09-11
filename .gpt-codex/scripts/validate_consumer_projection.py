@@ -4,7 +4,8 @@ import argparse
 import json
 import sys
 import tempfile
-from pathlib import Path
+import zipfile
+from pathlib import Path, PurePosixPath
 
 HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
@@ -20,6 +21,28 @@ from consumer_projection import (  # noqa: E402
 )
 
 
+def derive_archive_prefix(zip_path: Path) -> str:
+    try:
+        with zipfile.ZipFile(zip_path) as archive:
+            members = [
+                PurePosixPath(name)
+                for name in archive.namelist()
+                if name and not name.endswith("/")
+            ]
+    except (OSError, zipfile.BadZipFile) as exc:
+        raise ProjectionValidationError(f"cannot inspect ZIP archive: {exc}") from exc
+    top_levels = {member.parts[0] for member in members if member.parts}
+    valid_members = all(
+        len(member.parts) >= 2 and not member.is_absolute() and ".." not in member.parts
+        for member in members
+    )
+    if len(top_levels) != 1 or not members or not valid_members:
+        raise ProjectionValidationError(
+            "archive must contain exactly one non-empty top-level directory"
+        )
+    return next(iter(top_levels))
+
+
 def validate(root: Path, staging_root: Path | None = None, zip_path: Path | None = None) -> dict[str, object]:
     root = Path(root).resolve()
     manifest = load_projection_manifest(root)
@@ -31,14 +54,16 @@ def validate(root: Path, staging_root: Path | None = None, zip_path: Path | None
         staging = Path(staging_root).resolve()
         inventory = stage_consumer_projection(root, staging, manifest)
         boundary = scan_consumer_boundary(staging, manifest)
-        comparison = compare_projection_to_zip(staging, zip_path, "") if zip_path else None
+        prefix = derive_archive_prefix(zip_path) if zip_path else None
+        comparison = compare_projection_to_zip(staging, zip_path, prefix) if zip_path else None
         temporary = None
     else:
         temporary = tempfile.TemporaryDirectory(prefix="gpt-codex-consumer-projection-")
         staging = Path(temporary.name)
         inventory = stage_consumer_projection(root, staging, manifest)
         boundary = scan_consumer_boundary(staging, manifest)
-        comparison = compare_projection_to_zip(staging, zip_path, "") if zip_path else None
+        prefix = derive_archive_prefix(zip_path) if zip_path else None
+        comparison = compare_projection_to_zip(staging, zip_path, prefix) if zip_path else None
 
     try:
         failures = [item for values in boundary.values() for item in values]

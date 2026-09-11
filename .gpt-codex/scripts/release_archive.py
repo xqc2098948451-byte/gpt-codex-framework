@@ -43,13 +43,20 @@ def load_release_index(releases_dir: Path) -> dict:
 
 
 def _record_summary(record: dict) -> dict:
-    return {
+    summary = {
         "version": record["version"],
         "artifact": record["artifact"],
         "record": f"records/v{record['version']}.json",
-        "archive_policy": record["archive_policy"],
-        "record_status": record["record_status"],
     }
+    if "artifact_sha256" in record:
+        summary["artifact_sha256"] = record["artifact_sha256"]
+    summary.update(
+        {
+            "archive_policy": record["archive_policy"],
+            "record_status": record["record_status"],
+        }
+    )
+    return summary
 
 
 def upsert_release_record(releases_dir: Path, record: dict) -> dict:
@@ -111,6 +118,8 @@ def ensure_release_record(
     kernel_version: str,
     schema_version: int,
     previous_version: str | None,
+    artifact_sha256: str | None = None,
+    artifact_size_bytes: int | None = None,
 ) -> dict:
     releases_dir = Path(releases_dir)
     record_path = releases_dir / "records" / f"v{version}.json"
@@ -118,8 +127,8 @@ def ensure_release_record(
     record = {
         "version": version,
         "artifact": f"gpt-codex-framework-v{version}-bootstrap.zip",
-        "artifact_sha256": existing.get("artifact_sha256"),
-        "artifact_size_bytes": existing.get("artifact_size_bytes"),
+        "artifact_sha256": artifact_sha256 if artifact_sha256 is not None else existing.get("artifact_sha256"),
+        "artifact_size_bytes": artifact_size_bytes if artifact_size_bytes is not None else existing.get("artifact_size_bytes"),
         "artifact_hash_location": existing.get("artifact_hash_location", "EXTERNAL_RELEASE_SIDECAR"),
         "kernel_version": kernel_version,
         "schema_version": schema_version,

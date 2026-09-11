@@ -1,6 +1,8 @@
 import hashlib
 import json
+import shutil
 import sys
+import subprocess
 import tempfile
 import unittest
 import zipfile
@@ -18,7 +20,83 @@ from release_framework import (
 )
 
 
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def _fresh_release_fixture(tmp: str) -> Path:
+    root = Path(tmp) / "framework"
+    shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns(".git"))
+    tests = root / ".gpt-codex" / "tests"
+    shutil.rmtree(tests)
+    tests.mkdir(parents=True)
+    (tests / "test_smoke.py").write_text(
+        "import unittest\n\nclass SmokeTests(unittest.TestCase):\n    def test_smoke(self):\n        pass\n",
+        encoding="utf-8",
+    )
+    manifest_path = root / ".gpt-codex" / "release" / "consumer-projection-manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["paths"][".gpt-codex/tests/test_smoke.py"] = "MANAGEMENT_ONLY"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    return root
+
+
+def _run_fresh_release(root: Path) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        [
+            sys.executable,
+            str(root / ".gpt-codex" / "scripts" / "release_framework.py"),
+            "--root",
+            str(root),
+            "--output-dir",
+            str(root / "dist"),
+        ],
+        capture_output=True,
+        text=True,
+    )
+
+
+def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
+    artifact = root / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"
+    actual = hashlib.sha256(artifact.read_bytes()).hexdigest()
+    sidecar = (artifact.with_name(artifact.name + ".sha256")).read_text(encoding="utf-8").split()[0]
+    release_json = json.loads(
+        (root / "dist" / "gpt-codex-framework-v2.2.1-release.json").read_text(encoding="utf-8")
+    )
+    record = json.loads((root / "releases" / "records" / "v2.2.1.json").read_text(encoding="utf-8"))
+    index = json.loads((root / "releases" / "INDEX.json").read_text(encoding="utf-8"))
+    entry = next(item for item in index["releases"] if item["version"] == "2.2.1")
+    return actual, sidecar, release_json["sha256"], record["artifact_sha256"], entry["artifact_sha256"]
+
+
 class ReleasePackagingTests(unittest.TestCase):
+    def test_fresh_release_preserves_final_index_artifact_sha(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = _fresh_release_fixture(tmp)
+            result = _run_fresh_release(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            fields = _current_sha_fields(root)
+            self.assertEqual(fields, (fields[0], fields[0], fields[0], fields[0], fields[0]))
+
+    def test_release_generation_is_metadata_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = _fresh_release_fixture(tmp)
+            first = _run_fresh_release(root)
+            first_metadata = _current_sha_fields(root)
+            second = _run_fresh_release(root)
+            second_metadata = _current_sha_fields(root)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertEqual(first_metadata, second_metadata)
+            self.assertEqual(len(set(second_metadata)), 1)
+
+    def test_all_current_release_sha_fields_agree(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = _fresh_release_fixture(tmp)
+            result = _run_fresh_release(root)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            fields = _current_sha_fields(root)
+            self.assertEqual(len(set(fields)), 1, fields)
+
     def test_package_release_uses_consumer_projection_boundary(self):
         root = Path(__file__).resolve().parents[2]
         with tempfile.TemporaryDirectory() as output:

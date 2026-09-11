@@ -90,6 +90,67 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_validate_consumer_projection_zip_derives_canonical_prefix(self):
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPTS / "validate_consumer_projection.py"),
+                "--root",
+                str(ROOT),
+                "--zip",
+                str(ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"),
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("CONSUMER_PROJECTION_RELEASE_MATCH: PASS", result.stdout)
+
+    def test_validate_consumer_projection_rejects_ambiguous_archive_layout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive_path = Path(tmp) / "ambiguous.zip"
+            with zipfile.ZipFile(archive_path, "w") as archive:
+                archive.writestr("first/VERSION", "2.2.1\n")
+                archive.writestr("second/VERSION", "2.2.1\n")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "validate_consumer_projection.py"),
+                    "--root",
+                    str(ROOT),
+                    "--zip",
+                    str(archive_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("archive must contain exactly one non-empty top-level directory", result.stdout)
+
+    def test_cli_and_direct_api_use_equivalent_prefix_semantics(self):
+        manifest = load_projection_manifest(ROOT)
+        zip_path = ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"
+        with tempfile.TemporaryDirectory() as tmp:
+            staging = Path(tmp) / "staging"
+            stage_consumer_projection(ROOT, staging, manifest)
+            with zipfile.ZipFile(zip_path) as archive:
+                prefix = sorted({name.split("/", 1)[0] for name in archive.namelist() if name})[0]
+            direct = compare_projection_to_zip(staging, zip_path, prefix)
+            cli = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "validate_consumer_projection.py"),
+                    "--root",
+                    str(ROOT),
+                    "--zip",
+                    str(zip_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertTrue(direct["match"], direct)
+            self.assertEqual(cli.returncode, 0, cli.stdout + cli.stderr)
+
     def test_manifest_classifies_exact_paths_without_globs(self):
         manifest = load_projection_manifest(ROOT)
         self.assertEqual(manifest["manifest_version"], 1)

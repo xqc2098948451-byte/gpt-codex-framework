@@ -207,6 +207,15 @@ def main() -> int:
     validation = validate_release_source(root)
     clean_output_dir(output_dir)
     result = package_release(root, output_dir, KERNEL_VERSION, SCHEMA_VERSION, validation)
+    ensure_release_record(
+        releases_dir,
+        current_version,
+        KERNEL_VERSION,
+        SCHEMA_VERSION,
+        previous_version,
+        artifact_sha256=result["sha256"],
+        artifact_size_bytes=Path(result["zip_path"]).stat().st_size,
+    )
     print("RESULT: PASS")
     print("ARTIFACT:", result["zip_path"])
     print("SHA256:", result["sha256"])
