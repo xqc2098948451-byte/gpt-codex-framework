@@ -3,12 +3,12 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "artifact": "gpt-codex-framework-v2.2.1-bootstrap.zip",
-  "sha256": "02171f7984d7409ce945ebb26154f216ff63027bbc35fcf1d3d99ad8ff2806c6",
+  "sha256": "44e8bb413917a4fe16bc0cc03d92a4ee2a71ea58145b62b6262398b0e5603fcd",
   "validation": {
     "framework": "PASS",
     "tests": "PASS",
     "release_hygiene": "PASS",
     "zip_integrity": "PASS"
   },
-  "file_count": 155
+  "file_count": 72
 }

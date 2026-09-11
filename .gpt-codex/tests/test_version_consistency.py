@@ -1,4 +1,5 @@
 import json
+import hashlib
 import unittest
 from pathlib import Path
 
@@ -7,6 +8,25 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class VersionConsistencyTests(unittest.TestCase):
+    def test_current_v221_metadata_points_to_new_projection_sha(self):
+        artifact = ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip"
+        expected_sha = hashlib.sha256(artifact.read_bytes()).hexdigest()
+        sidecar_sha = (ROOT / "dist" / "gpt-codex-framework-v2.2.1-bootstrap.zip.sha256").read_text(
+            encoding="utf-8"
+        ).split()[0]
+        release_json = json.loads(
+            (ROOT / "dist" / "gpt-codex-framework-v2.2.1-release.json").read_text(encoding="utf-8")
+        )
+        record = json.loads((ROOT / "releases" / "records" / "v2.2.1.json").read_text(encoding="utf-8"))
+        index = json.loads((ROOT / "releases" / "INDEX.json").read_text(encoding="utf-8"))
+        index_entry = next(entry for entry in index["releases"] if entry["version"] == "2.2.1")
+
+        self.assertEqual(expected_sha, sidecar_sha)
+        self.assertEqual(expected_sha, release_json["sha256"])
+        self.assertEqual(expected_sha, record["artifact_sha256"])
+        self.assertEqual(expected_sha, index_entry["artifact_sha256"])
+        self.assertNotEqual(expected_sha, "02171f7984d7409ce945ebb26154f216ff63027bbc35fcf1d3d99ad8ff2806c6")
+
     def test_current_framework_release_metadata_is_v221(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         catalog = json.loads((ROOT / ".gpt-codex" / "builtins" / "INDEX.json").read_text(encoding="utf-8"))

@@ -7,6 +7,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 import zipfile
 from pathlib import Path, PurePosixPath
 
@@ -127,27 +128,24 @@ def package_release(
     sha_path = output_dir / f"{base}.zip.sha256"
     manifest_path = output_dir / f"gpt-codex-framework-v{version}-release.json"
 
-    try:
-        manifest = load_projection_manifest(root)
-        with __import__("tempfile").TemporaryDirectory(prefix="gpt-codex-consumer-projection-") as temp:
-            staging_root = Path(temp)
-            files = stage_consumer_projection(root, staging_root, manifest)
-            boundary = scan_consumer_boundary(staging_root, manifest)
-            boundary_failures = [item for values in boundary.values() for item in values]
-            if boundary_failures:
-                raise ProjectionValidationError(json.dumps(boundary, ensure_ascii=False, sort_keys=True))
-            with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
-                for relative in files:
-                    source = staging_root / Path(*PurePosixPath(relative).parts)
-                    _zip_write_deterministic(source=source, zf=zf, archive_name=f"{base}/{relative}")
-                bad = zf.testzip()
-                if bad is not None:
-                    raise RuntimeError(f"ZIP integrity failure at {bad}")
-            comparison = compare_projection_to_zip(staging_root, zip_path, base)
-            if not comparison["match"]:
-                raise ProjectionValidationError(json.dumps(comparison, ensure_ascii=False, sort_keys=True))
-    except ProjectionValidationError:
-        raise
+    manifest = load_projection_manifest(root)
+    with tempfile.TemporaryDirectory(prefix="gpt-codex-consumer-projection-") as temp:
+        staging_root = Path(temp)
+        files = stage_consumer_projection(root, staging_root, manifest)
+        boundary = scan_consumer_boundary(staging_root, manifest)
+        boundary_failures = [item for values in boundary.values() for item in values]
+        if boundary_failures:
+            raise ProjectionValidationError(json.dumps(boundary, ensure_ascii=False, sort_keys=True))
+        with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            for relative in files:
+                source = staging_root / Path(*PurePosixPath(relative).parts)
+                _zip_write_deterministic(source=source, zf=zf, archive_name=f"{base}/{relative}")
+            bad = zf.testzip()
+            if bad is not None:
+                raise RuntimeError(f"ZIP integrity failure at {bad}")
+        comparison = compare_projection_to_zip(staging_root, zip_path, base)
+        if not comparison["match"]:
+            raise ProjectionValidationError(json.dumps(comparison, ensure_ascii=False, sort_keys=True))
 
     sha256 = hashlib.sha256(zip_path.read_bytes()).hexdigest()
     sha_path.write_text(f"{sha256}  {zip_path.name}\n", encoding="utf-8")
