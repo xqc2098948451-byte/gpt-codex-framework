@@ -23,6 +23,44 @@ class SyncDecision:
     publish_allowed: bool
 
 
+def evaluate_attestation_chain(facts: dict[str, Any]) -> dict[str, Any]:
+    """Evaluate the bounded W -> verified W -> management-only P protocol."""
+    work_sha = facts.get("work_sha")
+    publication_sha = facts.get("publication_sha")
+    if not facts.get("verified_work") or not publication_sha:
+        return {
+            "status": "LOCAL_COMPLETE",
+            "sync_status": "SYNC_PENDING",
+            "remote_verification": "NOT_ATTEMPTED",
+            "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+            "verified_baseline_sha": None,
+            "publication_sha": publication_sha,
+        }
+    if (
+        not work_sha
+        or not facts.get("publication_references_work")
+        or facts.get("publication_references_self")
+        or not facts.get("publication_is_management_only")
+        or not facts.get("generic_tree_matches")
+    ):
+        return {
+            "status": "RECONCILIATION_REQUIRED",
+            "sync_status": "RECONCILIATION_REQUIRED",
+            "remote_verification": "FAILED",
+            "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+            "verified_baseline_sha": work_sha,
+            "publication_sha": publication_sha,
+        }
+    return {
+        "status": "PASS",
+        "sync_status": "SYNCED",
+        "remote_verification": "VERIFIED",
+        "publication_authority": "CONFIRMED_PUBLICATION",
+        "verified_baseline_sha": work_sha,
+        "publication_sha": publication_sha,
+    }
+
+
 def _deny(decision: str, reason: str, mutation: bool = False, publish: bool = False) -> SyncDecision:
     return SyncDecision(decision, reason, mutation, publish)
 
