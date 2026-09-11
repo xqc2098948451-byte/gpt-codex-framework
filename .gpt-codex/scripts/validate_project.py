@@ -11,6 +11,38 @@ from context_binding import is_valid_project_context_id, required_guardrail_allo
 
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
+FRAMEWORK_ROOT = HERE.parent.parent
+
+
+def _cataloged_builtin(kind: str, extension_id: str) -> tuple[bool, str]:
+    catalog_path = FRAMEWORK_ROOT / '.gpt-codex' / 'builtins' / 'INDEX.json'
+    try:
+        catalog = load(catalog_path)
+    except (OSError, json.JSONDecodeError) as exc:
+        return False, f'Framework Built-in catalog unavailable: {exc}'
+    bucket = None
+    for candidate in ('required', 'optional'):
+        if extension_id in (catalog.get(candidate) or {}).get(kind, []):
+            bucket = candidate
+            break
+    if bucket is None:
+        return False, f'Builtin {kind}/{extension_id} is not present in Framework catalog'
+    manifest_path = FRAMEWORK_ROOT / '.gpt-codex' / 'builtins' / kind / extension_id / 'manifest.json'
+    try:
+        manifest = load(manifest_path)
+    except (OSError, json.JSONDecodeError) as exc:
+        return False, f'Builtin {kind}/{extension_id} manifest unavailable: {exc}'
+    expected_kind = {'skills': 'SKILL', 'guardrails': 'GUARDRAIL', 'fitness': 'FITNESS'}[kind]
+    manifest_errors = check_common_version(manifest)
+    if manifest.get('id') != extension_id:
+        manifest_errors.append('manifest id mismatch')
+    if manifest.get('kind') != expected_kind:
+        manifest_errors.append(f'manifest kind must be {expected_kind}')
+    if manifest.get('maturity') != 'BUILTIN':
+        manifest_errors.append('manifest maturity must be BUILTIN')
+    if manifest_errors:
+        return False, f'Builtin {kind}/{extension_id} invalid: {", ".join(manifest_errors)}'
+    return True, ''
 
 
 def load(path: Path):
@@ -95,12 +127,21 @@ def main():
             ids.add(iid)
             if item.get('enabled'):
                 installed = item.get('installed_path')
-                if not installed and not (management_project and item.get('source') == 'builtin'):
-                    errors.append(f'{kind}/{iid}: enabled extension missing installed_path')
+                if not installed:
+                    if not (management_project and item.get('source') == 'builtin'):
+                        errors.append(f'{kind}/{iid}: enabled extension missing installed_path')
+                    else:
+                        valid_builtin, reason = _cataloged_builtin(kind, iid)
+                        if not valid_builtin:
+                            errors.append(f'{kind}/{iid}: {reason}')
                 elif installed:
                     ip = root / installed
                     if not ip.exists():
                         errors.append(f'{kind}/{iid}: installed_path does not exist: {installed}')
+                if item.get('source') == 'builtin' and installed:
+                    valid_builtin, reason = _cataloged_builtin(kind, iid)
+                    if not valid_builtin:
+                        errors.append(f'{kind}/{iid}: {reason}')
     if state.get('state') == 'COMPLETE' and not state.get('evidence_refs'):
         errors.append('COMPLETE state requires durable evidence_refs')
     # Validate project-local contracts if present.
