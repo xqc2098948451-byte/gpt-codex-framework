@@ -1,0 +1,18 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "EVIDENCE-001",
+  "project_id": "PRJ-EXAMPLE-001",
+  "work_unit_id": "WORK-001",
+  "source": "TOOL_OBSERVED",
+  "subject": "verification",
+  "state_revision": 0,
+  "identity_binding": {
+    "type": "ARTIFACT",
+    "value": "example"
+  },
+  "result": "PASS",
+  "artifact_refs": [],
+  "observed_at": "2026-09-11T00:00:00Z",
+  "notes": "Keep durable decision evidence concise; raw transient data may remain external/ephemeral when allowed."
+}

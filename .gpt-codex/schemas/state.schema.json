@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/state-v1",
+  "title": "GPT-Codex STATE",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "revision",
+    "state",
+    "blockers",
+    "evidence_refs"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "state": {
+      "enum": [
+        "PROPOSED",
+        "AUTHORIZED",
+        "ACTIVE",
+        "VERIFYING",
+        "COMPLETE",
+        "BLOCKED",
+        "AWAITING_APPROVAL",
+        "RECONCILIATION_REQUIRED"
+      ]
+    },
+    "blockers": {
+      "type": "array"
+    },
+    "evidence_refs": {
+      "type": "array"
+    },
+    "continuity": {
+      "type": "object",
+      "required": [
+        "current_remote_ref",
+        "latest_verified_remote_sha",
+        "latest_synced_state_revision",
+        "last_verified_result_ref",
+        "sync_status"
+      ],
+      "properties": {
+        "current_remote_ref": {"type": ["string", "null"]},
+        "latest_verified_remote_sha": {"type": ["string", "null"]},
+        "latest_synced_state_revision": {"type": "integer", "minimum": 0},
+        "last_verified_result_ref": {"type": ["string", "null"]},
+        "sync_status": {"enum": ["SYNCED", "SYNC_PENDING", "RECONCILIATION_REQUIRED"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}

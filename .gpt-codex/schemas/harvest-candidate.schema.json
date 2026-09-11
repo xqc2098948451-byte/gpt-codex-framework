@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/harvest-candidate-v1",
+  "title": "GPT-Codex Harvest Candidate",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "candidate_id",
+    "maturity",
+    "source",
+    "kind",
+    "semantic_identity",
+    "promotion_status",
+    "source_project_authoritative",
+    "source_project_write_allowed"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "maturity": {
+      "const": "HARVEST_CANDIDATE"
+    },
+    "kind": {
+      "enum": [
+        "SKILL",
+        "GUARDRAIL",
+        "FITNESS"
+      ]
+    },
+    "source_project_authoritative": {
+      "const": true
+    },
+    "source_project_write_allowed": {
+      "const": false
+    }
+  }
+}

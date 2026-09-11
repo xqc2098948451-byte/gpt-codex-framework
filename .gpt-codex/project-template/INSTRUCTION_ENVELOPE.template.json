@@ -1,0 +1,19 @@
+{
+  "instruction_id": "GENERATE_UUID",
+  "instruction_type": "IMPLEMENTATION",
+  "target_project_context_id": "PROJECT_CONTEXT_ID",
+  "target_project_name": "PROJECT_NAME",
+  "expected_state_revision": 0,
+  "framework_version": "2.2.0",
+  "target_work_unit": "WORK_UNIT_ID",
+  "expected_base_sha": "OPTIONAL_BASE_SHA",
+  "target_github_repository_id": "OPTIONAL_GITHUB_REPOSITORY_ID",
+  "target_github_repository_full_name": "OPTIONAL_OWNER_NAME",
+  "expected_remote_ref": "OPTIONAL_REMOTE_REF",
+  "expected_remote_head_sha": "OPTIONAL_REMOTE_HEAD_SHA",
+  "expected_remote_name": "OPTIONAL_LOCAL_REMOTE_HINT",
+  "permission_scope": "READ_ONLY_OR_APPROVED_SCOPE",
+  "bootstrap_target_project_id": "ONLY_FOR_LEGACY_BOOTSTRAP",
+  "bootstrap_challenge_id": "ONLY_FOR_CHALLENGE_BOUND_BOOTSTRAP",
+  "bootstrap_phase": "INITIAL_READ_ONLY_OR_CHALLENGE_BOUND"
+}

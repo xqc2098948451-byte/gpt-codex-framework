@@ -1,0 +1,56 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-EXAMPLE-001",
+  "work_unit_id": "WORK-001",
+  "extension": {
+    "kind": "SKILL",
+    "id": "verification",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "READ_FROM_AUTHORITATIVE_CONTROL",
+  "source_project_name": "READ_FROM_AUTHORITATIVE_CONTROL",
+  "framework_version": "2.2.0",
+  "source_github_repository_id": "NONE",
+  "source_github_repository_full_name": "NONE",
+  "current_remote_ref": "NONE",
+  "local_head_sha": "NONE",
+  "remote_head_sha": "NONE",
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "remote_verification": "NOT_ATTEMPTED",
+  "evidence_refs": [],
+  "return_to_gpt_required": true,
+  "state_revision": 18,
+  "execution": "COMPLETED",
+  "changed": [
+    "PROJECT_ROOT/path/to/changed-file"
+  ],
+  "verify": [
+    "tests: PASS",
+    "validator: PASS"
+  ],
+  "deviations": [],
+  "git": {
+    "base_sha": "NONE",
+    "implementation_sha": "NONE"
+  },
+  "parallel_batch": "NONE",
+  "execution_unit": "NONE",
+  "observability_fitness": [
+    "NONE"
+  ],
+  "extension_evidence_refs": [
+    "NONE"
+  ],
+  "state_transition_request": {
+    "from": "VERIFYING",
+    "to": "COMPLETE",
+    "expected_revision": 0
+  },
+  "blockers": [],
+  "completion_gate": "GPT_DECISION",
+  "user_approval_required": false,
+  "next_gpt_action": "Review the returned evidence and determine the next authorized action."
+}

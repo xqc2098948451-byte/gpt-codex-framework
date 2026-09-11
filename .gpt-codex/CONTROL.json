@@ -1,0 +1,69 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_name": "通用开发框架管理",
+  "framework_management_only": true,
+  "github": {
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "default_branch": "main"
+  },
+  "governance_profile": "FRAMEWORK_MANAGEMENT",
+  "framework": {
+    "adopted_version": "2.2.0",
+    "last_evaluated_version": "2.2.0",
+    "evaluation_result": "ADOPTED"
+  },
+  "roots": {
+    "project_role": "AUTHORITATIVE",
+    "framework_role": "SELF_MANAGED",
+    "framework_kernel_access": "READ_ONLY",
+    "framework_builtins_access": "READ_ONLY",
+    "harvest_namespace": "PRJ-FRAMEWORK-MANAGEMENT"
+  },
+  "extensions": {
+    "skills": [
+      {
+        "id": "github-project-continuity",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "resume and publish the confirmed management baseline",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/github-project-continuity",
+        "source_framework_version": "2.2.0",
+        "source_checksum": "populate-after-copy"
+      }
+    ],
+    "guardrails": [
+      {
+        "id": "universal-safety",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "cross-project safety invariants"
+      },
+      {
+        "id": "cross-project-context-binding",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "bind management instructions and returns to this project"
+      },
+      {
+        "id": "github-repository-binding",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "bind management publication to repository 1366213495",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/guardrails/github-repository-binding",
+        "source_framework_version": "2.2.0",
+        "source_checksum": "populate-after-copy"
+      }
+    ],
+    "fitness": []
+  }
+}

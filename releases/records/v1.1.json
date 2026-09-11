@@ -1,0 +1,14 @@
+{
+  "version": "1.1",
+  "artifact": "gpt-codex-framework-v1.1-bootstrap.zip",
+  "artifact_sha256": "951c9a22f1e6e1459c0335330268029559e3941d9564c97be11aa9ae79819656",
+  "artifact_size_bytes": 29612,
+  "artifact_hash_location": "RECORDED_FROM_EXTERNAL_ARCHIVE",
+  "kernel_version": null,
+  "schema_version": null,
+  "previous_version": "1.0",
+  "archive_policy": "METADATA_ONLY",
+  "record_status": "IMPORTED_ARCHIVE",
+  "recorded_at": "2026-09-11T06:01:41Z",
+  "source": "EXTERNAL_RELEASE_ARCHIVE"
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GPT Codex Instruction Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "instruction_id",
+    "instruction_type",
+    "target_project_context_id",
+    "target_project_name",
+    "expected_state_revision",
+    "framework_version"
+  ],
+  "properties": {
+    "instruction_id": { "type": "string", "format": "uuid" },
+    "instruction_type": { "type": "string", "minLength": 1 },
+    "target_project_context_id": { "type": ["string", "null"] },
+    "target_project_name": { "type": ["string", "null"] },
+    "expected_state_revision": { "type": ["integer", "null"], "minimum": 0 },
+    "framework_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "target_work_unit": { "type": "string" },
+    "expected_base_sha": { "type": "string" },
+    "target_github_repository_id": { "type": "string", "minLength": 1 },
+    "target_github_repository_full_name": { "type": "string", "minLength": 1 },
+    "expected_remote_ref": { "type": "string", "minLength": 1 },
+    "expected_remote_head_sha": { "type": ["string", "null"] },
+    "expected_remote_name": { "type": "string", "minLength": 1 },
+    "permission_scope": { "type": "string" },
+    "bootstrap_target_project_id": { "type": "string" },
+    "bootstrap_challenge_id": { "type": "string" },
+    "bootstrap_phase": { "type": "string", "enum": ["INITIAL_READ_ONLY", "CHALLENGE_BOUND"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "instruction_type": { "not": { "const": "PROJECT_CONTEXT_BOOTSTRAP" } } }
+      },
+      "then": {
+        "properties": {
+          "target_project_context_id": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "bootstrap_phase": { "const": "CHALLENGE_BOUND" } },
+        "required": ["bootstrap_phase"]
+      },
+      "then": {
+        "required": ["bootstrap_challenge_id", "instruction_type"],
+        "properties": {
+          "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" },
+          "bootstrap_challenge_id": { "type": "string", "minLength": 1 },
+          "target_project_context_id": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "bootstrap_phase": { "const": "INITIAL_READ_ONLY" } },
+        "required": ["bootstrap_phase"]
+      },
+      "then": {
+        "properties": {
+          "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" },
+          "target_project_context_id": { "type": "null" }
+        }
+      }
+    }
+  ]
+}

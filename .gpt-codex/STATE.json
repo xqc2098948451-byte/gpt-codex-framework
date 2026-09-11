@@ -1,0 +1,21 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "revision": 0,
+  "state": "VERIFYING",
+  "active_work_unit": "MIGRATION-INITIAL-GITHUB-CONTINUITY",
+  "blockers": [],
+  "reconciliation": null,
+  "evidence_refs": [
+    ".gpt-codex/evidence/MIGRATION-INITIAL-GITHUB-PREFLIGHT.json"
+  ],
+  "continuity": {
+    "current_remote_ref": "refs/heads/main",
+    "latest_verified_remote_sha": null,
+    "latest_synced_state_revision": 0,
+    "last_verified_result_ref": null,
+    "sync_status": "SYNC_PENDING"
+  },
+  "next_action": "Complete bounded W/P publication and live remote verification"
+}

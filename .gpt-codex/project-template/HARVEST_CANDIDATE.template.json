@@ -1,0 +1,25 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "candidate_id": "HC-PRJ-EXAMPLE-001-example-project-extension",
+  "maturity": "HARVEST_CANDIDATE",
+  "source": {
+    "project_id": "PRJ-EXAMPLE-001",
+    "extension_id": "example-project-extension",
+    "extension_version": "1.0.0",
+    "source_revision": "replace-with-source-revision",
+    "snapshot_hash": "replace-with-content-hash",
+    "source_extension_path": ".gpt-codex/extensions/skills/example-project-extension"
+  },
+  "kind": "SKILL",
+  "semantic_identity": {
+    "intent": "Normalized intent without project-private business details",
+    "trigger": "Normalized trigger",
+    "protects_or_produces": "Normalized stable outcome"
+  },
+  "technology_context": [],
+  "parameterizable_details": [],
+  "promotion_status": "UNREVIEWED",
+  "source_project_authoritative": true,
+  "source_project_write_allowed": false
+}

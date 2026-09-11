@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/work-unit-v1",
+  "title": "GPT-Codex Work Unit",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "work_unit_id",
+    "goal",
+    "scope",
+    "acceptance",
+    "selected_extensions",
+    "state",
+    "basis_state_revision"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "work_unit_id": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1
+    },
+    "basis_state_revision": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

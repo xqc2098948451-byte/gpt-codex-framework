@@ -1,0 +1,48 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "GPT-CODEX-FRAMEWORK-MANAGEMENT",
+  "id": "framework-release",
+  "version": "1.1.0",
+  "kind": "SKILL",
+  "maturity": "PROJECT_LOCAL",
+  "semantic_identity": {
+    "intent": "Validate and package a new GPT-Codex Framework release",
+    "trigger": "Framework management project is ready to publish a version",
+    "protects_or_produces": "A clean current release plus lightweight historical release metadata/index"
+  },
+  "requires_capabilities": [
+    "python-standard-library",
+    "local-filesystem"
+  ],
+  "inputs": [
+    "VERSION",
+    "framework source tree",
+    "optional historical release ZIP artifacts"
+  ],
+  "outputs": [
+    "releases/INDEX.json",
+    "releases/records/v<VERSION>.json",
+    "dist/gpt-codex-framework-v<VERSION>-bootstrap.zip",
+    "dist/gpt-codex-framework-v<VERSION>-bootstrap.zip.sha256",
+    "dist/gpt-codex-framework-v<VERSION>-release.json"
+  ],
+  "permissions": {
+    "framework_source": "READ_ONLY",
+    "releases_metadata": "ALLOW_WRITE",
+    "dist": "ALLOW_WRITE"
+  },
+  "failure_semantics": [
+    "BLOCKED"
+  ],
+  "provenance": {
+    "reason_type": "EXPLICIT_REQUIREMENT",
+    "evidence_refs": [
+      "USER-REQUEST-2026-09-11-FRAMEWORK-RELEASE-PACKAGING"
+    ],
+    "reason": "Framework releases must be packaged automatically while historical ZIPs remain external and only lightweight release metadata stays in the management project",
+    "introduced_for": "FRAMEWORK-v2.0.1",
+    "retire_when": "Framework releases no longer use ZIP artifacts"
+  },
+  "harvest_export_status": "NOT_APPLICABLE"
+}

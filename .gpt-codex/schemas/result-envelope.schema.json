@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/result-envelope-v1",
+  "title": "GPT-Codex Result Envelope",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "work_unit_id",
+    "extension",
+    "status",
+    "evidence_refs",
+    "completion_gate"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED",
+        "PARTIAL",
+        "LOCAL_COMPLETE"
+      ]
+    },
+    "return_to_gpt_required": {
+      "type": "boolean"
+    },
+    "source_project_context_id": {
+      "type": ["string", "null"]
+    },
+    "source_project_name": {
+      "type": ["string", "null"]
+    },
+    "framework_version": {
+      "type": ["string", "null"]
+    },
+    "source_github_repository_id": { "type": ["string", "null"] },
+    "source_github_repository_full_name": { "type": ["string", "null"] },
+    "current_remote_ref": { "type": ["string", "null"] },
+    "local_head_sha": { "type": ["string", "null"] },
+    "remote_head_sha": { "type": ["string", "null"] },
+    "sync_status": { "enum": ["SYNCED", "SYNC_PENDING", "RECONCILIATION_REQUIRED", null] },
+    "push_status": { "enum": ["NOT_ATTEMPTED", "SUCCEEDED", "FAILED", null] },
+    "remote_verification": { "enum": ["NOT_ATTEMPTED", "VERIFIED", "UNAVAILABLE", "FAILED", null] },
+    "state_revision": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "execution": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "changed": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "verify": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "deviations": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "blockers": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "git": {
+      "type": ["object", "null"],
+      "properties": {
+        "base_sha": {"type": ["string", "null"]},
+        "implementation_sha": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "git_base_sha": {
+      "type": ["string", "null"]
+    },
+    "implementation_sha": {
+      "type": ["string", "null"]
+    },
+    "parallel_batch": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "execution_unit": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "observability_fitness": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "extension_evidence_refs": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "next_gpt_action": {
+      "type": ["string", "array", "object", "null"]
+    },
+    "completion_gate": {
+      "enum": [
+        "NONE",
+        "GPT_DECISION",
+        "USER_APPROVAL"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"return_to_gpt_required": {"const": true}},
+        "required": ["return_to_gpt_required"]
+      },
+      "then": {
+        "required": ["source_project_context_id", "source_project_name", "framework_version"]
+      }
+    }
+  ]
+}

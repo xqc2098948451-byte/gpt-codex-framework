@@ -1,0 +1,18 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "MIGRATION-INITIAL-GITHUB-PREFLIGHT",
+  "source": "TOOL_OBSERVED",
+  "purpose": "Pre-publication evidence for the confirmed v2.2.0 Framework Management baseline",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "target_ref": "refs/heads/main",
+  "framework_version": "2.2.0",
+  "release_sha256": "a637a48382a32c28db106263a385e5d3c902dff8b28c2387864fb5c6b80ff8d3",
+  "remote_preflight": "EMPTY",
+  "initial_state_revision": 0,
+  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+  "remote_verification": "PENDING",
+  "credential_leakage": "NONE"
+}

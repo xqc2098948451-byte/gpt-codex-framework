@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/control-v1",
+  "title": "GPT-Codex CONTROL",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "governance_profile",
+    "framework",
+    "roots",
+    "extensions",
+    "permissions",
+    "complexity"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "github": {
+      "type": "object",
+      "required": ["repository_id", "repository_full_name", "default_branch"],
+      "properties": {
+        "repository_id": {"type": "string", "minLength": 1},
+        "repository_full_name": {"type": "string", "minLength": 1},
+        "default_branch": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "governance_profile": {
+      "enum": [
+        "MINIMAL",
+        "STANDARD",
+        "EXTENDED"
+      ]
+    },
+    "framework": {
+      "type": "object",
+      "required": [
+        "adopted_version",
+        "last_evaluated_version",
+        "evaluation_result"
+      ],
+      "properties": {
+        "evaluation_result": {
+          "enum": [
+            "ADOPTED",
+            "NO_ACTION",
+            "OPTIONAL_REUSE",
+            "RECOMMENDED_UPGRADE",
+            "REQUIRED_MIGRATION",
+            "CONFLICT"
+          ]
+        }
+      }
+    },
+    "roots": {
+      "type": "object",
+      "required": [
+        "project_role",
+        "framework_role",
+        "framework_kernel_access",
+        "framework_builtins_access",
+        "harvest_namespace"
+      ],
+      "properties": {
+        "project_role": {
+          "const": "AUTHORITATIVE"
+        },
+        "framework_role": {
+          "const": "ADVISORY"
+        },
+        "framework_kernel_access": {
+          "const": "READ_ONLY"
+        },
+        "framework_builtins_access": {
+          "const": "READ_ONLY"
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "required": [
+        "skills",
+        "guardrails",
+        "fitness"
+      ]
+    },
+    "permissions": {
+      "type": "object"
+    },
+    "complexity": {
+      "type": "object"
+    }
+  }
+}

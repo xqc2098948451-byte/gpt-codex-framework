@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/extension-v1",
+  "title": "GPT-Codex Extension",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "kernel_version",
+    "schema_version",
+    "id",
+    "version",
+    "kind",
+    "maturity",
+    "semantic_identity",
+    "permissions",
+    "failure_semantics",
+    "provenance"
+  ],
+  "properties": {
+    "kernel_version": {
+      "const": "2.0.0"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "SKILL",
+        "GUARDRAIL",
+        "FITNESS"
+      ]
+    },
+    "maturity": {
+      "enum": [
+        "PROJECT_LOCAL",
+        "HARVEST_CANDIDATE",
+        "SHARED_CANDIDATE",
+        "BUILTIN",
+        "DEPRECATED",
+        "RETIRED"
+      ]
+    },
+    "semantic_identity": {
+      "type": "object"
+    },
+    "failure_semantics": {
+      "type": "array"
+    },
+    "provenance": {
+      "type": "object"
+    }
+  }
+}

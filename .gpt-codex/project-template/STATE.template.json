@@ -1,0 +1,19 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-EXAMPLE-001",
+  "revision": 0,
+  "state": "PROPOSED",
+  "active_work_unit": null,
+  "blockers": [],
+  "reconciliation": null,
+  "evidence_refs": [],
+  "continuity": {
+    "current_remote_ref": null,
+    "latest_verified_remote_sha": null,
+    "latest_synced_state_revision": 0,
+    "last_verified_result_ref": null,
+    "sync_status": "SYNC_PENDING"
+  },
+  "next_action": "Run governance compile validation and obtain project authorization"
+}

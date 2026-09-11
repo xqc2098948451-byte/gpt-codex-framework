@@ -1,0 +1,25 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "id": "test-suite-pass",
+  "version": "1.0.0",
+  "kind": "FITNESS",
+  "maturity": "BUILTIN",
+  "required_builtin": false,
+  "semantic_identity": {
+    "intent": "Measure whether the project-selected test suite passes",
+    "trigger": "a project exposes an authorized test command",
+    "protects_or_produces": "PASS/FAIL"
+  },
+  "requires_capabilities": [],
+  "permissions": {
+    "execute_project_verification": "PROJECT_DEFINED"
+  },
+  "failure_semantics": [
+    "BLOCKED"
+  ],
+  "provenance": {
+    "source": "framework",
+    "basis": "cross-project universal framework operation"
+  }
+}

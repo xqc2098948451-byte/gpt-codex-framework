@@ -1,0 +1,31 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-EXAMPLE-001",
+  "id": "example-project-extension",
+  "version": "1.0.0",
+  "kind": "SKILL",
+  "maturity": "PROJECT_LOCAL",
+  "semantic_identity": {
+    "intent": "Describe the project-specific capability or invariant",
+    "trigger": "Describe when it applies",
+    "protects_or_produces": "Describe the stable semantic outcome"
+  },
+  "requires_capabilities": [],
+  "inputs": [],
+  "outputs": [],
+  "permissions": {},
+  "failure_semantics": [
+    "BLOCKED"
+  ],
+  "provenance": {
+    "reason_type": "OBSERVED_EVIDENCE",
+    "evidence_refs": [
+      "EVIDENCE-001"
+    ],
+    "reason": "Concrete project gap not covered by Built-ins or project-native mechanisms",
+    "introduced_for": "WORK-001",
+    "retire_when": "The project-specific gap no longer exists or a Built-in fully replaces it"
+  },
+  "harvest_export_status": "PENDING"
+}

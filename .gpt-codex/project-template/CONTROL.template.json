@@ -1,0 +1,134 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-EXAMPLE-001",
+  "project_context_id": "GENERATE_DURING_BOOTSTRAP",
+  "project_name": "DERIVE_FROM_AUTHORITATIVE_PROJECT",
+  "github": {
+    "repository_id": "BIND_DURING_MIGRATION",
+    "repository_full_name": "BIND_DURING_MIGRATION",
+    "default_branch": "OBSERVE_DURING_MIGRATION"
+  },
+  "governance_profile": "STANDARD",
+  "framework": {
+    "adopted_version": "2.2.0",
+    "last_evaluated_version": "2.2.0",
+    "evaluation_result": "ADOPTED"
+  },
+  "roots": {
+    "project_role": "AUTHORITATIVE",
+    "framework_role": "ADVISORY",
+    "framework_kernel_access": "READ_ONLY",
+    "framework_builtins_access": "READ_ONLY",
+    "harvest_namespace": "PRJ-EXAMPLE-001"
+  },
+  "extensions": {
+    "skills": [
+      {
+        "id": "repository-discovery",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "bootstrap repository evidence",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/repository-discovery",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "verification",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "normalize verification evidence",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/verification",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "handoff",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "derive compact handoff views",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/handoff",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "framework-compatibility",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "evaluate future framework releases",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/framework-compatibility",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "harvest-export",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "export normalized project extension candidates",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/skills/harvest-export",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      }
+    ],
+    "guardrails": [
+      {
+        "id": "universal-safety",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "cross-project safety invariants",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/guardrails/universal-safety",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "cross-project-context-binding",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "bind GPT instructions and Codex returns to one project identity",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/guardrails/cross-project-context-binding",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      },
+      {
+        "id": "github-repository-binding",
+        "source": "builtin",
+        "enabled": true,
+        "version": "1.0.0",
+        "reason": "bind continuity execution to one stable repository ID",
+        "adoption": "COPIED_SNAPSHOT",
+        "installed_path": ".gpt-codex/extensions/guardrails/github-repository-binding",
+        "source_framework_version": "2.1.0",
+        "source_checksum": "populate-after-copy"
+      }
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "production_access": "DENY",
+    "destructive_operations": "APPROVAL_REQUIRED",
+    "framework_kernel_write": "DENY",
+    "framework_builtin_write": "DENY",
+    "harvest_own_namespace_write": "ALLOW",
+    "harvest_other_namespace_write": "DENY"
+  },
+  "complexity": {
+    "default_decision": "DO_NOT_ADD",
+    "reuse_before_extension": true,
+    "degrade_before_extend": true,
+    "generalize_after_repetition": true
+  }
+}

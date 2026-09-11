@@ -1,0 +1,31 @@
+{
+  "framework_version": "2.2.0",
+  "catalog_version": 1,
+  "principle": "Preinstalled does not mean enabled",
+  "required": {
+    "skills": [
+      "repository-discovery",
+      "verification",
+      "handoff",
+      "framework-compatibility",
+      "harvest-export"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding"
+    ],
+    "fitness": []
+  },
+  "optional": {
+    "skills": [
+      "git-basic",
+      "github-project-continuity"
+    ],
+    "guardrails": ["github-repository-binding"],
+    "fitness": [
+      "test-suite-pass",
+      "build-pass"
+    ]
+  },
+  "adoption_default": "COPY_TO_PROJECT"
+}

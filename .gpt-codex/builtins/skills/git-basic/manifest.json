@@ -1,0 +1,27 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "id": "git-basic",
+  "version": "1.0.0",
+  "kind": "SKILL",
+  "maturity": "BUILTIN",
+  "required_builtin": false,
+  "semantic_identity": {
+    "intent": "Use basic repository version-control operations within project authorization",
+    "trigger": "project is Git-managed and a Work Unit needs Git operations",
+    "protects_or_produces": "version-control evidence"
+  },
+  "requires_capabilities": [],
+  "permissions": {
+    "git_read": "ALLOW",
+    "git_task_write": "PROJECT_DEFINED",
+    "git_remote_write": "PROJECT_DEFINED"
+  },
+  "failure_semantics": [
+    "BLOCKED"
+  ],
+  "provenance": {
+    "source": "framework",
+    "basis": "cross-project universal framework operation"
+  }
+}
