@@ -23,6 +23,12 @@ class ReleasePackagingTests(unittest.TestCase):
         self.assertTrue(should_exclude(Path(".gpt-codex/CONTROL.json")))
         self.assertFalse(should_exclude(Path(".gpt-codex/project-template/CONTROL.template.json")))
 
+    def test_management_state_evidence_and_root_gitignore_are_excluded(self):
+        self.assertTrue(should_exclude(Path(".gpt-codex/STATE.json")))
+        self.assertTrue(should_exclude(Path(".gpt-codex/evidence/results/result.json")))
+        self.assertTrue(should_exclude(Path(".gitignore")))
+        self.assertFalse(should_exclude(Path(".gpt-codex/project-template/evidence/.gitkeep")))
+
     def test_version_is_read_from_single_version_file(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

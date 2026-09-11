@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 VALIDATOR = ROOT / ".gpt-codex" / "scripts" / "validate_project.py"
 FROZEN_ZIP = ROOT / "dist" / "gpt-codex-framework-v2.2.0-bootstrap.zip"
+FROZEN_FIXTURE = ROOT / ".gpt-codex" / "tests" / "fixtures" / "frozen_v220_validate_project.py"
 
 
 def run_validator(project_root: Path, validator: Path = VALIDATOR) -> subprocess.CompletedProcess[str]:
@@ -59,14 +60,21 @@ class SelfHostingValidatorTests(unittest.TestCase):
     def test_frozen_v220_validator_rejects_current_management_project(self):
         with tempfile.TemporaryDirectory() as td:
             frozen_root = Path(td)
-            with zipfile.ZipFile(FROZEN_ZIP) as archive:
-                for name in archive.namelist():
-                    if "/scripts/" in name and name.endswith(".py"):
-                        relative = Path(name).relative_to("gpt-codex-framework-v2.2.0-bootstrap")
-                        target = frozen_root / relative
-                        target.parent.mkdir(parents=True, exist_ok=True)
-                        target.write_bytes(archive.read(name))
-            result = run_validator(ROOT, frozen_root / ".gpt-codex" / "scripts" / "validate_project.py")
+            script_dir = frozen_root / ".gpt-codex" / "scripts"
+            script_dir.mkdir(parents=True)
+            if FROZEN_ZIP.exists():
+                with zipfile.ZipFile(FROZEN_ZIP) as archive:
+                    for name in archive.namelist():
+                        if "/scripts/" in name and name.endswith(".py"):
+                            relative = Path(name).relative_to("gpt-codex-framework-v2.2.0-bootstrap")
+                            target = frozen_root / relative
+                            target.parent.mkdir(parents=True, exist_ok=True)
+                            target.write_bytes(archive.read(name))
+            else:
+                (script_dir / "validate_project.py").write_bytes(FROZEN_FIXTURE.read_bytes())
+                for dependency in ("kernel_rules.py", "context_binding.py"):
+                    (script_dir / dependency).write_bytes((ROOT / ".gpt-codex" / "scripts" / dependency).read_bytes())
+            result = run_validator(ROOT, script_dir / "validate_project.py")
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("invalid governance_profile", result.stdout)
 

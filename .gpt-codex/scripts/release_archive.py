@@ -129,6 +129,9 @@ def ensure_release_record(
         "recorded_at": existing.get("recorded_at", _now_iso()),
         "source": "FRAMEWORK_SOURCE",
     }
+    for key, value in existing.items():
+        if key not in record:
+            record[key] = value
     return upsert_release_record(releases_dir, record)
 
 

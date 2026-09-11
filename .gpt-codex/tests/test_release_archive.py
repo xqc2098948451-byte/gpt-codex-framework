@@ -62,6 +62,26 @@ class ReleaseArchiveTests(unittest.TestCase):
             index = load_release_index(releases)
             self.assertEqual(index["latest_recorded_version"], "2.0.2")
 
+    def test_current_release_record_preserves_corrective_publication_fields(self):
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            record_dir = releases / "records"
+            record_dir.mkdir(parents=True)
+            (record_dir / "v2.2.1.json").write_text(json.dumps({
+                "version": "2.2.1",
+                "publication_policy": "CONFIRMED_BASELINE_ONLY",
+                "github_write_performed": "NO",
+            }), encoding="utf-8")
+            record = ensure_release_record(
+                releases_dir=releases,
+                version="2.2.1",
+                kernel_version="2.0.0",
+                schema_version=1,
+                previous_version="2.2.0",
+            )
+            self.assertEqual(record["publication_policy"], "CONFIRMED_BASELINE_ONLY")
+            self.assertEqual(record["github_write_performed"], "NO")
+
 
 if __name__ == "__main__":
     unittest.main()

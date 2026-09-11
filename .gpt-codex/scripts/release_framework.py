@@ -22,7 +22,11 @@ SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]
 EXCLUDED_PARTS = {".git", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".idea", ".vscode"}
 EXCLUDED_NAMES = {".DS_Store"}
 EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".zip", ".sha256"}
-EXCLUDED_RELATIVE_PATHS = {PurePosixPath(".gpt-codex/CONTROL.json")}
+EXCLUDED_RELATIVE_PATHS = {
+    PurePosixPath(".gpt-codex/CONTROL.json"),
+    PurePosixPath(".gpt-codex/STATE.json"),
+    PurePosixPath(".gitignore"),
+}
 VERSIONED_FRAMEWORK_FOLDER = re.compile(
     r"^gpt-codex-framework-v\d+(?:\.\d+){1,2}(?:-[0-9A-Za-z.-]+)?-bootstrap$"
 )
@@ -44,6 +48,8 @@ def artifact_basename(version: str) -> str:
 def should_exclude(relative_path: Path) -> bool:
     p = PurePosixPath(relative_path.as_posix())
     if p in EXCLUDED_RELATIVE_PATHS:
+        return True
+    if len(p.parts) >= 2 and p.parts[:2] == (".gpt-codex", "evidence"):
         return True
     if any(part in EXCLUDED_PARTS for part in p.parts):
         return True
