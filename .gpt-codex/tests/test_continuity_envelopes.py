@@ -41,11 +41,13 @@ class ContinuityEnvelopeTests(unittest.TestCase):
             "evidence_refs": [], "changed": [], "verify": [], "deviations": [], "blockers": [],
             "git": {"base_sha": "a", "implementation_sha": "b"},
             "sync_status": "SYNC_PENDING", "push_status": "NOT_ATTEMPTED", "remote_verification": "UNAVAILABLE",
+            "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
             "completion_gate": "GPT_DECISION",
         }
         rendered = render_gpt_return(base)
         self.assertIn("SOURCE_GITHUB_REPOSITORY_ID: NONE", rendered)
         self.assertIn("SYNC_STATUS: SYNC_PENDING", rendered)
+        self.assertIn("PUBLICATION_AUTHORITY: PUBLICATION_CANDIDATE_ONLY", rendered)
         self.assertNotIn("RESULT: PASS", rendered)
 
     def test_result_schema_allows_nonfinal_local_complete_status(self):

@@ -63,5 +63,36 @@
       },
       "additionalProperties": false
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"state": {"const": "COMPLETE"}},
+        "required": ["state"]
+      },
+      "then": {
+        "properties": {"evidence_refs": {"minItems": 1}}
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "continuity": {
+            "properties": {"sync_status": {"const": "SYNCED"}},
+            "required": ["sync_status"]
+          }
+        },
+        "required": ["continuity"]
+      },
+      "then": {
+        "properties": {
+          "continuity": {
+            "properties": {
+              "latest_verified_remote_sha": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    }
+  ]
 }

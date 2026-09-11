@@ -8,6 +8,7 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
 from context_binding import is_valid_project_context_id, required_guardrail_allows
+from publication_contract import validate_result_authority, validate_state_authority
 
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
@@ -144,6 +145,21 @@ def main():
                         errors.append(f'{kind}/{iid}: {reason}')
     if state.get('state') == 'COMPLETE' and not state.get('evidence_refs'):
         errors.append('COMPLETE state requires durable evidence_refs')
+    durable_results = {}
+    for ref in set((state.get('evidence_refs') or []) + [((state.get('continuity') or {}).get('last_verified_result_ref'))]):
+        if not ref:
+            continue
+        result_path = root / ref
+        if not result_path.is_file():
+            continue
+        try:
+            candidate = load(result_path)
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(candidate, dict) and 'status' in candidate:
+            durable_results[ref] = candidate
+            errors += [f'RESULT {ref}: {error}' for error in validate_result_authority(candidate)]
+    errors += [f'STATE: {error}' for error in validate_state_authority(state, durable_results)]
     # Validate project-local contracts if present.
     ext_root = gov / 'extensions'
     if ext_root.exists():

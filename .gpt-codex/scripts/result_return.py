@@ -68,6 +68,7 @@ def render_gpt_return(envelope: Mapping[str, Any]) -> str:
         f"SYNC_STATUS: {_text(envelope.get('sync_status'))}",
         f"PUSH_STATUS: {_text(envelope.get('push_status'))}",
         f"REMOTE_VERIFICATION: {_text(envelope.get('remote_verification'))}",
+        f"PUBLICATION_AUTHORITY: {_text(envelope.get('publication_authority'))}",
         f"WORK_UNIT: {_text(envelope.get('work_unit_id'))}",
         f"STATE_REVISION: {_text(envelope.get('state_revision'))}",
         f"EXECUTION: {_text(envelope.get('execution'))}",

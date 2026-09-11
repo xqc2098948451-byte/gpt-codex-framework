@@ -50,6 +50,7 @@
     "sync_status": { "enum": ["SYNCED", "SYNC_PENDING", "RECONCILIATION_REQUIRED", null] },
     "push_status": { "enum": ["NOT_ATTEMPTED", "SUCCEEDED", "FAILED", null] },
     "remote_verification": { "enum": ["NOT_ATTEMPTED", "VERIFIED", "UNAVAILABLE", "FAILED", null] },
+    "publication_authority": { "enum": ["PUBLICATION_CANDIDATE_ONLY", "CONFIRMED_PUBLICATION", null] },
     "state_revision": {
       "type": ["integer", "null"],
       "minimum": 0
@@ -111,6 +112,43 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "PASS"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["remote_verification"],
+        "properties": {"remote_verification": {"const": "VERIFIED"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"sync_status": {"const": "SYNCED"}},
+        "required": ["sync_status"]
+      },
+      "then": {
+        "required": ["remote_verification", "publication_authority", "remote_head_sha", "evidence_refs"],
+        "properties": {
+          "remote_verification": {"const": "VERIFIED"},
+          "publication_authority": {"const": "CONFIRMED_PUBLICATION"},
+          "remote_head_sha": {"type": "string", "minLength": 1},
+          "evidence_refs": {"minItems": 1}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"publication_authority": {"const": "PUBLICATION_CANDIDATE_ONLY"}},
+        "required": ["publication_authority"]
+      },
+      "then": {
+        "properties": {
+          "status": {"not": {"const": "PASS"}},
+          "sync_status": {"not": {"const": "SYNCED"}}
+        }
+      }
+    },
     {
       "if": {
         "properties": {"return_to_gpt_required": {"const": true}},

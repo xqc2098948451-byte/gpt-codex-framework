@@ -13,6 +13,7 @@ class ResultContractSchemaTests(unittest.TestCase):
         self.assertEqual(schema["properties"]["kernel_version"]["const"], "2.0.0")
         self.assertEqual(schema["properties"]["schema_version"]["const"], 1)
         for field in (
+            "publication_authority",
             "return_to_gpt_required",
             "state_revision",
             "execution",
@@ -35,6 +36,7 @@ class ResultContractSchemaTests(unittest.TestCase):
 
         self.assertTrue(template["return_to_gpt_required"])
         for field in (
+            "publication_authority",
             "state_revision",
             "execution",
             "changed",
@@ -48,6 +50,13 @@ class ResultContractSchemaTests(unittest.TestCase):
             "next_gpt_action",
         ):
             self.assertIn(field, template)
+
+    def test_schema_has_mechanical_publication_conditionals(self):
+        schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))
+        conditionals = schema["allOf"]
+        self.assertTrue(any(item.get("if", {}).get("properties", {}).get("status", {}).get("const") == "PASS" for item in conditionals))
+        self.assertTrue(any(item.get("if", {}).get("properties", {}).get("sync_status", {}).get("const") == "SYNCED" for item in conditionals))
+        self.assertTrue(any(item.get("if", {}).get("properties", {}).get("publication_authority", {}).get("const") == "PUBLICATION_CANDIDATE_ONLY" for item in conditionals))
 
     def test_handoff_names_envelope_as_source_and_return_as_derived_view(self):
         handoff = (ROOT / "builtins" / "skills" / "handoff" / "SKILL.md").read_text(encoding="utf-8")

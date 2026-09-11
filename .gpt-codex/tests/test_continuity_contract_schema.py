@@ -25,6 +25,12 @@ class ContinuityContractSchemaTests(unittest.TestCase):
         self.assertEqual(state["properties"]["schema_version"]["const"], 1)
         self.assertTrue((ROOT / "project-template" / "evidence" / "results" / ".gitkeep").exists())
 
+    def test_state_schema_tightens_synced_and_complete_authority(self):
+        state = json.loads((ROOT / "schemas" / "state.schema.json").read_text(encoding="utf-8"))
+        self.assertTrue(state["allOf"])
+        self.assertTrue(any("COMPLETE" in str(item) for item in state["allOf"]))
+        self.assertTrue(any("SYNCED" in str(item) for item in state["allOf"]))
+
 
 if __name__ == "__main__":
     unittest.main()
