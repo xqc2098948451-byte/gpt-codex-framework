@@ -2,21 +2,23 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 1,
-  "state": "COMPLETE",
-  "active_work_unit": "MIGRATION-INITIAL-GITHUB-CONTINUITY",
-  "blockers": [],
+  "revision": 2,
+  "state": "RECONCILIATION_REQUIRED",
+  "active_work_unit": "CORRECTIVE-V2.2.1-SELF-HOSTING-PUBLICATION",
+  "blockers": [
+    "HISTORICAL_INVALID_PUBLICATION_CLAIM"
+  ],
   "reconciliation": null,
   "evidence_refs": [
-    ".gpt-codex/evidence/MIGRATION-INITIAL-GITHUB-PREFLIGHT.json",
-    ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json"
+    ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "cf89dbc0e128ebe1790eb933eab565745f320d49",
+    "latest_verified_remote_sha": null,
     "latest_synced_state_revision": 1,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json",
-    "sync_status": "SYNCED"
+    "last_verified_result_ref": null,
+    "sync_status": "SYNC_PENDING"
   },
-  "next_action": "Maintain confirmed-baseline-only publication policy"
+  "next_action": "Complete local v2.2.1 corrective verification and await GPT clean-baseline acceptance"
 }

@@ -1,0 +1,21 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION",
+  "source": "TOOL_OBSERVED",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "CORRECTIVE-V2.2.1-SELF-HOSTING-PUBLICATION",
+  "state_revision": 2,
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "target_ref": "refs/heads/main",
+  "expected_remote_head_sha": "954221c75aca086a901294e26207e3ddd5c189a7",
+  "historical_claim": "INVALID_PUBLICATION_CLAIM",
+  "remote_verification": "NOT_ATTEMPTED",
+  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+  "sync_status": "SYNC_PENDING",
+  "v2_2_0_artifact_sha256": "a637a48382a32c28db106263a385e5d3c902dff8b28c2387864fb5c6b80ff8d3",
+  "github_write_performed": "NO",
+  "notes": "Forward-only local reconciliation; historical commits and evidence are preserved."
+}
