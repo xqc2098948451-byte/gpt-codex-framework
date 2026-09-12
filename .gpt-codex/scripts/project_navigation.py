@@ -27,7 +27,7 @@ def load_project_map(root: Path) -> dict[str, Any] | None:
         raise ValueError("NAVIGATION_AUTHORITY_INVALID")
 
     module_ids = [
-        module.get("module_id")
+        module.get("id")
         for module in project_map.get("modules", [])
         if isinstance(module, dict)
     ]
@@ -37,7 +37,18 @@ def load_project_map(root: Path) -> dict[str, Any] | None:
 
 
 def load_module_map(root: Path, relative_path: str) -> dict[str, Any]:
-    module_map = _load_json(root / relative_path)
+    supplied_path = Path(relative_path)
+    if supplied_path.is_absolute() or ".." in supplied_path.parts:
+        raise ValueError(f"MODULE_MAP_PATH_INVALID:{relative_path}")
+
+    resolved_root = root.resolve()
+    candidate = (resolved_root / supplied_path).resolve()
+    try:
+        candidate.relative_to(resolved_root)
+    except ValueError as exc:
+        raise ValueError(f"MODULE_MAP_PATH_INVALID:{relative_path}") from exc
+
+    module_map = _load_json(candidate)
     if module_map.get("schema_version") != 1:
         raise ValueError("MODULE_MAP_SCHEMA_UNSUPPORTED")
     if module_map.get("authority") != "DERIVED_NAVIGATION_INDEX":
@@ -69,7 +80,7 @@ def module_by_id(
     matches = [
         module
         for module in project_map.get("modules", [])
-        if isinstance(module, dict) and module.get("module_id") == module_id
+        if isinstance(module, dict) and module.get("id") == module_id
     ]
     if len(matches) != 1:
         return None
