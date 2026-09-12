@@ -8,6 +8,54 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_load_resume_checkpoint_returns_none_when_checkpoint_is_absent(self):
+        from continuity_resume import load_resume_checkpoint
+
+        with tempfile.TemporaryDirectory() as td:
+            self.assertIsNone(load_resume_checkpoint(Path(td) / ".gpt-codex"))
+
+    def test_compare_context_sources_invalidates_only_changed_source(self):
+        from continuity_resume import compare_context_sources, fingerprint_file
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            changed = root / "context" / "changed.md"
+            unchanged = root / "context" / "unchanged.md"
+            changed.parent.mkdir()
+            changed.write_text("before", encoding="utf-8")
+            unchanged.write_text("unchanged", encoding="utf-8")
+            checkpoint = {
+                "context_sources": {
+                    "context/changed.md": fingerprint_file(changed),
+                    "context/unchanged.md": fingerprint_file(unchanged),
+                },
+            }
+            changed.write_text("after", encoding="utf-8")
+
+            invalidated_context, required_reads = compare_context_sources(root, checkpoint)
+
+            self.assertEqual(invalidated_context, ["context/changed.md"])
+            self.assertEqual(required_reads, [])
+
+    def test_compare_context_sources_keeps_unchanged_project_map_valid(self):
+        from continuity_resume import compare_context_sources, fingerprint_file
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            project_map = root / ".gpt-codex" / "navigation" / "PROJECT_MAP.json"
+            project_map.parent.mkdir(parents=True)
+            project_map.write_text('{"modules": []}', encoding="utf-8")
+            checkpoint = {
+                "context_sources": {
+                    ".gpt-codex/navigation/PROJECT_MAP.json": fingerprint_file(project_map),
+                },
+            }
+
+            invalidated_context, required_reads = compare_context_sources(root, checkpoint)
+
+            self.assertNotIn(".gpt-codex/navigation/PROJECT_MAP.json", invalidated_context)
+            self.assertEqual(required_reads, [])
+
     def test_resume_requires_selected_repository_id_and_reads_canonical_state(self):
         from continuity_resume import load_continuity_resume
 

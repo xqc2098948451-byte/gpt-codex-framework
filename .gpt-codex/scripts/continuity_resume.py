@@ -1,8 +1,53 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
+
+
+RESUME_RELATIVE_PATH = Path("continuity") / "RESUME.json"
+
+
+def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
+    checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
+    if not checkpoint_path.is_file():
+        return None
+    try:
+        checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("RESUME_CHECKPOINT_INVALID") from exc
+    if not isinstance(checkpoint, dict):
+        raise ValueError("RESUME_CHECKPOINT_INVALID")
+    if checkpoint.get("schema_version") != 1:
+        raise ValueError("RESUME_CHECKPOINT_SCHEMA_UNSUPPORTED")
+    if checkpoint.get("authority") != "DERIVED_CACHE":
+        raise ValueError("RESUME_CHECKPOINT_AUTHORITY_INVALID")
+    return checkpoint
+
+
+def fingerprint_file(path: Path) -> str | None:
+    source = Path(path)
+    if not source.is_file():
+        return None
+    return "sha256:" + hashlib.sha256(source.read_bytes()).hexdigest()
+
+
+def compare_context_sources(root: Path, checkpoint: dict[str, Any]) -> tuple[list[str], list[str]]:
+    context_sources = checkpoint.get("context_sources", {})
+    if not isinstance(context_sources, dict):
+        return [], []
+    invalidated_context: list[str] = []
+    required_reads: list[str] = []
+    for relative_path, expected_fingerprint in context_sources.items():
+        if not isinstance(relative_path, str):
+            continue
+        current_fingerprint = fingerprint_file(Path(root) / relative_path)
+        if current_fingerprint is None:
+            required_reads.append(relative_path)
+        elif current_fingerprint != expected_fingerprint:
+            invalidated_context.append(relative_path)
+    return invalidated_context, required_reads
 
 
 def load_continuity_resume(
