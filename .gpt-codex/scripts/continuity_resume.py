@@ -9,12 +9,28 @@ from project_navigation import (
     affected_modules,
     classify_map_route,
     load_project_map,
+    module_by_id,
     module_map_read_paths,
+    normalise_relative_path,
     validate_navigation_identity,
 )
 
 
 RESUME_RELATIVE_PATH = Path("continuity") / "RESUME.json"
+
+
+def _non_optimization_resume_fields() -> dict[str, Any]:
+    return {
+        "resume_mode": "COLD_RESUME",
+        "map_route": "MAP_MISSING",
+        "candidate_modules": [],
+        "stale_modules": [],
+        "module_map_reads": [],
+        "required_reads": [],
+        "hot_modules": [],
+        "hot_files": [],
+        "invalidated_context": [],
+    }
 
 
 def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
@@ -104,6 +120,7 @@ def load_continuity_resume(
             "repository_id": str(selected_repository_id),
             "state": state,
             "continuity": continuity,
+            **_non_optimization_resume_fields(),
         }
     baseline_sha = continuity.get("latest_verified_remote_sha")
     if observed_remote_head_sha is not None and not (
@@ -121,6 +138,7 @@ def load_continuity_resume(
             "reconciliation_required": True,
             "state": state,
             "continuity": continuity,
+            **_non_optimization_resume_fields(),
         }
 
     project_map = load_project_map(root)
@@ -160,11 +178,18 @@ def load_continuity_resume(
         if isinstance(path, str)
     ]
     changed = [path for path in changed_paths or [] if isinstance(path, str)]
-    candidate_modules = [
+    candidate_module_inputs = [
         module_id
         for module_id in (candidate_module_ids if candidate_module_ids is not None else hot_modules)
         if isinstance(module_id, str)
     ]
+    candidate_modules = []
+    if project_map is not None:
+        candidate_modules = list(dict.fromkeys(
+            module_id
+            for module_id in candidate_module_inputs
+            if module_by_id(project_map, module_id) is not None
+        ))
 
     stale_modules = []
     module_map_reads = []
@@ -177,18 +202,23 @@ def load_continuity_resume(
         stale_modules,
         map_exists=project_map is not None,
     )
+    normalised_hot_files = {normalise_relative_path(hot_file) for hot_file in hot_files}
 
-    required_reads = list(dict.fromkeys(
+    invalidating_reads = list(dict.fromkeys(
         invalidated_context
         + missing_context
-        + next_required_reads
-        + [path for path in changed if path in hot_files]
+        + [
+            path
+            for path in changed
+            if normalise_relative_path(path) in normalised_hot_files
+        ]
         + module_map_reads
     ))
+    required_reads = list(dict.fromkeys(invalidating_reads + next_required_reads))
     invalidated_context = list(dict.fromkeys(invalidated_context))
     if checkpoint is None or project_map is None:
         resume_mode = "COLD_RESUME"
-    elif required_reads or map_route == "MAP_PARTIAL":
+    elif invalidating_reads or map_route == "MAP_PARTIAL":
         resume_mode = "DELTA_RESUME"
     else:
         resume_mode = "FAST_RESUME"

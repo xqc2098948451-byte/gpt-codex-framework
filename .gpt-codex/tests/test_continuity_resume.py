@@ -68,10 +68,17 @@ class ContinuityResumeTests(unittest.TestCase):
                 "project_id": "P",
                 "project_context_id": "11111111-1111-4111-8111-111111111111",
                 "repository_id": "repo-a",
+                "anchor_sha": None,
+                "architecture_summary": "Authentication session handling.",
                 "modules": [{
                     "id": "auth",
+                    "purpose": "Manage authentication sessions.",
                     "paths": ["src/auth/"],
+                    "entry_points": ["src/auth/session.ts"],
+                    "keywords": ["auth", "session"],
                     "module_map": ".gpt-codex/navigation/modules/auth.json",
+                    "verified_at_sha": None,
+                    "freshness": "UNKNOWN",
                 }],
             })
             auth_map = self._write_json(root, ".gpt-codex/navigation/modules/auth.json", {
@@ -79,7 +86,21 @@ class ContinuityResumeTests(unittest.TestCase):
                 "authority": "DERIVED_NAVIGATION_INDEX",
                 "project_id": "P",
                 "project_context_id": "11111111-1111-4111-8111-111111111111",
-                "repository_id": "repo-a",
+                "module_id": "auth",
+                "responsibility": "Manage authentication sessions.",
+                "tracked_paths": ["src/auth/"],
+                "key_files": [{
+                    "path": "src/auth/session.ts",
+                    "role": "Session implementation.",
+                }],
+                "interfaces": [],
+                "depends_on": [],
+                "tests": ["tests/auth/session.test.ts"],
+                "configuration": [],
+                "data_models": [],
+                "read_when": ["Working on authentication sessions."],
+                "verified_at_sha": None,
+                "freshness": "UNKNOWN",
             })
             context_sources = [
                 {
@@ -118,6 +139,117 @@ class ContinuityResumeTests(unittest.TestCase):
                 ".gpt-codex/navigation/modules/auth.json",
             ):
                 self.assertNotIn(path, result["required_reads"])
+
+    def test_resume_keeps_fast_mode_for_planned_continuation_reads(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+            checkpoint_path = root / ".gpt-codex/continuity/RESUME.json"
+            checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
+            checkpoint["working_set"]["next_required_reads"] = [
+                "tests/auth/session.test.ts",
+            ]
+            checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
+
+            result = load_continuity_resume(root, "repo-a")
+
+            self.assertEqual(result["map_route"], "MAP_HIT")
+            self.assertEqual(result["resume_mode"], "FAST_RESUME")
+            self.assertEqual(result["required_reads"], ["tests/auth/session.test.ts"])
+
+    def test_resume_treats_unknown_candidate_modules_as_a_map_miss(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+
+            result = load_continuity_resume(
+                root,
+                "repo-a",
+                candidate_module_ids=["removed-module"],
+            )
+
+            self.assertEqual(result["candidate_modules"], [])
+            self.assertEqual(result["map_route"], "MAP_MISS")
+            self.assertEqual(result["resume_mode"], "FAST_RESUME")
+
+    def test_resume_normalizes_changed_hot_file_paths_before_targeting_reads(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+
+            result = load_continuity_resume(
+                root,
+                "repo-a",
+                changed_paths=["./src/auth/session.ts"],
+                candidate_module_ids=["auth"],
+            )
+
+            self.assertIn("./src/auth/session.ts", result["required_reads"])
+
+    def test_resume_navigation_fixture_uses_schema_shaped_maps(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+            project_map = json.loads(
+                (root / ".gpt-codex/navigation/PROJECT_MAP.json").read_text(encoding="utf-8")
+            )
+            auth_map = json.loads(
+                (root / ".gpt-codex/navigation/modules/auth.json").read_text(encoding="utf-8")
+            )
+
+            self.assertEqual(
+                set(project_map),
+                {
+                    "schema_version",
+                    "authority",
+                    "project_id",
+                    "project_context_id",
+                    "repository_id",
+                    "anchor_sha",
+                    "architecture_summary",
+                    "modules",
+                },
+            )
+            self.assertEqual(
+                set(project_map["modules"][0]),
+                {
+                    "id",
+                    "purpose",
+                    "paths",
+                    "entry_points",
+                    "keywords",
+                    "module_map",
+                    "verified_at_sha",
+                    "freshness",
+                },
+            )
+            self.assertEqual(
+                set(auth_map),
+                {
+                    "schema_version",
+                    "authority",
+                    "project_id",
+                    "project_context_id",
+                    "module_id",
+                    "responsibility",
+                    "tracked_paths",
+                    "key_files",
+                    "interfaces",
+                    "depends_on",
+                    "tests",
+                    "configuration",
+                    "data_models",
+                    "read_when",
+                    "verified_at_sha",
+                    "freshness",
+                },
+            )
 
     def test_resume_uses_delta_route_for_a_changed_candidate_module(self):
         from continuity_resume import load_continuity_resume
@@ -313,6 +445,39 @@ class ContinuityResumeTests(unittest.TestCase):
             self.assertEqual(result["status"], "LATEST_SYNCED_REMOTE_STATE")
             self.assertEqual(result["repository_id"], "repo-a")
 
+    def test_local_unsynced_resume_returns_all_non_optimization_fields(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            gov = root / ".gpt-codex"
+            gov.mkdir()
+            (gov / "CONTROL.json").write_text(json.dumps({
+                "github": {
+                    "repository_id": "repo-a",
+                    "repository_full_name": "owner/a",
+                    "default_branch": "main",
+                },
+            }), encoding="utf-8")
+            (gov / "STATE.json").write_text(json.dumps({
+                "continuity": {"sync_status": "LOCAL_ONLY"},
+            }), encoding="utf-8")
+
+            result = load_continuity_resume(root, "repo-a")
+
+            self.assertEqual(result["resume_mode"], "COLD_RESUME")
+            self.assertEqual(result["map_route"], "MAP_MISSING")
+            for key in (
+                "candidate_modules",
+                "stale_modules",
+                "module_map_reads",
+                "required_reads",
+                "hot_modules",
+                "hot_files",
+                "invalidated_context",
+            ):
+                self.assertEqual(result[key], [])
+
     def test_resume_blocks_wrong_repository(self):
         from continuity_resume import load_continuity_resume
 
@@ -376,6 +541,18 @@ class ContinuityResumeTests(unittest.TestCase):
                 generic_tree_matches=True,
             )
             self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+            self.assertEqual(result["resume_mode"], "COLD_RESUME")
+            self.assertEqual(result["map_route"], "MAP_MISSING")
+            for key in (
+                "candidate_modules",
+                "stale_modules",
+                "module_map_reads",
+                "required_reads",
+                "hot_modules",
+                "hot_files",
+                "invalidated_context",
+            ):
+                self.assertEqual(result[key], [])
 
 
 if __name__ == "__main__":

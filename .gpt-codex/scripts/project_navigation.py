@@ -87,8 +87,12 @@ def module_by_id(
     return matches[0]
 
 
-def _normalise_relative(value: str) -> str:
+def normalise_relative_path(value: str) -> str:
     return PurePosixPath(value.replace("\\", "/")).as_posix()
+
+
+def _normalise_relative(value: str) -> str:
+    return normalise_relative_path(value)
 
 
 def _is_safe_relative(value: str) -> bool:
