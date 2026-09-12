@@ -24,7 +24,7 @@ from consumer_projection import (
     scan_consumer_boundary,
     stage_consumer_projection,
 )
-from release_archive import ensure_release_record, load_release_index
+from release_archive import _version_key, ensure_release_record, load_release_index
 
 SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 EXCLUDED_PARTS = {".git", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".idea", ".vscode"}
@@ -105,12 +105,7 @@ def _previous_recorded_version(releases_dir: Path, current_version: str) -> str 
     versions = [v for v in versions if v]
     if not versions:
         return None
-    def key(v: str):
-        parts = [int(x) for x in v.split(".")]
-        while len(parts) < 3:
-            parts.append(0)
-        return tuple(parts[:3])
-    return sorted(versions, key=key)[-1]
+    return sorted(versions, key=_version_key)[-1]
 
 def package_release(
     root: Path,
@@ -189,8 +184,21 @@ def validate_release_source(root: Path) -> dict[str, str]:
     if f"## v{version}" not in changelog:
         raise RuntimeError(f"CHANGELOG missing release heading for v{version}")
     _run([sys.executable, ".gpt-codex/scripts/validate_framework.py"], root)
+    return {"framework": "PASS", "tests": "PENDING", "release_hygiene": "PASS"}
+
+
+def validate_release_artifact(root: Path) -> None:
     _run([sys.executable, "-m", "unittest", "discover", "-s", ".gpt-codex/tests", "-p", "test_*.py"], root)
-    return {"framework": "PASS", "tests": "PASS", "release_hygiene": "PASS"}
+
+
+def finalize_release_manifest(manifest_path: Path) -> None:
+    manifest_path = Path(manifest_path)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    validation = manifest.get("validation")
+    if not isinstance(validation, dict) or validation.get("tests") != "PENDING":
+        raise RuntimeError("release manifest must await artifact-dependent test validation")
+    validation["tests"] = "PASS"
+    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def main() -> int:
@@ -216,6 +224,8 @@ def main() -> int:
         artifact_sha256=result["sha256"],
         artifact_size_bytes=Path(result["zip_path"]).stat().st_size,
     )
+    validate_release_artifact(root)
+    finalize_release_manifest(result["manifest_path"])
     print("RESULT: PASS")
     print("ARTIFACT:", result["zip_path"])
     print("SHA256:", result["sha256"])

@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.2.2-local.1
+# GPT–Codex Framework v2.3.0
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 

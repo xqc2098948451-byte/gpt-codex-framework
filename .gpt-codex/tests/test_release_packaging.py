@@ -12,6 +12,7 @@ SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from release_framework import (
+    _previous_recorded_version,
     artifact_basename,
     clean_output_dir,
     package_release,
@@ -70,6 +71,25 @@ def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
 
 
 class ReleasePackagingTests(unittest.TestCase):
+    def test_previous_recorded_version_accepts_prerelease_records(self):
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            releases.mkdir()
+            (releases / "INDEX.json").write_text(
+                json.dumps({
+                    "releases": [
+                        {"version": "2.2.1"},
+                        {"version": "2.2.2-local.1"},
+                    ],
+                }),
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                _previous_recorded_version(releases, "2.3.0"),
+                "2.2.2-local.1",
+            )
+
     def test_fresh_release_preserves_final_index_artifact_sha(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = _fresh_release_fixture(tmp)
@@ -77,6 +97,12 @@ class ReleasePackagingTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             fields = _current_sha_fields(root)
             self.assertEqual(fields, (fields[0], fields[0], fields[0], fields[0], fields[0]))
+            release_manifest = json.loads(
+                (root / "dist" / f"gpt-codex-framework-v{CURRENT_VERSION}-release.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(release_manifest["validation"]["tests"], "PASS")
 
     def test_release_generation_is_metadata_idempotent(self):
         with tempfile.TemporaryDirectory() as tmp:

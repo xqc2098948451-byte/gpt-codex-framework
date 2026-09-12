@@ -93,18 +93,22 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 class ConsumerProjectionTests(unittest.TestCase):
     def test_validate_consumer_projection_rejects_stale_canonical_archive(self):
-        result = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPTS / "validate_consumer_projection.py"),
-                "--root",
-                str(ROOT),
-                "--zip",
-                str(ROOT / "dist" / f"{CURRENT_PREFIX}.zip"),
-            ],
-            capture_output=True,
-            text=True,
-        )
+        with tempfile.TemporaryDirectory() as tmp:
+            archive_path = Path(tmp) / "stale.zip"
+            with zipfile.ZipFile(archive_path, "w") as archive:
+                archive.writestr(f"{CURRENT_PREFIX}/VERSION", f"{CURRENT_VERSION}\n")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPTS / "validate_consumer_projection.py"),
+                    "--root",
+                    str(ROOT),
+                    "--zip",
+                    str(archive_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('"match": false', result.stdout)
         self.assertIn(".gpt-codex/schemas/project-map.schema.json", result.stdout)

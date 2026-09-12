@@ -1,5 +1,15 @@
 # GPT–Codex Framework Changelog
 
+## v2.3.0 — Project Navigation Map and Context Resume
+
+- Added two-level Project Navigation Map for map-first maintenance.
+- Added MAP_HIT / MAP_PARTIAL / MAP_MISS / MAP_MISSING routing.
+- Added incremental module-map freshness based on relevant repository delta.
+- Added derived Context Checkpoint with FAST_RESUME / DELTA_RESUME / COLD_RESUME.
+- Prevented normal context transitions from triggering bootstrap.
+- Prevented normal maintenance requests from triggering repository rediscovery.
+- Kept navigation/resume state derived and non-authoritative.
+
 ## v2.2.2-local.1 — Local Consumer Dependency Closure Corrective Release
 
 - Repairs the consumer projection dependency closure for `validate_project.py`.
