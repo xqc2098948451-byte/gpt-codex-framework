@@ -11,7 +11,7 @@ RESUME_RELATIVE_PATH = Path("continuity") / "RESUME.json"
 
 def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
     checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
-    if not checkpoint_path.is_file():
+    if not checkpoint_path.exists():
         return None
     try:
         checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
@@ -35,14 +35,27 @@ def fingerprint_file(path: Path) -> str | None:
 
 def compare_context_sources(root: Path, checkpoint: dict[str, Any]) -> tuple[list[str], list[str]]:
     context_sources = checkpoint.get("context_sources", {})
-    if not isinstance(context_sources, dict):
+    if not isinstance(context_sources, list):
         return [], []
     invalidated_context: list[str] = []
     required_reads: list[str] = []
-    for relative_path, expected_fingerprint in context_sources.items():
+    resolved_root = Path(root).resolve()
+    for source in context_sources:
+        if not isinstance(source, dict):
+            continue
+        relative_path = source.get("path")
+        expected_fingerprint = source.get("fingerprint")
         if not isinstance(relative_path, str):
             continue
-        current_fingerprint = fingerprint_file(Path(root) / relative_path)
+        supplied_path = Path(relative_path)
+        if supplied_path.is_absolute() or ".." in supplied_path.parts:
+            raise ValueError(f"RESUME_CONTEXT_SOURCE_PATH_INVALID:{relative_path}")
+        candidate = (resolved_root / supplied_path).resolve()
+        try:
+            candidate.relative_to(resolved_root)
+        except ValueError as exc:
+            raise ValueError(f"RESUME_CONTEXT_SOURCE_PATH_INVALID:{relative_path}") from exc
+        current_fingerprint = fingerprint_file(candidate)
         if current_fingerprint is None:
             required_reads.append(relative_path)
         elif current_fingerprint != expected_fingerprint:

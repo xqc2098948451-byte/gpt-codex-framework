@@ -53,3 +53,59 @@ The documented dotted hidden-directory unittest command is unsupported by this W
 ## Status
 
 Complete. Focused verification passed and the Task 4 files were committed.
+
+## Review-fix addendum
+
+### Findings addressed
+
+- Updated `compare_context_sources` from the erroneous mapping-only interpretation to the approved Resume v1 array contract. Each operational entry is a declared `{"path": ..., "fingerprint": ...}` source, so changed and missing entries are now processed rather than silently ignored.
+- Changed checkpoint absence detection to use `exists()`. Only an absent path returns `None`; an existing directory or unreadable/non-JSON path is read and produces `RESUME_CHECKPOINT_INVALID`.
+- Enforced project-relative, root-contained context-source paths. Absolute paths, `..` traversal, and resolved paths escaping the root raise `RESUME_CONTEXT_SOURCE_PATH_INVALID:<path>` before any fingerprint operation.
+- Added real-behavior coverage for Resume checkpoint error codes, raw-byte SHA-256 formatting, missing-source required reads, array-shaped context sources, safe-path rejection, and retained `working_set.hot_modules`.
+
+### Root cause and contract evidence
+
+The Resume v1 schema declares `context_sources` as an array and requires `working_set.hot_modules`; the template initializes both as arrays. The earlier runtime expected a dictionary, therefore schema-valid array checkpoints returned `([], [])`. The navigation runtime’s existing safe-path pattern validates non-absolute/no-parent paths, resolves from the root, and confirms containment with `relative_to`.
+
+### Review-fix RED
+
+Command:
+
+```text
+python .gpt-codex/tests/test_continuity_resume.py -v
+```
+
+Output summary before the runtime fix:
+
+```text
+Ran 12 tests in 0.040s
+FAILED (failures=5)
+```
+
+The failing behaviors were exactly the review findings: array-form changed sources did not invalidate, an array-form missing source was not queued, parent and absolute paths were accepted, and an existing `RESUME.json` directory returned `None`. The raw-byte fingerprint and retained hot-module tests passed because those behaviors were already present. The test harness’s initial absolute-path regex escaping error was corrected before the recorded RED run; it was not a runtime defect.
+
+### Review-fix GREEN
+
+Command:
+
+```text
+python .gpt-codex/tests/test_continuity_resume.py -v
+```
+
+Output:
+
+```text
+Ran 12 tests in 0.067s
+OK
+```
+
+Covered passing tests include array-form changed-source invalidation, unchanged project map validity, missing-source reads, absolute and traversal rejection, exact raw-byte fingerprint output, non-file/invalid/schema/authority checkpoint error codes, and `working_set.hot_modules` retention. The four canonical resume/reconciliation tests also remain green.
+
+### Review-fix self-review and status
+
+- `load_continuity_resume` remains byte-for-byte behaviorally unchanged; canonical reconciliation precedence is preserved.
+- The derived checkpoint remains authority-gated as `DERIVED_CACHE`; no canonical state is written or discovered.
+- Kernel `2.0.0` and Schema generation `1` remain unchanged.
+- The only outstanding environment note is the prior documented Windows hidden-directory unittest invocation limitation; direct-file focused execution is used.
+
+Review-fix implementation passed final scoped verification and was committed with `fix: validate resume checkpoint context sources`.
