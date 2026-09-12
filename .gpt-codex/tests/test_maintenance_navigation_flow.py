@@ -42,9 +42,26 @@ class MaintenanceNavigationFlowTests(unittest.TestCase):
             self.assertEqual(result["map_route"], "MAP_PARTIAL")
             self.assertEqual(result["resume_mode"], "DELTA_RESUME")
             self.assertEqual(result["stale_modules"], ["auth"])
+            required_reads = result["required_reads"]
+            self.assertEqual(
+                required_reads,
+                [
+                    "src/auth/session.ts",
+                    ".gpt-codex/navigation/modules/auth.json",
+                ],
+            )
             self.assertEqual(result["module_map_reads"], [".gpt-codex/navigation/modules/auth.json"])
+            for forbidden_read in (
+                ".gpt-codex/PROJECT.md",
+                ".gpt-codex/navigation/PROJECT_MAP.json",
+                ".gpt-codex/navigation/modules/billing.json",
+                "docs/unrelated.md",
+                ".gpt-codex/builtins/skills/repository-discovery/SKILL.md",
+                ".gpt-codex/builtins/skills/repository-discovery/manifest.json",
+            ):
+                with self.subTest(forbidden_read=forbidden_read):
+                    self.assertNotIn(forbidden_read, required_reads)
             self.assertNotIn("billing", result["stale_modules"])
-            self.assertNotIn(".gpt-codex/navigation/modules/billing.json", result["required_reads"])
 
     def test_unrelated_git_delta_keeps_candidates_fresh_without_extra_reads(self):
         from continuity_resume import load_continuity_resume
