@@ -103,6 +103,10 @@ candidate cannot claim `PASS`, `SYNCED`, or authoritative `COMPLETE`; the
 management-only project uses `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` and may
 self-host only cataloged Framework Built-ins.
 
+## Map-first maintenance
+
+For an existing governed project, Project Map = where to look, Resume = what is already known, and Git delta = what may be stale. Bind identity, use `PROJECT_MAP.json` to select candidate module maps, validate the Resume checkpoint and relevant Git delta, then read only the required files. Use Repository Discovery only for initial bootstrap, `MAP_MISS` scoped discovery, `MAP_PARTIAL` bounded discovery, or an explicit material re-baseline—not normal maintenance rediscovery.
+
 ## Framework upgrade
 
 When the framework root changes from e.g. v2.0 to v2.1, the project is **not** automatically migrated. GPT asks Codex to run a read-only compatibility evaluation and returns one of:

@@ -16,3 +16,7 @@ Run the Framework Compatibility Scan before adoption or migration and return `NO
 - `EVIDENCE.template.json` — evidence/provenance contract.
 - `RESULT_ENVELOPE.template.json` — common execution result envelope.
 - report templates support reuse, governance compilation, compatibility, migration, and Harvest.
+
+## Map-first maintenance
+
+For an existing governed project, Project Map = where to look, Resume = what is already known, and Git delta = what may be stale. Bind identity, route through the Project Map and candidate module maps, validate Resume and the relevant Git delta, then read only required files. Use Repository Discovery only for initial bootstrap, `MAP_MISS` scoped discovery, `MAP_PARTIAL` bounded discovery, or an explicit material re-baseline.

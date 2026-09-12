@@ -86,3 +86,11 @@ Machine approval semantics remain `NONE | GPT_DECISION | USER_APPROVAL`. Returni
 - Model inference may guide investigation but must not impersonate authoritative evidence.
 - Child execution permissions may narrow but never silently expand parent authorization.
 - A project-specific capability does not belong in Kernel merely because it is useful.
+
+## Map-first maintenance
+
+- Project Map = where to look.
+- Resume = what is already known.
+- Git delta = what may be stale.
+- For existing governed projects, bind identity, route through the Project Map and relevant module maps, validate Resume and the relevant Git delta, then read only required files.
+- Repository Discovery is for initial bootstrap, `MAP_MISS` scoped discovery, `MAP_PARTIAL` bounded discovery, or explicit material re-baseline; it is not normal maintenance rediscovery.

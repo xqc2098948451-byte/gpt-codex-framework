@@ -47,16 +47,17 @@ For an unbound project, phase one of bootstrap is read-only: create no project f
 1. Use the `repository-discovery` Built-in read-only to understand repository identity, technology, existing tools, tests, CI, constraints, and existing governance mechanisms.
 2. Create a stable `project_id`. Folder name alone is not project identity.
 3. Draft `PROJECT.md` from evidence and user intent.
-4. Search Built-ins before designing project-local extensions.
-5. Produce a `REUSE_REPORT` containing selected, not-applicable, and remaining capability gaps.
-6. For each selected Built-in, direct Codex to copy a versioned snapshot from framework Built-ins into `PROJECT_ROOT/.gpt-codex/extensions/<kind>/<id>/` and record origin/version/path in `CONTROL.json`. Do not edit the framework Built-in.
-7. Draft `CONTROL.json` and `STATE.json` from templates.
-8. For each remaining gap, apply the Extension Admission Gate. Default is `DO_NOT_ADD`.
-9. Create any approved project-local extension only under `PROJECT_ROOT/.gpt-codex/extensions/`.
-10. Export a normalized candidate for each newly created or materially changed project-local extension to `FRAMEWORK_ROOT/.gpt-codex/harvest/inbox/<project_id>/`. If framework root is unavailable, record `harvest_export_status: PENDING`; do not block otherwise-valid project work solely because Harvest is unavailable.
-11. Run governance compile validation.
-12. Obtain user approval for material project/governance choices.
-13. Transition `STATE.json` from `PROPOSED` to `AUTHORIZED` only with expected revision and required evidence.
+4. Create the initial `PROJECT_MAP.json` and module maps from evidence and user intent.
+5. Search Built-ins before designing project-local extensions.
+6. Produce a `REUSE_REPORT` containing selected, not-applicable, and remaining capability gaps.
+7. For each selected Built-in, direct Codex to copy a versioned snapshot from framework Built-ins into `PROJECT_ROOT/.gpt-codex/extensions/<kind>/<id>/` and record origin/version/path in `CONTROL.json`. Do not edit the framework Built-in.
+8. Draft `CONTROL.json` and `STATE.json` from templates.
+9. For each remaining gap, apply the Extension Admission Gate. Default is `DO_NOT_ADD`.
+10. Create any approved project-local extension only under `PROJECT_ROOT/.gpt-codex/extensions/`.
+11. Export a normalized candidate for each newly created or materially changed project-local extension to `FRAMEWORK_ROOT/.gpt-codex/harvest/inbox/<project_id>/`. If framework root is unavailable, record `harvest_export_status: PENDING`; do not block otherwise-valid project work solely because Harvest is unavailable.
+12. Run governance compile validation.
+13. Obtain user approval for material project/governance choices.
+14. Transition `STATE.json` from `PROPOSED` to `AUTHORIZED` only with expected revision and required evidence.
 
 ## Built-in selection rule
 
@@ -82,9 +83,27 @@ A new extension requires concise answers to:
 
 Reject extensions justified only by “best practice”, hypothetical future need, or perfection.
 
-## Resume flow
+## Existing project maintenance and resume flow
 
-Read `PROJECT.md → STATE.json → CONTROL.json → active Work Unit → selected extensions → related evidence`.
+A context-window transition is not a project bootstrap.
+
+A maintenance request is not a repository rediscovery.
+
+For an existing governed project, bind project identity first, then follow this map-first path:
+
+1. Read `.gpt-codex/navigation/PROJECT_MAP.json` when present.
+2. Match the request to candidate modules using `purpose`, `keywords`, and `read_when`.
+3. Read only matching module maps.
+4. Select `MAP_HIT`, `MAP_PARTIAL`, `MAP_MISS`, or `MAP_MISSING`.
+5. Validate the Resume checkpoint and relevant Git delta.
+6. Select `FAST_RESUME`, `DELTA_RESUME`, or `COLD_RESUME`.
+7. Read only required target files and expand search only when bounded evidence requires it.
+
+Do not scan the repository when the Project Map can identify the candidate module.
+
+Do not run repository discovery when a valid resume checkpoint exists.
+
+`MAP_HIT` reads only the matching module maps and candidate files. `MAP_PARTIAL` permits bounded discovery inside candidate paths. `MAP_MISS` permits scoped discovery for the missing area. `MAP_MISSING` remains compatible with an existing governed project and does not imply Bootstrap. `FAST_RESUME` avoids rereading unchanged context, `DELTA_RESUME` reads only relevant changes, and `COLD_RESUME` starts progressive disclosure without treating an absent checkpoint as Bootstrap.
 
 Validate state revision before writing. If your expected revision is stale, do not overwrite; enter `RECONCILIATION_REQUIRED`.
 
