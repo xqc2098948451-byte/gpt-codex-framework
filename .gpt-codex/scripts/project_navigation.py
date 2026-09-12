@@ -88,13 +88,26 @@ def module_by_id(
 
 
 def _normalise_relative(value: str) -> str:
-    return PurePosixPath(value).as_posix().lstrip("./")
+    return PurePosixPath(value.replace("\\", "/")).as_posix()
+
+
+def _is_safe_relative(value: str) -> bool:
+    candidate = PurePosixPath(value)
+    return (
+        not candidate.is_absolute()
+        and ".." not in candidate.parts
+        and not (candidate.parts and candidate.parts[0].endswith(":"))
+    )
 
 
 def path_belongs_to_module(path: str, module: dict[str, Any]) -> bool:
     candidate = _normalise_relative(path)
+    if not _is_safe_relative(candidate):
+        return False
     for raw_prefix in module.get("paths") or []:
         prefix = _normalise_relative(raw_prefix).rstrip("/")
+        if not _is_safe_relative(prefix):
+            continue
         if candidate == prefix or candidate.startswith(prefix + "/"):
             return True
     return False

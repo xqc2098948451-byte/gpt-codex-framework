@@ -168,6 +168,24 @@ class ProjectNavigationTests(unittest.TestCase):
             self.navigation.path_belongs_to_module("src/author/session.ts", module)
         )
 
+    def test_path_belongs_to_module_normalizes_safe_relative_separators(self) -> None:
+        module = {"id": "auth", "paths": ["src/auth/"]}
+
+        for path in [
+            "./src/auth/session.ts",
+            "src//auth//session.ts",
+            r"src\auth\session.ts",
+        ]:
+            with self.subTest(path=path):
+                self.assertTrue(self.navigation.path_belongs_to_module(path, module))
+
+    def test_path_belongs_to_module_rejects_absolute_and_traversing_paths(self) -> None:
+        module = {"id": "auth", "paths": ["src/auth/"]}
+
+        for path in ["/src/auth/session.ts", "../src/auth/session.ts", "src/../auth/session.ts"]:
+            with self.subTest(path=path):
+                self.assertFalse(self.navigation.path_belongs_to_module(path, module))
+
     def test_affected_modules_returns_matching_module_ids(self) -> None:
         project_map = {
             "modules": [
@@ -206,6 +224,19 @@ class ProjectNavigationTests(unittest.TestCase):
         self.assertEqual(
             "MAP_MISSING",
             self.navigation.classify_map_route([], [], map_exists=False),
+        )
+
+    def test_classify_map_route_prioritizes_missing_map(self) -> None:
+        self.assertEqual(
+            "MAP_MISSING",
+            self.navigation.classify_map_route(
+                ["auth"], ["auth"], map_exists=False
+            ),
+        )
+
+    def test_classify_map_route_prioritizes_no_candidates(self) -> None:
+        self.assertEqual(
+            "MAP_MISS", self.navigation.classify_map_route([], ["auth"])
         )
 
 
