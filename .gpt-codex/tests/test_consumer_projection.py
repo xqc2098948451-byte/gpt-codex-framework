@@ -92,7 +92,7 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
-    def test_validate_consumer_projection_zip_derives_canonical_prefix(self):
+    def test_validate_consumer_projection_rejects_stale_canonical_archive(self):
         result = subprocess.run(
             [
                 sys.executable,
@@ -105,8 +105,9 @@ class ConsumerProjectionTests(unittest.TestCase):
             capture_output=True,
             text=True,
         )
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("CONSUMER_PROJECTION_RELEASE_MATCH: PASS", result.stdout)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('"match": false', result.stdout)
+        self.assertIn(".gpt-codex/schemas/project-map.schema.json", result.stdout)
 
     def test_validate_consumer_projection_rejects_ambiguous_archive_layout(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -131,12 +132,14 @@ class ConsumerProjectionTests(unittest.TestCase):
 
     def test_cli_and_direct_api_use_equivalent_prefix_semantics(self):
         manifest = load_projection_manifest(ROOT)
-        zip_path = ROOT / "dist" / f"{CURRENT_PREFIX}.zip"
         with tempfile.TemporaryDirectory() as tmp:
             staging = Path(tmp) / "staging"
             stage_consumer_projection(ROOT, staging, manifest)
-            with zipfile.ZipFile(zip_path) as archive:
-                prefix = sorted({name.split("/", 1)[0] for name in archive.namelist() if name})[0]
+            zip_path = Path(tmp) / "projection.zip"
+            with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                for relative in build_consumer_inventory(ROOT, manifest):
+                    archive.writestr(f"{CURRENT_PREFIX}/{relative}", (staging / relative).read_bytes())
+            prefix = CURRENT_PREFIX
             direct = compare_projection_to_zip(staging, zip_path, prefix)
             cli = subprocess.run(
                 [
@@ -165,6 +168,26 @@ class ConsumerProjectionTests(unittest.TestCase):
             "DEVELOPMENT_HISTORY",
         )
         self.assertNotIn("**", manifest["paths"])
+
+    def test_manifest_classifies_v230_navigation_consumer_boundary(self):
+        manifest = load_projection_manifest(ROOT)
+        expected_consumer_paths = (
+            ".gpt-codex/schemas/project-map.schema.json",
+            ".gpt-codex/schemas/module-map.schema.json",
+            ".gpt-codex/schemas/resume.schema.json",
+            ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json",
+            ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json",
+            ".gpt-codex/project-template/continuity/RESUME.template.json",
+            ".gpt-codex/scripts/project_navigation.py",
+        )
+        for relative in expected_consumer_paths:
+            self.assertEqual(manifest["paths"][relative], "CONSUMER_REQUIRED")
+        self.assertEqual(
+            manifest["paths"][
+                ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-brief.md"
+            ],
+            "DEVELOPMENT_HISTORY",
+        )
 
     def test_unknown_non_local_path_is_excluded_and_fails_validation(self):
         with tempfile.TemporaryDirectory() as tmp:
