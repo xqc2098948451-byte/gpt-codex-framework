@@ -6,7 +6,12 @@
   "module_id": "example-module",
   "responsibility": "Replace with this module's verified responsibility.",
   "tracked_paths": ["src/example/"],
-  "key_files": ["src/example/index.ext"],
+  "key_files": [
+    {
+      "path": "src/example/index.ext",
+      "role": "Replace with this file's verified role."
+    }
+  ],
   "interfaces": [],
   "depends_on": [],
   "tests": [],

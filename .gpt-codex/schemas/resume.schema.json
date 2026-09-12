@@ -10,10 +10,12 @@
     "project_id",
     "project_context_id",
     "repository_id",
-    "checkpoint",
-    "working_set",
-    "next_required_reads",
-    "invalidated_context"
+    "context_sources",
+    "objective",
+    "decision",
+    "blocker",
+    "verification",
+    "working_set"
   ],
   "properties": {
     "schema_version": {"const": 1},
@@ -21,17 +23,21 @@
     "project_id": {"type": "string", "minLength": 1},
     "project_context_id": {"type": "string", "minLength": 1},
     "repository_id": {"type": ["string", "null"]},
-    "checkpoint": {"type": "object"},
+    "context_sources": {"type": "array"},
+    "objective": {"type": "string"},
+    "decision": {"type": ["string", "null"]},
+    "blocker": {"type": ["string", "null"]},
+    "verification": {"type": "array"},
     "working_set": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["hot_modules", "hot_files"],
+      "required": ["hot_modules", "hot_files", "next_required_reads", "invalidated_context"],
       "properties": {
         "hot_modules": {"type": "array", "items": {"type": "string"}},
-        "hot_files": {"type": "array", "items": {"type": "string"}}
+        "hot_files": {"type": "array", "items": {"type": "string"}},
+        "next_required_reads": {"type": "array", "items": {"type": "string"}},
+        "invalidated_context": {"type": "array", "items": {"type": "string"}}
       }
-    },
-    "next_required_reads": {"type": "array", "items": {"type": "string"}},
-    "invalidated_context": {"type": "array", "items": {"type": "string"}}
+    }
   }
 }

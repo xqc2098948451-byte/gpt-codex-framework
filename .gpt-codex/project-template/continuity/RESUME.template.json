@@ -4,11 +4,15 @@
   "project_id": "PRJ-EXAMPLE-001",
   "project_context_id": "GENERATE_DURING_BOOTSTRAP",
   "repository_id": null,
-  "checkpoint": {},
+  "context_sources": [],
+  "objective": "Replace with the current resumable objective.",
+  "decision": null,
+  "blocker": null,
+  "verification": [],
   "working_set": {
     "hot_modules": [],
-    "hot_files": []
-  },
-  "next_required_reads": [],
-  "invalidated_context": []
+    "hot_files": [],
+    "next_required_reads": [],
+    "invalidated_context": []
+  }
 }

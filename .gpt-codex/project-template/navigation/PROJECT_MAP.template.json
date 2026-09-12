@@ -13,7 +13,7 @@
       "paths": ["src/example/"],
       "entry_points": ["src/example/index.ext"],
       "keywords": ["example"],
-      "module_map": "navigation/modules/MODULE_MAP.example-module.json",
+      "module_map": ".gpt-codex/navigation/modules/MODULE_MAP.example-module.json",
       "verified_at_sha": null,
       "freshness": "UNKNOWN"
     }

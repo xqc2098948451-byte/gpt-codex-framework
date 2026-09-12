@@ -30,7 +30,18 @@
     "module_id": {"type": "string", "minLength": 1},
     "responsibility": {"type": "string"},
     "tracked_paths": {"type": "array", "items": {"type": "string"}},
-    "key_files": {"type": "array", "items": {"type": "string"}},
+    "key_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "role"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1}
+        }
+      }
+    },
     "interfaces": {"type": "array", "items": {"type": "string"}},
     "depends_on": {"type": "array", "items": {"type": "string"}},
     "tests": {"type": "array", "items": {"type": "string"}},

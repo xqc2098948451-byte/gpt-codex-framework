@@ -56,3 +56,51 @@ JSON: PASS (6 files)
 ## Concerns
 
 - The brief's literal `python -m unittest .gpt-codex/tests/test_navigation_schema.py -v` invocation is invalid on this Windows Python environment because the hidden `.gpt-codex` directory produces an empty dotted module component. The directly executable test-file form provides the requested focused RED/GREEN coverage.
+
+## Review-fix report
+
+### Findings fixed
+
+- Replaced the opaque Resume `checkpoint` object with the approved top-level `context_sources`, `objective`, `decision`, `blocker`, and `verification` fields.
+- Moved `next_required_reads` and `invalidated_context` into `working_set` in both the Resume schema and template, alongside `hot_modules` and `hot_files`.
+- Changed Module Map `key_files` to objects that require `path` and `role`; updated the template with the generic path/role record.
+- Corrected the Project Map module-map reference to `.gpt-codex/navigation/modules/MODULE_MAP.example-module.json`.
+- Extended the focused test to cover template authorities, Resume field nesting, unique required fields, key-file path/role routing, and the generated module-map loader path.
+
+### RED evidence
+
+```text
+python .gpt-codex/tests/test_navigation_schema.py -v
+FAIL: key_file_schema["type"] was "string", expected "object"
+FAIL: "context_sources" was missing from the Resume schema required fields
+```
+
+After the initial contract correction, the added unique-required-field regression assertion exposed a duplicate `working_set` entry:
+
+```text
+FAIL: 12 != 11
+```
+
+The explicit opaque-checkpoint regression was mutation-tested by temporarily restoring
+`checkpoint` to the Resume schema; the focused test failed with `AssertionError:
+'checkpoint' unexpectedly found`. The property was then removed and the suite returned to GREEN.
+
+### GREEN evidence
+
+```text
+python .gpt-codex/tests/test_navigation_schema.py -v
+Ran 3 tests in 0.005s
+OK
+
+python .gpt-codex/scripts/validate_framework.py
+RESULT: PASS
+BUILTINS: 12
+KERNEL_VERSION: 2.0.0
+CONTEXT_BINDING: PASS
+```
+
+### Review-fix scope and concerns
+
+- Kernel remains `2.0.0` and schema generation remains `1`.
+- No subagents or reviewers were dispatched.
+- The local Python environment does not provide the optional `jsonschema` package; the focused tests therefore verify the schema and template contract directly, consistent with the existing standard-library test suite.
