@@ -8,7 +8,13 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
 from context_binding import is_valid_project_context_id, required_guardrail_allows
+from continuity_resume import load_resume_checkpoint
 from publication_contract import validate_result_authority, validate_state_authority
+from project_navigation import (
+    load_module_map,
+    load_project_map,
+    validate_navigation_identity,
+)
 
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
@@ -49,6 +55,62 @@ def _cataloged_builtin(kind: str, extension_id: str) -> tuple[bool, str]:
 def load(path: Path):
     with path.open('r', encoding='utf-8') as f:
         return json.load(f)
+
+
+def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict) -> list[str]:
+    errors = []
+    try:
+        project_map = load_project_map(root)
+    except ValueError as exc:
+        errors.append(str(exc))
+        project_map = None
+    except TypeError:
+        errors.append('NAVIGATION_INVALID_SHAPE')
+        project_map = None
+    if project_map is not None:
+        try:
+            validate_navigation_identity(project_map, control)
+        except ValueError as exc:
+            errors.append(str(exc))
+        for module in project_map.get('modules', []):
+            if not isinstance(module, dict):
+                errors.append('NAVIGATION_MODULE_INVALID')
+                continue
+            module_id = module.get('id')
+            module_map_path = module.get('module_map')
+            if not isinstance(module_map_path, str):
+                errors.append('MODULE_MAP_PATH_INVALID')
+                continue
+            supplied_path = Path(module_map_path)
+            if (
+                supplied_path.is_absolute()
+                or '..' in supplied_path.parts
+                or supplied_path.suffix.lower() != '.json'
+            ):
+                errors.append(f'MODULE_MAP_PATH_INVALID:{module_map_path}')
+                continue
+            module_map_file = root / supplied_path
+            if not module_map_file.exists():
+                continue
+            try:
+                module_map = load_module_map(root, module_map_path)
+                validate_navigation_identity(module_map, control)
+            except ValueError as exc:
+                errors.append(str(exc))
+                continue
+            if module_map.get('module_id') != module_id:
+                errors.append('MODULE_MAP_ID_MISMATCH')
+    try:
+        checkpoint = load_resume_checkpoint(gov)
+    except ValueError as exc:
+        errors.append(str(exc))
+        checkpoint = None
+    if checkpoint is not None:
+        try:
+            validate_navigation_identity(checkpoint, control)
+        except ValueError as exc:
+            errors.append(str(exc))
+    return errors
 
 
 def main():
@@ -160,6 +222,7 @@ def main():
             durable_results[ref] = candidate
             errors += [f'RESULT {ref}: {error}' for error in validate_result_authority(candidate)]
     errors += [f'STATE: {error}' for error in validate_state_authority(state, durable_results)]
+    errors += validate_optional_navigation_and_resume(root, gov, control)
     # Validate project-local contracts if present.
     ext_root = gov / 'extensions'
     if ext_root.exists():
