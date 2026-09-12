@@ -158,6 +158,56 @@ class ProjectNavigationTests(unittest.TestCase):
         )
         self.assertIsNone(self.navigation.module_by_id(project_map, "missing"))
 
+    def test_path_belongs_to_module_matches_configured_path_prefix(self) -> None:
+        module = {"id": "auth", "paths": ["src/auth/", "tests/auth/"]}
+
+        self.assertTrue(
+            self.navigation.path_belongs_to_module("src/auth/session.ts", module)
+        )
+        self.assertFalse(
+            self.navigation.path_belongs_to_module("src/author/session.ts", module)
+        )
+
+    def test_affected_modules_returns_matching_module_ids(self) -> None:
+        project_map = {
+            "modules": [
+                {"id": "auth", "paths": ["src/auth/", "tests/auth/"]},
+                {"id": "billing", "paths": ["src/billing/"]},
+            ]
+        }
+
+        self.assertEqual(
+            ["auth"],
+            self.navigation.affected_modules(project_map, ["src/auth/session.ts"]),
+        )
+        self.assertEqual(
+            [], self.navigation.affected_modules(project_map, ["docs/unrelated.md"])
+        )
+
+    def test_module_map_read_paths_returns_requested_module_map_paths(self) -> None:
+        project_map = {
+            "modules": [
+                {"id": "auth", "module_map": "navigation/modules/auth.json"},
+                {"id": "billing", "module_map": "navigation/modules/billing.json"},
+            ]
+        }
+
+        self.assertEqual(
+            ["navigation/modules/billing.json", "navigation/modules/auth.json"],
+            self.navigation.module_map_read_paths(project_map, ["billing", "auth"]),
+        )
+
+    def test_classify_map_route_returns_expected_freshness_route(self) -> None:
+        self.assertEqual("MAP_HIT", self.navigation.classify_map_route(["auth"], []))
+        self.assertEqual(
+            "MAP_PARTIAL", self.navigation.classify_map_route(["auth"], ["auth"])
+        )
+        self.assertEqual("MAP_MISS", self.navigation.classify_map_route([], []))
+        self.assertEqual(
+            "MAP_MISSING",
+            self.navigation.classify_map_route([], [], map_exists=False),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

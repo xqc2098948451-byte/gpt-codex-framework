@@ -1,5 +1,5 @@
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 
@@ -85,3 +85,52 @@ def module_by_id(
     if len(matches) != 1:
         return None
     return matches[0]
+
+
+def _normalise_relative(value: str) -> str:
+    return PurePosixPath(value).as_posix().lstrip("./")
+
+
+def path_belongs_to_module(path: str, module: dict[str, Any]) -> bool:
+    candidate = _normalise_relative(path)
+    for raw_prefix in module.get("paths") or []:
+        prefix = _normalise_relative(raw_prefix).rstrip("/")
+        if candidate == prefix or candidate.startswith(prefix + "/"):
+            return True
+    return False
+
+
+def affected_modules(project_map: dict[str, Any], changed_paths: list[str]) -> list[str]:
+    module_ids = {
+        module_id
+        for module in project_map.get("modules", [])
+        if isinstance(module, dict)
+        and isinstance(module_id := module.get("id"), str)
+        and any(path_belongs_to_module(path, module) for path in changed_paths)
+    }
+    return sorted(module_ids)
+
+
+def module_map_read_paths(
+    project_map: dict[str, Any], module_ids: list[str]
+) -> list[str]:
+    paths = []
+    for module_id in module_ids:
+        module = module_by_id(project_map, module_id)
+        if module is not None and isinstance(module.get("module_map"), str):
+            paths.append(module["module_map"])
+    return paths
+
+
+def classify_map_route(
+    candidate_module_ids: list[str],
+    stale_module_ids: list[str],
+    map_exists: bool = True,
+) -> str:
+    if not map_exists:
+        return "MAP_MISSING"
+    if not candidate_module_ids:
+        return "MAP_MISS"
+    if set(candidate_module_ids).intersection(stale_module_ids):
+        return "MAP_PARTIAL"
+    return "MAP_HIT"
