@@ -29,6 +29,153 @@ class ContinuityResumeTests(unittest.TestCase):
             },
         }
 
+    def _write_json(self, root, relative_path, payload):
+        path = root / relative_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        return path
+
+    def _write_resume_navigation_fixture(self, root, *, with_map=True, with_checkpoint=True):
+        from continuity_resume import fingerprint_file
+
+        self._write_json(root, ".gpt-codex/CONTROL.json", {
+            "project_id": "P",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "github": {
+                "repository_id": "repo-a",
+                "repository_full_name": "owner/a",
+                "default_branch": "main",
+            },
+        })
+        self._write_json(root, ".gpt-codex/STATE.json", {
+            "project_id": "P",
+            "revision": 4,
+            "state": "VERIFYING",
+            "continuity": {
+                "current_remote_ref": "refs/heads/main",
+                "latest_verified_remote_sha": "p",
+                "latest_synced_state_revision": 4,
+                "last_verified_result_ref": None,
+                "sync_status": "SYNCED",
+            },
+        })
+
+        context_sources = []
+        if with_map:
+            project_map = self._write_json(root, ".gpt-codex/navigation/PROJECT_MAP.json", {
+                "schema_version": 1,
+                "authority": "DERIVED_NAVIGATION_INDEX",
+                "project_id": "P",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "repository_id": "repo-a",
+                "modules": [{
+                    "id": "auth",
+                    "paths": ["src/auth/"],
+                    "module_map": ".gpt-codex/navigation/modules/auth.json",
+                }],
+            })
+            auth_map = self._write_json(root, ".gpt-codex/navigation/modules/auth.json", {
+                "schema_version": 1,
+                "authority": "DERIVED_NAVIGATION_INDEX",
+                "project_id": "P",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "repository_id": "repo-a",
+            })
+            context_sources = [
+                {
+                    "path": ".gpt-codex/navigation/PROJECT_MAP.json",
+                    "fingerprint": fingerprint_file(project_map),
+                },
+                {
+                    "path": ".gpt-codex/navigation/modules/auth.json",
+                    "fingerprint": fingerprint_file(auth_map),
+                },
+            ]
+
+        if with_checkpoint:
+            checkpoint = self._resume_checkpoint(context_sources, hot_modules=["auth"])
+            checkpoint["working_set"]["hot_files"] = ["src/auth/session.ts"]
+            self._write_json(root, ".gpt-codex/continuity/RESUME.json", checkpoint)
+
+    def test_resume_uses_fast_route_when_navigation_and_checkpoint_are_fresh(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+
+            result = load_continuity_resume(root, "repo-a")
+
+            self.assertEqual(result["map_route"], "MAP_HIT")
+            self.assertEqual(result["resume_mode"], "FAST_RESUME")
+            self.assertEqual(result["candidate_modules"], ["auth"])
+            self.assertEqual(result["stale_modules"], [])
+            self.assertEqual(result["module_map_reads"], [])
+            self.assertEqual(result["required_reads"], [])
+            for path in (
+                ".gpt-codex/PROJECT.md",
+                ".gpt-codex/navigation/PROJECT_MAP.json",
+                ".gpt-codex/navigation/modules/auth.json",
+            ):
+                self.assertNotIn(path, result["required_reads"])
+
+    def test_resume_uses_delta_route_for_a_changed_candidate_module(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+
+            result = load_continuity_resume(
+                root,
+                "repo-a",
+                changed_paths=["src/auth/session.ts"],
+                candidate_module_ids=["auth"],
+            )
+
+            self.assertEqual(result["map_route"], "MAP_PARTIAL")
+            self.assertEqual(result["resume_mode"], "DELTA_RESUME")
+            self.assertEqual(result["stale_modules"], ["auth"])
+            self.assertIn(
+                ".gpt-codex/navigation/modules/auth.json",
+                result["module_map_reads"],
+            )
+            self.assertIn("src/auth/session.ts", result["required_reads"])
+
+    def test_resume_ignores_unrelated_changed_paths_for_candidate_modules(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(root)
+
+            result = load_continuity_resume(
+                root,
+                "repo-a",
+                changed_paths=["docs/unrelated.md"],
+                candidate_module_ids=["auth"],
+            )
+
+            self.assertEqual(result["stale_modules"], [])
+            self.assertNotIn("docs/unrelated.md", result["required_reads"])
+
+    def test_resume_uses_cold_route_when_navigation_and_checkpoint_are_missing(self):
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_resume_navigation_fixture(
+                root,
+                with_map=False,
+                with_checkpoint=False,
+            )
+
+            result = load_continuity_resume(root, "repo-a")
+
+            self.assertEqual(result["map_route"], "MAP_MISSING")
+            self.assertEqual(result["resume_mode"], "COLD_RESUME")
+            self.assertNotEqual(result["resume_mode"], "BOOTSTRAP")
+
     def test_load_resume_checkpoint_returns_none_when_checkpoint_is_absent(self):
         from continuity_resume import load_resume_checkpoint
 
