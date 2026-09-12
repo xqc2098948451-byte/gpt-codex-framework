@@ -9,6 +9,25 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_resume_marks_only_the_changed_shared_fixture_module_stale(self):
+        from continuity_resume import load_continuity_resume
+        from test_context_window_resume import GovernedProjectFixture
+
+        with tempfile.TemporaryDirectory() as td:
+            fixture = GovernedProjectFixture.write(Path(td))
+            result = load_continuity_resume(
+                fixture.root,
+                "repo-a",
+                changed_paths=["src/billing/invoice.ts"],
+                candidate_module_ids=["auth", "billing"],
+            )
+
+        self.assertEqual(result["stale_modules"], ["billing"])
+        self.assertEqual(
+            result["module_map_reads"],
+            [".gpt-codex/navigation/modules/billing.json"],
+        )
+
     def _resume_checkpoint(self, context_sources=None, hot_modules=None):
         return {
             "schema_version": 1,
