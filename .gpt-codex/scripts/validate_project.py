@@ -57,6 +57,66 @@ def load(path: Path):
         return json.load(f)
 
 
+def _matches_json_type(value, expected_type: str) -> bool:
+    if expected_type == 'object':
+        return isinstance(value, dict)
+    if expected_type == 'array':
+        return isinstance(value, list)
+    if expected_type == 'string':
+        return isinstance(value, str)
+    if expected_type == 'integer':
+        return isinstance(value, int) and not isinstance(value, bool)
+    if expected_type == 'number':
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    if expected_type == 'boolean':
+        return isinstance(value, bool)
+    if expected_type == 'null':
+        return value is None
+    return True
+
+
+def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
+    errors = []
+    expected = schema.get('type')
+    expected_types = expected if isinstance(expected, list) else [expected]
+    if expected and not any(_matches_json_type(value, item) for item in expected_types):
+        return [f'{path} must be {" or ".join(expected_types)}']
+    if 'const' in schema and value != schema['const']:
+        errors.append(f'{path} must equal {schema["const"]!r}')
+    if 'enum' in schema and value not in schema['enum']:
+        errors.append(f'{path} must be one of {schema["enum"]!r}')
+    if isinstance(value, str) and 'minLength' in schema and len(value) < schema['minLength']:
+        errors.append(f'{path} must not be empty')
+    if isinstance(value, dict):
+        properties = schema.get('properties') or {}
+        for required in schema.get('required') or []:
+            if required not in value:
+                errors.append(f'{path}.{required} is required')
+        if schema.get('additionalProperties') is False:
+            for key in value:
+                if key not in properties:
+                    errors.append(f'{path}.{key} is not allowed')
+        for key, child_schema in properties.items():
+            if key in value:
+                errors += _schema_shape_errors(value[key], child_schema, f'{path}.{key}')
+    if isinstance(value, list) and schema.get('items'):
+        for index, item in enumerate(value):
+            errors += _schema_shape_errors(item, schema['items'], f'{path}[{index}]')
+    return errors
+
+
+def _derived_schema_errors(payload: dict, schema_name: str) -> list[str]:
+    schema_path = FRAMEWORK_ROOT / '.gpt-codex' / 'schemas' / f'{schema_name}.schema.json'
+    try:
+        schema = load(schema_path)
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f'{schema_name.upper().replace("-", "_")}_SCHEMA_UNAVAILABLE:{exc}']
+    return [
+        f'{schema_name.upper().replace("-", "_")}_SCHEMA_INVALID:{error}'
+        for error in _schema_shape_errors(payload, schema)
+    ]
+
+
 def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict) -> list[str]:
     errors = []
     try:
@@ -68,6 +128,7 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
         errors.append('NAVIGATION_INVALID_SHAPE')
         project_map = None
     if project_map is not None:
+        errors += _derived_schema_errors(project_map, 'project-map')
         try:
             validate_navigation_identity(project_map, control)
         except ValueError as exc:
@@ -94,6 +155,7 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
                 continue
             try:
                 module_map = load_module_map(root, module_map_path)
+                errors += _derived_schema_errors(module_map, 'module-map')
                 validate_navigation_identity(module_map, control)
             except ValueError as exc:
                 errors.append(str(exc))
@@ -106,6 +168,7 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
         errors.append(str(exc))
         checkpoint = None
     if checkpoint is not None:
+        errors += _derived_schema_errors(checkpoint, 'resume')
         try:
             validate_navigation_identity(checkpoint, control)
         except ValueError as exc:

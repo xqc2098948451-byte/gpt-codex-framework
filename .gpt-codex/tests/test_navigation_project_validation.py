@@ -46,11 +46,23 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "authority": "DERIVED_NAVIGATION_INDEX",
             "project_id": "PROJECT-ONE",
             "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": None,
+            "anchor_sha": None,
+            "architecture_summary": "A project summary.",
             "modules": modules,
         }
 
     def _module(self, module_id="core", module_map=".gpt-codex/navigation/modules/core.json"):
-        return {"id": module_id, "module_map": module_map}
+        return {
+            "id": module_id,
+            "purpose": "Core behavior.",
+            "paths": ["src/core/"],
+            "entry_points": ["src/core/index.py"],
+            "keywords": ["core"],
+            "module_map": module_map,
+            "verified_at_sha": None,
+            "freshness": "UNKNOWN",
+        }
 
     def _module_map(self, module_id="core", project_id="PROJECT-ONE"):
         return {
@@ -59,6 +71,17 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "project_id": project_id,
             "project_context_id": "11111111-1111-4111-8111-111111111111",
             "module_id": module_id,
+            "responsibility": "Core behavior.",
+            "tracked_paths": ["src/core/"],
+            "key_files": [{"path": "src/core/index.py", "role": "Entry point."}],
+            "interfaces": [],
+            "depends_on": [],
+            "tests": [],
+            "configuration": [],
+            "data_models": [],
+            "read_when": [],
+            "verified_at_sha": None,
+            "freshness": "UNKNOWN",
         }
 
     def _validate(self, root):
@@ -91,6 +114,19 @@ class NavigationProjectValidationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("NAVIGATION_PROJECT_ID_MISMATCH", result.stdout)
 
+    def test_incomplete_identity_valid_project_map_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            project_map = self._project_map([])
+            del project_map["architecture_summary"]
+            self._write_json(root, ".gpt-codex/navigation/PROJECT_MAP.json", project_map)
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("PROJECT_MAP_SCHEMA_INVALID", result.stdout)
+
     def test_foreign_module_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -102,6 +138,20 @@ class NavigationProjectValidationTests(unittest.TestCase):
 
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("NAVIGATION_PROJECT_ID_MISMATCH", result.stdout)
+
+    def test_incomplete_identity_valid_module_map_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            self._write_json(root, ".gpt-codex/navigation/PROJECT_MAP.json", self._project_map([self._module()]))
+            module_map = self._module_map()
+            del module_map["responsibility"]
+            self._write_json(root, ".gpt-codex/navigation/modules/core.json", module_map)
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("MODULE_MAP_SCHEMA_INVALID", result.stdout)
 
     def test_duplicate_module_ids_are_rejected(self):
         with tempfile.TemporaryDirectory() as td:
@@ -168,6 +218,23 @@ class NavigationProjectValidationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("RESUME_CHECKPOINT_AUTHORITY_INVALID", result.stdout)
             self.assertEqual(state_path.read_text(encoding="utf-8"), state_before)
+
+    def test_incomplete_identity_valid_resume_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            self._write_json(root, ".gpt-codex/continuity/RESUME.json", {
+                "schema_version": 1,
+                "authority": "DERIVED_CACHE",
+                "project_id": "PROJECT-ONE",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "repository_id": None,
+            })
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("RESUME_SCHEMA_INVALID", result.stdout)
 
 
 if __name__ == "__main__":

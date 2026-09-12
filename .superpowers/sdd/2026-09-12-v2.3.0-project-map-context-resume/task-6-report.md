@@ -91,11 +91,52 @@ project (`PRJ-FRAMEWORK-MANAGEMENT`, `COMPLETE@revision-3`).
 - No Kernel or schema constants were changed: Kernel remains `2.0.0` and schema
   generation remains `1`.
 
+## Fix round 1
+
+Hooke identified that the first implementation checked only derived authority,
+version, and identity. Three new tests were added before the fix, each using an
+identity-valid, schema-version-1, derived-authority asset with required fields
+removed:
+
+- incomplete Project Map (missing `architecture_summary`)
+- incomplete referenced module map (missing `responsibility`)
+- incomplete Resume checkpoint (missing the required resume payload)
+
+RED evidence: the focused suite ran 11 tests and failed exactly these three
+new tests because the validator returned success for each incomplete asset.
+The failures were the intended behavior gap, not test collection or fixture
+errors.
+
+The smallest implementation adds a local validator for the JSON Schema features
+used by the existing Project Map, module-map, and Resume schemas: required
+fields, closed object shapes, constants/enums, string minimums, types, and
+array item shapes. It loads those existing schema files and is invoked only
+after the existing loaders accept a present asset. No loader, schema file,
+Kernel constant, STATE authority, discovery behavior, or Resume flow was
+changed.
+
+GREEN evidence:
+
+- Task 6 focused suite: 11 passed
+- Project navigation loader suite: 17 passed
+- Continuity/resume suite: 21 passed
+- Navigation schema suite: 3 passed
+- Context binding suite: 8 passed
+- Validator context-binding suite: 3 passed
+- Project context migration suite: 5 passed
+- Total relevant direct-file regression tests: 68 passed
+- `python .gpt-codex/scripts/validate_project.py .`: passed with
+  `COMPLETE@revision-3`
+- `git diff --check`: exited 0
+
+The report and the two Task 6 code files are the only files in the fix-round
+commit. The controller will update the ledger separately.
+
 ## Commit
 
-Pending the requested Task 6-only commit:
+Fix-round commit message:
 
-`feat: validate derived navigation and resume assets`
+`fix: validate derived navigation and resume asset shapes`
 
 ## Concerns
 
