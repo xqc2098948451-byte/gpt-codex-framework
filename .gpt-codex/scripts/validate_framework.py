@@ -184,12 +184,7 @@ def main():
         if 'PROJECT_CONTEXT_ID_MISSING' not in (ROOT/'.gpt-codex/MIGRATION_v2.0_to_v2.1.md').read_text(encoding='utf-8'):
             errors.append('migration guide missing PROJECT_CONTEXT_ID_MISSING')
     # Required human phrases/principles.
-    corpus = (
-        (ROOT/'AGENTS.md').read_text(encoding='utf-8')
-        + (ROOT/'.gpt-codex/KERNEL.md').read_text(encoding='utf-8')
-        + (ROOT/'.gpt-codex/README.md').read_text(encoding='utf-8')
-        + (ROOT/'.gpt-codex/BOOTSTRAP_PROMPT.md').read_text(encoding='utf-8')
-    )
+    corpus = (ROOT/'AGENTS.md').read_text(encoding='utf-8') + (ROOT/'.gpt-codex/KERNEL.md').read_text(encoding='utf-8') + (ROOT/'.gpt-codex/README.md').read_text(encoding='utf-8')
     phrases = [
         '【执行策略】', '【完成后是否需要批准】', 'Preinstalled does not mean enabled',
         'Generalize after repetition, not before', 'Framework upgrades are evaluated, not propagated',
@@ -197,13 +192,18 @@ def main():
         'Project is authoritative', 'Framework is advisory', 'Framework Kernel',
         'Framework Built-ins', 'READ ONLY', 'versioned snapshot', 'NO_ACTION',
         'OPTIONAL_REUSE', 'RECOMMENDED_UPGRADE', 'REQUIRED_MIGRATION', 'CONFLICT',
-        'remove the old versioned', 'add the fixed', 'save the Codex project configuration',
-        'A context-window transition is not a project bootstrap.',
-        'A maintenance request is not a repository rediscovery.',
-        'Do not scan the repository when the Project Map can identify the candidate module.'
+        'remove the old versioned', 'add the fixed', 'save the Codex project configuration'
     ]
     for x in phrases:
         if x.lower() not in corpus.lower(): errors.append(f'missing required principle/phrase: {x}')
+    bootstrap_prompt = (ROOT/'.gpt-codex/BOOTSTRAP_PROMPT.md').read_text(encoding='utf-8')
+    bootstrap_phrases = [
+        'A context-window transition is not a project bootstrap.',
+        'A maintenance request is not a repository rediscovery.',
+        'Do not scan the repository when the Project Map can identify the candidate module.',
+    ]
+    for phrase in bootstrap_phrases:
+        if phrase.lower() not in bootstrap_prompt.lower(): errors.append(f'missing required Bootstrap phrase: {phrase}')
     if errors:
         for e in errors: print('FAIL:', e)
         print(f'RESULT: FAIL ({len(errors)} errors)')

@@ -189,6 +189,22 @@ class ConsumerProjectionTests(unittest.TestCase):
             "DEVELOPMENT_HISTORY",
         )
 
+    def test_manifest_classifies_current_task9_review_artifacts_as_history(self):
+        manifest = load_projection_manifest(ROOT)
+        for relative in (
+            ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/review-0eccd66..cca699b.diff",
+            ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-9-report.md",
+        ):
+            self.assertEqual(manifest["paths"][relative], "DEVELOPMENT_HISTORY")
+
+    def test_framework_validator_reads_bootstrap_phrase_corpus_specifically(self):
+        validator = (SCRIPTS / "validate_framework.py").read_text(encoding="utf-8")
+        self.assertIn(
+            "bootstrap_prompt = (ROOT/'.gpt-codex/BOOTSTRAP_PROMPT.md').read_text(encoding='utf-8')",
+            validator,
+        )
+        self.assertIn("for phrase in bootstrap_phrases:", validator)
+
     def test_unknown_non_local_path_is_excluded_and_fails_validation(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
