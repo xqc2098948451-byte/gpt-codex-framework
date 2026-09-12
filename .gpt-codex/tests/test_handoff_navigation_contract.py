@@ -18,22 +18,22 @@ class HandoffNavigationContractTests(unittest.TestCase):
         )
 
         for hint in (
-            "PROJECT_MAP",
-            "MODULE_MAP",
-            "RESUME",
-            "MAP_HIT",
-            "MAP_PARTIAL",
-            "MAP_MISS",
+            "MAP_ROUTE",
+            "MAP_MODULES",
+            "MAP_STALE_MODULES",
             "MAP_MISSING",
-            "FAST_RESUME",
-            "DELTA_RESUME",
-            "COLD_RESUME",
-            "Git delta",
+            "RESUME_MODE",
+            "RESUME_CHECKPOINT_REVISION",
+            "RESUME_ANCHOR_SHA",
+            "HOT_MODULES",
+            "HOT_FILES",
+            "CONTEXT_INVALIDATED",
+            "NEXT_REQUIRED_READS",
         ):
             self.assertIn(hint, handoff)
 
-        self.assertIn("DERIVED_NAVIGATION_INDEX", handoff)
-        self.assertIn("DERIVED_CACHE", handoff)
+        self.assertIn("derived routing context only", handoff)
+        self.assertIn("must not override", handoff)
         for authority in (
             "CONTROL",
             "STATE",

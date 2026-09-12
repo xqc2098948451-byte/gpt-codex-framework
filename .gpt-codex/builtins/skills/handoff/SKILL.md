@@ -2,7 +2,7 @@
 
 Generate a compact view from `PROJECT.md`, `CONTROL.json`, `STATE.json`, the active Work Unit, the machine Result Envelope, and relevant Evidence. The Result Envelope is the authoritative structured fact source; Handoff and GPT Return Text are derived views and must never become competing sources of truth. A return-required envelope must carry `SOURCE_PROJECT_CONTEXT_ID`, `SOURCE_PROJECT_NAME`, and `FRAMEWORK_VERSION`, and GPT must verify the source identity before accepting it.
 
-When available, include the derived navigation/resume hints `PROJECT_MAP`, `MODULE_MAP`, `RESUME`, `MAP_HIT`, `MAP_PARTIAL`, `MAP_MISS`, `MAP_MISSING`, `FAST_RESUME`, `DELTA_RESUME`, `COLD_RESUME`, and the relevant `Git delta` to route the next read efficiently. `PROJECT_MAP` and `MODULE_MAP` are `DERIVED_NAVIGATION_INDEX`; `RESUME` is `DERIVED_CACHE`. These hints are derived routing context only and must not override CONTROL, STATE, Work Unit, Result, Evidence, source/tests, or Git/GitHub facts.
+When available, include these derived navigation/resume keys to route the next read efficiently: `MAP_ROUTE`, `MAP_MODULES`, `MAP_STALE_MODULES`, `MAP_MISSING`, `RESUME_MODE`, `RESUME_CHECKPOINT_REVISION`, `RESUME_ANCHOR_SHA`, `HOT_MODULES`, `HOT_FILES`, `CONTEXT_INVALIDATED`, and `NEXT_REQUIRED_READS`. These keys are derived routing context only and must not override CONTROL, STATE, Work Unit, Result, Evidence, source/tests, or Git/GitHub facts.
 
 When `Return To GPT Required = YES`, Codex's final output must include one independent, self-contained plain-text GPT Return Text generated from that Result Envelope. It must be directly copyable and must contain the complete stable sections:
 
