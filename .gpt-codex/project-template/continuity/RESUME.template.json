@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "authority": "DERIVED_CACHE",
+  "project_id": "PRJ-EXAMPLE-001",
+  "project_context_id": "GENERATE_DURING_BOOTSTRAP",
+  "repository_id": null,
+  "checkpoint": {},
+  "working_set": {
+    "hot_modules": [],
+    "hot_files": []
+  },
+  "next_required_reads": [],
+  "invalidated_context": []
+}

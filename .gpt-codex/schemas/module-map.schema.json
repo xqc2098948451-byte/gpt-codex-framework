@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/module-map-v1",
+  "title": "GPT-Codex Module Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority",
+    "project_id",
+    "project_context_id",
+    "module_id",
+    "responsibility",
+    "tracked_paths",
+    "key_files",
+    "interfaces",
+    "depends_on",
+    "tests",
+    "configuration",
+    "data_models",
+    "read_when",
+    "verified_at_sha",
+    "freshness"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "authority": {"const": "DERIVED_NAVIGATION_INDEX"},
+    "project_id": {"type": "string", "minLength": 1},
+    "project_context_id": {"type": "string", "minLength": 1},
+    "module_id": {"type": "string", "minLength": 1},
+    "responsibility": {"type": "string"},
+    "tracked_paths": {"type": "array", "items": {"type": "string"}},
+    "key_files": {"type": "array", "items": {"type": "string"}},
+    "interfaces": {"type": "array", "items": {"type": "string"}},
+    "depends_on": {"type": "array", "items": {"type": "string"}},
+    "tests": {"type": "array", "items": {"type": "string"}},
+    "configuration": {"type": "array", "items": {"type": "string"}},
+    "data_models": {"type": "array", "items": {"type": "string"}},
+    "read_when": {"type": "array", "items": {"type": "string"}},
+    "verified_at_sha": {"type": ["string", "null"]},
+    "freshness": {"enum": ["VERIFIED", "STALE", "UNKNOWN"]}
+  }
+}

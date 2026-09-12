@@ -50,6 +50,12 @@ def main():
         , ROOT/'.gpt-codex/builtins/skills/github-project-continuity/SKILL.md'
         , ROOT/'.gpt-codex/builtins/guardrails/cross-project-context-binding/manifest.json'
         , ROOT/'.gpt-codex/builtins/guardrails/cross-project-context-binding/GUARDRAIL.md'
+        , ROOT/'.gpt-codex/schemas/project-map.schema.json'
+        , ROOT/'.gpt-codex/schemas/module-map.schema.json'
+        , ROOT/'.gpt-codex/schemas/resume.schema.json'
+        , ROOT/'.gpt-codex/project-template/navigation/PROJECT_MAP.template.json'
+        , ROOT/'.gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json'
+        , ROOT/'.gpt-codex/project-template/continuity/RESUME.template.json'
     ]
     for p in required_files:
         if not p.exists(): errors.append(f'missing {p.relative_to(ROOT)}')
@@ -103,6 +109,18 @@ def main():
         try: obj = load(p)
         except Exception as e: errors.append(f'{name} template invalid JSON: {e}'); continue
         errors += [f'{name}: {e}' for e in check_common_version(obj)]
+    for filename, schema_id in [
+        ('project-map.schema.json', 'gpt-codex/project-map-v1'),
+        ('module-map.schema.json', 'gpt-codex/module-map-v1'),
+        ('resume.schema.json', 'gpt-codex/resume-v1'),
+    ]:
+        try:
+            schema = load(ROOT/'.gpt-codex/schemas'/filename)
+        except Exception as e:
+            errors.append(f'{filename} invalid JSON: {e}')
+            continue
+        if schema.get('$id') != schema_id:
+            errors.append(f'{filename} schema id must be {schema_id}')
     # Framework-management-only project extension. It must not leak into Built-ins.
     release_manifest_path = ROOT/'.gpt-codex/extensions/skills/framework-release/manifest.json'
     if release_manifest_path.exists():

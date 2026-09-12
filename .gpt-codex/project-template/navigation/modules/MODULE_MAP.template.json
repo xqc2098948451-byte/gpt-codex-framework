@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "authority": "DERIVED_NAVIGATION_INDEX",
+  "project_id": "PRJ-EXAMPLE-001",
+  "project_context_id": "GENERATE_DURING_BOOTSTRAP",
+  "module_id": "example-module",
+  "responsibility": "Replace with this module's verified responsibility.",
+  "tracked_paths": ["src/example/"],
+  "key_files": ["src/example/index.ext"],
+  "interfaces": [],
+  "depends_on": [],
+  "tests": [],
+  "configuration": [],
+  "data_models": [],
+  "read_when": [],
+  "verified_at_sha": null,
+  "freshness": "UNKNOWN"
+}

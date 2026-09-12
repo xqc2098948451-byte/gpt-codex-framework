@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/project-map-v1",
+  "title": "GPT-Codex Project Map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority",
+    "project_id",
+    "project_context_id",
+    "repository_id",
+    "anchor_sha",
+    "architecture_summary",
+    "modules"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "authority": {"const": "DERIVED_NAVIGATION_INDEX"},
+    "project_id": {"type": "string", "minLength": 1},
+    "project_context_id": {"type": "string", "minLength": 1},
+    "repository_id": {"type": ["string", "null"]},
+    "anchor_sha": {"type": ["string", "null"]},
+    "architecture_summary": {"type": "string"},
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "purpose",
+          "paths",
+          "entry_points",
+          "keywords",
+          "module_map",
+          "verified_at_sha",
+          "freshness"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "purpose": {"type": "string"},
+          "paths": {"type": "array", "items": {"type": "string"}},
+          "entry_points": {"type": "array", "items": {"type": "string"}},
+          "keywords": {"type": "array", "items": {"type": "string"}},
+          "module_map": {"type": "string", "minLength": 1},
+          "verified_at_sha": {"type": ["string", "null"]},
+          "freshness": {"enum": ["VERIFIED", "STALE", "UNKNOWN"]}
+        }
+      }
+    }
+  }
+}

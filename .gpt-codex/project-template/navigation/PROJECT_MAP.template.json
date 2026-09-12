@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "authority": "DERIVED_NAVIGATION_INDEX",
+  "project_id": "PRJ-EXAMPLE-001",
+  "project_context_id": "GENERATE_DURING_BOOTSTRAP",
+  "repository_id": null,
+  "anchor_sha": null,
+  "architecture_summary": "Replace with a concise, verified architecture summary.",
+  "modules": [
+    {
+      "id": "example-module",
+      "purpose": "Replace with this module's verified responsibility.",
+      "paths": ["src/example/"],
+      "entry_points": ["src/example/index.ext"],
+      "keywords": ["example"],
+      "module_map": "navigation/modules/MODULE_MAP.example-module.json",
+      "verified_at_sha": null,
+      "freshness": "UNKNOWN"
+    }
+  ]
+}
