@@ -42,6 +42,36 @@
     "framework_version": {
       "type": ["string", "null"]
     },
+    "result_message_type": {
+      "type": "string",
+      "enum": ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT"]
+    },
+    "response_to_instruction_id": { "type": ["string", "null"], "format": "uuid" },
+    "responder_role": {
+      "type": ["string", "null"],
+      "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY", null]
+    },
+    "return_role": {
+      "type": ["string", "null"],
+      "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY", null]
+    },
+    "review_target_revision": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$" },
+    "finding_ids": { "type": ["array", "null"], "maxItems": 50, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "fix_round": { "type": ["integer", "null"], "minimum": 0 },
+    "remediation_decision_ref": { "type": ["string", "null"], "minLength": 1 },
+    "protocol_error": { "type": ["string", "null"], "enum": ["INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT", null] },
+    "role_observation": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "role": { "type": "string" },
+        "action": { "type": "string" },
+        "decision": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "artifact_stage": { "type": ["string", "null"], "enum": ["DESIGN", "PLAN", "IMPLEMENTATION", null] },
+    "artifact_path": { "type": ["string", "null"], "minLength": 1 },
     "source_github_repository_id": { "type": ["string", "null"] },
     "source_github_repository_full_name": { "type": ["string", "null"] },
     "current_remote_ref": { "type": ["string", "null"] },
@@ -112,6 +142,16 @@
     }
   },
   "allOf": [
+    {
+      "not": { "required": ["message_type"] }
+    },
+    {
+      "if": {
+        "properties": { "result_message_type": { "enum": ["EXECUTION_INSTRUCTION", "REVIEW_REQUEST", "FIX_INSTRUCTION", "APPROVAL_REQUEST", "RECONCILIATION_REQUEST", "INFORMATION_ONLY", "PROJECT_CONTEXT_BOOTSTRAP", "WORK_UNIT", "IMPLEMENTATION"] } },
+        "required": ["result_message_type"]
+      },
+      "then": { "not": {} }
+    },
     {
       "if": {
         "properties": {"status": {"const": "PASS"}},

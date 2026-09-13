@@ -13,6 +13,18 @@ class ResultContractSchemaTests(unittest.TestCase):
         self.assertEqual(schema["properties"]["kernel_version"]["const"], "2.0.0")
         self.assertEqual(schema["properties"]["schema_version"]["const"], 1)
         for field in (
+            "result_message_type",
+            "response_to_instruction_id",
+            "responder_role",
+            "return_role",
+            "review_target_revision",
+            "finding_ids",
+            "fix_round",
+            "remediation_decision_ref",
+            "protocol_error",
+            "role_observation",
+            "artifact_stage",
+            "artifact_path",
             "publication_authority",
             "return_to_gpt_required",
             "state_revision",
@@ -28,6 +40,16 @@ class ResultContractSchemaTests(unittest.TestCase):
             "next_gpt_action",
         ):
             self.assertIn(field, schema["properties"])
+        self.assertNotIn("message_type", schema["properties"])
+        self.assertEqual(
+            schema["properties"]["result_message_type"]["enum"],
+            ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT"],
+        )
+
+    def test_result_type_is_not_instruction_type_and_generic_message_type_is_rejected(self):
+        schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))
+        self.assertTrue(any("message_type" in item.get("not", {}).get("required", []) for item in schema.get("allOf", [])))
+        self.assertTrue(any(item.get("if", {}).get("properties", {}).get("result_message_type", {}).get("enum") for item in schema.get("allOf", [])))
 
     def test_template_contains_a_complete_return_contract_example(self):
         template = json.loads(
@@ -36,6 +58,18 @@ class ResultContractSchemaTests(unittest.TestCase):
 
         self.assertTrue(template["return_to_gpt_required"])
         for field in (
+            "result_message_type",
+            "response_to_instruction_id",
+            "responder_role",
+            "return_role",
+            "review_target_revision",
+            "finding_ids",
+            "fix_round",
+            "remediation_decision_ref",
+            "protocol_error",
+            "role_observation",
+            "artifact_stage",
+            "artifact_path",
             "publication_authority",
             "state_revision",
             "execution",
@@ -50,6 +84,7 @@ class ResultContractSchemaTests(unittest.TestCase):
             "next_gpt_action",
         ):
             self.assertIn(field, template)
+        self.assertNotIn("message_type", template)
 
     def test_schema_has_mechanical_publication_conditionals(self):
         schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))

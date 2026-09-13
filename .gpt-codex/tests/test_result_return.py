@@ -16,6 +16,18 @@ def envelope(status="PASS"):
         "work_unit_id": "WORK-012",
         "extension": {"kind": "SKILL", "id": "verification", "version": "1.0.0"},
         "status": status,
+        "result_message_type": "IMPLEMENTATION_RESULT" if status == "PASS" else "REVIEW_FINDING",
+        "response_to_instruction_id": "11111111-1111-4111-8111-111111111111",
+        "responder_role": "CODEX_IMPLEMENTER" if status == "PASS" else "CODEX_REVIEWER",
+        "return_role": "GPT_ORCHESTRATOR",
+        "review_target_revision": "a" * 40,
+        "finding_ids": [] if status == "PASS" else ["RCP-001"],
+        "fix_round": 0,
+        "remediation_decision_ref": "DECISION-001" if status != "PASS" else None,
+        "protocol_error": None,
+        "role_observation": {"role": "CODEX_IMPLEMENTER"},
+        "artifact_stage": "IMPLEMENTATION",
+        "artifact_path": ".gpt-codex/scripts/example.py",
         "evidence_refs": ["EVIDENCE-001"],
         "completion_gate": "GPT_DECISION",
         "return_to_gpt_required": True,
@@ -122,6 +134,18 @@ class ResultReturnTests(unittest.TestCase):
         value["return_to_gpt_required"] = False
 
         self.assertEqual(render_gpt_return(value), "")
+
+    def test_role_and_result_labels_are_derived_without_generic_message_type(self):
+        value = envelope("FAIL")
+        rendered = render_gpt_return(value)
+
+        self.assertIn("RESULT_MESSAGE_TYPE: REVIEW_FINDING", rendered)
+        self.assertIn("RESPONDER_ROLE: CODEX_REVIEWER", rendered)
+        self.assertIn("RETURN_ROLE: GPT_ORCHESTRATOR", rendered)
+        self.assertIn("REVIEW_TARGET_REVISION: " + "a" * 40, rendered)
+        self.assertIn("ARTIFACT_STAGE: IMPLEMENTATION", rendered)
+        self.assertIn("ARTIFACT_PATH: .gpt-codex/scripts/example.py", rendered)
+        self.assertNotIn("\nMESSAGE_TYPE:", "\n" + rendered)
 
 
 if __name__ == "__main__":

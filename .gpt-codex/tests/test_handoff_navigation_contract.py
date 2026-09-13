@@ -47,7 +47,7 @@ class HandoffNavigationContractTests(unittest.TestCase):
 
         self.assertEqual(manifest["kernel_version"], "2.0.0")
         self.assertEqual(manifest["schema_version"], 1)
-        self.assertEqual(manifest["version"], "1.2.0")
+        self.assertEqual(manifest["version"], "1.3.0")
         self.assertEqual(manifest["permissions"], {
             "project_read": "ALLOW",
             "project_write": "DENY",
