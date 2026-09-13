@@ -34,6 +34,33 @@ def _local_script_imports(path: Path, script_names: set[str]) -> set[str]:
 
 
 class ConsumerRuntimeClosureTests(unittest.TestCase):
+    def test_framework_module_management_assets_are_not_consumer_required(self):
+        manifest = load_projection_manifest(ROOT)
+        expected_management_paths = [
+            ".gpt-codex/scripts/framework_module_routing.py",
+            *[
+                f".gpt-codex/framework-modules/modules/{module_id}.json"
+                for module_id in (
+                    "framework-core",
+                    "identity-context",
+                    "role-communication",
+                    "navigation-continuity",
+                    "git-continuity",
+                    "release-projection",
+                    "framework-validation",
+                )
+            ],
+        ]
+        for relative in expected_management_paths:
+            self.assertEqual(manifest["paths"].get(relative), "MANAGEMENT_ONLY")
+        inventory = {
+            relative
+            for relative, classification in manifest["paths"].items()
+            if classification == "CONSUMER_REQUIRED"
+        }
+        for relative in expected_management_paths:
+            self.assertNotIn(relative, inventory)
+
     def test_role_protocol_runtime_helper_is_projected_and_importable(self):
         manifest = load_projection_manifest(ROOT)
         self.assertEqual(

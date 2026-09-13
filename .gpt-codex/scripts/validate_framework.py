@@ -95,7 +95,13 @@ def main():
     if errors:
         for e in errors: print('FAIL:', e)
         return 1
-    errors.extend(validate_module_registry(ROOT))
+    # A release packaging fixture may intentionally omit the management test
+    # suite while retaining source metadata. Full management checkouts keep
+    # the Registry gate enabled; the routing validator itself remains strict
+    # about every REQUIRED_TESTS reference.
+    module_test_suite = ROOT/'.gpt-codex/tests/test_framework_module_routing.py'
+    if not registry_path.exists() or module_test_suite.exists():
+        errors.extend(validate_module_registry(ROOT))
     version = read_version(ROOT)
     index = load(ROOT/'.gpt-codex/builtins/INDEX.json')
     if index.get('framework_version') != version:

@@ -92,6 +92,37 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_manifest_classifies_framework_module_management_boundary(self):
+        manifest = load_projection_manifest(ROOT)
+        expected_management_paths = {
+            "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md": "DEVELOPMENT_HISTORY",
+            "docs/superpowers/plans/2026-09-13-framework-modular-architecture-routing.md": "DEVELOPMENT_HISTORY",
+            ".gpt-codex/framework-modules/REGISTRY.json": "MANAGEMENT_ONLY",
+            ".gpt-codex/schemas/framework-module-registry.schema.json": "MANAGEMENT_ONLY",
+            ".gpt-codex/schemas/framework-module.schema.json": "MANAGEMENT_ONLY",
+            ".gpt-codex/scripts/framework_module_routing.py": "MANAGEMENT_ONLY",
+            ".gpt-codex/tests/test_framework_module_schemas.py": "MANAGEMENT_ONLY",
+            ".gpt-codex/tests/test_framework_module_routing.py": "MANAGEMENT_ONLY",
+            ".gpt-codex/tests/test_framework_module_validation.py": "MANAGEMENT_ONLY",
+        }
+        for module_id in (
+            "framework-core",
+            "identity-context",
+            "role-communication",
+            "navigation-continuity",
+            "git-continuity",
+            "release-projection",
+            "framework-validation",
+        ):
+            expected_management_paths[
+                f".gpt-codex/framework-modules/modules/{module_id}.json"
+            ] = "MANAGEMENT_ONLY"
+        for path, classification in expected_management_paths.items():
+            self.assertEqual(manifest["paths"].get(path), classification)
+        audit = audit_projection_paths(ROOT, manifest)
+        self.assertEqual(audit["unknown_paths"], [])
+        self.assertEqual(audit["missing_required_paths"], [])
+
     def test_validate_consumer_projection_rejects_stale_canonical_archive(self):
         with tempfile.TemporaryDirectory() as tmp:
             archive_path = Path(tmp) / "stale.zip"
