@@ -81,7 +81,7 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
 
 **Files:** `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_framework_project_separation.py`
 
-- [ ] **Step 1: Add failing tests.** Add `test_identity_precedence_ignores_project_name_and_framework_version`, `test_malformed_control_identity_returns_project_identity_invalid`, `test_same_name_different_context_returns_cross_project_context_mismatch`, `test_matching_project_context_is_positively_accepted`, and `test_framework_root_is_never_project_authority`. Use a valid v2.5.0 CONTROL fixture; change only project name/Framework version in the precedence test; assert `ALLOW` for matching identity, `CROSS_PROJECT_CONTEXT_MISMATCH` for a different context, and `PROJECT_IDENTITY_INVALID` with `hard_stop is True` for malformed CONTROL.
+- [ ] **Step 1: Add failing tests.** Add `test_valid_control_contains_current_required_keys`, `test_identity_precedence_ignores_project_name_and_framework_version`, `test_malformed_control_identity_returns_project_identity_invalid`, `test_same_name_different_context_returns_cross_project_context_mismatch`, `test_matching_project_context_is_positively_accepted`, and `test_framework_root_is_never_project_authority`. Use the schema-valid v2.5.0 CONTROL fixture below; change only project name/Framework version in the precedence test; assert `ALLOW` for matching identity without mutation authority, `CROSS_PROJECT_CONTEXT_MISMATCH` for a different context, and `PROJECT_IDENTITY_INVALID` with `hard_stop is True` for malformed CONTROL.
 
   ~~~python
   VALID_CONTEXT_ID = "11111111-1111-4111-8111-111111111111"
@@ -89,34 +89,88 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
 
   def valid_control() -> dict[str, object]:
       return {
+          "kernel_version": "2.0.0",
+          "schema_version": 1,
           "project_id": "PRJ-001",
           "project_context_id": VALID_CONTEXT_ID,
           "project_name": "Example Project",
-          "framework": {
-              "adopted_version": "2.5.0",
-              "last_evaluated_version": "2.5.0",
-              "evaluation_result": "NO_ACTION",
-          },
           "github": {
               "repository_id": "123",
               "repository_full_name": "owner/repo",
               "default_branch": "main",
+          },
+          "governance_profile": "STANDARD",
+          "framework": {
+              "adopted_version": "2.5.0",
+              "last_evaluated_version": "2.5.0",
+              "evaluation_result": "NO_ACTION",
           },
           "roots": {
               "project_role": "AUTHORITATIVE",
               "framework_role": "ADVISORY",
               "framework_kernel_access": "READ_ONLY",
               "framework_builtins_access": "READ_ONLY",
+              "harvest_namespace": "PRJ-001",
           },
           "extensions": {
-              "guardrails": [{
-                  "id": "cross-project-context-binding",
-                  "source": "builtin",
-                  "version": "1.0.0",
-                  "enabled": True,
-              }]
+              "skills": [],
+              "guardrails": [
+                  {
+                      "id": "cross-project-context-binding",
+                      "source": "builtin",
+                      "version": "1.0.0",
+                      "enabled": True,
+                  },
+                  {
+                      "id": "github-repository-binding",
+                      "source": "builtin",
+                      "version": "1.0.0",
+                      "enabled": True,
+                  },
+              ],
+              "fitness": [],
+          },
+          "permissions": {
+              "production_access": "DENY",
+              "destructive_operations": "APPROVAL_REQUIRED",
+              "framework_kernel_write": "DENY",
+              "framework_builtin_write": "DENY",
+              "harvest_own_namespace_write": "ALLOW",
+              "harvest_other_namespace_write": "DENY",
+          },
+          "complexity": {
+              "default_decision": "DO_NOT_ADD",
+              "reuse_before_extension": True,
+              "degrade_before_extend": True,
+              "generalize_after_repetition": True,
           },
       }
+
+  def test_valid_control_contains_current_required_keys(self):
+      control = valid_control()
+      for key in (
+          "kernel_version", "schema_version", "project_id", "governance_profile",
+          "framework", "roots", "extensions", "permissions", "complexity",
+      ):
+          self.assertIn(key, control)
+      for key in ("project_context_id", "project_name"):
+          self.assertIn(key, control)
+      self.assertEqual(
+          set(control["framework"]),
+          {"adopted_version", "last_evaluated_version", "evaluation_result"},
+      )
+      self.assertEqual(
+          set(control["github"]),
+          {"repository_id", "repository_full_name", "default_branch"},
+      )
+      self.assertEqual(
+          set(control["roots"]),
+          {
+              "project_role", "framework_role", "framework_kernel_access",
+              "framework_builtins_access", "harvest_namespace",
+          },
+      )
+      self.assertEqual(set(control["extensions"]), {"skills", "guardrails", "fitness"})
 
   def test_identity_precedence_ignores_project_name_and_framework_version(self):
       control = valid_control()
@@ -130,6 +184,8 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
       )
       self.assertEqual(decision.decision, "ALLOW")
       self.assertTrue(decision.identity_match)
+      self.assertFalse(decision.current_project_mutation)
+      self.assertFalse(decision.action_executable)
 
   def test_malformed_control_identity_returns_project_identity_invalid(self):
       control = valid_control()
@@ -153,7 +209,7 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
           expected_project_context_id=VALID_CONTEXT_ID,
       )
       self.assertEqual(decision.decision, "ALLOW")
-      self.assertTrue(decision.action_executable)
+      self.assertFalse(decision.action_executable)
   ~~~
 - [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected RED: `ProjectIdentity`, `load_project_identity`, and the canonical decision path do not yet exist; the old instruction mismatch assertion still reports `CROSS_PROJECT_INSTRUCTION_MISMATCH`.
 - [ ] **Step 3: Implement the minimum behavior.** In `context_binding.py`, add frozen `ProjectIdentity` fields `project_id`, `project_context_id`, `repository_id`, `repository_full_name`, `default_branch`, `project_root`, `framework_root`, `management`, `project_role`, and `framework_role`. Add `load_project_identity(control, *, project_root=None, framework_root=None) -> ProjectIdentity` and `evaluate_project_identity(control, *, expected_project_id=None, expected_project_context_id=None, expected_repository_id=None, expected_repository_full_name=None) -> ContextDecision`. Validate existing fields only; malformed authoritative data raises `ValueError("PROJECT_IDENTITY_INVALID")`. Update instruction/return/bootstrap evaluation to use this path before freshness and role checks, with context mismatch normalized to `CROSS_PROJECT_CONTEXT_MISMATCH`.
@@ -239,8 +295,9 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
           "IDENTITY_MATCH",
           identity_match=True,
           freshness_match=True,
-          action_executable=True,
-          authority="CURRENT_PROJECT_PATH",
+          current_project_mutation=False,
+          action_executable=False,
+          authority="IDENTITY_VALIDATION",
       )
   ~~~
 - [ ] **Step 4: Run GREEN.** Run both Step 2 commands. Expected GREEN: all identity tests pass, matching context returns `ALLOW`, and no test emits `CROSS_PROJECT_INSTRUCTION_MISMATCH` for a context boundary.
@@ -308,14 +365,19 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
 
 **Files:** `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/tests/test_framework_project_separation.py`, `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_consumer_workspace.py`
 
-- [ ] **Step 1: Add failing tests.** Add `test_project_authority_boundary_rejects_framework_write`, `test_compatibility_evaluation_returns_exact_classification_without_mutation`, `test_compatibility_result_does_not_authorize_adoption`, `test_conflict_is_read_only_and_cannot_be_adopted`, `test_foreign_work_unit_project_binding_returns_cross_project_context_mismatch`, `test_foreign_result_context_returns_cross_project_context_mismatch`, `test_matching_result_context_is_accepted`, `test_matching_evidence_project_id_is_accepted`, `test_foreign_evidence_project_id_returns_project_identity_invalid`, `test_evidence_validation_does_not_mutate_project_state`, `test_evidence_cannot_grant_adoption_authority`, `test_matching_project_context_and_repository_are_accepted`, and `test_valid_repository_binding_remains_valid`. Put Result Envelope tests in existing `test_context_binding.py` and Evidence tests in the new focused test file. Snapshot CONTROL before/after evaluation and assert byte-equivalent JSON.
+- [ ] **Step 1: Add failing tests.** Add `test_project_authority_boundary_rejects_framework_write`, `test_project_read_is_allowed_but_does_not_authorize_mutation`, `test_project_write_requires_separate_authorization`, `test_unknown_framework_operation_fails_closed`, `test_adopt_is_not_authorized_by_identity_boundary`, `test_compatibility_evaluation_returns_exact_classification_without_mutation`, `test_compatibility_result_does_not_authorize_adoption`, `test_conflict_is_read_only_and_cannot_be_adopted`, `test_foreign_work_unit_project_binding_returns_cross_project_context_mismatch`, `test_foreign_result_context_returns_cross_project_context_mismatch`, `test_matching_result_context_is_accepted`, `test_result_matching_repository_id_but_contradictory_full_name_is_denied`, `test_result_matching_repository_id_with_missing_full_name_is_allowed`, `test_matching_evidence_project_id_is_accepted`, `test_foreign_evidence_project_id_returns_project_identity_invalid`, `test_evidence_validation_does_not_mutate_project_state`, `test_evidence_cannot_grant_adoption_authority`, `test_matching_project_context_and_repository_are_accepted`, and `test_valid_repository_binding_remains_valid`. Put Result Envelope tests in existing `test_context_binding.py` and Evidence tests in the new focused test file. Snapshot CONTROL before/after evaluation and assert byte-equivalent JSON.
 
   ~~~python
-  def complete_result(source_context_id: str) -> dict[str, object]:
+  def complete_result(
+      source_context_id: str,
+      *,
+      repository_id: str = "123",
+      repository_full_name: str | None = "owner/repo",
+  ) -> dict[str, object]:
       return {
           "source_project_context_id": source_context_id,
-          "source_github_repository_id": "123",
-          "source_github_repository_full_name": "owner/repo",
+          "source_github_repository_id": repository_id,
+          "source_github_repository_full_name": repository_full_name,
           "status": "PASS",
           "work_unit_id": "WU-001",
           "state_revision": 6,
@@ -342,6 +404,35 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
       )
       self.assertEqual(decision.decision, "ALLOW")
       self.assertTrue(decision.action_executable)
+
+  def test_result_matching_repository_id_but_contradictory_full_name_is_denied(self):
+      decision = evaluate_return(
+          complete_result(
+              VALID_CONTEXT_ID,
+              repository_id="123",
+              repository_full_name="other/repo",
+          ),
+          active_context_id=VALID_CONTEXT_ID,
+          current_state_revision=6,
+          project_control=valid_control(),
+          local_repository_id="123",
+      )
+      self.assertEqual(decision.decision, "DENY")
+      self.assertEqual(decision.reason, "GITHUB_REPOSITORY_MISMATCH")
+
+  def test_result_matching_repository_id_with_missing_full_name_is_allowed(self):
+      decision = evaluate_return(
+          complete_result(
+              VALID_CONTEXT_ID,
+              repository_id="123",
+              repository_full_name=None,
+          ),
+          active_context_id=VALID_CONTEXT_ID,
+          current_state_revision=6,
+          project_control=valid_control(),
+          local_repository_id="123",
+      )
+      self.assertEqual(decision.decision, "ALLOW")
 
   def test_foreign_evidence_project_id_is_rejected(self):
       evidence = {
@@ -419,6 +510,57 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
       self.assertEqual(decision.reason, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
       self.assertTrue(decision.hard_stop)
 
+  def test_project_read_is_allowed_but_does_not_authorize_mutation(self):
+      identity = load_project_identity(valid_control())
+      decision = evaluate_project_authority_boundary(
+          identity,
+          source="project",
+          operation="READ",
+      )
+      self.assertEqual(decision.decision, "ALLOW")
+      self.assertFalse(decision.current_project_mutation)
+      self.assertFalse(decision.action_executable)
+
+  def test_project_write_requires_separate_authorization(self):
+      identity = load_project_identity(valid_control())
+      decision = evaluate_project_authority_boundary(
+          identity,
+          source="project",
+          operation="WRITE",
+      )
+      self.assertEqual(decision.decision, "DENY")
+      self.assertEqual(
+          decision.reason,
+          "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+      )
+      self.assertFalse(decision.action_executable)
+
+  def test_unknown_framework_operation_fails_closed(self):
+      identity = load_project_identity(valid_control())
+      decision = evaluate_project_authority_boundary(
+          identity,
+          source="framework",
+          operation="DELETE",
+      )
+      self.assertEqual(decision.decision, "DENY")
+      self.assertEqual(
+          decision.reason,
+          "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+      )
+
+  def test_adopt_is_not_authorized_by_identity_boundary(self):
+      identity = load_project_identity(valid_control())
+      decision = evaluate_project_authority_boundary(
+          identity,
+          source="project",
+          operation="ADOPT",
+      )
+      self.assertEqual(decision.decision, "DENY")
+      self.assertEqual(
+          decision.reason,
+          "FRAMEWORK_ADOPTION_NOT_AUTHORIZED",
+      )
+
   def test_compatibility_evaluation_returns_exact_classification_without_mutation(self):
       control = valid_control()
       before = json.dumps(control, sort_keys=True)
@@ -465,23 +607,51 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
 - [ ] **Step 3: Implement the minimum behavior.** Add the four bounded APIs below. Result context is handled by existing `context_binding.evaluate_return`; Evidence handling is separate and does not accept context/repository fields.
 
   ~~~python
+  _READ_ONLY_BOUNDARY_OPERATIONS = frozenset({
+      "READ",
+      "EVALUATE",
+  })
+
   def evaluate_project_authority_boundary(
       identity: ProjectIdentity,
       *,
       source: str,
       operation: str,
-      explicit_adoption: bool = False,
   ) -> ContextDecision:
-      if source == "framework" and operation in {"WRITE", "MUTATE"}:
-          return _decision("DENY", "PROJECT_AUTHORITY_BOUNDARY_VIOLATION", hard_stop=True)
-      if source == "framework" and operation == "ADOPT" and not explicit_adoption:
-          return _decision("DENY", "FRAMEWORK_ADOPTION_NOT_AUTHORIZED")
+      """Validate a read-only authority boundary; never authorize mutation."""
+      if source not in {"project", "framework"}:
+          return _decision(
+              "DENY",
+              "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+              identity_match=True,
+              current_project_mutation=False,
+              action_executable=False,
+              hard_stop=True,
+          )
+
+      if operation not in _READ_ONLY_BOUNDARY_OPERATIONS:
+          reason = (
+              "FRAMEWORK_ADOPTION_NOT_AUTHORIZED"
+              if operation == "ADOPT"
+              else "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"
+          )
+          return _decision(
+              "DENY",
+              reason,
+              identity_match=True,
+              current_project_mutation=False,
+              action_executable=False,
+              hard_stop=operation != "ADOPT",
+          )
+
       return _decision(
           "ALLOW",
-          "PROJECT_AUTHORITY_BOUNDARY_VALID",
+          "PROJECT_AUTHORITY_BOUNDARY_READ_ONLY",
           identity_match=True,
-          action_executable=source == "project",
-          authority="CURRENT_PROJECT_PATH" if source == "project" else "FRAMEWORK_AUXILIARY_READ",
+          freshness_match=True,
+          current_project_mutation=False,
+          action_executable=False,
+          authority="READ_ONLY_BOUNDARY",
       )
 
   def evaluate_framework_compatibility(
@@ -550,6 +720,55 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
 
   Extend the existing import in `validate_project.py` to include `evaluate_return`, `evaluate_project_identity`, and the new bounded helpers; no Result identity validator is created. The existing Result Envelope seam is `context_binding.evaluate_return(envelope, active_context_id, current_state_revision=None, analysis_only=False, project_control=None, local_repository_id=None) -> ContextDecision`. The current Evidence schema requires a non-negative integer `state_revision` but does not require equality with the current state revision. Existing schema validation owns that type/range rule; this helper compares only `project_id` and does not reject historical evidence for being older. `current_state_revision` remains an accepted diagnostic argument without an equality check. `validate_framework_adoption` validates adoption only; it does not accept Result or Evidence. Every failed adoption predicate returns `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`, while foreign Result context returns `CROSS_PROJECT_CONTEXT_MISMATCH` and foreign Evidence `project_id` returns `PROJECT_IDENTITY_INVALID`.
 
+  Extend the existing `evaluate_return()` repository block in place; do not create a second Result validator. Preserve repository ID as the strong identity, keep a missing/`None` source full name compatible when the ID matches, and quarantine a present contradictory full name:
+
+  ~~~python
+  github = project_control.get("github")
+  source_repository_id = envelope.get("source_github_repository_id")
+  source_repository_full_name = envelope.get(
+      "source_github_repository_full_name"
+  )
+
+  if isinstance(github, Mapping):
+      bound_repository_id = github.get("repository_id")
+      bound_repository_full_name = github.get(
+          "repository_full_name"
+      )
+
+      if not source_repository_id:
+          return _decision(
+              "DENY",
+              "SOURCE_GITHUB_REPOSITORY_MISSING",
+              identity_match=True,
+          )
+
+      if (
+          source_repository_id != bound_repository_id
+          or (
+              local_repository_id is not None
+              and local_repository_id != bound_repository_id
+          )
+      ):
+          return _decision(
+              "DENY",
+              "GITHUB_REPOSITORY_MISMATCH",
+              identity_match=True,
+              packet_status="QUARANTINED",
+          )
+
+      if (
+          source_repository_full_name not in (None, "")
+          and source_repository_full_name
+          != bound_repository_full_name
+      ):
+          return _decision(
+              "DENY",
+              "GITHUB_REPOSITORY_MISMATCH",
+              identity_match=True,
+              packet_status="QUARANTINED",
+          )
+  ~~~
+
   Use the existing durable-reference traversal in `validate_project.py` with an explicit branch:
 
   ~~~python
@@ -578,15 +797,19 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
           )
       )
   ~~~
-- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected GREEN: all five classifications are exact, evaluation snapshots are unchanged, matching Project identity is accepted, foreign Work Unit Project binding is rejected according to its defined Project/context binding rule, foreign Result Envelope `source_project_context_id` is rejected with `CROSS_PROJECT_CONTEXT_MISMATCH`, foreign Evidence `project_id` is rejected with `PROJECT_IDENTITY_INVALID`, compatibility evaluation remains read-only, and adoption remains unauthorized unless every existing authority predicate passes.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected GREEN: all of these exact classifications and boundaries pass: matching Result context/repository/full-name returns `ALLOW`; foreign Result context returns `CROSS_PROJECT_CONTEXT_MISMATCH`; wrong Result `repository_id` returns `GITHUB_REPOSITORY_MISMATCH`; a present contradictory Result `repository_full_name` returns `GITHUB_REPOSITORY_MISMATCH`; a missing Result `repository_full_name` with matching repository ID remains allowed; foreign Evidence `project_id` returns `PROJECT_IDENTITY_INVALID`; compatibility evaluation remains read-only; the identity boundary never grants mutation; and adoption remains unauthorized unless every existing authority predicate passes.
 - [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'`. Expected: existing context guardrail and compatibility vocabulary tests pass.
 - [ ] **Step 6: Refactor/check contract consistency.** Confirm `validate_project.py` reuses `role_communication.validate_action_authority` rather than defining a second permission mechanism; compatibility evaluation cannot mutate Project files; no schema/template field is added; and `CONFLICT` cannot be adopted.
 - [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_consumer_workspace.py` followed by `git commit -m "feat: enforce project authority and compatibility evaluation"`.
 
 **Gate A — after Task 3**
-- [ ] Review canonical `ProjectIdentity`, identity precedence, exact context/repository mismatch outcomes, authority boundary, all five compatibility outcomes, compatibility non-authority, exact adoption field mappings, Role Protocol reuse, Work Unit/revision reuse, and no schema/projection dependency.
-- [ ] Confirm Result Envelope context binding through `evaluate_return`: foreign `source_project_context_id` yields `CROSS_PROJECT_CONTEXT_MISMATCH`, while matching Result context yields `ALLOW`.
+- [ ] Confirm the schema-valid existing CONTROL fixture contains every current required top-level and nested key, then confirm canonical `ProjectIdentity` and identity precedence use Project CONTROL rather than project name, Framework version, Map, or Resume.
+- [ ] Confirm repository ID is the strong identity: matching ID/full name and matching ID/absent full name are accepted, while a wrong repository ID is rejected with `GITHUB_REPOSITORY_MISMATCH`.
+- [ ] Confirm Result Envelope context binding through `evaluate_return`: foreign `source_project_context_id` yields `CROSS_PROJECT_CONTEXT_MISMATCH`, while matching Result context/repository/full-name yields `ALLOW`.
+- [ ] Confirm Result repository binding through `evaluate_return`: a wrong `source_github_repository_id` yields `GITHUB_REPOSITORY_MISMATCH`, a present contradictory `source_github_repository_full_name` yields `GITHUB_REPOSITORY_MISMATCH`, and a missing full name with matching ID remains allowed.
 - [ ] Confirm Evidence `project_id` binding through `validate_evidence_project_binding`: foreign Evidence yields `PROJECT_IDENTITY_INVALID`, while matching Evidence yields no binding error.
+- [ ] Confirm the authority-boundary seam permits only explicit `READ`/`EVALUATE` inspection, returns `action_executable=False` and `current_project_mutation=False`, rejects project `WRITE` and unknown Framework operations, and does not authorize `ADOPT`.
+- [ ] Confirm all five compatibility outcomes remain read-only, exact adoption field mappings remain separate, Role Protocol reuse and Work Unit/revision reuse remain required, and no schema or projection dependency is introduced.
 - [ ] Confirm all focused tests for Tasks 1–3 pass before Task 4. Gate A has no projection-closure dependency.
 
 ### Task 4: Validator and explicit management/self-hosting integration
@@ -897,6 +1120,9 @@ P0-4 is not implemented or pre-decided. P0-3 exposes only identity, authority, c
 
 ### Finding closure
 
+- `PLAN-TASK1-FIXTURE-001` → CLOSED
+- `PLAN-AUTHORITY-BOUNDARY-001` → CLOSED
+- `PLAN-RESULT-ENVELOPE-FULLNAME-001` → CLOSED
 - `PLAN-WRITING-PLANS-001` → CLOSED
 - `PLAN-RESULT-EVIDENCE-API-001` → CLOSED
 - `PREVIOUSLY_CLOSED_FINDINGS` → ALL REMAIN CLOSED: `PLAN-API-SEAM-001`, `PLAN-WORK-UNIT-ROLE-001`, `PLAN-REGISTRY-SCOPE-001`, `PLAN-PROJECTION-SCOPE-001`, `PLAN-MIGRATION-DIRECTION-001`, and `PLAN-EVIDENCE-SCOPE-001`
