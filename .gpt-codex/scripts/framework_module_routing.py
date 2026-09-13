@@ -391,7 +391,11 @@ def detect_cross_module_change(
         outcome="CROSS_MODULE_CHANGE_REQUIRED" if is_cross_module else "MODULE_ROUTE",
         primary_module=primary_module,
         affected_modules=affected,
-        why_cross_module=("foreign owned asset or consumed contract is affected" if is_cross_module else None),
+        why_cross_module=(
+            "foreign owned asset or consumed contract is affected"
+            if is_cross_module
+            else None
+        ),
         contracts_affected=contracts,
         invariants_affected=invariants,
         required_tests=(),
@@ -415,12 +419,24 @@ def route_responsibility(
     entries = {entry["module_id"]: entry for entry in _registry_entries(registry)}
     entry = entries.get(candidate_module_id)
     if entry is None:
-        raise _error("MODULE_NOT_REGISTERED", "module is not registered", module_id=candidate_module_id)
+        raise _error(
+            "MODULE_NOT_REGISTERED",
+            "module is not registered",
+            module_id=candidate_module_id,
+        )
     if entry["status"] != "ACTIVE":
-        raise _error("MODULE_ROUTE_UNRESOLVED", "module is not an active route target", module_id=candidate_module_id)
+        raise _error(
+            "MODULE_ROUTE_UNRESOLVED",
+            "module is not an active route target",
+            module_id=candidate_module_id,
+        )
     descriptor = load_module_descriptor(root, entry["descriptor"])
     if responsibility not in descriptor["RESPONSIBILITIES"]:
-        raise _error("MODULE_ROUTE_UNRESOLVED", "responsibility is not declared", responsibility=responsibility)
+        raise _error(
+            "MODULE_ROUTE_UNRESOLVED",
+            "responsibility is not declared",
+            responsibility=responsibility,
+        )
 
     owners_by_asset = classify_changed_assets(root, registry, planned_assets)
     if any(not owners for owners in owners_by_asset.values()):
@@ -434,7 +450,11 @@ def route_responsibility(
 
     for contract in contracts_affected:
         if contract not in descriptor["OUTPUTS"]:
-            raise _error("MODULE_ROUTE_UNRESOLVED", "contract is not a declared output", contract=contract)
+            raise _error(
+                "MODULE_ROUTE_UNRESOLVED",
+                "contract is not a declared output",
+                contract=contract,
+            )
         for consumer_id, consumer_entry in entries.items():
             if consumer_id == candidate_module_id or consumer_entry["status"] != "ACTIVE":
                 continue

@@ -291,6 +291,92 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
         for asset in assets:
             self.assertEqual(owners[asset], ("framework-core",))
 
+    def test_single_module_route_is_returned_for_one_verified_owner(self):
+        decision = route_responsibility(
+            self.root,
+            "framework-core",
+            "framework governance",
+            planned_assets=[".gpt-codex/KERNEL.md"],
+        )
+        self.assertEqual(decision.outcome, "MODULE_ROUTE")
+        self.assertEqual(decision.primary_module, "framework-core")
+        self.assertEqual(decision.affected_modules, ("framework-core",))
+
+    def test_missing_or_mismatched_responsibility_is_unresolved(self):
+        for responsibility in ("", "not a declared responsibility"):
+            with self.subTest(responsibility=responsibility):
+                with self.assertRaises(ModuleRoutingError) as caught:
+                    route_responsibility(
+                        self.root,
+                        "framework-core",
+                        responsibility,
+                        planned_assets=[".gpt-codex/KERNEL.md"],
+                    )
+                self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+    def test_reading_a_dependency_does_not_make_a_change_cross_module(self):
+        decision = route_responsibility(
+            self.root,
+            "role-communication",
+            "role communication and instruction authority",
+            planned_assets=[".gpt-codex/scripts/role_communication.py"],
+        )
+        self.assertEqual(decision.outcome, "MODULE_ROUTE")
+
+    def test_consumed_output_contract_requires_cross_module_change(self):
+        decision = route_responsibility(
+            self.root,
+            "role-communication",
+            "role communication and instruction authority",
+            planned_assets=[".gpt-codex/schemas/instruction-envelope.schema.json"],
+            contracts_affected=["ROLE_COMMUNICATION_CONTRACT"],
+        )
+        self.assertEqual(decision.outcome, "CROSS_MODULE_CHANGE_REQUIRED")
+        self.assertEqual(decision.primary_module, "role-communication")
+        self.assertIn("role-communication", decision.affected_modules)
+        self.assertIn("framework-validation", decision.affected_modules)
+        self.assertEqual(decision.contracts_affected, ("ROLE_COMMUNICATION_CONTRACT",))
+        self.assertTrue(decision.required_tests)
+
+    def test_undeclared_contract_does_not_guess_a_consumer(self):
+        with self.assertRaises(ModuleRoutingError) as caught:
+            route_responsibility(
+                self.root,
+                "role-communication",
+                "role communication and instruction authority",
+                planned_assets=[".gpt-codex/scripts/role_communication.py"],
+                contracts_affected=["UNDECLARED_CONTRACT"],
+            )
+        self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+    def test_declared_output_without_consumers_remains_single_module(self):
+        decision = route_responsibility(
+            self.root,
+            "navigation-continuity",
+            "project navigation and continuity",
+            planned_assets=[".gpt-codex/scripts/continuity_resume.py"],
+            contracts_affected=["CONTINUITY_RESUME_CONTRACT"],
+        )
+        self.assertEqual(decision.outcome, "MODULE_ROUTE")
+        self.assertEqual(decision.affected_modules, ("navigation-continuity",))
+
+    def test_foreign_owned_asset_is_classified_as_cross_module(self):
+        decision = route_responsibility(
+            self.root,
+            "framework-core",
+            "framework governance",
+            planned_assets=[".gpt-codex/release/consumer-projection-manifest.json"],
+        )
+        self.assertEqual(decision.outcome, "CROSS_MODULE_CHANGE_REQUIRED")
+        self.assertIn("framework-core", decision.affected_modules)
+        self.assertIn("release-projection", decision.affected_modules)
+
+    def test_inactive_or_unregistered_candidate_fails_closed(self):
+        for candidate in ("inactive-module", "not-registered"):
+            with self.assertRaises(ModuleRoutingError) as caught:
+                route_responsibility(self.root, candidate, "unregistered responsibility")
+            self.assertIn(caught.exception.code, {"MODULE_ROUTE_UNRESOLVED", "MODULE_NOT_REGISTERED"})
+
 
 if __name__ == "__main__":
     unittest.main()
