@@ -7,6 +7,13 @@ Architecture & Routing. It is a design artifact only. It does not create the
 Framework Module Registry, schemas, resolver, validators, tests, consumer
 projection changes, runtime behavior, or a release.
 
+The current DESIGN stage authorizes design review only; it does not authorize
+implementation now. After DESIGN is accepted/frozen and PLAN is
+accepted/frozen, a separate P0-2 Implementation Work Unit may create or modify
+the Registry, module descriptors, schemas, routing implementation, validators,
+and tests within the approved Plan. The verification surface in this document
+is not, by itself, permission to modify tests during DESIGN.
+
 The design introduces one future authoritative concept: the **Framework Module
 Registry**. It is independent from the Project Map and from execution
 governance. Its purpose is to make framework responsibility, ownership,
@@ -173,10 +180,11 @@ MODULE_ROUTE_UNRESOLVED
 ```
 
 GPT may semantically propose a candidate module from the requested outcome.
-The Registry/resolver verifies that the candidate exists, is active, has a
-valid descriptor, and structurally covers the proposed responsibility. The
-model does not get authority to invent a module, bypass ownership, or broaden
-the read set.
+The Registry/resolver verifies that the candidate is registered with
+`status = ACTIVE`, has a valid descriptor, and structurally covers the proposed
+responsibility. A registered `status = INACTIVE` module is not eligible as a
+primary route target and fails closed if selected/requested. The model does not
+get authority to invent a module, bypass ownership, or broaden the read set.
 
 The design explicitly prohibits routing by directory scan or by unverified
 file-path guessing as the primary semantic mechanism.
@@ -201,7 +209,7 @@ The minimal conceptual repository structure is:
 ```
 
 This is a future implementation proposal, not authorization to create these
-files in P0-2.
+files during the current DESIGN stage.
 
 ### 5.1 Registry model
 
@@ -221,6 +229,19 @@ module_id
 descriptor
 status
 ```
+
+The Registry machine contract freezes:
+
+```text
+authority = FRAMEWORK_MODULE_REGISTRY
+status ∈ { ACTIVE, INACTIVE }
+```
+
+`ACTIVE` means the registered module is eligible for normal module routing.
+`INACTIVE` means the module remains registered but is not eligible as a primary
+route target; selecting or requesting it fails closed. P0-2 does not introduce
+lifecycle transition machinery, maturity levels, automatic activation or
+deactivation, or status scoring.
 
 The Registry must not duplicate complete descriptor content. The descriptor is
 the canonical location for the module's bounded responsibility and ownership
@@ -303,6 +324,54 @@ EXACT_PATH
 PATH_PREFIX
 LOGICAL_ASSET
 ```
+
+Every `OWNED_ASSETS` entry uses exactly this minimal object form:
+
+```json
+{
+  "type": "EXACT_PATH | PATH_PREFIX | LOGICAL_ASSET",
+  "value": "..."
+}
+```
+
+The object has no selector-specific ownership fields beyond `type` and
+`value`. For `EXACT_PATH` and `PATH_PREFIX`, `value` is a normalized,
+repository-relative path. Absolute paths and any `..` traversal are invalid.
+
+Ownership matching is component-aware. The following different-owner matches
+are conflicts:
+
+```text
+EXACT_PATH(A) vs EXACT_PATH(A)
+→ MODULE_OWNERSHIP_CONFLICT
+
+PATH_PREFIX(P) vs EXACT_PATH(X), where X is inside P
+→ MODULE_OWNERSHIP_CONFLICT
+
+PATH_PREFIX(P1) vs PATH_PREFIX(P2), where either prefix contains the other
+→ MODULE_OWNERSHIP_CONFLICT
+```
+
+Containment uses path-component boundaries. A raw string prefix accident such
+as `foo/bar` matching `foo/bar2` is not containment and does not create a
+conflict. For `LOGICAL_ASSET`, normalized logical identifiers are compared;
+identical identifiers with different owners conflict, and a logical identifier
+does not imply physical-file overlap.
+
+For a planned framework mutation, ownership resolution is complete only when
+there is exactly one matching primary owner:
+
+```text
+zero matching primary owners
+→ MODULE_ROUTE_UNRESOLVED
+
+more than one matching primary owner
+→ MODULE_OWNERSHIP_CONFLICT
+```
+
+Only exactly one owner may proceed to single-module or cross-module
+classification. Initial Registry coverage may be incremental, but an
+unclassified asset never becomes implicitly owned by the candidate module.
 
 Examples:
 
@@ -442,8 +511,10 @@ The system fails closed:
 - malformed global Registry data produces `MODULE_REGISTRY_INVALID`;
 - malformed or mismatched descriptor data produces
   `MODULE_DESCRIPTOR_INVALID`;
-- a missing active Registry entry produces `MODULE_NOT_REGISTERED`;
+- a missing Registry entry produces `MODULE_NOT_REGISTERED`;
 - missing or ambiguous responsibility produces `MODULE_ROUTE_UNRESOLVED`;
+- a registered `INACTIVE` module selected as a primary route target produces
+  `MODULE_ROUTE_UNRESOLVED`;
 - duplicate active ownership by different primary owners produces
   `MODULE_OWNERSHIP_CONFLICT`;
 - a mutation across an owned contract or asset boundary produces
@@ -879,8 +950,10 @@ Future verification should cover at least:
 12. preserved execution authority boundaries; and
 13. preserved consumer projection and v2.4.0 compatibility behavior.
 
-This is a verification surface, not an implementation plan and not permission
-to modify tests in P0-2.
+This is a verification surface, not an implementation plan and not, by itself,
+permission to modify tests during the DESIGN stage. Test changes belong to the
+separate P0-2 Implementation Work Unit after DESIGN and PLAN are both
+accepted/frozen, and only within the approved Plan.
 
 ## 20. Decision summary
 
