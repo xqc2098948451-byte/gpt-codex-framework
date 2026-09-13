@@ -1,0 +1,52 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "PUBLICATION-V2.3.0-W-P",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.3.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "1c190e4cdbadf992247a188da174b116c373028d",
+  "remote_head_sha": "1c190e4cdbadf992247a188da174b116c373028d",
+  "verified_baseline_sha": "1c190e4cdbadf992247a188da174b116c373028d",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 4,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
+  "changed": [
+    "v2.3.0 Project Map and Context Resume Framework source",
+    "v2.3.0 consumer-safe release metadata and artifact",
+    "management-only W/P publication attestation"
+  ],
+  "verify": [
+    "accepted baseline validators: PASS",
+    "W normal push: SUCCEEDED",
+    "remote main after W push: VERIFIED at 1c190e4cdbadf992247a188da174b116c373028d",
+    "v2.3.0 tag target: VERIFIED at 1c190e4cdbadf992247a188da174b116c373028d",
+    "GitHub release v2.3.0: PUBLISHED with one uploaded asset",
+    "canonical artifact SHA-256: 6a0647ba401c89e9b46a4d74d24e9e4c168b24fbf6ebdda35d392f3bf1c21e43",
+    "P is management-only; this Result binds confirmed publication authority to verified W and does not self-reference P"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "7c16833c8f94f280e6ecf18701d27c33caecac64",
+    "implementation_sha": "1c190e4cdbadf992247a188da174b116c373028d"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "Return the verified v2.3.0 publication packet and freeze this Framework baseline; no further Framework publication work is authorized."
+}

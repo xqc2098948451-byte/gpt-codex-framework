@@ -2,21 +2,23 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 3,
+  "revision": 4,
   "state": "COMPLETE",
-  "active_work_unit": "PUBLICATION-V2.2.1-W-P",
+  "active_work_unit": "PUBLICATION-V2.3.0-W-P",
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
-    ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json"
+    ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
+    ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "831a7fd9b82e7e7a2bea5dcaa26a2d89c1aa6318",
-    "latest_synced_state_revision": 3,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
+    "latest_verified_remote_sha": "1c190e4cdbadf992247a188da174b116c373028d",
+    "latest_synced_state_revision": 4,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json",
     "sync_status": "SYNCED"
   },
-  "next_action": "Verify the management-only P attestation commit after push; no further Framework publication work is authorized"
+  "next_action": "Return the verified v2.3.0 W/P publication packet; no further Framework publication work is authorized"
 }
