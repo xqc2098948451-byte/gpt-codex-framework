@@ -25,6 +25,12 @@
 - DESIGN and PLAN require remote review visibility plus GPT review. IMPLEMENTATION keeps remote visibility optional and uses `CODEX_REVIEWER` for technical review.
 - After a DESIGN/PLAN SHA is exposed for formal review, it is immutable evidence. Fixes use new descendant commits and fast-forward synchronization by default. Amend, rebase, history-removing reset, force push, branch replacement, merge main, tag, release, and publication are forbidden by default.
 - A review-visibility push is not production publication. An unverified state and a mismatched remote state yield `RECONCILIATION_REQUIRED`.
+- Creating or authorizing an instruction does not prove that the target executor received or executed it. Remote review visibility is not instruction delivery; instruction issuance is not execution confirmation; execution confirmation requires observable evidence from an authorized evidence source.
+- Until direct GPT-to-Codex transport is governed, bootstrap uses explicit relay transport such as `GPT → User relay → Codex`. User relay is transport only: it does not change authority, authorize extra actions, modify the Instruction Envelope, or count as execution evidence.
+- Bootstrap evidence states are conceptual only: `INSTRUCTION_ISSUED → EXECUTION_UNCONFIRMED → REMOTE_EVIDENCE_OBSERVED → EXECUTION_CONFIRMED`; no Kernel state machine and no terminology-only production schema field is added.
+- Missing synchronization evidence maps to `LOCAL_COMPLETE / SYNC_PENDING`; conflicting or stale facts map to `RECONCILIATION_REQUIRED`. Missing evidence is not contradictory evidence.
+- Result synchronization facts remain canonical lower-case Result Envelope properties. Uppercase names are derived GPT Return/Handoff labels only and do not create a second machine fact source.
+- `publication_contract.py` remains an existing authority seam and is not modified by this protocol implementation.
 - This current Work Unit is plan-only. No production implementation, schema change, Kernel change, and schema-generation change is performed now.
 
 ## Exact File Decisions
@@ -58,7 +64,7 @@ Repository inspection at the current branch confirmed the existing extension sea
 - `MODIFY: .gpt-codex/tests/test_result_return.py` — extend renderer coverage.
 - `MODIFY: .gpt-codex/tests/test_handoff_navigation_contract.py` — extend derived Handoff coverage.
 - `MODIFY: .gpt-codex/scripts/validate_project.py` — enforce role identity, action authority, lifecycle, and stage gates.
-- `MODIFY: .gpt-codex/scripts/publication_contract.py` — preserve Result Envelope authority while validating the added result references.
+- `NOT MODIFIED: .gpt-codex/scripts/publication_contract.py` — publication authority remains an existing seam; role protocol semantics stay in the shared helper, envelopes, project validator, Git continuity, and derived views.
 - `MODIFY: .gpt-codex/tests/test_git_continuity.py` — extend existing synchronization seam coverage.
 - `MODIFY: .gpt-codex/scripts/git_continuity.py` — add stage routing and append-only revision predicates.
 - `MODIFY: AGENTS.md` — align human/agent labels and execution routing.
@@ -132,11 +138,11 @@ The finding flow is `CODEX_REVIEWER → REVIEW_FINDING → GPT + USER remediatio
 
 **Files:** `MODIFY: .gpt-codex/schemas/result-envelope.schema.json`; `MODIFY: .gpt-codex/project-template/RESULT_ENVELOPE.template.json`; `MODIFY: .gpt-codex/scripts/result_return.py`; `MODIFY: .gpt-codex/builtins/skills/handoff/SKILL.md`; `MODIFY: .gpt-codex/builtins/skills/handoff/manifest.json`; `MODIFY: .gpt-codex/tests/test_result_contract_schema.py`; `MODIFY: .gpt-codex/tests/test_result_return.py`; `MODIFY: .gpt-codex/tests/test_handoff_navigation_contract.py`.
 
-**Interfaces:** Add result-only `result_message_type` for `REVIEW_RESULT`, `REVIEW_FINDING`, `IMPLEMENTATION_RESULT`, and registered protocol error/result classes. Reject instruction-side values. Add bounded `response_to_instruction_id`, `responder_role`, `return_role`, `review_target_revision`, `finding_ids`, `fix_round`, `remediation_decision_ref`, `protocol_error`, `role_observation`, `artifact_stage`, `REPOSITORY`, `BRANCH`, `HEAD_SHA`, `ARTIFACT_PATH`, `PUSH_STATUS`, and `REMOTE_VERIFICATION`. Render `INSTRUCTION_TYPE` and `RESULT_MESSAGE_TYPE` from their respective source fields; never render `MESSAGE_TYPE`. Handoff remains derived evidence and cannot authorize execution.
+**Interfaces:** Add result-only `result_message_type` for `REVIEW_RESULT`, `REVIEW_FINDING`, `IMPLEMENTATION_RESULT`, and registered protocol error/result classes. Reject instruction-side values. Add bounded `response_to_instruction_id`, `responder_role`, `return_role`, `review_target_revision`, `finding_ids`, `fix_round`, `remediation_decision_ref`, `protocol_error`, `role_observation`, `artifact_stage`, `artifact_path`, `source_github_repository_full_name`, `current_remote_ref`, `local_head_sha`, `remote_head_sha`, `sync_status`, `push_status`, and `remote_verification`. Uppercase `REPOSITORY`, `BRANCH`, `BASE_SHA`, `HEAD_SHA`, `ARTIFACT_PATH`, `PUSH_STATUS`, and `REMOTE_VERIFICATION` are derived GPT Return/Handoff labels only. Render `INSTRUCTION_TYPE` and `RESULT_MESSAGE_TYPE` from their respective source fields; never render `MESSAGE_TYPE`. Handoff remains derived evidence and cannot authorize execution.
 
 **Steps:**
 
-- [ ] Add failing tests for result-side types, instruction-side rejection, correlation, findings, protocol errors, synchronization fields, and absence of generic `message_type`.
+- [ ] Add failing tests for result-side types, instruction-side rejection, correlation, findings, protocol errors, canonical synchronization facts, derived uppercase presentation labels, and absence of generic `message_type`.
 - [ ] Run `python -m unittest test_result_contract_schema test_result_return test_handoff_navigation_contract -v` from `.gpt-codex/tests`; confirm expected failures.
 - [ ] Update schema, template, renderer, Handoff guidance, and manifest version with explicit result ownership and bounds.
 - [ ] Run focused result/Handoff suites and the framework validator; confirm Result Envelope remains authoritative.
@@ -144,9 +150,9 @@ The finding flow is `CODEX_REVIEWER → REVIEW_FINDING → GPT + USER remediatio
 
 ## Task 4: Enforce role authority and the finding/fix lifecycle
 
-**Files:** `MODIFY: .gpt-codex/scripts/validate_project.py`; `MODIFY: .gpt-codex/scripts/publication_contract.py`; `CREATE: .gpt-codex/tests/test_role_authority.py`; `CREATE: .gpt-codex/tests/test_review_lifecycle.py`.
+**Files:** `MODIFY: .gpt-codex/scripts/validate_project.py`; `NOT MODIFIED: .gpt-codex/scripts/publication_contract.py`; `CREATE: .gpt-codex/tests/test_role_authority.py`; `CREATE: .gpt-codex/tests/test_review_lifecycle.py`; `TEST: .gpt-codex/tests/test_publication_authority.py`.
 
-**Interfaces:** Add pure gates over parsed envelopes and current revision. Reject invalid executor identity, unauthorized action, reviewer mutation, scope expansion, stale review revision, and ambiguous identity with existing `FAIL`/`BLOCKED` outcomes plus stable protocol errors. Require findings to cite evidence and reviewed SHA without treating them as approval. Accept remediation only after explicit GPT/User decision and a new `FIX_INSTRUCTION` naming one implementer, approved scope, revision, and findings. Re-review points to the new result revision and retains original evidence references.
+**Interfaces:** Add pure gates over parsed envelopes and current revision. Reject invalid executor identity, unauthorized action, reviewer mutation, scope expansion, stale review revision, and ambiguous identity with existing `FAIL`/`BLOCKED` outcomes plus stable protocol errors. Require findings to cite evidence and reviewed SHA without treating them as approval. Accept remediation only after explicit GPT/User decision and a new `FIX_INSTRUCTION` naming one implementer, approved scope, revision, and findings. Re-review points to the new result revision and retains original evidence references. Keep publication semantics in the existing unmodified publication contract.
 
 **Steps:**
 
@@ -168,11 +174,11 @@ The finding flow is `CODEX_REVIEWER → REVIEW_FINDING → GPT + USER remediatio
 
 **Files:** `MODIFY: .gpt-codex/scripts/git_continuity.py`; `MODIFY: .gpt-codex/tests/test_git_continuity.py`; `CREATE: .gpt-codex/tests/test_stage_review_routing.py`; `CREATE: .gpt-codex/tests/test_review_history.py`; `TEST: .gpt-codex/tests/test_remote_verification.py`.
 
-**Interfaces:** Define `review_routing_for_stage(stage: str, remote_trigger: str | None = None) -> dict[str, str]`; `validate_review_revision(previous_reviewed_sha: str | None, candidate_sha: str, is_ancestor: Callable[[str, str], bool]) -> list[str]`; and `classify_review_sync(stage: str, push_status: str, remote_verification: str, remote_head_sha: str | None, expected_head_sha: str) -> str`. Compose existing sync seams. Return `LOCAL_COMPLETE`, `SYNC_PENDING`, `REMOTE_VERIFIED`, and `RECONCILIATION_REQUIRED` as applicable. Reject rewrite and publication operations after formal DESIGN/PLAN review; keep fast-forward synchronization as the default.
+**Interfaces:** Define `review_routing_for_stage(stage: str, remote_trigger: str | None = None) -> dict[str, str]`; `validate_review_revision(previous_reviewed_sha: str | None, candidate_sha: str, is_ancestor: Callable[[str, str], bool]) -> list[str]`; and `classify_review_sync(stage: str, push_status: str, remote_verification: str, remote_head_sha: str | None, expected_head_sha: str) -> str`. Compose existing sync seams. Classify valid local work with push not attempted, ordinary push failure without divergence, incomplete verification, and temporary remote unavailability as `LOCAL_COMPLETE / SYNC_PENDING`. Classify remote-head mismatch, divergence, invalid reviewed ancestry, stale state revision, and repository/ref identity conflict as `RECONCILIATION_REQUIRED`. Missing synchronization evidence is not contradictory synchronization evidence. Reject rewrite and publication operations after formal DESIGN/PLAN review; keep fast-forward synchronization as the default.
 
 **Steps:**
 
-- [ ] Add failing tests for the stage matrix, local implementation completion, remote mismatch, descendant-only fixes, and every forbidden history/publication action.
+- [ ] Add failing tests for the stage matrix, each independent `LOCAL_COMPLETE / SYNC_PENDING` condition, each independent `RECONCILIATION_REQUIRED` condition, descendant-only fixes, and every forbidden history/publication action.
 - [ ] Run `python -m unittest test_stage_review_routing test_review_history test_git_continuity -v` from `.gpt-codex/tests`; confirm expected failures.
 - [ ] Implement predicates by composing existing `SyncSnapshot`, `SyncDecision`, and remote-verification logic.
 - [ ] Run focused routing/history suites and `test_remote_verification`; confirm exact SHA and reconciliation behavior.
@@ -210,7 +216,7 @@ The finding flow is `CODEX_REVIEWER → REVIEW_FINDING → GPT + USER remediatio
 
 **Files:** `TEST: .gpt-codex/tests/test_version_consistency.py`; `TEST: .gpt-codex/tests/test_publication_authority.py`; `TEST: .gpt-codex/tests/test_remote_verification.py`; `TEST: complete .gpt-codex/tests suite`; `NOT MODIFIED: VERSION`; `NOT MODIFIED: .gpt-codex/CHANGELOG.md`; `NOT MODIFIED: releases/records/v2.4.0.json`; `NOT MODIFIED: dist/*`.
 
-**Interfaces:** Produce exact implementation evidence for causal lifecycle, type ownership, role/action authority, stage routing, append-only history, consumer projection, version compatibility, Kernel `2.0.0`, and schema generation `1`. The acceptance package contains test output, validator output, projection/runtime closure, `git diff --check`, exact implementation SHA, branch synchronization, changed paths, deviations, and blockers.
+**Interfaces:** Produce exact implementation evidence for causal lifecycle, type ownership, role/action authority, stage routing, append-only history, transport boundary, bootstrap evidence states, consumer projection, version compatibility, Kernel `2.0.0`, and schema generation `1`. The acceptance package contains test output, validator output, projection/runtime closure, `git diff --check`, exact implementation SHA, canonical Result Envelope facts (`source_github_repository_full_name`, `current_remote_ref`, `local_head_sha`, `remote_head_sha`, `sync_status`, `push_status`, `remote_verification`, `artifact_stage`, and `artifact_path`), changed paths, deviations, and blockers. Uppercase return labels are presentation derived from those facts.
 
 **Steps:**
 

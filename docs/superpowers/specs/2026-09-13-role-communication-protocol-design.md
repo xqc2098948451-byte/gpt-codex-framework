@@ -69,6 +69,93 @@ The protocol is a coordination layer over existing authority sources.
 | Evidence and `publication_contract.py` | Observed results and review evidence remain bound to project, revision, and artifact identity. Existing PASS/SYNCED/publication rules remain unchanged. |
 | Extension contract | Role communication behavior can later be packaged as a Skill or Guardrail only through the existing extension lifecycle; no new extension kind is required. |
 
+### 2.1 Transport authority and bootstrap evidence
+
+Creating or authorizing an instruction does not prove that the target executor
+received or executed it. The Role & Communication Protocol governs message
+identity, issuer/executor/return roles, authority, allowed/forbidden actions,
+causal relationships, and evidence/review semantics. It does not silently
+assume that a transport mechanism delivered an instruction to Codex.
+
+The communication path has separate concerns:
+
+```text
+GPT_ORCHESTRATOR
+  → instruction creation / authorization
+transport mechanism
+  → instruction delivery
+CODEX_IMPLEMENTER / CODEX_REVIEWER
+  → execution or review
+GitHub / Result evidence
+  → observable confirmation
+GPT_REVIEWER
+  → verification
+```
+
+Until a direct GPT-to-Codex transport is available and governed, Framework
+Development uses explicit relay transport. The current bootstrap transport may
+be:
+
+```text
+GPT
+  → User relay
+  → Codex
+```
+
+It may also use another explicitly identified transport. A User relay is
+transport only. It does not change executor authority, authorize extra actions,
+modify the Instruction Envelope, or count as execution evidence.
+
+The bootstrap communication/evidence distinction is represented conceptually:
+
+```text
+INSTRUCTION_ISSUED
+  → EXECUTION_UNCONFIRMED
+  → REMOTE_EVIDENCE_OBSERVED
+  → EXECUTION_CONFIRMED
+```
+
+- `INSTRUCTION_ISSUED` means GPT created an authorized instruction; it makes no
+  claim about delivery or execution.
+- `EXECUTION_UNCONFIRMED` means no authoritative evidence demonstrates
+  execution yet.
+- `REMOTE_EVIDENCE_OBSERVED` means the expected artifact, revision, or result
+  became observable through an authorized evidence channel.
+- `EXECUTION_CONFIRMED` means the observed evidence satisfies identity,
+  revision, ancestry, and required verification checks.
+
+These are bootstrap communication/evidence states, not Kernel states. This
+design does not create a new Kernel state machine and does not add a production
+schema field solely for this terminology.
+
+Instruction Delivery, Artifact Synchronization, Review Visibility, and
+Finding/Fix Delivery are distinct:
+
+```text
+Instruction Delivery:     GPT → Codex
+Artifact Synchronization: Codex → GitHub
+Review Visibility:        GitHub → GPT
+Finding/Fix Delivery:     GPT → Codex
+```
+
+The DESIGN/PLAN GitHub rule solves Artifact Synchronization and Review
+Visibility. It does not itself guarantee Instruction Delivery or Finding/Fix
+Delivery. Therefore:
+
+> Remote review visibility is not instruction delivery.
+
+> Instruction issuance is not execution confirmation.
+
+> Execution confirmation requires observable evidence from an authorized
+> evidence source.
+
+For DESIGN and PLAN, issuing a `FIX_INSTRUCTION` does not mean that the fix
+has happened. Formal GPT re-review occurs only after observable remote evidence,
+normally local Codex edit, new commit, normal fast-forward push, remote HEAD
+verification, and GPT reading the exact new SHA. If remote HEAD remains
+unchanged, the classification is `EXECUTION_UNCONFIRMED`, not `PASS`,
+`FIX_APPLIED`, or `PLAN_UPDATED`.
+
 ## 3. Role model and authority
 
 The protocol defines these roles:
@@ -332,7 +419,7 @@ CODEX_IMPLEMENTER
   → git commit
   → push designated feature/review branch
   → verify remote branch HEAD
-  → return repository + branch + HEAD_SHA + artifact path
+  → return canonical repository/ref/head/artifact facts
   → GPT_REVIEWER reads artifact directly from GitHub
 ```
 
@@ -488,6 +575,29 @@ presence of a finding, or from a role-like word in the task body. When the
 executor is missing, plural, unknown, or not deterministically authorized, the
 result is `INVALID_INSTRUCTION` and no action is executed.
 
+### 5.8 Synchronization evidence classification
+
+Synchronization evidence is classified independently from local validity and
+from contradictory facts:
+
+| Evidence condition | Classification |
+| --- | --- |
+| Local work is valid, but push was not attempted | `LOCAL_COMPLETE` / `SYNC_PENDING` |
+| Local work is valid and an ordinary push failed without divergence | `LOCAL_COMPLETE` / `SYNC_PENDING` |
+| Local work is valid, but remote verification is incomplete | `LOCAL_COMPLETE` / `SYNC_PENDING` |
+| Local work is valid, but the remote is temporarily unavailable | `LOCAL_COMPLETE` / `SYNC_PENDING` |
+| Remote HEAD mismatches the expected SHA | `RECONCILIATION_REQUIRED` |
+| Local and remote histories diverge | `RECONCILIATION_REQUIRED` |
+| Reviewed ancestry is invalid | `RECONCILIATION_REQUIRED` |
+| State revision is stale | `RECONCILIATION_REQUIRED` |
+| Repository or remote-ref identity conflicts | `RECONCILIATION_REQUIRED` |
+
+Missing synchronization evidence is not contradictory synchronization evidence.
+`LOCAL_COMPLETE` / `SYNC_PENDING` does not authorize formal DESIGN/PLAN GPT
+review. `RECONCILIATION_REQUIRED` blocks continuation until the conflicting
+facts are resolved. Task-level implementation tests must cover the incomplete
+and conflicting classes independently.
+
 ## 6. Review and fix lifecycle
 
 The required review flow is:
@@ -604,32 +714,39 @@ role-aware fields are:
   `INVALID_INSTRUCTION` or `ROLE_AUTHORITY_CONFLICT`; and
 - optional `role_observation`, as defined in the next section.
 
-For a `DESIGN` or `PLAN` return, the minimum derived/result contract is:
+For a `DESIGN` or `PLAN` return, the canonical machine facts are:
 
 ```text
-REPOSITORY
-ARTIFACT_STAGE
-BRANCH
-BASE_SHA
-HEAD_SHA
-ARTIFACT_PATH
-PUSH_STATUS
-REMOTE_VERIFICATION
-DEVIATIONS
-BLOCKERS
-NEXT_GPT_ACTION
+source_github_repository_full_name
+current_remote_ref
+local_head_sha
+remote_head_sha
+sync_status
+push_status
+remote_verification
+artifact_stage
+artifact_path
 ```
 
-Formal GPT review is permitted only when `PUSH_STATUS = SUCCEEDED` and
-`REMOTE_VERIFICATION = VERIFIED`, and the returned `HEAD_SHA` is the exact SHA
-GPT reviews. `REPOSITORY` is the durable repository identity already bound by
-CONTROL; `BRANCH` is the designated review branch; `ARTIFACT_PATH` is a
-repository-relative path. These fields report synchronization facts and do
-not grant merge or publication authority.
+Formal GPT review is permitted only when canonical `push_status` indicates a
+successful normal push and canonical `remote_verification` indicates verified
+remote state, with `remote_head_sha` equal to the exact SHA GPT reviews.
+`source_github_repository_full_name` is the durable repository identity already
+bound by CONTROL; `current_remote_ref` identifies the designated review ref;
+`artifact_path` is repository-relative. These canonical facts report
+synchronization and artifact identity and do not grant merge or publication
+authority.
 
 For `IMPLEMENTATION`, these fields remain optional unless an escalation or
 explicit GPT/User request selects remote review. Existing local Result
 Envelope status, evidence, Git, and completion-gate rules remain authoritative.
+
+The uppercase names `REPOSITORY`, `BRANCH`, `BASE_SHA`, `HEAD_SHA`,
+`ARTIFACT_PATH`, `PUSH_STATUS`, and `REMOTE_VERIFICATION` are derived
+GPT Return/Handoff presentation labels only. They are mapped from canonical
+Result Envelope facts and do not create duplicate machine properties or a
+second fact source. `DEVIATIONS`, `BLOCKERS`, and `NEXT_GPT_ACTION` likewise
+remain return/presentation sections, not synchronization authorities.
 
 Existing `status`, `completion_gate`, state/revision, Git, evidence, remote
 verification, and publication fields retain their current meanings and
@@ -644,10 +761,11 @@ Handoff and GPT Return remain derived views. They may add:
 - `REVIEW_TARGET_REVISION`, `FINDINGS`, and `FIX_ROUND`; and
 - `NEXT_AUTHORIZED_ROLE` / `NEXT_GPT_ACTION`.
 
-For DESIGN/PLAN handoffs, Handoff/GPT Return may render the minimum
-repository/branch/HEAD/artifact/push/verification fields above, but they must
-derive them from the Result Envelope and Git observations rather than inventing
-them. A missing or mismatched field remains a failed review-visibility gate.
+For DESIGN/PLAN handoffs, Handoff/GPT Return may render the uppercase
+repository/branch/HEAD/artifact/push/verification labels above, but they must
+derive them from canonical Result Envelope facts and Git observations rather
+than inventing them. A missing or mismatched canonical fact remains a failed
+review-visibility gate.
 
 These are presentation and routing hints only. Handoff must continue to state
 that CONTROL, STATE, Work Unit, Evidence, Result, source/tests, and Git/GitHub
@@ -832,6 +950,20 @@ Self-review completed against the v2.3.0 contracts:
   independent review is milestone/risk gated rather than task gated.
 - DESIGN and PLAN formal GPT review require an exact remotely verified branch
   HEAD; IMPLEMENTATION does not require per-change remote GPT review.
+- Instruction issuance, transport delivery, artifact synchronization, review
+  visibility, and execution confirmation are separate facts; remote review
+  visibility is not instruction delivery.
+- Bootstrap communication states are conceptual evidence states only:
+  `INSTRUCTION_ISSUED`, `EXECUTION_UNCONFIRMED`,
+  `REMOTE_EVIDENCE_OBSERVED`, and `EXECUTION_CONFIRMED`; no Kernel state machine
+  or terminology-only schema field is added.
+- Result synchronization facts remain canonical lower-case Result Envelope
+  properties; uppercase names are derived GPT Return/Handoff labels only.
+- Missing synchronization evidence maps to `LOCAL_COMPLETE` /
+  `SYNC_PENDING`; conflicting or stale facts map to
+  `RECONCILIATION_REQUIRED`.
+- `publication_contract.py` remains an existing authority seam and is not
+  modified by the role protocol implementation.
 - Feature-branch push is limited to review visibility and cannot be confused
   with merge, publication, release, tag, or force-push authority.
 - DESIGN/PLAN review history is append-only after formal review exposure:
