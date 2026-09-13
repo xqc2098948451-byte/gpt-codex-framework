@@ -96,6 +96,10 @@ class RoleCommunicationTaxonomyTests(unittest.TestCase):
             "ACTION_IN_AUTHORIZED_AND_FORBIDDEN",
             module.validate_action_authority("CODEX_IMPLEMENTER", ["READ"], ["READ"]),
         )
+        self.assertIn(
+            "UNKNOWN_ACTION",
+            module.validate_action_authority("CODEX_IMPLEMENTER", [["READ"]], 7),
+        )
 
 
 if __name__ == "__main__":

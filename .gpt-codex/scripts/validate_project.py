@@ -122,6 +122,8 @@ def validate_review_lifecycle(
 ) -> list[str]:
     """Validate finding evidence, explicit remediation, fix causality, and re-review."""
 
+    if not isinstance(finding_result, Mapping):
+        return ["INVALID_RESULT"]
     errors = validate_review_result(finding_result)
     if finding_result.get("result_message_type") != "REVIEW_FINDING":
         return errors

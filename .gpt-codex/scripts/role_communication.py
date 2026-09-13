@@ -137,7 +137,9 @@ def _as_action_values(values: Iterable[object] | None) -> list[object]:
         return []
     if isinstance(values, str):
         return [values]
-    return list(values)
+    if isinstance(values, (list, tuple, set, frozenset)):
+        return list(values)
+    return [values]
 
 
 def validate_action_authority(
@@ -159,6 +161,8 @@ def validate_action_authority(
                 errors.append("UNKNOWN_ACTION")
     if any(isinstance(action, str) and action not in allowed_actions_for_role(role) for action in authorized):
         errors.append("ACTION_NOT_ALLOWED_FOR_ROLE")
-    if set(authorized).intersection(forbidden):
+    authorized_strings = {action for action in authorized if isinstance(action, str)}
+    forbidden_strings = {action for action in forbidden if isinstance(action, str)}
+    if authorized_strings.intersection(forbidden_strings):
         errors.append("ACTION_IN_AUTHORIZED_AND_FORBIDDEN")
     return errors
