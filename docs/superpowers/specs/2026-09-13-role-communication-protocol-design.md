@@ -418,6 +418,71 @@ DESIGN or PLAN push does not authorize merge to `main`, publish, release, tag,
 or force-push. Those actions require their existing separate authorization and
 Guardrail paths.
 
+### 5.7 Append-only DESIGN/PLAN review history
+
+Once a DESIGN or PLAN `HEAD_SHA` has been exposed for formal GPT review, that
+revision becomes immutable review evidence.
+
+The reviewed revision remains identifiable by its exact
+`REVIEWED_HEAD_SHA`. Subsequent changes must use a new descendant commit. The
+previous reviewed SHA must not be amended, rebased away, reset away, or
+replaced through force push as part of the normal workflow. The normal flow is:
+
+```text
+reviewed SHA N
+  → GPT finding/decision
+  → CODEX_IMPLEMENTER local fix
+  → NEW commit N+1
+  → normal fast-forward push
+  → remote verification
+  → GPT re-review of SHA N+1
+```
+
+Each reviewed revision remains independently identifiable, and the prior
+review remains evidence for its old SHA. A new descendant artifact requires a
+new GPT review; the old review is not retroactively changed.
+
+For DESIGN/PLAN review synchronization, the default authorized Git actions are
+limited to:
+
+- editing the approved artifact locally;
+- committing a new descendant revision;
+- normal fast-forward push to the designated feature/review branch; and
+- verifying the remote branch HEAD.
+
+After formal review begins, the following are forbidden unless separately and
+explicitly authorized:
+
+- amending a previously reviewed commit;
+- interactive or non-interactive rebase that rewrites reviewed history;
+- reset that removes reviewed revisions from branch history;
+- force push or force-with-lease;
+- deleting/recreating the review branch to replace reviewed history;
+- merging to `main`;
+- tagging, releasing, or publishing.
+
+Any history rewrite of a DESIGN/PLAN review branch requires a separate,
+explicit, visible authorization decision. It must not be inferred from
+permission to edit the design, permission to fix a finding, or permission to
+push the review branch. The default is `FORBIDDEN`.
+
+The authority boundary is explicit:
+
+> Permission to push a DESIGN or PLAN review branch does not imply permission to rewrite reviewed history.
+
+> Feature-branch review visibility uses fast-forward synchronization by default.
+
+The development history for this design contains one intentional deviation
+that is now recorded as the motivating governance finding `RCP-DESIGN-002`:
+
+- reviewed revision: `3cbd0f5cb930f08ce953833e528a9f2dad84b681`;
+- replacement revision: `14f90a4b03c1dbfcdc75e4ba4a2ca592e5681356`;
+- operation used: amend plus force-with-lease on the review branch.
+
+This note records the event; it does not attempt to rewrite history again or
+make the event appear not to have occurred. The new append-only rule applies to
+all future DESIGN/PLAN review revisions.
+
 The protocol never infers an executor from the requested file, from the
 presence of a finding, or from a role-like word in the task body. When the
 executor is missing, plural, unknown, or not deterministically authorized, the
@@ -769,6 +834,11 @@ Self-review completed against the v2.3.0 contracts:
   HEAD; IMPLEMENTATION does not require per-change remote GPT review.
 - Feature-branch push is limited to review visibility and cannot be confused
   with merge, publication, release, tag, or force-push authority.
+- DESIGN/PLAN review history is append-only after formal review exposure:
+  reviewed HEAD SHAs remain immutable evidence, and ordinary synchronization
+  uses descendant commits plus fast-forward push.
+- The historical amend plus force-with-lease deviation from RCP-DESIGN-002 is
+  explicitly recorded and is not being erased by history rewriting.
 - Telemetry is limited to the requested descriptive observation fields; there
   is no scoring, strategy intelligence, benchmark, adaptive policy, or agent
   budget.
