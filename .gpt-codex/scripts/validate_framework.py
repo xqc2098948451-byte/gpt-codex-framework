@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, re, sys
+import json, re, runpy, sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -25,6 +25,24 @@ def read_version(root: Path) -> str:
 
 def load(p):
     with Path(p).open('r', encoding='utf-8') as f: return json.load(f)
+
+
+def validate_module_registry(root: Path) -> list[str]:
+    registry_path = Path(root) / '.gpt-codex/framework-modules/REGISTRY.json'
+    if not registry_path.exists():
+        return []
+    routing_path = Path(root) / '.gpt-codex/scripts/framework_module_routing.py'
+    if not routing_path.exists():
+        return ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+    try:
+        namespace = runpy.run_path(str(routing_path), run_name='framework_module_routing_management')
+        validator = namespace.get('validate_registry')
+        if not callable(validator):
+            return ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+        codes = validator(Path(root))
+    except Exception:
+        codes = ['MODULE_REGISTRY_INVALID']
+    return [f'MODULE_REGISTRY: {code}' for code in codes]
 
 
 def main():
@@ -57,11 +75,27 @@ def main():
         , ROOT/'.gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json'
         , ROOT/'.gpt-codex/project-template/continuity/RESUME.template.json'
     ]
+    registry_path = ROOT/'.gpt-codex/framework-modules/REGISTRY.json'
+    if registry_path.exists():
+        required_files.extend([
+            registry_path,
+            ROOT/'.gpt-codex/schemas/framework-module-registry.schema.json',
+            ROOT/'.gpt-codex/schemas/framework-module.schema.json',
+            ROOT/'.gpt-codex/scripts/framework_module_routing.py',
+        ])
+        try:
+            registry = load(registry_path)
+            for entry in registry.get('modules', []):
+                if isinstance(entry, dict) and isinstance(entry.get('descriptor'), str):
+                    required_files.append(ROOT / entry['descriptor'])
+        except (AttributeError, TypeError, json.JSONDecodeError, OSError):
+            pass
     for p in required_files:
         if not p.exists(): errors.append(f'missing {p.relative_to(ROOT)}')
     if errors:
         for e in errors: print('FAIL:', e)
         return 1
+    errors.extend(validate_module_registry(ROOT))
     version = read_version(ROOT)
     index = load(ROOT/'.gpt-codex/builtins/INDEX.json')
     if index.get('framework_version') != version:
