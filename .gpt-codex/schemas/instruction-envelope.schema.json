@@ -3,69 +3,67 @@
   "title": "GPT Codex Instruction Envelope",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "instruction_id",
-    "instruction_type",
-    "target_project_context_id",
-    "target_project_name",
-    "expected_state_revision",
-    "framework_version"
-  ],
+  "required": ["instruction_id", "instruction_type", "target_project_context_id", "target_project_name", "expected_state_revision", "framework_version"],
   "properties": {
     "instruction_id": { "type": "string", "format": "uuid" },
-    "instruction_type": { "type": "string", "minLength": 1 },
+    "instruction_type": { "type": "string", "enum": ["EXECUTION_INSTRUCTION", "REVIEW_REQUEST", "FIX_INSTRUCTION", "APPROVAL_REQUEST", "RECONCILIATION_REQUEST", "INFORMATION_ONLY", "PROJECT_CONTEXT_BOOTSTRAP", "WORK_UNIT", "IMPLEMENTATION"] },
     "target_project_context_id": { "type": ["string", "null"] },
     "target_project_name": { "type": ["string", "null"] },
     "expected_state_revision": { "type": ["integer", "null"], "minimum": 0 },
     "framework_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-    "target_work_unit": { "type": "string" },
-    "expected_base_sha": { "type": "string" },
+    "target_work_unit": { "type": "string", "minLength": 1 },
+    "expected_base_sha": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" },
     "target_github_repository_id": { "type": "string", "minLength": 1 },
     "target_github_repository_full_name": { "type": "string", "minLength": 1 },
     "expected_remote_ref": { "type": "string", "minLength": 1 },
     "expected_remote_head_sha": { "type": ["string", "null"] },
     "expected_remote_name": { "type": "string", "minLength": 1 },
-    "permission_scope": { "type": "string" },
-    "bootstrap_target_project_id": { "type": "string" },
-    "bootstrap_challenge_id": { "type": "string" },
-    "bootstrap_phase": { "type": "string", "enum": ["INITIAL_READ_ONLY", "CHALLENGE_BOUND"] }
+    "permission_scope": { "type": "string", "minLength": 1 },
+    "bootstrap_target_project_id": { "type": "string", "minLength": 1 },
+    "bootstrap_challenge_id": { "type": "string", "minLength": 1 },
+    "bootstrap_phase": { "type": "string", "enum": ["INITIAL_READ_ONLY", "CHALLENGE_BOUND"] },
+    "issuer_role": { "type": "string", "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"] },
+    "executor_role": { "type": "string", "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"] },
+    "return_role": { "type": "string", "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"] },
+    "authorized_actions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "enum": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE", "ROUTE", "BIND", "INTERPRET", "REQUEST_APPROVAL", "ISSUE_INSTRUCTION", "APPROVE", "REJECT", "LOCAL_ACTION", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"] } },
+    "forbidden_actions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "enum": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE", "ROUTE", "BIND", "INTERPRET", "REQUEST_APPROVAL", "ISSUE_INSTRUCTION", "APPROVE", "REJECT", "LOCAL_ACTION", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"] } },
+    "evidence_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "files_read": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "files_changed": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "tests": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "validation": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "findings": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "revision": { "type": "boolean" },
+        "result_references": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "completion_gate": { "type": "string", "enum": ["NONE", "GPT_DECISION", "USER_APPROVAL"] },
+    "in_response_to_instruction_id": { "type": "string", "format": "uuid" },
+    "in_response_to_result_id": { "type": "string", "format": "uuid" },
+    "review_target_revision": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" },
+    "finding_ids": { "type": "array", "maxItems": 50, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "fix_round": { "type": "integer", "minimum": 0 },
+    "artifact_stage": { "type": "string", "enum": ["DESIGN", "PLAN", "IMPLEMENTATION"] }
   },
   "allOf": [
     {
-      "if": {
-        "properties": { "instruction_type": { "not": { "const": "PROJECT_CONTEXT_BOOTSTRAP" } } }
-      },
-      "then": {
-        "properties": {
-          "target_project_context_id": { "type": "string", "minLength": 1 }
-        }
-      }
+      "if": { "properties": { "instruction_type": { "enum": ["EXECUTION_INSTRUCTION", "REVIEW_REQUEST", "FIX_INSTRUCTION", "APPROVAL_REQUEST", "RECONCILIATION_REQUEST", "INFORMATION_ONLY"] } }, "required": ["instruction_type"] },
+      "then": { "required": ["issuer_role", "executor_role", "return_role"] }
     },
     {
-      "if": {
-        "properties": { "bootstrap_phase": { "const": "CHALLENGE_BOUND" } },
-        "required": ["bootstrap_phase"]
-      },
-      "then": {
-        "required": ["bootstrap_challenge_id", "instruction_type"],
-        "properties": {
-          "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" },
-          "bootstrap_challenge_id": { "type": "string", "minLength": 1 },
-          "target_project_context_id": { "type": "null" }
-        }
-      }
+      "if": { "properties": { "instruction_type": { "not": { "const": "PROJECT_CONTEXT_BOOTSTRAP" } } } },
+      "then": { "properties": { "target_project_context_id": { "type": "string", "minLength": 1 } } }
     },
     {
-      "if": {
-        "properties": { "bootstrap_phase": { "const": "INITIAL_READ_ONLY" } },
-        "required": ["bootstrap_phase"]
-      },
-      "then": {
-        "properties": {
-          "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" },
-          "target_project_context_id": { "type": "null" }
-        }
-      }
+      "if": { "properties": { "bootstrap_phase": { "const": "CHALLENGE_BOUND" } }, "required": ["bootstrap_phase"] },
+      "then": { "required": ["bootstrap_challenge_id", "instruction_type"], "properties": { "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" }, "bootstrap_challenge_id": { "type": "string", "minLength": 1 }, "target_project_context_id": { "type": "null" } } }
+    },
+    {
+      "if": { "properties": { "bootstrap_phase": { "const": "INITIAL_READ_ONLY" } }, "required": ["bootstrap_phase"] },
+      "then": { "properties": { "instruction_type": { "const": "PROJECT_CONTEXT_BOOTSTRAP" }, "target_project_context_id": { "type": "null" } } }
     }
   ]
 }

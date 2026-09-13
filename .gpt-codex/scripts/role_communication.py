@@ -57,6 +57,11 @@ ACTIONS = frozenset(
         "APPROVE",
         "REJECT",
         "LOCAL_ACTION",
+        "COMMIT",
+        "PUSH",
+        "PUBLISH",
+        "AUTHORIZE",
+        "SCOPE_EXPANSION",
     }
 )
 
@@ -157,4 +162,3 @@ def validate_action_authority(
     if set(authorized).intersection(forbidden):
         errors.append("ACTION_IN_AUTHORIZED_AND_FORBIDDEN")
     return errors
-
