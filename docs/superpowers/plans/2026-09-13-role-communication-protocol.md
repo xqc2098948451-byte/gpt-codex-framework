@@ -8,7 +8,7 @@
 
 **Tech Stack:** JSON Schema Draft 2020-12, Python 3 standard library, `unittest`, existing framework/project validators, Git continuity helpers, Markdown, and the consumer-projection manifest.
 
-**Spec:** `docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md` at reviewed revision `e005ccf97d4cb0b32a9c9f5176430e677ff0fafd`.
+**Spec:** `docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md` at reviewed revision `7805bfe898d20897cedaab83376b08fe7161c4c7`.
 
 ## Global Constraints
 
