@@ -36,6 +36,8 @@ class NavigationSchemaTests(unittest.TestCase):
         self.assertEqual(project_map_schema["$id"], "gpt-codex/project-map-v1")
         self.assertEqual(module_map_schema["$id"], "gpt-codex/module-map-v1")
         self.assertEqual(resume_schema["$id"], "gpt-codex/resume-v1")
+        self.assertEqual(project_map_schema["properties"]["authority"], {"const": "DERIVED_NAVIGATION_INDEX"})
+        self.assertEqual(module_map_schema["properties"]["authority"], {"const": "DERIVED_NAVIGATION_INDEX"})
         self.assertEqual(project_map_template["authority"], "DERIVED_NAVIGATION_INDEX")
         self.assertEqual(module_map_template["authority"], "DERIVED_NAVIGATION_INDEX")
         self.assertEqual(resume_template["authority"], "DERIVED_CACHE")

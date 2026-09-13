@@ -76,6 +76,20 @@ Before any copyable Codex execution instruction, GPT must show human-facing rout
 
 Machine approval semantics remain `NONE | GPT_DECISION | USER_APPROVAL`. Returning evidence to GPT is not the same as user approval.
 
+### Framework module routing
+
+For framework maintenance, responsibility first, files second. Use the
+`FRAMEWORK_MODULE_REGISTRY` as the structural authority for responsibility,
+ownership, and dependency. A bounded route is reported as `MODULE_ROUTE`; a
+change crossing module boundaries is `CROSS_MODULE_CHANGE_REQUIRED`; an
+unknown or conflicting route is `MODULE_ROUTE_UNRESOLVED` and must fail closed.
+
+The Framework Registry describes responsibility / ownership / dependency.
+Project Map remains DERIVED_NAVIGATION_INDEX and describes project-local
+navigation, location, and freshness. Registry `PERMISSIONS` != execution
+authorization. Execution authority remains bounded by the Kernel, CONTROL,
+Work Unit, Guardrails, and Role Protocol contracts.
+
 ### Role communication contract
 
 `[USER_LOCAL]`, `[CODEX]`, `[RETURN_TO_GPT]`, and `[INFO]` are transport/routing hints, not machine authority; they do not replace envelope fields. The machine role, `authorized_actions`, project binding, state revision, and evidence remain authoritative.

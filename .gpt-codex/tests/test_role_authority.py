@@ -7,6 +7,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from framework_module_routing import route_responsibility
+
 
 def load_validator():
     path = ROOT / "scripts" / "validate_project.py"
@@ -117,6 +119,25 @@ class RoleAuthorityTests(unittest.TestCase):
                 )
                 self.assertIn("INVALID_INSTRUCTION", errors)
                 self.assertIn(f"UNKNOWN_{field.upper()}", errors)
+
+    def test_registry_metadata_does_not_authorize_role_actions(self):
+        decision = route_responsibility(
+            ROOT.parent,
+            "framework-core",
+            "framework governance",
+            planned_assets=[".gpt-codex/KERNEL.md"],
+        )
+        self.assertEqual(decision.outcome, "MODULE_ROUTE")
+        validator = load_validator()
+        errors = validator.validate_instruction_authority(
+            self.instruction(
+                executor_role="CODEX_REVIEWER",
+                authorized_actions=["MUTATE_APPROVED_SCOPE"],
+            ),
+            current_state_revision=8,
+        )
+        self.assertIn("ROLE_AUTHORITY_CONFLICT", errors)
+        self.assertNotIn("MUTATE_APPROVED_SCOPE", decision.required_tests)
 
 
 if __name__ == "__main__":

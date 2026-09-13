@@ -70,6 +70,19 @@ def write_registry(root: Path, registry: dict[str, object]) -> None:
 
 
 class FrameworkModuleValidationTests(unittest.TestCase):
+    def test_framework_docs_describe_responsibility_first_registry_routing(self):
+        corpus = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        corpus += (ROOT / ".gpt-codex/README.md").read_text(encoding="utf-8")
+        for phrase in (
+            "responsibility first, files second",
+            "FRAMEWORK_MODULE_REGISTRY",
+            "MODULE_ROUTE",
+            "CROSS_MODULE_CHANGE_REQUIRED",
+            "MODULE_ROUTE_UNRESOLVED",
+            "Project Map remains DERIVED_NAVIGATION_INDEX",
+        ):
+            self.assertIn(phrase, corpus)
+
     def test_validate_framework_accepts_the_initial_registry(self):
         result = subprocess.run(
             [sys.executable, str(ROOT / ".gpt-codex/scripts/validate_framework.py")],

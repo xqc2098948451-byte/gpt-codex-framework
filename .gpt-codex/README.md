@@ -107,6 +107,24 @@ self-host only cataloged Framework Built-ins.
 
 For an existing governed project, Project Map = where to look, Resume = what is already known, and Git delta = what may be stale. Bind identity, use `PROJECT_MAP.json` to select candidate module maps, validate the Resume checkpoint and relevant Git delta, then read only the required files. Use Repository Discovery only for initial bootstrap, `MAP_MISS` scoped discovery, `MAP_PARTIAL` bounded discovery, or an explicit material re-baseline—not normal maintenance rediscovery.
 
+## Framework module routing
+
+For framework changes, responsibility first, files second. The
+`FRAMEWORK_MODULE_REGISTRY` records structural responsibility, ownership, and
+dependency. Route outcomes are `MODULE_ROUTE` for a bounded module change,
+`CROSS_MODULE_CHANGE_REQUIRED` when more than one module boundary is affected,
+and `MODULE_ROUTE_UNRESOLVED` when ownership or responsibility cannot be
+resolved safely.
+
+```text
+Framework Registry → responsibility / ownership / dependency
+Project Map        → project-local navigation / location / freshness
+```
+
+Project Map remains DERIVED_NAVIGATION_INDEX. Registry `PERMISSIONS` !=
+execution authorization; execution authority stays with the Kernel, CONTROL,
+Work Unit, Guardrails, and Role Protocol contracts.
+
 ## Framework upgrade
 
 When the framework root changes from e.g. v2.0 to v2.1, the project is **not** automatically migrated. GPT asks Codex to run a read-only compatibility evaluation and returns one of:
