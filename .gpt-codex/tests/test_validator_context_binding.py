@@ -3,15 +3,57 @@ import subprocess
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / ".gpt-codex" / "scripts"))
 
-from validate_project import validate_project_identity_boundary
+from validate_project import (
+    validate_project_identity_and_derived,
+    validate_project_identity_boundary,
+)
 
 
 class ValidatorContextBindingTests(unittest.TestCase):
+    def _complete_identity_control(self):
+        return {
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "github": {
+                "repository_id": "123",
+                "repository_full_name": "example/project",
+                "default_branch": "main",
+            },
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
+        }
+
+    def test_declared_invalid_identity_short_circuits_derived_validation(self):
+        control = {"project_context_id": "not-a-uuid", "github": {}}
+        with patch("validate_project.validate_optional_navigation_and_resume") as derived:
+            errors = validate_project_identity_and_derived(Path("."), Path(".gpt-codex"), control)
+        self.assertEqual(errors, ["PROJECT_IDENTITY_INVALID"])
+        derived.assert_not_called()
+
+    def test_declared_valid_identity_reaches_derived_validation(self):
+        with patch(
+            "validate_project.validate_optional_navigation_and_resume", return_value=["DERIVED_ERROR"]
+        ) as derived:
+            errors = validate_project_identity_and_derived(
+                Path("."), Path(".gpt-codex"), self._complete_identity_control()
+            )
+        self.assertEqual(errors, ["DERIVED_ERROR"])
+        derived.assert_called_once()
+
+    def test_legacy_consumer_without_complete_identity_preserves_validation_flow(self):
+        control = {"project_id": "legacy-project"}
+        with patch(
+            "validate_project.validate_optional_navigation_and_resume", return_value=["DERIVED_ERROR"]
+        ) as derived:
+            errors = validate_project_identity_and_derived(Path("."), Path(".gpt-codex"), control)
+        self.assertEqual(errors, ["DERIVED_ERROR"])
+        derived.assert_called_once_with(Path("."), Path(".gpt-codex"), control)
+
     def test_management_control_requires_explicit_management_profile(self):
         control = {
             "framework_management_only": True,

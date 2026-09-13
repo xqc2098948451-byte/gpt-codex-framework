@@ -69,6 +69,20 @@ def validate_identity_before_derived(root: Path, gov: Path, control: Mapping[str
     return validate_optional_navigation_and_resume(root, gov, dict(control))
 
 
+def validate_project_identity_and_derived(root: Path, gov: Path, control: Mapping[str, Any]) -> list[str]:
+    if not has_complete_declared_project_identity(control):
+        return validate_optional_navigation_and_resume(root, gov, dict(control))
+    github = control.get("github")
+    repository_id = github.get("repository_id") if isinstance(github, Mapping) else None
+    return validate_identity_before_derived(
+        root,
+        gov,
+        control,
+        active_context_id=control.get("project_context_id"),
+        local_repository_id=repository_id,
+    )
+
+
 def evaluate_framework_compatibility(
     project_control: Mapping[str, Any], framework_facts: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -513,10 +527,6 @@ def main():
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
-    if has_complete_declared_project_identity(control):
-        identity_decision = evaluate_project_identity(control)
-        if identity_decision.decision != 'ALLOW':
-            errors.append(identity_decision.reason)
     errors += validate_project_identity_boundary(control, consumer=not management_project)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')
@@ -615,7 +625,7 @@ def main():
                 )
             ]
     errors += [f'STATE: {error}' for error in validate_state_authority(state, durable_results)]
-    errors += validate_optional_navigation_and_resume(root, gov, control)
+    errors += validate_project_identity_and_derived(root, gov, control)
     # Validate project-local contracts if present.
     ext_root = gov / 'extensions'
     if ext_root.exists():
