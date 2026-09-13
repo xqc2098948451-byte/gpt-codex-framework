@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse, json, sys
+from collections.abc import Mapping
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
@@ -10,6 +12,14 @@ from kernel_rules import *
 from context_binding import is_valid_project_context_id, required_guardrail_allows
 from continuity_resume import load_resume_checkpoint
 from publication_contract import validate_result_authority, validate_state_authority
+from role_communication import (
+    INSTRUCTION_TYPES,
+    RESULT_MESSAGE_TYPES,
+    validate_action_authority,
+    validate_executor_role,
+    validate_instruction_type,
+    validate_result_message_type,
+)
 from project_navigation import (
     load_module_map,
     load_project_map,
@@ -19,6 +29,138 @@ from project_navigation import (
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
 FRAMEWORK_ROOT = HERE.parent.parent
+
+_MUTATING_ACTIONS = frozenset({"MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"})
+
+
+def validate_instruction_authority(
+    instruction: Mapping[str, Any],
+    current_state_revision: int | None = None,
+    approved_scope: set[str] | None = None,
+) -> list[str]:
+    """Pure fail-closed authority gate for a parsed Instruction Envelope."""
+
+    if not isinstance(instruction, Mapping):
+        return ["INVALID_INSTRUCTION"]
+    errors: list[str] = []
+    type_errors = validate_instruction_type(instruction.get("instruction_type"))
+    if type_errors:
+        errors.extend(["INVALID_INSTRUCTION", *type_errors])
+
+    executor_errors = validate_executor_role(instruction.get("executor_role"))
+    if executor_errors:
+        errors.extend(["INVALID_INSTRUCTION", *executor_errors])
+
+    issuer = instruction.get("issuer_role")
+    return_role = instruction.get("return_role")
+    if issuer is not None and issuer not in {
+        "GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"
+    }:
+        errors.append("INVALID_INSTRUCTION")
+        errors.append("UNKNOWN_ISSUER_ROLE")
+    if return_role is not None and return_role not in {
+        "GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"
+    }:
+        errors.append("INVALID_INSTRUCTION")
+        errors.append("UNKNOWN_RETURN_ROLE")
+
+    executor = instruction.get("executor_role")
+    action_errors = validate_action_authority(
+        executor,
+        instruction.get("authorized_actions"),
+        instruction.get("forbidden_actions"),
+    ) if not executor_errors else []
+    if action_errors:
+        errors.append("ROLE_AUTHORITY_CONFLICT")
+        errors.extend(action_errors)
+    if executor == "CODEX_REVIEWER" and any(
+        action in _MUTATING_ACTIONS for action in (instruction.get("authorized_actions") or [])
+    ):
+        errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEWER_MUTATION_DENIED"])
+
+    expected_revision = instruction.get("expected_state_revision")
+    if current_state_revision is not None and expected_revision is not None and expected_revision != current_state_revision:
+        errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+
+    requested_scope = instruction.get("scope_paths")
+    if approved_scope is not None and requested_scope is not None:
+        if not isinstance(requested_scope, (list, tuple, set, frozenset)) or not set(requested_scope).issubset(approved_scope):
+            errors.extend(["ROLE_AUTHORITY_CONFLICT", "SCOPE_EXPANSION_DENIED"])
+    return list(dict.fromkeys(errors))
+
+
+def validate_review_result(result: Mapping[str, Any]) -> list[str]:
+    """Validate result-side review evidence without granting remediation authority."""
+
+    if not isinstance(result, Mapping):
+        return ["INVALID_RESULT"]
+    errors = validate_result_message_type(result.get("result_message_type"))
+    if errors:
+        return ["INVALID_RESULT", *errors]
+    result_type = result["result_message_type"]
+    if result_type in {"REVIEW_RESULT", "REVIEW_FINDING"}:
+        if not isinstance(result.get("review_target_revision"), str) or not result.get("review_target_revision"):
+            errors.append("REVIEW_TARGET_REVISION_REQUIRED")
+        if result_type == "REVIEW_FINDING" and not isinstance(result.get("evidence_refs"), list):
+            errors.append("FINDING_EVIDENCE_REQUIRED")
+        if result_type == "REVIEW_FINDING" and not result.get("evidence_refs"):
+            errors.append("FINDING_EVIDENCE_REQUIRED")
+        if result.get("responder_role") not in {None, "CODEX_REVIEWER"}:
+            errors.append("ROLE_AUTHORITY_CONFLICT")
+        if result.get("mutation_claim") or result.get("authorized_actions") or result.get("fix_instruction"):
+            errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEWER_MUTATION_DENIED"])
+    return list(dict.fromkeys(errors))
+
+
+def validate_review_lifecycle(
+    instruction: Mapping[str, Any] | None,
+    finding_result: Mapping[str, Any],
+    current_state_revision: int | None = None,
+    remediation_decision: str | None = None,
+    re_review_result: Mapping[str, Any] | None = None,
+    resulting_revision: str | None = None,
+) -> list[str]:
+    """Validate finding evidence, explicit remediation, fix causality, and re-review."""
+
+    errors = validate_review_result(finding_result)
+    if finding_result.get("result_message_type") != "REVIEW_FINDING":
+        return errors
+    if instruction is None or instruction.get("instruction_type") != "FIX_INSTRUCTION":
+        errors.append("FIX_INSTRUCTION_REQUIRED")
+    if remediation_decision is None:
+        errors.append("REMEDIATION_DECISION_REQUIRED")
+    if instruction is not None and instruction.get("instruction_type") == "FIX_INSTRUCTION":
+        errors.extend(validate_instruction_authority(instruction, current_state_revision))
+        if instruction.get("in_response_to_result_id") != finding_result.get("result_id"):
+            errors.append("FINDING_CORRELATION_REQUIRED")
+        if not set(instruction.get("finding_ids") or []).intersection(finding_result.get("finding_ids") or []):
+            errors.append("FINDING_CORRELATION_REQUIRED")
+        if instruction.get("expected_base_sha") != finding_result.get("review_target_revision"):
+            errors.append("REVIEW_TARGET_REVISION_MISMATCH")
+        if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
+            errors.append("FIX_ROUND_MISMATCH")
+        if remediation_decision is not None and instruction.get("remediation_decision_ref") != remediation_decision:
+            errors.append("REMEDIATION_DECISION_MISMATCH")
+        if instruction.get("executor_role") != "CODEX_IMPLEMENTER":
+            errors.append("FIX_EXECUTOR_MUST_BE_CODEX_IMPLEMENTER")
+
+    if re_review_result is not None:
+        errors.extend(validate_review_result(re_review_result))
+        if re_review_result.get("result_message_type") not in {"REVIEW_RESULT", "REVIEW_FINDING"}:
+            errors.append("REVIEW_RESULT_REQUIRED")
+        if resulting_revision is not None and re_review_result.get("review_target_revision") != resulting_revision:
+            errors.append("RE_REVIEW_REVISION_MISMATCH")
+        if not set(finding_result.get("evidence_refs") or []).issubset(set(re_review_result.get("evidence_refs") or [])):
+            errors.append("ORIGINAL_EVIDENCE_NOT_RETAINED")
+    return list(dict.fromkeys(errors))
+
+
+def validate_result_protocol(result: Mapping[str, Any]) -> list[str]:
+    """Apply protocol result checks only to envelopes opting into result classification."""
+
+    if "result_message_type" not in result:
+        return []
+    return validate_review_result(result)
 
 
 def _cataloged_builtin(kind: str, extension_id: str) -> tuple[bool, str]:
@@ -284,6 +426,7 @@ def main():
         if isinstance(candidate, dict) and 'status' in candidate:
             durable_results[ref] = candidate
             errors += [f'RESULT {ref}: {error}' for error in validate_result_authority(candidate)]
+            errors += [f'RESULT_PROTOCOL {ref}: {error}' for error in validate_result_protocol(candidate)]
     errors += [f'STATE: {error}' for error in validate_state_authority(state, durable_results)]
     errors += validate_optional_navigation_and_resume(root, gov, control)
     # Validate project-local contracts if present.
