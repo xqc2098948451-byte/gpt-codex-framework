@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass
+from pathlib import Path
 import secrets
 from typing import Any, Callable, Mapping
 from uuid import UUID, uuid4
@@ -25,6 +26,20 @@ class ContextDecision:
     packet_status: str = "NONE"
 
 
+@dataclass(frozen=True)
+class ProjectIdentity:
+    project_id: str
+    project_context_id: str
+    repository_id: str
+    repository_full_name: str
+    default_branch: str
+    project_root: Path | None
+    framework_root: Path | None
+    management: bool
+    project_role: str
+    framework_role: str
+
+
 def is_valid_project_context_id(value: object) -> bool:
     if not isinstance(value, str):
         return False
@@ -41,6 +56,60 @@ def generate_project_context_id() -> str:
 
 def _decision(decision: str, reason: str, **kwargs: Any) -> ContextDecision:
     return ContextDecision(decision=decision, reason=reason, **kwargs)
+
+
+def load_project_identity(
+    control: Mapping[str, Any],
+    *,
+    project_root: Path | None = None,
+    framework_root: Path | None = None,
+) -> ProjectIdentity:
+    github = control.get("github")
+    roots = control.get("roots")
+    project_id = control.get("project_id")
+    context_id = control.get("project_context_id")
+    if (
+        not isinstance(project_id, str) or not project_id.strip()
+        or not is_valid_project_context_id(context_id)
+        or not isinstance(github, Mapping)
+        or not all(isinstance(github.get(key), str) and github.get(key).strip() for key in ("repository_id", "repository_full_name", "default_branch"))
+        or not isinstance(roots, Mapping)
+    ):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
+    management = control.get("framework_management_only") is True
+    project_role = roots.get("project_role")
+    framework_role = roots.get("framework_role")
+    ordinary = project_role == "AUTHORITATIVE" and framework_role == "ADVISORY"
+    self_hosted = management and project_role == "AUTHORITATIVE" and framework_role == "SELF_MANAGED"
+    if not (ordinary or self_hosted):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
+    return ProjectIdentity(
+        project_id=project_id.strip(), project_context_id=context_id,
+        repository_id=github["repository_id"].strip(), repository_full_name=github["repository_full_name"].strip(),
+        default_branch=github["default_branch"].strip(), project_root=project_root, framework_root=framework_root,
+        management=management, project_role=project_role, framework_role=framework_role,
+    )
+
+
+def evaluate_project_identity(
+    control: Mapping[str, Any], *, expected_project_id: str | None = None,
+    expected_project_context_id: str | None = None, expected_repository_id: str | None = None,
+    expected_repository_full_name: str | None = None,
+) -> ContextDecision:
+    try:
+        identity = load_project_identity(control)
+    except (TypeError, ValueError, KeyError):
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    if expected_project_id is not None and expected_project_id != identity.project_id:
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    if expected_project_context_id is not None and expected_project_context_id != identity.project_context_id:
+        return _decision("DENY", "CROSS_PROJECT_CONTEXT_MISMATCH", packet_status="QUARANTINED")
+    if expected_repository_id is not None and expected_repository_id != identity.repository_id:
+        return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
+    if expected_repository_full_name is not None and expected_repository_full_name != identity.repository_full_name:
+        return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
+    return _decision("ALLOW", "IDENTITY_MATCH", identity_match=True, freshness_match=True,
+                     current_project_mutation=False, action_executable=False, authority="IDENTITY_VALIDATION")
 
 
 def _guardrail_items(project_control: Mapping[str, Any]) -> list[Mapping[str, Any]]:
@@ -126,8 +195,8 @@ def evaluate_instruction(
         return _decision("BOOTSTRAP_REQUIRED", "LOCAL_PROJECT_CONTEXT_MISSING")
     if target != local_context_id:
         if analysis_only:
-            return _decision("ANALYSIS_ONLY", "CROSS_PROJECT_INSTRUCTION_MISMATCH", authority="NONE")
-        return _decision("DENY", "CROSS_PROJECT_INSTRUCTION_MISMATCH", packet_status="QUARANTINED")
+            return _decision("ANALYSIS_ONLY", "CROSS_PROJECT_CONTEXT_MISMATCH", authority="NONE")
+        return _decision("DENY", "CROSS_PROJECT_CONTEXT_MISMATCH", packet_status="QUARANTINED")
 
     expected = envelope.get("expected_state_revision")
     if expected is not None and current_state_revision is not None and expected != current_state_revision:

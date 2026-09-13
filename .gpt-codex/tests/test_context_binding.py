@@ -59,7 +59,7 @@ class ContextBindingTests(unittest.TestCase):
             project_control=migrated_control(),
         )
         self.assertEqual(decision.decision, "DENY")
-        self.assertEqual(decision.reason, "CROSS_PROJECT_INSTRUCTION_MISMATCH")
+        self.assertEqual(decision.reason, "CROSS_PROJECT_CONTEXT_MISMATCH")
         self.assertFalse(decision.current_project_mutation)
         self.assertFalse(decision.action_executable)
 
