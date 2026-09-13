@@ -46,6 +46,42 @@ class GitContinuityTests(unittest.TestCase):
         self.assertEqual(evaluate_publish_gate(binding, sync, "SUCCEEDED", "VERIFIED", True).decision, "SYNCED")
         self.assertNotEqual(evaluate_publish_gate(binding, sync, "SUCCEEDED", "UNAVAILABLE", True).decision, "SYNCED")
 
+    def test_review_revision_requires_descendant_of_formal_review(self):
+        from git_continuity import validate_review_revision
+
+        self.assertEqual(validate_review_revision(None, "b" * 40, lambda _old, _new: False), [])
+        self.assertEqual(validate_review_revision("a" * 40, "b" * 40, lambda _old, _new: True), [])
+        errors = validate_review_revision("a" * 40, "b" * 40, lambda _old, _new: False)
+        self.assertIn("RECONCILIATION_REQUIRED", errors)
+        self.assertIn("REVIEWED_REVISION_NOT_ANCESTOR", errors)
+
+    def test_review_revision_rejects_invalid_sha_inputs(self):
+        from git_continuity import validate_review_revision
+
+        for previous, candidate in (("bad", "b" * 40), (None, "bad"), ("a" * 40, None)):
+            with self.subTest(previous=previous, candidate=candidate):
+                errors = validate_review_revision(previous, candidate, lambda _old, _new: True)
+                self.assertIn("RECONCILIATION_REQUIRED", errors)
+                self.assertIn("REVIEWED_REVISION_INVALID", errors)
+
+    def test_review_history_operations_are_append_only_after_design_plan_review(self):
+        from git_continuity import validate_review_history_operation
+
+        for stage in ("DESIGN", "PLAN"):
+            for operation in ("EDIT", "COMMIT", "FAST_FORWARD_PUSH", "VERIFY_REMOTE"):
+                with self.subTest(stage=stage, operation=operation):
+                    self.assertEqual(validate_review_history_operation(stage, operation), [])
+            for operation in (
+                "AMEND", "REBASE", "RESET_REVIEWED", "FORCE_PUSH", "FORCE_WITH_LEASE",
+                "REPLACE_BRANCH", "DELETE_BRANCH", "MERGE_MAIN", "TAG", "RELEASE", "PUBLISH",
+            ):
+                with self.subTest(stage=stage, operation=operation):
+                    errors = validate_review_history_operation(stage, operation)
+                    self.assertIn("ROLE_AUTHORITY_CONFLICT", errors)
+                    self.assertIn("REVIEW_HISTORY_REWRITE_FORBIDDEN", errors)
+
+        self.assertEqual(validate_review_history_operation("IMPLEMENTATION", "AMEND"), [])
+
 
 if __name__ == "__main__":
     unittest.main()

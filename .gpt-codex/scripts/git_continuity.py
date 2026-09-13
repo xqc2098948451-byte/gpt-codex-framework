@@ -1,7 +1,34 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any
+import re
+from typing import Any, Callable
+
+
+_REVIEW_STAGES = frozenset({"DESIGN", "PLAN", "IMPLEMENTATION"})
+_PENDING_VERIFICATION = frozenset({"NOT_ATTEMPTED", "INCOMPLETE", "UNAVAILABLE", "PENDING"})
+_CONFLICTING_VERIFICATION = frozenset({
+    "DIVERGED",
+    "STALE_STATE_REVISION",
+    "IDENTITY_CONFLICT",
+    "REPOSITORY_MISMATCH",
+    "REMOTE_REF_MISMATCH",
+    "REMOTE_HEAD_MISMATCH",
+})
+_FORBIDDEN_REVIEW_OPERATIONS = frozenset({
+    "AMEND",
+    "REBASE",
+    "RESET_REVIEWED",
+    "FORCE_PUSH",
+    "FORCE_WITH_LEASE",
+    "REPLACE_BRANCH",
+    "DELETE_BRANCH",
+    "MERGE_MAIN",
+    "TAG",
+    "RELEASE",
+    "PUBLISH",
+})
+_SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
 @dataclass(frozen=True)
@@ -21,6 +48,88 @@ class SyncDecision:
     reason: str
     mutation_allowed: bool
     publish_allowed: bool
+
+
+def review_routing_for_stage(stage: str, remote_trigger: str | None = None) -> dict[str, str]:
+    """Return the single review route for a protocol artifact stage."""
+
+    if stage not in _REVIEW_STAGES:
+        raise ValueError("UNKNOWN_REVIEW_STAGE")
+    if remote_trigger is not None and (not isinstance(remote_trigger, str) or not remote_trigger.strip()):
+        raise ValueError("INVALID_REMOTE_TRIGGER")
+    if stage in {"DESIGN", "PLAN"}:
+        route = {
+            "stage": stage,
+            "remote_review_visibility": "REQUIRED",
+            "gpt_review": "REQUIRED",
+            "reviewer_role": "GPT_REVIEWER",
+        }
+    else:
+        route = {
+            "stage": stage,
+            "remote_review_visibility": "OPTIONAL",
+            "technical_review": "CODEX_REVIEWER",
+        }
+    route["remote_trigger"] = remote_trigger or (
+        "FORMAL_REVIEW" if stage in {"DESIGN", "PLAN"} else "MILESTONE_OR_RISK"
+    )
+    return route
+
+
+def validate_review_revision(
+    previous_reviewed_sha: str | None,
+    candidate_sha: str,
+    is_ancestor: Callable[[str, str], bool],
+) -> list[str]:
+    """Require a valid candidate revision to descend from formal review evidence."""
+
+    if (previous_reviewed_sha is not None and not _SHA_RE.fullmatch(previous_reviewed_sha)) or not isinstance(candidate_sha, str) or not _SHA_RE.fullmatch(candidate_sha):
+        return ["RECONCILIATION_REQUIRED", "REVIEWED_REVISION_INVALID"]
+    if previous_reviewed_sha is None:
+        return []
+    if not callable(is_ancestor):
+        return ["RECONCILIATION_REQUIRED", "ANCESTRY_VERIFICATION_FAILED"]
+    try:
+        valid_ancestry = bool(is_ancestor(previous_reviewed_sha, candidate_sha))
+    except Exception:
+        valid_ancestry = False
+    if not valid_ancestry:
+        return ["RECONCILIATION_REQUIRED", "REVIEWED_REVISION_NOT_ANCESTOR"]
+    return []
+
+
+def validate_review_history_operation(stage: str, operation: str) -> list[str]:
+    """Deny reviewed DESIGN/PLAN history rewrites and publication operations."""
+
+    if stage not in _REVIEW_STAGES:
+        return ["INVALID_REVIEW_STAGE"]
+    if not isinstance(operation, str) or not operation.strip():
+        return ["INVALID_REVIEW_OPERATION"]
+    if stage in {"DESIGN", "PLAN"} and operation.upper() in _FORBIDDEN_REVIEW_OPERATIONS:
+        return ["ROLE_AUTHORITY_CONFLICT", "REVIEW_HISTORY_REWRITE_FORBIDDEN"]
+    return []
+
+
+def classify_review_sync(
+    stage: str,
+    push_status: str,
+    remote_verification: str,
+    remote_head_sha: str | None,
+    expected_head_sha: str,
+) -> str:
+    """Classify review synchronization without treating missing evidence as conflict."""
+
+    if stage not in _REVIEW_STAGES:
+        raise ValueError("UNKNOWN_REVIEW_STAGE")
+    if not isinstance(expected_head_sha, str) or not _SHA_RE.fullmatch(expected_head_sha):
+        raise ValueError("EXPECTED_HEAD_REVISION_INVALID")
+    if remote_head_sha is not None and remote_head_sha != expected_head_sha:
+        return "RECONCILIATION_REQUIRED"
+    if remote_verification in _CONFLICTING_VERIFICATION:
+        return "RECONCILIATION_REQUIRED"
+    if push_status == "SUCCEEDED" and remote_verification == "VERIFIED" and remote_head_sha == expected_head_sha:
+        return "SYNCED"
+    return "LOCAL_COMPLETE / SYNC_PENDING"
 
 
 def evaluate_attestation_chain(facts: dict[str, Any]) -> dict[str, Any]:
