@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "authority": "FRAMEWORK_MODULE_REGISTRY",
+  "framework_version": "2.4.0",
+  "modules": [
+    {"module_id": "framework-core", "descriptor": ".gpt-codex/framework-modules/modules/framework-core.json", "status": "ACTIVE"},
+    {"module_id": "identity-context", "descriptor": ".gpt-codex/framework-modules/modules/identity-context.json", "status": "ACTIVE"},
+    {"module_id": "role-communication", "descriptor": ".gpt-codex/framework-modules/modules/role-communication.json", "status": "ACTIVE"},
+    {"module_id": "navigation-continuity", "descriptor": ".gpt-codex/framework-modules/modules/navigation-continuity.json", "status": "ACTIVE"},
+    {"module_id": "git-continuity", "descriptor": ".gpt-codex/framework-modules/modules/git-continuity.json", "status": "ACTIVE"},
+    {"module_id": "release-projection", "descriptor": ".gpt-codex/framework-modules/modules/release-projection.json", "status": "ACTIVE"},
+    {"module_id": "framework-validation", "descriptor": ".gpt-codex/framework-modules/modules/framework-validation.json", "status": "ACTIVE"}
+  ]
+}

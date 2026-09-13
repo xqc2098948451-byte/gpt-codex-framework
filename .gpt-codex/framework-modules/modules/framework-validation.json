@@ -1,0 +1,24 @@
+{
+  "MODULE_ID": "framework-validation",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Framework validation orchestration and cross-module validation entrypoints.",
+  "RESPONSIBILITIES": ["framework validation orchestration"],
+  "NON_RESPONSIBILITIES": ["ownership transfer", "execution authorization"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/validate_framework.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/validate_project.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_self_hosting_validator.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_validator_context_binding.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_navigation_project_validation.py"}
+  ],
+  "ENTRY_POINTS": ["framework validation", "project validation"],
+  "INPUTS": ["FRAMEWORK_MODULE_REGISTRY_CONTRACT", "PROJECT_IDENTITY_CONTRACT", "ROLE_COMMUNICATION_CONTRACT", "PROJECT_NAVIGATION_CONTRACT", "GIT_CONTINUITY_CONTRACT", "CONSUMER_PROJECTION_CONTRACT"],
+  "OUTPUTS": ["FRAMEWORK_VALIDATION_CONTRACT"],
+  "DEPENDS_ON": ["framework-core", "identity-context", "role-communication", "navigation-continuity", "git-continuity", "release-projection"],
+  "USED_BY": ["release-projection"],
+  "INVARIANTS": ["validation orchestrates without taking ownership", "validation does not grant execution authority"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "FRAMEWORK_DEVELOPMENT_ONLY"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_self_hosting_validator.py", ".gpt-codex/tests/test_validator_context_binding.py", ".gpt-codex/tests/test_framework_module_routing.py"],
+  "RELATED_MODULES": ["framework-core", "identity-context", "role-communication", "navigation-continuity", "git-continuity", "release-projection"]
+}

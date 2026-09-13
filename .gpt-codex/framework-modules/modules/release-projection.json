@@ -1,0 +1,29 @@
+{
+  "MODULE_ID": "release-projection",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Consumer projection, runtime closure, release archive, and publication evidence boundary.",
+  "RESPONSIBILITIES": ["consumer projection and release authority"],
+  "NON_RESPONSIBILITIES": ["execution authority", "framework module routing"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/consumer_projection.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/validate_consumer_projection.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/release_framework.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/release_archive.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/publication_contract.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/release/consumer-projection-manifest.json"},
+    {"type": "PATH_PREFIX", "value": ".gpt-codex/extensions/skills/framework-release"},
+    {"type": "EXACT_PATH", "value": "VERSION"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/CHANGELOG.md"},
+    {"type": "PATH_PREFIX", "value": "releases"}
+  ],
+  "ENTRY_POINTS": ["consumer projection", "release archive", "publication authority"],
+  "INPUTS": ["FRAMEWORK_GOVERNANCE_CONTRACT", "GIT_CONTINUITY_CONTRACT", "FRAMEWORK_VALIDATION_CONTRACT"],
+  "OUTPUTS": ["CONSUMER_PROJECTION_CONTRACT"],
+  "DEPENDS_ON": ["framework-core", "git-continuity", "framework-validation"],
+  "USED_BY": ["framework-validation"],
+  "INVARIANTS": ["consumer projection remains independent", "management-only Registry assets are not consumer runtime authority"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "CONSUMER_PROJECTED", "RELEASE_MANAGED"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_consumer_projection.py", ".gpt-codex/tests/test_consumer_runtime_closure.py", ".gpt-codex/tests/test_release_packaging.py", ".gpt-codex/tests/test_publication_authority.py"],
+  "RELATED_MODULES": ["framework-core", "git-continuity", "framework-validation"]
+}

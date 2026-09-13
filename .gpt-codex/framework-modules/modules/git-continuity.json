@@ -1,0 +1,20 @@
+{
+  "MODULE_ID": "git-continuity",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Revision continuity, synchronization, review binding, and remote verification.",
+  "RESPONSIBILITIES": ["revision and synchronization continuity"],
+  "NON_RESPONSIBILITIES": ["release publication", "module ownership resolution"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/git_continuity.py"}
+  ],
+  "ENTRY_POINTS": ["revision continuity", "remote verification"],
+  "INPUTS": ["FRAMEWORK_GOVERNANCE_CONTRACT"],
+  "OUTPUTS": ["GIT_CONTINUITY_CONTRACT"],
+  "DEPENDS_ON": ["framework-core"],
+  "USED_BY": ["release-projection", "framework-validation"],
+  "INVARIANTS": ["reviewed history remains append-only", "remote verification is required for synced claims"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "FRAMEWORK_DEVELOPMENT_ONLY"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_git_continuity.py", ".gpt-codex/tests/test_remote_verification.py", ".gpt-codex/tests/test_review_history.py"],
+  "RELATED_MODULES": ["framework-core", "release-projection", "framework-validation"]
+}

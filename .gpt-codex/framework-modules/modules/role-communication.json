@@ -1,0 +1,27 @@
+{
+  "MODULE_ID": "role-communication",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Role taxonomy and instruction/result authority contracts.",
+  "RESPONSIBILITIES": ["role communication and instruction authority"],
+  "NON_RESPONSIBILITIES": ["module ownership resolution", "project navigation"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/role_communication.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/instruction_envelope.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/result_return.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/instruction-envelope.schema.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/result-envelope.schema.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/RESULT_ENVELOPE.template.json"},
+    {"type": "PATH_PREFIX", "value": ".gpt-codex/builtins/skills/handoff"}
+  ],
+  "ENTRY_POINTS": ["instruction envelope", "result envelope", "role authority validation"],
+  "INPUTS": ["FRAMEWORK_GOVERNANCE_CONTRACT", "PROJECT_IDENTITY_CONTRACT"],
+  "OUTPUTS": ["ROLE_COMMUNICATION_CONTRACT"],
+  "DEPENDS_ON": ["framework-core", "identity-context"],
+  "USED_BY": ["framework-validation"],
+  "INVARIANTS": ["Registry metadata does not authorize execution", "Role Protocol remains authoritative"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "CONSUMER_PROJECTED"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_role_authority.py", ".gpt-codex/tests/test_role_communication_taxonomy.py", ".gpt-codex/tests/test_instruction_role_contract.py", ".gpt-codex/tests/test_result_contract_schema.py"],
+  "RELATED_MODULES": ["framework-core", "identity-context", "framework-validation"]
+}

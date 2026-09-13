@@ -1,0 +1,23 @@
+{
+  "MODULE_ID": "identity-context",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Project identity, repository binding, and cross-project isolation.",
+  "RESPONSIBILITIES": ["project and repository identity"],
+  "NON_RESPONSIBILITIES": ["framework module ownership", "release packaging"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/context_binding.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/github_repository_binding.py"},
+    {"type": "PATH_PREFIX", "value": ".gpt-codex/builtins/guardrails/cross-project-context-binding"},
+    {"type": "PATH_PREFIX", "value": ".gpt-codex/builtins/guardrails/github-repository-binding"}
+  ],
+  "ENTRY_POINTS": ["project identity binding", "repository identity binding"],
+  "INPUTS": ["FRAMEWORK_GOVERNANCE_CONTRACT"],
+  "OUTPUTS": ["PROJECT_IDENTITY_CONTRACT"],
+  "DEPENDS_ON": ["framework-core"],
+  "USED_BY": ["role-communication", "navigation-continuity", "framework-validation"],
+  "INVARIANTS": ["project identity remains authoritative", "cross-project context is denied by default"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "CONSUMER_PROJECTED"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_context_binding.py", ".gpt-codex/tests/test_github_repository_binding.py", ".gpt-codex/tests/test_multi_project_github_isolation.py"],
+  "RELATED_MODULES": ["framework-core", "role-communication", "navigation-continuity", "framework-validation"]
+}

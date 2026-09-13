@@ -1,0 +1,28 @@
+{
+  "MODULE_ID": "navigation-continuity",
+  "VERSION": "1.0.0",
+  "PURPOSE": "Derived project navigation, freshness, and continuation state.",
+  "RESPONSIBILITIES": ["project navigation and continuity"],
+  "NON_RESPONSIBILITIES": ["authoritative project state", "framework module ownership"],
+  "OWNED_ASSETS": [
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/project_navigation.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/continuity_resume.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/project-map.schema.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/module-map.schema.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/resume.schema.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/continuity/RESUME.template.json"},
+    {"type": "PATH_PREFIX", "value": ".gpt-codex/builtins/skills/repository-discovery"}
+  ],
+  "ENTRY_POINTS": ["project map routing", "continuity resume"],
+  "INPUTS": ["FRAMEWORK_GOVERNANCE_CONTRACT", "PROJECT_IDENTITY_CONTRACT"],
+  "OUTPUTS": ["PROJECT_NAVIGATION_CONTRACT", "CONTINUITY_RESUME_CONTRACT"],
+  "DEPENDS_ON": ["framework-core", "identity-context"],
+  "USED_BY": ["framework-validation"],
+  "INVARIANTS": ["Project Map remains DERIVED_NAVIGATION_INDEX", "navigation is derived rather than authoritative"],
+  "PERMISSIONS": ["READ_ONLY_REFERENCE", "CONSUMER_PROJECTED"],
+  "CHANGE_RISK": "HIGH",
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_project_navigation.py", ".gpt-codex/tests/test_navigation_schema.py", ".gpt-codex/tests/test_continuity_resume.py", ".gpt-codex/tests/test_context_window_resume.py"],
+  "RELATED_MODULES": ["framework-core", "identity-context", "framework-validation"]
+}
