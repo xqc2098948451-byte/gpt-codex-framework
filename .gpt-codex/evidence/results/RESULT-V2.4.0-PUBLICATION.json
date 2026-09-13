@@ -1,0 +1,52 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "PUBLICATION-V2.4.0-W-P",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.4.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "454f47deaf69bd99fcdcccff487343e182955bb7",
+  "remote_head_sha": "454f47deaf69bd99fcdcccff487343e182955bb7",
+  "verified_baseline_sha": "454f47deaf69bd99fcdcccff487343e182955bb7",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 5,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
+  "changed": [
+    "v2.4.0 Role Communication Protocol Framework source",
+    "v2.4.0 consumer-safe release metadata and artifact",
+    "management-only W/P publication attestation"
+  ],
+  "verify": [
+    "accepted implementation baseline: 3346ce750ff3fe2fb634398e7b792f9158dd748b",
+    "W normal push: SUCCEEDED",
+    "remote main after W push: VERIFIED at 454f47deaf69bd99fcdcccff487343e182955bb7",
+    "v2.4.0 tag target: VERIFIED at 454f47deaf69bd99fcdcccff487343e182955bb7",
+    "GitHub release v2.4.0: PUBLISHED with one uploaded asset",
+    "canonical artifact SHA-256: d35065ae0e37664b2f9a3f569490c7a493cdaa8ffcb480da7bb3832677c134c4",
+    "P is management-only; this Result binds confirmed publication authority to verified W and does not self-reference P"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.4.0-RELEASE-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "3346ce750ff3fe2fb634398e7b792f9158dd748b",
+    "implementation_sha": "3346ce750ff3fe2fb634398e7b792f9158dd748b"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "Return the verified v2.4.0 publication packet and freeze this Framework baseline; no further Framework publication work is authorized."
+}
