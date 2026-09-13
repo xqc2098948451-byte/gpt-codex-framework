@@ -1,4 +1,7 @@
+import shutil
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -163,6 +166,22 @@ class AuthorityAndCompatibilityTests(unittest.TestCase):
         self.assertEqual(validate_framework_adoption(valid_control(), instruction, work_unit, current_state_revision=6), [])
         instruction["authorized_actions"] = ["READ"]
         self.assertEqual(validate_framework_adoption(valid_control(), instruction, work_unit, current_state_revision=6), ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"])
+
+    def test_durable_historical_result_does_not_require_current_state_revision(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project_root = Path(tmp) / "project"
+            shutil.copytree(ROOT, project_root / ".gpt-codex")
+            script = project_root / ".gpt-codex" / "scripts" / "validate_project.py"
+            result = subprocess.run([sys.executable, str(script), str(project_root)], capture_output=True, text=True, check=False)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("STALE_STATE_REVISION", result.stdout)
+
+    def test_live_return_freshness_remains_strict(self):
+        envelope = complete_result(VALID_CONTEXT_ID)
+        envelope["state_revision"] = 3
+        decision = evaluate_return(envelope, VALID_CONTEXT_ID, 6, project_control=valid_control(), local_repository_id="123")
+        self.assertEqual(decision.decision, "RECONCILIATION_REQUIRED")
+        self.assertEqual(decision.reason, "STALE_STATE_REVISION")
 
 
 if __name__ == "__main__":

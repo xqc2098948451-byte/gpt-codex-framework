@@ -570,7 +570,7 @@ def main():
                 decision = evaluate_return(
                     candidate,
                     control.get('project_context_id'),
-                    state.get('revision'),
+                    None,
                     project_control=control,
                     local_repository_id=(control.get('github') or {}).get('repository_id'),
                 )
