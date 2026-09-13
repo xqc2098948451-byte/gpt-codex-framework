@@ -18,10 +18,12 @@
 - `KERNEL_VERSION = 2.0.0` and `SCHEMA_GENERATION = 1` remain unchanged.
 - The frozen Design is read-only; no implementation task may edit `docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md`.
 - This Plan authorizes planning only. Implementation begins only in a later P0-2 Implementation Work Unit after DESIGN and PLAN are both accepted/frozen.
+- This FIX_INSTRUCTION remains a PLAN-stage correction: do not start implementation and do not modify production code, tests, schemas, Registry files, or the projection manifest during this fix.
 - Do not modify `.gpt-codex/KERNEL.md`, `VERSION`, release realization records, or `dist/*`.
 - The descriptor fields remain exactly `MODULE_ID`, `VERSION`, `PURPOSE`, `RESPONSIBILITIES`, `NON_RESPONSIBILITIES`, `OWNED_ASSETS`, `ENTRY_POINTS`, `INPUTS`, `OUTPUTS`, `DEPENDS_ON`, `USED_BY`, `INVARIANTS`, `PERMISSIONS`, `CHANGE_RISK`, `REQUIRED_TESTS`, and `RELATED_MODULES`.
 - Registry authority is exactly `FRAMEWORK_MODULE_REGISTRY`.
 - Registry status is exactly `ACTIVE` or `INACTIVE`; only `ACTIVE` modules are normal primary route targets.
+- The GPT semantic proposal supplies both an existing module ID and one exact responsibility string declared by that module; missing or mismatched responsibility fails as `MODULE_ROUTE_UNRESOLVED`.
 - `PERMISSIONS` is operational module metadata, never an execution authorization source.
 - Each `OWNED_ASSETS` selector is exactly `{ "type": "EXACT_PATH | PATH_PREFIX | LOGICAL_ASSET", "value": "..." }`.
 - `EXACT_PATH` and `PATH_PREFIX` values are normalized safe repository-relative paths; absolute paths and `..` traversal are rejected.
@@ -37,6 +39,8 @@
 - Registry data, module `PERMISSIONS`, and a successful route never grant execution authority; Kernel, CONTROL, Work Unit, Guardrails, Role Protocol, Git, and publication authority remain authoritative.
 - Consumer projection remains independent. Management-only Registry assets are classified explicitly and are not projected as consumer runtime authority.
 - Dependency references must resolve and `USED_BY`/`DEPENDS_ON` must agree, but the graph is not required to be a DAG.
+- `validate_registry(...) -> list[str]` is the single structural/semantic validation model: it returns de-duplicated frozen failure codes and does not raise for invalid selectors, dependencies, ownership conflicts, or descriptor mismatches.
+- `load_registry()` and `load_module_descriptor()` may raise `ModuleRoutingError` when their direct load operation cannot complete; `route_responsibility()` consumes `validate_registry()` first and raises the appropriate frozen code before routing.
 - No P0-3 Framework–Project Separation, P0-4 Project Isolation, P0-5 Framework Development State, or P0-6 Execution Telemetry behavior is implemented.
 
 ## Execution Governance
@@ -199,6 +203,7 @@ def required_tests_for_change(
 def route_responsibility(
     root: Path,
     candidate_module_id: str,
+    responsibility: str,
     *,
     planned_assets: Sequence[str] = (),
     contracts_affected: Sequence[str] = (),
@@ -207,8 +212,12 @@ def route_responsibility(
 ```
 
 `validate_registry` returns a de-duplicated list of the frozen failure codes
-and never grants authority. Loader and route functions raise
-`ModuleRoutingError(code, message, details mapping)` for a fail-closed operation.
+and never grants authority; it does not raise for invalid Registry content.
+Direct loader calls and `route_responsibility` raise
+`ModuleRoutingError(code, message, details mapping)` for a fail-closed
+operation. `route_responsibility` requires `responsibility` to be an exact
+member of the candidate descriptor's `RESPONSIBILITIES` after the candidate is
+verified as registered and `ACTIVE`.
 `classify_changed_assets` returns normalized asset keys mapped to the matching
 primary-owner IDs; callers classify zero and multiple owners using the frozen
 failure codes. `RouteDecision.outcome` is one of the three route outcomes.
@@ -465,13 +474,28 @@ and `LOGICAL_ASSET` only for a named contract that has no natural path.
 
 | Module | Responsibilities and primary assets |
 | --- | --- |
-| `framework-core` | Kernel, CONTROL/STATE/WORK_UNIT contracts, Kernel rules, minimal governance; `.gpt-codex/KERNEL.md`, `.gpt-codex/README.md`, `AGENTS.md`, `.gpt-codex/schemas/control.schema.json`, `.gpt-codex/schemas/state.schema.json`, `.gpt-codex/schemas/work-unit.schema.json`, `.gpt-codex/project-template/CONTROL.template.json`, `.gpt-codex/project-template/STATE.template.json`, `.gpt-codex/project-template/WORK_UNIT.template.json`, `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/builtins/INDEX.json`. `CHANGE_RISK` is `HIGH`. |
+| `framework-core` | Kernel, CONTROL/STATE/WORK_UNIT contracts, Kernel rules, minimal governance, and the Framework Module Registry/routing mechanism; `.gpt-codex/KERNEL.md`, `.gpt-codex/README.md`, `AGENTS.md`, `.gpt-codex/schemas/control.schema.json`, `.gpt-codex/schemas/state.schema.json`, `.gpt-codex/schemas/work-unit.schema.json`, `.gpt-codex/project-template/CONTROL.template.json`, `.gpt-codex/project-template/STATE.template.json`, `.gpt-codex/project-template/WORK_UNIT.template.json`, `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/builtins/INDEX.json`, `.gpt-codex/framework-modules/REGISTRY.json`, `.gpt-codex/framework-modules/modules/`, `.gpt-codex/schemas/framework-module-registry.schema.json`, `.gpt-codex/schemas/framework-module.schema.json`, `.gpt-codex/scripts/framework_module_routing.py`. `CHANGE_RISK` is `HIGH`. |
 | `identity-context` | Project identity, `project_context_id`, repository binding, cross-project isolation, bootstrap identity, reconciliation; `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/scripts/github_repository_binding.py`, and the `cross-project-context-binding` and `github-repository-binding` guardrail asset families. |
 | `role-communication` | Exact roles, instruction/result ownership, instruction authority, review/finding/fix lifecycle, reviewer boundary, role observation, Handoff projection; `.gpt-codex/scripts/role_communication.py`, `.gpt-codex/scripts/instruction_envelope.py`, `.gpt-codex/scripts/result_return.py`, `.gpt-codex/schemas/instruction-envelope.schema.json`, `.gpt-codex/schemas/result-envelope.schema.json`, `.gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json`, `.gpt-codex/project-template/RESULT_ENVELOPE.template.json`, and the `handoff` built-in asset family. |
 | `navigation-continuity` | Project Map, derived Module Map, map routing/freshness, Resume, FAST_RESUME, DELTA_RESUME, RECONCILIATION_REQUIRED, COLD_RESUME, context-window recovery; `.gpt-codex/scripts/project_navigation.py`, `.gpt-codex/scripts/continuity_resume.py`, the three existing navigation/resume schemas, their navigation/continuity templates, and the `repository-discovery` built-in asset family. |
 | `git-continuity` | Local/remote revision continuity, exact SHA review binding, sync classifications, review-stage synchronization, append-only reviewed history, remote verification; `.gpt-codex/scripts/git_continuity.py`. |
 | `release-projection` | Consumer projection, runtime closure, release archive/framework/metadata, publication contract, release evidence boundary; `.gpt-codex/scripts/consumer_projection.py`, `.gpt-codex/scripts/validate_consumer_projection.py`, `.gpt-codex/scripts/release_framework.py`, `.gpt-codex/scripts/release_archive.py`, `.gpt-codex/scripts/publication_contract.py`, `.gpt-codex/release/consumer-projection-manifest.json`, `.gpt-codex/extensions/skills/framework-release/`, `VERSION`, `.gpt-codex/CHANGELOG.md`, and `releases/`. `dist/` remains outside this Work Unit. |
 | `framework-validation` | Validation orchestration only, including `validate_framework.py`, `validate_project.py`, self-hosting validation, and cross-module validation entrypoints; `.gpt-codex/scripts/validate_framework.py`, `.gpt-codex/scripts/validate_project.py`, and the validation orchestration test families. |
+
+The seven descriptors must use these exact responsibility and interface
+identifiers. `contracts_affected` accepts only identifiers from the primary
+module's `OUTPUTS`; the matching consumer rows below place those same exact
+identifiers in `INPUTS`.
+
+| Module | Exact `RESPONSIBILITIES` member used by routing | Exact `INPUTS` | Exact `OUTPUTS` |
+| --- | --- | --- | --- |
+| `framework-core` | `framework governance`, `framework module registry routing` | `KERNEL_GOVERNANCE_INPUT` | `FRAMEWORK_MODULE_REGISTRY_CONTRACT`, `FRAMEWORK_GOVERNANCE_CONTRACT` |
+| `identity-context` | `project and repository identity` | `FRAMEWORK_GOVERNANCE_CONTRACT` | `PROJECT_IDENTITY_CONTRACT` |
+| `role-communication` | `role communication and instruction authority` | `FRAMEWORK_GOVERNANCE_CONTRACT`, `PROJECT_IDENTITY_CONTRACT` | `ROLE_COMMUNICATION_CONTRACT` |
+| `navigation-continuity` | `project navigation and continuity` | `FRAMEWORK_GOVERNANCE_CONTRACT`, `PROJECT_IDENTITY_CONTRACT` | `PROJECT_NAVIGATION_CONTRACT`, `CONTINUITY_RESUME_CONTRACT` |
+| `git-continuity` | `revision and synchronization continuity` | `FRAMEWORK_GOVERNANCE_CONTRACT` | `GIT_CONTINUITY_CONTRACT` |
+| `release-projection` | `consumer projection and release authority` | `FRAMEWORK_GOVERNANCE_CONTRACT`, `GIT_CONTINUITY_CONTRACT`, `FRAMEWORK_VALIDATION_CONTRACT` | `CONSUMER_PROJECTION_CONTRACT` |
+| `framework-validation` | `framework validation orchestration` | `FRAMEWORK_MODULE_REGISTRY_CONTRACT`, `PROJECT_IDENTITY_CONTRACT`, `ROLE_COMMUNICATION_CONTRACT`, `PROJECT_NAVIGATION_CONTRACT`, `GIT_CONTINUITY_CONTRACT`, `CONSUMER_PROJECTION_CONTRACT` | `FRAMEWORK_VALIDATION_CONTRACT` |
 
 Use these dependency/consumer relationships so every edge is reciprocal. A
 relationship means contract consumption, not ownership transfer:
@@ -616,7 +640,12 @@ def test_zero_owner_is_unresolved_and_multiple_owners_conflict(self):
     no_owner = classify_changed_assets(self.root, self.registry, ["unregistered/file.json"])
     self.assertEqual(no_owner["unregistered/file.json"], ())
     with self.assertRaises(ModuleRoutingError) as caught:
-        route_responsibility(self.root, "framework-core", planned_assets=["unregistered/file.json"])
+        route_responsibility(
+            self.root,
+            "framework-core",
+            "framework governance",
+            planned_assets=["unregistered/file.json"],
+        )
     self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
 
 
@@ -629,12 +658,39 @@ def test_selector_paths_reject_absolute_and_parent_traversal(self):
                 owned_assets=({"type": "EXACT_PATH", "value": value},),
             )],
         )
-        self.assertRaises(
-            ModuleRoutingError,
-            validate_registry,
-            self.root,
-            registry,
-        )
+        errors = validate_registry(self.root, registry)
+        self.assertIn("MODULE_DESCRIPTOR_INVALID", errors)
+
+
+def test_ownership_conflict_is_returned_by_validation(self):
+    registry = write_registry_fixture(
+        self.root,
+        [
+            minimal_descriptor(
+                "a",
+                owned_assets=({"type": "EXACT_PATH", "value": "shared/file.json"},),
+            ),
+            minimal_descriptor(
+                "b",
+                owned_assets=({"type": "EXACT_PATH", "value": "shared/file.json"},),
+            ),
+        ],
+    )
+    errors = validate_registry(self.root, registry)
+    self.assertIn("MODULE_OWNERSHIP_CONFLICT", errors)
+
+
+def test_registry_core_assets_have_exactly_framework_core_owner(self):
+    assets = [
+        ".gpt-codex/framework-modules/REGISTRY.json",
+        ".gpt-codex/framework-modules/modules/framework-core.json",
+        ".gpt-codex/schemas/framework-module-registry.schema.json",
+        ".gpt-codex/schemas/framework-module.schema.json",
+        ".gpt-codex/scripts/framework_module_routing.py",
+    ]
+    owners = classify_changed_assets(self.root, self.registry, assets)
+    for asset in assets:
+        self.assertEqual(owners[asset], ("framework-core",))
 ```
 
 - [ ] **Step 2: Run the focused tests and confirm the failure.**
@@ -669,7 +725,9 @@ shape raises `ModuleRoutingError("MODULE_REGISTRY_INVALID", "registry is invalid
 
 `load_module_descriptor(root, descriptor_path)` rejects unsafe paths, missing
 files, invalid JSON, and non-object payloads with
-`MODULE_DESCRIPTOR_INVALID`. `validate_registry(root, registry=None)` checks:
+`MODULE_DESCRIPTOR_INVALID`. `validate_registry(root, registry=None)` checks
+the following conditions and returns a de-duplicated list of frozen failure
+codes in this order; it does not raise for any of them:
 
 ```text
 unique module_id
@@ -682,6 +740,15 @@ USED_BY / DEPENDS_ON consistency
 ownership selector paths are safe
 required-test references resolve to files or stable test identifiers
 ```
+
+The implementation appends each code at most once, in the order
+`MODULE_REGISTRY_INVALID`, `MODULE_DESCRIPTOR_INVALID`,
+`MODULE_DEPENDENCY_INVALID`, and `MODULE_OWNERSHIP_CONFLICT`, while preserving
+the frozen vocabulary. `MODULE_NOT_REGISTERED`, `MODULE_ROUTE_UNRESOLVED`, and
+`CROSS_MODULE_CHANGE_REQUIRED` are route outcomes or route-time failures rather
+than Registry-content validation errors. When `registry` is omitted and the
+direct Registry loader raises `MODULE_REGISTRY_INVALID`, `validate_registry`
+catches that loader error and returns the code in its list.
 
 Missing Registry entries produce `MODULE_NOT_REGISTERED` at route lookup time;
 missing descriptor files remain `MODULE_DESCRIPTOR_INVALID`. `INACTIVE` is
@@ -708,7 +775,10 @@ must remain normalized and deterministic.
 For a planned framework mutation, exactly zero owners is
 `MODULE_ROUTE_UNRESOLVED`, exactly one owner is eligible to continue, and more
 than one owner is `MODULE_OWNERSHIP_CONFLICT`. Never assign an unclassified
-asset to the candidate module.
+asset to the candidate module. The initial Registry must resolve each new
+Registry, descriptor-directory, Registry-schema, and routing-script asset to
+the single `framework-core` owner; the focused test above proves this exact
+coverage.
 
 - [ ] **Step 6: Implement required-test resolution.**
 
@@ -760,6 +830,7 @@ def test_single_module_route_is_returned_for_one_verified_owner(self):
     decision = route_responsibility(
         self.root,
         "framework-core",
+        "framework governance",
         planned_assets=[".gpt-codex/KERNEL.md"],
     )
     self.assertEqual(decision.outcome, "MODULE_ROUTE")
@@ -767,10 +838,24 @@ def test_single_module_route_is_returned_for_one_verified_owner(self):
     self.assertEqual(decision.affected_modules, ("framework-core",))
 
 
+def test_missing_or_mismatched_responsibility_is_unresolved(self):
+    for responsibility in ("", "not a declared responsibility"):
+        with self.subTest(responsibility=responsibility):
+            with self.assertRaises(ModuleRoutingError) as caught:
+                route_responsibility(
+                    self.root,
+                    "framework-core",
+                    responsibility,
+                    planned_assets=[".gpt-codex/KERNEL.md"],
+                )
+            self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+
 def test_reading_a_dependency_does_not_make_a_change_cross_module(self):
     decision = route_responsibility(
         self.root,
         "role-communication",
+        "role communication and instruction authority",
         planned_assets=[".gpt-codex/scripts/role_communication.py"],
     )
     self.assertEqual(decision.outcome, "MODULE_ROUTE")
@@ -780,19 +865,46 @@ def test_consumed_output_contract_requires_cross_module_change(self):
     decision = route_responsibility(
         self.root,
         "role-communication",
+        "role communication and instruction authority",
         planned_assets=[".gpt-codex/schemas/instruction-envelope.schema.json"],
-        contracts_affected=["instruction-envelope output contract"],
+        contracts_affected=["ROLE_COMMUNICATION_CONTRACT"],
     )
     self.assertEqual(decision.outcome, "CROSS_MODULE_CHANGE_REQUIRED")
     self.assertEqual(decision.primary_module, "role-communication")
     self.assertIn("role-communication", decision.affected_modules)
-    self.assertEqual(decision.contracts_affected, ("instruction-envelope output contract",))
+    self.assertIn("framework-validation", decision.affected_modules)
+    self.assertEqual(decision.contracts_affected, ("ROLE_COMMUNICATION_CONTRACT",))
+    self.assertTrue(decision.required_tests)
+
+
+def test_undeclared_contract_does_not_guess_a_consumer(self):
+    with self.assertRaises(ModuleRoutingError) as caught:
+        route_responsibility(
+            self.root,
+            "role-communication",
+            "role communication and instruction authority",
+            planned_assets=[".gpt-codex/scripts/role_communication.py"],
+            contracts_affected=["UNDECLARED_CONTRACT"],
+        )
+    self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+
+def test_declared_output_without_consumers_remains_single_module(self):
+    decision = route_responsibility(
+        self.root,
+        "navigation-continuity",
+        "project navigation and continuity",
+        planned_assets=[".gpt-codex/scripts/continuity_resume.py"],
+        contracts_affected=["CONTINUITY_RESUME_CONTRACT"],
+    )
+    self.assertEqual(decision.outcome, "MODULE_ROUTE")
+    self.assertEqual(decision.affected_modules, ("navigation-continuity",))
 
 
 def test_inactive_or_unregistered_candidate_fails_closed(self):
     for candidate in ("inactive-module", "not-registered"):
         with self.assertRaises(ModuleRoutingError) as caught:
-            route_responsibility(self.root, candidate)
+            route_responsibility(self.root, candidate, "unregistered responsibility")
         self.assertIn(caught.exception.code, {"MODULE_ROUTE_UNRESOLVED", "MODULE_NOT_REGISTERED"})
 ```
 
@@ -808,9 +920,19 @@ Expected: `FAIL` because route classification has not been implemented.
 
 - [ ] **Step 3: Implement `detect_cross_module_change`.**
 
-Return `RouteDecision.outcome == "CROSS_MODULE_CHANGE_REQUIRED"` when the
-affected module tuple contains a module other than the primary module or when
-an explicitly consumed contract/invariant is changed. Populate:
+`route_responsibility` matches each `contracts_affected` value exactly against
+the primary descriptor's `OUTPUTS`. If an identifier is absent there, return
+`MODULE_ROUTE_UNRESOLVED`. For every exact primary output match, collect
+`ACTIVE` modules whose `INPUTS` contain the same identifier. Require each
+consumer to list the primary module in `DEPENDS_ON`; an inconsistent consumer
+relationship is reported by `validate_registry` before routing. Return
+`RouteDecision.outcome == "CROSS_MODULE_CHANGE_REQUIRED"` only when at least
+one consumer is found or a foreign owned asset is already in the affected set.
+An empty consumer set with no foreign owned asset remains `MODULE_ROUTE`.
+`invariants_affected` is evidence metadata only and never creates another
+affected module. Pass the resolved affected-module IDs and exact contract IDs
+to `detect_cross_module_change`, which only classifies the already-established
+impact and does not perform additional guessing. Populate:
 
 ```text
 PRIMARY_MODULE       → primary_module
@@ -825,7 +947,9 @@ For a single-module route, return `MODULE_ROUTE`, one primary/affected module,
 and the primary module's required tests. Read-only dependency use is not a
 cross-module mutation. An internal implementation change that preserves a
 consumed contract remains `MODULE_ROUTE` and represents
-`SINGLE_MODULE_CHANGE`.
+`SINGLE_MODULE_CHANGE`. The contract values in `RouteDecision` remain the
+exact stable identifiers supplied by the caller, and affected modules are
+deduplicated in stable module-ID order.
 
 - [ ] **Step 4: Implement `route_responsibility`.**
 
@@ -834,19 +958,23 @@ The function must execute this bounded order:
 ```text
 load_registry
 → validate_registry
+→ nonempty validation errors → raise the first frozen code in validation order
 → verify candidate is registered
 → require candidate status ACTIVE
 → load candidate descriptor
+→ require exact responsibility member
 → resolve planned asset owners
 → zero owners → MODULE_ROUTE_UNRESOLVED
 → multiple owners → MODULE_OWNERSHIP_CONFLICT
+→ match declared output contracts to exact ACTIVE consumer inputs
 → classify single/cross-module outcome
 ```
 
 GPT's candidate module ID is a proposal. The Registry verifies its existence,
-status, descriptor identity, ownership, and dependency structure. The function
-must not scan unrelated repository directories, rank candidates, infer a new
-module, score confidence, or silently route an unclassified asset.
+status, descriptor identity, exact declared responsibility, ownership, and
+dependency structure. The function must not scan unrelated repository
+directories, rank candidates, infer a new module, score confidence, or
+silently route an unclassified asset.
 
 - [ ] **Step 5: Run route and cross-module tests.**
 
@@ -866,6 +994,50 @@ fields, and the no-scan/no-guess boundary.
 git add .gpt-codex/scripts/framework_module_routing.py .gpt-codex/tests/test_framework_module_routing.py
 git commit -m "feat: route framework changes by module responsibility"
 ```
+
+### Future P0-2 Implementation Work Unit declaration
+
+The later implementation must be opened as one explicit cross-module Work Unit
+with the following routing evidence. This declaration is planning data only and
+does not authorize implementation in the current Plan fix.
+
+```text
+PRIMARY_MODULE:
+framework-core
+
+AFFECTED_MODULES:
+framework-validation
+release-projection
+
+WHY_CROSS_MODULE:
+framework-core introduces the Registry/routing authority; framework-validation integrates its checks; release-projection classifies and preserves its management/consumer boundary.
+
+CONTRACTS_AFFECTED:
+Framework Module Registry validation integration
+consumer projection classification/closure
+
+INVARIANTS_AFFECTED:
+Registry does not grant execution authority
+Project Map remains DERIVED_NAVIGATION_INDEX
+consumer projection remains independent
+
+REQUIRED_TESTS:
+union the REQUIRED_TESTS from framework-core, framework-validation, and release-projection descriptors, then add:
+.gpt-codex/tests/test_framework_module_schemas.py
+.gpt-codex/tests/test_framework_module_routing.py
+.gpt-codex/tests/test_framework_module_validation.py
+.gpt-codex/tests/test_consumer_projection.py
+.gpt-codex/tests/test_consumer_runtime_closure.py
+.gpt-codex/tests/test_navigation_schema.py
+.gpt-codex/tests/test_role_authority.py
+```
+
+Repository inspection has already identified the other planned mutations:
+framework-core owns the Registry mechanism and framework documentation,
+framework-validation owns validator and compatibility checks, and
+release-projection owns the manifest/projection boundary. If implementation
+inspection finds an additional owned asset outside those three modules, the
+Work Unit must add that module to `AFFECTED_MODULES` before mutation.
 
 ### Gate A: Core Registry/schema/ownership/routing review
 
@@ -984,9 +1156,11 @@ git commit -m "feat: integrate framework module validation"
 
 Add exact phrase assertions:
 
-Add the following method to the existing `RoleAuthorityTests` class and import
-`route_responsibility` from the new routing script in that test module; the
-class already supplies `load_validator()` and `self.instruction()` helpers.
+Place the documentation phrase method in the new
+`FrameworkModuleValidationTests` class, whose `ROOT` points at the repository
+root. Place the authority method in the existing `RoleAuthorityTests` class and
+import `route_responsibility` from the new routing script in that test module;
+that class already supplies `load_validator()` and `self.instruction()` helpers.
 
 ```python
 def test_framework_docs_describe_responsibility_first_registry_routing(self):
@@ -1005,8 +1179,9 @@ def test_framework_docs_describe_responsibility_first_registry_routing(self):
 
 def test_registry_metadata_does_not_authorize_role_actions(self):
     decision = route_responsibility(
-        ROOT,
+        ROOT.parent,
         "framework-core",
+        "framework governance",
         planned_assets=[".gpt-codex/KERNEL.md"],
     )
     self.assertEqual(decision.outcome, "MODULE_ROUTE")
