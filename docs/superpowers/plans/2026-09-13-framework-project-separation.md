@@ -578,13 +578,15 @@ The authoritative tuple is `(project_id, project_context_id, repository_id, repo
           )
       )
   ~~~
-- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected GREEN: all five classifications are exact, evaluation snapshots are unchanged, matching identity is accepted, foreign Work Unit/Result/Evidence is rejected with `CROSS_PROJECT_CONTEXT_MISMATCH`, and adoption remains unauthorized without every predicate.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected GREEN: all five classifications are exact, evaluation snapshots are unchanged, matching Project identity is accepted, foreign Work Unit Project binding is rejected according to its defined Project/context binding rule, foreign Result Envelope `source_project_context_id` is rejected with `CROSS_PROJECT_CONTEXT_MISMATCH`, foreign Evidence `project_id` is rejected with `PROJECT_IDENTITY_INVALID`, compatibility evaluation remains read-only, and adoption remains unauthorized unless every existing authority predicate passes.
 - [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'`. Expected: existing context guardrail and compatibility vocabulary tests pass.
 - [ ] **Step 6: Refactor/check contract consistency.** Confirm `validate_project.py` reuses `role_communication.validate_action_authority` rather than defining a second permission mechanism; compatibility evaluation cannot mutate Project files; no schema/template field is added; and `CONFLICT` cannot be adopted.
 - [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_consumer_workspace.py` followed by `git commit -m "feat: enforce project authority and compatibility evaluation"`.
 
 **Gate A — after Task 3**
 - [ ] Review canonical `ProjectIdentity`, identity precedence, exact context/repository mismatch outcomes, authority boundary, all five compatibility outcomes, compatibility non-authority, exact adoption field mappings, Role Protocol reuse, Work Unit/revision reuse, and no schema/projection dependency.
+- [ ] Confirm Result Envelope context binding through `evaluate_return`: foreign `source_project_context_id` yields `CROSS_PROJECT_CONTEXT_MISMATCH`, while matching Result context yields `ALLOW`.
+- [ ] Confirm Evidence `project_id` binding through `validate_evidence_project_binding`: foreign Evidence yields `PROJECT_IDENTITY_INVALID`, while matching Evidence yields no binding error.
 - [ ] Confirm all focused tests for Tasks 1–3 pass before Task 4. Gate A has no projection-closure dependency.
 
 ### Task 4: Validator and explicit management/self-hosting integration
