@@ -62,6 +62,8 @@ def minimal_descriptor(
     owned_assets: tuple[dict[str, str], ...] = (),
     depends_on: tuple[str, ...] = (),
     used_by: tuple[str, ...] = (),
+    inputs: tuple[str, ...] = ("fixture input",),
+    outputs: tuple[str, ...] = ("fixture output",),
     required_tests: tuple[str, ...] = (".gpt-codex/tests/test_framework_module_routing.py",),
 ) -> dict[str, object]:
     return {
@@ -72,8 +74,8 @@ def minimal_descriptor(
         "NON_RESPONSIBILITIES": ["fixture exclusion"],
         "OWNED_ASSETS": list(owned_assets),
         "ENTRY_POINTS": ["fixture entry"],
-        "INPUTS": ["fixture input"],
-        "OUTPUTS": ["fixture output"],
+        "INPUTS": list(inputs),
+        "OUTPUTS": list(outputs),
         "DEPENDS_ON": list(depends_on),
         "USED_BY": list(used_by),
         "INVARIANTS": ["fixture invariant"],
@@ -154,6 +156,80 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
                 [minimal_descriptor("a", depends_on=("b",)), minimal_descriptor("b")],
             )
             self.assertIn("MODULE_DEPENDENCY_INVALID", validate_registry(root, registry))
+
+    def test_contract_consumer_requires_reciprocal_dependency_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor(
+                        "producer",
+                        owned_assets=({"type": "EXACT_PATH", "value": "producer/file.py"},),
+                        outputs=("CONTRACT_X",),
+                    ),
+                    minimal_descriptor("consumer", inputs=("CONTRACT_X",)),
+                ],
+            )
+            self.assertIn("MODULE_DEPENDENCY_INVALID", validate_registry(root, registry))
+
+    def test_invalid_contract_consumer_dependency_fails_before_routing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor(
+                        "producer",
+                        owned_assets=({"type": "EXACT_PATH", "value": "producer/file.py"},),
+                        outputs=("CONTRACT_X",),
+                    ),
+                    minimal_descriptor("consumer", inputs=("CONTRACT_X",)),
+                ],
+            )
+            registry_path = root / ".gpt-codex/framework-modules/REGISTRY.json"
+            registry_path.parent.mkdir(parents=True, exist_ok=True)
+            registry_path.write_text(json.dumps(registry), encoding="utf-8")
+            with self.assertRaises(ModuleRoutingError) as caught:
+                route_responsibility(
+                    root,
+                    "producer",
+                    "fixture responsibility",
+                    planned_assets=["producer/file.py"],
+                    contracts_affected=["CONTRACT_X"],
+                )
+            self.assertEqual(caught.exception.code, "MODULE_DEPENDENCY_INVALID")
+
+    def test_reciprocal_contract_consumer_dependency_remains_cross_module(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor(
+                        "producer",
+                        owned_assets=({"type": "EXACT_PATH", "value": "producer/file.py"},),
+                        outputs=("CONTRACT_X",),
+                        used_by=("consumer",),
+                    ),
+                    minimal_descriptor(
+                        "consumer",
+                        inputs=("CONTRACT_X",),
+                        depends_on=("producer",),
+                    ),
+                ],
+            )
+            registry_path = root / ".gpt-codex/framework-modules/REGISTRY.json"
+            registry_path.parent.mkdir(parents=True, exist_ok=True)
+            registry_path.write_text(json.dumps(registry), encoding="utf-8")
+            decision = route_responsibility(
+                root,
+                "producer",
+                "fixture responsibility",
+                planned_assets=["producer/file.py"],
+                contracts_affected=["CONTRACT_X"],
+            )
+            self.assertEqual(decision.outcome, "CROSS_MODULE_CHANGE_REQUIRED")
 
     def test_zero_owner_is_unresolved(self):
         self.assertEqual(
@@ -245,7 +321,7 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
             registry = write_registry_fixture(
                 root,
                 [
-                    minimal_descriptor("a", owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},)),
+                    minimal_descriptor("a", owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/id"},)),
                     minimal_descriptor("b", owned_assets=({"type": "EXACT_PATH", "value": "contract/foo"},)),
                 ],
             )
@@ -263,6 +339,44 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
                 ],
             )
             self.assertIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+
+    def test_logical_asset_is_a_resolvable_exact_mutation_owner(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor(
+                    "a",
+                    owned_assets=({"type": "LOGICAL_ASSET", "value": "LOGICAL_TEST_ASSET"},),
+                )],
+            )
+            registry_path = root / ".gpt-codex/framework-modules/REGISTRY.json"
+            registry_path.parent.mkdir(parents=True, exist_ok=True)
+            registry_path.write_text(json.dumps(registry), encoding="utf-8")
+            self.assertEqual(
+                classify_changed_assets(root, registry, ["LOGICAL_TEST_ASSET"])["LOGICAL_TEST_ASSET"],
+                ("a",),
+            )
+            decision = route_responsibility(
+                root,
+                "a",
+                "fixture responsibility",
+                planned_assets=["LOGICAL_TEST_ASSET"],
+            )
+            self.assertEqual(decision.outcome, "MODULE_ROUTE")
+
+    def test_logical_asset_does_not_use_path_prefix_semantics(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor(
+                    "a",
+                    owned_assets=({"type": "LOGICAL_ASSET", "value": "LOGICAL_TEST_ASSET"},),
+                )],
+            )
+            owners = classify_changed_assets(root, registry, ["LOGICAL_TEST_ASSET/child"])
+            self.assertEqual(owners["LOGICAL_TEST_ASSET/child"], ())
 
     def test_required_tests_are_sorted_and_deduplicated(self):
         with tempfile.TemporaryDirectory() as directory:

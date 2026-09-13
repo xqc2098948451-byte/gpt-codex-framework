@@ -303,6 +303,17 @@ def validate_registry(
             if consumer in descriptors and module_id not in descriptors[consumer]["DEPENDS_ON"]:
                 add("MODULE_DEPENDENCY_INVALID")
 
+    for producer_id, producer in descriptors.items():
+        for contract in producer["OUTPUTS"]:
+            for consumer_id, consumer in descriptors.items():
+                if consumer_id == producer_id or contract not in consumer["INPUTS"]:
+                    continue
+                if (
+                    consumer_id not in producer["USED_BY"]
+                    or producer_id not in consumer["DEPENDS_ON"]
+                ):
+                    add("MODULE_DEPENDENCY_INVALID")
+
     for index, (left_module, left_selector) in enumerate(selectors):
         for right_module, right_selector in selectors[index + 1 :]:
             if left_module != right_module and _selectors_conflict(left_selector, right_selector):
@@ -325,15 +336,26 @@ def classify_changed_assets(
     planned_assets: Sequence[str],
 ) -> dict[str, tuple[str, ...]]:
     descriptors = _descriptor_index(root, registry)
-    normalized_assets: list[tuple[str, str]] = []
+    normalized_assets: list[tuple[str, str | None, str | None]] = []
     for asset in planned_assets:
+        normalized_path: str | None = None
+        normalized_logical: str | None = None
         try:
-            normalized_assets.append((asset, _normalize_path(asset)))
-        except (TypeError, ValueError) as exc:
+            normalized_path = _normalize_path(asset)
+        except (TypeError, ValueError):
+            pass
+        try:
+            normalized_logical = _normalize_logical_asset(asset)
+        except (TypeError, ValueError):
+            pass
+        if normalized_path is None and normalized_logical is None:
+            exc = ValueError("planned asset is neither a safe path nor a logical identifier")
             raise _error("MODULE_ROUTE_UNRESOLVED", "planned asset is invalid", asset=asset) from exc
+        key = normalized_path if normalized_path is not None else normalized_logical
+        normalized_assets.append((key, normalized_path, normalized_logical))
 
     result: dict[str, tuple[str, ...]] = {}
-    for original, candidate in normalized_assets:
+    for key, candidate_path, candidate_logical in normalized_assets:
         owners: set[str] = set()
         for module_id, descriptor in descriptors.items():
             for selector in descriptor.get("OWNED_ASSETS", []):
@@ -341,13 +363,28 @@ def classify_changed_assets(
                     selector_type, selector_value = _normalize_selector(selector)
                 except (ValueError, KeyError):
                     continue
-                if selector_type == "EXACT_PATH" and candidate == selector_value:
-                    owners.add(module_id)
-                elif selector_type == "PATH_PREFIX" and (
-                    candidate == selector_value or candidate.startswith(selector_value + "/")
+                if (
+                    selector_type == "EXACT_PATH"
+                    and candidate_path is not None
+                    and candidate_path == selector_value
                 ):
                     owners.add(module_id)
-        result[_normalize_path(original)] = tuple(sorted(owners))
+                elif (
+                    selector_type == "PATH_PREFIX"
+                    and candidate_path is not None
+                    and (
+                        candidate_path == selector_value
+                        or candidate_path.startswith(selector_value + "/")
+                    )
+                ):
+                    owners.add(module_id)
+                elif (
+                    selector_type == "LOGICAL_ASSET"
+                    and candidate_logical is not None
+                    and candidate_logical == selector_value
+                ):
+                    owners.add(module_id)
+        result[key] = tuple(sorted(owners))
     return result
 
 
