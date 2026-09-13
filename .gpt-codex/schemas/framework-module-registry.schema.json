@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/framework-module-registry-v1",
+  "title": "GPT-Codex Framework Module Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority",
+    "framework_version",
+    "modules"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "authority": {"const": "FRAMEWORK_MODULE_REGISTRY"},
+    "framework_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["module_id", "descriptor", "status"],
+        "properties": {
+          "module_id": {"type": "string", "minLength": 1},
+          "descriptor": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.json$"
+          },
+          "status": {"enum": ["ACTIVE", "INACTIVE"]}
+        }
+      }
+    }
+  }
+}

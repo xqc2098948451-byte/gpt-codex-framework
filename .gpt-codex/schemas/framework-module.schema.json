@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "gpt-codex/framework-module-v1",
+  "title": "GPT-Codex Framework Module Descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "MODULE_ID",
+    "VERSION",
+    "PURPOSE",
+    "RESPONSIBILITIES",
+    "NON_RESPONSIBILITIES",
+    "OWNED_ASSETS",
+    "ENTRY_POINTS",
+    "INPUTS",
+    "OUTPUTS",
+    "DEPENDS_ON",
+    "USED_BY",
+    "INVARIANTS",
+    "PERMISSIONS",
+    "CHANGE_RISK",
+    "REQUIRED_TESTS",
+    "RELATED_MODULES"
+  ],
+  "properties": {
+    "MODULE_ID": {"type": "string", "minLength": 1},
+    "VERSION": {"type": "string", "minLength": 1},
+    "PURPOSE": {"type": "string", "minLength": 1},
+    "RESPONSIBILITIES": {"type": "array", "items": {"type": "string"}},
+    "NON_RESPONSIBILITIES": {"type": "array", "items": {"type": "string"}},
+    "OWNED_ASSETS": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "value"],
+        "properties": {
+          "type": {
+            "enum": ["EXACT_PATH", "PATH_PREFIX", "LOGICAL_ASSET"]
+          },
+          "value": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "ENTRY_POINTS": {"type": "array", "items": {"type": "string"}},
+    "INPUTS": {"type": "array", "items": {"type": "string"}},
+    "OUTPUTS": {"type": "array", "items": {"type": "string"}},
+    "DEPENDS_ON": {"type": "array", "items": {"type": "string"}},
+    "USED_BY": {"type": "array", "items": {"type": "string"}},
+    "INVARIANTS": {"type": "array", "items": {"type": "string"}},
+    "PERMISSIONS": {"type": "array", "items": {"type": "string"}},
+    "CHANGE_RISK": {"type": "string", "minLength": 1},
+    "REQUIRED_TESTS": {"type": "array", "items": {"type": "string"}},
+    "RELATED_MODULES": {"type": "array", "items": {"type": "string"}}
+  }
+}
