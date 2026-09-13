@@ -67,6 +67,10 @@ ACTIONS = frozenset(
 
 ARTIFACT_STAGES = frozenset({"DESIGN", "PLAN", "IMPLEMENTATION"})
 
+LEGACY_CODEX_ROUTE_MARKER = "[CODEX]"
+_LEGACY_IMPLEMENTATION_CONTEXTS = frozenset({"IMPLEMENTATION", "WORK_UNIT"})
+_LEGACY_REVIEW_CONTEXTS = frozenset({"REVIEW", "REVIEW_REQUEST"})
+
 _ALLOWED_ACTIONS = {
     "CODEX_IMPLEMENTER": frozenset(
         {"READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"}
@@ -132,14 +136,37 @@ def allowed_actions_for_role(role: str) -> frozenset[str]:
     return _ALLOWED_ACTIONS.get(role, frozenset())
 
 
-def _as_action_values(values: Iterable[object] | None) -> list[object]:
+def resolve_legacy_codex_route(route_marker: object, context: object) -> str:
+    """Map only an explicit legacy [CODEX] marker plus one bounded context."""
+
+    if route_marker != LEGACY_CODEX_ROUTE_MARKER:
+        raise ValueError("UNKNOWN_LEGACY_ROUTE_MARKER")
+    if context is None or context == "":
+        raise ValueError("LEGACY_ROUTE_CONTEXT_REQUIRED")
+    if isinstance(context, str):
+        contexts = [context]
+    elif isinstance(context, (list, tuple, set, frozenset)):
+        contexts = list(context)
+    else:
+        raise ValueError("LEGACY_ROUTE_CONTEXT_INVALID")
+    if len(contexts) != 1:
+        raise ValueError("LEGACY_ROUTE_AMBIGUOUS")
+    value = contexts[0]
+    if value in _LEGACY_IMPLEMENTATION_CONTEXTS:
+        return "CODEX_IMPLEMENTER"
+    if value in _LEGACY_REVIEW_CONTEXTS:
+        return "CODEX_REVIEWER"
+    raise ValueError("UNKNOWN_LEGACY_ROUTE_CONTEXT")
+
+
+def _as_action_values(values: Iterable[object] | None) -> list[object] | None:
     if values is None:
         return []
-    if isinstance(values, str):
-        return [values]
+    if isinstance(values, (str, bytes, bytearray)):
+        return None
     if isinstance(values, (list, tuple, set, frozenset)):
         return list(values)
-    return [values]
+    return None
 
 
 def validate_action_authority(
@@ -155,6 +182,8 @@ def validate_action_authority(
     authorized = _as_action_values(authorized_actions)
     forbidden = _as_action_values(forbidden_actions)
     errors: list[str] = []
+    if authorized is None or forbidden is None:
+        return ["INVALID_ACTIONS_SHAPE"]
     for action in authorized + forbidden:
         if not isinstance(action, str) or action not in ACTIONS:
             if "UNKNOWN_ACTION" not in errors:

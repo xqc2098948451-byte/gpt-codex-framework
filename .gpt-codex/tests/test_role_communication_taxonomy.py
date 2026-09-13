@@ -96,9 +96,41 @@ class RoleCommunicationTaxonomyTests(unittest.TestCase):
             "ACTION_IN_AUTHORIZED_AND_FORBIDDEN",
             module.validate_action_authority("CODEX_IMPLEMENTER", ["READ"], ["READ"]),
         )
+
+    def test_action_authority_rejects_non_array_shapes(self):
+        module = load_module()
+        self.assertIn(
+            "INVALID_ACTIONS_SHAPE",
+            module.validate_action_authority("CODEX_IMPLEMENTER", "READ", []),
+        )
+        self.assertIn(
+            "INVALID_ACTIONS_SHAPE",
+            module.validate_action_authority("CODEX_IMPLEMENTER", 7, []),
+        )
+
+    def test_legacy_codex_route_requires_bounded_structured_context(self):
+        module = load_module()
+        resolver = getattr(module, "resolve_legacy_codex_route", None)
+        self.assertIsNotNone(resolver, "legacy [CODEX] resolver is not implemented")
+        self.assertEqual(
+            resolver("[CODEX]", "IMPLEMENTATION"),
+            "CODEX_IMPLEMENTER",
+        )
+        self.assertEqual(
+            resolver("[CODEX]", "REVIEW"),
+            "CODEX_REVIEWER",
+        )
+        for marker, context, error in (
+            ("[CODEX]", None, "LEGACY_ROUTE_CONTEXT_REQUIRED"),
+            ("[CODEX]", ["IMPLEMENTATION", "REVIEW"], "LEGACY_ROUTE_AMBIGUOUS"),
+            ("[UNKNOWN]", "IMPLEMENTATION", "UNKNOWN_LEGACY_ROUTE_MARKER"),
+        ):
+            with self.subTest(marker=marker, context=context):
+                with self.assertRaisesRegex(ValueError, error):
+                    resolver(marker, context)
         self.assertIn(
             "UNKNOWN_ACTION",
-            module.validate_action_authority("CODEX_IMPLEMENTER", [["READ"]], 7),
+            module.validate_action_authority("CODEX_IMPLEMENTER", [["READ"]], []),
         )
 
 

@@ -93,6 +93,16 @@ class ResultContractSchemaTests(unittest.TestCase):
         self.assertTrue(any(item.get("if", {}).get("properties", {}).get("sync_status", {}).get("const") == "SYNCED" for item in conditionals))
         self.assertTrue(any(item.get("if", {}).get("properties", {}).get("publication_authority", {}).get("const") == "PUBLICATION_CANDIDATE_ONLY" for item in conditionals))
 
+    def test_role_observation_matches_frozen_minimal_shape(self):
+        schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))
+        observation = schema["properties"]["role_observation"]
+        expected = {
+            "role", "instruction_id", "work_unit", "reviewed_revision", "executed_revision",
+            "files_read", "files_changed", "tests_run", "findings", "fix_round", "agent_spawns", "result",
+        }
+        self.assertEqual(set(observation["properties"]), expected)
+        self.assertEqual(set(observation["required"]), expected)
+
     def test_handoff_names_envelope_as_source_and_return_as_derived_view(self):
         handoff = (ROOT / "builtins" / "skills" / "handoff" / "SKILL.md").read_text(encoding="utf-8")
 

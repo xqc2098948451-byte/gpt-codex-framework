@@ -16,6 +16,7 @@ from role_communication import (  # noqa: E402
     ARTIFACT_STAGES,
     INSTRUCTION_TYPES,
     ROLES,
+    resolve_legacy_codex_route,
     validate_action_authority,
     validate_executor_role,
     validate_instruction_type,
@@ -73,6 +74,8 @@ def build_instruction_envelope(
     finding_ids: list[str] | None = None,
     fix_round: int | None = None,
     artifact_stage: str | None = None,
+    legacy_route_marker: str | None = None,
+    legacy_route_context: str | list[str] | None = None,
 ) -> dict[str, Any]:
     type_errors = validate_instruction_type(instruction_type)
     if type_errors:
@@ -87,17 +90,34 @@ def build_instruction_envelope(
         # v2.1 instructions remain valid; continuity callers must opt into the
         # repository binding explicitly through this field.
         pass
+    legacy_executor = None
+    if legacy_route_marker is not None or legacy_route_context is not None:
+        legacy_executor = resolve_legacy_codex_route(legacy_route_marker, legacy_route_context)
+        if legacy_executor == "CODEX_REVIEWER" and instruction_type != "REVIEW_REQUEST":
+            raise ValueError("LEGACY_ROUTE_CONTEXT_CONFLICT")
+        if legacy_executor == "CODEX_IMPLEMENTER" and instruction_type == "REVIEW_REQUEST":
+            raise ValueError("LEGACY_ROUTE_CONTEXT_CONFLICT")
+        if executor_role is not None and executor_role != legacy_executor:
+            raise ValueError("LEGACY_ROUTE_EXECUTOR_CONFLICT")
+        executor_role = legacy_executor
+
     role_defaults = LEGACY_DEFAULTS if instruction_type in LEGACY_INSTRUCTION_ALIASES or instruction_type == "PROJECT_CONTEXT_BOOTSTRAP" else {}
-    issuer_role = issuer_role if issuer_role is not None else role_defaults.get("issuer_role", "GPT_ORCHESTRATOR")
+    issuer_role = issuer_role if issuer_role is not None else role_defaults.get("issuer_role")
     executor_role = executor_role if executor_role is not None else role_defaults.get("executor_role")
-    return_role = return_role if return_role is not None else role_defaults.get("return_role", "GPT_ORCHESTRATOR")
+    return_role = return_role if return_role is not None else role_defaults.get("return_role")
     executor_errors = validate_executor_role(executor_role)
     if executor_errors:
         raise ValueError(", ".join(executor_errors))
-    if not isinstance(issuer_role, str) or issuer_role not in ROLES:
+    if issuer_role is None and instruction_type not in LEGACY_INSTRUCTION_ALIASES and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":
+        raise ValueError("ISSUER_ROLE_REQUIRED")
+    if return_role is None and instruction_type not in LEGACY_INSTRUCTION_ALIASES and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":
+        raise ValueError("RETURN_ROLE_REQUIRED")
+    if issuer_role is not None and (not isinstance(issuer_role, str) or issuer_role not in ROLES):
         raise ValueError("UNKNOWN_ISSUER_ROLE")
-    if not isinstance(return_role, str) or return_role not in ROLES:
+    if return_role is not None and (not isinstance(return_role, str) or return_role not in ROLES):
         raise ValueError("UNKNOWN_RETURN_ROLE")
+    authorized_actions = _normalize_action_collection(authorized_actions)
+    forbidden_actions = _normalize_action_collection(forbidden_actions)
     if authorized_actions is not None or forbidden_actions is not None:
         action_errors = validate_action_authority(
             executor_role,
@@ -165,6 +185,16 @@ def build_instruction_envelope(
     }
     envelope.update({key: value for key, value in optional.items() if value is not None})
     return envelope
+
+
+def _normalize_action_collection(value: Any) -> list[str] | None:
+    if value is None:
+        return None
+    if isinstance(value, (str, bytes, bytearray)) or not isinstance(value, (list, tuple)):
+        raise ValueError("INVALID_ACTIONS_SHAPE")
+    if not all(isinstance(action, str) for action in value):
+        raise ValueError("INVALID_ACTION")
+    return list(value)
 
 
 def _validate_evidence_requirements(value: Mapping[str, Any]) -> None:

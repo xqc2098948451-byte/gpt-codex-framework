@@ -1,4 +1,5 @@
 import importlib.util
+import inspect
 import json
 import unittest
 from pathlib import Path
@@ -147,6 +148,55 @@ class InstructionRoleContractTests(unittest.TestCase):
             ie.build_instruction_envelope(**base, authorized_actions=["READ"], forbidden_actions=["READ"])
         with self.assertRaisesRegex(ValueError, "INVALID_CORRELATION"):
             ie.build_instruction_envelope(**base, in_response_to_instruction_id="not-a-uuid")
+
+        with self.assertRaisesRegex(ValueError, "INVALID_ACTIONS_SHAPE"):
+            ie.build_instruction_envelope(**base, authorized_actions="READ")
+
+    def test_new_instructions_require_issuer_and_return_roles(self):
+        ie = load_instruction_envelope()
+        base = {
+            "instruction_type": "EXECUTION_INSTRUCTION",
+            "target_project_context_id": VALID_ID,
+            "target_project_name": "Example Project",
+            "expected_state_revision": 7,
+            "framework_version": "2.4.0",
+            "executor_role": "CODEX_IMPLEMENTER",
+            "issuer_role": "GPT_ORCHESTRATOR",
+            "return_role": "GPT_ORCHESTRATOR",
+        }
+        for field in ("issuer_role", "return_role"):
+            with self.subTest(field=field):
+                value = dict(base)
+                value.pop(field)
+                with self.assertRaisesRegex(ValueError, f"{field.upper()}_REQUIRED"):
+                    ie.build_instruction_envelope(**value)
+
+    def test_bounded_legacy_codex_route_maps_to_one_executor(self):
+        ie = load_instruction_envelope()
+        self.assertIn("legacy_route_marker", inspect.signature(ie.build_instruction_envelope).parameters)
+        envelope = ie.build_instruction_envelope(
+            instruction_type="REVIEW_REQUEST",
+            target_project_context_id=VALID_ID,
+            target_project_name="Example Project",
+            expected_state_revision=7,
+            framework_version="2.4.0",
+            issuer_role="GPT_ORCHESTRATOR",
+            return_role="GPT_ORCHESTRATOR",
+            legacy_route_marker="[CODEX]",
+            legacy_route_context="REVIEW",
+        )
+        self.assertEqual(envelope["executor_role"], "CODEX_REVIEWER")
+        with self.assertRaisesRegex(ValueError, "LEGACY_ROUTE_CONTEXT_REQUIRED"):
+            ie.build_instruction_envelope(
+                instruction_type="EXECUTION_INSTRUCTION",
+                target_project_context_id=VALID_ID,
+                target_project_name="Example Project",
+                expected_state_revision=7,
+                framework_version="2.4.0",
+                issuer_role="GPT_ORCHESTRATOR",
+                return_role="GPT_ORCHESTRATOR",
+                legacy_route_marker="[CODEX]",
+            )
 
     def test_legacy_aliases_map_to_one_implementer_without_result_side_reinterpretation(self):
         ie = load_instruction_envelope()

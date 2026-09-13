@@ -83,6 +83,41 @@ class RoleAuthorityTests(unittest.TestCase):
         )
         self.assertIn("INVALID_INSTRUCTION", errors)
 
+    def test_reviewer_cannot_issue_fix_instruction(self):
+        validator = load_validator()
+        errors = validator.validate_instruction_authority(
+            self.instruction(
+                instruction_type="FIX_INSTRUCTION",
+                issuer_role="CODEX_REVIEWER",
+                finding_ids=["F-001"],
+                in_response_to_result_id="22222222-2222-4222-8222-222222222222",
+                expected_base_sha="a" * 40,
+                fix_round=1,
+            ),
+            current_state_revision=8,
+        )
+        self.assertIn("ROLE_AUTHORITY_CONFLICT", errors)
+
+    def test_missing_issuer_and_return_roles_are_invalid(self):
+        validator = load_validator()
+        for field in ("issuer_role", "return_role"):
+            with self.subTest(field=field):
+                instruction = self.instruction()
+                instruction.pop(field)
+                errors = validator.validate_instruction_authority(instruction, current_state_revision=8)
+                self.assertIn("INVALID_INSTRUCTION", errors)
+                self.assertIn(f"{field.upper()}_REQUIRED", errors)
+
+    def test_unknown_issuer_and_return_roles_are_invalid(self):
+        validator = load_validator()
+        for field in ("issuer_role", "return_role"):
+            with self.subTest(field=field):
+                errors = validator.validate_instruction_authority(
+                    self.instruction(**{field: "AGENT"}), current_state_revision=8
+                )
+                self.assertIn("INVALID_INSTRUCTION", errors)
+                self.assertIn(f"UNKNOWN_{field.upper()}", errors)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse, json, sys
 from collections.abc import Mapping
 from pathlib import Path
+import re
 from typing import Any
 
 HERE = Path(__file__).resolve().parent
@@ -15,6 +16,7 @@ from publication_contract import validate_result_authority, validate_state_autho
 from role_communication import (
     INSTRUCTION_TYPES,
     RESULT_MESSAGE_TYPES,
+    ROLES,
     validate_action_authority,
     validate_executor_role,
     validate_instruction_type,
@@ -31,6 +33,30 @@ REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
 FRAMEWORK_ROOT = HERE.parent.parent
 
 _MUTATING_ACTIONS = frozenset({"MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"})
+_LEGACY_INSTRUCTION_TYPES = frozenset({"WORK_UNIT", "IMPLEMENTATION", "PROJECT_CONTEXT_BOOTSTRAP"})
+_ROLE_AWARE_INSTRUCTION_TYPES = INSTRUCTION_TYPES - _LEGACY_INSTRUCTION_TYPES
+_SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+_UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+
+
+def _is_nonempty_string(value: object) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _is_sha(value: object) -> bool:
+    return isinstance(value, str) and bool(_SHA_RE.fullmatch(value))
+
+
+def _validate_identity(candidate: Mapping[str, Any], context: Mapping[str, Any], field_map: Mapping[str, str]) -> list[str]:
+    errors: list[str] = []
+    for context_key, candidate_key in field_map.items():
+        if context_key not in context:
+            continue
+        expected = context.get(context_key)
+        actual = candidate.get(candidate_key)
+        if not _is_nonempty_string(expected) or actual != expected:
+            errors.extend(["RECONCILIATION_REQUIRED", f"IDENTITY_MISMATCH:{candidate_key}"])
+    return errors
 
 
 def validate_instruction_authority(
@@ -47,20 +73,23 @@ def validate_instruction_authority(
     if type_errors:
         errors.extend(["INVALID_INSTRUCTION", *type_errors])
 
+    instruction_type = instruction.get("instruction_type")
+    role_required = instruction_type in _ROLE_AWARE_INSTRUCTION_TYPES
+
     executor_errors = validate_executor_role(instruction.get("executor_role"))
     if executor_errors:
         errors.extend(["INVALID_INSTRUCTION", *executor_errors])
 
     issuer = instruction.get("issuer_role")
     return_role = instruction.get("return_role")
-    if issuer is not None and issuer not in {
-        "GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"
-    }:
+    if role_required and issuer is None:
+        errors.extend(["INVALID_INSTRUCTION", "ISSUER_ROLE_REQUIRED"])
+    if role_required and return_role is None:
+        errors.extend(["INVALID_INSTRUCTION", "RETURN_ROLE_REQUIRED"])
+    if issuer is not None and (not isinstance(issuer, str) or issuer not in ROLES):
         errors.append("INVALID_INSTRUCTION")
         errors.append("UNKNOWN_ISSUER_ROLE")
-    if return_role is not None and return_role not in {
-        "GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"
-    }:
+    if return_role is not None and (not isinstance(return_role, str) or return_role not in ROLES):
         errors.append("INVALID_INSTRUCTION")
         errors.append("UNKNOWN_RETURN_ROLE")
 
@@ -73,8 +102,25 @@ def validate_instruction_authority(
     if action_errors:
         errors.append("ROLE_AUTHORITY_CONFLICT")
         errors.extend(action_errors)
-    if executor == "CODEX_REVIEWER" and any(
-        action in _MUTATING_ACTIONS for action in (instruction.get("authorized_actions") or [])
+    if instruction_type in {"EXECUTION_INSTRUCTION", "REVIEW_REQUEST", "FIX_INSTRUCTION", "APPROVAL_REQUEST", "RECONCILIATION_REQUEST"} and issuer != "GPT_ORCHESTRATOR":
+        errors.extend(["ROLE_AUTHORITY_CONFLICT", "ISSUER_NOT_AUTHORIZED"])
+    if instruction_type == "FIX_INSTRUCTION":
+        if executor != "CODEX_IMPLEMENTER":
+            errors.extend(["ROLE_AUTHORITY_CONFLICT", "FIX_EXECUTOR_MUST_BE_CODEX_IMPLEMENTER"])
+        if not isinstance(instruction.get("finding_ids"), list) or not instruction.get("finding_ids"):
+            errors.append("FINDING_REFERENCE_REQUIRED")
+        result_ref = instruction.get("in_response_to_result_id")
+        if not isinstance(result_ref, str) or not _UUID_RE.fullmatch(result_ref):
+            errors.append("FINDING_RESULT_REFERENCE_REQUIRED")
+        if not _is_sha(instruction.get("expected_base_sha")):
+            errors.append("REVIEW_BASE_REVISION_REQUIRED")
+        if not isinstance(instruction.get("fix_round"), int) or isinstance(instruction.get("fix_round"), bool) or instruction.get("fix_round") < 1:
+            errors.append("FIX_ROUND_REQUIRED")
+    if instruction_type == "REVIEW_REQUEST" and executor != "CODEX_REVIEWER":
+        errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEW_EXECUTOR_MUST_BE_CODEX_REVIEWER"])
+    authorized_values = instruction.get("authorized_actions")
+    if executor == "CODEX_REVIEWER" and isinstance(authorized_values, (list, tuple, set, frozenset)) and any(
+        action in _MUTATING_ACTIONS for action in authorized_values
     ):
         errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEWER_MUTATION_DENIED"])
 
@@ -99,14 +145,15 @@ def validate_review_result(result: Mapping[str, Any]) -> list[str]:
         return ["INVALID_RESULT", *errors]
     result_type = result["result_message_type"]
     if result_type in {"REVIEW_RESULT", "REVIEW_FINDING"}:
-        if not isinstance(result.get("review_target_revision"), str) or not result.get("review_target_revision"):
+        if not _is_sha(result.get("review_target_revision")):
             errors.append("REVIEW_TARGET_REVISION_REQUIRED")
         if result_type == "REVIEW_FINDING" and not isinstance(result.get("evidence_refs"), list):
             errors.append("FINDING_EVIDENCE_REQUIRED")
         if result_type == "REVIEW_FINDING" and not result.get("evidence_refs"):
             errors.append("FINDING_EVIDENCE_REQUIRED")
-        if result.get("responder_role") not in {None, "CODEX_REVIEWER"}:
+        if result.get("responder_role") != "CODEX_REVIEWER":
             errors.append("ROLE_AUTHORITY_CONFLICT")
+            errors.append("REVIEW_RESPONDER_MUST_BE_CODEX_REVIEWER")
         if result.get("mutation_claim") or result.get("authorized_actions") or result.get("fix_instruction"):
             errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEWER_MUTATION_DENIED"])
     return list(dict.fromkeys(errors))
@@ -119,18 +166,40 @@ def validate_review_lifecycle(
     remediation_decision: str | None = None,
     re_review_result: Mapping[str, Any] | None = None,
     resulting_revision: str | None = None,
+    authoritative_review_context: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """Validate finding evidence, explicit remediation, fix causality, and re-review."""
 
     if not isinstance(finding_result, Mapping):
         return ["INVALID_RESULT"]
+    if instruction is not None and not isinstance(instruction, Mapping):
+        return ["INVALID_INSTRUCTION"]
     errors = validate_review_result(finding_result)
     if finding_result.get("result_message_type") != "REVIEW_FINDING":
         return errors
     if instruction is None or instruction.get("instruction_type") != "FIX_INSTRUCTION":
         errors.append("FIX_INSTRUCTION_REQUIRED")
-    if remediation_decision is None:
+    if not _is_nonempty_string(remediation_decision):
         errors.append("REMEDIATION_DECISION_REQUIRED")
+    if authoritative_review_context is not None:
+        if not isinstance(authoritative_review_context, Mapping):
+            errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_INVALID"])
+        else:
+            current_revision = authoritative_review_context.get("reviewed_revision")
+            if not _is_sha(current_revision):
+                errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_REVISION_REQUIRED"])
+            elif finding_result.get("review_target_revision") != current_revision:
+                errors.extend(["RECONCILIATION_REQUIRED", "STALE_REVIEW_REVISION"])
+            errors.extend(_validate_identity(
+                finding_result,
+                authoritative_review_context,
+                {
+                    "project_context_id": "source_project_context_id",
+                    "repository_id": "source_github_repository_id",
+                    "repository_full_name": "source_github_repository_full_name",
+                    "remote_ref": "current_remote_ref",
+                },
+            ))
     if instruction is not None and instruction.get("instruction_type") == "FIX_INSTRUCTION":
         errors.extend(validate_instruction_authority(instruction, current_state_revision))
         if instruction.get("in_response_to_result_id") != finding_result.get("result_id"):
@@ -139,19 +208,36 @@ def validate_review_lifecycle(
             errors.append("FINDING_CORRELATION_REQUIRED")
         if instruction.get("expected_base_sha") != finding_result.get("review_target_revision"):
             errors.append("REVIEW_TARGET_REVISION_MISMATCH")
+        if instruction.get("review_target_revision") is not None and instruction.get("review_target_revision") != finding_result.get("review_target_revision"):
+            errors.append("REVIEW_TARGET_REVISION_MISMATCH")
         if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
             errors.append("FIX_ROUND_MISMATCH")
         if remediation_decision is not None and instruction.get("remediation_decision_ref") != remediation_decision:
             errors.append("REMEDIATION_DECISION_MISMATCH")
         if instruction.get("executor_role") != "CODEX_IMPLEMENTER":
             errors.append("FIX_EXECUTOR_MUST_BE_CODEX_IMPLEMENTER")
+        if authoritative_review_context is not None and isinstance(authoritative_review_context, Mapping):
+            errors.extend(_validate_identity(
+                instruction,
+                authoritative_review_context,
+                {
+                    "project_context_id": "target_project_context_id",
+                    "repository_id": "target_github_repository_id",
+                    "repository_full_name": "target_github_repository_full_name",
+                    "remote_ref": "expected_remote_ref",
+                },
+            ))
 
     if re_review_result is not None:
         errors.extend(validate_review_result(re_review_result))
         if re_review_result.get("result_message_type") not in {"REVIEW_RESULT", "REVIEW_FINDING"}:
             errors.append("REVIEW_RESULT_REQUIRED")
-        if resulting_revision is not None and re_review_result.get("review_target_revision") != resulting_revision:
+        if resulting_revision is None:
+            errors.append("RESULTING_REVISION_REQUIRED")
+        elif re_review_result.get("review_target_revision") != resulting_revision:
             errors.append("RE_REVIEW_REVISION_MISMATCH")
+        if instruction is not None and re_review_result.get("response_to_instruction_id") != instruction.get("instruction_id"):
+            errors.append("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED")
         if not set(finding_result.get("evidence_refs") or []).issubset(set(re_review_result.get("evidence_refs") or [])):
             errors.append("ORIGINAL_EVIDENCE_NOT_RETAINED")
     return list(dict.fromkeys(errors))

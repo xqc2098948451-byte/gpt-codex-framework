@@ -64,11 +64,20 @@
       "type": ["object", "null"],
       "additionalProperties": false,
       "properties": {
-        "role": { "type": "string" },
-        "action": { "type": "string" },
-        "decision": { "type": "string" },
-        "notes": { "type": "string" }
-      }
+        "role": { "type": "string", "enum": ["GPT_ORCHESTRATOR", "GPT_REVIEWER", "CODEX_IMPLEMENTER", "CODEX_REVIEWER", "USER_APPROVER", "USER_LOCAL", "INFORMATION_ONLY"] },
+        "instruction_id": { "type": "string", "format": "uuid" },
+        "work_unit": { "type": "string", "minLength": 1 },
+        "reviewed_revision": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$" },
+        "executed_revision": { "type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$" },
+        "files_read": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "files_changed": { "type": "array", "maxItems": 100, "items": { "type": "string", "minLength": 1 } },
+        "tests_run": { "type": "array", "maxItems": 100, "items": { "type": ["string", "object"] } },
+        "findings": { "type": "array", "maxItems": 50, "items": { "type": "string", "minLength": 1 } },
+        "fix_round": { "type": "integer", "minimum": 0 },
+        "agent_spawns": { "type": "integer", "minimum": 0 },
+        "result": { "type": "string", "enum": ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT"] }
+      },
+      "required": ["role", "instruction_id", "work_unit", "reviewed_revision", "executed_revision", "files_read", "files_changed", "tests_run", "findings", "fix_round", "agent_spawns", "result"]
     },
     "artifact_stage": { "type": ["string", "null"], "enum": ["DESIGN", "PLAN", "IMPLEMENTATION", null] },
     "artifact_path": { "type": ["string", "null"], "minLength": 1 },

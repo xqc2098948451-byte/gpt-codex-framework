@@ -23,9 +23,17 @@
   "protocol_error": null,
   "role_observation": {
     "role": "CODEX_IMPLEMENTER",
-    "action": "REPORT",
-    "decision": "NONE",
-    "notes": "BOUNDED_OBSERVATION"
+    "instruction_id": "INSTRUCTION_UUID",
+    "work_unit": "WORK-001",
+    "reviewed_revision": null,
+    "executed_revision": null,
+    "files_read": ["relative/path"],
+    "files_changed": [],
+    "tests_run": ["command and outcome"],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "IMPLEMENTATION_RESULT"
   },
   "artifact_stage": "IMPLEMENTATION",
   "artifact_path": "PROJECT_ROOT/path/to/artifact",
