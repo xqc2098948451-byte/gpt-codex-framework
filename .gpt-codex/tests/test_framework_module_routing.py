@@ -1,6 +1,22 @@
 import json
+import sys
+import tempfile
 import unittest
 from pathlib import Path
+
+
+SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
+
+from framework_module_routing import (  # noqa: E402
+    ModuleRoutingError,
+    classify_changed_assets,
+    load_registry,
+    required_tests_for_change,
+    route_responsibility,
+    validate_registry,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,7 +56,61 @@ INITIAL_MODULE_IDS = [
 ]
 
 
+def minimal_descriptor(
+    module_id: str,
+    *,
+    owned_assets: tuple[dict[str, str], ...] = (),
+    depends_on: tuple[str, ...] = (),
+    used_by: tuple[str, ...] = (),
+    required_tests: tuple[str, ...] = (".gpt-codex/tests/test_framework_module_routing.py",),
+) -> dict[str, object]:
+    return {
+        "MODULE_ID": module_id,
+        "VERSION": "1.0.0",
+        "PURPOSE": "fixture",
+        "RESPONSIBILITIES": ["fixture responsibility"],
+        "NON_RESPONSIBILITIES": ["fixture exclusion"],
+        "OWNED_ASSETS": list(owned_assets),
+        "ENTRY_POINTS": ["fixture entry"],
+        "INPUTS": ["fixture input"],
+        "OUTPUTS": ["fixture output"],
+        "DEPENDS_ON": list(depends_on),
+        "USED_BY": list(used_by),
+        "INVARIANTS": ["fixture invariant"],
+        "PERMISSIONS": ["READ_ONLY_REFERENCE"],
+        "CHANGE_RISK": "LOW",
+        "REQUIRED_TESTS": list(required_tests),
+        "RELATED_MODULES": [],
+    }
+
+
+def write_registry_fixture(
+    root: Path, descriptors: list[dict[str, object]]
+) -> dict[str, object]:
+    test_path = root / ".gpt-codex/tests/test_framework_module_routing.py"
+    test_path.parent.mkdir(parents=True, exist_ok=True)
+    test_path.write_text("# fixture\n", encoding="utf-8")
+    modules = []
+    for descriptor in descriptors:
+        module_id = str(descriptor["MODULE_ID"])
+        relative = f".gpt-codex/framework-modules/modules/{module_id}.json"
+        path = root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(descriptor), encoding="utf-8")
+        modules.append({"module_id": module_id, "descriptor": relative, "status": "ACTIVE"})
+    return {
+        "schema_version": 1,
+        "authority": "FRAMEWORK_MODULE_REGISTRY",
+        "framework_version": "2.4.0",
+        "modules": modules,
+    }
+
+
 class FrameworkModuleRoutingTests(unittest.TestCase):
+    def setUp(self):
+        self.root = ROOT
+        self.registry = load_registry(ROOT)
+
     def test_registry_has_exact_initial_module_ids(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
         self.assertEqual(registry["authority"], "FRAMEWORK_MODULE_REGISTRY")
@@ -56,6 +126,170 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
             descriptor = json.loads((ROOT / entry["descriptor"]).read_text(encoding="utf-8"))
             self.assertEqual(descriptor["MODULE_ID"], entry["module_id"])
             self.assertEqual(set(descriptor), MODULE_FIELDS)
+
+    def test_missing_registry_raises_module_registry_invalid(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaises(ModuleRoutingError) as caught:
+                load_registry(Path(directory))
+        self.assertEqual(caught.exception.code, "MODULE_REGISTRY_INVALID")
+
+    def test_missing_descriptor_is_reported_as_module_descriptor_invalid(self):
+        registry = {
+            "schema_version": 1,
+            "authority": "FRAMEWORK_MODULE_REGISTRY",
+            "framework_version": "2.4.0",
+            "modules": [{
+                "module_id": "missing",
+                "descriptor": ".gpt-codex/framework-modules/modules/missing.json",
+                "status": "ACTIVE",
+            }],
+        }
+        self.assertIn("MODULE_DESCRIPTOR_INVALID", validate_registry(self.root, registry))
+
+    def test_dependency_and_used_by_edges_must_be_reciprocal(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor("a", depends_on=("b",)), minimal_descriptor("b")],
+            )
+            self.assertIn("MODULE_DEPENDENCY_INVALID", validate_registry(root, registry))
+
+    def test_zero_owner_is_unresolved(self):
+        self.assertEqual(
+            classify_changed_assets(self.root, self.registry, ["unregistered/file.json"])[
+                "unregistered/file.json"
+            ],
+            (),
+        )
+        with self.assertRaises(ModuleRoutingError) as caught:
+            route_responsibility(
+                self.root,
+                "framework-core",
+                "framework governance",
+                planned_assets=["unregistered/file.json"],
+            )
+        self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+    def test_selector_paths_reject_absolute_and_parent_traversal(self):
+        for value in ("/absolute/file", "C:/absolute/file", "safe/../file"):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as directory:
+                registry = write_registry_fixture(
+                    Path(directory),
+                    [minimal_descriptor("a", owned_assets=({"type": "EXACT_PATH", "value": value},))],
+                )
+                self.assertIn("MODULE_DESCRIPTOR_INVALID", validate_registry(Path(directory), registry))
+
+    def test_malformed_selector_is_descriptor_invalid_without_raising(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor("a", owned_assets=({"type": [], "value": "file"},))],
+            )
+            self.assertIn("MODULE_DESCRIPTOR_INVALID", validate_registry(root, registry))
+
+    def test_ownership_conflict_is_returned_by_validation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "EXACT_PATH", "value": "shared/file.json"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "EXACT_PATH", "value": "shared/file.json"},)),
+                ],
+            )
+            self.assertIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+
+    def test_prefix_matching_respects_component_boundaries(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "PATH_PREFIX", "value": "foo/bar"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "EXACT_PATH", "value": "foo/bar2"},)),
+                ],
+            )
+            owners = classify_changed_assets(root, registry, ["foo/bar2", "foo/bar/child"])
+            self.assertEqual(owners["foo/bar2"], ("b",))
+            self.assertEqual(owners["foo/bar/child"], ("a",))
+
+    def test_exact_inside_prefix_is_an_ownership_conflict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "PATH_PREFIX", "value": "foo"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "EXACT_PATH", "value": "foo/bar"},)),
+                ],
+            )
+            self.assertIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+
+    def test_overlapping_prefixes_are_an_ownership_conflict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "PATH_PREFIX", "value": "foo"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "PATH_PREFIX", "value": "foo/bar"},)),
+                ],
+            )
+            self.assertIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+
+    def test_logical_identifiers_do_not_overlap_physical_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "EXACT_PATH", "value": "contract/foo"},)),
+                ],
+            )
+            self.assertNotIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+            self.assertEqual(classify_changed_assets(root, registry, ["contract/foo"])["contract/foo"], ("b",))
+
+    def test_logical_identifier_duplicates_conflict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("a", owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},)),
+                    minimal_descriptor("b", owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},)),
+                ],
+            )
+            self.assertIn("MODULE_OWNERSHIP_CONFLICT", validate_registry(root, registry))
+
+    def test_required_tests_are_sorted_and_deduplicated(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor("b", required_tests=("z-test", ".gpt-codex/tests/test_framework_module_routing.py")),
+                    minimal_descriptor("a", required_tests=("a-test", ".gpt-codex/tests/test_framework_module_routing.py")),
+                ],
+            )
+            self.assertEqual(
+                required_tests_for_change(root, registry, ["b", "a"]),
+                (".gpt-codex/tests/test_framework_module_routing.py", "a-test", "z-test"),
+            )
+
+    def test_registry_core_assets_have_exactly_framework_core_owner(self):
+        assets = [
+            ".gpt-codex/framework-modules/REGISTRY.json",
+            ".gpt-codex/framework-modules/modules/framework-core.json",
+            ".gpt-codex/schemas/framework-module-registry.schema.json",
+            ".gpt-codex/schemas/framework-module.schema.json",
+            ".gpt-codex/scripts/framework_module_routing.py",
+        ]
+        owners = classify_changed_assets(self.root, self.registry, assets)
+        for asset in assets:
+            self.assertEqual(owners[asset], ("framework-core",))
 
 
 if __name__ == "__main__":
