@@ -1013,8 +1013,7 @@ WHY_CROSS_MODULE:
 framework-core introduces the Registry/routing authority; framework-validation integrates its checks; release-projection classifies and preserves its management/consumer boundary.
 
 CONTRACTS_AFFECTED:
-Framework Module Registry validation integration
-consumer projection classification/closure
+FRAMEWORK_MODULE_REGISTRY_CONTRACT
 
 INVARIANTS_AFFECTED:
 Registry does not grant execution authority
@@ -1031,6 +1030,13 @@ union the REQUIRED_TESTS from framework-core, framework-validation, and release-
 .gpt-codex/tests/test_navigation_schema.py
 .gpt-codex/tests/test_role_authority.py
 ```
+
+`FRAMEWORK_MODULE_REGISTRY_CONTRACT` is the only contract in this Work Unit's
+`CONTRACTS_AFFECTED`: it is an `OUTPUTS` identifier of `framework-core` and an
+exact `INPUTS` identifier of `framework-validation`. `release-projection`
+remains affected independently because the implementation mutates its foreign
+owned asset `.gpt-codex/release/consumer-projection-manifest.json`; that asset
+impact does not invent a `framework-core` output contract.
 
 Repository inspection has already identified the other planned mutations:
 framework-core owns the Registry mechanism and framework documentation,
