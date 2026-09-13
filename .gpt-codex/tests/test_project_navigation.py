@@ -12,6 +12,15 @@ if str(SCRIPTS_DIRECTORY) not in sys.path:
 
 
 class ProjectNavigationTests(unittest.TestCase):
+    def test_project_identity_failure_prevents_derived_validation(self) -> None:
+        from validate_project import validate_identity_before_derived
+
+        control = {"project_id": "PRJ", "project_context_id": "not-a-uuid", "github": {"repository_id": "1", "repository_full_name": "o/r", "default_branch": "main"}, "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"}}
+        self.assertEqual(
+            validate_identity_before_derived(Path("."), Path(".gpt-codex"), control, active_context_id="11111111-1111-4111-8111-111111111111", local_repository_id="1"),
+            ["PROJECT_IDENTITY_INVALID"],
+        )
+
     def setUp(self) -> None:
         self.navigation = importlib.import_module("project_navigation")
 

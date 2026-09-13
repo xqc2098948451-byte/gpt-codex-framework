@@ -58,6 +58,13 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
     return []
 
 
+def validate_identity_before_derived(root: Path, gov: Path, control: Mapping[str, Any], *, active_context_id: str, local_repository_id: str) -> list[str]:
+    decision = evaluate_project_identity(control, expected_project_context_id=active_context_id, expected_repository_id=local_repository_id)
+    if decision.decision != "ALLOW":
+        return [decision.reason]
+    return validate_optional_navigation_and_resume(root, gov, dict(control))
+
+
 def evaluate_framework_compatibility(
     project_control: Mapping[str, Any], framework_facts: Mapping[str, Any],
 ) -> dict[str, Any]:
