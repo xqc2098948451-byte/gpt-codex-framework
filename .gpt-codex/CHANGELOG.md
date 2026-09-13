@@ -1,5 +1,14 @@
 # GPT–Codex Framework Changelog
 
+## v2.4.0 — Role Communication Protocol
+
+- Added the exact seven-role communication taxonomy and explicit role authority boundaries.
+- Added typed Instruction and Result envelope classification without introducing a generic message type.
+- Added causal review lifecycle enforcement from finding through fix instruction and re-review.
+- Added fail-closed routing, synchronization semantics, and history-continuity checks for role communication.
+- Added consumer projection and runtime-closure coverage for the role communication protocol.
+- Kept `KERNEL_VERSION = 2.0.0` and `SCHEMA_VERSION = 1`.
+
 ## v2.3.0 — Project Navigation Map and Context Resume
 
 - Added two-level Project Navigation Map for map-first maintenance.

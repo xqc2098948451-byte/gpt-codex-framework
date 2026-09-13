@@ -19,6 +19,7 @@ ALLOWED_CLASSIFICATIONS = {
 }
 LOCAL_ONLY_PARTS = {
     ".git",
+    ".worktrees",
     "__pycache__",
     ".pytest_cache",
     ".mypy_cache",

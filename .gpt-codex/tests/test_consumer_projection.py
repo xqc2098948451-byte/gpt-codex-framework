@@ -233,6 +233,16 @@ class ConsumerProjectionTests(unittest.TestCase):
             with self.assertRaises(ProjectionValidationError):
                 build_consumer_inventory(root, minimal_manifest())
 
+    def test_git_worktrees_are_local_only_and_ignored(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_minimal_projection_fixture(root)
+            worktree_file = root / ".worktrees" / "branch" / "state.txt"
+            worktree_file.parent.mkdir(parents=True)
+            worktree_file.write_text("local checkout", encoding="utf-8")
+            audit = audit_projection_paths(root, minimal_manifest())
+            self.assertEqual(audit["unknown_paths"], [])
+
     def test_current_source_has_no_unclassified_non_local_paths(self):
         manifest = load_projection_manifest(ROOT)
         audit = audit_projection_paths(ROOT, manifest)
