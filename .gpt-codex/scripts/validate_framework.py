@@ -27,22 +27,34 @@ def load(p):
     with Path(p).open('r', encoding='utf-8') as f: return json.load(f)
 
 
-def validate_module_registry(root: Path) -> list[str]:
+def _load_module_registry(root: Path, *, full_validation: bool) -> tuple[dict | None, list[str]]:
     registry_path = Path(root) / '.gpt-codex/framework-modules/REGISTRY.json'
     if not registry_path.exists():
-        return []
+        return None, []
     routing_path = Path(root) / '.gpt-codex/scripts/framework_module_routing.py'
     if not routing_path.exists():
-        return ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+        return None, ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
     try:
         namespace = runpy.run_path(str(routing_path), run_name='framework_module_routing_management')
-        validator = namespace.get('validate_registry')
-        if not callable(validator):
-            return ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
-        codes = validator(Path(root))
+        loader = namespace.get('load_registry')
+        if not callable(loader):
+            return None, ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+        registry = loader(Path(root))
+        if full_validation:
+            validator = namespace.get('validate_registry')
+            if not callable(validator):
+                return None, ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+            codes = validator(Path(root))
+            if codes:
+                return registry, [f'MODULE_REGISTRY: {code}' for code in codes]
+        return registry, []
     except Exception:
-        codes = ['MODULE_REGISTRY_INVALID']
-    return [f'MODULE_REGISTRY: {code}' for code in codes]
+        return None, ['MODULE_REGISTRY: MODULE_REGISTRY_INVALID']
+
+
+def validate_module_registry(root: Path, *, full_validation: bool = True) -> list[str]:
+    _, errors = _load_module_registry(root, full_validation=full_validation)
+    return errors
 
 
 def main():
@@ -76,6 +88,7 @@ def main():
         , ROOT/'.gpt-codex/project-template/continuity/RESUME.template.json'
     ]
     registry_path = ROOT/'.gpt-codex/framework-modules/REGISTRY.json'
+    registry = None
     module_registry_errors = []
     if registry_path.exists():
         required_files.extend([
@@ -85,15 +98,16 @@ def main():
             ROOT/'.gpt-codex/scripts/framework_module_routing.py',
         ])
         module_test_suite = ROOT/'.gpt-codex/tests/test_framework_module_routing.py'
-        if module_test_suite.exists():
-            module_registry_errors = validate_module_registry(ROOT)
+        registry, module_registry_errors = _load_module_registry(
+            ROOT,
+            full_validation=module_test_suite.exists(),
+        )
         if not module_registry_errors:
             try:
-                registry = load(registry_path)
                 for entry in registry.get('modules', []):
                     if isinstance(entry, dict) and isinstance(entry.get('descriptor'), str):
                         required_files.append(ROOT / entry['descriptor'])
-            except (AttributeError, TypeError, json.JSONDecodeError, OSError):
+            except (AttributeError, TypeError):
                 pass
     for p in required_files:
         if not p.exists(): errors.append(f'missing {p.relative_to(ROOT)}')

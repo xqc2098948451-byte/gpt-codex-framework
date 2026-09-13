@@ -70,7 +70,11 @@ def write_registry(root: Path, registry: dict[str, object]) -> None:
     path.write_text(json.dumps(registry), encoding="utf-8")
 
 
-def run_framework_with_registry_descriptor(descriptor_path: str) -> subprocess.CompletedProcess[str]:
+def run_framework_with_registry_descriptor(
+    descriptor_path: str | None = None,
+    *,
+    management_tests: bool = True,
+) -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory) / "framework"
         shutil.copytree(
@@ -79,15 +83,18 @@ def run_framework_with_registry_descriptor(descriptor_path: str) -> subprocess.C
             ignore=shutil.ignore_patterns(".git", ".worktrees", "dist"),
         )
         registry_path = root / ".gpt-codex/framework-modules/REGISTRY.json"
-        registry = json.loads(registry_path.read_text(encoding="utf-8"))
-        registry["modules"] = [
-            {
-                "module_id": "malformed",
-                "descriptor": descriptor_path,
-                "status": "ACTIVE",
-            }
-        ]
-        registry_path.write_text(json.dumps(registry), encoding="utf-8")
+        if descriptor_path is not None:
+            registry = json.loads(registry_path.read_text(encoding="utf-8"))
+            registry["modules"] = [
+                {
+                    "module_id": "malformed",
+                    "descriptor": descriptor_path,
+                    "status": "ACTIVE",
+                }
+            ]
+            registry_path.write_text(json.dumps(registry), encoding="utf-8")
+        if not management_tests:
+            (root / ".gpt-codex/tests/test_framework_module_routing.py").unlink()
         return subprocess.run(
             [sys.executable, str(root / ".gpt-codex/scripts/validate_framework.py")],
             capture_output=True,
@@ -105,6 +112,28 @@ class FrameworkModuleValidationTests(unittest.TestCase):
         ):
             with self.subTest(descriptor_path=descriptor_path):
                 result = run_framework_with_registry_descriptor(descriptor_path)
+                output = result.stdout + result.stderr
+                self.assertNotEqual(result.returncode, 0, output)
+                self.assertNotIn("Traceback", output)
+                self.assertIn("MODULE_REGISTRY: MODULE_REGISTRY_INVALID", output)
+
+    def test_release_like_framework_with_valid_registry_remains_valid(self):
+        result = run_framework_with_registry_descriptor(management_tests=False)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("RESULT: PASS", result.stdout)
+
+    def test_release_like_framework_fails_closed_for_unsafe_descriptor_paths(self):
+        for descriptor_path in (
+            "C:/definitely-missing.json",
+            "/definitely-missing.json",
+            "../outside.json",
+            "safe/../outside.json",
+        ):
+            with self.subTest(descriptor_path=descriptor_path):
+                result = run_framework_with_registry_descriptor(
+                    descriptor_path,
+                    management_tests=False,
+                )
                 output = result.stdout + result.stderr
                 self.assertNotEqual(result.returncode, 0, output)
                 self.assertNotIn("Traceback", output)
