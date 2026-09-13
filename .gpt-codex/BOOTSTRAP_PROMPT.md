@@ -147,6 +147,10 @@ Then give the bounded Codex instruction and exact return evidence.
 
 ## Role communication boundaries
 
+## Framework–Project separation
+
+Framework publishes; Project decides. Use read-only compatibility evaluation, an explicit Project decision, and separately authorized local mutation or migration. Framework metadata never automatically adopts, propagates, or mutates a Project; P0-4 remains interface-only.
+
 `[USER_LOCAL]`, `[CODEX]`, `[RETURN_TO_GPT]`, and `[INFO]` are transport/routing hints, not machine authority; they do not replace Instruction or Result Envelope fields. The machine role, `authorized_actions`, project identity, state revision, and evidence are authoritative.
 
 The exact seven roles are `GPT_ORCHESTRATOR`, `GPT_REVIEWER`, `CODEX_IMPLEMENTER`, `CODEX_REVIEWER`, `USER_APPROVER`, `USER_LOCAL`, and `INFORMATION_ONLY`. `instruction_type` belongs only to an Instruction Envelope, while `result_message_type` belongs only to a Result Envelope. No generic `message_type` is permitted.

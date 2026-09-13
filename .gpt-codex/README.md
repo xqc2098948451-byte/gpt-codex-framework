@@ -171,6 +171,10 @@ Legacy `[CODEX]` compatibility is bounded and fail-closed. Only an explicitly de
 
 ## Maintenance cadence
 
+## Framework–Project separation
+
+Framework publishes; Project decides. Framework publication flows to read-only compatibility evaluation, then an explicit Project decision, then separately authorized local mutation or migration. Compatibility evaluation never adopts or mutates. Project-local extensions and configuration remain Project-owned. Valid v2.5.0 projects using the current fixed Framework source remain `NO_MIGRATION`; a legacy project using a versioned auxiliary Framework folder requires `EXPLICIT_MIGRATION` to the fixed unversioned Framework source. No automatic propagation, adoption, or P0-4 mechanism exists. Fail-closed vocabulary: `CROSS_PROJECT_CONTEXT_MISMATCH`, `GITHUB_REPOSITORY_MISMATCH`, `PROJECT_IDENTITY_INVALID`, `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`, `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`, `MODULE_ROUTE_UNRESOLVED`, and `NAVIGATION_REPOSITORY_MISMATCH`.
+
 See `MAINTENANCE.md`. The recommended default is a semiannual Harvest/Built-in/Kernel review rather than continuous framework churn.
 
 ## Framework management release packaging
