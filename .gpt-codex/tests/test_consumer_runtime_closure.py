@@ -34,6 +34,22 @@ def _local_script_imports(path: Path, script_names: set[str]) -> set[str]:
 
 
 class ConsumerRuntimeClosureTests(unittest.TestCase):
+    def test_role_protocol_runtime_helper_is_projected_and_importable(self):
+        manifest = load_projection_manifest(ROOT)
+        self.assertEqual(
+            manifest["paths"].get(".gpt-codex/scripts/role_communication.py"),
+            "CONSUMER_REQUIRED",
+        )
+        imports = _local_script_imports(
+            ROOT / ".gpt-codex" / "scripts" / "validate_project.py",
+            {
+                Path(relative).stem
+                for relative, classification in manifest["paths"].items()
+                if relative.startswith(".gpt-codex/scripts/") and relative.endswith(".py")
+            },
+        )
+        self.assertIn("role_communication", imports)
+
     def test_consumer_required_python_imports_are_projection_closed(self):
         manifest = load_projection_manifest(ROOT)
         paths = manifest["paths"]

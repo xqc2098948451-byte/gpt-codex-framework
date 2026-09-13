@@ -193,6 +193,20 @@ class ConsumerProjectionTests(unittest.TestCase):
             "DEVELOPMENT_HISTORY",
         )
 
+    def test_manifest_classifies_role_protocol_runtime_and_management_tests(self):
+        manifest = load_projection_manifest(ROOT)
+        self.assertEqual(manifest["paths"][".gpt-codex/scripts/role_communication.py"], "CONSUMER_REQUIRED")
+        for relative in (
+            ".gpt-codex/tests/test_instruction_role_contract.py",
+            ".gpt-codex/tests/test_review_history.py",
+            ".gpt-codex/tests/test_review_lifecycle.py",
+            ".gpt-codex/tests/test_role_authority.py",
+            ".gpt-codex/tests/test_role_communication_taxonomy.py",
+            ".gpt-codex/tests/test_role_routing_docs.py",
+            ".gpt-codex/tests/test_stage_review_routing.py",
+        ):
+            self.assertEqual(manifest["paths"][relative], "MANAGEMENT_ONLY")
+
     def test_manifest_classifies_current_task9_review_artifacts_as_history(self):
         manifest = load_projection_manifest(ROOT)
         for relative in (
