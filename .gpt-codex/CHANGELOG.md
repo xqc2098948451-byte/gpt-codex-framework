@@ -1,5 +1,14 @@
 # GPT–Codex Framework Changelog
 
+## v2.5.0 — Framework Modular Architecture & Routing
+
+- Added a seven-module `FRAMEWORK_MODULE_REGISTRY` with responsibility-first routing and explicit ownership selectors.
+- Added exact contract-driven cross-module routing with fail-closed unresolved and ownership-conflict outcomes.
+- Integrated bounded Registry validation into framework validation while keeping Registry metadata separate from execution authority.
+- Preserved the separation between Registry responsibility/ownership/dependency and the Project Map navigation index.
+- Kept Registry assets management-only in consumer projection and closed consumer runtime/release packaging boundaries.
+- Kept `KERNEL_VERSION = 2.0.0` and schema generation `1`.
+
 ## v2.4.0 — Role Communication Protocol
 
 - Added the exact seven-role communication taxonomy and explicit role authority boundaries.

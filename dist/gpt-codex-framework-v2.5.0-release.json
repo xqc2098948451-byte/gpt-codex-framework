@@ -1,0 +1,14 @@
+{
+  "framework_version": "2.5.0",
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "artifact": "gpt-codex-framework-v2.5.0-bootstrap.zip",
+  "sha256": "465d29648881b12ab42a80921ce72a37abbb64de5412691fdec63c639e0d57b2",
+  "validation": {
+    "framework": "PASS",
+    "tests": "PASS",
+    "release_hygiene": "PASS",
+    "zip_integrity": "PASS"
+  },
+  "file_count": 81
+}
