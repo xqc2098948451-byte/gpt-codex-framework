@@ -2,9 +2,9 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 5,
+  "revision": 6,
   "state": "COMPLETE",
-  "active_work_unit": "PUBLICATION-V2.4.0-W-P",
+  "active_work_unit": "framework-modular-architecture-routing-release-001",
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
@@ -13,14 +13,16 @@
     ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json",
     ".gpt-codex/evidence/V2.4.0-RELEASE-VERIFICATION.json",
-    ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json"
+    ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json",
+    ".gpt-codex/evidence/V2.5.0-RELEASE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "454f47deaf69bd99fcdcccff487343e182955bb7",
-    "latest_synced_state_revision": 5,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json",
+    "latest_verified_remote_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+    "latest_synced_state_revision": 6,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json",
     "sync_status": "SYNCED"
   },
-  "next_action": "Return the verified v2.4.0 W/P publication packet; no further Framework publication work is authorized"
+  "next_action": "GPT_VERIFY_V2_5_0_PUBLICATION_AND_FREEZE_BASELINE"
 }

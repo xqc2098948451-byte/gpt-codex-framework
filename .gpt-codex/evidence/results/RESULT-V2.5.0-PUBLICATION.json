@@ -1,0 +1,56 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-modular-architecture-routing-release-001",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.5.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+  "remote_head_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+  "verified_baseline_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 6,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
+  "publication_attestation": "P is management-only and does not self-reference P.",
+  "changed": [
+    "v2.5.0 Framework Modular Architecture & Routing source",
+    "v2.5.0 consumer-safe release metadata and artifact",
+    "management-only W/P publication attestation"
+  ],
+  "verify": [
+    "accepted implementation baseline: 49a06f4f1e9fbc1da5c6b408ced88880857b34d6",
+    "W normal push to release branch: SUCCEEDED",
+    "W normal fast-forward push to main: SUCCEEDED",
+    "remote main after W push: VERIFIED at b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+    "v2.5.0 annotated tag target: VERIFIED at b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+    "GitHub release v2.5.0: PUBLISHED with one uploaded asset",
+    "remote canonical artifact SHA-256: 465d29648881b12ab42a80921ce72a37abbb64de5412691fdec63c639e0d57b2",
+    "remote canonical artifact size: 94864 bytes",
+    "P is management-only; this Result binds confirmed publication authority to verified W and does not self-reference P"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.5.0-RELEASE-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "49a06f4f1e9fbc1da5c6b408ced88880857b34d6",
+    "implementation_sha": "49a06f4f1e9fbc1da5c6b408ced88880857b34d6",
+    "work_commit_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "GPT_VERIFY_V2_5_0_PUBLICATION_AND_FREEZE_BASELINE"
+}
