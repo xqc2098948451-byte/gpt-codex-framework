@@ -6,9 +6,27 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / ".gpt-codex" / "scripts"))
+
+from validate_project import validate_project_identity_boundary
 
 
 class ValidatorContextBindingTests(unittest.TestCase):
+    def test_management_control_requires_explicit_management_profile(self):
+        control = {
+            "framework_management_only": True,
+            "governance_profile": "FRAMEWORK_MANAGEMENT",
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "SELF_MANAGED", "framework_kernel_access": "READ_ONLY", "framework_builtins_access": "READ_ONLY"},
+        }
+        self.assertEqual(validate_project_identity_boundary(control, consumer=False), [])
+
+    def test_consumer_control_rejects_management_identity_and_self_managed_root(self):
+        control = {
+            "framework_management_only": True,
+            "governance_profile": "FRAMEWORK_MANAGEMENT",
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "SELF_MANAGED", "framework_kernel_access": "READ_ONLY", "framework_builtins_access": "READ_ONLY"},
+        }
+        self.assertIn("PROJECT_AUTHORITY_BOUNDARY_VIOLATION", validate_project_identity_boundary(control, consumer=True))
     def test_required_guardrail_manifest_and_catalog_are_present(self):
         manifest_path = ROOT / ".gpt-codex" / "builtins" / "guardrails" / "cross-project-context-binding" / "manifest.json"
         self.assertTrue(manifest_path.is_file())

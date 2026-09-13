@@ -11,6 +11,7 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
 from context_binding import (
+    evaluate_project_identity,
     evaluate_return,
     is_valid_project_context_id,
     required_guardrail_allows,
@@ -41,6 +42,20 @@ _LEGACY_INSTRUCTION_TYPES = frozenset({"WORK_UNIT", "IMPLEMENTATION", "PROJECT_C
 _ROLE_AWARE_INSTRUCTION_TYPES = INSTRUCTION_TYPES - _LEGACY_INSTRUCTION_TYPES
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 _UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+
+
+def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: bool) -> list[str]:
+    management = control.get("framework_management_only") is True
+    roots = control.get("roots") or {}
+    explicit_management = management and control.get("governance_profile") == "FRAMEWORK_MANAGEMENT" and roots.get("framework_role") == "SELF_MANAGED"
+    ordinary_consumer = (
+        not management and control.get("governance_profile") != "FRAMEWORK_MANAGEMENT"
+        and roots.get("project_role") == "AUTHORITATIVE" and roots.get("framework_role") == "ADVISORY"
+        and roots.get("framework_kernel_access") == "READ_ONLY" and roots.get("framework_builtins_access") == "READ_ONLY"
+    )
+    if (consumer and not ordinary_consumer) or (not consumer and not explicit_management):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
+    return []
 
 
 def evaluate_framework_compatibility(
@@ -487,6 +502,10 @@ def main():
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
+    identity_decision = evaluate_project_identity(control)
+    if identity_decision.decision != 'ALLOW':
+        errors.append(identity_decision.reason)
+    errors += validate_project_identity_boundary(control, consumer=not management_project)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')
     github = control.get('github')
