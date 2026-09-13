@@ -76,6 +76,7 @@ def main():
         , ROOT/'.gpt-codex/project-template/continuity/RESUME.template.json'
     ]
     registry_path = ROOT/'.gpt-codex/framework-modules/REGISTRY.json'
+    module_registry_errors = []
     if registry_path.exists():
         required_files.extend([
             registry_path,
@@ -83,25 +84,23 @@ def main():
             ROOT/'.gpt-codex/schemas/framework-module.schema.json',
             ROOT/'.gpt-codex/scripts/framework_module_routing.py',
         ])
-        try:
-            registry = load(registry_path)
-            for entry in registry.get('modules', []):
-                if isinstance(entry, dict) and isinstance(entry.get('descriptor'), str):
-                    required_files.append(ROOT / entry['descriptor'])
-        except (AttributeError, TypeError, json.JSONDecodeError, OSError):
-            pass
+        module_test_suite = ROOT/'.gpt-codex/tests/test_framework_module_routing.py'
+        if module_test_suite.exists():
+            module_registry_errors = validate_module_registry(ROOT)
+        if not module_registry_errors:
+            try:
+                registry = load(registry_path)
+                for entry in registry.get('modules', []):
+                    if isinstance(entry, dict) and isinstance(entry.get('descriptor'), str):
+                        required_files.append(ROOT / entry['descriptor'])
+            except (AttributeError, TypeError, json.JSONDecodeError, OSError):
+                pass
     for p in required_files:
         if not p.exists(): errors.append(f'missing {p.relative_to(ROOT)}')
+    errors.extend(module_registry_errors)
     if errors:
         for e in errors: print('FAIL:', e)
         return 1
-    # A release packaging fixture may intentionally omit the management test
-    # suite while retaining source metadata. Full management checkouts keep
-    # the Registry gate enabled; the routing validator itself remains strict
-    # about every REQUIRED_TESTS reference.
-    module_test_suite = ROOT/'.gpt-codex/tests/test_framework_module_routing.py'
-    if not registry_path.exists() or module_test_suite.exists():
-        errors.extend(validate_module_registry(ROOT))
     version = read_version(ROOT)
     index = load(ROOT/'.gpt-codex/builtins/INDEX.json')
     if index.get('framework_version') != version:

@@ -1,4 +1,5 @@
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -69,7 +70,46 @@ def write_registry(root: Path, registry: dict[str, object]) -> None:
     path.write_text(json.dumps(registry), encoding="utf-8")
 
 
+def run_framework_with_registry_descriptor(descriptor_path: str) -> subprocess.CompletedProcess[str]:
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory) / "framework"
+        shutil.copytree(
+            ROOT,
+            root,
+            ignore=shutil.ignore_patterns(".git", ".worktrees", "dist"),
+        )
+        registry_path = root / ".gpt-codex/framework-modules/REGISTRY.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        registry["modules"] = [
+            {
+                "module_id": "malformed",
+                "descriptor": descriptor_path,
+                "status": "ACTIVE",
+            }
+        ]
+        registry_path.write_text(json.dumps(registry), encoding="utf-8")
+        return subprocess.run(
+            [sys.executable, str(root / ".gpt-codex/scripts/validate_framework.py")],
+            capture_output=True,
+            text=True,
+        )
+
+
 class FrameworkModuleValidationTests(unittest.TestCase):
+    def test_framework_validator_fails_closed_for_unsafe_descriptor_paths(self):
+        for descriptor_path in (
+            "C:/definitely-missing.json",
+            "/definitely-missing.json",
+            "../outside.json",
+            "safe/../outside.json",
+        ):
+            with self.subTest(descriptor_path=descriptor_path):
+                result = run_framework_with_registry_descriptor(descriptor_path)
+                output = result.stdout + result.stderr
+                self.assertNotEqual(result.returncode, 0, output)
+                self.assertNotIn("Traceback", output)
+                self.assertIn("MODULE_REGISTRY: MODULE_REGISTRY_INVALID", output)
+
     def test_framework_docs_describe_responsibility_first_registry_routing(self):
         corpus = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         corpus += (ROOT / ".gpt-codex/README.md").read_text(encoding="utf-8")
