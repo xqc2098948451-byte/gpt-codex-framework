@@ -141,6 +141,16 @@ Framework maintenance compares candidates across real projects. Candidates may b
 
 Use `.gpt-codex/scripts/validate_framework.py` for framework/package validation and `.gpt-codex/scripts/validate_project.py` for a bootstrapped project's mechanical governance validation.
 
+## Role communication and routing
+
+`[USER_LOCAL]`, `[CODEX]`, `[RETURN_TO_GPT]`, and `[INFO]` are transport/routing hints, not machine authority; they do not replace envelope fields. The machine role, `authorized_actions`, project binding, state revision, and evidence are the enforceable contract.
+
+The exact seven roles are `GPT_ORCHESTRATOR`, `GPT_REVIEWER`, `CODEX_IMPLEMENTER`, `CODEX_REVIEWER`, `USER_APPROVER`, `USER_LOCAL`, and `INFORMATION_ONLY`. `instruction_type` is owned by the Instruction Envelope; `result_message_type` is owned by the Result Envelope. No generic `message_type` exists.
+
+The causal review lifecycle is `REVIEW_FINDING` → GPT/User decision → new `FIX_INSTRUCTION` → `CODEX_IMPLEMENTER` → `REVIEW_RESULT` re-review. Findings are evidence only and do not authorize fixes. Instruction issuance is not execution confirmation, and remote review visibility is not instruction delivery.
+
+Legacy `[CODEX]` compatibility is bounded and fail-closed. Only an explicitly deterministic implementation/work-unit or review-bound context maps to one Codex role; unknown or ambiguous forms are rejected. Handoff remains a derived view of the Result Envelope and cannot authorize execution.
+
 ## Maintenance cadence
 
 See `MAINTENANCE.md`. The recommended default is a semiannual Harvest/Built-in/Kernel review rather than continuous framework churn.

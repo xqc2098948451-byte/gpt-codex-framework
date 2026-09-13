@@ -76,6 +76,16 @@ Before any copyable Codex execution instruction, GPT must show human-facing rout
 
 Machine approval semantics remain `NONE | GPT_DECISION | USER_APPROVAL`. Returning evidence to GPT is not the same as user approval.
 
+### Role communication contract
+
+`[USER_LOCAL]`, `[CODEX]`, `[RETURN_TO_GPT]`, and `[INFO]` are transport/routing hints, not machine authority; they do not replace envelope fields. The machine role, `authorized_actions`, project binding, state revision, and evidence remain authoritative.
+
+The exact seven protocol roles are `GPT_ORCHESTRATOR`, `GPT_REVIEWER`, `CODEX_IMPLEMENTER`, `CODEX_REVIEWER`, `USER_APPROVER`, `USER_LOCAL`, and `INFORMATION_ONLY`. `instruction_type` belongs to the Instruction Envelope and `result_message_type` belongs to the Result Envelope. No generic `message_type` is used.
+
+The finding lifecycle is `REVIEW_FINDING` evidence → GPT/User decision → new `FIX_INSTRUCTION` → `CODEX_IMPLEMENTER` → `REVIEW_RESULT` re-review. A finding never authorizes execution. Instruction issuance is not execution confirmation, and remote review visibility is not instruction delivery.
+
+Legacy `[CODEX]` compatibility is bounded and fail-closed: only a deterministic implementation/work-unit or explicitly review-bound context maps to one Codex role; unknown or ambiguous legacy forms are rejected. Handoff is a derived view of Result Envelope evidence, not a source of authority.
+
 ## Kernel invariants
 
 - Project is authoritative; Framework is advisory.

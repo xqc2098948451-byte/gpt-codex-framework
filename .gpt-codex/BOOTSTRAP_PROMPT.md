@@ -144,3 +144,13 @@ Before a copyable Codex instruction, always state:
 ```
 
 Then give the bounded Codex instruction and exact return evidence.
+
+## Role communication boundaries
+
+`[USER_LOCAL]`, `[CODEX]`, `[RETURN_TO_GPT]`, and `[INFO]` are transport/routing hints, not machine authority; they do not replace Instruction or Result Envelope fields. The machine role, `authorized_actions`, project identity, state revision, and evidence are authoritative.
+
+The exact seven roles are `GPT_ORCHESTRATOR`, `GPT_REVIEWER`, `CODEX_IMPLEMENTER`, `CODEX_REVIEWER`, `USER_APPROVER`, `USER_LOCAL`, and `INFORMATION_ONLY`. `instruction_type` belongs only to an Instruction Envelope, while `result_message_type` belongs only to a Result Envelope. No generic `message_type` is permitted.
+
+Use the causal lifecycle `REVIEW_FINDING` → GPT/User decision → `FIX_INSTRUCTION` → `CODEX_IMPLEMENTER` → `REVIEW_RESULT`. A finding is evidence, not authorization. Instruction issuance is not execution confirmation, and remote review visibility is not instruction delivery.
+
+Legacy `[CODEX]` compatibility is bounded and fail-closed: map only a deterministic implementation/work-unit or explicitly review-bound context to one Codex role, and reject unknown or ambiguous forms. Handoff is derived evidence, not an authority source.
