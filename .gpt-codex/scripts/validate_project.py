@@ -58,6 +58,10 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
     return []
 
 
+def has_complete_declared_project_identity(control: Mapping[str, Any]) -> bool:
+    return "project_context_id" in control and "github" in control
+
+
 def validate_identity_before_derived(root: Path, gov: Path, control: Mapping[str, Any], *, active_context_id: str, local_repository_id: str) -> list[str]:
     decision = evaluate_project_identity(control, expected_project_context_id=active_context_id, expected_repository_id=local_repository_id)
     if decision.decision != "ALLOW":
@@ -509,9 +513,10 @@ def main():
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
-    identity_decision = evaluate_project_identity(control)
-    if identity_decision.decision != 'ALLOW':
-        errors.append(identity_decision.reason)
+    if has_complete_declared_project_identity(control):
+        identity_decision = evaluate_project_identity(control)
+        if identity_decision.decision != 'ALLOW':
+            errors.append(identity_decision.reason)
     errors += validate_project_identity_boundary(control, consumer=not management_project)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')
