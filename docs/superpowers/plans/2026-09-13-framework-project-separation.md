@@ -1,361 +1,242 @@
 # Framework–Project Separation Implementation Plan
 
-**Required sub-skill:** `superpowers:executing-plans`
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement the accepted P0-3 Framework–Project Separation contract so project-local CONTROL/STATE/Work Units and repository identity remain authoritative while Framework metadata is advisory, read-only, explicitly evaluated, and never implicitly adopted.
+**Goal:** Implement the accepted P0-3 Framework–Project Separation contract so project-local authority and identity remain authoritative while Framework compatibility remains read-only until separately authorized adoption/mutation.
 
-**Architecture:** `identity-context` remains the sole primary module and owns the canonical project/repository identity tuple and contamination decisions. Existing validation, navigation, Git continuity, role protocol, and consumer-projection surfaces consume that decision; the Framework Module Registry continues to describe responsibility and dependency only. All decisions are in-memory until an already-authorized project mutation writes existing optional evaluation metadata, and no new mandatory schema field is introduced.
+**Architecture:** `identity-context` remains the sole primary module and owns canonical project/repository identity and contamination decisions. Existing validation, navigation, Git, role, and projection layers consume that decision without acquiring identity authority. No mandatory persisted schema field or migration is introduced for valid v2.5.0 projects.
 
-**Tech Stack:** Python 3 standard library, `unittest`, JSON schemas/templates, Git worktrees, existing `.gpt-codex` validators and projection tooling.
+**Tech Stack:** Python 3 standard library, JSON Schema, unittest, existing GPT–Codex Framework governance/runtime modules
 
-**Spec:** `docs/superpowers/specs/2026-09-13-framework-project-separation-design.md` at accepted SHA `46471db2e242f1a31210f439e876468ed6cdf48d`.
+**Spec:** docs/superpowers/specs/2026-09-13-framework-project-separation-design.md
 
 ## Global Constraints
 
-- Work only from `feature/framework-project-separation-design` at the accepted Design SHA. Implementation work must begin from this Plan and must not modify `main`.
+- Work from `feature/framework-project-separation-design` at accepted Design SHA `46471db2e242f1a31210f439e876468ed6cdf48d`; do not modify `main`.
 - Preserve `Framework publishes; Project decides`, `Project root = authoritative`, and `Framework root = auxiliary / governed source`.
-- Use the v2.5.0 responsibility-first Registry route. `identity-context` is primary because it owns project and repository identity; no eighth module may be inferred or added.
-- Do not add required schema/template fields, change schema versions, change VERSION, mutate STATE/CONTROL during this planning task, or release/publish from the implementation work until its own release authorization exists.
-- Framework metadata, Framework version, project name, default branch, Project Map, and Resume may not repair or replace an invalid authoritative identity tuple.
-- Framework compatibility evaluation is read-only. Adoption requires an existing project Work Unit, current state revision, role/action authorization, and explicit project decision; there is no automatic propagation, synchronization service, central state store, or P0-4 implementation.
-- Keep management/self-hosting explicit through the existing `FRAMEWORK_MANAGEMENT` profile, `framework_management_only`, and `SELF_MANAGED` root authority. Ordinary consumer projects remain `AUTHORITATIVE` for Project and `ADVISORY`/`READ_ONLY` for Framework.
-- Keep project-specific extensions, selected Built-ins, configuration, permissions, and Work Unit scope in the project root. Framework publications may be evaluated as available source material, but may not overwrite `CONTROL.extensions`, project-local configuration, STATE, or Work Units.
-- Use the existing Python modules and test files where they already own the behavior. Add one focused cross-boundary test module only for the new in-memory contracts that do not belong to a single existing test fixture.
+- `identity-context` is the sole primary module under the v2.5.0 responsibility-first Registry contract. No eighth module or fuzzy fallback is permitted.
+- Do not add mandatory schema/template fields, change schema versions, change VERSION, mutate STATE/CONTROL as part of validation, or release/publish during this work unit.
+- Project `CONTROL.json`, `STATE.json`, Work Units, Result/Evidence, repository identity, extensions, selected Built-ins, permissions, and configuration are authoritative in the Project root. Framework publications and Framework metadata are auxiliary/read-only inputs.
+- Compatibility evaluation is read-only. Adoption/mutation requires the existing Project Work Unit, current state revision, Role Protocol authorization, and explicit mutation action.
+- Ordinary consumers require Project `AUTHORITATIVE`, Framework `ADVISORY`, and Framework/Kernel/Built-ins `READ_ONLY`. Management/self-hosting requires explicit `FRAMEWORK_MANAGEMENT`, `framework_management_only`, and `SELF_MANAGED` markers.
+- This Plan is remediation only. It does not modify the accepted Design, source code, schemas, templates, projection manifest, release metadata, STATE, CONTROL, or main.
+
+---
 
 ## File Map
 
-| Operation | Path | Responsibility | Design contract covered |
+| Operation | Path | Responsibility | Contract or scope |
 |---|---|---|---|
-| MODIFY | `.gpt-codex/scripts/context_binding.py` | Define the canonical identity value/decision model, precedence, context binding, authority boundary, and fail-closed contamination decisions. | `PROJECT_IDENTITY_CONTRACT`, `PROJECT_AUTHORITY_BOUNDARY_CONTRACT`, `CONTEXT_CONTAMINATION_DECISION` |
-| MODIFY | `.gpt-codex/scripts/github_repository_binding.py` | Make observed repository contradictions deterministic while preserving local remote-name diagnostics and read-only scanning. | Repository identity, `GITHUB_REPOSITORY_MISMATCH` |
-| MODIFY | `.gpt-codex/scripts/validate_project.py` | Orchestrate identity-first validation, read-only Framework compatibility evaluation, explicit adoption authorization, and existing navigation/Resume checks. | `FRAMEWORK_COMPATIBILITY_EVALUATION`, project authority boundary |
-| MODIFY | `.gpt-codex/scripts/validate_framework.py` | Keep management/self-hosting validation and Registry validation explicit about metadata-only routing and forbidden consumer management identity. | Management/self-hosting and Registry non-authority boundary |
-| MODIFY | `.gpt-codex/scripts/framework_module_routing.py` | Expose/validate Registry responsibility and dependency metadata without returning an executable authority or permission. | Registry describes WHAT; Kernel/CONTROL/Work Unit/Role Protocol decide WHO/WHAT |
-| MODIFY | `.gpt-codex/release/consumer-projection-manifest.json` | Classify the new implementation history and test/doc paths without projecting management-only authority into consumers. | Consumer projection impact |
-| MODIFY | `.gpt-codex/README.md`, `.gpt-codex/BOOTSTRAP_PROMPT.md` | Document the boundary, upgrade evaluation lifecycle, identity precedence, and failure vocabulary at the operational entry points. | Compatibility and migration contract |
-| TEST | `.gpt-codex/tests/test_context_binding.py` | Lock identity precedence, exact context mismatch vocabulary, and authority decisions at the existing context seam. | Identity and contamination |
-| TEST | `.gpt-codex/tests/test_github_repository_binding.py` | Lock repository ID authority, present full-name contradiction behavior, absent full-name compatibility, and read-only scans. | Repository identity |
-| TEST | `.gpt-codex/tests/test_multi_project_github_isolation.py` | Lock cross-project context/repository rejection for instruction and return paths. | Cross-project isolation interface |
-| TEST | `.gpt-codex/tests/test_framework_project_separation.py` | Focused tests for the new identity object, authority boundary, compatibility result, adoption gate, and Registry non-authority. | Cross-contract behavior not owned by one legacy fixture |
-| TEST | `.gpt-codex/tests/test_validator_context_binding.py`, `.gpt-codex/tests/test_self_hosting_validator.py` | Verify validator integration and explicit management/self-hosting compatibility. | Project authority and management mode |
-| TEST | `.gpt-codex/tests/test_project_navigation.py`, `.gpt-codex/tests/test_continuity_resume.py`, `.gpt-codex/tests/test_context_window_resume.py` | Verify Map/Resume remain derived and cannot repair identity or authority. | Navigation continuity |
-| TEST | `.gpt-codex/tests/test_instruction_role_contract.py`, `.gpt-codex/tests/test_git_continuity.py` | Verify role/action and publish/sync decisions remain the execution authority after identity validation. | Role Protocol and Git continuity |
-| TEST | `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_consumer_workspace.py` | Verify management identities, Framework source, and implementation history stay outside consumer-required projections while compatibility vocabulary remains exact. | Consumer projection |
-| TEST | `.gpt-codex/tests/test_framework_module_validation.py`, `.gpt-codex/tests/test_framework_module_routing.py` | Verify the v2.5.0 Registry route is responsibility-first and cannot grant execution authority. | Registry boundary |
+| MODIFY | `.gpt-codex/scripts/context_binding.py` | Canonical identity object, identity-first decision order, authority boundary, and contamination decisions. | `PROJECT_IDENTITY_CONTRACT`, `PROJECT_AUTHORITY_BOUNDARY_CONTRACT`, `CONTEXT_CONTAMINATION_DECISION` |
+| MODIFY | `.gpt-codex/scripts/github_repository_binding.py` | Repository ID authority and present contradictory full-name rejection; retain read-only scan. | `GITHUB_REPOSITORY_MISMATCH` |
+| MODIFY | `.gpt-codex/scripts/validate_project.py` | Identity-first orchestration, compatibility evaluation, adoption validation, and downstream gate ordering. | `FRAMEWORK_COMPATIBILITY_EVALUATION`, project authority |
+| MODIFY | `.gpt-codex/scripts/validate_framework.py` | Existing Framework management/self-hosting validation integration. | Management isolation |
+| MODIFY | `.gpt-codex/release/consumer-projection-manifest.json` | Exact-path classification for Design, Plan, and the new focused test. | Projection closure |
+| MODIFY | `.gpt-codex/README.md`, `.gpt-codex/BOOTSTRAP_PROMPT.md` | Operational boundary, compatibility lifecycle, migration direction, and failure vocabulary. | Compatibility/migration contract |
+| CREATE | `.gpt-codex/tests/test_framework_project_separation.py` | Focused tests for identity, authority, compatibility, adoption, and Registry non-authority. Classify as `MANAGEMENT_ONLY` in the projection manifest. | Cross-contract tests not owned by one existing fixture |
+| TEST | `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_github_repository_binding.py`, `.gpt-codex/tests/test_multi_project_github_isolation.py` | Existing context/repository positive and negative regression coverage. | Identity and contamination |
+| TEST | `.gpt-codex/tests/test_validator_context_binding.py`, `.gpt-codex/tests/test_self_hosting_validator.py` | Validator and explicit management/self-hosting regression coverage. | Project authority boundary |
+| TEST | `.gpt-codex/tests/test_project_navigation.py`, `.gpt-codex/tests/test_continuity_resume.py`, `.gpt-codex/tests/test_context_window_resume.py` | Derived Map/Resume behavior after identity validation. | Navigation continuity |
+| TEST | `.gpt-codex/tests/test_instruction_role_contract.py`, `.gpt-codex/tests/test_git_continuity.py` | Role/action and Git/publish gates remain independent authority layers. | Role Protocol and Git continuity |
+| TEST | `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_consumer_workspace.py` | Exact projection boundary and operational vocabulary. | Consumer projection |
+| TEST | `.gpt-codex/tests/test_framework_module_validation.py`, `.gpt-codex/tests/test_framework_module_routing.py` | Registry metadata-only, responsibility-first, no-fallback regression coverage. | Registry boundary |
+| NO CHANGE | `.gpt-codex/scripts/project_navigation.py` | Existing navigation API remains unchanged. | Frozen for P0-3 |
+| NO CHANGE | `.gpt-codex/scripts/continuity_resume.py` | Existing Resume API remains unchanged and reloads Project CONTROL/STATE internally. | Frozen for P0-3 |
+| NO CHANGE | `.gpt-codex/scripts/framework_module_routing.py` | P0-2 froze `RouteDecision`/Registry routing as metadata-only and responsibility-first. | Frozen for P0-3 |
+| NO CHANGE | `.gpt-codex/scripts/consumer_projection.py` | Existing projection taxonomy and staging behavior remain the single projection policy. | Frozen for P0-3 |
+| NO CHANGE | `.gpt-codex/scripts/validate_consumer_projection.py` | Existing projection validator remains unchanged; Task 6 tests exact manifest closure. | Frozen for P0-3 |
+| NO CHANGE | `.gpt-codex/schemas/`, `.gpt-codex/project-template/` | No schema/template field or required authority mechanism is added. | Frozen for P0-3 |
 
-## Deterministic Decision Table
+The five NO CHANGE production surfaces are frozen because the accepted Design and current v2.5.0 implementation show no mandatory defect there. Regression tests and upstream orchestration cover them.
 
-Every implementation entry point must evaluate these conditions in order and return the first applicable result. No later Framework or derived value may downgrade an earlier identity failure.
+## Scope and Authority
 
-| Order | Condition | Decision/reason | Authority consequence |
+- `PRIMARY_MODULE` = `identity-context`.
+- `AFFECTED_MODULES` = `framework-validation`, `navigation-continuity`, `git-continuity`, `role-communication`, `release-projection`, and `framework-core`.
+- `CONTRACTS_AFFECTED` = `PROJECT_IDENTITY_CONTRACT`, `PROJECT_AUTHORITY_BOUNDARY_CONTRACT`, `FRAMEWORK_COMPATIBILITY_EVALUATION`, and `CONTEXT_CONTAMINATION_DECISION`.
+- `INVARIANTS_AFFECTED` = Project-root authority, Framework-root advisory/read-only status, explicit management mode, local extension ownership, identity precedence, derived Map/Resume status, Registry metadata-only routing, explicit upgrade adoption, and fail-closed cross-project isolation.
+- Cross-module change is required because identity must be checked before validation, navigation, Git, role, and projection decisions while those modules retain their existing execution authority. The implementation threads one identity decision through existing seams; it does not move authority into those consumers.
+
+## Deterministic Decision Order
+
+The first applicable condition wins. Framework metadata, Map, Resume, project name, and default branch cannot repair an earlier identity failure.
+
+| Order | Condition | Result | Execution consequence |
 |---:|---|---|---|
-| 1 | Project-root `CONTROL.json` is missing, unreadable, or not an object | `PROJECT_IDENTITY_INVALID` | Hard stop; no routing, evaluation, adoption, or mutation |
-| 2 | `project_id` is missing/blank, `project_context_id` is required but malformed, or roots/profile contradict the v2.5.0 authority model | `PROJECT_IDENTITY_INVALID` | Hard stop |
-| 3 | A supplied active/target project context ID differs from authoritative `CONTROL.project_context_id`, including same-name/different-ID input | `CROSS_PROJECT_CONTEXT_MISMATCH` | Deny executable action; analysis-only may return diagnostics only |
-| 4 | A supplied repository ID differs from `CONTROL.github.repository_id`, or a supplied non-empty full name contradicts `CONTROL.github.repository_full_name` | `GITHUB_REPOSITORY_MISMATCH` | Deny binding, mutation, publication, and adoption |
-| 5 | A consumer claims `FRAMEWORK_MANAGEMENT`/`SELF_MANAGED`, a management identity appears in a consumer projection, or Framework metadata is treated as a write authority | `PROJECT_AUTHORITY_BOUNDARY_VIOLATION` | Hard stop |
-| 6 | A Framework source is selected for a project without an explicit project adoption authorization | `FRAMEWORK_ADOPTION_NOT_AUTHORIZED` | Read-only evaluation may proceed; adoption/mutation is denied |
-| 7 | The responsibility does not match an exact v2.5.0 Registry descriptor | `MODULE_ROUTE_UNRESOLVED` | Fail closed; do not select a fallback module |
-| 8 | Identity is valid; Map/Resume is absent, stale, partial, or non-authoritative | Existing derived result: `MAP_MISSING`, `MAP_PARTIAL`, `MAP_MISS`, or `NAVIGATION_REPOSITORY_MISMATCH` | No identity mutation; navigation may degrade to the documented derived result |
-| 9 | Identity is valid and Framework facts can be compared | One of `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, `CONFLICT` | Return a read-only compatibility result; never imply adoption |
+| 1 | Project-root CONTROL is missing, unreadable, non-object, or malformed. | `PROJECT_IDENTITY_INVALID` | Hard stop; no routing, evaluation, adoption, or mutation. |
+| 2 | Authoritative project/context/roots/profile tuple is invalid. | `PROJECT_IDENTITY_INVALID` | Hard stop. |
+| 3 | Supplied active/target context differs from authoritative `CONTROL.project_context_id`, including same-name/different-ID input. | `CROSS_PROJECT_CONTEXT_MISMATCH` | Deny executable action; analysis-only returns diagnostics only. |
+| 4 | Repository ID differs, or a present non-empty observed full name contradicts CONTROL. | `GITHUB_REPOSITORY_MISMATCH` | Deny binding, mutation, publication, and adoption. |
+| 5 | Consumer claims management/self-hosting, management identity enters consumer projection, or Framework metadata is treated as write authority. | `PROJECT_AUTHORITY_BOUNDARY_VIOLATION` | Hard stop. |
+| 6 | Framework source is selected without explicit Project adoption authorization. | `FRAMEWORK_ADOPTION_NOT_AUTHORIZED` | Read-only evaluation may proceed; adoption/mutation is denied. |
+| 7 | Exact Registry responsibility route is unavailable. | `MODULE_ROUTE_UNRESOLVED` | Fail closed; no fallback module. |
+| 8 | Identity is valid and derived Map/Resume is missing, stale, partial, or contradictory. | Existing `MAP_MISSING`, `MAP_PARTIAL`, `MAP_MISS`, or `NAVIGATION_REPOSITORY_MISMATCH`. | Degrade only in the derived layer; never repair identity. |
+| 9 | Identity is valid and Framework facts can be compared. | `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`. | Return read-only compatibility facts; never imply adoption. |
 
-The canonical identity tuple is `(project_id, project_context_id, repository_id, repository_full_name when present, project_root)`. `project_name`, `default_branch`, Map, Resume, and Framework version are diagnostic or derived values only. An absent observed repository full name remains compatible when the authoritative repository ID matches; a present contradictory full name is a mismatch.
-
-## Module and Contract Scope
-
-- `PRIMARY_MODULE`: `identity-context` — owns project/repository identity, context binding, authority-boundary decisions, and contamination fail-closed behavior.
-- `AFFECTED_MODULES`: `framework-validation`, `navigation-continuity`, `git-continuity`, `role-communication`, `release-projection`, and `framework-core`.
-- `CONTRACTS_AFFECTED`: `PROJECT_IDENTITY_CONTRACT`, `PROJECT_AUTHORITY_BOUNDARY_CONTRACT`, `FRAMEWORK_COMPATIBILITY_EVALUATION`, and `CONTEXT_CONTAMINATION_DECISION`.
-- `INVARIANTS_AFFECTED`: Project-root authority, Framework-root advisory/read-only status, explicit management mode, local extension ownership, identity precedence, derived Map/Resume status, Registry metadata-only routing, explicit upgrade adoption, and fail-closed cross-project isolation.
-
-Cross-module change is required because identity is checked before navigation, Git, role, validation, and projection decisions, while those modules must retain their existing execution authority. The plan threads one identity decision through existing seams; it does not transfer authority to those consumers and does not infer an additional module.
+The authoritative tuple is `(project_id, project_context_id, repository_id, repository_full_name when present, project_root)`. An absent observed full name remains compatible when repository ID matches; a present contradictory full name is a mismatch.
 
 ## Implementation Tasks
 
-### Task 1: Add the canonical project identity model and identity-first precedence
+### Task 1: Canonical Project identity model and precedence
 
 **Files:** `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_framework_project_separation.py`
 
-**TDD — RED:** Add these tests before changing production code:
+- [ ] **Step 1: Add failing tests.** Add `test_identity_precedence_ignores_project_name_and_framework_version`, `test_malformed_control_identity_returns_project_identity_invalid`, `test_same_name_different_context_returns_cross_project_context_mismatch`, `test_matching_project_context_is_positively_accepted`, and `test_framework_root_is_never_project_authority`. Use a valid v2.5.0 CONTROL fixture; change only project name/Framework version in the precedence test; assert `ALLOW` for matching identity, `CROSS_PROJECT_CONTEXT_MISMATCH` for a different context, and `PROJECT_IDENTITY_INVALID` with `hard_stop is True` for malformed CONTROL.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected RED: `ProjectIdentity`, `load_project_identity`, and the canonical decision path do not yet exist; the old instruction mismatch assertion still reports `CROSS_PROJECT_INSTRUCTION_MISMATCH`.
+- [ ] **Step 3: Implement the minimum behavior.** In `context_binding.py`, add frozen `ProjectIdentity` fields `project_id`, `project_context_id`, `repository_id`, `repository_full_name`, `default_branch`, `project_root`, `framework_root`, `management`, `project_role`, and `framework_role`. Add `load_project_identity(control, *, project_root=None, framework_root=None) -> ProjectIdentity` and `evaluate_project_identity(control, *, expected_project_id=None, expected_project_context_id=None, expected_repository_id=None, expected_repository_full_name=None) -> ContextDecision`. Validate existing fields only; malformed authoritative data raises `ValueError("PROJECT_IDENTITY_INVALID")`. Update instruction/return/bootstrap evaluation to use this path before freshness and role checks, with context mismatch normalized to `CROSS_PROJECT_CONTEXT_MISMATCH`.
+- [ ] **Step 4: Run GREEN.** Run both Step 2 commands. Expected GREEN: all identity tests pass, matching context returns `ALLOW`, and no test emits `CROSS_PROJECT_INSTRUCTION_MISMATCH` for a context boundary.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_multi_project_github_isolation.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`. Expected: existing cross-project and validator behavior remains passing with the normalized failure name.
+- [ ] **Step 6: Refactor/check contract consistency.** Confirm identity comes from Project CONTROL, Framework root is never authoritative, no schema/template changes exist, no duplicate identity parser exists, and downstream callers receive the existing `ContextDecision` shape.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_framework_project_separation.py` followed by `git commit -m "feat: establish canonical project identity boundary"`.
 
-- `test_identity_precedence_ignores_project_name_and_framework_version`
-- `test_malformed_control_identity_returns_project_identity_invalid`
-- `test_same_name_different_context_returns_cross_project_context_mismatch`
-- `test_framework_root_is_never_project_authority`
-
-Use a minimal valid v2.5.0 CONTROL mapping and assert the exact fields of the returned decision. The first test must pass a different `project_name` and `framework_version` while keeping the tuple unchanged and assert `ALLOW`; the malformed fixture must assert `PROJECT_IDENTITY_INVALID` and `hard_stop is True`.
-
-**Implementation:** In `context_binding.py`, add a frozen `ProjectIdentity` dataclass with these exact fields: `project_id`, `project_context_id`, `repository_id`, `repository_full_name`, `default_branch`, `project_root`, `framework_root`, `management`, `project_role`, and `framework_role`. Add:
-
-```python
-def load_project_identity(
-    control: Mapping[str, Any],
-    *,
-    project_root: Path | None = None,
-    framework_root: Path | None = None,
-) -> ProjectIdentity:
-    """Return validated project identity or raise ValueError("PROJECT_IDENTITY_INVALID")."""
-
-def evaluate_project_identity(
-    control: Mapping[str, Any],
-    *,
-    expected_project_id: str | None = None,
-    expected_project_context_id: str | None = None,
-    expected_repository_id: str | None = None,
-    expected_repository_full_name: str | None = None,
-) -> ContextDecision:
-    """Return the first applicable identity decision from the deterministic table."""
-```
-
-Validate the existing v2.5.0 fields without adding schema fields. `load_project_identity` raises `ValueError("PROJECT_IDENTITY_INVALID")` only for malformed authoritative data. `evaluate_project_identity` applies the decision-table order and returns the existing `ContextDecision` shape with `authority`, `hard_stop`, and `action_executable` populated consistently. The returned identity object must not be reconstructed from `project_name`, Map, Resume, or Framework metadata.
-
-Update `evaluate_instruction`, `evaluate_return`, and `evaluate_bootstrap` to call the canonical identity path before their existing freshness/role checks. Normalize an instruction context mismatch to the accepted exact vocabulary `CROSS_PROJECT_CONTEXT_MISMATCH`; update the legacy assertion for `CROSS_PROJECT_INSTRUCTION_MISMATCH` rather than retaining two names for the same boundary failure.
-
-**Verify:**
-
-```powershell
-python -m unittest .gpt-codex.tests.test_context_binding .gpt-codex.tests.test_framework_project_separation
-```
-
-**Commit:** `git add .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_framework_project_separation.py; git commit -m "feat: establish canonical project identity boundary"`
-
-### Task 2: Make repository binding and cross-project contamination fail closed
+### Task 2: Repository binding and cross-project contamination
 
 **Files:** `.gpt-codex/scripts/github_repository_binding.py`, `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/tests/test_github_repository_binding.py`, `.gpt-codex/tests/test_multi_project_github_isolation.py`
 
-**TDD — RED:** Add or update these exact tests:
+- [ ] **Step 1: Add failing tests.** Add/update `test_repository_id_match_with_absent_observed_full_name_allows`, `test_present_contradictory_repository_full_name_denies`, `test_foreign_repository_id_denies_with_github_repository_mismatch`, `test_same_context_wrong_repository_denies_instruction`, `test_wrong_context_same_repository_denies_return`, and `test_repository_scan_is_read_only`. Also assert an existing valid repository binding remains valid with matching ID and matching full name.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_github_repository_binding.py'`. Expected RED: the current present-full-name contradiction fixture still returns `ALLOW` because only repository ID is compared.
+- [ ] **Step 3: Implement the minimum behavior.** In `compare_repository_binding`, compare repository ID first, then compare a non-empty observed full name. Return `BindingDecision(decision="DENY", reason="GITHUB_REPOSITORY_MISMATCH", identity_match=False, mutation_allowed=False)` for either contradiction. Preserve an absent observed full name as ID-compatible and keep `scan_repository_compatibility` read-only. Thread canonical context decisions through instruction/return evaluation so context mismatch precedes repository mismatch.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_github_repository_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_multi_project_github_isolation.py'`. Expected GREEN: matching ID/full name and matching ID/absent full name allow; contradictions deny with `GITHUB_REPOSITORY_MISMATCH`.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_git_continuity.py'`. Expected: context decisions and Git continuity gates remain passing.
+- [ ] **Step 6: Refactor/check contract consistency.** Verify repository binding never updates CONTROL, remotes, branches, sync state, or publication state; preserve canonical remote URL tests and all existing read-only scan classifications.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/github_repository_binding.py .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_github_repository_binding.py .gpt-codex/tests/test_multi_project_github_isolation.py` followed by `git commit -m "fix: fail closed on repository and context contamination"`.
 
-- `test_repository_id_match_with_absent_observed_full_name_allows`
-- `test_present_contradictory_repository_full_name_denies`
-- `test_foreign_repository_id_denies_with_github_repository_mismatch`
-- `test_same_context_wrong_repository_denies_instruction`
-- `test_wrong_context_same_repository_denies_return`
-- `test_repository_scan_is_read_only`
+### Task 3: Project authority boundary, read-only compatibility, and exact adoption authorization
 
-Replace the current expectation that a differing present full name is always allowed. Preserve a separate absent-observation case so the diagnostic/local compatibility rule remains explicit.
+**Files:** `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/tests/test_framework_project_separation.py`, `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_consumer_workspace.py`
 
-**Implementation:** Update `compare_repository_binding` to compare repository ID first, then compare a non-empty observed full name against the bound full name. Return `BindingDecision(decision="DENY", reason="GITHUB_REPOSITORY_MISMATCH", identity_match=False, mutation_allowed=False)` for either contradiction. An absent observed full name may retain the existing ID-based allow result. Keep `scan_repository_compatibility` read-only and preserve its existing classifications.
+- [ ] **Step 1: Add failing tests.** Add `test_project_authority_boundary_rejects_framework_write`, `test_compatibility_evaluation_returns_exact_classification_without_mutation`, `test_compatibility_result_does_not_authorize_adoption`, `test_conflict_is_read_only_and_cannot_be_adopted`, `test_foreign_work_unit_project_binding_returns_cross_project_context_mismatch`, `test_foreign_result_evidence_project_binding_returns_cross_project_context_mismatch`, `test_matching_project_context_and_repository_are_accepted`, and `test_valid_repository_binding_remains_valid`. Snapshot CONTROL before/after evaluation and assert byte-equivalent JSON.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected RED: no compatibility evaluator, authority-boundary evaluator, or adoption predicate exists; foreign Work Unit/Result assertions have no identity-first decision.
+- [ ] **Step 3: Implement the minimum behavior.** Add `evaluate_project_authority_boundary(identity, *, source, operation, explicit_adoption=False) -> ContextDecision` to `context_binding.py`. In `validate_project.py`, add `evaluate_framework_compatibility(project_control, framework_facts) -> dict[str, Any]` and `validate_framework_adoption(project_control, instruction, work_unit, *, current_state_revision) -> list[str]`. Compatibility returns `classification`, `reason`, `mutated=False`, and `adoption_authorized=False` using only the five existing classifications. Adoption validates exactly: `control.project_id == work_unit.project_id`; `instruction.target_work_unit == work_unit.work_unit_id`; `work_unit.state == AUTHORIZED`; `instruction.expected_state_revision == work_unit.basis_state_revision == current_state_revision`; executor role passes the existing Role Protocol; and `role_communication.validate_action_authority(executor_role, authorized_actions, forbidden_actions)` accepts `MUTATE_APPROVED_SCOPE` in `authorized_actions`. Foreign Work Unit or Result/Evidence binding returns `CROSS_PROJECT_CONTEXT_MISMATCH`. The validator only validates existing facts: it creates no authority, adds no permissions, rewrites no Work Unit state, infers no authorization from identity, and treats compatibility classification as non-authoritative. Identity validity is necessary; Role Protocol + Work Unit + revision + explicit mutation authorization are separately necessary. Any failed predicate returns `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected GREEN: all five classifications are exact, evaluation snapshots are unchanged, matching identity is accepted, foreign Work Unit/Result/Evidence is rejected with `CROSS_PROJECT_CONTEXT_MISMATCH`, and adoption remains unauthorized without every predicate.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'`. Expected: existing context guardrail and compatibility vocabulary tests pass.
+- [ ] **Step 6: Refactor/check contract consistency.** Confirm `validate_project.py` reuses `role_communication.validate_action_authority` rather than defining a second permission mechanism; compatibility evaluation cannot mutate Project files; no schema/template field is added; and `CONFLICT` cannot be adopted.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_consumer_workspace.py` followed by `git commit -m "feat: enforce project authority and compatibility evaluation"`.
 
-Thread the canonical identity decision through instruction and return evaluation. A context mismatch always wins over repository comparison when the context tuple is invalid; a valid context with a foreign repository returns `GITHUB_REPOSITORY_MISMATCH`. No repository binding function may update CONTROL, remotes, branches, or publication state.
+**Gate A — after Task 3**
+- [ ] Review canonical `ProjectIdentity`, identity precedence, exact context/repository mismatch outcomes, authority boundary, all five compatibility outcomes, compatibility non-authority, exact adoption field mappings, Role Protocol reuse, Work Unit/revision reuse, and no schema/projection dependency.
+- [ ] Confirm all focused tests for Tasks 1–3 pass before Task 4. Gate A has no projection-closure dependency.
 
-**Verify:**
+### Task 4: Validator and explicit management/self-hosting integration
 
-```powershell
-python -m unittest .gpt-codex.tests.test_github_repository_binding .gpt-codex.tests.test_multi_project_github_isolation .gpt-codex.tests.test_context_binding
-```
+**Files:** `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/scripts/validate_framework.py`, `.gpt-codex/tests/test_validator_context_binding.py`, `.gpt-codex/tests/test_self_hosting_validator.py`, `.gpt-codex/tests/test_framework_module_validation.py`, `.gpt-codex/tests/test_framework_module_routing.py`
 
-**Commit:** `git add .gpt-codex/scripts/github_repository_binding.py .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_github_repository_binding.py .gpt-codex/tests/test_multi_project_github_isolation.py; git commit -m "fix: fail closed on repository and context contamination"`
+`framework_module_routing.py` is NO CHANGE; P0-2 already froze Registry routing as metadata-only and responsibility-first.
 
-### Task 3: Implement the project authority boundary and read-only Framework compatibility evaluation
+- [ ] **Step 1: Add failing tests.** Add `test_project_validator_rejects_framework_metadata_as_authority`, `test_management_control_requires_explicit_management_profile`, `test_consumer_control_rejects_management_identity_and_self_managed_root`, `test_registry_route_describes_responsibility_without_execution_authority`, `test_registry_permissions_do_not_authorize_project_adoption`, `test_unresolved_registry_responsibility_returns_module_route_unresolved`, and `test_registry_does_not_offer_fuzzy_fallback_or_eighth_module`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_routing.py'`. Expected RED: validator orchestration does not yet invoke identity-first authority checks for all project validation paths; Registry production routing remains unchanged.
+- [ ] **Step 3: Implement the minimum behavior.** Make `validate_project.py` load Project identity first, then validate existing CONTROL/STATE/Work Unit/Result and derived artifacts. Keep `validate_framework.py` as the Framework management-root validator. Management is valid only when `framework_management_only=True`, `governance_profile="FRAMEWORK_MANAGEMENT"`, and Framework root is `SELF_MANAGED`; consumers reject those markers and require Project `AUTHORITATIVE`, Framework `ADVISORY`, and read-only Framework/Kernel/Built-ins. Do not modify `framework_module_routing.py`; add only regression assertions against its existing metadata-only route.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`, `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`, and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_routing.py'`. Expected GREEN: management and consumer boundaries pass, Registry returns metadata only, and unresolved responsibility returns `MODULE_ROUTE_UNRESOLVED`.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_validation.py'` and `python .gpt-codex/scripts/validate_framework.py`. Expected: v2.5.0 Registry and Framework validation pass without a routing production diff.
+- [ ] **Step 6: Refactor/check contract consistency.** Verify no Registry route output is copied into `authorized_actions`, mutation permission, role authority, or adoption consent; no fuzzy fallback or eighth module exists; and only listed MODIFY files have production changes.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/validate_project.py .gpt-codex/scripts/validate_framework.py .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py .gpt-codex/tests/test_framework_module_validation.py .gpt-codex/tests/test_framework_module_routing.py` followed by `git commit -m "feat: integrate management and registry authority boundaries"`.
 
-**Files:** `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/tests/test_framework_project_separation.py`, `.gpt-codex/tests/test_consumer_workspace.py`
-
-**TDD — RED:** Add these tests:
-
-- `test_project_authority_boundary_rejects_framework_write`
-- `test_consumer_cannot_claim_framework_management`
-- `test_compatibility_evaluation_returns_exact_classification_without_mutation`
-- `test_compatibility_result_does_not_authorize_adoption`
-- `test_unauthorized_adoption_returns_framework_adoption_not_authorized`
-- `test_conflict_is_read_only_and_cannot_be_adopted`
-
-Snapshot the supplied CONTROL mapping before and after evaluation and assert byte-equivalent JSON. Assert that `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, and `CONFLICT` are the only classifications. Assert that compatibility output contains `adoption_authorized is False` for every classification.
-
-**Implementation:** In `context_binding.py`, add:
-
-```python
-def evaluate_project_authority_boundary(
-    identity: ProjectIdentity,
-    *,
-    source: str,
-    operation: str,
-    explicit_adoption: bool = False,
-) -> ContextDecision:
-    """Return the authority decision without changing Project or Framework files."""
-```
-
-It must allow Project-root reads and explicitly authorized Project mutations, allow Framework-root reads as auxiliary source, deny Framework-root writes, deny Framework metadata as a replacement for Project state, and return `PROJECT_AUTHORITY_BOUNDARY_VIOLATION` or `FRAMEWORK_ADOPTION_NOT_AUTHORIZED` according to the decision table.
-
-In `validate_project.py`, add the framework-validation seam:
-
-```python
-def evaluate_framework_compatibility(
-    project_control: Mapping[str, Any],
-    framework_facts: Mapping[str, Any],
-) -> dict[str, Any]:
-    """Return a read-only compatibility classification and authority flags."""
-
-def validate_framework_adoption(
-    project_control: Mapping[str, Any],
-    instruction: Mapping[str, Any],
-    work_unit: Mapping[str, Any],
-    *,
-    current_state_revision: int,
-) -> list[str]:
-    """Return validation errors for an explicitly authorized adoption request."""
-```
-
-`evaluate_framework_compatibility` reads only supplied facts and current Project metadata. It returns `classification`, `reason`, `mutated=False`, and `adoption_authorized=False\); it uses `NO_ACTION` when the evaluated version is already adopted, `OPTIONAL_REUSE` for compatible reusable content, `RECOMMENDED_UPGRADE` for a compatible newer Framework, `REQUIRED_MIGRATION` for a valid project requiring an explicit migration, and `CONFLICT` for identity/authority incompatibility. `validate_framework_adoption` must require matching `project_id`, an `AUTHORIZED` Work Unit, matching `basis_state_revision`, matching `target_work_unit`, a role-valid instruction, and an existing `authorized_actions` entry `MUTATE_APPROVED_SCOPE`; otherwise return `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`. It must not write evaluation metadata. `CONFLICT` is never adoptable.
-
-**Gate A — after Task 3:** Review the identity tuple, precedence table, authority boundary, exact failure vocabulary, no-mutation guarantee, and all five compatibility classifications. Do not proceed to integration until the focused tests and the three prior task suites pass.
-
-**Verify:**
-
-```powershell
-python -m unittest .gpt-codex.tests.test_framework_project_separation .gpt-codex.tests.test_consumer_workspace .gpt-codex.tests.test_context_binding
-```
-
-**Commit:** `git add .gpt-codex/scripts/context_binding.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_consumer_workspace.py; git commit -m "feat: enforce project authority and compatibility evaluation"`
-
-### Task 4: Integrate identity-first validation with management/self-hosting and Registry routing
-
-**Files:** `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/scripts/validate_framework.py`, `.gpt-codex/scripts/framework_module_routing.py`, `.gpt-codex/tests/test_validator_context_binding.py`, `.gpt-codex/tests/test_self_hosting_validator.py`, `.gpt-codex/tests/test_framework_module_validation.py`, `.gpt-codex/tests/test_framework_module_routing.py`
-
-**TDD — RED:** Add these tests:
-
-- `test_project_validator_rejects_framework_metadata_as_authority`
-- `test_management_control_requires_explicit_management_profile`
-- `test_consumer_control_rejects_management_identity_and_self_managed_root`
-- `test_registry_route_describes_responsibility_without_execution_authority`
-- `test_unresolved_registry_responsibility_returns_module_route_unresolved`
-
-**Implementation:** Make `validate_project.main` and its helpers load the project-root identity first, then validate existing CONTROL/STATE/Work Unit/Result, navigation, and Resume checks. Keep existing schema field requirements unchanged. A consumer is valid only with Project `AUTHORITATIVE`, Framework `ADVISORY`, Framework/Kernel/Built-ins `READ_ONLY`, and a non-management profile. Management is valid only when all existing management markers agree: `framework_management_only=True`, `governance_profile="FRAMEWORK_MANAGEMENT"`, and Framework root `SELF_MANAGED`; ordinary consumers may not inherit any of these markers.
-
-Keep `validate_framework.py` as the management-root validator and make its Registry call validate metadata only. In `framework_module_routing.py`, ensure the route result contains responsibility/module information only and cannot be passed as `authorized_actions`, mutation permission, role authority, or adoption consent. A responsibility with no exact descriptor must produce `MODULE_ROUTE_UNRESOLVED`; do not route to a “closest” module or invent a new module.
-
-**Verify:**
-
-```powershell
-python -m unittest .gpt-codex.tests.test_validator_context_binding .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_framework_module_validation .gpt-codex.tests.test_framework_module_routing
-python .gpt-codex/scripts/validate_framework.py
-python .gpt-codex/scripts/validate_project.py .
-```
-
-**Commit:** `git add .gpt-codex/scripts/validate_project.py .gpt-codex/scripts/validate_framework.py .gpt-codex/scripts/framework_module_routing.py .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py .gpt-codex/tests/test_framework_module_validation.py .gpt-codex/tests/test_framework_module_routing.py; git commit -m "feat: integrate management and registry authority boundaries"`
-
-### Task 5: Preserve derived navigation, Resume, role, and Git continuity authority
+### Task 5: Preserve derived navigation, Resume, Role, and Git authority
 
 **Files:** `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/tests/test_project_navigation.py`, `.gpt-codex/tests/test_continuity_resume.py`, `.gpt-codex/tests/test_context_window_resume.py`, `.gpt-codex/tests/test_instruction_role_contract.py`, `.gpt-codex/tests/test_git_continuity.py`
 
-**TDD — RED:** Add these tests:
+**NO API SIGNATURE CHANGE:** `.gpt-codex/scripts/project_navigation.py` remains unchanged with `validate_navigation_identity(navigation: dict[str, Any], control: dict[str, Any]) -> None`. `.gpt-codex/scripts/continuity_resume.py` remains unchanged with the existing `load_continuity_resume` API, which reloads Project CONTROL/STATE internally. Neither API receives a ProjectIdentity object and neither file has a planned production diff. Any future API change is outside this Plan.
 
-- `test_project_map_cannot_repair_project_identity_mismatch`
-- `test_resume_cannot_replace_authoritative_project_context`
-- `test_role_protocol_remains_action_authority_after_identity_allow`
-- `test_git_publish_gate_remains_separate_from_identity_decision`
-- `test_valid_identity_with_stale_map_degrades_without_project_mutation`
+- [ ] **Step 1: Add failing tests.** Add `test_project_identity_failure_prevents_map_success`, `test_matching_identity_permits_existing_navigation_flow`, `test_valid_identity_with_stale_map_returns_existing_map_result`, `test_resume_cannot_substitute_its_context_identity_for_control`, `test_navigation_repository_mismatch_remains_derived_result`, `test_role_protocol_remains_action_authority_after_identity_allow`, and `test_git_publish_gate_remains_separate_from_identity_decision`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_project_navigation.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_continuity_resume.py'`. Expected RED: new ordering assertions have no identity-first validation seam; navigation and Resume APIs remain unchanged.
+- [ ] **Step 3: Implement the minimum behavior.** In `validate_project.py`, evaluate canonical identity first. Only when that decision is executable/allowed, call existing `validate_navigation_identity(navigation, control)` and `load_continuity_resume` using authoritative Project CONTROL and repository ID; never pass ProjectIdentity into either API. Preserve Map authority `DERIVED_NAVIGATION_INDEX` and Resume authority `DERIVED_CACHE`. Keep Role Protocol action authority and `git_continuity.evaluate_publish_gate` sync/attestation/remote/publication authority.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_project_navigation.py'`, `python -m unittest discover -s .gpt-codex/tests -p 'test_continuity_resume.py'`, and `python -m unittest discover -s .gpt-codex/tests -p 'test_context_window_resume.py'`. Expected GREEN: identity failure blocks derived success, matching identity reaches existing APIs, stale Map yields existing `MAP_*` behavior, Resume cannot substitute CONTROL, and `NAVIGATION_REPOSITORY_MISMATCH` remains derived.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_instruction_role_contract.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_git_continuity.py'`. Expected: Role Protocol and Git publication gates remain independently authoritative.
+- [ ] **Step 6: Refactor/check contract consistency.** Confirm `project_navigation.py` and `continuity_resume.py` have no diff, identity failure cannot be downgraded by Map/Resume, and identity allow does not authorize role/action, commit, push, or publish.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_project_navigation.py .gpt-codex/tests/test_continuity_resume.py .gpt-codex/tests/test_context_window_resume.py .gpt-codex/tests/test_instruction_role_contract.py .gpt-codex/tests/test_git_continuity.py` followed by `git commit -m "test: preserve derived continuity and execution authorities"`.
 
-**Implementation:** At the validation seam, pass the accepted `ProjectIdentity` into existing `validate_navigation_identity` and `continuity_resume` checks. Keep Project Map authority exactly `DERIVED_NAVIGATION_INDEX` and Resume authority exactly `DERIVED_CACHE`; stale or absent derived artifacts produce their existing derived outcomes after identity succeeds. Do not let a Map/Resume project ID, name, repository, or Framework version override CONTROL.
+### Task 6: Exact-path consumer projection manifest closure
 
-Keep `role_communication.validate_action_authority` responsible for role/action permission and `git_continuity.evaluate_publish_gate` responsible for ancestry, sync, attestation, remote verification, and publication. Identity allow is necessary but never sufficient for mutation or publication. A failed identity decision must prevent those downstream gates from being treated as executable success.
+**Files:** `.gpt-codex/release/consumer-projection-manifest.json`, `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_consumer_workspace.py`
 
-**Verify:**
+Production scope is frozen: `.gpt-codex/scripts/consumer_projection.py` and `.gpt-codex/scripts/validate_consumer_projection.py` are NO CHANGE. Task 6 changes only the manifest and tests. RED fails because exact paths are absent or misclassified, not because a projection algorithm is missing.
 
-```powershell
-python -m unittest .gpt-codex.tests.test_project_navigation .gpt-codex.tests.test_continuity_resume .gpt-codex.tests.test_context_window_resume .gpt-codex.tests.test_instruction_role_contract .gpt-codex.tests.test_git_continuity
-```
+- [ ] **Step 1: Add failing tests.** Add `test_projection_manifest_classifies_separation_design_as_development_history`, `test_projection_manifest_classifies_separation_plan_as_development_history`, `test_new_separation_test_is_management_only`, `test_consumer_required_projection_excludes_management_control`, `test_consumer_required_projection_excludes_registry_execution_metadata`, `test_projection_rejects_cross_project_management_identity_contamination`, and `test_runtime_closure_does_not_import_framework_management_authority`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_projection.py'`. Expected RED: the Design and Plan exact paths are not both `DEVELOPMENT_HISTORY` and the new test path is not `MANAGEMENT_ONLY`.
+- [ ] **Step 3: Implement the minimum behavior.** Modify only `.gpt-codex/release/consumer-projection-manifest.json`: add exact entries for `docs/superpowers/specs/2026-09-13-framework-project-separation-design.md` and `docs/superpowers/plans/2026-09-13-framework-project-separation.md` as `DEVELOPMENT_HISTORY`, and `.gpt-codex/tests/test_framework_project_separation.py` as `MANAGEMENT_ONLY`. The only newly created path authorized by this Plan is `.gpt-codex/tests/test_framework_project_separation.py`; no other new implementation, test, or documentation path is authorized. Keep management CONTROL, management-only Built-ins, release metadata, Framework operational state, and Registry metadata outside consumer-required content. Do not alter either projection script.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_projection.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_runtime_closure.py'`. Expected GREEN: exact manifest paths resolve, projection unknown paths equal 0, and missing required paths equal 0.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'` and `python .gpt-codex/scripts/validate_consumer_projection.py --root .`. Expected: runtime closure and consumer validation pass without projection algorithm changes.
+- [ ] **Step 6: Refactor/check contract consistency.** Confirm only the manifest is a production MODIFY surface in this task, exact-path validation remains strict, management identity and cross-project Project CONTROL/STATE cannot enter consumer-required projection, and no projection script has a diff.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/release/consumer-projection-manifest.json .gpt-codex/tests/test_consumer_projection.py .gpt-codex/tests/test_consumer_runtime_closure.py .gpt-codex/tests/test_consumer_workspace.py` followed by `git commit -m "feat: enforce separation in consumer projection"`.
 
-**Commit:** `git add .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_project_navigation.py .gpt-codex/tests/test_continuity_resume.py .gpt-codex/tests/test_context_window_resume.py .gpt-codex/tests/test_instruction_role_contract.py .gpt-codex/tests/test_git_continuity.py; git commit -m "test: preserve derived continuity and execution authorities"`
-
-### Task 6: Integrate the separation boundary with consumer projection
-
-**Files:** `.gpt-codex/release/consumer-projection-manifest.json`, `.gpt-codex/scripts/consumer_projection.py`, `.gpt-codex/scripts/validate_consumer_projection.py`, `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_consumer_workspace.py`
-
-**TDD — RED:** Add these tests:
-
-- `test_consumer_required_projection_excludes_management_control`
-- `test_consumer_required_projection_excludes_registry_execution_metadata`
-- `test_projection_manifest_classifies_separation_plan_and_design_as_development_history`
-- `test_projection_rejects_cross_project_management_identity_contamination`
-- `test_runtime_closure_does_not_import_framework_management_authority`
-
-**Implementation:** Extend the existing manifest with exact classifications for the implementation artifacts: the accepted Design and this Plan are `DEVELOPMENT_HISTORY`; management CONTROL, management-only Built-ins, release metadata, and Framework operational state remain non-consumer-required according to the existing manifest contract. If `consumer_projection.py` needs a code change, limit it to applying the existing classifications to identity/management paths; do not add a second projection policy. Preserve `stage_consumer_projection`, `scan_consumer_boundary`, and zip equality behavior.
-
-The consumer projection may contain consumer-safe identity/context fields required by the existing schemas, but it must not contain Framework management identity, self-hosting authority, project-local CONTROL/STATE from another project, or Registry-derived execution permissions. A mismatch or ambiguous ownership must fail closed with the existing projection error path rather than silently omitting evidence.
-
-**Verify:**
-
-```powershell
-python -m unittest .gpt-codex.tests.test_consumer_projection .gpt-codex.tests.test_consumer_runtime_closure .gpt-codex.tests.test_consumer_workspace
-python .gpt-codex/scripts/validate_consumer_projection.py --root .
-```
-
-**Commit:** `git add .gpt-codex/release/consumer-projection-manifest.json .gpt-codex/scripts/consumer_projection.py .gpt-codex/scripts/validate_consumer_projection.py .gpt-codex/tests/test_consumer_projection.py .gpt-codex/tests/test_consumer_runtime_closure.py .gpt-codex/tests/test_consumer_workspace.py; git commit -m "feat: enforce separation in consumer projection"`
-
-### Task 7: Document migration, upgrade evaluation, and operational failure handling
+### Task 7: Operational docs, compatibility lifecycle, and migration direction
 
 **Files:** `.gpt-codex/README.md`, `.gpt-codex/BOOTSTRAP_PROMPT.md`, `.gpt-codex/tests/test_consumer_workspace.py`, `.gpt-codex/tests/test_context_binding.py`
 
-**TDD — RED:** Add these tests:
+- [ ] **Step 1: Add failing tests.** Add `test_operational_docs_state_framework_publishes_project_decides`, `test_operational_docs_state_upgrade_evaluation_is_not_adoption`, `test_operational_docs_list_exact_separation_failure_vocabulary`, `test_existing_v25_project_is_no_migration`, and `test_versioned_auxiliary_framework_folder_requires_explicit_migration_to_fixed_source`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'`. Expected RED: operational documents do not yet contain the complete separation lifecycle and corrected legacy-to-fixed migration direction.
+- [ ] **Step 3: Implement the minimum behavior.** Update only the listed operational documents and tests. Include: “Valid v2.5.0 projects using the current fixed Framework source remain NO_MIGRATION. A legacy project still using a versioned auxiliary Framework folder requires an explicit project-local migration to the fixed unversioned Framework source folder. Framework publication or compatibility evaluation cannot perform that migration automatically.” State publication → read-only compatibility evaluation → explicit Project decision → separately authorized mutation. List `CROSS_PROJECT_CONTEXT_MISMATCH`, `GITHUB_REPOSITORY_MISMATCH`, `PROJECT_IDENTITY_INVALID`, `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`, `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`, `MODULE_ROUTE_UNRESOLVED`, and derived `NAVIGATION_REPOSITORY_MISMATCH`. State project-local extensions/configuration remain local and P0-4 is interface-only.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_workspace.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'`. Expected GREEN: docs contain the exact lifecycle/vocabulary; valid v2.5.0 is `NO_MIGRATION` and versioned auxiliary source requires `EXPLICIT_MIGRATION`.
+- [ ] **Step 5: Run the relevant regression subset.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_projection.py'`. Expected: management isolation and projection documentation checks remain passing.
+- [ ] **Step 6: Refactor/check contract consistency.** Confirm no wording says a project already using the fixed unversioned source requires migration; no automatic upgrade/propagation or P0-4 mechanism is described; and docs grant no execution authority to Framework metadata or Registry routing.
+- [ ] **Step 7: Commit the exact task files.** Run `git add .gpt-codex/README.md .gpt-codex/BOOTSTRAP_PROMPT.md .gpt-codex/tests/test_consumer_workspace.py .gpt-codex/tests/test_context_binding.py` followed by `git commit -m "docs: define framework project separation operations"`.
 
-- `test_operational_docs_state_framework_publishes_project_decides`
-- `test_operational_docs_state_upgrade_evaluation_is_not_adoption`
-- `test_operational_docs_list_exact_separation_failure_vocabulary`
-- `test_existing_v25_project_is_no_migration`
-- `test_legacy_fixed_folder_migration_requires_explicit_project_decision`
+**Gate B — after Task 7**
+- [ ] Review validator integration, management/self-hosting isolation, Registry non-authority, Map/Resume derived-only behavior, Role/Git authority preservation, exact projection closure, runtime closure, migration direction, docs/failure vocabulary, and P0-4 boundary.
+- [ ] Require consumer projection unknown = 0 and missing required = 0 before Task 8.
 
-**Implementation:** Add concise operational guidance to the existing README and bootstrap prompt. State the identity tuple and precedence, ordinary versus management mode, the publication → read-only evaluation → explicit decision → separately authorized mutation lifecycle, and all seven boundary failure names: `CROSS_PROJECT_CONTEXT_MISMATCH`, `GITHUB_REPOSITORY_MISMATCH`, `PROJECT_IDENTITY_INVALID`, `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`, `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`, `MODULE_ROUTE_UNRESOLVED`, and the existing derived navigation mismatch name `NAVIGATION_REPOSITORY_MISMATCH`.
+### Task 8: Full regression and Result-Envelope-only verification
 
-Document migration classification exactly: valid v2.5.0 projects are `NO_MIGRATION`; older projects using the existing fixed unversioned Framework source folder require an explicit project-local migration decision and validation; no automatic rewrite or upgrade is specified. Keep P0-4 as a future consumer of the interface/invariants only and do not describe a central service, automatic synchronization, or centralized evolution mechanism as decided.
+**Files:** all authorized implementation files in the File Map; no evidence file is authorized.
 
-**Gate B — after Task 7:** Review all cross-module consumers, management/consumer projection boundaries, migration language, and exact failure names. Confirm the Registry is metadata-only and that every mutation path still requires Project authority plus Role Protocol/Work Unit authorization.
+- [ ] **Step 1: Run the full test suite.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`. Record the actual discovered test count and pass/fail result.
+- [ ] **Step 2: Run Framework validation.** Run `python .gpt-codex/scripts/validate_framework.py` and record its exit/result.
+- [ ] **Step 3: Run Project validation.** Run `python .gpt-codex/scripts/validate_project.py .` and record its exit/result.
+- [ ] **Step 4: Run consumer projection validation.** Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; record unknown paths = 0 and missing required paths = 0.
+- [ ] **Step 5: Run scope and integrity checks.** Run `git diff --check`, `git status --short --branch`, and `git diff --name-only HEAD~7 HEAD` after the seven Task commits. Confirm every changed path is in the File Map and no schema/template, VERSION, STATE/CONTROL, release, or frozen NO CHANGE path changed.
+- [ ] **Step 6: Record evidence in the Result Envelope.** No tracked evidence file is authorized by this Plan. Implementation verification evidence remains in the Result Envelope, including actual test count, validator results, projection counts, HEAD SHA, and clean-worktree status.
+- [ ] **Step 7: Do not create a verification-only commit.** If all implementation files are already committed after Task 7, Task 8 performs verification only and returns results. No evidence file and no verification-only commit may be created.
 
-**Verify:**
+## Plan-stage Projection Deviation
 
-```powershell
-python -m unittest .gpt-codex.tests.test_consumer_workspace .gpt-codex.tests.test_context_binding .gpt-codex.tests.test_self_hosting_validator
-```
+This Plan Fix Round changes only `docs/superpowers/plans/2026-09-13-framework-project-separation.md`. The Design and Plan paths may remain unclassified on this branch until implementation Task 6 updates the manifest:
 
-**Commit:** `git add .gpt-codex/README.md .gpt-codex/BOOTSTRAP_PROMPT.md .gpt-codex/tests/test_consumer_workspace.py .gpt-codex/tests/test_context_binding.py; git commit -m "docs: define framework project separation operations"`
+- `docs/superpowers/specs/2026-09-13-framework-project-separation-design.md`
+- `docs/superpowers/plans/2026-09-13-framework-project-separation.md`
 
-### Task 8: Run full regression, validators, and evidence closure
-
-**Files:** all implementation files in the File Map; no additional source or schema file is authorized.
-
-**TDD/verification:** Run the complete suite and validators after Task 7. Do not weaken tests, delete existing assertions, or change expected failure names to make the suite pass.
-
-```powershell
-python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'
-python .gpt-codex/scripts/validate_framework.py
-python .gpt-codex/scripts/validate_project.py .
-python .gpt-codex/scripts/validate_consumer_projection.py --root .
-git diff --check
-git status --short
-```
-
-Record the actual discovered test count and each validator result in the implementation evidence. Re-run the focused suites for any failure, classify the cause, and fix only within this P0-3 scope. Confirm the worktree is clean, repository/project identity is unchanged, no project-local CONTROL/STATE was overwritten, no schema version changed, and no release/publish occurred. Commit the final verification evidence only if the implementation workflow requires a tracked evidence file already authorized by its Work Unit; otherwise leave evidence in the result envelope.
-
-Do not create a verification-only commit when no authorized evidence file changed; report the full-suite and validator evidence in the result envelope.
+`PROJECTION_STAGE_DEVIATION = DEFERRED_NONBLOCKING`. The manifest is not modified during this Plan Fix Round.
 
 ## Compatibility and Migration Contract
 
-- Existing valid v2.5.0 projects remain compatible and classify as `NO_MIGRATION`.
-- Existing project-context binding remains the required first identity check; the instruction mismatch reason is normalized to `CROSS_PROJECT_CONTEXT_MISMATCH`.
-- Existing GitHub binding remains repository-ID authoritative. An absent observed full name is tolerated when the ID matches; a present contradictory full name fails closed.
-- Existing Project Map and Resume files remain derived artifacts. Their identity checks and route classifications continue to run only after authoritative identity validation.
-- Existing Role Protocol, Work Unit, CONTROL/STATE, result-envelope, Git continuity, publication, and consumer-projection contracts remain authoritative in their current layers.
-- Existing fixed-folder Framework compatibility remains read-only and advisory. Evaluation can report `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, or `CONFLICT`; only an explicit project-authorized Work Unit can permit a subsequent mutation.
-- No new required schema/template field, version bump, or automatic migration is part of P0-3.
-
-## Contracts, Invariants, and Failure Vocabulary
-
-**Contracts affected:** `PROJECT_IDENTITY_CONTRACT`, `PROJECT_AUTHORITY_BOUNDARY_CONTRACT`, `FRAMEWORK_COMPATIBILITY_EVALUATION`, and `CONTEXT_CONTAMINATION_DECISION`.
-
-**Invariants affected:** one authoritative project identity tuple per project; Project root remains authoritative; Framework root remains auxiliary/read-only for consumers; management/self-hosting is explicit and non-inheritable; Registry is metadata-only; Map/Resume are derived; Framework upgrades are evaluated but not propagated; cross-project context or repository contamination fails closed; role/action, Work Unit, Git continuity, and publication remain separate authority gates.
-
-**Failure vocabulary:** `CROSS_PROJECT_CONTEXT_MISMATCH`, `GITHUB_REPOSITORY_MISMATCH`, `PROJECT_IDENTITY_INVALID`, `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`, `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`, `MODULE_ROUTE_UNRESOLVED`, and existing derived `NAVIGATION_REPOSITORY_MISMATCH`. Existing low-level names not in this vocabulary must not be emitted for these boundary decisions.
+- Valid v2.5.0 projects using the current fixed Framework source remain `NO_MIGRATION`.
+- A legacy project still using a versioned auxiliary Framework folder requires an explicit project-local migration to the fixed unversioned Framework source folder. This is `EXPLICIT_MIGRATION`, not automatic.
+- Framework publication or compatibility evaluation cannot perform migration automatically.
+- Existing project-context binding remains the first identity check; context boundary failures emit `CROSS_PROJECT_CONTEXT_MISMATCH`.
+- Existing GitHub binding remains repository-ID authoritative; absent observed full name is compatible when ID matches, while a present contradictory full name emits `GITHUB_REPOSITORY_MISMATCH`.
+- Existing Project Map and Resume remain derived and cannot repair CONTROL identity.
+- Existing Role Protocol, Work Unit, CONTROL/STATE, Result/Evidence, Git continuity, publication, and projection contracts retain their authority.
+- Project-specific extensions, selected Built-ins, permissions, and configuration remain local; Framework publication is advisory source material.
+- No mandatory schema/template field, version bump, automatic migration, automatic upgrade, or automatic propagation is part of P0-3.
 
 ## P0-4 Boundary and Non-Goals
 
-P0-4 is not implemented or pre-decided. P0-3 exposes only the identity, authority, compatibility-result, and contamination interfaces that a future isolation/evolution phase may consume. The implementation must not add a centralized Framework service, automatic project synchronization, automatic upgrade propagation, shared mutable project state, cross-project write capability, new execution authority to the Registry, release/publish behavior, or a new module.
+P0-4 is not implemented or pre-decided. P0-3 exposes only identity, authority, compatibility-result, and contamination interfaces for a future phase. The implementation must not add a central Framework service, automatic project synchronization, automatic upgrade propagation, shared mutable project state, cross-project write capability, Registry execution authority, release/publish behavior, or a new module.
 
-## Final Review Checklist
+## Required Self-Review
 
-- [ ] Every production change is in the File Map and belongs to an existing affected module.
-- [ ] Every behavior change has RED → GREEN → REFACTOR tests with exact names and commands.
-- [ ] Gate A passed after Task 3 before cross-module integration.
-- [ ] Gate B passed after Task 7 before final regression.
-- [ ] Full test discovery and all three validators pass with recorded evidence.
-- [ ] Consumer projection manifest is updated only during implementation Task 6 and validates cleanly.
-- [ ] No schema/template required field, VERSION, STATE/CONTROL authority, or release artifact was changed outside explicit project authorization.
-- [ ] Worktree is clean and the implementation branch is pushed without amend, rebase, or force-push.
+### Finding closure
+
+- `PLAN-WRITING-PLANS-001` → CLOSED
+- `PLAN-API-SEAM-001` → CLOSED
+- `PLAN-WORK-UNIT-ROLE-001` → CLOSED
+- `PLAN-REGISTRY-SCOPE-001` → CLOSED
+- `PLAN-PROJECTION-SCOPE-001` → CLOSED
+- `PLAN-MIGRATION-DIRECTION-001` → CLOSED
+- `PLAN-EVIDENCE-SCOPE-001` → CLOSED
+
+### Structure and consistency checks
+
+- Required writing-plans header appears at the document start.
+- Tasks 1–7 contain seven checkbox steps with actual test names, RED command/expected reason, implementation behavior, GREEN command, regression command, contract checks, and exact commit scope.
+- Task 8 contains checkbox steps for full suite, all validators, projection counts, diff/status/scope checks, Result Envelope evidence, and no commit/evidence file.
+- The placeholder scan returns zero matches.
+- Every Task path agrees with the File Map; every NO CHANGE surface remains excluded from implementation modifications.
+- No task changes an existing API signature unless the task explicitly lists that API as MODIFY; frozen navigation, Resume, Registry routing, and projection scripts have no planned production diff.
+- Migration direction is versioned auxiliary Framework folder → fixed unversioned Framework source folder, with `EXPLICIT_MIGRATION` only for legacy projects.
+- No tracked evidence file and no verification-only commit are permitted.
+
+## Required Return Fields
+
+The implementation result after executing this Plan must report:
+
+`RESULT`, `WORK_UNIT`, `ARTIFACT_STAGE`, `FIX_ROUND`, `EXECUTION_SLOT_ID`, `ACCEPTED_DESIGN_SHA`, `PREVIOUS_REVIEWED_SHA`, `HEAD_SHA`, `ANCESTRY_VERIFICATION`, all seven finding closure fields, `WRITING_PLANS_CONFORMANCE`, `TASK_COUNT`, `GATE_A_AFTER_TASK`, `GATE_B_AFTER_TASK`, `FILE_MAP_RESULT`, `API_SEAM_RESULT`, `WORK_UNIT_ROLE_MAPPING_RESULT`, `REGISTRY_SCOPE_RESULT`, `PROJECTION_SCOPE_RESULT`, `MIGRATION_DIRECTION_RESULT`, `EVIDENCE_SCOPE_RESULT`, `TEST_COVERAGE_RESULT`, `PLACEHOLDER_SCAN_RESULT`, `SELF_REVIEW_RESULT`, `PROJECTION_STAGE_DEVIATION`, `FILES_CHANGED`, `WORKTREE_STATUS`, `PUSH_STATUS`, `REMOTE_HEAD_SHA`, `REMOTE_VERIFICATION`, `DEVIATIONS`, `BLOCKERS`, and `NEXT_GPT_ACTION`.
