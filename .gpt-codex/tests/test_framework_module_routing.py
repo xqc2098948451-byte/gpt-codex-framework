@@ -108,6 +108,12 @@ def write_registry_fixture(
     }
 
 
+def write_registry_file(root: Path, registry: dict[str, object]) -> None:
+    path = root / ".gpt-codex/framework-modules/REGISTRY.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(registry), encoding="utf-8")
+
+
 class FrameworkModuleRoutingTests(unittest.TestCase):
     def setUp(self):
         self.root = ROOT
@@ -377,6 +383,109 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
             )
             owners = classify_changed_assets(root, registry, ["LOGICAL_TEST_ASSET/child"])
             self.assertEqual(owners["LOGICAL_TEST_ASSET/child"], ())
+
+    def test_mixed_namespace_different_owners_is_ambiguous_not_conflict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [
+                    minimal_descriptor(
+                        "module-a",
+                        owned_assets=({"type": "EXACT_PATH", "value": "contract/foo"},),
+                    ),
+                    minimal_descriptor(
+                        "module-b",
+                        owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},),
+                    ),
+                ],
+            )
+            write_registry_file(root, registry)
+            self.assertEqual(
+                classify_changed_assets(root, registry, ["contract/foo"])["contract/foo"],
+                (),
+            )
+            with self.assertRaises(ModuleRoutingError) as caught:
+                route_responsibility(
+                    root,
+                    "module-a",
+                    "fixture responsibility",
+                    planned_assets=["contract/foo"],
+                )
+            self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
+
+    def test_same_owner_in_physical_and_logical_namespaces_is_unique(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor(
+                    "module-a",
+                    owned_assets=(
+                        {"type": "EXACT_PATH", "value": "contract/foo"},
+                        {"type": "LOGICAL_ASSET", "value": "contract/foo"},
+                    ),
+                )],
+            )
+            self.assertEqual(
+                classify_changed_assets(root, registry, ["contract/foo"])["contract/foo"],
+                ("module-a",),
+            )
+
+    def test_slash_containing_logical_identifier_routes_without_physical_selector(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor(
+                    "module-a",
+                    owned_assets=({"type": "LOGICAL_ASSET", "value": "contract/foo"},),
+                )],
+            )
+            self.assertEqual(
+                classify_changed_assets(root, registry, ["contract/foo"])["contract/foo"],
+                ("module-a",),
+            )
+
+    def test_physical_only_value_routes_without_logical_selector(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = write_registry_fixture(
+                root,
+                [minimal_descriptor(
+                    "module-a",
+                    owned_assets=({"type": "EXACT_PATH", "value": "contract/foo"},),
+                )],
+            )
+            self.assertEqual(
+                classify_changed_assets(root, registry, ["contract/foo"])["contract/foo"],
+                ("module-a",),
+            )
+
+    def test_unsafe_physical_forms_cannot_use_logical_fallback(self):
+        for value in ("/absolute/path", "C:/absolute/path", "safe/../path", "./relative"):
+            with self.subTest(value=value), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                registry = write_registry_fixture(
+                    root,
+                    [minimal_descriptor(
+                        "module-a",
+                        owned_assets=({"type": "LOGICAL_ASSET", "value": value},),
+                    )],
+                )
+                write_registry_file(root, registry)
+                self.assertEqual(
+                    classify_changed_assets(root, registry, [value])[value],
+                    (),
+                )
+                with self.assertRaises(ModuleRoutingError) as caught:
+                    route_responsibility(
+                        root,
+                        "module-a",
+                        "fixture responsibility",
+                        planned_assets=[value],
+                    )
+                self.assertEqual(caught.exception.code, "MODULE_ROUTE_UNRESOLVED")
 
     def test_required_tests_are_sorted_and_deduplicated(self):
         with tempfile.TemporaryDirectory() as directory:

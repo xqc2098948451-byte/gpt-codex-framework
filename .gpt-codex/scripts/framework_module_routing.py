@@ -344,19 +344,36 @@ def classify_changed_assets(
             normalized_path = _normalize_path(asset)
         except (TypeError, ValueError):
             pass
-        try:
-            normalized_logical = _normalize_logical_asset(asset)
-        except (TypeError, ValueError):
-            pass
-        if normalized_path is None and normalized_logical is None:
+        if normalized_path is not None:
+            try:
+                normalized_logical = _normalize_logical_asset(asset)
+            except (TypeError, ValueError):
+                pass
+        elif isinstance(asset, str):
+            try:
+                normalized = asset.replace("\\", "/")
+                has_unsafe_physical_syntax = (
+                    not normalized
+                    or normalized.startswith("/")
+                    or _DRIVE_PREFIX.match(normalized) is not None
+                    or any(component in {"", ".", ".."} for component in normalized.split("/"))
+                )
+                if not has_unsafe_physical_syntax:
+                    normalized_logical = _normalize_logical_asset(asset)
+            except (TypeError, ValueError):
+                pass
+        if normalized_path is None and normalized_logical is None and not isinstance(asset, str):
             exc = ValueError("planned asset is neither a safe path nor a logical identifier")
             raise _error("MODULE_ROUTE_UNRESOLVED", "planned asset is invalid", asset=asset) from exc
         key = normalized_path if normalized_path is not None else normalized_logical
+        if key is None:
+            key = asset
         normalized_assets.append((key, normalized_path, normalized_logical))
 
     result: dict[str, tuple[str, ...]] = {}
     for key, candidate_path, candidate_logical in normalized_assets:
-        owners: set[str] = set()
+        physical_matches: set[str] = set()
+        logical_matches: set[str] = set()
         for module_id, descriptor in descriptors.items():
             for selector in descriptor.get("OWNED_ASSETS", []):
                 try:
@@ -368,7 +385,7 @@ def classify_changed_assets(
                     and candidate_path is not None
                     and candidate_path == selector_value
                 ):
-                    owners.add(module_id)
+                    physical_matches.add(module_id)
                 elif (
                     selector_type == "PATH_PREFIX"
                     and candidate_path is not None
@@ -377,13 +394,24 @@ def classify_changed_assets(
                         or candidate_path.startswith(selector_value + "/")
                     )
                 ):
-                    owners.add(module_id)
+                    physical_matches.add(module_id)
                 elif (
                     selector_type == "LOGICAL_ASSET"
                     and candidate_logical is not None
                     and candidate_logical == selector_value
                 ):
-                    owners.add(module_id)
+                    logical_matches.add(module_id)
+
+        if len(physical_matches) > 1 or len(logical_matches) > 1:
+            owners = physical_matches | logical_matches
+        elif physical_matches == logical_matches:
+            owners = physical_matches
+        elif not physical_matches:
+            owners = logical_matches
+        elif not logical_matches:
+            owners = physical_matches
+        else:
+            owners = set()
         result[key] = tuple(sorted(owners))
     return result
 
