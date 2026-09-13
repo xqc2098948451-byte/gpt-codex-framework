@@ -10,7 +10,11 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
-from context_binding import is_valid_project_context_id, required_guardrail_allows
+from context_binding import (
+    evaluate_return,
+    is_valid_project_context_id,
+    required_guardrail_allows,
+)
 from continuity_resume import load_resume_checkpoint
 from publication_contract import validate_result_authority, validate_state_authority
 from role_communication import (
@@ -37,6 +41,53 @@ _LEGACY_INSTRUCTION_TYPES = frozenset({"WORK_UNIT", "IMPLEMENTATION", "PROJECT_C
 _ROLE_AWARE_INSTRUCTION_TYPES = INSTRUCTION_TYPES - _LEGACY_INSTRUCTION_TYPES
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 _UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+
+
+def evaluate_framework_compatibility(
+    project_control: Mapping[str, Any], framework_facts: Mapping[str, Any],
+) -> dict[str, Any]:
+    if framework_facts.get("identity_conflict") or framework_facts.get("authority_conflict"):
+        classification, reason = "CONFLICT", "FRAMEWORK_PROJECT_CONFLICT"
+    elif framework_facts.get("evaluated_version") == (project_control.get("framework") or {}).get("adopted_version"):
+        classification, reason = "NO_ACTION", "ADOPTED_VERSION_MATCH"
+    elif framework_facts.get("requires_migration"):
+        classification, reason = "REQUIRED_MIGRATION", "EXPLICIT_MIGRATION_REQUIRED"
+    elif framework_facts.get("compatible") and framework_facts.get("reusable"):
+        classification, reason = "OPTIONAL_REUSE", "COMPATIBLE_REUSE_AVAILABLE"
+    elif framework_facts.get("compatible"):
+        classification, reason = "RECOMMENDED_UPGRADE", "COMPATIBLE_NEWER_FRAMEWORK"
+    else:
+        classification, reason = "CONFLICT", "FRAMEWORK_COMPATIBILITY_CONFLICT"
+    return {"classification": classification, "reason": reason, "mutated": False, "adoption_authorized": False}
+
+
+def validate_framework_adoption(
+    project_control: Mapping[str, Any], instruction: Mapping[str, Any], work_unit: Mapping[str, Any], *, current_state_revision: int,
+) -> list[str]:
+    if project_control.get("project_id") != work_unit.get("project_id"):
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    if instruction.get("target_work_unit") != work_unit.get("work_unit_id") or work_unit.get("state") != "AUTHORIZED":
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    if instruction.get("expected_state_revision") != work_unit.get("basis_state_revision") or work_unit.get("basis_state_revision") != current_state_revision:
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    executor_role = instruction.get("executor_role")
+    authorized_actions = instruction.get("authorized_actions")
+    forbidden_actions = instruction.get("forbidden_actions")
+    if validate_executor_role(executor_role):
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    if "MUTATE_APPROVED_SCOPE" not in (authorized_actions or []):
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    if validate_action_authority(executor_role, authorized_actions, forbidden_actions):
+        return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
+    return []
+
+
+def validate_evidence_project_binding(
+    evidence: Mapping[str, Any], project_control: Mapping[str, Any], *, current_state_revision: int | None = None,
+) -> list[str]:
+    if evidence.get("project_id") != project_control.get("project_id"):
+        return ["PROJECT_IDENTITY_INVALID"]
+    return []
 
 
 def _is_nonempty_string(value: object) -> bool:
@@ -515,6 +566,23 @@ def main():
             durable_results[ref] = candidate
             errors += [f'RESULT {ref}: {error}' for error in validate_result_authority(candidate)]
             errors += [f'RESULT_PROTOCOL {ref}: {error}' for error in validate_result_protocol(candidate)]
+            if 'source_project_context_id' in candidate:
+                decision = evaluate_return(
+                    candidate,
+                    control.get('project_context_id'),
+                    state.get('revision'),
+                    project_control=control,
+                    local_repository_id=(control.get('github') or {}).get('repository_id'),
+                )
+                if decision.decision != 'ALLOW':
+                    errors.append(f'RESULT {ref}: {decision.reason}')
+        elif isinstance(candidate, dict) and 'evidence_id' in candidate:
+            errors += [
+                f'EVIDENCE {ref}: {error}'
+                for error in validate_evidence_project_binding(
+                    candidate, control, current_state_revision=state.get('revision'),
+                )
+            ]
     errors += [f'STATE: {error}' for error in validate_state_authority(state, durable_results)]
     errors += validate_optional_navigation_and_resume(root, gov, control)
     # Validate project-local contracts if present.

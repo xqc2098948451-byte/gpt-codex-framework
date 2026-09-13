@@ -10,6 +10,7 @@ from uuid import UUID, uuid4
 
 REQUIRED_GUARDRAIL_ID = "cross-project-context-binding"
 REQUIRED_GUARDRAIL_VERSION = "1.0.0"
+_READ_ONLY_BOUNDARY_OPERATIONS = frozenset({"READ", "EVALUATE"})
 
 
 @dataclass
@@ -110,6 +111,22 @@ def evaluate_project_identity(
         return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
     return _decision("ALLOW", "IDENTITY_MATCH", identity_match=True, freshness_match=True,
                      current_project_mutation=False, action_executable=False, authority="IDENTITY_VALIDATION")
+
+
+def evaluate_project_authority_boundary(
+    identity: ProjectIdentity, *, source: str, operation: str,
+) -> ContextDecision:
+    """Validate a read-only authority boundary; never authorize mutation."""
+    if source not in {"project", "framework"}:
+        return _decision("DENY", "PROJECT_AUTHORITY_BOUNDARY_VIOLATION", identity_match=True,
+                         current_project_mutation=False, action_executable=False, hard_stop=True)
+    if operation not in _READ_ONLY_BOUNDARY_OPERATIONS:
+        reason = "FRAMEWORK_ADOPTION_NOT_AUTHORIZED" if operation == "ADOPT" else "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"
+        return _decision("DENY", reason, identity_match=True, current_project_mutation=False,
+                         action_executable=False, hard_stop=operation != "ADOPT")
+    return _decision("ALLOW", "PROJECT_AUTHORITY_BOUNDARY_READ_ONLY", identity_match=True,
+                     freshness_match=True, current_project_mutation=False, action_executable=False,
+                     authority="READ_ONLY_BOUNDARY")
 
 
 def _guardrail_items(project_control: Mapping[str, Any]) -> list[Mapping[str, Any]]:
@@ -261,11 +278,15 @@ def evaluate_return(
     if project_control is not None:
         github = project_control.get("github")
         source_repository_id = envelope.get("source_github_repository_id")
+        source_repository_full_name = envelope.get("source_github_repository_full_name")
         if isinstance(github, Mapping):
             bound_repository_id = github.get("repository_id")
+            bound_repository_full_name = github.get("repository_full_name")
             if not source_repository_id:
                 return _decision("DENY", "SOURCE_GITHUB_REPOSITORY_MISSING", identity_match=True)
             if source_repository_id != bound_repository_id or (local_repository_id is not None and local_repository_id != bound_repository_id):
+                return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", identity_match=True, packet_status="QUARANTINED")
+            if source_repository_full_name not in (None, "") and source_repository_full_name != bound_repository_full_name:
                 return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", identity_match=True, packet_status="QUARANTINED")
         guardrail = required_guardrail_allows(project_control, "return")
         if guardrail.decision != "ALLOW":

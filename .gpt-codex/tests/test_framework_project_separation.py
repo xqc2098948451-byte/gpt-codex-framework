@@ -6,7 +6,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from context_binding import evaluate_project_identity, load_project_identity
+from context_binding import (
+    evaluate_project_authority_boundary,
+    evaluate_project_identity,
+    evaluate_return,
+    load_project_identity,
+)
+from validate_project import (
+    evaluate_framework_compatibility,
+    validate_evidence_project_binding,
+    validate_framework_adoption,
+)
 
 
 VALID_CONTEXT_ID = "11111111-1111-4111-8111-111111111111"
@@ -89,6 +99,70 @@ class ProjectIdentityTests(unittest.TestCase):
         identity = load_project_identity(valid_control(), framework_root=Path("framework"))
         self.assertEqual(identity.framework_role, "ADVISORY")
         self.assertFalse(identity.management)
+
+
+def complete_result(source_context_id: str, *, repository_id: str = "123", repository_full_name: str | None = "owner/repo") -> dict[str, object]:
+    return {"source_project_context_id": source_context_id, "source_github_repository_id": repository_id, "source_github_repository_full_name": repository_full_name, "status": "PASS", "work_unit_id": "WU-001", "state_revision": 6}
+
+
+class AuthorityAndCompatibilityTests(unittest.TestCase):
+    def test_project_read_is_allowed_but_does_not_authorize_mutation(self):
+        decision = evaluate_project_authority_boundary(load_project_identity(valid_control()), source="project", operation="READ")
+        self.assertEqual(decision.decision, "ALLOW")
+        self.assertFalse(decision.current_project_mutation)
+        self.assertFalse(decision.action_executable)
+
+    def test_project_write_requires_separate_authorization(self):
+        decision = evaluate_project_authority_boundary(load_project_identity(valid_control()), source="project", operation="WRITE")
+        self.assertEqual(decision.reason, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+        self.assertFalse(decision.action_executable)
+
+    def test_unknown_framework_operation_fails_closed(self):
+        decision = evaluate_project_authority_boundary(load_project_identity(valid_control()), source="framework", operation="DELETE")
+        self.assertEqual(decision.reason, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+
+    def test_adopt_is_not_authorized_by_identity_boundary(self):
+        decision = evaluate_project_authority_boundary(load_project_identity(valid_control()), source="project", operation="ADOPT")
+        self.assertEqual(decision.reason, "FRAMEWORK_ADOPTION_NOT_AUTHORIZED")
+
+    def test_result_matching_repository_id_but_contradictory_full_name_is_denied(self):
+        decision = evaluate_return(complete_result(VALID_CONTEXT_ID, repository_full_name="other/repo"), VALID_CONTEXT_ID, 6, project_control=valid_control(), local_repository_id="123")
+        self.assertEqual(decision.reason, "GITHUB_REPOSITORY_MISMATCH")
+
+    def test_result_matching_repository_id_with_missing_full_name_is_allowed(self):
+        decision = evaluate_return(complete_result(VALID_CONTEXT_ID, repository_full_name=None), VALID_CONTEXT_ID, 6, project_control=valid_control(), local_repository_id="123")
+        self.assertEqual(decision.decision, "ALLOW")
+
+    def test_foreign_result_context_returns_cross_project_context_mismatch(self):
+        decision = evaluate_return(complete_result(FOREIGN_CONTEXT_ID), VALID_CONTEXT_ID, 6, project_control=valid_control(), local_repository_id="123")
+        self.assertEqual(decision.reason, "CROSS_PROJECT_CONTEXT_MISMATCH")
+
+    def test_evidence_project_binding_is_non_authorizing(self):
+        self.assertEqual(validate_evidence_project_binding({"project_id": "PRJ-001", "state_revision": 1}, valid_control(), current_state_revision=6), [])
+        self.assertEqual(validate_evidence_project_binding({"project_id": "PRJ-FOREIGN", "state_revision": 1}, valid_control(), current_state_revision=6), ["PROJECT_IDENTITY_INVALID"])
+
+    def test_compatibility_evaluation_is_read_only_with_all_classifications(self):
+        control = valid_control()
+        cases = [
+            ({"evaluated_version": "2.5.0", "compatible": True, "reusable": False, "requires_migration": False}, "NO_ACTION"),
+            ({"evaluated_version": "2.6.0", "compatible": True, "reusable": True, "requires_migration": False}, "OPTIONAL_REUSE"),
+            ({"evaluated_version": "2.6.0", "compatible": True, "reusable": False, "requires_migration": False}, "RECOMMENDED_UPGRADE"),
+            ({"evaluated_version": "2.6.0", "compatible": True, "reusable": False, "requires_migration": True}, "REQUIRED_MIGRATION"),
+            ({"identity_conflict": True}, "CONFLICT"),
+        ]
+        for facts, classification in cases:
+            with self.subTest(classification=classification):
+                result = evaluate_framework_compatibility(control, facts)
+                self.assertEqual(result["classification"], classification)
+                self.assertFalse(result["mutated"])
+                self.assertFalse(result["adoption_authorized"])
+
+    def test_adoption_requires_role_work_unit_and_revision_authority(self):
+        instruction = {"target_work_unit": "WU-001", "expected_state_revision": 6, "executor_role": "CODEX_IMPLEMENTER", "authorized_actions": ["MUTATE_APPROVED_SCOPE"], "forbidden_actions": []}
+        work_unit = {"project_id": "PRJ-001", "work_unit_id": "WU-001", "state": "AUTHORIZED", "basis_state_revision": 6}
+        self.assertEqual(validate_framework_adoption(valid_control(), instruction, work_unit, current_state_revision=6), [])
+        instruction["authorized_actions"] = ["READ"]
+        self.assertEqual(validate_framework_adoption(valid_control(), instruction, work_unit, current_state_revision=6), ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"])
 
 
 if __name__ == "__main__":
