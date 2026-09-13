@@ -38,12 +38,22 @@ class GithubRepositoryBindingTests(unittest.TestCase):
         self.assertFalse(decision.mutation_allowed)
 
     @unittest.skipUnless(importlib.util.find_spec("github_repository_binding"), "RED: module not implemented")
-    def test_missing_remote_name_in_control_is_valid(self):
+    def test_repository_id_match_with_absent_observed_full_name_allows(self):
         from github_repository_binding import ObservedRepository, compare_repository_binding
 
-        control = {"github": {"repository_id": "repo-1", "repository_full_name": "old/project", "default_branch": "main"}}
-        decision = compare_repository_binding(control, ObservedRepository("repo-1", "new/project", "upstream", "github:new/project"))
+        control = {"github": {"repository_id": "repo-1", "repository_full_name": "owner/project", "default_branch": "main"}}
+        decision = compare_repository_binding(control, ObservedRepository("repo-1", None, "upstream", "github:owner/project"))
         self.assertEqual(decision.decision, "ALLOW")
+
+    @unittest.skipUnless(importlib.util.find_spec("github_repository_binding"), "RED: module not implemented")
+    def test_present_contradictory_repository_full_name_denies(self):
+        from github_repository_binding import ObservedRepository, compare_repository_binding
+
+        control = {"github": {"repository_id": "repo-1", "repository_full_name": "owner/project", "default_branch": "main"}}
+        decision = compare_repository_binding(control, ObservedRepository("repo-1", "other/project", "origin", "github:other/project"))
+        self.assertEqual(decision.decision, "DENY")
+        self.assertEqual(decision.reason, "GITHUB_REPOSITORY_MISMATCH")
+        self.assertFalse(decision.mutation_allowed)
 
     @unittest.skipUnless(importlib.util.find_spec("github_repository_binding"), "RED: module not implemented")
     def test_canonicalize_https_and_ssh(self):

@@ -81,6 +81,11 @@ def compare_repository_binding(control: Mapping[str, Any], observed: ObservedRep
         return BindingDecision("DENY", "REPOSITORY_CONFLICT", False, False)
     if str(observed.repository_id) != binding.repository_id:
         return BindingDecision("DENY", "GITHUB_REPOSITORY_MISMATCH", False, False)
+    if (
+        observed.repository_full_name not in (None, "")
+        and str(observed.repository_full_name).strip() != binding.repository_full_name
+    ):
+        return BindingDecision("DENY", "GITHUB_REPOSITORY_MISMATCH", False, False)
     return BindingDecision("ALLOW", "GITHUB_REPOSITORY_ID_MATCH", True, True)
 
 
