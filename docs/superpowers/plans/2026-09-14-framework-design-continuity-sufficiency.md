@@ -173,15 +173,14 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect mismatch/cold recovery/seriality results to pass and derived navigation to remain non-authoritative.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/project_navigation.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: recover and review execution slots"`
 
-### Task 6: Final cross-module closure and verification
+### Task 6: Final cross-module verification only
 
-**Files:** Verify only `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`; no Task 6 mutation or commit.
+**Files:** `MUTATION = NONE`. Verify only `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`; no Task 6 commit.
 
 **Interfaces:** Manifest classifies every actual implementation path once. The final routing decision includes `release-projection`; consumer bytes do not contain management identity. No Design/Plan or implementation path remains unknown after integration.
 
 - [ ] **Step 1: Write failing classification assertion** — Add the actual new implementation paths to the manifest audit expectation only after routing confirms each owner/classification. Do not project management-only assets without an approved consumer-runtime decision.
-- [ ] **Step 1: Verify RED debt** — Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; expect exactly two unknown paths (the accepted Design and Plan) and zero missing required paths.
-- [ ] **Step 2: Minimal implementation** — Add only `docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md: DEVELOPMENT_HISTORY` and `docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md: DEVELOPMENT_HISTORY`. Preserve the manifest as `MANAGEMENT_ONLY`, existing runtime paths as `CONSUMER_REQUIRED`, and all tests as `MANAGEMENT_ONLY`.
+- [ ] **Step 1: Verify clean projection** — Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; at B0 expect `unknown = 0` and `missing required = 0`. New paths stop for routing adjudication; Task 6 never edits the manifest.
 - [ ] **Step 3: Minimal implementation** — Classify those paths; rerun Registry routing with the manifest. Do not change VERSION, release records, publish state, or create a release.
 - [ ] **Step 4: Verify GREEN** — Run `python .gpt-codex/scripts/validate_framework.py`, `python .gpt-codex/scripts/validate_project.py .`, `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, `git diff --check`, and `git status --short`. Record `Ran N tests`, `0 failures`, and `0 errors`.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/release/consumer-projection-manifest.json && git commit -m "chore: classify execution continuity assets"`
