@@ -38,19 +38,20 @@ Before every physical change, use `classify_changed_assets()` and `route_respons
 
 ### Task 0: Reconcile accepted P0-5 artifacts with canonical v2.6.0 before production execution
 
-**Files:** Create an isolated implementation branch/worktree from canonical main; modify no accepted Design/Plan artifact in this task. **Inputs:** `accepted_design_sha=ec74a57d10cd7db1b2e56e122d4bbaf12b6a3ceb`, `accepted_plan_sha=ACCEPTED_PLAN_SHA` (the reviewed final Plan SHA), and `canonical_main_sha=f49cd5afaa07aabaedac516d1c0e2c3524eef845`.
+**Files:** Create `feature/framework-design-continuity-sufficiency-implementation` from canonical main; modify no accepted Design/Plan artifact directly. **Inputs:** `accepted_design_sha=ec74a57d10cd7db1b2e56e122d4bbaf12b6a3ceb`, `accepted_plan_sha=ACCEPTED_PLAN_SHA`, and `canonical_main_sha=f49cd5afaa07aabaedac516d1c0e2c3524eef845`.
 
 **Evidence interface:** Return GPT-verifiable command evidence, not a new P0-5 persistence artifact, with exactly `accepted_design_sha`, `accepted_plan_sha`, `canonical_main_sha`, `implementation_base_sha`, `design_content_preserved`, `plan_content_preserved`, `registry_compatibility_result`, `state_schema_compatibility_result`, `navigation_api_compatibility_result`, `validation_api_compatibility_result`, `projection_compatibility_result`, `changed_path_conflicts`, `full_suite_result`, `framework_validation_result`, `project_validation_result`, and `blockers`. Prove compatibility by `git diff --name-status` against each accepted SHA, Registry routing on every intended path, schema/API comparison, fresh remote `ls-remote`, framework/project validators, full tests, and projection validation.
 
-- [ ] **Step 1: Create isolated canonical worktree** — Run `git fetch origin main`, verify `origin/main` equals `f49cd5afaa07aabaedac516d1c0e2c3524eef845`, then `git worktree add -b implementation/p0-5-continuity <new-directory> f49cd5afaa07aabaedac516d1c0e2c3524eef845`. Never rebase/amend/rewrite accepted history or silently cherry-pick/reinterpret accepted artifacts.
-- [ ] **Step 2: Produce reconciliation evidence** — Run the evidence commands above and return the exact interface to GPT.
-- [ ] **Step 3: Hard stop** — **NO TASK 1 OR LATER MAY EXECUTE UNTIL TASK 0 RESULT HAS BEEN INDEPENDENTLY VERIFIED BY GPT AND BLOCKERS = NONE.** Any incompatible canonical change returns `RECONCILIATION_REQUIRED`; the executor stops and does not reinterpret Design/Plan.
+- [ ] **Step 1: Merge accepted artifacts** — Verify fresh `origin/main`, create the named branch/worktree at canonical main, then run `git merge --no-ff ACCEPTED_PLAN_SHA -m "chore: reconcile P0-5 continuity plan with v2.6.0"`. The reconciliation merge `R` must have parent 1 canonical main and parent 2 accepted Plan; no rebase, cherry-pick, amend, or history rewrite.
+- [ ] **Step 2: Verify R tree and debt** — Prove `main → R` changes exactly the accepted Design and Plan paths, and compare both blobs to accepted SHAs. Run framework/project/full-suite/projection validation; projection unknown must be exactly 2 and missing required 0. Any other path, failure, or debt returns `RECONCILIATION_REQUIRED`.
+- [ ] **Step 3: Create B0 and verify** — Modify only `.gpt-codex/release/consumer-projection-manifest.json`, classify both accepted paths `DEVELOPMENT_HISTORY`, commit one normal `R → B0`, then rerun full validation requiring projection unknown/missing 0 and clean worktree.
+- [ ] **Step 4: Hard stop** — **NO TASK 1 OR LATER MAY EXECUTE UNTIL GPT independently verifies R parents, main→R paths/blobs, R→B0 manifest-only scope, baseline evidence, and P0_5_CLEAN_IMPLEMENTATION_BASELINE = GPT_VERIFIED with BLOCKERS = NONE.**
 
 ### Task 1: Define the STATE slot model
 
 **Files:** Modify `.gpt-codex/schemas/state.schema.json`, `.gpt-codex/project-template/STATE.template.json`, and `.gpt-codex/tests/test_navigation_project_validation.py`.
 
-**Interfaces:** Add `active_execution_slots: array[ExecutionSlot]`. `slot_id`, `role`, `status`, `project_context_id`, and `next_action` are non-empty strings; `state_revision` is integer `>= 0`. Assignment fields `work_unit_id`, `primary_module`, `branch`, `worktree`, `base_sha`, `current_head_sha`, `last_accepted_sha`, and all review/finding/remediation/block correlations are `string|null`. `IDLE` requires all assignment fields null and `next_action="AWAIT_ASSIGNMENT"`; `BLOCKED` requires non-null `blocked_from_status` and `block_reason`.
+**Interfaces:** Add `active_execution_slots: array[ExecutionSlot]`. `instruction_id`, `review_request_id`, `review_result_ref`, `finding_ref`, `remediation_authorization_ref`, `fix_instruction_id`, and `reviewer_reassignment_ref` are `string|null`; `blocked_from_status` is slot-status-or-null and `block_reason` is bounded-string-or-null. IDLE clears every correlation; ACTIVE populates instruction; review entry/result populates review fields; remediation BLOCKED requires finding/review/predecessor/reason; BLOCKED→ACTIVE requires authorization/fix; only explicit current-state `reviewer_reassignment_ref` permits reviewer change.
 
 - [ ] **Step 1: Write failing tests**
 
@@ -157,13 +158,13 @@ def test_second_reviewer_requires_explicit_reassignment(self):
 
 def test_recovery_mismatch_matrix_and_window_non_authority(self):
     for field in ("project_context_id", "work_unit_id", "role", "primary_module", "branch", "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision"):
-        self.assertIn(load_continuity_resume(self.slot_fixture(mismatch=field), "repo-a", execution_slot_id="S-1")["status"], {"EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"})
+        self.assertEqual(load_continuity_resume(self.slot_fixture(mismatch=field), "repo-a", execution_slot_id="S-1")["status"], "EXECUTION_SLOT_MISMATCH")
     for condition in ("missing_durable_fact", "stale_state", "dirty_worktree", "stale_resume", "replacement_window"):
-        self.assertIn(load_continuity_resume(self.slot_fixture(condition=condition), "repo-a", execution_slot_id="S-1")["status"], {"EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"})
+        self.assertEqual(load_continuity_resume(self.slot_fixture(condition=condition), "repo-a", execution_slot_id="S-1")["status"], "RECONCILIATION_REQUIRED")
 
 def test_reviewer_seriality_and_reassignment_evidence(self):
     self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(), "reviewer-1", 9), [])
-    self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(reassignment_evidence="result-1"), "reviewer-2", 9), [])
+    self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(reviewer_reassignment_ref="instruction-1"), "reviewer-2", 9), [])
     self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(source="telemetry"), "reviewer-2", 9))
 ```
 
@@ -172,9 +173,9 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect mismatch/cold recovery/seriality results to pass and derived navigation to remain non-authoritative.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/project_navigation.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: recover and review execution slots"`
 
-### Task 6: Classify consumer projection and verify cross-module closure
+### Task 6: Final cross-module closure and verification
 
-**Files:** Modify only `.gpt-codex/release/consumer-projection-manifest.json`. Verify `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`.
+**Files:** Verify only `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`; no Task 6 mutation or commit.
 
 **Interfaces:** Manifest classifies every actual implementation path once. The final routing decision includes `release-projection`; consumer bytes do not contain management identity. No Design/Plan or implementation path remains unknown after integration.
 
