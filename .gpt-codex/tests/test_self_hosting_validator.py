@@ -140,6 +140,48 @@ class SelfHostingValidatorTests(unittest.TestCase):
         self.assertEqual(set(decision.__dataclass_fields__), {"classification", "reason", "source"})
         self.assertEqual(source, self._valid_evolution_source())
 
+    def test_evolution_source_snapshot_is_detached_from_caller_mutation(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        source = self._valid_evolution_source()
+        decision = validate_framework_evolution_source(source)
+        source["source_provenance"]["commit_sha"] = "b" * 40
+        source["compatibility_rules"]["minimum_project_version"] = "9.9.9"
+
+        self.assertEqual(decision.source["source_provenance"]["commit_sha"], "a" * 40)
+        self.assertEqual(
+            decision.source["compatibility_rules"]["minimum_project_version"],
+            "2.0.0",
+        )
+
+    def test_evolution_source_snapshot_top_level_is_immutable(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        decision = validate_framework_evolution_source(self._valid_evolution_source())
+
+        with self.assertRaises(TypeError):
+            decision.source["framework_version"] = "9.9.9"
+
+    def test_evolution_source_snapshot_provenance_is_immutable(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        decision = validate_framework_evolution_source(self._valid_evolution_source())
+
+        with self.assertRaises(TypeError):
+            decision.source["source_provenance"]["commit_sha"] = "b" * 40
+
+    def test_evolution_source_snapshot_compatibility_rules_are_recursively_immutable(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        source = self._valid_evolution_source()
+        source["compatibility_rules"]["supported_versions"] = ["2.0.0"]
+        decision = validate_framework_evolution_source(source)
+
+        with self.assertRaises(TypeError):
+            decision.source["compatibility_rules"]["minimum_project_version"] = "9.9.9"
+        with self.assertRaises(TypeError):
+            decision.source["compatibility_rules"]["supported_versions"][0] = "9.9.9"
+
     def test_action_bearing_or_incomplete_evolution_source_is_invalid(self):
         from kernel_rules import validate_framework_evolution_source
 

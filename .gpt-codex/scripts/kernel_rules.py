@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from copy import deepcopy
 from dataclasses import dataclass
 import re
+from types import MappingProxyType
 from typing import Any, Mapping
 
 KERNEL_VERSION = "2.0.0"
@@ -43,7 +43,17 @@ _COMMIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
 class EvolutionSourceDecision:
     classification: str
     reason: str
-    source: dict[str, Any] | None
+    source: Mapping[str, Any] | None
+
+
+def _freeze_evolution_source_snapshot(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return MappingProxyType({key: _freeze_evolution_source_snapshot(item) for key, item in value.items()})
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze_evolution_source_snapshot(item) for item in value)
+    if isinstance(value, (set, frozenset)):
+        return frozenset(_freeze_evolution_source_snapshot(item) for item in value)
+    return value
 
 
 def validate_framework_evolution_source(source: Mapping[str, Any]) -> EvolutionSourceDecision:
@@ -69,7 +79,7 @@ def validate_framework_evolution_source(source: Mapping[str, Any]) -> EvolutionS
     return EvolutionSourceDecision(
         "READ_ONLY_EVOLUTION_SOURCE",
         "FRAMEWORK_SOURCE_VALID",
-        deepcopy(dict(source)),
+        _freeze_evolution_source_snapshot(source),
     )
 
 
