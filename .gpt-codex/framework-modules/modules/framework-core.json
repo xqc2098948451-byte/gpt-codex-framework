@@ -22,7 +22,9 @@
     {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/framework-module.schema.json"},
     {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/framework_module_routing.py"},
     {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/execution_telemetry.py"},
-    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_execution_telemetry.py"}
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_execution_telemetry.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/scripts/framework_feedback.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_framework_feedback.py"}
   ],
   "ENTRY_POINTS": ["framework governance", "framework module registry routing"],
   "INPUTS": ["KERNEL_GOVERNANCE_INPUT"],
@@ -32,6 +34,6 @@
   "INVARIANTS": ["Registry does not grant execution authority", "Project Map remains DERIVED_NAVIGATION_INDEX", "consumer projection remains independent"],
   "PERMISSIONS": ["READ_ONLY_REFERENCE", "FRAMEWORK_DEVELOPMENT_ONLY"],
   "CHANGE_RISK": "HIGH",
-  "REQUIRED_TESTS": [".gpt-codex/tests/test_framework_module_schemas.py", ".gpt-codex/tests/test_framework_module_routing.py", ".gpt-codex/tests/test_kernel_conformance.py", ".gpt-codex/tests/test_execution_telemetry.py"],
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_framework_module_schemas.py", ".gpt-codex/tests/test_framework_module_routing.py", ".gpt-codex/tests/test_kernel_conformance.py", ".gpt-codex/tests/test_execution_telemetry.py", ".gpt-codex/tests/test_framework_feedback.py"],
   "RELATED_MODULES": ["identity-context", "role-communication", "navigation-continuity", "git-continuity", "release-projection", "framework-validation"]
 }

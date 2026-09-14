@@ -14,4 +14,6 @@ RESULT_RETURN_POLICY = DURABLE_REF_FIRST
 No project decisions recorded yet.
 
 ## Process Reviews
-No milestone process review recorded yet.
+Record only observable milestone facts: task, key decision, error category,
+retry/intervention/review/remediation/handoff counts, final result, durable
+Git/evidence refs, and reliable usage (otherwise UNKNOWN).

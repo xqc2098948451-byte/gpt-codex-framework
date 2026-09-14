@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
+from framework_feedback import validate_execution_policy
 from context_binding import (
     build_project_evolution_observation,
     evaluate_project_identity,
@@ -849,6 +850,7 @@ def main():
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
     errors += validate_project_identity_boundary(control, consumer=not management_project)
+    errors += validate_execution_policy(control.get("execution_policy"))
     errors += validate_harness_root_separation(control)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')

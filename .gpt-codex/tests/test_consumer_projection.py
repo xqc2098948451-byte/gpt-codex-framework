@@ -111,6 +111,8 @@ class ConsumerProjectionTests(unittest.TestCase):
         paths = manifest["paths"]
         self.assertEqual(paths.get(".gpt-codex/scripts/execution_telemetry.py"), "MANAGEMENT_ONLY")
         self.assertEqual(paths.get(".gpt-codex/tests/test_execution_telemetry.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get(".gpt-codex/scripts/framework_feedback.py"), "CONSUMER_REQUIRED")
+        self.assertEqual(paths.get(".gpt-codex/tests/test_framework_feedback.py"), "MANAGEMENT_ONLY")
         self.assertEqual(paths.get("docs/superpowers/specs/2026-09-13-execution-telemetry-design.md"), "DEVELOPMENT_HISTORY")
         self.assertEqual(paths.get("docs/superpowers/plans/2026-09-14-execution-telemetry.md"), "DEVELOPMENT_HISTORY")
         self.assertEqual(audit_projection_paths(ROOT, manifest)["unknown_paths"], [])

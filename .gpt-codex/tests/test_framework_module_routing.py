@@ -601,5 +601,16 @@ class FrameworkModuleRoutingTests(unittest.TestCase):
             self.assertIn(caught.exception.code, {"MODULE_ROUTE_UNRESOLVED", "MODULE_NOT_REGISTERED"})
 
 
+    def test_framework_feedback_assets_belong_to_framework_core(self):
+        registry = load_registry(ROOT)
+        classifications = classify_changed_assets(
+            ROOT, registry,
+            [".gpt-codex/scripts/framework_feedback.py", ".gpt-codex/tests/test_framework_feedback.py"],
+        )
+        self.assertEqual(set(classifications.values()), {("framework-core",)})
+        core = json.loads((ROOT / ".gpt-codex/framework-modules/modules/framework-core.json").read_text(encoding="utf-8"))
+        self.assertIn(".gpt-codex/tests/test_framework_feedback.py", core["REQUIRED_TESTS"])
+
+
 if __name__ == "__main__":
     unittest.main()
