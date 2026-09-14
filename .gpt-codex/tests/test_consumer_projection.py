@@ -92,6 +92,15 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_execution_telemetry_is_management_only_and_stage_docs_are_history(self):
+        manifest = load_projection_manifest(ROOT)
+        paths = manifest["paths"]
+        self.assertEqual(paths.get(".gpt-codex/scripts/execution_telemetry.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get(".gpt-codex/tests/test_execution_telemetry.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get("docs/superpowers/specs/2026-09-13-execution-telemetry-design.md"), "DEVELOPMENT_HISTORY")
+        self.assertEqual(paths.get("docs/superpowers/plans/2026-09-14-execution-telemetry.md"), "DEVELOPMENT_HISTORY")
+        self.assertEqual(audit_projection_paths(ROOT, manifest)["unknown_paths"], [])
+
     def test_manifest_classifies_framework_module_management_boundary(self):
         manifest = load_projection_manifest(ROOT)
         expected_management_paths = {
