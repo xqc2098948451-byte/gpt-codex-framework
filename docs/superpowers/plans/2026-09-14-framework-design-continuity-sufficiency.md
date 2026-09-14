@@ -88,7 +88,7 @@ def test_idle_old_work_unit_requires_reconciliation(self):
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect missing helpers/error codes.
 - [ ] **Step 3: Minimal implementation** — Put the legal edge graph, IDLE rules, and BLOCKED semantics in `continuity_resume.py`. Keep `kernel_rules.py` limited to generic revision equality. Forbid `COMPLETED → ACTIVE`, generic `BLOCKED → blocked_from_status`, stale writes, and non-null IDLE assignment/correlation fields.
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect valid transitions and all fail-closed cases to pass.
-- [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/kernel_rules.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: validate execution slot lifecycle"`
+- [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/kernel_rules.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: validate execution slot lifecycle"`
 
 ### Task 3: Implement assignment and completion reset
 
@@ -154,21 +154,33 @@ def test_cold_resume_rejects_slot_context_or_sha_mismatch(self):
 
 def test_second_reviewer_requires_explicit_reassignment(self):
     self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(), "reviewer-2", 9))
+
+def test_recovery_mismatch_matrix_and_window_non_authority(self):
+    for field in ("project_context_id", "work_unit_id", "role", "primary_module", "branch", "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision"):
+        self.assertIn(load_continuity_resume(self.slot_fixture(mismatch=field), "repo-a", execution_slot_id="S-1")["status"], {"EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"})
+    for condition in ("missing_durable_fact", "stale_state", "dirty_worktree", "stale_resume", "replacement_window"):
+        self.assertIn(load_continuity_resume(self.slot_fixture(condition=condition), "repo-a", execution_slot_id="S-1")["status"], {"EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"})
+
+def test_reviewer_seriality_and_reassignment_evidence(self):
+    self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(), "reviewer-1", 9), [])
+    self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(reassignment_evidence="result-1"), "reviewer-2", 9), [])
+    self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(source="telemetry"), "reviewer-2", 9))
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect keyword/helper absent.
-- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. Validate context, Work Unit, role, module, branch/worktree, base/current/accepted SHA, and revision. Map/Resume only supply hints. Missing, stale, contradictory, or ambiguous facts reconcile; window loss cannot change lifecycle. Keep one reviewer, serial reviews, and only evidence-bound explicit reviewer reassignment.
+- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. The Step 1 matrix covers every named mismatch plus missing fact, stale revision, dirty/ambiguous worktree, missing Map with authoritative recovery, stale Resume, and replacement window. Map/Resume only supply hints. Keep one reviewer; only evidence-bound reassignment is allowed; Reviewer Result/finding and telemetry never reassign.
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect mismatch/cold recovery/seriality results to pass and derived navigation to remain non-authoritative.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/project_navigation.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: recover and review execution slots"`
 
 ### Task 6: Classify consumer projection and verify cross-module closure
 
-**Files:** Modify `.gpt-codex/release/consumer-projection-manifest.json`; verify `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py`.
+**Files:** Modify only `.gpt-codex/release/consumer-projection-manifest.json`. Verify `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`.
 
 **Interfaces:** Manifest classifies every actual implementation path once. The final routing decision includes `release-projection`; consumer bytes do not contain management identity. No Design/Plan or implementation path remains unknown after integration.
 
 - [ ] **Step 1: Write failing classification assertion** — Add the actual new implementation paths to the manifest audit expectation only after routing confirms each owner/classification. Do not project management-only assets without an approved consumer-runtime decision.
-- [ ] **Step 2: Verify RED** — Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; expect unknown implementation paths before classification.
+- [ ] **Step 1: Verify RED debt** — Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; expect exactly two unknown paths (the accepted Design and Plan) and zero missing required paths.
+- [ ] **Step 2: Minimal implementation** — Add only `docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md: DEVELOPMENT_HISTORY` and `docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md: DEVELOPMENT_HISTORY`. Preserve the manifest as `MANAGEMENT_ONLY`, existing runtime paths as `CONSUMER_REQUIRED`, and all tests as `MANAGEMENT_ONLY`.
 - [ ] **Step 3: Minimal implementation** — Classify those paths; rerun Registry routing with the manifest. Do not change VERSION, release records, publish state, or create a release.
 - [ ] **Step 4: Verify GREEN** — Run `python .gpt-codex/scripts/validate_framework.py`, `python .gpt-codex/scripts/validate_project.py .`, `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, `git diff --check`, and `git status --short`. Record `Ran N tests`, `0 failures`, and `0 errors`.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/release/consumer-projection-manifest.json && git commit -m "chore: classify execution continuity assets"`
@@ -201,4 +213,4 @@ Do not edit the projection manifest in this Plan stage. The sole permitted stage
 
 Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 RED coverage must separately assert `EXECUTION_SLOT_MISMATCH` or `RECONCILIATION_REQUIRED` for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, and STATE revision mismatches; missing durable facts, dirty/ambiguous worktree, stale Resume, missing Map with sufficient authoritative facts, and physical-window replacement. Task 6 RED coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
 
-At Task 7, classify the Design and Plan as `DEVELOPMENT_HISTORY`; `.gpt-codex/release/consumer-projection-manifest.json` as `MANAGEMENT_ONLY`; and `.gpt-codex/schemas/state.schema.json`, `.gpt-codex/project-template/STATE.template.json`, `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/scripts/continuity_resume.py`, `.gpt-codex/scripts/project_navigation.py`, and `.gpt-codex/scripts/validate_project.py` as `CONSUMER_REQUIRED`. The validator tests are `MANAGEMENT_ONLY`. Task 7 must name each final changed path and classification in its RED assertion before editing the manifest. Final evidence records the numeric unittest output (`Ran <integer> tests`, `failures = 0`, `errors = 0`), `projection unknown = 0`, `projection missing required = 0`, and a clean worktree.
+At Task 6, the manifest remains `MANAGEMENT_ONLY`; listed runtime paths remain `CONSUMER_REQUIRED`; validator/test assets remain `MANAGEMENT_ONLY`. The only new classifications are the Design and Plan as `DEVELOPMENT_HISTORY`. Final evidence records the numeric unittest output (`Ran <integer> tests`, `failures = 0`, `errors = 0`), `projection unknown = 0`, `projection missing required = 0`, and a clean worktree.
