@@ -174,7 +174,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "COMPLETED",
             last_accepted_sha="c" * 40,
             review_request_id="review-request-1",
-            review_result_ref="review-result-1",
+            review_result_ref=None,
             finding_ref="finding-1",
             remediation_authorization_ref="authorization-1",
             fix_instruction_id="fix-instruction-1",
@@ -465,7 +465,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             base_sha="a" * 40,
             current_head_sha="a" * 40,
             review_request_id="review-request-1",
-            review_result_ref="review-result-1",
+            review_result_ref=None,
         ))
 
     def blocked_state(self):
@@ -536,7 +536,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             last_accepted_sha="a" * 40,
             instruction_id="instruction-1",
             review_request_id="review-request-1",
-            review_result_ref="review-result-1",
+            review_result_ref=None,
             next_action="AWAIT_REVIEW",
         )
         slot["state_revision"] = 8
@@ -557,7 +557,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "work_unit_id": "WU-1",
             "instruction_id": "instruction-1",
             "review_request_id": "review-request-1",
-            "review_result_ref": "review-result-1",
+            "review_result_ref": None,
             "current_git_sha": "a" * 40,
             "git_ancestry_valid": True,
             "state_revision": 8,
@@ -592,18 +592,40 @@ class NavigationProjectValidationTests(unittest.TestCase):
             },
         })
 
-    def _task5_work_unit(self):
+    def _task5_work_unit(self, *, basis_state_revision=8):
         return {
             "kernel_version": "2.0.0",
             "schema_version": 1,
             "project_id": "PROJECT-ONE",
             "work_unit_id": "WU-1",
             "goal": "Await an independent review.",
-            "scope": [".gpt-codex/scripts/continuity_resume.py"],
+            "scope": {
+                "owned_paths": [".gpt-codex/scripts/continuity_resume.py"],
+                "excluded_paths": [],
+            },
             "acceptance": ["Review request is ready."],
-            "selected_extensions": [],
+            "selected_extensions": {"skills": [], "guardrails": [], "fitness": []},
+            "permissions": {},
             "state": "AUTHORIZED",
-            "basis_state_revision": 8,
+            "basis_state_revision": basis_state_revision,
+        }
+
+    def _task5_review_result(self, head):
+        return {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "result_id": "review-result-1",
+            "project_id": "PROJECT-ONE",
+            "work_unit_id": "WU-1",
+            "extension": {"kind": "SKILL", "id": "verification", "version": "1.0.0"},
+            "status": "LOCAL_COMPLETE",
+            "evidence_refs": [],
+            "completion_gate": "GPT_DECISION",
+            "result_message_type": "REVIEW_RESULT",
+            "response_to_instruction_id": "review-request-1",
+            "responder_role": "CODEX_REVIEWER",
+            "review_target_revision": head,
+            "state_revision": 8,
         }
 
     def _git(self, root, *args):
@@ -614,7 +636,10 @@ class NavigationProjectValidationTests(unittest.TestCase):
             text=True,
         ).stdout.strip()
 
-    def _write_task5_durable_project(self, root, *, include_work_unit=True, work_units=None):
+    def _write_task5_durable_project(
+        self, root, *, include_work_unit=True, work_units=None, include_result=False,
+        state_revision=8,
+    ):
         self._write_task5_project(root, self.task5_slot())
         (root / ".gitignore").write_text(
             ".gpt-codex/CONTROL.json\n.gpt-codex/STATE.json\n.gpt-codex/work/\n.gpt-codex/evidence/\n.gpt-codex/continuity/\n",
@@ -634,26 +659,24 @@ class NavigationProjectValidationTests(unittest.TestCase):
             last_accepted_sha=head,
             branch="feature/task-5",
         )
+        slot["state_revision"] = state_revision
         self._write_task5_project(root, slot)
         state_path = root / ".gpt-codex/STATE.json"
         state = json.loads(state_path.read_text(encoding="utf-8"))
+        state["revision"] = state_revision
+        state["active_execution_slots"][0] = slot
+        state["continuity"]["latest_synced_state_revision"] = state_revision
         state["continuity"]["latest_verified_remote_sha"] = head
         self._write_json(root, ".gpt-codex/STATE.json", state)
-        self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", {
-            "kernel_version": "2.0.0",
-            "schema_version": 1,
-            "result_id": "review-result-1",
-            "project_id": "PROJECT-ONE",
-            "work_unit_id": "WU-1",
-            "state_revision": 8,
-            "status": "PASS",
-            "result_message_type": "REVIEW_RESULT",
-            "response_to_instruction_id": "review-request-1",
-            "responder_role": "CODEX_REVIEWER",
-            "review_target_revision": head,
-        })
+        if include_result:
+            slot["review_result_ref"] = "review-result-1"
+            state["active_execution_slots"][0] = slot
+            self._write_json(root, ".gpt-codex/STATE.json", state)
+            result = self._task5_review_result(head)
+            result["state_revision"] = state_revision
+            self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", result)
         if include_work_unit:
-            records = [self._task5_work_unit()] if work_units is None else work_units
+            records = [self._task5_work_unit(basis_state_revision=state_revision)] if work_units is None else work_units
             for index, record in enumerate(records):
                 self._write_json(root, f".gpt-codex/work/record-{index}.json", record)
         self.assertEqual(self._git(root, "status", "--porcelain"), "")
@@ -677,7 +700,10 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 authoritative_facts=self.task5_authoritative_facts() if facts is None else facts,
             )
 
-    def task5_durable_resume(self, *, include_work_unit=True, work_units=None, facts=None, binding=None):
+    def task5_durable_resume(
+        self, *, include_work_unit=True, work_units=None, include_result=False,
+        state_revision=8, facts=None, binding=None,
+    ):
         scripts = ROOT / ".gpt-codex" / "scripts"
         if str(scripts) not in sys.path:
             sys.path.insert(0, str(scripts))
@@ -689,6 +715,8 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 root,
                 include_work_unit=include_work_unit,
                 work_units=work_units,
+                include_result=include_result,
+                state_revision=state_revision,
             )
             return load_continuity_resume(
                 root,
@@ -1006,6 +1034,46 @@ class NavigationProjectValidationTests(unittest.TestCase):
         self.assertFalse(result["reconciliation_required"])
         self.assertEqual(result["next_action"], "AWAIT_REVIEW")
 
+    def test_cold_recovery_accepts_template_work_unit_and_historical_basis_revision(self):
+        work_unit = self._task5_work_unit(basis_state_revision=8)
+        result = self.task5_durable_resume(work_units=[work_unit], state_revision=9)
+        self.assertEqual(result["status"], "LATEST_SYNCED_REMOTE_STATE")
+        self.assertEqual(result["next_action"], "AWAIT_REVIEW")
+
+    def test_cold_recovery_rejects_future_work_unit_basis_revision(self):
+        work_unit = self._task5_work_unit(basis_state_revision=10)
+        result = self.task5_durable_resume(work_units=[work_unit], state_revision=9)
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_cold_recovery_rejects_result_missing_existing_contract_fields(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        for field in ("kernel_version", "status"):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                legacy_work_unit = self._task5_work_unit()
+                legacy_work_unit["scope"] = [".gpt-codex/scripts/continuity_resume.py"]
+                legacy_work_unit["selected_extensions"] = []
+                slot = self._write_task5_durable_project(
+                    root,
+                    work_units=[legacy_work_unit],
+                    include_result=True,
+                )
+                result_path = root / ".gpt-codex/evidence/results/review-result-1.json"
+                durable_result = json.loads(result_path.read_text(encoding="utf-8"))
+                del durable_result[field]
+                self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", durable_result)
+                result = load_continuity_resume(
+                    root,
+                    "repo-a",
+                    execution_slot_id="CODEX-IMPL-B",
+                    execution_slot_binding=self.task5_binding(slot),
+                )
+                self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
     def test_cold_recovery_requires_durable_lifecycle_evidence_when_slot_references_it(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
         if str(scripts) not in sys.path:
@@ -1014,7 +1082,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            slot = self._write_task5_durable_project(root)
+            slot = self._write_task5_durable_project(root, include_result=True)
             state_path = root / ".gpt-codex/STATE.json"
             state = json.loads(state_path.read_text(encoding="utf-8"))
             (root / ".gpt-codex/evidence/results/review-result-1.json").unlink()
@@ -1037,7 +1105,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            slot = self._write_task5_durable_project(root)
+            slot = self._write_task5_durable_project(root, include_result=True)
             result_path = root / ".gpt-codex/evidence/results/review-result-1.json"
             result_record = json.loads(result_path.read_text(encoding="utf-8"))
             result_record["response_to_instruction_id"] = "review-request-other"
@@ -1143,6 +1211,10 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "RECONCILIATION_REQUIRED",
             validate_reviewer_assignment(slot, "review-request-2", 8),
         )
+        project_control = {
+            "project_id": "PROJECT-ONE",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+        }
         reassignment_instruction = {
             "instruction_id": "review-request-2",
             "instruction_type": "REVIEW_REQUEST",
@@ -1178,6 +1250,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 8,
                 reassignment_instruction=reassignment_instruction,
                 reassignment_evidence=reassignment_evidence,
+                project_control=project_control,
             ),
             [],
         )
@@ -1200,6 +1273,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
                         8,
                         reassignment_instruction=invalid_instruction,
                         reassignment_evidence=reassignment_evidence,
+                        project_control=project_control,
                     ),
                 )
         for field, value in (
@@ -1210,6 +1284,8 @@ class NavigationProjectValidationTests(unittest.TestCase):
             ("state_revision", 7),
             ("current_head_sha", "b" * 40),
             ("source", "MODEL_INFERRED"),
+            ("project_id", "PROJECT-OTHER"),
+            ("source", "TELEMETRY"),
         ):
             with self.subTest(evidence_field=field):
                 invalid_evidence = dict(reassignment_evidence, **{field: value})
@@ -1221,6 +1297,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
                         8,
                         reassignment_instruction=reassignment_instruction,
                         reassignment_evidence=invalid_evidence,
+                        project_control=project_control,
                     ),
                 )
 

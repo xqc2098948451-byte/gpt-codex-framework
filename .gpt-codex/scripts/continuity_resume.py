@@ -51,6 +51,7 @@ _ASSIGNMENT_STRING_FIELDS = (
     "work_unit_id", "primary_module", "project_context_id", "instruction_id", "next_action",
 )
 _COMMIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
+_EVIDENCE_SOURCES = frozenset({"TOOL_OBSERVED", "USER_ASSERTED", "SYSTEM_DERIVED", "MODEL_INFERRED"})
 
 
 def _unique_errors(errors: list[str]) -> list[str]:
@@ -408,6 +409,7 @@ def validate_reviewer_assignment(
     *,
     reassignment_instruction: Mapping | None = None,
     reassignment_evidence: Mapping | None = None,
+    project_control: Mapping | None = None,
 ) -> list[str]:
     """Validate a review-request identity, never an agent or physical window."""
     if (
@@ -421,7 +423,12 @@ def validate_reviewer_assignment(
         return []
     if not _is_nonempty_string(slot.get("reviewer_reassignment_ref")):
         return ["RECONCILIATION_REQUIRED"]
-    if not isinstance(reassignment_instruction, Mapping) or not isinstance(reassignment_evidence, Mapping):
+    if (
+        not isinstance(reassignment_instruction, Mapping)
+        or not isinstance(reassignment_evidence, Mapping)
+        or not isinstance(project_control, Mapping)
+        or project_control.get("project_context_id") != slot.get("project_context_id")
+    ):
         return ["RECONCILIATION_REQUIRED"]
     try:
         from validate_project import validate_instruction_authority
@@ -441,8 +448,6 @@ def validate_reviewer_assignment(
     ):
         return ["RECONCILIATION_REQUIRED"]
     required_evidence = {
-        "kernel_version": "2.0.0",
-        "schema_version": 1,
         "evidence_id": slot.get("reviewer_reassignment_ref"),
         "subject": "REVIEWER_REASSIGNMENT",
         "source_review_request_id": slot.get("review_request_id"),
@@ -454,9 +459,9 @@ def validate_reviewer_assignment(
     }
     if (
         any(reassignment_evidence.get(field) != value for field, value in required_evidence.items())
-        or reassignment_evidence.get("source") == "MODEL_INFERRED"
-        or not _is_nonempty_string(reassignment_evidence.get("project_id"))
-        or not _is_nonempty_string(reassignment_evidence.get("result"))
+        or not _valid_evidence_record(
+            reassignment_evidence, project_control, expected_revision, reject_model_inferred=True,
+        )
     ):
         return ["RECONCILIATION_REQUIRED"]
     return []
@@ -464,6 +469,34 @@ def validate_reviewer_assignment(
 
 def _recovery_result(status: str = "RECONCILIATION_REQUIRED") -> dict[str, Any]:
     return {"status": status, "reconciliation_required": True}
+
+
+def _valid_evidence_record(
+    evidence: Mapping, control: Mapping, expected_revision: int, *, reject_model_inferred: bool = False,
+) -> bool:
+    required = ("kernel_version", "schema_version", "evidence_id", "project_id", "source", "subject", "state_revision", "result")
+    if (
+        not isinstance(evidence, Mapping)
+        or any(field not in evidence for field in required)
+        or evidence.get("kernel_version") != "2.0.0"
+        or evidence.get("schema_version") != 1
+        or not _is_nonempty_string(evidence.get("evidence_id"))
+        or not _is_nonempty_string(evidence.get("subject"))
+        or not _is_nonempty_string(evidence.get("result"))
+        or evidence.get("source") not in _EVIDENCE_SOURCES
+        or (reject_model_inferred and evidence.get("source") == "MODEL_INFERRED")
+        or isinstance(evidence.get("state_revision"), bool)
+        or evidence.get("state_revision") != expected_revision
+        or evidence.get("project_id") != control.get("project_id")
+    ):
+        return False
+    try:
+        from validate_project import validate_evidence_project_binding
+    except ImportError:
+        return False
+    return not validate_evidence_project_binding(
+        evidence, control, current_state_revision=expected_revision,
+    )
 
 
 def _load_recovery_work_unit(root: Path, control: Mapping, slot: Mapping, state: Mapping) -> Mapping | None:
@@ -487,18 +520,58 @@ def _load_recovery_work_unit(root: Path, control: Mapping, slot: Mapping, state:
     if len(candidates) != 1:
         return None
     record = candidates[0]
-    required = ("work_unit_id", "project_id", "goal", "scope", "acceptance", "selected_extensions", "state", "basis_state_revision")
+    required = (
+        "kernel_version", "schema_version", "work_unit_id", "project_id", "goal", "scope",
+        "acceptance", "selected_extensions", "state", "basis_state_revision",
+    )
     if (
         any(field not in record for field in required)
+        or record.get("kernel_version") != "2.0.0"
+        or record.get("schema_version") != 1
         or not _is_nonempty_string(record.get("goal"))
-        or not isinstance(record.get("scope"), list)
-        or not isinstance(record.get("acceptance"), list)
-        or not isinstance(record.get("selected_extensions"), list)
         or record.get("state") != "AUTHORIZED"
-        or record.get("basis_state_revision") != state.get("revision")
+        or not isinstance(record.get("basis_state_revision"), int)
+        or isinstance(record.get("basis_state_revision"), bool)
+        or record.get("basis_state_revision") < 0
+        or record.get("basis_state_revision") > state.get("revision")
     ):
         return None
     return record
+
+
+def _valid_recovery_result(record: Mapping, control: Mapping, slot: Mapping, state: Mapping) -> bool:
+    required = (
+        "kernel_version", "schema_version", "project_id", "work_unit_id", "extension", "status",
+        "evidence_refs", "completion_gate",
+    )
+    if (
+        any(field not in record for field in required)
+        or record.get("kernel_version") != "2.0.0"
+        or record.get("schema_version") != 1
+        or record.get("project_id") != control.get("project_id")
+        or record.get("work_unit_id") != slot.get("work_unit_id")
+        or not isinstance(record.get("extension"), Mapping)
+        or not _is_nonempty_string(record.get("status"))
+        or not isinstance(record.get("evidence_refs"), list)
+        or not _is_nonempty_string(record.get("completion_gate"))
+    ):
+        return False
+    try:
+        from publication_contract import validate_result_authority
+        from validate_project import validate_review_result
+    except ImportError:
+        return False
+    if validate_result_authority(record):
+        return False
+    if record.get("result_message_type") == "REVIEW_RESULT":
+        return (
+            not validate_review_result(record)
+            and record.get("response_to_instruction_id") == slot.get("review_request_id")
+            and record.get("responder_role") == "CODEX_REVIEWER"
+            and record.get("review_target_revision") == slot.get("current_head_sha")
+            and record.get("state_revision") == state.get("revision")
+        )
+    return True
 
 
 def _lifecycle_records_are_durable(
@@ -538,24 +611,16 @@ def _lifecycle_records_are_durable(
         if len(matches) != 1:
             return False
         record = matches[0]
-        if (
-            record.get("project_id") != control.get("project_id")
-            or record.get("work_unit_id") != slot.get("work_unit_id")
-            or record.get("state_revision") != state.get("revision")
-        ):
-            return False
-        if reference == slot.get("review_result_ref") and (
-            record.get("result_message_type") != "REVIEW_RESULT"
-            or record.get("response_to_instruction_id") != slot.get("review_request_id")
-            or record.get("responder_role") != "CODEX_REVIEWER"
-            or record.get("review_target_revision") != slot.get("current_head_sha")
-        ):
-            return False
-        if reference == slot.get("reviewer_reassignment_ref") and (
-            record.get("evidence_id") != reference
-            or record.get("subject") != "REVIEWER_REASSIGNMENT"
-            or record.get("source") == "MODEL_INFERRED"
-        ):
+        if reference == slot.get("review_result_ref"):
+            if record.get("result_id") != reference or not _valid_recovery_result(record, control, slot, state):
+                return False
+        elif record.get("evidence_id") == reference:
+            if not _valid_evidence_record(record, control, state.get("revision")):
+                return False
+        elif record.get("result_id") == reference:
+            if not _valid_recovery_result(record, control, slot, state):
+                return False
+        else:
             return False
     return True
 
