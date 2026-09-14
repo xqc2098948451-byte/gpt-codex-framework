@@ -438,7 +438,19 @@ Do not edit the projection manifest in this Plan stage. The sole permitted stage
 
 ## Executable field, test, and projection matrix
 
-`instruction_id`, `review_request_id`, `review_result_ref`, `finding_ref`, `remediation_authorization_ref`, and `fix_instruction_id` are `string|null` current-assignment correlations. `instruction_id` is populated by `IDLE → ACTIVE`; review request/result references by review entry/result; finding, authorization, and fix fields by remediation flow. They are all cleared by `COMPLETED → IDLE`; durable Result/Evidence remains external history. `BLOCKED` with remediation requires non-null `finding_ref`, `review_result_ref`, `blocked_from_status="REVIEWING"`, `block_reason="AWAITING_REMEDIATION_AUTHORIZATION"`; `BLOCKED → ACTIVE` requires non-null authorization and fix instruction references.
+| Correlation | Populated by | Required when | Replacement rule | Cleared by | Authoritative evidence |
+| --- | --- | --- | --- | --- | --- |
+| `instruction_id` | `IDLE → ACTIVE` governed assignment | current Work Unit assignment | retained for that assignment; Map/Resume/telemetry/window cannot supply or replace it | `COMPLETED → IDLE` | governed Instruction |
+| `review_request_id` | governed review-request event | nullable before review; required for the current review chain once review starts | only a new governed review request for a later review cycle may replace it | `COMPLETED → IDLE` | Review Request / Instruction record |
+| `review_result_ref` | governed Review Result | nullable before a Result; required whenever the current lifecycle decision, including remediation, depends on that Result | only a later governed Review Result for the same Work Unit may replace it | `COMPLETED → IDLE` | Result/Evidence |
+| `finding_ref` | current Review Finding | nullable normally; required for remediation `BLOCKED` | only a new governed current finding may replace it | `COMPLETED → IDLE` | Result/Evidence |
+| `remediation_authorization_ref` | explicit GPT/User remediation authorization | nullable before explicit authorization; required for authorized remediation resume | only current explicit GPT/User authorization may populate/replace it; finding/result/reviewer message cannot infer it | `COMPLETED → IDLE` | existing role-protocol authorization |
+| `fix_instruction_id` | current valid `FIX_INSTRUCTION` | nullable before a FIX instruction; required for authorized remediation resume | only the current valid `FIX_INSTRUCTION` may populate/replace it; matching ID never replaces instruction-authority validation | `COMPLETED → IDLE` | authoritative `FIX_INSTRUCTION` |
+| `reviewer_reassignment_ref` | explicit current evidence-bound reviewer reassignment | nullable by default; required only when the logical reviewer changes | same-reviewer continuation and multiple physical windows do not populate it; Review Result/finding/telemetry cannot populate it | `COMPLETED → IDLE` | explicit current reassignment evidence |
+
+These fields are current-assignment/current-causal-chain correlations only. They are not authority records or history stores; historical evidence remains in Work Unit / Instruction / Result / Evidence / Git, and no correlation carries across `COMPLETED → IDLE → ACTIVE`.
+
+Existing remediation lifecycle conditions remain: `BLOCKED` with remediation requires non-null `finding_ref` and `review_result_ref`, `blocked_from_status="REVIEWING"`, and `block_reason="AWAITING_REMEDIATION_AUTHORIZATION"`; `BLOCKED → ACTIVE` requires non-null authorization and FIX instruction references.
 
 | Status | base_sha | current_head_sha | last_accepted_sha |
 | --- | --- | --- | --- |
