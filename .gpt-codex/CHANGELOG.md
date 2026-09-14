@@ -1,5 +1,14 @@
 # GPT–Codex Framework Changelog
 
+## v2.6.0 — Framework–Project Separation
+
+- Defined explicit Framework-versus-Project authority: the Project root remains `AUTHORITATIVE`, while the Framework is auxiliary/advisory for ordinary consumers; the marked `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` context remains the narrow self-hosting exception.
+- Added strict combined identity evaluation when identity is declared, identity-first derived Navigation/Resume validation, and fail-closed cross-project/repository boundary handling; legacy schema-valid consumers remain compatible without making optional identity fields mandatory.
+- Kept compatibility evaluation read-only and non-authorizing; Project adoption and migration remain separately authorized, and project-local extensions/configuration remain Project-owned.
+- Declared valid v2.5 fixed-source consumers `NO_MIGRATION` and legacy versioned auxiliary Framework folders `EXPLICIT_MIGRATION`; no P0-4 automatic propagation service is implemented.
+- Closed consumer projection/runtime packaging coverage while keeping management identities and Registry/release authority out of consumer artifacts.
+- Kept `KERNEL_VERSION = 2.0.0` and schema generation `1`; this is a `PUBLICATION_CANDIDATE_ONLY` release preparation, not confirmed publication.
+
 ## v2.5.0 — Framework Modular Architecture & Routing
 
 - Added a seven-module `FRAMEWORK_MODULE_REGISTRY` with responsibility-first routing and explicit ownership selectors.
