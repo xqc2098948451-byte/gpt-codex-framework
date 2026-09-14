@@ -2,6 +2,7 @@ import json
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from context_binding import evaluate_cross_project_resource_boundary, load_project_identity
 from role_communication import validate_evolution_metadata_authority
 
 
@@ -63,6 +64,16 @@ def validate_navigation_identity(
 ) -> None:
     if validate_evolution_metadata_authority(navigation.get("evolution_metadata")):
         raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+    try:
+        identity = load_project_identity(control)
+    except ValueError:
+        identity = None
+    if identity is not None:
+        decision = evaluate_cross_project_resource_boundary(
+            identity, navigation, resource_type="PROJECT_MAP",
+        )
+        if decision.decision != "ALLOW":
+            raise ValueError(decision.reason)
     if navigation.get("project_id") != control.get("project_id"):
         raise ValueError("NAVIGATION_PROJECT_ID_MISMATCH")
     if navigation.get("project_context_id") != control.get("project_context_id"):

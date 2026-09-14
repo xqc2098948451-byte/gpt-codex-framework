@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from context_binding import evaluate_cross_project_resource_boundary, load_project_identity
 from role_communication import validate_evolution_metadata_authority
 
 from project_navigation import (
@@ -35,7 +36,7 @@ def _non_optimization_resume_fields() -> dict[str, Any]:
     }
 
 
-def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
+def load_resume_checkpoint(gov: Path, control: dict[str, Any] | None = None) -> dict[str, Any] | None:
     checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
     if not checkpoint_path.exists():
         return None
@@ -51,6 +52,15 @@ def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
         raise ValueError("RESUME_CHECKPOINT_AUTHORITY_INVALID")
     if validate_evolution_metadata_authority(checkpoint.get("evolution_metadata")):
         raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+    if control is not None:
+        try:
+            identity = load_project_identity(control)
+        except ValueError:
+            identity = None
+        if identity is not None:
+            decision = evaluate_cross_project_resource_boundary(identity, checkpoint, resource_type="RESUME")
+            if decision.decision != "ALLOW":
+                raise ValueError(decision.reason)
     return checkpoint
 
 
@@ -149,7 +159,7 @@ def load_continuity_resume(
     if project_map is not None:
         validate_navigation_identity(project_map, control)
 
-    checkpoint = load_resume_checkpoint(gov)
+    checkpoint = load_resume_checkpoint(gov, control)
     if checkpoint is None:
         checkpoint_working_set: dict[str, Any] = {}
         invalidated_context: list[str] = []
