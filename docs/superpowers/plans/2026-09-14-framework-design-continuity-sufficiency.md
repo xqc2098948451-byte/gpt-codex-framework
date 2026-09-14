@@ -296,7 +296,11 @@ valid authoritative facts and only derived navigation/cache differences
 → do not fail merely because of Map / Resume / window (completed in C2)
 ```
 
-Physical window is not a logical execution slot and a replacement window alone has no lifecycle effect. Map / Resume are never authority; C1 deliberately does not decide missing/stale Map/Resume or replacement-window recovery semantics.
+**Authoritative cold recovery:** Project Map is a derived navigation aid, Resume is a derived continuity cache, and a physical window is not a logical execution slot. If CONTROL/repository binding, current authoritative STATE/revision, the matching `ACTIVE_EXECUTION_SLOTS` record, bound Work Unit, lifecycle-required Instruction/Result/Evidence correlations, stage-required Git branch/ref/HEAD/ancestry facts, and slot `next_action`/blocker facts are complete, current, mutually consistent, and yield exactly one safe continuation, recovery succeeds even when Project Map or Resume is missing/stale or the physical window is replaced. The recovery result is the already-authoritatively encoded safe continuation (for this RED fixture, `next_action="AWAIT_REVIEW"`), not a new generic lifecycle state.
+
+When Map/Resume disagrees with that sufficient authority set, authoritative facts win and the derived artifact may be ignored or marked stale diagnostically. It must not cause a false slot mismatch, overwrite STATE/Git facts, change the Work Unit, or independently authorize continuation, reassignment, review, or remediation. Stale Resume is not an actor-to-slot binding contradiction. Likewise, a replacement window correctly bound to the durable existing `slot_id` is not a new slot claimant: it creates no slot, reassignment, Work Unit change, lifecycle change, or reconciliation requirement. Only an actual asserted conflicting slot binding produces `EXECUTION_SLOT_MISMATCH`.
+
+Cold recovery never reconstructs authority from lost chat, physical-window identity, telemetry, or model memory. If durable authoritative facts cannot determine exactly one safe continuation, it returns `RECONCILIATION_REQUIRED`.
 
 - [ ] **Step 1: Write failing tests**
 
@@ -340,6 +344,42 @@ def test_unresolved_authoritative_repository_or_state_facts_require_reconciliati
             self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
             self.assertTrue(result["reconciliation_required"])
 
+def test_derived_continuity_artifacts_do_not_block_authoritative_recovery(self):
+    for derived_condition in (
+        "missing_project_map",
+        "missing_resume",
+        "stale_resume",
+        "replacement_window",
+    ):
+        with self.subTest(derived_condition=derived_condition):
+            result = load_continuity_resume(
+                self.authoritative_recovery_fixture(
+                    derived_condition=derived_condition,
+                    slot_id="S-1",
+                    next_action="AWAIT_REVIEW",
+                ),
+                "repo-a",
+                execution_slot_id="S-1",
+            )
+            self.assertFalse(result["reconciliation_required"])
+            self.assertNotIn(
+                result.get("status"),
+                ("EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"),
+            )
+            self.assertEqual(result["next_action"], "AWAIT_REVIEW")
+
+def test_missing_authoritative_fact_still_blocks_derived_recovery(self):
+    result = load_continuity_resume(
+        self.authoritative_recovery_fixture(
+            derived_condition="stale_resume",
+            missing_authoritative_fact="work_unit",
+        ),
+        "repo-a",
+        execution_slot_id="S-1",
+    )
+    self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+    self.assertTrue(result["reconciliation_required"])
+
 def test_second_reviewer_requires_explicit_reassignment(self):
     self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(), "reviewer-2", 9))
 
@@ -350,7 +390,7 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect keyword/helper absent.
-- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. The Step 1 matrices distinguish every named actor/slot binding mismatch from missing durable facts, dirty/ambiguous worktree, unprovable Git state, and unavailable authoritative STATE/current assignment. Map/Resume only supply hints; their derived recovery behavior remains C2. Keep one reviewer; only evidence-bound reassignment is allowed; Reviewer Result/finding and telemetry never reassign.
+- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. The Step 1 matrices distinguish every named actor/slot binding mismatch from missing durable facts, dirty/ambiguous worktree, unprovable Git state, and unavailable authoritative STATE/current assignment. Map/Resume only supply hints; when sufficient authoritative facts yield one safe continuation, missing/stale derived aids or a replacement physical window do not block it. Keep one reviewer; only evidence-bound reassignment is allowed; Reviewer Result/finding and telemetry never reassign.
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect mismatch/cold recovery/seriality results to pass and derived navigation to remain non-authoritative.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/project_navigation.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: recover and review execution slots"`
 
