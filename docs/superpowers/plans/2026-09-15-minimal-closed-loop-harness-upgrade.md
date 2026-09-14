@@ -111,6 +111,7 @@ No new Framework module is created. The new feedback helper is routed to `framew
 - Create: `.gpt-codex/project-template/.harness/REASONING.template.md`
 - Create: `.gpt-codex/project-template/.harness/FEEDBACK.template.md`
 - Modify: `.gpt-codex/scripts/validate_project.py`
+- Modify: `.gpt-codex/scripts/consumer_projection.py`
 - Modify: `.gpt-codex/release/consumer-projection-manifest.json`
 - Create: `.gpt-codex/tests/test_harness_project_layering.py`
 - Modify: `.gpt-codex/tests/test_consumer_projection.py`
@@ -123,6 +124,7 @@ No new Framework module is created. The new feedback helper is routed to `framew
   - `roots.deploy_roots: list[str]`
   - `roots.production_excludes: list[str]`
 - Produces `validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]`.
+- Extends the existing `stage_consumer_projection(...)` helper with a bounded optional `production_excludes=()` input; no second staging or packaging implementation is created.
 - Produces four consumer-required `.harness` templates.
 - Does not delete or rename current `.gpt-codex` P0 assets.
 
@@ -156,6 +158,33 @@ class HarnessProjectLayeringTests(unittest.TestCase):
         self.assertIn(".harness", control["roots"]["production_excludes"])
         self.assertEqual(validate_harness_root_separation(control), [])
 
+    def test_exact_and_nested_semantic_root_overlap_is_rejected(self):
+        for roots in (
+            {"harness_root": ".harness", "product_roots": [".harness"], "deploy_roots": ["ops"]},
+            {"harness_root": ".harness", "product_roots": [".harness/app"], "deploy_roots": ["ops"]},
+            {"harness_root": ".harness/project", "product_roots": [".harness"], "deploy_roots": ["ops"]},
+            {"harness_root": ".harness", "product_roots": ["app"], "deploy_roots": ["app/deploy"]},
+        ):
+            with self.subTest(roots=roots):
+                roots["production_excludes"] = [".harness"]
+                self.assertEqual(
+                    validate_harness_root_separation({"roots": roots}),
+                    ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"],
+                )
+
+    def test_unsafe_root_paths_are_rejected(self):
+        for unsafe in ("/absolute", "../traversal", "app/../other", "./app", "app//nested", "app\\windows"):
+            control = {
+                "roots": {
+                    "harness_root": unsafe,
+                    "product_roots": ["app"],
+                    "deploy_roots": ["ops"],
+                    "production_excludes": [unsafe],
+                }
+            }
+            with self.subTest(unsafe=unsafe):
+                self.assertEqual(validate_harness_root_separation(control), ["HARNESS_ROOTS_INVALID"])
+
     def test_harness_cannot_be_product_or_deploy_root(self):
         control = {
             "roots": {
@@ -183,6 +212,9 @@ class HarnessProjectLayeringTests(unittest.TestCase):
             validate_harness_root_separation(control),
             ["HARNESS_PRODUCTION_EXCLUSION_REQUIRED"],
         )
+
+    def test_legacy_control_without_semantic_roots_remains_valid(self):
+        self.assertEqual(validate_harness_root_separation({"roots": {"project_role": "AUTHORITATIVE"}}), [])
 
     def test_minimal_harness_templates_exist(self):
         harness = ROOT / ".gpt-codex/project-template/.harness"
@@ -253,6 +285,10 @@ inside `roots`.
 
 - [ ] **Step 4: Implement the fail-closed separation validator**
 
+Every declared `harness_root`, `product_roots[]`, `deploy_roots[]`, and `production_excludes[]` value is a safe repository-relative POSIX path. Reject absolute paths, `..` traversal, `.` components, empty path components, and backslash-form repository paths with `HARNESS_ROOTS_INVALID`. Keep this path checking private to the existing Task-1 project-root validator; do not create a path-validation subsystem.
+
+Two semantic roots overlap when they are equal or either is a descendant of the other. Harness, Product, and Deploy roots are pairwise subtree-disjoint. Exact and nested overlap returns `HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP`.
+
 Add to `.gpt-codex/scripts/validate_project.py`:
 
 ```python
@@ -282,8 +318,9 @@ def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
         or not all(isinstance(item, str) and item.strip() for item in excludes)
     ):
         return ["HARNESS_ROOTS_INVALID"]
-    all_runtime = set(products) | set(deploy)
-    if harness in all_runtime or set(products) & set(deploy):
+    if not all(_is_safe_repository_relative_path(item) for item in [harness, *products, *deploy, *excludes]):
+        return ["HARNESS_ROOTS_INVALID"]
+    if any(_paths_overlap(left, right) for left, right in _root_pairs(harness, products, deploy)):
         return ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"]
     if harness not in excludes:
         return ["HARNESS_PRODUCTION_EXCLUSION_REQUIRED"]
@@ -291,6 +328,8 @@ def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
 ```
 
 Wire this validator into the existing project validation aggregation so a declared invalid layering fails project validation, while projects with none of the four new fields remain valid.
+
+`_is_safe_repository_relative_path`, `_paths_overlap`, and `_root_pairs` are small private helpers in `validate_project.py`. They do not grant authority and do not duplicate staging validation.
 
 - [ ] **Step 5: Create the four minimal Harness templates**
 
@@ -389,11 +428,13 @@ Keep the existing Framework advisory/read-only and compatibility text.
 
 Add the four new paths to `.gpt-codex/release/consumer-projection-manifest.json` as `CONSUMER_REQUIRED`, matching the existing project-template classification.
 
-Also classify `.gpt-codex/tests/test_harness_project_layering.py` as `MANAGEMENT_ONLY`. Add focused assertions to `.gpt-codex/tests/test_consumer_projection.py` for all five paths.
+Also classify `.gpt-codex/tests/test_harness_project_layering.py` as `MANAGEMENT_ONLY`. `test_consumer_projection.py` directly asserts exactly these five classifications: the four Harness template paths are `CONSUMER_REQUIRED`, and `.gpt-codex/tests/test_harness_project_layering.py` is `MANAGEMENT_ONLY`. General unknown-path auditing does not replace this exact assertion.
 
 - [ ] **Step 8: Add production-packaging regression**
 
-In `.gpt-codex/tests/test_release_packaging.py`, create a temporary consumer workspace containing `.harness/RULES.md` plus product content and assert the packaging/staging helper does not treat `.harness/` as deploy/runtime input. Use the repository's existing staging helper rather than creating a second packaging implementation.
+Extend the existing `stage_consumer_projection(root, staging_root, manifest, *, production_excludes=())` helper minimally. Existing callers without `production_excludes` behave exactly as before. The helper consumes exclusions already validated by `validate_harness_root_separation`: the excluded root and all descendants are not staged, while product paths outside excluded roots remain staged. Do not duplicate semantic-root validation inside `consumer_projection.py`.
+
+In `.gpt-codex/tests/test_release_packaging.py`, create a temporary consumer workspace containing `.harness/RULES.md`, a product path, and the Task-1 CONTROL semantic-root declaration. Obtain the validated `production_excludes` from that declaration and pass them through `stage_consumer_projection`. Prove `.harness/` and descendants are absent while product content remains staged. Do not make `.harness/RULES.md` `MANAGEMENT_ONLY` the mechanism under test; the exclusion outcome must be causally attributable to `production_excludes`.
 
 - [ ] **Step 9: Run focused and affected tests**
 
@@ -410,7 +451,7 @@ python .gpt-codex/scripts/validate_project.py .
 
 Task 1 is incomplete unless every Task-1-created repository path is classified and `unknown_paths = 0`.
 
-Expected: all PASS; projection unknown/missing/invalid = 0.
+Expected: all PASS; projection unknown/missing/invalid = 0; Harness/Product/Deploy roots are safe repository-relative POSIX paths and pairwise subtree-disjoint; `production_excludes` causally excludes its root and descendants from the existing staging helper.
 
 - [ ] **Step 10: Commit**
 
@@ -421,6 +462,7 @@ git add \
   .gpt-codex/project-template/README.md \
   .gpt-codex/project-template/.harness \
   .gpt-codex/scripts/validate_project.py \
+  .gpt-codex/scripts/consumer_projection.py \
   .gpt-codex/release/consumer-projection-manifest.json \
   .gpt-codex/tests/test_harness_project_layering.py \
   .gpt-codex/tests/test_consumer_projection.py \
