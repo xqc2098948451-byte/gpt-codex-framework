@@ -3,9 +3,10 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from context_binding import evaluate_cross_project_resource_boundary, load_project_identity
+from kernel_rules import validate_slot_state_revision
 from role_communication import validate_evolution_metadata_authority
 
 from project_navigation import (
@@ -20,6 +21,95 @@ from project_navigation import (
 
 
 RESUME_RELATIVE_PATH = Path("continuity") / "RESUME.json"
+
+_SLOT_STATUSES = frozenset({"IDLE", "ACTIVE", "BLOCKED", "AWAITING_REVIEW", "REVIEWING", "COMPLETED"})
+_IDLE_CLEARED_FIELDS = (
+    "work_unit_id", "primary_module", "branch", "worktree", "base_sha",
+    "current_head_sha", "last_accepted_sha", "instruction_id", "review_request_id",
+    "review_result_ref", "finding_ref", "remediation_authorization_ref",
+    "fix_instruction_id", "reviewer_reassignment_ref", "blocked_from_status", "block_reason",
+)
+_LEGAL_SLOT_EDGES = {
+    "IDLE": frozenset({"IDLE", "ACTIVE", "BLOCKED"}),
+    "ACTIVE": frozenset({"ACTIVE", "AWAITING_REVIEW", "BLOCKED"}),
+    "AWAITING_REVIEW": frozenset({"AWAITING_REVIEW", "REVIEWING", "BLOCKED"}),
+    "REVIEWING": frozenset({"REVIEWING", "ACTIVE", "BLOCKED", "COMPLETED"}),
+    "BLOCKED": frozenset({"BLOCKED", "ACTIVE"}),
+    "COMPLETED": frozenset({"COMPLETED", "IDLE"}),
+}
+
+
+def _unique_errors(errors: list[str]) -> list[str]:
+    return list(dict.fromkeys(errors))
+
+
+def validate_execution_slots(state: Mapping) -> list[str]:
+    """Validate the current STATE-backed slot shape without changing STATE."""
+    slots = state.get("active_execution_slots")
+    if slots is None:
+        return []
+    if not isinstance(slots, list):
+        return ["ACTIVE_EXECUTION_SLOTS_INVALID", "RECONCILIATION_REQUIRED"]
+
+    errors: list[str] = []
+    for slot in slots:
+        if not isinstance(slot, Mapping):
+            errors.extend(("ACTIVE_EXECUTION_SLOTS_INVALID", "RECONCILIATION_REQUIRED"))
+            continue
+        status = slot.get("status")
+        if status not in _SLOT_STATUSES:
+            errors.extend(("EXECUTION_SLOT_STATUS_INVALID", "RECONCILIATION_REQUIRED"))
+            continue
+        if validate_slot_state_revision(slot.get("state_revision"), state.get("revision")):
+            errors.extend(("SLOT_STATE_REVISION_MISMATCH", "RECONCILIATION_REQUIRED"))
+        if status == "IDLE" and (
+            any(slot.get(field) is not None for field in _IDLE_CLEARED_FIELDS)
+            or slot.get("next_action") != "AWAIT_ASSIGNMENT"
+        ):
+            errors.extend(("IDLE_SLOT_ASSIGNMENT_FORBIDDEN", "RECONCILIATION_REQUIRED"))
+        if status == "BLOCKED":
+            blocked_from_status = slot.get("blocked_from_status")
+            block_reason = slot.get("block_reason")
+            missing_blocked_fields = (
+                blocked_from_status not in _SLOT_STATUSES
+                or not isinstance(block_reason, str)
+                or not block_reason.strip()
+            )
+            missing_remediation_correlation = (
+                block_reason == "AWAITING_REMEDIATION_AUTHORIZATION"
+                and any(
+                    not isinstance(slot.get(field), str) or not slot[field]
+                    for field in ("finding_ref", "review_request_id", "review_result_ref")
+                )
+            )
+            if missing_blocked_fields or missing_remediation_correlation:
+                errors.extend(("BLOCKED_SLOT_FIELDS_REQUIRED", "RECONCILIATION_REQUIRED"))
+    return _unique_errors(errors)
+
+
+def validate_slot_transition(previous: Mapping, current: Mapping) -> list[str]:
+    """Validate a proposed lifecycle edge without authorizing or persisting it."""
+    if not isinstance(previous, Mapping) or not isinstance(current, Mapping):
+        return ["RECONCILIATION_REQUIRED"]
+    previous_status = previous.get("status")
+    current_status = current.get("status")
+    if previous_status not in _SLOT_STATUSES or current_status not in _SLOT_STATUSES:
+        return ["EXECUTION_SLOT_STATUS_INVALID", "RECONCILIATION_REQUIRED"]
+    if previous_status == "COMPLETED" and current_status == "ACTIVE":
+        return ["SLOT_IDLE_RESET_REQUIRED"]
+    if previous_status == "BLOCKED" and (
+        current_status == previous.get("blocked_from_status") and current_status != "ACTIVE"
+    ):
+        return ["SLOT_BLOCKED_RETURN_FORBIDDEN"]
+    if current_status not in _LEGAL_SLOT_EDGES[previous_status]:
+        return ["SLOT_TRANSITION_INVALID"]
+    if previous_status == "BLOCKED" and current_status == "ACTIVE":
+        if any(
+            not isinstance(current.get(field), str) or not current[field]
+            for field in ("remediation_authorization_ref", "fix_instruction_id")
+        ):
+            return ["RECONCILIATION_REQUIRED"]
+    return []
 
 
 def _non_optimization_resume_fields() -> dict[str, Any]:

@@ -125,6 +125,35 @@ class NavigationProjectValidationTests(unittest.TestCase):
             }],
         }
 
+    def _slot(self, status, **overrides):
+        slot = self._state_with_slot("ACTIVE")["active_execution_slots"][0]
+        slot["status"] = status
+        if status == "IDLE":
+            for field in (
+                "work_unit_id", "primary_module", "branch", "worktree", "base_sha",
+                "current_head_sha", "last_accepted_sha", "instruction_id",
+                "review_request_id", "review_result_ref", "finding_ref",
+                "remediation_authorization_ref", "fix_instruction_id",
+                "reviewer_reassignment_ref", "blocked_from_status", "block_reason",
+            ):
+                slot[field] = None
+            slot["next_action"] = "AWAIT_ASSIGNMENT"
+        elif status == "AWAITING_REVIEW":
+            slot["review_request_id"] = "review-request-1"
+        elif status == "REVIEWING":
+            slot["review_request_id"] = "review-request-1"
+            slot["review_result_ref"] = "review-result-1"
+        elif status == "BLOCKED":
+            slot.update({
+                "blocked_from_status": "REVIEWING",
+                "block_reason": "AWAITING_REMEDIATION_AUTHORIZATION",
+                "review_request_id": "review-request-1",
+                "review_result_ref": "review-result-1",
+                "finding_ref": "finding-1",
+            })
+        slot.update(overrides)
+        return slot
+
     def test_project_without_navigation_or_resume_is_valid(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -178,6 +207,93 @@ class NavigationProjectValidationTests(unittest.TestCase):
 
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("SLOT_STATE_REVISION_MISMATCH", result.stdout)
+
+    def test_completed_to_active_requires_idle_reset(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_slot_transition
+
+        errors = validate_slot_transition(self._slot("COMPLETED"), self._slot("ACTIVE"))
+
+        self.assertIn("SLOT_IDLE_RESET_REQUIRED", errors)
+
+    def test_idle_old_work_unit_requires_reconciliation(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_execution_slots
+
+        state = {"revision": 7, "active_execution_slots": [self._slot("IDLE", work_unit_id="WU-1")]}
+        state_before = json.loads(json.dumps(state))
+
+        errors = validate_execution_slots(state)
+
+        self.assertIn("IDLE_SLOT_ASSIGNMENT_FORBIDDEN", errors)
+        self.assertIn("RECONCILIATION_REQUIRED", errors)
+        self.assertEqual(state, state_before)
+
+    def test_slot_transition_allows_frozen_lifecycle_edges(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_slot_transition
+
+        for previous_status, current_status in (
+            ("IDLE", "ACTIVE"),
+            ("ACTIVE", "AWAITING_REVIEW"),
+            ("ACTIVE", "BLOCKED"),
+            ("AWAITING_REVIEW", "REVIEWING"),
+            ("REVIEWING", "ACTIVE"),
+            ("REVIEWING", "COMPLETED"),
+            ("REVIEWING", "BLOCKED"),
+            ("COMPLETED", "IDLE"),
+        ):
+            with self.subTest(previous=previous_status, current=current_status):
+                self.assertEqual(
+                    validate_slot_transition(self._slot(previous_status), self._slot(current_status)),
+                    [],
+                )
+        self.assertEqual(
+            validate_slot_transition(
+                self._slot("BLOCKED"),
+                self._slot(
+                    "ACTIVE",
+                    remediation_authorization_ref="authorization-1",
+                    fix_instruction_id="fix-instruction-1",
+                ),
+            ),
+            [],
+        )
+
+    def test_blocked_cannot_return_generically_to_predecessor(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_slot_transition
+
+        errors = validate_slot_transition(self._slot("BLOCKED"), self._slot("REVIEWING"))
+
+        self.assertIn("SLOT_BLOCKED_RETURN_FORBIDDEN", errors)
+
+    def test_blocked_to_active_requires_current_remediation_correlations(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_slot_transition
+
+        errors = validate_slot_transition(self._slot("BLOCKED"), self._slot("ACTIVE"))
+
+        self.assertIn("RECONCILIATION_REQUIRED", errors)
+
+    def test_slot_revision_precondition_fails_closed_when_stale(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from kernel_rules import validate_slot_state_revision
+
+        self.assertEqual(validate_slot_state_revision(7, 7), [])
+        self.assertIn("RECONCILIATION_REQUIRED", validate_slot_state_revision(8, 7))
 
     def test_foreign_project_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:

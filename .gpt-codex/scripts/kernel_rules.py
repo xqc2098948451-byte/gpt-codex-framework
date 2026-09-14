@@ -91,6 +91,23 @@ def revision_matches(current_revision: int, expected_revision: int) -> bool:
     return isinstance(current_revision, int) and current_revision >= 0 and current_revision == expected_revision
 
 
+def validate_slot_state_revision(
+    current_revision: int,
+    expected_revision: int,
+) -> list[str]:
+    """Apply only the generic authoritative STATE revision precondition."""
+    if (
+        isinstance(current_revision, int)
+        and not isinstance(current_revision, bool)
+        and isinstance(expected_revision, int)
+        and not isinstance(expected_revision, bool)
+        and current_revision >= 0
+        and current_revision == expected_revision
+    ):
+        return []
+    return ["RECONCILIATION_REQUIRED"]
+
+
 def permission_narrows(parent: str, child: str) -> bool:
     if parent not in PERMISSION_RANK or child not in PERMISSION_RANK:
         return False

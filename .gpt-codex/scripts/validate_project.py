@@ -18,7 +18,11 @@ from context_binding import (
     required_guardrail_allows,
     validate_project_evolution_enrollment,
 )
-from continuity_resume import load_resume_checkpoint
+from continuity_resume import (
+    load_resume_checkpoint,
+    validate_execution_slots,
+    validate_slot_transition,
+)
 from publication_contract import validate_result_authority, validate_state_authority
 from role_communication import (
     INSTRUCTION_TYPES,
@@ -645,48 +649,13 @@ def main():
         errors.append('invalid STATE.state')
     if not isinstance(state.get('revision'), int) or state.get('revision') < 0:
         errors.append('STATE.revision must be a non-negative integer')
+    errors += [f'STATE: {error}' for error in validate_execution_slots(state)]
     execution_slots = state.get('active_execution_slots')
-    if execution_slots is not None:
-        if not isinstance(execution_slots, list):
-            errors.append('STATE: ACTIVE_EXECUTION_SLOTS_INVALID')
-        else:
-            slot_statuses = {'IDLE', 'ACTIVE', 'BLOCKED', 'AWAITING_REVIEW', 'REVIEWING', 'COMPLETED'}
-            idle_cleared_fields = (
-                'work_unit_id', 'primary_module', 'branch', 'worktree', 'base_sha',
-                'current_head_sha', 'last_accepted_sha', 'instruction_id',
-                'review_request_id', 'review_result_ref', 'finding_ref',
-                'remediation_authorization_ref', 'fix_instruction_id',
-                'reviewer_reassignment_ref', 'blocked_from_status', 'block_reason',
-            )
-            for slot in execution_slots:
-                if not isinstance(slot, Mapping):
-                    errors.append('STATE: ACTIVE_EXECUTION_SLOTS_INVALID')
-                    continue
-                status = slot.get('status')
-                if status not in slot_statuses:
-                    errors.append('STATE: EXECUTION_SLOT_STATUS_INVALID')
-                    continue
-                if slot.get('state_revision') != state.get('revision'):
-                    errors.append('STATE: SLOT_STATE_REVISION_MISMATCH')
-                if status == 'IDLE' and (
-                    any(slot.get(field) is not None for field in idle_cleared_fields)
-                    or slot.get('next_action') != 'AWAIT_ASSIGNMENT'
-                ):
-                    errors.append('STATE: IDLE_SLOT_ASSIGNMENT_FORBIDDEN')
-                if status == 'BLOCKED':
-                    missing_blocked_fields = (
-                        slot.get('blocked_from_status') not in slot_statuses
-                        or not isinstance(slot.get('block_reason'), str)
-                        or not slot['block_reason'].strip()
-                    )
-                    missing_remediation_correlation = (
-                        slot.get('block_reason') == 'AWAITING_REMEDIATION_AUTHORIZATION'
-                        and any(not isinstance(slot.get(field), str) or not slot[field] for field in (
-                            'finding_ref', 'review_request_id', 'review_result_ref',
-                        ))
-                    )
-                    if missing_blocked_fields or missing_remediation_correlation:
-                        errors.append('STATE: BLOCKED_SLOT_FIELDS_REQUIRED')
+    if isinstance(execution_slots, list):
+        for slot in execution_slots:
+            if isinstance(slot, Mapping):
+                # STATE stores only the current snapshot; never infer a prior transition.
+                errors += [f'STATE: {error}' for error in validate_slot_transition(slot, slot)]
     fw = control.get('framework') or {}
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')
