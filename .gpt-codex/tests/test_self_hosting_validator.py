@@ -8,6 +8,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+SCRIPTS = ROOT / ".gpt-codex" / "scripts"
+if str(SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SCRIPTS))
 VALIDATOR = ROOT / ".gpt-codex" / "scripts" / "validate_project.py"
 FROZEN_ZIP = ROOT / "dist" / "gpt-codex-framework-v2.2.0-bootstrap.zip"
 FROZEN_FIXTURE = ROOT / ".gpt-codex" / "tests" / "fixtures" / "frozen_v220_validate_project.py"
@@ -57,6 +60,16 @@ def write_project(root: Path, control: dict) -> None:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    @staticmethod
+    def _valid_evolution_source() -> dict:
+        return {
+            "classification": "READ_ONLY_EVOLUTION_SOURCE",
+            "framework_version": "2.6.0",
+            "source_provenance": {"commit_sha": "a" * 40},
+            "compatibility_rules": {"minimum_project_version": "2.0.0"},
+            "migration_available": False,
+        }
+
     def test_frozen_v220_validator_rejects_current_management_project(self):
         with tempfile.TemporaryDirectory() as td:
             frozen_root = Path(td)
@@ -115,6 +128,62 @@ class SelfHostingValidatorTests(unittest.TestCase):
             result = run_validator(project)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("catalog", result.stdout.lower())
+
+    def test_framework_evolution_source_is_read_only_and_provenance_bound(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        source = self._valid_evolution_source()
+        decision = validate_framework_evolution_source(source)
+
+        self.assertEqual(decision.classification, "READ_ONLY_EVOLUTION_SOURCE")
+        self.assertEqual(decision.source, source)
+        self.assertEqual(set(decision.__dataclass_fields__), {"classification", "reason", "source"})
+        self.assertEqual(source, self._valid_evolution_source())
+
+    def test_action_bearing_or_incomplete_evolution_source_is_invalid(self):
+        from kernel_rules import validate_framework_evolution_source
+
+        valid = self._valid_evolution_source()
+        invalid_sources = [
+            {key: value for key, value in valid.items() if key != "classification"},
+            {**valid, "classification": "FRAMEWORK_EVOLUTION_SOURCE"},
+            {key: value for key, value in valid.items() if key != "framework_version"},
+            {**valid, "framework_version": ""},
+            {key: value for key, value in valid.items() if key != "source_provenance"},
+            {**valid, "source_provenance": {}},
+            {**valid, "source_provenance": {"commit_sha": "not-a-sha"}},
+            {key: value for key, value in valid.items() if key != "compatibility_rules"},
+            {**valid, "compatibility_rules": []},
+            {key: value for key, value in valid.items() if key != "migration_available"},
+            {**valid, "migration_available": "false"},
+        ]
+        for action_field in (
+            "authorized_actions", "target_work_unit", "state_revision", "command", "retry", "queue",
+            "project_mutation", "role_authority", "schedule_execution", "force_adoption",
+        ):
+            invalid_sources.append({**valid, action_field: True})
+
+        for source in invalid_sources:
+            with self.subTest(source=source):
+                decision = validate_framework_evolution_source(source)
+                self.assertEqual(decision.classification, "FRAMEWORK_SOURCE_INVALID")
+                self.assertIsNone(decision.source)
+
+    def test_framework_validator_only_reports_optional_evolution_source(self):
+        from validate_framework import validate_optional_framework_evolution_source
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.assertEqual(validate_optional_framework_evolution_source(root), [])
+            source_path = root / ".gpt-codex" / "FRAMEWORK_EVOLUTION_SOURCE.json"
+            source_path.parent.mkdir()
+            source_path.write_text(json.dumps(self._valid_evolution_source()), encoding="utf-8")
+            self.assertEqual(validate_optional_framework_evolution_source(root), [])
+            source_path.write_text(json.dumps({"classification": "invalid"}), encoding="utf-8")
+            self.assertEqual(
+                validate_optional_framework_evolution_source(root),
+                ["FRAMEWORK_SOURCE_INVALID"],
+            )
 
 
 if __name__ == "__main__":

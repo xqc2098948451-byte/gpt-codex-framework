@@ -57,8 +57,22 @@ def validate_module_registry(root: Path, *, full_validation: bool = True) -> lis
     return errors
 
 
+def validate_optional_framework_evolution_source(root: Path) -> list[str]:
+    """Read and report the optional Framework-owned source; never create or repair it."""
+    source_path = Path(root) / '.gpt-codex' / 'FRAMEWORK_EVOLUTION_SOURCE.json'
+    if not source_path.exists():
+        return []
+    try:
+        source = load(source_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return ['FRAMEWORK_SOURCE_INVALID']
+    decision = validate_framework_evolution_source(source)
+    return [] if decision.classification == 'READ_ONLY_EVOLUTION_SOURCE' else ['FRAMEWORK_SOURCE_INVALID']
+
+
 def main():
     errors = []
+    errors.extend(validate_optional_framework_evolution_source(ROOT))
     required_files = [
         ROOT/'AGENTS.md', ROOT/'.gpt-codex/KERNEL.md', ROOT/'.gpt-codex/README.md',
         ROOT/'.gpt-codex/builtins/INDEX.json', ROOT/'.gpt-codex/project-template/CONTROL.template.json',

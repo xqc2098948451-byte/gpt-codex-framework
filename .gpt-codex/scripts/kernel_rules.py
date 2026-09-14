@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+from copy import deepcopy
+from dataclasses import dataclass
+import re
+from typing import Any, Mapping
+
 KERNEL_VERSION = "2.0.0"
 SCHEMA_VERSION = 1
 
@@ -27,6 +32,45 @@ COMPAT_RESULTS = {"ADOPTED", "NO_ACTION", "OPTIONAL_REUSE", "RECOMMENDED_UPGRADE
 COMPLETION_GATES = {"NONE", "GPT_DECISION", "USER_APPROVAL"}
 REASON_TYPES = {"OBSERVED_EVIDENCE", "EXPLICIT_REQUIREMENT", "CREDIBLE_RISK"}
 GOVERNANCE_PROFILES = {"MINIMAL", "STANDARD", "EXTENDED"}
+_EVOLUTION_SOURCE_FIELDS = frozenset({
+    "classification", "framework_version", "source_provenance",
+    "compatibility_rules", "migration_available",
+})
+_COMMIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
+
+
+@dataclass(frozen=True)
+class EvolutionSourceDecision:
+    classification: str
+    reason: str
+    source: dict[str, Any] | None
+
+
+def validate_framework_evolution_source(source: Mapping[str, Any]) -> EvolutionSourceDecision:
+    """Validate a Framework publication without granting Project authority."""
+    if not isinstance(source, Mapping) or set(source) != _EVOLUTION_SOURCE_FIELDS:
+        return EvolutionSourceDecision("FRAMEWORK_SOURCE_INVALID", "FRAMEWORK_SOURCE_INVALID", None)
+    framework_version = source.get("framework_version")
+    provenance = source.get("source_provenance")
+    compatibility_rules = source.get("compatibility_rules")
+    commit_sha = provenance.get("commit_sha") if isinstance(provenance, Mapping) else None
+    if (
+        source.get("classification") != "READ_ONLY_EVOLUTION_SOURCE"
+        or not isinstance(framework_version, str)
+        or not framework_version.strip()
+        or len(framework_version) > 128
+        or not isinstance(provenance, Mapping)
+        or not isinstance(commit_sha, str)
+        or not _COMMIT_SHA.fullmatch(commit_sha)
+        or not isinstance(compatibility_rules, Mapping)
+        or not isinstance(source.get("migration_available"), bool)
+    ):
+        return EvolutionSourceDecision("FRAMEWORK_SOURCE_INVALID", "FRAMEWORK_SOURCE_INVALID", None)
+    return EvolutionSourceDecision(
+        "READ_ONLY_EVOLUTION_SOURCE",
+        "FRAMEWORK_SOURCE_VALID",
+        deepcopy(dict(source)),
+    )
 
 
 def can_transition(current: str, target: str) -> bool:
