@@ -17,7 +17,8 @@
 - Use no database, message bus, daemon, background service, scheduler, dashboard, network collector, analytics service, scoring engine, learning loop, agent-budget mechanism, or repository-tracked event log.
 - Runtime events exist only in the caller-owned `TelemetryCollector` process memory. Persisting, forwarding, retaining, or deleting records is outside this implementation and not required for Framework correctness.
 - `event_id` identifies one immutable emitted record. The deterministic logical idempotency key is separate and consists of `event_class`, `source`, `authoritative_record_ref`, `observed_state_revision`, `observed_head_sha`, `slot_id`, and `correlation_ref`.
-- When no durable authoritative record exists, the logical key may add only `producer_run_id` and monotonic `producer_sequence`; provenance must mark that fallback lower-confidence.
+- `slot_id` and `source` are required, non-empty bounded strings. `slot_id="NONE"` is the only explicit no-slot value; Python `None` is not a substitute for it. The Design-intentionally nullable observation fields remain nullable: `work_unit_id`, `role`, `state_revision`, `project_context_id`, `branch_ref`, `base_sha`, `head_sha`, `result_status`, and `review_gate`.
+- When neither `authoritative_record_ref` nor `correlation_ref_for(event)` provides durable identity, the logical key retains both `producer_run_id` and monotonic `producer_sequence`. That fallback is valid only with `completeness="LOW_CONFIDENCE"`, a non-empty bounded `producer_run_id`, and a non-negative integer `producer_sequence`; missing either provenance value raises `INVALID_TELEMETRY_PROVENANCE`. Never construct an identity from `(None, None)`.
 - Use authoritative state revision, Result/Evidence correlation, Git ancestry, and publication facts before telemetry time. A late, stale, or inconsistent event is observational only and cannot roll back an authority record.
 - `TELEMETRY_ABSENT` means no telemetry observation is available, not that the governed action did not occur. `UNKNOWN_FROM_TELEMETRY` is observational incompleteness, not a governance failure.
 - `slot_id` accepts `NONE`; P0-6 only observes future P0-5 slot facts and must not implement lifecycle, assignment, reassignment, transition, or recovery.
@@ -34,11 +35,15 @@
 | `.gpt-codex/framework-modules/modules/framework-core.json` | Modify | `framework-core`; add exact ownership of the telemetry script/test and list its required test. This descriptor is already owned by the module-prefix selector. | MANAGEMENT_ONLY |
 | `.gpt-codex/scripts/execution_telemetry.py` | Create | `framework-core`; exact `OWNED_ASSETS` entry is added before the file is routed. It provides derived framework-governance observation only. | MANAGEMENT_ONLY |
 | `.gpt-codex/tests/test_execution_telemetry.py` | Create | `framework-core`; exact `OWNED_ASSETS` entry and `REQUIRED_TESTS` entry are added before the file is routed. | MANAGEMENT_ONLY |
-| `.gpt-codex/release/consumer-projection-manifest.json` | Modify | `release-projection`; it already owns this exact path and only classifies paths. It gains no telemetry authority. | CONSUMER_REQUIRED as the existing manifest |
+| `.gpt-codex/release/consumer-projection-manifest.json` | Modify | `release-projection`; it already owns this exact path. Its authority is classification management only; it gains no telemetry authority. | MANAGEMENT_ONLY |
 | `docs/superpowers/specs/2026-09-13-execution-telemetry-design.md` | Modify only in the projection manifest | Development history; no production semantics change. | DEVELOPMENT_HISTORY |
 | `docs/superpowers/plans/2026-09-14-execution-telemetry.md` | Modify only in the projection manifest | Development history; no production semantics change. | DEVELOPMENT_HISTORY |
 
 No change is planned to `CONTROL`, `STATE`, Work Unit schemas/templates, Instruction/Result schemas, Evidence, Git continuity, P0-5 navigation-continuity assets, publication contracts, or validation entry points. `framework-validation`, `role-communication`, `navigation-continuity`, and `git-continuity` are observed-contract boundaries only, not implementation owners.
+
+`.gpt-codex/release/consumer-projection-manifest.json` is canonically
+`MANAGEMENT_ONLY` as the existing manifest self-classification. Changing entries
+inside that manifest does not change the manifest file's own classification.
 
 After Task 1, the exact ownership proof is:
 
@@ -166,6 +171,29 @@ def test_normalize_event_requires_common_fields_and_derived_provenance(self):
     self.assertEqual(event.slot_id, "NONE")
     with self.assertRaisesRegex(TelemetryValidationError, "MALFORMED_TELEMETRY_EVENT"):
         normalize_event({"event_class": "EXECUTION_STARTED"}, collector_id="collector", collector_version="1.0", timestamp=NOW)
+    for field in ("slot_id", "source"):
+        with self.subTest(field=field), self.assertRaisesRegex(TelemetryValidationError, "MALFORMED_TELEMETRY_EVENT"):
+            normalize_event(valid_payload(**{field: None}), collector_id="collector", collector_version="1.0", timestamp=NOW)
+
+def test_low_confidence_fallback_requires_run_and_sequence(self):
+    fallback = valid_payload(
+        event_class="REMOTE_EVIDENCE_OBSERVED",
+        result_id=None,
+        authoritative_record_ref=None,
+        provenance={
+            "classification": "DERIVED", "completeness": "LOW_CONFIDENCE",
+            "producer_run_id": "run-1", "producer_sequence": 0,
+        },
+    )
+    event = normalize_event(fallback, collector_id="collector", collector_version="1.0", timestamp=NOW)
+    self.assertIsNone(correlation_ref_for(event))
+    self.assertTrue(event.logical_key)
+    for omitted in ("producer_run_id", "producer_sequence"):
+        invalid = dict(fallback)
+        invalid["provenance"] = dict(fallback["provenance"])
+        invalid["provenance"].pop(omitted)
+        with self.subTest(omitted=omitted), self.assertRaisesRegex(TelemetryValidationError, "INVALID_TELEMETRY_PROVENANCE"):
+            normalize_event(invalid, collector_id="collector", collector_version="1.0", timestamp=NOW)
 
 def test_normalize_event_rejects_authority_claims_and_sensitive_content(self):
     with self.assertRaisesRegex(TelemetryValidationError, "PROHIBITED_AUTHORITY_CLAIM"):
@@ -254,6 +282,12 @@ Then check raw-content fields `raw_prompt`, `reasoning`, `chain_of_thought`,
 `MALFORMED_TELEMETRY_EVENT`. Do not scan ordinary values: `result_status="PASS"`
 and publication/review observations remain valid.
 
+`slot_id` and `source` must each be non-empty strings no longer than
+`MAX_ID_LENGTH`; reject missing, `None`, empty, or non-string values with
+`MALFORMED_TELEMETRY_EVENT`. Accept `slot_id="NONE"` as the explicit no-slot
+representation only. Preserve the intentionally nullable common observation
+fields listed in Global Constraints.
+
 `correlation_ref_for` uses this closed precedence table: `INSTRUCTION_ISSUED`
 uses `instruction_id`; `REVIEW_REQUESTED` uses `review_request_id`;
 `FINDING_CREATED` uses `finding_id`; `REVIEW_RESULT`, `RE_REVIEW_RESULT`,
@@ -263,7 +297,10 @@ returns `None`. `logical_idempotency_key` hashes the canonical tuple
 `(event_class, source, authoritative_record_ref, provenance.observed_state_revision,
 provenance.observed_head_sha, slot_id, correlation_ref_for(event))`; only when
 both authoritative and correlation references are missing it additionally uses
-`producer_run_id` and `producer_sequence` and requires `LOW_CONFIDENCE`.
+`producer_run_id` and `producer_sequence` and requires `LOW_CONFIDENCE`, a
+non-empty bounded producer run ID, and a non-negative producer sequence.
+When this fallback is selected, reject missing or invalid run/sequence values
+with `INVALID_TELEMETRY_PROVENANCE`; do not create any key from `(None, None)`.
 
 - [ ] **Step 4: Run the normalization suite to verify GREEN**
 
@@ -285,7 +322,7 @@ git commit -m "feat: validate normalized telemetry events"
 - Modify: `.gpt-codex/tests/test_execution_telemetry.py`
 
 **Interfaces:**
-- Produces: frozen, slotted `AuthoritativeSnapshot(project_context_id, state_revision, head_sha, correlation_ref, result_status, publication_status, git_relation="UNKNOWN")`; `git_relation` is exactly one of `MATCH`, `ANCESTOR`, `DIVERGED`, `UNKNOWN` and is supplied by the existing Git authority layer.
+- Produces: frozen, slotted `AuthoritativeSnapshot(project_context_id, state_revision, head_sha, correlation_ref, result_status, git_relation="UNKNOWN")`; `git_relation` is exactly one of `MATCH`, `ANCESTOR`, `DIVERGED`, `UNKNOWN` and is supplied by the existing Git authority layer. It intentionally has no `publication_status` field: the accepted event contract has no event-side same-vocabulary publication status.
 - Produces: `repeat_subject_key(event: TelemetryEvent) -> str`, `classify_ordering(event: TelemetryEvent, *, authoritative: AuthoritativeSnapshot | None, previous_related_event: TelemetryEvent | None) -> str`, `TelemetryCollector.emit(event: TelemetryEvent, *, authoritative: AuthoritativeSnapshot | None = None, arrival_timestamp: datetime | None = None) -> TelemetryEvent`, and `TelemetryCollector.events() -> tuple[TelemetryEvent, ...]`.
 - Consumes: Task 2 final logical-key and correlation APIs; it does not calculate Git ancestry or mutate an authoritative input.
 
@@ -304,9 +341,9 @@ def test_retry_is_one_logical_observation_but_repeat_is_append_only(self):
 
 def test_changed_authoritative_fact_is_distinct_and_stale_or_inconsistent_never_rolls_back(self):
     collector = TelemetryCollector()
-    first = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 1, "a" * 40, None, None, None))
-    changed = collector.emit(normalized_event(head_sha="b" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None, None))
-    stale = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None, None, "ANCESTOR"))
+    first = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 1, "a" * 40, None, None))
+    changed = collector.emit(normalized_event(head_sha="b" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None))
+    stale = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None, "ANCESTOR"))
     self.assertNotEqual(first.logical_key, changed.logical_key)
     self.assertEqual(stale.ordering_status, "STALE")
 
@@ -321,7 +358,7 @@ def test_ordering_statuses_and_immutable_inputs_are_exact(self):
     out_of_order = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", state_revision=2, timestamp=NOW)
     self.assertEqual(classify_ordering(out_of_order, authoritative=None, previous_related_event=previous), "OUT_OF_ORDER")
 
-    snapshot = AuthoritativeSnapshot("ctx-1", 3, None, "result-1", None, None)
+    snapshot = AuthoritativeSnapshot("ctx-1", 3, None, "result-1", None)
     stale = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", project_context_id="ctx-1", state_revision=2)
     self.assertEqual(classify_ordering(stale, authoritative=snapshot, previous_related_event=None), "STALE")
 
@@ -332,6 +369,31 @@ def test_ordering_statuses_and_immutable_inputs_are_exact(self):
     self.assertEqual(classify_ordering(overlap, authoritative=snapshot, previous_related_event=previous), "STALE")
     with self.assertRaises(FrozenInstanceError):
         current.provenance.collector_id = "other"
+
+def test_low_confidence_producer_sequence_is_a_reachable_out_of_order_chain(self):
+    collector = TelemetryCollector()
+    first = collector.emit(normalized_event(
+        event_class="REMOTE_EVIDENCE_OBSERVED", slot_id="NONE",
+        result_id=None,
+        authoritative_record_ref=None,
+        provenance={"classification": "DERIVED", "completeness": "LOW_CONFIDENCE", "producer_run_id": "run-1", "producer_sequence": 5},
+    ))
+    later_arrival = collector.emit(normalized_event(
+        event_class="REMOTE_EVIDENCE_OBSERVED", slot_id="NONE",
+        result_id=None,
+        authoritative_record_ref=None,
+        provenance={"classification": "DERIVED", "completeness": "LOW_CONFIDENCE", "producer_run_id": "run-1", "producer_sequence": 3},
+    ))
+    self.assertNotEqual(first.logical_key, later_arrival.logical_key)
+    self.assertEqual(later_arrival.ordering_status, "OUT_OF_ORDER")
+
+def test_repeat_lineage_uses_earliest_but_chronology_uses_latest_related_observation(self):
+    collector = TelemetryCollector()
+    e1 = collector.emit(normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", timestamp=NOW))
+    e2 = collector.emit(normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", source="remote-evidence-read", timestamp=LATER))
+    e3 = collector.emit(normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", source="reviewer-read", timestamp=NOW))
+    self.assertEqual(e3.repeats_event_id, e1.event_id)
+    self.assertEqual(e3.ordering_status, "LATE")
 ```
 
 - [ ] **Step 2: Run the idempotency and chronology tests to verify RED**
@@ -343,12 +405,21 @@ Expected: FAIL because `TelemetryCollector`, logical-key calculation, repeat lin
 - [ ] **Step 3: Write the minimal collector implementation**
 
 Use private in-memory dictionaries keyed by Task 2 logical key, repeat-subject
-key, and immutable event ID. `repeat_subject_key` hashes exactly
+key, and immutable event ID. Keep two logically distinct related-event views:
+one map retains the earliest canonical event for stable `repeats_event_id`
+lineage, while another retains the latest appended logical observation for
+chronology classification. A suppressed retry creates no new logical
+observation and updates neither view. Every appended related observation updates
+the latest view; pass that latest related observation, not the earliest lineage
+event, to `classify_ordering`. `repeat_subject_key` hashes exactly
 `(event_class, authoritative_record_ref, provenance.observed_state_revision,
 provenance.observed_head_sha, slot_id, correlation_ref_for(event))`; it excludes
 source, timestamp, and arrival time. With no durable/correlation identity it
-adds the producer run/sequence fallback and does not infer cross-source
-equivalence. Same logical key plus equal canonical payload returns the existing
+uses the bounded fallback subject `(event_class, slot_id, producer_run_id)` plus
+only stable already-required subject components that do not distinguish emitted
+sequence items. It must not include `producer_sequence`; consequently sequence
+5 followed by sequence 3 in the same producer run is one chronology chain.
+Same logical key plus equal canonical payload returns the existing
 event and appends nothing. Different logical key plus equal repeat-subject key
 appends a `REPEAT` whose `repeats_event_id` is the earliest related event.
 Changed repeat-subject key appends `PRIMARY` and may set only telemetry-layer
@@ -356,8 +427,12 @@ Changed repeat-subject key appends `PRIMARY` and may set only telemetry-layer
 
 Classify in fixed order: `INCONSISTENT`, `STALE`, `OUT_OF_ORDER`, `LATE`,
 `CURRENT`. `INCONSISTENT` covers project-context mismatch, `DIVERGED` relation
-at the same revision, or matching correlation with conflicting Result/publication
-status. `STALE` covers lower event revision or `ANCESTOR` Git relation.
+at the same revision, or matching correlation with conflicting canonical Result
+status when both `authoritative.result_status` and `event.result_status` exist.
+`PUBLICATION_BOUNDARY_TRANSITION` remains a valid observation event and may be
+inconsistent through those meaningful contradictions or causal/correlation
+contradiction, but Task 3 performs no direct publication-status equality
+comparison: no event-side same-vocabulary field exists. `STALE` covers lower event revision or `ANCESTOR` Git relation.
 `OUT_OF_ORDER` covers a lower revision in the same repeat/correlation chain or
 a lower sequence in the same producer run only when no `INCONSISTENT` or
 `STALE` condition applies. `LATE` covers an earlier event timestamp for the
@@ -569,6 +644,20 @@ git push origin feature/execution-telemetry-design
 
 ## Plan self-review
 
-Coverage is complete: Tasks 1-2 cover all event classes, common/correlation fields, provenance, malformed input, and non-authority; Task 3 covers retry idempotency, equivalent duplicates, changed authority facts, repeats, late/out-of-order/stale/inconsistent behavior; Task 4 covers telemetry absence, unknown detail, privacy minimization, and non-authoritative retention; Task 5 covers P0-5, Result/Evidence, Git/publication, and authority reconstruction boundaries; Task 6 closes exact projection classifications; Task 7 provides final regression evidence.
+Coverage is complete: Tasks 1-2 cover all event classes, common/correlation fields, provenance, required `slot_id`/`source` validation, LOW_CONFIDENCE fallback identity, malformed input, and non-authority; Task 3 covers retry idempotency, distinct logical fallback sequence observations, earliest repeat lineage, latest-related chronology, changed authority facts, repeats, late/out-of-order/stale/inconsistent behavior; Task 4 covers telemetry absence, unknown detail, privacy minimization, and non-authoritative retention; Task 5 covers P0-5, Result/Evidence, Git/publication, and authority reconstruction boundaries; Task 6 closes exact projection classifications; Task 7 provides final regression evidence.
+
+Round-3 consistency check: `logical_idempotency_key` retains `producer_run_id` and
+`producer_sequence` only for valid no-durable-identity LOW_CONFIDENCE events;
+`repeat_subject_key` identifies their producer run but excludes producer
+sequence. The collector separately tracks earliest repeat lineage and latest
+chronology. `slot_id` and `source` are required strings, while intentionally
+nullable observation fields remain nullable. `AuthoritativeSnapshot` and
+`TelemetryEvent` contain no `publication_status`; `result_status` is compared
+only against matching-correlation authoritative Result status. The precedence
+remains `INCONSISTENT → STALE → OUT_OF_ORDER → LATE → CURRENT`.
+
+`PROJECTION_STAGE_DEVIATION = DEFERRED_NONBLOCKING`: this Plan-stage change does
+not alter the manifest; the permitted stage debt remains the exact Design/Plan
+pair until the separately authorized projection task.
 
 The plan contains no persistence implementation, telemetry history, automatic action, new module, schema, central service, or P0-5 lifecycle dependency. All names introduced in later tasks are defined in the task where they are first produced. The implementation is intentionally additive and uses only standard-library test conventions already present in the repository.
