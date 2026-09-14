@@ -121,7 +121,53 @@ def test_activate_requires_idle_and_fresh_values(self):
 
 **Files:** Modify `.gpt-codex/scripts/continuity_resume.py`, `.gpt-codex/scripts/validate_project.py`, and `.gpt-codex/tests/test_navigation_project_validation.py`.
 
-**Interfaces:** Add `block_for_remediation(state, slot_id, finding_ref, review_ref, expected_revision) -> dict` and `resume_authorized_remediation(state, slot_id, authorization_ref, fix_instruction, expected_revision) -> dict`. The first writes `REVIEWING → BLOCKED`, predecessor `REVIEWING`, and `AWAITING_REMEDIATION_AUTHORIZATION`; the second returns `ACTIVE` only after current-fact reconciliation and a valid FIX instruction.
+**Interfaces:** Add `block_for_remediation(state, slot_id, finding_ref, review_ref, expected_revision) -> dict` and:
+
+```python
+resume_authorized_remediation(
+    state,
+    slot_id,
+    authorization_ref,
+    fix_instruction,
+    expected_revision,
+    *,
+    authoritative_facts,
+) -> dict
+```
+
+The first writes `REVIEWING → BLOCKED`, predecessor `REVIEWING`, and `AWAITING_REMEDIATION_AUTHORIZATION`; the second returns `ACTIVE` only after current-fact reconciliation and a valid FIX instruction. `authoritative_facts` is a read-only transport mapping, not a new authority store or subsystem: it carries the already-loaded authoritative `work_unit`, `review_request`, `review_result`, `finding`, `remediation_authorization`, and `current_git` facts into this deterministic lifecycle function. `state` is the current authoritative STATE snapshot; the function returns a new state value and does not persist STATE.
+
+**Authority and reconciliation contract:** A field stored in `ACTIVE_EXECUTION_SLOTS` is a current correlation/handoff fact; it never replaces the underlying authority source. Before `BLOCKED → ACTIVE`, Task 4 validates every slot correlation against its authoritative record. No slot correlation is a duplicate authority store.
+
+| Causal fact | Authoritative source | Slot/current correlation | Required comparison | API resolution |
+| --- | --- | --- | --- | --- |
+| `work_unit_id` | authoritative Work Unit | slot `work_unit_id` | exact identity of the current Work Unit still bound to this slot/assignment | `authoritative_facts["work_unit"]` |
+| `finding_ref` | durable Review Finding Result/Evidence | slot `finding_ref` | exact current finding reference | `authoritative_facts["finding"]` |
+| `review_request_id` | governed Review Request / Instruction correlation | slot `review_request_id` | exact current review request for the reviewed milestone | `authoritative_facts["review_request"]` |
+| `review_result_ref` | durable Review Result/Evidence | slot `review_result_ref` | exact current review result reference | `authoritative_facts["review_result"]` |
+| `remediation_authorization_ref` | explicit GPT/User remediation authorization under the existing role protocol | slot `remediation_authorization_ref` | exact current authorization reference | `authoritative_facts["remediation_authorization"]`, which must match `authorization_ref` |
+| `fix_instruction_id` | authoritative `FIX_INSTRUCTION` | slot `fix_instruction_id` | exact instruction identity plus `validate_instruction_authority(...)` success | `fix_instruction` argument |
+| reviewed SHA | Review Result/Finding revision evidence | retained review/slot correlation where present | exact reviewed revision required by the current review chain | `authoritative_facts["review_result"]` / `authoritative_facts["finding"]` |
+| current SHA | Git HEAD/ref/ancestry evidence at reconciliation | slot `current_head_sha` | exact current Git fact and required reviewed/current relation | `authoritative_facts["current_git"]` |
+| `state_revision` | current authoritative `STATE.revision` | slot `state_revision` | `slot.state_revision == state.revision == expected_revision` | `state` plus `expected_revision` |
+
+For every row, missing or contradictory required facts return `RECONCILIATION_REQUIRED`. A slot `work_unit_id` must match the supplied Work Unit and must not be inferred from chat, window, or branch names. A Review Result cannot repair a missing/mismatched Review Request. Reviewed SHA is taken from current Review Result/Finding evidence, never from a branch name, current HEAD alone, Resume, telemetry, or conversation memory. Current SHA is taken from reconciliation-time Git HEAD/ref/ancestry evidence; the slot's `current_head_sha` cannot override contradictory Git evidence, and Task 4 creates no second Git authority field. Reviewer prose, telemetry, Resume, Project Map, chat history, physical window state, or conversation memory are not substitutes for durable Result/Evidence, authorization, or Git facts. Finding/Review evidence is not remediation mutation authority; an identity-matching but invalid `FIX_INSTRUCTION`, or an authority-valid instruction with the wrong ID, likewise fails closed.
+
+The authoritative source hierarchy is:
+
+```text
+STATE / ACTIVE_EXECUTION_SLOTS = authoritative current lifecycle record
+Work Unit = authoritative governed assignment/scope fact
+Instruction / explicit GPT/User authorization = authoritative execution/remediation authorization facts
+Result/Evidence = authoritative review/finding evidence
+Git = authoritative repository revision/ancestry evidence
+slot correlation fields = durable current-assignment correlations only
+Map / Resume = derived hints only
+Telemetry = observation only
+Physical window/chat = non-authoritative
+```
+
+`resume_authorized_remediation()` performs no hidden repository reads: it does not open repository files, query Git remote/network, search Evidence directories, discover Work Units, parse chat, or read telemetry. Existing orchestration/validation loads authoritative facts and retains persistence ownership; navigation-continuity consumes them for lifecycle reconciliation only.
 
 - [ ] **Step 1: Write failing tests**
 
@@ -132,7 +178,10 @@ def test_finding_blocks_but_does_not_authorize_mutation(self):
 
 def test_reviewer_message_cannot_resume_blocked_slot(self):
     with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
-        resume_authorized_remediation(self.blocked_state(), "S-1", None, None, 8)
+        resume_authorized_remediation(
+            self.blocked_state(), "S-1", None, None, 8,
+            authoritative_facts=self.complete_authoritative_facts(),
+        )
 
 def test_remediation_resume_rejects_each_causal_mismatch(self):
     cases = (
@@ -155,7 +204,21 @@ def test_remediation_resume_rejects_each_causal_mismatch(self):
                     "authorization-1",
                     self.valid_fix_instruction(),
                     8,
+                    authoritative_facts=self.complete_authoritative_facts(),
                 )
+
+def test_authoritative_fact_bundle_cannot_disagree_with_complete_slot(self):
+    with self.assertRaisesRegex(ValueError, "^RECONCILIATION_REQUIRED$"):
+        resume_authorized_remediation(
+            self.complete_blocked_state(),
+            "S-1",
+            "authorization-1",
+            self.valid_fix_instruction("fix-instruction-1"),
+            8,
+            authoritative_facts=self.complete_authoritative_facts(
+                finding=self.finding("finding-2"),  # contradictory durable source
+            ),
+        )
 
 def test_incomplete_remediation_authority_cannot_resume(self):
     cases = (
@@ -176,6 +239,7 @@ def test_incomplete_remediation_authority_cannot_resume(self):
                     self.authorization_for_subset(authority_subset),
                     self.fix_instruction_for_subset(authority_subset),
                     8,
+                    authoritative_facts=self.authoritative_facts_for_subset(authority_subset),
                 )
 
 def test_complete_current_remediation_chain_resumes_blocked_slot(self):
@@ -194,6 +258,14 @@ def test_complete_current_remediation_chain_resumes_blocked_slot(self):
         "authorization-1",
         self.valid_fix_instruction("fix-instruction-1"),
         8,
+        authoritative_facts={
+            "work_unit": self.work_unit("WU-1"),
+            "review_request": self.review_request("review-request-1"),
+            "review_result": self.review_result("review-result-1", reviewed_sha="head-abc123"),
+            "finding": self.finding("finding-1", reviewed_sha="head-abc123"),
+            "remediation_authorization": self.remediation_authorization("authorization-1"),
+            "current_git": self.git_facts(head_sha="head-abc123"),
+        },
     )
     self.assertEqual(resumed["active_execution_slots"][0]["status"], "ACTIVE")
 ```
