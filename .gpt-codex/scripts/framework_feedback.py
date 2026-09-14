@@ -9,7 +9,7 @@ class ProcessReview:
     strategy_profile: str; codex_tasks: int; codex_retries: int; gpt_interventions: int; review_rounds: int; remediation_rounds: int; handoffs: int; handoff_failures: int; project_result: str; usage: Mapping[str, Any] | str
 @dataclass(frozen=True, slots=True)
 class FrameworkFeedback:
-    problem: str; reason: str; local_solution: str; result: str; framework_change_recommended: bool; evidence_refs: list[str]
+    problem: str; reason: str; local_solution: str; result: str; framework_change_recommended: bool; evidence_refs: tuple[str, ...]
 def validate_execution_policy(policy: Mapping[str, Any] | None) -> list[str]:
     if policy is None:return []
     strings=_POLICY_FIELDS-{"task_splitting","review_policy","instruction_policy","result_return_policy"}
@@ -26,5 +26,5 @@ def build_process_review(records: Sequence[Mapping[str, Any]], strategy_profile:
         if isinstance(record.get("project_result"),str) and record["project_result"].strip():result=record["project_result"]
     return ProcessReview(strategy_profile,**totals,project_result=result,usage=dict(usage) if isinstance(usage,Mapping) else "UNKNOWN")
 def validate_framework_feedback(record: Mapping[str, Any]) -> list[str]:
-    if not isinstance(record,Mapping) or set(record)!=_FEEDBACK_FIELDS or _AUTHORITY_FIELDS & set(record) or any(not isinstance(record.get(k),str) or not record[k].strip() for k in ("problem","reason","local_solution","result")) or not isinstance(record.get("framework_change_recommended"),bool) or not isinstance(record.get("evidence_refs"),list):return ["FRAMEWORK_FEEDBACK_INVALID"]
+    if not isinstance(record,Mapping) or set(record)!=_FEEDBACK_FIELDS or _AUTHORITY_FIELDS & set(record) or any(not isinstance(record.get(k),str) or not record[k].strip() for k in ("problem","reason","local_solution","result")) or not isinstance(record.get("framework_change_recommended"),bool) or not isinstance(record.get("evidence_refs"),list) or not record["evidence_refs"] or not all(isinstance(ref,str) and ref.strip() for ref in record["evidence_refs"]):return ["FRAMEWORK_FEEDBACK_INVALID"]
     return []
