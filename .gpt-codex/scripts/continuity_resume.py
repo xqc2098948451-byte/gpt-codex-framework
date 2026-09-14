@@ -431,10 +431,13 @@ def validate_reviewer_assignment(
     ):
         return ["RECONCILIATION_REQUIRED"]
     try:
-        from validate_project import validate_instruction_authority
+        from validate_project import validate_instruction_authority, validate_instruction_envelope_contract
     except ImportError:
         return ["RECONCILIATION_REQUIRED"]
-    if validate_instruction_authority(reassignment_instruction, expected_revision):
+    if (
+        validate_instruction_envelope_contract(reassignment_instruction)
+        or validate_instruction_authority(reassignment_instruction, expected_revision)
+    ):
         return ["RECONCILIATION_REQUIRED"]
     if (
         reassignment_instruction.get("instruction_id") != reviewer_ref
@@ -558,10 +561,10 @@ def _valid_recovery_result(record: Mapping, control: Mapping, slot: Mapping, sta
         return False
     try:
         from publication_contract import validate_result_authority
-        from validate_project import validate_review_result
+        from validate_project import validate_result_envelope_contract, validate_review_result
     except ImportError:
         return False
-    if validate_result_authority(record):
+    if validate_result_envelope_contract(record) or validate_result_authority(record):
         return False
     if record.get("result_message_type") == "REVIEW_RESULT":
         return (

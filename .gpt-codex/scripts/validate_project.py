@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, subprocess, sys
+import argparse, json, subprocess, sys, uuid
 from collections.abc import Mapping
 from pathlib import Path
 import re
@@ -531,8 +531,21 @@ def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
         errors.append(f'{path} must equal {schema["const"]!r}')
     if 'enum' in schema and value not in schema['enum']:
         errors.append(f'{path} must be one of {schema["enum"]!r}')
+    if isinstance(value, str) and 'pattern' in schema:
+        try:
+            if re.search(schema['pattern'], value) is None:
+                errors.append(f'{path} does not match required pattern')
+        except re.error:
+            errors.append(f'{path} has unsupported schema pattern')
+    if isinstance(value, str) and schema.get('format') == 'uuid':
+        try:
+            uuid.UUID(value)
+        except (ValueError, AttributeError, TypeError):
+            errors.append(f'{path} must be a UUID')
     if isinstance(value, str) and 'minLength' in schema and len(value) < schema['minLength']:
         errors.append(f'{path} must not be empty')
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and 'minimum' in schema and value < schema['minimum']:
+        errors.append(f'{path} must be at least {schema["minimum"]}')
     if isinstance(value, dict):
         properties = schema.get('properties') or {}
         for required in schema.get('required') or []:
@@ -548,6 +561,24 @@ def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
     if isinstance(value, list) and schema.get('items'):
         for index, item in enumerate(value):
             errors += _schema_shape_errors(item, schema['items'], f'{path}[{index}]')
+    if isinstance(value, list) and 'maxItems' in schema and len(value) > schema['maxItems']:
+        errors.append(f'{path} has too many items')
+    if isinstance(value, list) and schema.get('uniqueItems'):
+        serialized = [json.dumps(item, sort_keys=True, ensure_ascii=False) for item in value]
+        if len(serialized) != len(set(serialized)):
+            errors.append(f'{path} must contain unique items')
+    if 'not' in schema and not _schema_shape_errors(value, schema['not'], path):
+        errors.append(f'{path} matches a forbidden schema')
+    for branch in schema.get('allOf') or []:
+        if not isinstance(branch, dict):
+            continue
+        if 'if' in branch:
+            condition_matches = not _schema_shape_errors(value, branch['if'], path)
+            selected = branch.get('then') if condition_matches else branch.get('else')
+            if isinstance(selected, dict):
+                errors += _schema_shape_errors(value, selected, path)
+        else:
+            errors += _schema_shape_errors(value, branch, path)
     return errors
 
 
@@ -561,6 +592,20 @@ def _derived_schema_errors(payload: dict, schema_name: str) -> list[str]:
         f'{schema_name.upper().replace("-", "_")}_SCHEMA_INVALID:{error}'
         for error in _schema_shape_errors(payload, schema)
     ]
+
+
+def validate_instruction_envelope_contract(instruction: Mapping[str, Any]) -> list[str]:
+    """Validate an already-built Instruction Envelope against its authoritative schema."""
+    if not isinstance(instruction, Mapping):
+        return ['INSTRUCTION_ENVELOPE_SCHEMA_INVALID:$ must be object']
+    return _derived_schema_errors(dict(instruction), 'instruction-envelope')
+
+
+def validate_result_envelope_contract(result: Mapping[str, Any]) -> list[str]:
+    """Validate an already-built Result Envelope against its authoritative schema."""
+    if not isinstance(result, Mapping):
+        return ['RESULT_ENVELOPE_SCHEMA_INVALID:$ must be object']
+    return _derived_schema_errors(dict(result), 'result-envelope')
 
 
 def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict) -> list[str]:

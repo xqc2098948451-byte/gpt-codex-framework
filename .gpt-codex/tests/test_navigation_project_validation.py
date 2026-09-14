@@ -622,7 +622,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "evidence_refs": [],
             "completion_gate": "GPT_DECISION",
             "result_message_type": "REVIEW_RESULT",
-            "response_to_instruction_id": "review-request-1",
+            "response_to_instruction_id": "33333333-3333-4333-8333-333333333333",
             "responder_role": "CODEX_REVIEWER",
             "review_target_revision": head,
             "state_revision": 8,
@@ -669,6 +669,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
         state["continuity"]["latest_verified_remote_sha"] = head
         self._write_json(root, ".gpt-codex/STATE.json", state)
         if include_result:
+            slot["review_request_id"] = "33333333-3333-4333-8333-333333333333"
             slot["review_result_ref"] = "review-result-1"
             state["active_execution_slots"][0] = slot
             self._write_json(root, ".gpt-codex/STATE.json", state)
@@ -1074,6 +1075,28 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 )
                 self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
 
+    def test_cold_recovery_rejects_result_schema_vocabulary_bypass(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        for field in ("status", "completion_gate"):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                slot = self._write_task5_durable_project(root, include_result=True)
+                result_path = root / ".gpt-codex/evidence/results/review-result-1.json"
+                durable_result = json.loads(result_path.read_text(encoding="utf-8"))
+                durable_result[field] = "WHATEVER"
+                self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", durable_result)
+                result = load_continuity_resume(
+                    root,
+                    "repo-a",
+                    execution_slot_id="CODEX-IMPL-B",
+                    execution_slot_binding=self.task5_binding(slot),
+                )
+                self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
     def test_cold_recovery_requires_durable_lifecycle_evidence_when_slot_references_it(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
         if str(scripts) not in sys.path:
@@ -1201,6 +1224,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
         if str(scripts) not in sys.path:
             sys.path.insert(0, str(scripts))
         from continuity_resume import validate_reviewer_assignment
+        from validate_project import validate_instruction_envelope_contract
 
         slot = self.task5_slot(
             role="CODEX_REVIEWER",
@@ -1211,13 +1235,16 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "RECONCILIATION_REQUIRED",
             validate_reviewer_assignment(slot, "review-request-2", 8),
         )
+        reassignment_request_id = "44444444-4444-4444-8444-444444444444"
         project_control = {
             "project_id": "PROJECT-ONE",
             "project_context_id": "11111111-1111-4111-8111-111111111111",
         }
         reassignment_instruction = {
-            "instruction_id": "review-request-2",
+            "instruction_id": reassignment_request_id,
             "instruction_type": "REVIEW_REQUEST",
+            "target_project_name": "Framework Management",
+            "framework_version": "2.0.0",
             "issuer_role": "GPT_ORCHESTRATOR",
             "executor_role": "CODEX_REVIEWER",
             "return_role": "GPT_ORCHESTRATOR",
@@ -1238,15 +1265,16 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "state_revision": 8,
             "result": "PASS",
             "source_review_request_id": "review-request-1",
-            "target_review_request_id": "review-request-2",
+            "target_review_request_id": reassignment_request_id,
             "work_unit_id": "WU-1",
             "current_head_sha": "a" * 40,
             "last_accepted_sha": "a" * 40,
         }
+        self.assertEqual(validate_instruction_envelope_contract(reassignment_instruction), [])
         self.assertEqual(
             validate_reviewer_assignment(
                 slot,
-                "review-request-2",
+                reassignment_request_id,
                 8,
                 reassignment_instruction=reassignment_instruction,
                 reassignment_evidence=reassignment_evidence,
@@ -1254,6 +1282,45 @@ class NavigationProjectValidationTests(unittest.TestCase):
             ),
             [],
         )
+        for reviewer_id, field, value in (
+            ("review-request-2", "instruction_id", "review-request-2"),
+            (reassignment_request_id, "framework_version", None),
+        ):
+            with self.subTest(envelope_field=field):
+                invalid_instruction = dict(reassignment_instruction)
+                if value is None:
+                    del invalid_instruction[field]
+                else:
+                    invalid_instruction[field] = value
+                invalid_evidence = dict(reassignment_evidence, target_review_request_id=reviewer_id)
+                self.assertIn(
+                    "RECONCILIATION_REQUIRED",
+                    validate_reviewer_assignment(
+                        slot,
+                        reviewer_id,
+                        8,
+                        reassignment_instruction=invalid_instruction,
+                        reassignment_evidence=invalid_evidence,
+                        project_control=project_control,
+                    ),
+                )
+        for field, value in (
+            ("instruction_id", "not-a-uuid"),
+            ("framework_version", "2.x.0"),
+            ("instruction_type", "UNKNOWN"),
+            ("unknown_top_level", "forbidden"),
+        ):
+            with self.subTest(contract_field=field):
+                invalid_instruction = dict(reassignment_instruction, **{field: value})
+                self.assertTrue(validate_instruction_envelope_contract(invalid_instruction))
+        for field in (
+            "instruction_id", "framework_version", "target_project_context_id",
+            "expected_state_revision", "issuer_role", "executor_role", "return_role",
+        ):
+            with self.subTest(contract_missing=field):
+                invalid_instruction = dict(reassignment_instruction)
+                del invalid_instruction[field]
+                self.assertTrue(validate_instruction_envelope_contract(invalid_instruction))
         for field, value in (
             ("expected_state_revision", 7),
             ("target_work_unit", "WU-OTHER"),
@@ -1269,7 +1336,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
                     "RECONCILIATION_REQUIRED",
                     validate_reviewer_assignment(
                         slot,
-                        "review-request-2",
+                        reassignment_request_id,
                         8,
                         reassignment_instruction=invalid_instruction,
                         reassignment_evidence=reassignment_evidence,
@@ -1293,7 +1360,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
                     "RECONCILIATION_REQUIRED",
                     validate_reviewer_assignment(
                         slot,
-                        "review-request-2",
+                        reassignment_request_id,
                         8,
                         reassignment_instruction=reassignment_instruction,
                         reassignment_evidence=invalid_evidence,
