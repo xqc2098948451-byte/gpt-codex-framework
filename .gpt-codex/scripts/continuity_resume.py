@@ -720,6 +720,98 @@ def _execution_slot_recovery(
     }
 
 
+def _git_object_path_exists(root: Path, sha: str, path: str) -> bool:
+    if not isinstance(path, str) or not path.strip() or not isinstance(sha, str) or not _COMMIT_SHA.fullmatch(sha):
+        return False
+    try:
+        result = subprocess.run(["git", "-C", str(root), "cat-file", "-e", f"{sha}:{path}"],
+                                capture_output=True, text=True, check=False)
+    except OSError:
+        return False
+    return result.returncode == 0
+
+
+def _validated_artifact_refs(root: Path, work_unit: Mapping) -> dict[str, Any] | None:
+    refs = work_unit.get("artifact_refs")
+    if refs is None:
+        return {"design": None, "plan": None}
+    if not isinstance(refs, Mapping) or set(refs) - {"design", "plan"}:
+        return None
+    result: dict[str, Any] = {"design": None, "plan": None}
+    for name in ("design", "plan"):
+        ref = refs.get(name)
+        if ref is None:
+            continue
+        if not isinstance(ref, Mapping) or set(ref) != {"path", "sha"} or not _git_object_path_exists(root, ref.get("sha"), ref.get("path")):
+            return None
+        result[name] = {"path": ref["path"], "sha": ref["sha"]}
+    return result
+
+
+def _discover_pending_result(root: Path, control: Mapping, slot: Mapping, state: Mapping) -> tuple[Mapping | None, list[str]]:
+    directory = root / ".gpt-codex" / "evidence" / "results"
+    if not directory.exists():
+        return None, []
+    try:
+        records = [json.loads(path.read_text(encoding="utf-8")) for path in sorted(directory.glob("*.json"))]
+    except (OSError, json.JSONDecodeError):
+        return None, ["RECONCILIATION_REQUIRED"]
+    matches = [record for record in records if isinstance(record, Mapping) and _valid_recovery_result(record, control, slot, state)]
+    if len(matches) > 1:
+        return None, ["RECONCILIATION_REQUIRED"]
+    return (matches[0] if matches else None), []
+
+
+def _load_harness_strategy(root: Path) -> dict[str, str] | None:
+    path = root / ".harness" / "REASONING.md"
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return None
+    result = {key.strip(): value.strip() for line in lines[:64] if ":" in line
+              for key, value in [line.split(":", 1)] if key.strip() and value.strip()}
+    return result or None
+
+
+def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> dict[str, Any]:
+    try:
+        control = json.loads((root / ".gpt-codex" / "CONTROL.json").read_text(encoding="utf-8"))
+        state = json.loads((root / ".gpt-codex" / "STATE.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return _recovery_result()
+    if not isinstance(control, Mapping):
+        return _recovery_result()
+    slots = state.get("active_execution_slots")
+    if not isinstance(slots, list):
+        return _recovery_result()
+    candidates = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("status") != "IDLE"
+                  and (execution_slot_id is None or slot.get("slot_id") == execution_slot_id)]
+    if execution_slot_id is not None and not candidates:
+        return _recovery_result("EXECUTION_CONTEXT_MISMATCH")
+    if len(candidates) != 1:
+        return _recovery_result()
+    slot = candidates[0]
+    recovery = _execution_slot_recovery(root, control, state, slot.get("slot_id"), None, None)
+    if recovery.get("reconciliation_required"):
+        return _recovery_result("EXECUTION_CONTEXT_MISMATCH" if recovery.get("status") == "EXECUTION_SLOT_MISMATCH" else recovery.get("status"))
+    work_unit = _load_recovery_work_unit(root, control, slot, state)
+    refs = _validated_artifact_refs(root, work_unit) if work_unit else None
+    pending, errors = _discover_pending_result(root, control, slot, state)
+    if refs is None or errors:
+        return _recovery_result()
+    return {"status": "HANDOFF_READY", "reconciliation_required": False,
+            "project": {"project_id": control.get("project_id"), "project_context_id": control.get("project_context_id"),
+                        "repository": (control.get("github") or {}).get("repository_full_name")},
+            "state": {"revision": state.get("revision"), "state": state.get("state")},
+            "current_work": {"execution_slot_id": slot.get("slot_id"), "status": slot.get("status"), "work_unit_id": slot.get("work_unit_id")},
+            "git": {"branch": slot.get("branch"), "base_sha": slot.get("base_sha"), "current_head_sha": slot.get("current_head_sha"),
+                    "last_accepted_sha": slot.get("last_accepted_sha")},
+            "accepted_artifacts": refs, "strategy": _load_harness_strategy(root),
+            "latest_result_ref": (state.get("continuity") or {}).get("last_verified_result_ref"),
+            "pending_result_ref": pending.get("result_id") if pending else None, "blocker": slot.get("block_reason"),
+            "next_action": slot.get("next_action")}
+
+
 def load_resume_checkpoint(gov: Path, control: dict[str, Any] | None = None) -> dict[str, Any] | None:
     checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
     if not checkpoint_path.exists():

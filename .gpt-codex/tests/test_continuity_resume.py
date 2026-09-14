@@ -574,5 +574,15 @@ class ContinuityResumeTests(unittest.TestCase):
                 self.assertEqual(result[key], [])
 
 
+class ContinuityArtifactReferenceCompatibilityTests(unittest.TestCase):
+    def test_legacy_work_unit_without_artifact_refs_remains_valid(self):
+        from continuity_resume import _validated_artifact_refs
+
+        self.assertEqual(
+            _validated_artifact_refs(Path("."), {"work_unit_id": "legacy"}),
+            {"design": None, "plan": None},
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

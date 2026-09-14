@@ -17,5 +17,9 @@
   "permissions": {},
   "state": "AUTHORIZED",
   "basis_state_revision": 0,
-  "evidence_refs": []
+  "evidence_refs": [],
+  "artifact_refs": {
+    "design": null,
+    "plan": null
+  }
 }

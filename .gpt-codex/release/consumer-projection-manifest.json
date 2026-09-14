@@ -148,6 +148,7 @@
     ".gpt-codex/tests/test_consumer_runtime_closure.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_consumer_workspace.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_harness_project_layering.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/tests/test_harness_handoff.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_execution_telemetry.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_module_routing.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_module_schemas.py": "MANAGEMENT_ONLY",
