@@ -384,7 +384,7 @@ class ValidatorContextBindingTests(unittest.TestCase):
             "source_provenance": {"commit_sha": "a" * 40},
             "mutated": False,
             "adoption_authorized": False,
-            "result_evidence_ref": "RESULT-001",
+            "result_evidence_ref": "result-1",
             "state": {"secret": "must-not-copy"},
             "source_content": "must-not-copy",
             "extensions": {"must-not-copy": True},
@@ -403,12 +403,34 @@ class ValidatorContextBindingTests(unittest.TestCase):
         self.assertEqual(observation["source_framework_version"], "2.7.0")
         self.assertEqual(observation["compatibility_outcome"], "RECOMMENDED_UPGRADE")
         self.assertEqual(observation["source_provenance_digest"], repeated["source_provenance_digest"])
-        self.assertEqual(observation["result_evidence_ref"], "RESULT-001")
+        self.assertEqual(observation["result_evidence_ref"], "result-1")
         self.assertFalse(
             {"control", "state", "work_unit", "result", "evidence", "prompt", "reasoning", "credential",
              "credentials", "token", "tokens", "secret", "source_content", "environment", "log", "logs",
              "extensions", "unknown"}.intersection(observation)
         )
+        no_reference = build_project_evolution_observation(
+            control,
+            {key: value for key, value in evaluation.items() if key != "result_evidence_ref"},
+            enrollment, observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+        )
+        max_reference = "a" * 256
+        self.assertEqual(
+            build_project_evolution_observation(
+                control, {**evaluation, "result_evidence_ref": max_reference}, enrollment,
+                observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+            )["result_evidence_ref"],
+            max_reference,
+        )
+        for invalid_reference in ("a" * 257, "a" * (1024 * 1024), "evidence\ncontent", "raw prose"):
+            with self.subTest(invalid_reference_length=len(invalid_reference)):
+                self.assertEqual(
+                    build_project_evolution_observation(
+                        control, {**evaluation, "result_evidence_ref": invalid_reference}, enrollment,
+                        observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+                    ),
+                    no_reference,
+                )
         with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
             build_project_evolution_observation(
                 control,

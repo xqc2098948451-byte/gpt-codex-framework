@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
+import re
 import secrets
 from typing import Any, Callable, Mapping
 from uuid import UUID, uuid4
@@ -14,6 +15,7 @@ REQUIRED_GUARDRAIL_ID = "cross-project-context-binding"
 REQUIRED_GUARDRAIL_VERSION = "1.0.0"
 _READ_ONLY_BOUNDARY_OPERATIONS = frozenset({"READ", "EVALUATE"})
 _PROJECT_EVOLUTION_TRANSPORTS = frozenset({"MANUAL", "PROJECT_PUSH", "PROJECT_PULL"})
+_RESULT_EVIDENCE_REF_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@#%+=-]{0,255}$")
 _PROTECTED_RESOURCE_TYPES = frozenset({
     "CONTROL", "STATE", "WORK_UNIT", "INSTRUCTION", "RESULT", "EVIDENCE",
     "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION", "PROJECT_MAP", "RESUME",
@@ -179,6 +181,10 @@ def _source_provenance_digest(provenance: Mapping[str, Any]) -> str:
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
+def _is_bounded_result_evidence_ref(value: object) -> bool:
+    return isinstance(value, str) and _RESULT_EVIDENCE_REF_PATTERN.fullmatch(value) is not None
+
+
 def build_project_evolution_observation(
     project_control: Mapping[str, Any],
     evaluation: Mapping[str, Any],
@@ -220,7 +226,7 @@ def build_project_evolution_observation(
     if isinstance(repository_full_name, str) and repository_full_name:
         observation["repository_full_name"] = repository_full_name
     result_evidence_ref = evaluation.get("result_evidence_ref")
-    if isinstance(result_evidence_ref, str) and result_evidence_ref:
+    if _is_bounded_result_evidence_ref(result_evidence_ref):
         observation["result_evidence_ref"] = result_evidence_ref
     return observation
 
