@@ -133,6 +133,29 @@ def test_finding_blocks_but_does_not_authorize_mutation(self):
 def test_reviewer_message_cannot_resume_blocked_slot(self):
     with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
         resume_authorized_remediation(self.blocked_state(), "S-1", None, None, 8)
+
+def test_remediation_resume_rejects_each_causal_mismatch(self):
+    cases = (
+        ("finding_ref mismatch", "finding_ref"),
+        ("review_request_id mismatch", "review_request_id"),
+        ("review_result_ref mismatch", "review_result_ref"),
+        ("remediation_authorization_ref mismatch", "remediation_authorization_ref"),
+        ("fix_instruction_id mismatch", "fix_instruction_id"),
+        ("work_unit_id mismatch", "work_unit_id"),
+        ("reviewed/current SHA mismatch", "reviewed_current_sha"),
+        ("authoritative STATE revision mismatch", "state_revision"),
+    )
+    for label, mismatch in cases:
+        with self.subTest(mismatch=label):
+            # The fixture retains a valid causal chain except for this one fact.
+            with self.assertRaisesRegex(ValueError, "^RECONCILIATION_REQUIRED$"):
+                resume_authorized_remediation(
+                    self.blocked_state(remediation_mismatch=mismatch),
+                    "S-1",
+                    "authorization-1",
+                    self.valid_fix_instruction(),
+                    8,
+                )
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect missing causal APIs.
