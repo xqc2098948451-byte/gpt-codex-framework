@@ -35,11 +35,15 @@
 | `.gpt-codex/framework-modules/modules/framework-core.json` | Modify | `framework-core`; add exact ownership of the telemetry script/test and list its required test. This descriptor is already owned by the module-prefix selector. | MANAGEMENT_ONLY |
 | `.gpt-codex/scripts/execution_telemetry.py` | Create | `framework-core`; exact `OWNED_ASSETS` entry is added before the file is routed. It provides derived framework-governance observation only. | MANAGEMENT_ONLY |
 | `.gpt-codex/tests/test_execution_telemetry.py` | Create | `framework-core`; exact `OWNED_ASSETS` entry and `REQUIRED_TESTS` entry are added before the file is routed. | MANAGEMENT_ONLY |
-| `.gpt-codex/release/consumer-projection-manifest.json` | Modify | `release-projection`; it already owns this exact path and only classifies paths. It gains no telemetry authority. | CONSUMER_REQUIRED as the existing manifest |
+| `.gpt-codex/release/consumer-projection-manifest.json` | Modify | `release-projection`; it already owns this exact path. Its authority is classification management only; it gains no telemetry authority. | MANAGEMENT_ONLY |
 | `docs/superpowers/specs/2026-09-13-execution-telemetry-design.md` | Modify only in the projection manifest | Development history; no production semantics change. | DEVELOPMENT_HISTORY |
 | `docs/superpowers/plans/2026-09-14-execution-telemetry.md` | Modify only in the projection manifest | Development history; no production semantics change. | DEVELOPMENT_HISTORY |
 
 No change is planned to `CONTROL`, `STATE`, Work Unit schemas/templates, Instruction/Result schemas, Evidence, Git continuity, P0-5 navigation-continuity assets, publication contracts, or validation entry points. `framework-validation`, `role-communication`, `navigation-continuity`, and `git-continuity` are observed-contract boundaries only, not implementation owners.
+
+`.gpt-codex/release/consumer-projection-manifest.json` is canonically
+`MANAGEMENT_ONLY` as the existing manifest self-classification. Changing entries
+inside that manifest does not change the manifest file's own classification.
 
 After Task 1, the exact ownership proof is:
 
