@@ -69,18 +69,18 @@ contains at least the following fields. Values shown as SHA fields are full,
 | Field | Meaning and constraint |
 | --- | --- |
 | `slot_id` | Stable logical-slot identifier. It is never inferred from a physical window. |
-| `role` | One exact protocol role for the slot. Implementer and Reviewer assignments are validated against the instruction/result role contracts. |
+| `role` | One exact protocol role for the slot. This is slot-persistent identity metadata, independent of a Work Unit. Implementer and Reviewer assignments are validated against the instruction/result role contracts. |
 | `status` | One of the closed vocabulary in section 4. |
-| `work_unit_id` | The authoritative Work Unit bound to this slot, or `null` only while an `IDLE` slot has no assignment. |
-| `primary_module` | The responsibility-routed primary module for the assigned Work Unit. |
-| `project_context_id` | Exact `CONTROL.project_context_id`; a mismatch is fail-closed. |
-| `branch` | Intended local Git branch/ref for the Work Unit. It is a locator, not proof of identity or review. |
-| `worktree` | Canonical local worktree path/identity observation. It is not a physical-window identity. |
-| `base_sha` | Authorized starting revision for the Work Unit. |
-| `current_head_sha` | Latest locally observed worktree `HEAD` for this slot. |
-| `last_accepted_sha` | Latest exact revision accepted at the applicable milestone; durable handoff fact, never a mutable label. |
+| `work_unit_id` | The authoritative Work Unit bound to this slot. It is `null` in `IDLE`; any non-null value is a current assignment fact. |
+| `primary_module` | The responsibility-routed primary module for the current assigned Work Unit. It is `null` in `IDLE`. |
+| `project_context_id` | Exact `CONTROL.project_context_id`; a mismatch is fail-closed. This is slot-persistent identity metadata, independent of a Work Unit. |
+| `branch` | Intended local Git branch/ref for the current Work Unit. It is `null` in `IDLE` and is a locator, not proof of identity or review. |
+| `worktree` | Canonical local worktree path/identity observation for the current Work Unit. It is `null` in `IDLE` and is not a physical-window identity. |
+| `base_sha` | Authorized starting revision for the current Work Unit. It is `null` in `IDLE`. |
+| `current_head_sha` | Latest locally observed worktree `HEAD` for the current Work Unit. It is `null` in `IDLE`. |
+| `last_accepted_sha` | Latest exact revision accepted at the applicable milestone for the current Work Unit. It is `null` in `IDLE`; history remains in authoritative Result/Evidence/Git records, not this current slot record. |
 | `state_revision` | The authoritative `STATE.revision` at which this slot record or lifecycle transition is current. It is not a local navigation-cache counter and there is no second slot-specific authoritative revision sequence. |
-| `next_action` | Deterministic next governed action, including the required reconciliation/review action when blocked. |
+| `next_action` | Deterministic next governed action, including the required reconciliation/review action when blocked. It is the bounded idle-safe value `AWAIT_ASSIGNMENT` in `IDLE`, never a prior Work Unit's review, remediation, implementation, push, or reconciliation action. |
 
 When `status` is `BLOCKED`, the record additionally requires
 `blocked_from_status`, `block_reason`, and the applicable bounded correlation
@@ -92,6 +92,13 @@ references bind the block to the finding, review request/result, instruction,
 and later remediation authorization as applicable. These references preserve
 role-protocol causality; they do not make navigation-continuity a review or
 remediation authority.
+
+The slot-persistent facts in an `IDLE` record are `slot_id`, `role`,
+`project_context_id`, `status`, `state_revision`, `next_action =
+AWAIT_ASSIGNMENT`, and narrowly justified slot-level identity metadata that is
+independent of a Work Unit. `IDLE` means no current Work Unit assignment facts
+remain in the slot record. It is not a compact historical record of the
+previous assignment.
 
 An implementation may add narrowly justified correlation fields (for example,
 instruction ID, Result reference, reviewer target SHA, or reassignment
@@ -138,10 +145,12 @@ The lifecycle is guarded by these invariants:
 5. Every transition uses the existing optimistic `STATE` revision write rule.
    A writer based on an older revision returns `RECONCILIATION_REQUIRED` rather
    than overwriting a newer slot fact.
-6. `last_accepted_sha` and `state_revision` are durable handoff facts. A later
-   actor must verify their repository ancestry and state freshness before
-   continuing. A branch name, remembered conversation, or local uncommitted
-   diff cannot substitute for them.
+6. For a non-IDLE current assignment, `last_accepted_sha` and `state_revision`
+   are durable handoff facts. A later actor must verify their repository
+   ancestry and state freshness before continuing. In `IDLE`,
+   `last_accepted_sha` is `null` and the idle-safe `next_action` is
+   `AWAIT_ASSIGNMENT`; a branch name, remembered conversation, or local
+   uncommitted diff cannot substitute for authoritative facts.
 7. A Reviewer may serially review milestones and remediation for a Work Unit.
    The reviewer role remains non-mutating, and reviewer reassignment is an
    explicit, evidence-bound lifecycle event. Multiple physical review windows
@@ -154,14 +163,23 @@ The lifecycle is guarded by these invariants:
 9. `COMPLETED` is not reusable for a new Work Unit. Before reuse, a durable,
    authoritative STATE revision must transition `COMPLETED → IDLE` and retain
    sufficient Result/Evidence/Work Unit correlation to prove the prior Work
-   Unit is closed. The reset clears only current assignment fields:
-   `work_unit_id`, branch, current head SHA, worktree, current action, and
-   current block/remediation fields. It does not erase historical Work Unit,
-   Result, Evidence, or Git records.
+   Unit is closed. The reset clears every current-assignment-scoped field:
+   `work_unit_id`, `primary_module`, branch, worktree, `base_sha`,
+   `current_head_sha`, `last_accepted_sha`, current finding/review/remediation
+   correlations, `blocked_from_status`, `block_reason`, and any equivalent
+   current Work Unit field. It sets `next_action` to `AWAIT_ASSIGNMENT`.
+   Clearing the current slot record != deleting historical evidence: prior Work
+   Unit history remains reconstructable through authoritative Work Unit, Result,
+   Evidence, Git, and retained STATE revision history. The slot record is not a
+   second slot-history database or event store.
 10. A new Work Unit can bind to an Implementer slot only while it is `IDLE`.
-    The only assignment path is `IDLE → ACTIVE`, written as a new authoritative
-    STATE revision carrying the new current assignment. This preserves one
-    active Work Unit per Implementer slot.
+   The only assignment path is `IDLE → ACTIVE`, written as a new authoritative
+   STATE revision that atomically populates the complete new current assignment:
+   `work_unit_id`, `primary_module`, applicable branch/worktree facts,
+   `base_sha`, `current_head_sha`, and a new governed `next_action`; it
+   initializes accepted-SHA and correlation fields according to that Work Unit.
+   No field from the prior Work Unit carries forward. This preserves one active
+   Work Unit per Implementer slot.
 
 The normal milestone sequence is:
 
@@ -183,6 +201,10 @@ explicitly authorized reconciliation and current authoritative STATE, Work
 Unit, Result/Evidence, and Git facts prove restoration valid. Otherwise the
 outcome is `RECONCILIATION_REQUIRED`; a stale `blocked_from_status` value never
 overrides current facts. A Reviewer message alone cannot authorize remediation.
+An `IDLE` slot with a non-null previous-Work-Unit assignment field is an invalid
+slot record and requires reconciliation. An executor must never infer that a
+stale `primary_module`, `base_sha`, branch, worktree, current/accepted SHA, or
+correlation authorizes continuation.
 
 ## 5. Continuity, recovery, and mismatch handling
 
@@ -255,7 +277,7 @@ to rebuild invisible conversational context.
 | `git-continuity` | Supplies exact SHA, ancestry, synchronization, and remote-verification checks; it does not assign slots or choose lifecycle transitions. |
 | `role-communication` | Supplies role taxonomy, instruction/result envelopes, review and remediation causality. It does not own slot persistence or reassignment policy. |
 | `identity-context` | Supplies project/repository binding that every slot validates before use; it does not turn a matching window into a slot. |
-| `framework-validation` | Validates slot-record shape, legal lifecycle transitions, blocked-predecessor requirements, reset requirements, the one-active-Work-Unit invariant, slot/project/context bindings, and STATE-revision consistency. It neither owns nor mutates STATE/slots. |
+| `framework-validation` | Validates slot-record shape, legal lifecycle transitions, blocked-predecessor requirements, reset requirements, the one-active-Work-Unit invariant, slot/project/context bindings, and STATE-revision consistency. It validates that `IDLE` has no current Work Unit assignment facts, that non-IDLE assignment states contain lifecycle-applicable fields, that `COMPLETED → IDLE` clears them, and that `IDLE → ACTIVE` creates a fresh assignment without stale reuse. It neither owns nor mutates STATE/slots. |
 | Work Units | Authorize the goal, scope, permissions, and acceptance to which a slot may bind. A slot cannot expand, synthesize, or replace that authorization. |
 | Project Map and Resume | Derived navigation and cache views used for acceleration only; stale/missing views trigger bounded reads or cold rediscovery, not authority loss or fabricated state. |
 | Result/Evidence | Durable, revision-bound support for lifecycle and handoff facts. They remain evidence/return records, not assignment or mutation authority. |
