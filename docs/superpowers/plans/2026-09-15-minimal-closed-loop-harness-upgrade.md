@@ -37,6 +37,37 @@
 - Consumer projection must end every task with `unknown_paths = 0`, `missing_required_paths = 0`, `invalid_classifications = 0`.
 - Do not change `VERSION` or publish a release until a separately authorized release Work Unit after all tasks and the reduction review complete.
 
+### A. DEVELOPMENT BASELINE RULE
+
+Implementation may begin only from a commit where the Design and complete Plan are persisted; projection, Framework, and Project validation pass; the full baseline test suite passes; and the remote commit is verified. That commit is the `DEVELOPMENT_BASELINE_SHA`. Every implementation task descends from the current accepted `DEVELOPMENT_BASELINE_SHA` or an accepted implementation descendant.
+
+### B. NEW-PATH CLOSURE RULE
+
+Every repository path newly created by a task MUST be classified in `.gpt-codex/release/consumer-projection-manifest.json` in the SAME task before commit. Consumer Harness runtime assets are `CONSUMER_REQUIRED`; Framework-management implementation and test assets are `MANAGEMENT_ONLY`; Design, Plan, review, and process historical documents are `DEVELOPMENT_HISTORY`; release metadata is used only for genuine release metadata. A task with an unknown new path is incomplete.
+
+### C. DIRECT TEST EXECUTION RULE
+
+Any Python unittest file invoked as `python path/to/test_file.py` ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
+
+Otherwise the Plan invokes it through unittest discovery. An exit code of zero without executing the intended tests is not PASS.
+
+### D. TRANSFER PREFACE RULE
+
+Task 4 formalizes this user-facing preface before the four task semantics:
+
+```text
+是否需要你上传内容：
+需要上传的内容：
+读取来源：
+```
+
+The preface grants no authority and does not replace GOAL, SCOPE, CONSTRAINTS, or DONE.
+
 ---
 
 ## File / Responsibility Map
@@ -164,6 +195,13 @@ class HarnessProjectLayeringTests(unittest.TestCase):
                 "FEEDBACK.template.md",
             },
         )
+```
+
+The file ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
 ```
 
 - [ ] **Step 2: Run the focused test and verify RED**
@@ -347,11 +385,11 @@ The current transition supports the existing `.gpt-codex/` governance assets and
 
 Keep the existing Framework advisory/read-only and compatibility text.
 
-- [ ] **Step 7: Classify the new template paths**
+- [ ] **Step 7: Classify every new Task-1 path**
 
 Add the four new paths to `.gpt-codex/release/consumer-projection-manifest.json` as `CONSUMER_REQUIRED`, matching the existing project-template classification.
 
-Add a focused assertion to `.gpt-codex/tests/test_consumer_projection.py` that all four are `CONSUMER_REQUIRED`.
+Also classify `.gpt-codex/tests/test_harness_project_layering.py` as `MANAGEMENT_ONLY`. Add focused assertions to `.gpt-codex/tests/test_consumer_projection.py` for all five paths.
 
 - [ ] **Step 8: Add production-packaging regression**
 
@@ -369,6 +407,8 @@ python .gpt-codex/scripts/validate_consumer_projection.py --root .
 python .gpt-codex/scripts/validate_framework.py
 python .gpt-codex/scripts/validate_project.py .
 ```
+
+Task 1 is incomplete unless every Task-1-created repository path is classified and `unknown_paths = 0`.
 
 Expected: all PASS; projection unknown/missing/invalid = 0.
 
@@ -398,6 +438,7 @@ git commit -m "feat: add minimal harness project layering"
 - Modify: `.gpt-codex/scripts/continuity_resume.py`
 - Create: `.gpt-codex/tests/test_harness_handoff.py`
 - Modify: `.gpt-codex/tests/test_continuity_resume.py`
+- Modify: `.gpt-codex/release/consumer-projection-manifest.json`
 
 **Interfaces:**
 - Produces optional Work Unit field:
@@ -438,6 +479,13 @@ class HarnessHandoffTests(unittest.TestCase):
 
 Also test a provided slot binding contradiction maps to `EXECUTION_CONTEXT_MISMATCH`, while missing authority maps to `RECONCILIATION_REQUIRED`.
 
+The file ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
+
 - [ ] **Step 2: Run focused handoff test and verify RED**
 
 Run:
@@ -447,6 +495,13 @@ python .gpt-codex/tests/test_harness_handoff.py
 ```
 
 Expected: `ImportError` or missing `build_project_handoff`.
+
+`test_harness_handoff.py` ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
 
 - [ ] **Step 3: Add optional immutable artifact refs to Work Unit schema/template**
 
@@ -647,6 +702,8 @@ Expected: all PASS; existing slot mismatch/reconciliation semantics remain intac
 
 - [ ] **Step 8: Run validators and commit**
 
+Classify `.gpt-codex/tests/test_harness_handoff.py` as `MANAGEMENT_ONLY`, run projection validation, and require `unknown_paths = 0`, `missing_required_paths = 0`, and `invalid_classifications = 0` before commit.
+
 Run validators, then:
 
 ```bash
@@ -655,7 +712,8 @@ git add \
   .gpt-codex/project-template/WORK_UNIT.template.json \
   .gpt-codex/scripts/continuity_resume.py \
   .gpt-codex/tests/test_harness_handoff.py \
-  .gpt-codex/tests/test_continuity_resume.py
+  .gpt-codex/tests/test_continuity_resume.py \
+  .gpt-codex/release/consumer-projection-manifest.json
 git commit -m "feat: add derived project handoff"
 ```
 
@@ -753,6 +811,13 @@ python .gpt-codex/tests/test_framework_feedback.py
 ```
 
 Expected: missing module.
+
+`test_framework_feedback.py` ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
 
 - [ ] **Step 3: Add optional `execution_policy` to CONTROL**
 
@@ -980,14 +1045,18 @@ git commit -m "feat: add fixed strategy and framework feedback"
 - Create: `.gpt-codex/tests/test_minimal_task_protocol.py`
 - Modify: `.gpt-codex/tests/test_instruction_envelope.py`
 - Modify: `.gpt-codex/project-template/.harness/RULES.template.md`
+- Modify: `.gpt-codex/release/consumer-projection-manifest.json`
 
 **Interfaces:**
 - Existing `build_instruction_envelope(...)` remains authoritative and unchanged in meaning.
 - Produces:
-  - `render_minimal_codex_task(envelope, *, goal: str, scope: list[str], constraints: list[str], done: list[str], refs: Mapping[str, str] | None = None) -> str`
+  - `render_minimal_codex_task(envelope, *, goal: str, scope: list[str], constraints: list[str], done: list[str], refs: Mapping[str, str] | None = None, transfer: Mapping[str, Any] | None = None) -> str`
 - The compact view always contains exactly the four required semantic sections: `GOAL`, `SCOPE`, `CONSTRAINTS`, `DONE`.
 - Optional refs are `BASE_SHA`, `PLAN_REF`, `STATE_REF`, `OPEN_FINDINGS`, `STRATEGY_PROFILE`.
 - The renderer grants no new authority.
+- The renderer begins with the human-facing transfer preface before machine/task sections. No-upload instructions begin with `是否需要你上传内容：不需要`, `需要上传的内容：无`, and `读取来源：Git SHA:path`. Upload-required instructions begin with `是否需要你上传内容：需要`, explicit upload item(s), and `读取来源：当前附件或其他 explicit source`.
+- The renderer fails closed when `upload_required = True` but upload item(s) or a source are absent. The preface never replaces canonical Instruction Envelope authority.
+- `transfer` is absent or `{"upload_required": False, "source": "Git SHA:path"}` for the no-upload form. An upload-required transfer has exactly `upload_required`, `items`, and `source`; `items` is a non-empty bounded list of non-empty strings and `source` is a non-empty string. Invalid transfer values raise `MINIMAL_TASK_INVALID`.
 
 - [ ] **Step 1: Write failing compact-task tests**
 
@@ -1044,6 +1113,13 @@ python .gpt-codex/tests/test_minimal_task_protocol.py
 
 Expected: missing function.
 
+`test_minimal_task_protocol.py` ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
+```
+
 - [ ] **Step 3: Implement the compact renderer**
 
 Add to `instruction_envelope.py`:
@@ -1073,6 +1149,7 @@ def render_minimal_codex_task(
     constraints: list[str],
     done: list[str],
     refs: Mapping[str, str] | None = None,
+    transfer: Mapping[str, Any] | None = None,
 ) -> str:
     if not isinstance(goal, str) or not goal.strip():
         raise ValueError("MINIMAL_TASK_INVALID")
@@ -1126,6 +1203,8 @@ GPT determines task count and parallelism per project.
 
 - [ ] **Step 5: Run focused and role regressions**
 
+Classify `.gpt-codex/tests/test_minimal_task_protocol.py` as `MANAGEMENT_ONLY` and run projection validation before commit.
+
 Run:
 
 ```bash
@@ -1142,7 +1221,8 @@ git add \
   .gpt-codex/scripts/instruction_envelope.py \
   .gpt-codex/tests/test_minimal_task_protocol.py \
   .gpt-codex/tests/test_instruction_envelope.py \
-  .gpt-codex/project-template/.harness/RULES.template.md
+  .gpt-codex/project-template/.harness/RULES.template.md \
+  .gpt-codex/release/consumer-projection-manifest.json
 git commit -m "feat: add minimal codex task view"
 ```
 
@@ -1430,6 +1510,7 @@ git commit -m "feat: enforce centralized harness evolution"
 - Modify: `.gpt-codex/scripts/framework_feedback.py`
 - Modify: `.gpt-codex/tests/test_framework_feedback.py`
 - Create: `.gpt-codex/tests/test_harness_reduction_gate.py`
+- Modify: `.gpt-codex/release/consumer-projection-manifest.json`
 
 **Interfaces:**
 - Produces pure `evaluate_structure_change(before_capabilities, after_capabilities, evidence) -> str`.
@@ -1478,6 +1559,13 @@ class HarnessReductionGateTests(unittest.TestCase):
             ),
             "NO_BENEFIT",
         )
+```
+
+The file ends with:
+
+```python
+if __name__ == "__main__":
+    unittest.main()
 ```
 
 - [ ] **Step 2: Implement the pure structure gate**
@@ -1545,6 +1633,8 @@ Transient debugging/scratch state is removed or archived outside the active stat
 
 - [ ] **Step 6: Run focused tests**
 
+Classify `.gpt-codex/tests/test_harness_reduction_gate.py` as `MANAGEMENT_ONLY` and run projection validation before commit.
+
 ```bash
 python .gpt-codex/tests/test_harness_reduction_gate.py
 python .gpt-codex/tests/test_framework_feedback.py
@@ -1559,7 +1649,8 @@ git add \
   .gpt-codex/project-template/.harness/STATE.template.md \
   .gpt-codex/scripts/framework_feedback.py \
   .gpt-codex/tests/test_framework_feedback.py \
-  .gpt-codex/tests/test_harness_reduction_gate.py
+  .gpt-codex/tests/test_harness_reduction_gate.py \
+  .gpt-codex/release/consumer-projection-manifest.json
 git commit -m "feat: add harness structure evolution gate"
 ```
 
@@ -1569,6 +1660,7 @@ git commit -m "feat: add harness structure evolution gate"
 
 **Files:**
 - Create: `docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md`
+- Modify: `.gpt-codex/release/consumer-projection-manifest.json`
 - Test/verify existing P0 suites only.
 - No source deletion in this task.
 
@@ -1658,6 +1750,8 @@ Fill every table cell from repository evidence; no unresolved placeholders or em
 
 - [ ] **Step 4: Validate review-only scope**
 
+Classify `docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md` as `DEVELOPMENT_HISTORY`, then run projection validation and require zero unknown paths before commit.
+
 Run:
 
 ```bash
@@ -1670,7 +1764,9 @@ The only new path in this task must be the reduction-review document.
 - [ ] **Step 5: Commit review**
 
 ```bash
-git add docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md
+git add \
+  docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md \
+  .gpt-codex/release/consumer-projection-manifest.json
 git commit -m "docs: review minimal harness reduction candidates"
 ```
 
@@ -1765,6 +1861,26 @@ Required clean after the final implementation commit(s).
 No VERSION bump, release, publication, or main merge in this task.
 
 ---
+
+## Whole-Plan New-Path Audit
+
+Every planned new repository path has an explicit same-task projection classification:
+
+| Task | New path | Classification |
+| --- | --- | --- |
+| 1 | `.gpt-codex/project-template/.harness/RULES.template.md` | `CONSUMER_REQUIRED` |
+| 1 | `.gpt-codex/project-template/.harness/STATE.template.md` | `CONSUMER_REQUIRED` |
+| 1 | `.gpt-codex/project-template/.harness/REASONING.template.md` | `CONSUMER_REQUIRED` |
+| 1 | `.gpt-codex/project-template/.harness/FEEDBACK.template.md` | `CONSUMER_REQUIRED` |
+| 1 | `.gpt-codex/tests/test_harness_project_layering.py` | `MANAGEMENT_ONLY` |
+| 2 | `.gpt-codex/tests/test_harness_handoff.py` | `MANAGEMENT_ONLY` |
+| 3 | `.gpt-codex/scripts/framework_feedback.py` | `CONSUMER_REQUIRED` |
+| 3 | `.gpt-codex/tests/test_framework_feedback.py` | `MANAGEMENT_ONLY` |
+| 4 | `.gpt-codex/tests/test_minimal_task_protocol.py` | `MANAGEMENT_ONLY` |
+| 7 | `.gpt-codex/tests/test_harness_reduction_gate.py` | `MANAGEMENT_ONLY` |
+| 8 | `docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md` | `DEVELOPMENT_HISTORY` |
+
+`PLANNED_NEW_PATHS_WITHOUT_CLASSIFICATION = 0`. If a task creates a new path, it adds the listed manifest classification in the same task before commit and validates projection closure.
 
 ## Implementation Branch / Review Discipline
 

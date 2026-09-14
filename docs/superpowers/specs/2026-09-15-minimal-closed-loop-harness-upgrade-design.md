@@ -569,7 +569,51 @@ Do not build unless future real-project evidence proves necessity:
 - telemetry dashboard/analytics platform;
 - directory-management engine.
 
-## 19. Implementation Phases
+## 19. Development Baseline Freeze
+
+### 19.1 Highest lifecycle
+
+```text
+DRAFT
+↓
+USER_ACCEPTED
+↓
+PERSISTED
+↓
+PROJECTION_CLOSED
+↓
+BASELINE_VERIFIED
+↓
+DEVELOPMENT_BASELINE_FROZEN
+```
+
+Only `DEVELOPMENT_BASELINE_FROZEN` authorizes implementation.
+
+### 19.2 Durable before frozen
+
+An artifact is not formally frozen merely because GPT generated it or calculated a sandbox hash. Formal Design and Plan authority requires durable Git storage, referenced as immutable `Git SHA:path`. Chat content, GPT sandbox files, Codex uncommitted files, and local temporary copies are not formal frozen authority.
+
+### 19.3 Whole-development freeze and revision
+
+Before implementation, one verified development baseline contains the accepted Design, complete Implementation Plan, highest/global principles, architecture, fixed project strategy, complete task sequence, each task's GOAL/SCOPE/CONSTRAINTS/DONE, global acceptance conditions, production/project/framework boundaries, projection classification closure, and a clean validation/test baseline.
+
+The baseline is immutable by Git commit. If the Design or Plan changes after execution begins: stop affected execution; GPT adjudicates; revise and persist the Design/Plan; close projection; validate the baseline; create `DEVELOPMENT_BASELINE vNext`; then resume. Execution never silently drifts from a frozen Plan.
+
+The baseline freezes WHAT, WHY, ARCHITECTURE, CONSTRAINTS, TASK SEQUENCE, ACCEPTANCE, and STRATEGY. It does not freeze actual Codex count, actual parallelism, runtime blockers, findings, retry count, remediation, current accepted SHA, or next action; these remain execution-time facts.
+
+### 19.4 GPT → Codex transfer visibility
+
+Every user-facing GPT → Codex instruction begins with:
+
+```text
+是否需要你上传内容：需要 / 不需要
+需要上传的内容：<文件列表或无>
+读取来源：<Git SHA:path / 当前附件 / 其他明确来源>
+```
+
+When durable `Git SHA:path` is available, upload is not required. When content exists only in GPT's temporary environment, upload is required. Content already attached to the current Codex session does not require another upload. If access cannot be reliably established, upload is required and Codex must not guess. This human-facing preface grants no new authority.
+
+## 20. Implementation Phases
 
 Implementation should proceed in dependency order rather than by module count.
 
@@ -601,7 +645,7 @@ Record only reliable, decision-useful process/cost metrics.
 
 Evaluate P0 structures one by one. Preserve capabilities; merge/delete only where regression evidence proves equivalence or improvement.
 
-## 20. Acceptance Scenarios
+## 21. Acceptance Scenarios
 
 The Harness upgrade is not complete until at least these scenarios are proven:
 
@@ -618,7 +662,7 @@ The Harness upgrade is not complete until at least these scenarios are proven:
 11. **No automatic self-evolution:** telemetry/process/feedback data cannot independently change policies or release a new Framework.
 12. **P0 capability preservation:** any removed/merged P0 structure has regression evidence proving no loss of required capabilities.
 
-## 21. Final Closed Loop
+## 22. Final Closed Loop
 
 ```text
 User
@@ -664,7 +708,7 @@ Both loops remain governed by the same rule:
 
 > **Preserve capability, compress structure; preserve the closed loop, remove duplication.**
 
-## 22. Design Closure Boundary
+## 23. Design Closure Boundary
 
 This Design is intentionally closed at the conceptual level above.
 
