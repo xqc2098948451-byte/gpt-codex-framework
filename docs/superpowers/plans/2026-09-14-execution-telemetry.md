@@ -139,10 +139,22 @@ git commit -m "feat: register execution telemetry contract"
 - Modify: `.gpt-codex/tests/test_execution_telemetry.py`
 
 **Interfaces:**
-- Produces: `TelemetryEvent` frozen dataclass with `event_id`, `event_class`, all common fields, optional correlation fields, `provenance`, `logical_key`, `observation_kind`, `repeats_event_id`, `supersedes_observation_id`, and `ordering_status`.
-- Produces: `normalize_event(payload: Mapping[str, object], *, collector_id: str, collector_version: str, timestamp: datetime) -> TelemetryEvent`.
+- Produces: frozen, slotted `TelemetryProvenance` and `TelemetryEvent` values with no retained caller mapping/list/object.
+- Produces: `normalize_event(payload: Mapping[str, object], *, collector_id: str, collector_version: str, timestamp: datetime) -> TelemetryEvent`, `correlation_ref_for(event: TelemetryEvent) -> str | None`, and `logical_idempotency_key(event: TelemetryEvent) -> str`.
 - Produces: `TelemetryValidationError(code: str)` for `MALFORMED_TELEMETRY_EVENT`, `PROHIBITED_AUTHORITY_CLAIM`, `UNSAFE_TELEMETRY_CONTENT`, and `INVALID_TELEMETRY_PROVENANCE`.
-- Produces the test helper `normalized_event(**overrides) -> TelemetryEvent`, which calls `normalize_event(valid_payload(**overrides), collector_id="collector", collector_version="1.0", timestamp=overrides.pop("timestamp", NOW))`.
+- Produces the test helper `normalized_event(**overrides: object) -> TelemetryEvent` exactly as follows:
+
+```python
+def normalized_event(**overrides: object) -> TelemetryEvent:
+    values = dict(overrides)
+    timestamp = values.pop("timestamp", NOW)
+    return normalize_event(
+        valid_payload(**values),
+        collector_id="collector",
+        collector_version="1.0",
+        timestamp=timestamp,
+    )
+```
 - Consumes: the closed sets from Task 1 only; it does not read or mutate authoritative records.
 
 - [ ] **Step 1: Write failing normalization and non-authority tests**
@@ -150,7 +162,7 @@ git commit -m "feat: register execution telemetry contract"
 ```python
 def test_normalize_event_requires_common_fields_and_derived_provenance(self):
     event = normalize_event(valid_payload(), collector_id="collector", collector_version="1.0", timestamp=NOW)
-    self.assertEqual(event.provenance["classification"], "DERIVED")
+    self.assertEqual(event.provenance.classification, "DERIVED")
     self.assertEqual(event.slot_id, "NONE")
     with self.assertRaisesRegex(TelemetryValidationError, "MALFORMED_TELEMETRY_EVENT"):
         normalize_event({"event_class": "EXECUTION_STARTED"}, collector_id="collector", collector_version="1.0", timestamp=NOW)
@@ -160,6 +172,11 @@ def test_normalize_event_rejects_authority_claims_and_sensitive_content(self):
         normalize_event(valid_payload(authority_claim="APPROVAL"), collector_id="collector", collector_version="1.0", timestamp=NOW)
     with self.assertRaisesRegex(TelemetryValidationError, "UNSAFE_TELEMETRY_CONTENT"):
         normalize_event(valid_payload(raw_prompt="secret"), collector_id="collector", collector_version="1.0", timestamp=NOW)
+
+def test_normalized_event_extracts_collector_only_timestamp(self):
+    event = normalized_event(timestamp=LATER)
+    self.assertEqual(event.timestamp, LATER)
+    self.assertNotIn("timestamp", valid_payload())
 ```
 
 - [ ] **Step 2: Run the normalization tests to verify RED**
@@ -171,7 +188,22 @@ Expected: FAIL because `TelemetryEvent`, `normalize_event`, and `TelemetryValida
 - [ ] **Step 3: Write the minimal normalization implementation**
 
 ```python
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
+class TelemetryProvenance:
+    classification: str
+    collector_id: str
+    collector_version: str
+    source_channel: str
+    source_record_refs: tuple[str, ...]
+    observed_state_revision: int | None
+    observed_head_sha: str | None
+    collected_at: datetime
+    redaction_actions: tuple[str, ...]
+    completeness: str
+    producer_run_id: str | None = None
+    producer_sequence: int | None = None
+
+@dataclass(frozen=True, slots=True)
 class TelemetryEvent:
     event_id: str
     event_class: str
@@ -188,26 +220,50 @@ class TelemetryEvent:
     evidence_refs: tuple[str, ...]
     timestamp: datetime
     source: str
-    provenance: Mapping[str, object]
+    provenance: TelemetryProvenance
+    logical_key: str
     instruction_id: str | None = None
     result_id: str | None = None
     finding_id: str | None = None
     review_request_id: str | None = None
     authoritative_record_ref: str | None = None
-    logical_key: str
     observation_kind: str = "PRIMARY"
     repeats_event_id: str | None = None
     supersedes_observation_id: str | None = None
     ordering_status: str = "CURRENT"
+    arrival_timestamp: datetime | None = None
+
+    @property
+    def observed_timestamp(self) -> datetime:
+        return self.timestamp
 ```
 
-Require every common field key, allow only the five optional correlation keys,
-require `provenance["classification"] == "DERIVED"`, require a non-empty
-bounded `source`, normalize absent optional values to `None`/`NONE`, and reject
-unknown keys, authority-claim keys, raw-content keys, unbounded strings, and
-non-reference evidence values. Generate `event_id` with `uuid.uuid4()` and
-call the Task 3 `logical_idempotency_key` helper after it is added; until then,
-use a private deterministic SHA-256 helper with the same input tuple.
+Define `MAX_ID_LENGTH = 128`, `MAX_REF_LENGTH = 512`, `MAX_TUPLE_ITEMS = 16`,
+and `MAX_ENUM_LENGTH = 64`. Accept only the known event/common/correlation keys
+and the known raw provenance mapping keys. Validate raw input, copy scalar and
+tuple values, and construct `TelemetryProvenance`; no nested mapping/list/object
+survives. Require `classification == "DERIVED"`, `completeness` in
+`{"COMPLETE", "PARTIAL", "LOW_CONFIDENCE"}`, tuple strings within the limits,
+and no free-text fields. Check reserved authority fields
+`authority_claim`, `authorizes`, `permission_grant`,
+`state_transition_authorization`, `slot_assignment_mutation`, and
+`publication_authority_claim` first and raise `PROHIBITED_AUTHORITY_CLAIM`.
+Then check raw-content fields `raw_prompt`, `reasoning`, `chain_of_thought`,
+`credential`, `token`, `environment`, `source_content`, `diff`, and
+`tool_payload` and raise `UNSAFE_TELEMETRY_CONTENT`. Other unknown keys raise
+`MALFORMED_TELEMETRY_EVENT`. Do not scan ordinary values: `result_status="PASS"`
+and publication/review observations remain valid.
+
+`correlation_ref_for` uses this closed precedence table: `INSTRUCTION_ISSUED`
+uses `instruction_id`; `REVIEW_REQUESTED` uses `review_request_id`;
+`FINDING_CREATED` uses `finding_id`; `REVIEW_RESULT`, `RE_REVIEW_RESULT`,
+`EXECUTION_COMPLETED`, and `EXECUTION_BLOCKED` use `result_id`; all other
+classes use `authoritative_record_ref`. A missing applicable durable reference
+returns `None`. `logical_idempotency_key` hashes the canonical tuple
+`(event_class, source, authoritative_record_ref, provenance.observed_state_revision,
+provenance.observed_head_sha, slot_id, correlation_ref_for(event))`; only when
+both authoritative and correlation references are missing it additionally uses
+`producer_run_id` and `producer_sequence` and requires `LOW_CONFIDENCE`.
 
 - [ ] **Step 4: Run the normalization suite to verify GREEN**
 
@@ -222,16 +278,16 @@ git add .gpt-codex/scripts/execution_telemetry.py .gpt-codex/tests/test_executio
 git commit -m "feat: validate normalized telemetry events"
 ```
 
-### Task 3: Add logical idempotency, repeats, and ordering classifications
+### Task 3: Add repeat identity, immutable ordering inputs, and collector behavior
 
 **Files:**
 - Modify: `.gpt-codex/scripts/execution_telemetry.py`
 - Modify: `.gpt-codex/tests/test_execution_telemetry.py`
 
 **Interfaces:**
-- Produces: `logical_idempotency_key(event: TelemetryEvent) -> str` and `classify_ordering(event: TelemetryEvent, authoritative: Mapping[str, object] | None) -> str`.
-- Produces: `TelemetryCollector.emit(event: TelemetryEvent, *, authoritative: Mapping[str, object] | None = None) -> TelemetryEvent` and `TelemetryCollector.events() -> tuple[TelemetryEvent, ...]`.
-- Consumes: Task 2 events; `authoritative` is read-only input containing only the relevant state revision, head SHA, correlation reference, and publication fact.
+- Produces: frozen, slotted `AuthoritativeSnapshot(project_context_id, state_revision, head_sha, correlation_ref, result_status, publication_status, git_relation="UNKNOWN")`; `git_relation` is exactly one of `MATCH`, `ANCESTOR`, `DIVERGED`, `UNKNOWN` and is supplied by the existing Git authority layer.
+- Produces: `repeat_subject_key(event: TelemetryEvent) -> str`, `classify_ordering(event: TelemetryEvent, *, authoritative: AuthoritativeSnapshot | None, previous_related_event: TelemetryEvent | None) -> str`, `TelemetryCollector.emit(event: TelemetryEvent, *, authoritative: AuthoritativeSnapshot | None = None, arrival_timestamp: datetime | None = None) -> TelemetryEvent`, and `TelemetryCollector.events() -> tuple[TelemetryEvent, ...]`.
+- Consumes: Task 2 final logical-key and correlation APIs; it does not calculate Git ancestry or mutate an authoritative input.
 
 - [ ] **Step 1: Write failing idempotency and chronology tests**
 
@@ -248,11 +304,23 @@ def test_retry_is_one_logical_observation_but_repeat_is_append_only(self):
 
 def test_changed_authoritative_fact_is_distinct_and_stale_or_inconsistent_never_rolls_back(self):
     collector = TelemetryCollector()
-    first = collector.emit(normalized_event(head_sha="a" * 40), authoritative={"head_sha": "a" * 40})
-    changed = collector.emit(normalized_event(head_sha="b" * 40), authoritative={"head_sha": "b" * 40})
-    stale = collector.emit(normalized_event(head_sha="a" * 40), authoritative={"head_sha": "b" * 40})
+    first = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 1, "a" * 40, None, None, None))
+    changed = collector.emit(normalized_event(head_sha="b" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None, None))
+    stale = collector.emit(normalized_event(head_sha="a" * 40), authoritative=AuthoritativeSnapshot(None, 2, "b" * 40, None, None, None, "ANCESTOR"))
     self.assertNotEqual(first.logical_key, changed.logical_key)
     self.assertEqual(stale.ordering_status, "STALE")
+
+def test_ordering_statuses_and_immutable_inputs_are_exact(self):
+    current = normalized_event()
+    prior = normalized_event(timestamp=LATER, state_revision=3)
+    snapshot = AuthoritativeSnapshot(None, 3, None, None, None, None)
+    self.assertEqual(classify_ordering(current, authoritative=None, previous_related_event=None), "CURRENT")
+    self.assertEqual(classify_ordering(normalized_event(timestamp=NOW), authoritative=None, previous_related_event=normalized_event(timestamp=LATER)), "LATE")
+    self.assertEqual(classify_ordering(normalized_event(state_revision=2), authoritative=snapshot, previous_related_event=prior), "OUT_OF_ORDER")
+    self.assertEqual(classify_ordering(normalized_event(state_revision=2), authoritative=snapshot, previous_related_event=None), "STALE")
+    self.assertEqual(classify_ordering(normalized_event(project_context_id="other"), authoritative=snapshot, previous_related_event=None), "INCONSISTENT")
+    with self.assertRaises(FrozenInstanceError):
+        current.provenance.collector_id = "other"
 ```
 
 - [ ] **Step 2: Run the idempotency and chronology tests to verify RED**
@@ -263,21 +331,33 @@ Expected: FAIL because `TelemetryCollector`, logical-key calculation, repeat lin
 
 - [ ] **Step 3: Write the minimal collector implementation**
 
-Use private in-memory dictionaries keyed by logical key and immutable event ID.
-The key serializes only the Design tuple, adding `producer_run_id` and
-`producer_sequence` only when `authoritative_record_ref` is absent. Same key
-and equal normalized canonical payload returns the existing event. Same source
-fact with a changed source or timestamp emits an immutable `REPEAT` record
-linked by `repeats_event_id`. A changed authoritative tuple emits a distinct
-event. `classify_ordering` returns `LATE`, `OUT_OF_ORDER`, `STALE`, or
-`INCONSISTENT` from authoritative revision/correlation/SHA/publication inputs,
-never from timestamp alone; it never writes the supplied mapping.
+Use private in-memory dictionaries keyed by Task 2 logical key, repeat-subject
+key, and immutable event ID. `repeat_subject_key` hashes exactly
+`(event_class, authoritative_record_ref, provenance.observed_state_revision,
+provenance.observed_head_sha, slot_id, correlation_ref_for(event))`; it excludes
+source, timestamp, and arrival time. With no durable/correlation identity it
+adds the producer run/sequence fallback and does not infer cross-source
+equivalence. Same logical key plus equal canonical payload returns the existing
+event and appends nothing. Different logical key plus equal repeat-subject key
+appends a `REPEAT` whose `repeats_event_id` is the earliest related event.
+Changed repeat-subject key appends `PRIMARY` and may set only telemetry-layer
+`supersedes_observation_id`.
+
+Classify in fixed order: `INCONSISTENT`, `STALE`, `OUT_OF_ORDER`, `LATE`,
+`CURRENT`. `INCONSISTENT` covers project-context mismatch, `DIVERGED` relation
+at the same revision, or matching correlation with conflicting Result/publication
+status. `STALE` covers lower event revision or `ANCESTOR` Git relation.
+`OUT_OF_ORDER` covers a lower revision in the same repeat/correlation chain or
+a lower sequence in the same producer run. `LATE` covers an earlier event
+timestamp for the same repeat subject after all higher-precedence checks.
+`CURRENT` is the remainder. Use `dataclasses.replace` to return a new frozen
+event with `arrival_timestamp`; never mutate event, snapshot, or prior event.
 
 - [ ] **Step 4: Run the collector suite to verify GREEN**
 
 Run: `python .gpt-codex/tests/test_execution_telemetry.py`
 
-Expected: PASS; retries do not multiply logical lifecycle observations, repeats remain append-only, and stale/inconsistent observations cannot change authoritative input.
+Expected: PASS; retries do not multiply logical lifecycle observations, changed-source repeats remain append-only, every ordering status has an exact input, and frozen event/provenance values cannot change authoritative input.
 
 - [ ] **Step 5: Commit collector semantics**
 
@@ -305,6 +385,14 @@ def test_redaction_rejects_all_forbidden_raw_content_classes(self):
         with self.subTest(key=key), self.assertRaisesRegex(TelemetryValidationError, "UNSAFE_TELEMETRY_CONTENT"):
             normalize_event(valid_payload(**{key: "secret"}), collector_id="collector", collector_version="1.0", timestamp=NOW)
 
+def test_nested_mutable_provenance_cannot_survive_normalization(self):
+    raw = valid_payload(provenance={"classification": "DERIVED", "source_record_refs": ["result:1"], "redaction_actions": []})
+    event = normalize_event(raw, collector_id="collector", collector_version="1.0", timestamp=NOW)
+    raw["provenance"]["source_record_refs"].append("result:2")
+    self.assertEqual(event.provenance.source_record_refs, ("result:1",))
+    with self.assertRaisesRegex(TelemetryValidationError, "INVALID_TELEMETRY_PROVENANCE"):
+        normalize_event(valid_payload(provenance={"classification": "DERIVED", "nested": {"token": "secret"}}), collector_id="collector", collector_version="1.0", timestamp=NOW)
+
 def test_retention_and_absence_are_non_authoritative(self):
     self.assertEqual(telemetry_availability((), "missing"), "TELEMETRY_ABSENT")
     self.assertEqual(unknown_detail_from_telemetry((), "missing"), "UNKNOWN_FROM_TELEMETRY")
@@ -319,7 +407,7 @@ Expected: FAIL because retention and absence helpers are absent or raw-content c
 
 - [ ] **Step 3: Write the minimal policy-only implementation**
 
-Add `unknown_detail_from_telemetry(events: Sequence[TelemetryEvent], logical_key: str) -> str` returning `UNKNOWN_FROM_TELEMETRY` whenever no bounded observation can answer the request. `retention_deadline` adds 30 days to the event timestamp and has no delete method. Keep `TelemetryCollector` free of files, network operations, timers, and background callbacks. Extend the Task 2 forbidden-key set to cover every test key.
+Add `unknown_detail_from_telemetry(events: Sequence[TelemetryEvent], logical_key: str) -> str` returning `UNKNOWN_FROM_TELEMETRY` whenever no bounded observation can answer the request. `retention_deadline` adds 30 days to the event timestamp and has no delete method. Keep `TelemetryCollector` free of files, network operations, timers, and background callbacks. Extend the Task 2 allowlist checks to reject nested containers and every sensitive test key; convert permitted reference lists to tuples before constructing provenance.
 
 - [ ] **Step 4: Run privacy and retention tests to verify GREEN**
 
@@ -446,17 +534,17 @@ git commit -m "chore: classify execution telemetry paths"
 - Consumes: the registry route, telemetry contract, projection manifest, and existing framework/project validators.
 - Produces: fresh review evidence that telemetry remains derived-only, route-owned, projection-classified, and non-authoritative. This is a verification-only task; its RED→GREEN coverage is supplied by the independently testable implementation tasks above.
 
-- [ ] **Step 1: Verify the complete framework contract**
+- [ ] **Step 1: Verify focused contracts and the complete test suite**
 
-Run: `python .gpt-codex/scripts/validate_framework.py && python .gpt-codex/scripts/validate_project.py . && python .gpt-codex/tests/test_framework_module_schemas.py && python .gpt-codex/tests/test_framework_module_routing.py && python .gpt-codex/tests/test_framework_module_validation.py && python .gpt-codex/tests/test_execution_telemetry.py && python .gpt-codex/scripts/validate_consumer_projection.py --root .`
+Run: `python .gpt-codex/scripts/validate_framework.py && python .gpt-codex/scripts/validate_project.py . && python .gpt-codex/tests/test_framework_module_schemas.py && python .gpt-codex/tests/test_framework_module_routing.py && python .gpt-codex/tests/test_framework_module_validation.py && python .gpt-codex/tests/test_execution_telemetry.py && python .gpt-codex/tests/test_consumer_projection.py && python -m unittest discover -s .gpt-codex/tests -p 'test_*.py' && python .gpt-codex/scripts/validate_consumer_projection.py --root .`
 
-Expected: every command exits 0, including consumer projection after Task 6 closes the two stage-document debts and classifies every new implementation path.
+Expected: every command exits 0. Record the `Ran N tests` count and `OK`/failure/error totals from the full-suite command in final evidence; final acceptance requires 0 failures and 0 errors, projection unknown/missing counts of 0, and no waiver.
 
 - [ ] **Step 2: Verify scoped history, remote synchronization, and clean state**
 
 Run: `git diff --check 80b9f383a157ee59dd890f4a5bf48638b3e436b1..HEAD && git status --short && git rev-parse HEAD && git ls-remote --heads origin feature/execution-telemetry-design`
 
-Expected: no whitespace errors, no uncommitted changes, and the pushed remote branch head equals local `HEAD`.
+Expected: no whitespace errors and no uncommitted changes. Run this check again after the normal push; the SHA returned by `git ls-remote --heads origin feature/execution-telemetry-design` must exactly equal the final local `git rev-parse HEAD`. A successful `git push` alone is not remote verification.
 
 - [ ] **Step 3: Push the already-committed fast-forward implementation normally**
 
