@@ -1,4 +1,4 @@
-# Framework Design Continuity & Sufficiency Implementation Plan
+# P0-5 Framework Design Continuity & Sufficiency Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -26,14 +26,25 @@
 | --- | --- | --- |
 | `.gpt-codex/schemas/state.schema.json` | `framework-core` | Slot types, nullability, conditional shape. |
 | `.gpt-codex/project-template/STATE.template.json` | `framework-core` | Empty canonical slot collection. |
-| `.gpt-codex/scripts/kernel_rules.py` | `framework-core` | Pure slot/state transition checks. |
+| `.gpt-codex/scripts/kernel_rules.py` | `framework-core` | Generic STATE revision preconditions only; never normative P0-5 lifecycle edges. |
 | `.gpt-codex/scripts/continuity_resume.py` | `navigation-continuity` | Lifecycle, recovery, mismatch and derived resume behavior. |
+| `.gpt-codex/scripts/project_navigation.py` | `navigation-continuity` | Derived navigation only; never slot authority. |
 | `.gpt-codex/scripts/validate_project.py` | `framework-validation` | Fail-closed slot validation orchestration. |
 | `.gpt-codex/tests/test_navigation_project_validation.py` | `framework-validation` | All new slot behavior fixtures/tests. |
 | `.gpt-codex/tests/test_self_hosting_validator.py` | `framework-validation` | Self-hosting regression coverage. |
 | `.gpt-codex/release/consumer-projection-manifest.json` | `release-projection` | Implementation-stage path classifications. |
 
-Before every physical change, use `classify_changed_assets()` and `route_responsibility()` from `.gpt-codex/scripts/framework_module_routing.py`. An asset without exactly one owner stops with `MODULE_ROUTE_UNRESOLVED`.
+Before every physical change, use `classify_changed_assets()` and `route_responsibility()` from `.gpt-codex/scripts/framework_module_routing.py`. An asset without exactly one owner stops with `MODULE_ROUTE_UNRESOLVED`. New behavioral tests are intentionally added only to `.gpt-codex/tests/test_navigation_project_validation.py`, the existing `framework-validation`-owned test asset; no unowned test path is created.
+
+### Task 0: Reconcile accepted P0-5 artifacts with canonical v2.6.0 before production execution
+
+**Files:** Create an isolated implementation branch/worktree from canonical main; modify no accepted Design/Plan artifact in this task. **Inputs:** `accepted_design_sha=ec74a57d10cd7db1b2e56e122d4bbaf12b6a3ceb`, `accepted_plan_sha=ACCEPTED_PLAN_SHA` (the reviewed final Plan SHA), and `canonical_main_sha=f49cd5afaa07aabaedac516d1c0e2c3524eef845`.
+
+**Evidence interface:** Return GPT-verifiable command evidence, not a new P0-5 persistence artifact, with exactly `accepted_design_sha`, `accepted_plan_sha`, `canonical_main_sha`, `implementation_base_sha`, `design_content_preserved`, `plan_content_preserved`, `registry_compatibility_result`, `state_schema_compatibility_result`, `navigation_api_compatibility_result`, `validation_api_compatibility_result`, `projection_compatibility_result`, `changed_path_conflicts`, `full_suite_result`, `framework_validation_result`, `project_validation_result`, and `blockers`. Prove compatibility by `git diff --name-status` against each accepted SHA, Registry routing on every intended path, schema/API comparison, fresh remote `ls-remote`, framework/project validators, full tests, and projection validation.
+
+- [ ] **Step 1: Create isolated canonical worktree** — Run `git fetch origin main`, verify `origin/main` equals `f49cd5afaa07aabaedac516d1c0e2c3524eef845`, then `git worktree add -b implementation/p0-5-continuity <new-directory> f49cd5afaa07aabaedac516d1c0e2c3524eef845`. Never rebase/amend/rewrite accepted history or silently cherry-pick/reinterpret accepted artifacts.
+- [ ] **Step 2: Produce reconciliation evidence** — Run the evidence commands above and return the exact interface to GPT.
+- [ ] **Step 3: Hard stop** — **NO TASK 1 OR LATER MAY EXECUTE UNTIL TASK 0 RESULT HAS BEEN INDEPENDENTLY VERIFIED BY GPT AND BLOCKERS = NONE.** Any incompatible canonical change returns `RECONCILIATION_REQUIRED`; the executor stops and does not reinterpret Design/Plan.
 
 ### Task 1: Define the STATE slot model
 
@@ -58,11 +69,11 @@ def test_blocked_slot_requires_reason_and_predecessor(self):
 - [ ] **Step 4: Verify GREEN** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect all tests to pass.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/schemas/state.schema.json .gpt-codex/project-template/STATE.template.json .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: define state execution slot contract"`
 
-### Task 2: Validate transitions and STATE revisions
+### Task 2: Implement navigation-owned transitions and core revision preconditions
 
-**Files:** Modify `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/scripts/validate_project.py`, and `.gpt-codex/tests/test_navigation_project_validation.py`.
+**Files:** Modify `.gpt-codex/scripts/continuity_resume.py`, `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/scripts/validate_project.py`, and `.gpt-codex/tests/test_navigation_project_validation.py`.
 
-**Interfaces:** Add `validate_execution_slots(state: Mapping) -> list[str]` and `validate_slot_transition(previous: Mapping, current: Mapping) -> list[str]`. `validate_project.py` reports each as `STATE: <code>` and never mutates STATE. A stale expected revision returns `RECONCILIATION_REQUIRED`.
+**Interfaces:** `framework-core` exposes only `validate_slot_state_revision(current_revision: int, expected_revision: int) -> list[str]`. `navigation-continuity` exposes `validate_execution_slots(state: Mapping) -> list[str]` and `validate_slot_transition(previous: Mapping, current: Mapping) -> list[str]`; it owns every legal edge including `COMPLETED → IDLE → ACTIVE` and BLOCKED semantics. `validate_project.py` calls both and reports `STATE: <code>` without mutation.
 
 - [ ] **Step 1: Write failing tests**
 
@@ -75,7 +86,7 @@ def test_idle_old_work_unit_requires_reconciliation(self):
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect missing helpers/error codes.
-- [ ] **Step 3: Minimal implementation** — Allow only Spec edges; forbid `COMPLETED → ACTIVE`, generic `BLOCKED → blocked_from_status`, stale writes, and non-null IDLE assignment/correlation fields. Do not add a Kernel or slot status.
+- [ ] **Step 3: Minimal implementation** — Put the legal edge graph, IDLE rules, and BLOCKED semantics in `continuity_resume.py`. Keep `kernel_rules.py` limited to generic revision equality. Forbid `COMPLETED → ACTIVE`, generic `BLOCKED → blocked_from_status`, stale writes, and non-null IDLE assignment/correlation fields.
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect valid transitions and all fail-closed cases to pass.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/kernel_rules.py .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: validate execution slot lifecycle"`
 
@@ -174,3 +185,20 @@ def test_second_reviewer_requires_explicit_reassignment(self):
 Do not edit the projection manifest in this Plan stage. The sole permitted stage-local debts are `docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md` and `docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md`.
 
 `PROJECTION_STAGE_DEVIATION = DEFERRED_NONBLOCKING` until Task 6 closes integration.
+
+## Executable field, test, and projection matrix
+
+`instruction_id`, `review_request_id`, `review_result_ref`, `finding_ref`, `remediation_authorization_ref`, and `fix_instruction_id` are `string|null` current-assignment correlations. `instruction_id` is populated by `IDLE → ACTIVE`; review request/result references by review entry/result; finding, authorization, and fix fields by remediation flow. They are all cleared by `COMPLETED → IDLE`; durable Result/Evidence remains external history. `BLOCKED` with remediation requires non-null `finding_ref`, `review_result_ref`, `blocked_from_status="REVIEWING"`, `block_reason="AWAITING_REMEDIATION_AUTHORIZATION"`; `BLOCKED → ACTIVE` requires non-null authorization and fix instruction references.
+
+| Status | base_sha | current_head_sha | last_accepted_sha |
+| --- | --- | --- | --- |
+| IDLE | forbidden/null | forbidden/null | forbidden/null |
+| ACTIVE | required | required | nullable until acceptance |
+| BLOCKED | required | required | nullable unless accepted milestone exists |
+| AWAITING_REVIEW | required | required | required |
+| REVIEWING | required | required | required exact reviewed revision |
+| COMPLETED | required | required | required before reset |
+
+Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 RED coverage must separately assert `EXECUTION_SLOT_MISMATCH` or `RECONCILIATION_REQUIRED` for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, and STATE revision mismatches; missing durable facts, dirty/ambiguous worktree, stale Resume, missing Map with sufficient authoritative facts, and physical-window replacement. Task 6 RED coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
+
+At Task 7, classify the Design and Plan as `DEVELOPMENT_HISTORY`; `.gpt-codex/release/consumer-projection-manifest.json` as `MANAGEMENT_ONLY`; and `.gpt-codex/schemas/state.schema.json`, `.gpt-codex/project-template/STATE.template.json`, `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/scripts/continuity_resume.py`, `.gpt-codex/scripts/project_navigation.py`, and `.gpt-codex/scripts/validate_project.py` as `CONSUMER_REQUIRED`. The validator tests are `MANAGEMENT_ONLY`. Task 7 must name each final changed path and classification in its RED assertion before editing the manifest. Final evidence records the numeric unittest output (`Ran <integer> tests`, `failures = 0`, `errors = 0`), `projection unknown = 0`, `projection missing required = 0`, and a clean worktree.
