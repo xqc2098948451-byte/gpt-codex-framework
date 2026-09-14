@@ -2,7 +2,7 @@ import importlib.util
 import sys
 import unittest
 from dataclasses import fields
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -185,6 +185,40 @@ class ExecutionTelemetryTaskThreeTests(unittest.TestCase):
         event = normalized_event(module, state_revision=2, timestamp=NOW)
         self.assertEqual(module.classify_ordering(event, authoritative=snapshot, previous_related_event=previous), "STALE")
         self.assertEqual(module.classify_ordering(event, authoritative=None, previous_related_event=previous), "OUT_OF_ORDER")
+
+
+class ExecutionTelemetryTaskFourTests(unittest.TestCase):
+    def test_task_four_rejects_all_unsafe_raw_content_aliases(self):
+        module = load_module()
+        for key in ("raw_prompt", "reasoning", "chain_of_thought", "credential", "token", "access_token", "host_id", "user_id", "environment", "tool_payload", "source_content", "source_contents", "diff", "raw_diff"):
+            with self.subTest(key=key), self.assertRaisesRegex(module.TelemetryValidationError, "UNSAFE_TELEMETRY_CONTENT"):
+                module.normalize_event(valid_payload(**{key: "secret"}), collector_id="collector", collector_version="1.0", timestamp=NOW)
+        self.assertEqual(normalized_event(module, result_status="PASS").result_status, "PASS")
+
+    def test_task_four_rejects_nested_provenance_and_detaches_mutable_inputs(self):
+        module = load_module()
+        nested = valid_payload()
+        nested["provenance"] = dict(nested["provenance"])
+        nested["provenance"]["nested"] = {"token": "secret"}
+        with self.assertRaisesRegex(module.TelemetryValidationError, "INVALID_TELEMETRY_PROVENANCE"):
+            module.normalize_event(nested, collector_id="collector", collector_version="1.0", timestamp=NOW)
+        raw = valid_payload(evidence_refs=["result:1"], provenance={**valid_payload()["provenance"], "source_record_refs": ["result:1"], "redaction_actions": ["TRIMMED"]})
+        event = module.normalize_event(raw, collector_id="collector", collector_version="1.0", timestamp=NOW)
+        raw["evidence_refs"].append("result:2")
+        raw["provenance"]["source_record_refs"].append("result:2")
+        raw["provenance"]["redaction_actions"].append("OTHER")
+        self.assertEqual(event.evidence_refs, ("result:1",))
+        self.assertEqual(event.provenance.source_record_refs, ("result:1",))
+        self.assertEqual(event.provenance.redaction_actions, ("TRIMMED",))
+
+    def test_task_four_retention_and_observational_absence(self):
+        module = load_module()
+        event = normalized_event(module)
+        self.assertEqual(module.RECOMMENDED_RETENTION_DAYS, 30)
+        self.assertEqual(module.retention_deadline(event), NOW + timedelta(days=30))
+        self.assertEqual(module.telemetry_availability((), "missing"), "TELEMETRY_ABSENT")
+        self.assertEqual(module.unknown_detail_from_telemetry((), "missing"), "UNKNOWN_FROM_TELEMETRY")
+        self.assertEqual(module.telemetry_availability((event,), event.logical_key), "TELEMETRY_AVAILABLE")
 
     def test_low_confidence_sequence_identity_and_repeat_subject_enable_out_of_order(self):
         module = load_module()

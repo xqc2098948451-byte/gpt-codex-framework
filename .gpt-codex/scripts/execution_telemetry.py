@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from datetime import datetime
+from datetime import datetime, timedelta
 from hashlib import sha256
 import json
-from typing import Mapping
+from typing import Mapping, Sequence
 from uuid import uuid4
 
 TELEMETRY_CLASSIFICATION = "DERIVED_OBSERVATION_ONLY"
@@ -31,6 +31,7 @@ MAX_ID_LENGTH = 128
 MAX_REF_LENGTH = 512
 MAX_TUPLE_ITEMS = 16
 MAX_ENUM_LENGTH = 64
+RECOMMENDED_RETENTION_DAYS = 30
 
 COMMON_FIELDS = frozenset({
     "event_class", "work_unit_id", "slot_id", "role", "state_revision",
@@ -49,6 +50,7 @@ PROHIBITED_AUTHORITY_FIELDS = frozenset({
 UNSAFE_CONTENT_FIELDS = frozenset({
     "raw_prompt", "reasoning", "chain_of_thought", "credential", "token",
     "environment", "source_content", "diff", "tool_payload",
+    "access_token", "host_id", "user_id", "source_contents", "raw_diff",
 })
 PROVENANCE_FIELDS = frozenset({
     "classification", "source_channel", "source_record_refs",
@@ -337,3 +339,20 @@ class TelemetryCollector:
 
     def events(self) -> tuple[TelemetryEvent, ...]:
         return tuple(self._events)
+
+
+def retention_deadline(event: TelemetryEvent) -> datetime:
+    """Return policy metadata without scheduling or deleting telemetry."""
+    return event.timestamp + timedelta(days=RECOMMENDED_RETENTION_DAYS)
+
+
+def telemetry_availability(events: Sequence[TelemetryEvent], logical_key: str) -> str:
+    if any(event.logical_key == logical_key for event in events):
+        return "TELEMETRY_AVAILABLE"
+    return "TELEMETRY_ABSENT"
+
+
+def unknown_detail_from_telemetry(events: Sequence[TelemetryEvent], logical_key: str) -> str:
+    if telemetry_availability(events, logical_key) == "TELEMETRY_ABSENT":
+        return "UNKNOWN_FROM_TELEMETRY"
+    return "TELEMETRY_AVAILABLE"
