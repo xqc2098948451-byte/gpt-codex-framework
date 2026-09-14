@@ -551,6 +551,42 @@ class ValidatorContextBindingTests(unittest.TestCase):
         self.assertEqual((decision.decision, decision.current_project_mutation, decision.action_executable),
                          ("ALLOW", False, False))
 
+    def test_evolution_index_rejects_observation_repository_conflict_without_split_statuses(self):
+        enrollment = {
+            "explicit_enrollment": True,
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "123",
+            "repository_full_name": "example/project",
+            "transport": "MANUAL",
+        }
+        observation = {
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "456",
+            "repository_full_name": "other/project",
+            "observed_at": 1000,
+        }
+        rows = classify_framework_evolution_index(
+            [enrollment], [observation], now=1001, stale_after_seconds=60,
+        )
+        affected_rows = [
+            row for row in rows
+            if (row["project_id"], row["project_context_id"])
+            == ("PRJ-001", "11111111-1111-4111-8111-111111111111")
+        ]
+        self.assertTrue(affected_rows)
+        self.assertTrue(all(
+            row["evolution_status"] == "PROJECT_EVOLUTION_ENROLLMENT_CONFLICT"
+            for row in affected_rows
+        ))
+        self.assertFalse(any(
+            row["evolution_status"] in {
+                "PROJECT_EVOLUTION_OBSERVATION_STALE", "PROJECT_EVOLUTION_NOT_ENROLLED",
+            }
+            for row in affected_rows
+        ))
+
     def test_adoption_requires_local_authority_not_source_or_observation(self):
         control, instruction, work_unit = self._adoption_facts()
         source = self._valid_evolution_source()

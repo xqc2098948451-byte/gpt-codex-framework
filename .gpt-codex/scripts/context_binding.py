@@ -310,10 +310,12 @@ def classify_framework_evolution_index(
         identity = _index_identity_tuple(observation)
         if identity is not None:
             observed.setdefault(identity, []).append(observation)
+    repository_ids_by_context: dict[tuple[str, str], set[str]] = {}
+    for identity in set(enrolled) | set(observed):
+        repository_ids_by_context.setdefault(identity[:2], set()).add(identity[2])
     conflicted_contexts = {
-        (identity[0], identity[1])
-        for identity in enrolled
-        if len({candidate[2] for candidate in enrolled if candidate[:2] == identity[:2]}) > 1
+        context for context, repository_ids in repository_ids_by_context.items()
+        if len(repository_ids) > 1
     }
     rows: list[dict[str, Any]] = []
     for identity in sorted(set(enrolled) | set(observed)):
