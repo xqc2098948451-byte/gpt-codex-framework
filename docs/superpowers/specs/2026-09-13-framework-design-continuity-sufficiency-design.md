@@ -19,10 +19,14 @@ session, or person.
 
 The primary route is `navigation-continuity`, whose registered responsibility
 is exactly `project navigation and continuity`. P0-5 extends that module's
-continuation sufficiency without changing the Framework Module Registry's
-ownership model. The future implementation is a cross-module change because it
-must consume existing identity, role, Work Unit, Result/Evidence, and Git
-contracts. It does not transfer their ownership.
+logical slot-lifecycle, continuation, recovery, and restart sufficiency without
+changing the Framework Module Registry's ownership model. The future
+implementation is `CROSS_MODULE_CHANGE_REQUIRED`: lifecycle semantics belong
+to `navigation-continuity`, while the authoritative STATE model, its revision
+semantics, and the physical persistence shape of slot records belong to
+`framework-core`. It also consumes the existing identity, role, Work Unit,
+Result/Evidence, Git, and validation contracts. It does not transfer any of
+their ownership.
 
 This design is intentionally limited to framework-development continuity. It
 does not create a central service, coordinate work automatically across
@@ -30,10 +34,16 @@ projects, or make a physical execution surface authoritative.
 
 ## 2. Authority model
 
-`ACTIVE_EXECUTION_SLOTS` is a future durable contract owned by P0-5 under
-`navigation-continuity`. It is recorded and updated through the existing
-authoritative `STATE` revision discipline; it is not a second state database.
-Its references point at, but never replace, the following authorities:
+`ACTIVE_EXECUTION_SLOTS` is a future durable, STATE-backed contract. P0-5
+under `navigation-continuity` owns its logical lifecycle, continuation,
+recovery, restart, mismatch detection, and reattachment semantics.
+`framework-core` owns the authoritative STATE model, STATE revision semantics,
+`.gpt-codex/schemas/state.schema.json`,
+`.gpt-codex/project-template/STATE.template.json`, and the physical persistence
+shape of execution-slot records. The contract is recorded and updated through
+that existing authoritative STATE discipline; it is not a second state
+database. Its references point at, but never replace, the following
+authorities:
 
 | Fact | Existing authority | P0-5 use |
 | --- | --- | --- |
@@ -69,8 +79,19 @@ contains at least the following fields. Values shown as SHA fields are full,
 | `base_sha` | Authorized starting revision for the Work Unit. |
 | `current_head_sha` | Latest locally observed worktree `HEAD` for this slot. |
 | `last_accepted_sha` | Latest exact revision accepted at the applicable milestone; durable handoff fact, never a mutable label. |
-| `state_revision` | `STATE.revision` at which this entry was accepted or last transitioned. |
+| `state_revision` | The authoritative `STATE.revision` at which this slot record or lifecycle transition is current. It is not a local navigation-cache counter and there is no second slot-specific authoritative revision sequence. |
 | `next_action` | Deterministic next governed action, including the required reconciliation/review action when blocked. |
+
+When `status` is `BLOCKED`, the record additionally requires
+`blocked_from_status`, `block_reason`, and the applicable bounded correlation
+references. `blocked_from_status` records the durable predecessor lifecycle
+state needed for recovery/reconciliation; it is not a transition target.
+`block_reason` is a bounded, machine-readable vocabulary item. A review finding
+that requires remediation uses `AWAITING_REMEDIATION_AUTHORIZATION`. Relevant
+references bind the block to the finding, review request/result, instruction,
+and later remediation authorization as applicable. These references preserve
+role-protocol causality; they do not make navigation-continuity a review or
+remediation authority.
 
 An implementation may add narrowly justified correlation fields (for example,
 instruction ID, Result reference, reviewer target SHA, or reassignment
@@ -91,7 +112,8 @@ COMPLETED
 ```
 
 `IDLE` has no active Work Unit. `ACTIVE` represents authorized execution.
-`BLOCKED` records a durable stop and its next reconciliation or decision.
+`BLOCKED` records a durable stop, its bounded machine-readable reason, its
+durable predecessor state, and its next reconciliation or decision.
 `AWAITING_REVIEW` means the Implementer has returned a bounded milestone and
 the prescribed review has not started. `REVIEWING` means the one assigned
 Reviewer is inspecting a named revision. `COMPLETED` records that the slot's
@@ -126,20 +148,41 @@ The lifecycle is guarded by these invariants:
    do not create multiple reviewers.
 8. A Result or Evidence record supports a slot transition but does not grant a
    new assignment. A review finding remains evidence until the existing role
-   protocol supplies a new authorized instruction.
+   protocol supplies an explicit GPT/User remediation authorization and a new
+   `FIX_INSTRUCTION`. A review finding != mutation authority and does not
+   return an Implementer to `ACTIVE`.
+9. `COMPLETED` is not reusable for a new Work Unit. Before reuse, a durable,
+   authoritative STATE revision must transition `COMPLETED → IDLE` and retain
+   sufficient Result/Evidence/Work Unit correlation to prove the prior Work
+   Unit is closed. The reset clears only current assignment fields:
+   `work_unit_id`, branch, current head SHA, worktree, current action, and
+   current block/remediation fields. It does not erase historical Work Unit,
+   Result, Evidence, or Git records.
+10. A new Work Unit can bind to an Implementer slot only while it is `IDLE`.
+    The only assignment path is `IDLE → ACTIVE`, written as a new authoritative
+    STATE revision carrying the new current assignment. This preserves one
+    active Work Unit per Implementer slot.
 
 The normal milestone sequence is:
 
 ```text
 IDLE --explicit assignment--> ACTIVE --milestone Result--> AWAITING_REVIEW
 AWAITING_REVIEW --explicit reviewer start--> REVIEWING
-REVIEWING --accepted review/decision--> ACTIVE or COMPLETED
+REVIEWING --accepted review without remediation--> ACTIVE or COMPLETED
+REVIEWING --finding requiring remediation--> BLOCKED
 any non-terminal state --verified blocking fact--> BLOCKED
-BLOCKED --explicit reconciliation--> prior governed state
+BLOCKED --explicit GPT/User remediation authorization + FIX_INSTRUCTION +
+current-fact reconciliation--> ACTIVE
+COMPLETED --durable closure/reset transition--> IDLE --explicit new assignment--> ACTIVE
 ```
 
 No arrow is triggered merely by a missing window, elapsed time, or observed
-telemetry.
+telemetry. There is no generic `BLOCKED → blocked_from_status` transition.
+Returning toward any predecessor lifecycle state is permitted only when an
+explicitly authorized reconciliation and current authoritative STATE, Work
+Unit, Result/Evidence, and Git facts prove restoration valid. Otherwise the
+outcome is `RECONCILIATION_REQUIRED`; a stale `blocked_from_status` value never
+overrides current facts. A Reviewer message alone cannot authorize remediation.
 
 ## 5. Continuity, recovery, and mismatch handling
 
@@ -162,7 +205,9 @@ The minimum sufficient restart context is:
 5. observed worktree branch, clean/dirty state, local `HEAD`, remote/ref
    evidence where the stage requires it, and Git ancestry from `base_sha` and
    `last_accepted_sha`; and
-6. the slot's `next_action` and any recorded blocker or reconciliation reason.
+6. the slot's `next_action`, any recorded blocker/reconciliation reason, and,
+   for `BLOCKED`, its predecessor, finding/review, instruction, and remediation
+   authorization correlations.
 
 If any required identity, revision, Work Unit, role, or SHA fact is absent,
 contradictory, stale, or cannot be validated, the new surface must not resume
@@ -205,15 +250,18 @@ to rebuild invisible conversational context.
 
 | Module/contract | Relationship to P0-5 |
 | --- | --- |
-| `navigation-continuity` | Primary owner of slot lifecycle, restart sufficiency, and derived continuation views. It retains Project Map/Resume as derived artifacts. |
+| `framework-core` | Owns authoritative STATE, STATE revision semantics, the STATE schema/template, and the physical persistence shape of slot records. It does not select lifecycle actions or perform continuation recovery. |
+| `navigation-continuity` | Primary owner of logical slot lifecycle, continuation, restart, recovery, mismatch detection, and slot reattachment semantics. It consumes/presents authoritative STATE-backed slot facts and retains Project Map/Resume as derived artifacts; it does not own STATE or its schema/template. |
 | `git-continuity` | Supplies exact SHA, ancestry, synchronization, and remote-verification checks; it does not assign slots or choose lifecycle transitions. |
 | `role-communication` | Supplies role taxonomy, instruction/result envelopes, review and remediation causality. It does not own slot persistence or reassignment policy. |
 | `identity-context` | Supplies project/repository binding that every slot validates before use; it does not turn a matching window into a slot. |
+| `framework-validation` | Validates slot-record shape, legal lifecycle transitions, blocked-predecessor requirements, reset requirements, the one-active-Work-Unit invariant, slot/project/context bindings, and STATE-revision consistency. It neither owns nor mutates STATE/slots. |
 | Work Units | Authorize the goal, scope, permissions, and acceptance to which a slot may bind. A slot cannot expand, synthesize, or replace that authorization. |
 | Project Map and Resume | Derived navigation and cache views used for acceleration only; stale/missing views trigger bounded reads or cold rediscovery, not authority loss or fabricated state. |
 | Result/Evidence | Durable, revision-bound support for lifecycle and handoff facts. They remain evidence/return records, not assignment or mutation authority. |
 
-P0-5 owns slot lifecycle/continuity semantics and durable restart context.
+P0-5 owns slot lifecycle/continuity semantics and durable restart context;
+STATE remains the authoritative persistence model owned by `framework-core`.
 P0-6 Execution Telemetry Foundation may observe lifecycle events as telemetry
 dimensions only. P0-6 must not own, mutate, infer, score, or automatically
 transition/reassign any slot lifecycle fact.
@@ -237,12 +285,17 @@ consumer projection ownership.
 ## 8. Future implementation and validation outline
 
 The implementation plan must route changes through the Framework Module
-Registry before editing assets. Expected P0-5 work is limited to a
-`navigation-continuity`-owned contract/schema/template and continuation
-validator behavior, plus explicitly routed cross-module validators/tests where
-existing contract consumers require them. It must add negative tests for each
-invariant, especially stale revision, lost-window recovery, explicit
-reassignment, serial review, and `EXECUTION_SLOT_MISMATCH` fail-closed behavior.
+Registry before editing assets. It is explicitly
+`CROSS_MODULE_CHANGE_REQUIRED`: `framework-core` changes own the STATE schema,
+STATE template, and physical slot-record persistence shape;
+`navigation-continuity` changes own lifecycle, continuation, recovery, restart,
+and derived navigation behavior; and `framework-validation` changes validate
+their shared contract without taking ownership. It must add negative tests for
+each invariant, especially stale revision, lost-window recovery, explicit
+reassignment, serial review, `REVIEWING → BLOCKED` remediation handling,
+blocked predecessor/reconciliation rules, `COMPLETED → IDLE → ACTIVE` reset and
+reuse, one-active-Work-Unit enforcement, and `EXECUTION_SLOT_MISMATCH`
+fail-closed behavior.
 
 Before any future release, validation must prove that framework and
 self-hosting project validation still pass; Registry routing remains exact;
@@ -252,6 +305,6 @@ still reach the cold-rediscovery decision above.
 
 The new design artifact may temporarily be `unknown_path` in consumer
 projection validation only when that is the sole projection failure. This is
-`EXPECTED_STAGE_LOCAL_INTEGRATION_DEBT`. P0-5 Design does not mutate the
+`DEFERRED_NONBLOCKING`. P0-5 Design does not mutate the
 projection manifest, projection payload, or release assets to remove that
 stage-local deviation.
