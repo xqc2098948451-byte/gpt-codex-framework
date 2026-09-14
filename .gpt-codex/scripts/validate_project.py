@@ -563,6 +563,8 @@ def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
             errors += _schema_shape_errors(item, schema['items'], f'{path}[{index}]')
     if isinstance(value, list) and 'maxItems' in schema and len(value) > schema['maxItems']:
         errors.append(f'{path} has too many items')
+    if isinstance(value, list) and 'minItems' in schema and len(value) < schema['minItems']:
+        errors.append(f'{path} has too few items')
     if isinstance(value, list) and schema.get('uniqueItems'):
         serialized = [json.dumps(item, sort_keys=True, ensure_ascii=False) for item in value]
         if len(serialized) != len(set(serialized)):
