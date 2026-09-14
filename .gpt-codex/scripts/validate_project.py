@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, subprocess, sys
 from collections.abc import Mapping
 from pathlib import Path
 import re
@@ -622,14 +622,51 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
     return errors
 
 
+def _git_state_bytes(root: Path, revision: str) -> bytes | None:
+    result = subprocess.run(
+        ['git', '-C', str(root), 'show', f'{revision}:.gpt-codex/STATE.json'],
+        capture_output=True,
+    )
+    return result.stdout if result.returncode == 0 else None
+
+
+def _authoritative_previous_state(root: Path, state_path: Path, current_state: Mapping) -> Mapping:
+    current_bytes = state_path.read_bytes()
+    head_state_bytes = _git_state_bytes(root, 'HEAD')
+    if head_state_bytes is None:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    if head_state_bytes != current_bytes:
+        raise ValueError('AUTHORITATIVE_STATE_CURRENT_MISMATCH')
+    current_revision = current_state.get('revision')
+    if not isinstance(current_revision, int) or isinstance(current_revision, bool) or current_revision <= 0:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    history = subprocess.run(
+        ['git', '-C', str(root), 'rev-list', '--first-parent', 'HEAD^'],
+        capture_output=True,
+        text=True,
+    )
+    if history.returncode != 0:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    for revision in history.stdout.splitlines():
+        state_bytes = _git_state_bytes(root, revision)
+        if state_bytes is None:
+            continue
+        try:
+            candidate = json.loads(state_bytes)
+        except json.JSONDecodeError:
+            continue
+        if (
+            isinstance(candidate, Mapping)
+            and candidate.get('project_id') == current_state.get('project_id')
+            and candidate.get('revision') == current_revision - 1
+        ):
+            return candidate
+    raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+
+
 def main():
     ap = argparse.ArgumentParser(description='Validate GPT-Codex v2 project governance mechanically.')
     ap.add_argument('project_root', type=Path)
-    ap.add_argument(
-        '--previous-state',
-        type=Path,
-        help='authoritative STATE snapshot immediately preceding the current STATE revision',
-    )
     args = ap.parse_args()
     root = args.project_root.resolve()
     gov = root / '.gpt-codex'
@@ -646,12 +683,6 @@ def main():
         control, state = load(control_p), load(state_p)
     except Exception as e:
         print(f'FAIL: invalid JSON: {e}'); return 1
-    previous_state = None
-    if args.previous_state is not None:
-        try:
-            previous_state = load(args.previous_state)
-        except Exception:
-            errors.extend(['STATE: PREVIOUS_STATE_INVALID', 'STATE: RECONCILIATION_REQUIRED'])
     errors += [f'CONTROL: {e}' for e in check_common_version(control)]
     errors += [f'STATE: {e}' for e in check_common_version(state)]
     if control.get('project_id') != state.get('project_id'):
@@ -663,45 +694,49 @@ def main():
     errors += [f'STATE: {error}' for error in validate_execution_slots(state)]
     execution_slots = state.get('active_execution_slots')
     if isinstance(execution_slots, list) and execution_slots:
-        if previous_state is None:
-            errors.extend(['STATE: PREVIOUS_STATE_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
-        elif not isinstance(previous_state, Mapping):
-            errors.extend(['STATE: PREVIOUS_STATE_INVALID', 'STATE: RECONCILIATION_REQUIRED'])
+        try:
+            previous_state = _authoritative_previous_state(root, state_p, state)
+        except OSError:
+            errors.extend(['STATE: AUTHORITATIVE_STATE_HISTORY_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
+        except ValueError as exc:
+            errors.extend([f'STATE: {exc}', 'STATE: RECONCILIATION_REQUIRED'])
         else:
             previous_state_errors = (
                 check_common_version(previous_state)
                 + validate_execution_slots(previous_state)
             )
             if previous_state_errors:
-                errors.extend(['STATE: PREVIOUS_STATE_INVALID', 'STATE: RECONCILIATION_REQUIRED'])
-            previous_revision = previous_state.get('revision')
-            current_revision = state.get('revision')
-            if (
-                previous_state.get('project_id') != state.get('project_id')
-                or not isinstance(previous_revision, int)
-                or isinstance(previous_revision, bool)
-                or validate_slot_state_revision(current_revision, previous_revision + 1)
-            ):
-                errors.extend(['STATE: PREVIOUS_STATE_MISMATCH', 'STATE: RECONCILIATION_REQUIRED'])
-            previous_slots = previous_state.get('active_execution_slots')
-            previous_by_slot_id = {}
-            if isinstance(previous_slots, list):
-                previous_by_slot_id = {
-                    slot.get('slot_id'): slot
-                    for slot in previous_slots
-                    if isinstance(slot, Mapping) and isinstance(slot.get('slot_id'), str)
-                }
-            for slot in execution_slots:
-                if not isinstance(slot, Mapping):
-                    continue
-                previous_slot = previous_by_slot_id.get(slot.get('slot_id'))
-                if previous_slot is None:
-                    errors.extend(['STATE: PREVIOUS_SLOT_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
-                    continue
-                errors += [
-                    f'STATE: {error}'
-                    for error in validate_slot_transition(previous_slot, slot)
-                ]
+                errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_STATE_INVALID', 'STATE: RECONCILIATION_REQUIRED'])
+            else:
+                previous_revision = previous_state.get('revision')
+                current_revision = state.get('revision')
+                if (
+                    previous_state.get('project_id') != state.get('project_id')
+                    or not isinstance(previous_revision, int)
+                    or isinstance(previous_revision, bool)
+                    or validate_slot_state_revision(current_revision, previous_revision + 1)
+                ):
+                    errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_STATE_MISMATCH', 'STATE: RECONCILIATION_REQUIRED'])
+                else:
+                    previous_slots = previous_state.get('active_execution_slots')
+                    previous_by_slot_id = {}
+                    if isinstance(previous_slots, list):
+                        previous_by_slot_id = {
+                            slot.get('slot_id'): slot
+                            for slot in previous_slots
+                            if isinstance(slot, Mapping) and isinstance(slot.get('slot_id'), str)
+                        }
+                    for slot in execution_slots:
+                        if not isinstance(slot, Mapping):
+                            continue
+                        previous_slot = previous_by_slot_id.get(slot.get('slot_id'))
+                        if previous_slot is None:
+                            errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_SLOT_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
+                            continue
+                        errors += [
+                            f'STATE: {error}'
+                            for error in validate_slot_transition(previous_slot, slot)
+                        ]
     fw = control.get('framework') or {}
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')

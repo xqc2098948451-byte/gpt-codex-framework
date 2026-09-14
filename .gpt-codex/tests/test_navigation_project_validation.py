@@ -169,13 +169,25 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "active_execution_slots": [slot],
         }
 
-    def _write_transition_states(self, root, previous_slot, current_slot):
-        previous_state = self._slot_state(6, previous_slot)
-        current_state = self._slot_state(7, current_slot)
-        previous_path = root / "authoritative-previous-state.json"
-        self._write_json(root, "authoritative-previous-state.json", previous_state)
-        self._write_json(root, ".gpt-codex/STATE.json", current_state)
-        return previous_path
+    def _git(self, root, *args):
+        return subprocess.run(
+            ["git", "-C", str(root), *args],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+    def _commit_authoritative_state_history(self, root, previous_slot, current_slot):
+        self._write_project(root)
+        self._write_json(root, ".gpt-codex/STATE.json", self._slot_state(6, previous_slot))
+        self._git(root, "init", "--quiet")
+        self._git(root, "config", "user.email", "test@example.invalid")
+        self._git(root, "config", "user.name", "State Test")
+        self._git(root, "add", ".")
+        self._git(root, "commit", "--quiet", "-m", "state revision 6")
+        self._write_json(root, ".gpt-codex/STATE.json", self._slot_state(7, current_slot))
+        self._git(root, "add", ".gpt-codex/STATE.json")
+        self._git(root, "commit", "--quiet", "-m", "state revision 7")
 
     def test_project_without_navigation_or_resume_is_valid(self):
         with tempfile.TemporaryDirectory() as td:
@@ -318,7 +330,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
         self.assertEqual(validate_slot_state_revision(7, 7), [])
         self.assertIn("RECONCILIATION_REQUIRED", validate_slot_state_revision(8, 7))
 
-    def test_slot_state_requires_authoritative_previous_snapshot(self):
+    def test_missing_authoritative_state_history_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             self._write_project(root)
@@ -327,86 +339,128 @@ class NavigationProjectValidationTests(unittest.TestCase):
             result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("PREVIOUS_STATE_REQUIRED", result.stdout)
+            self.assertIn("AUTHORITATIVE_STATE_HISTORY_REQUIRED", result.stdout)
 
-    def test_project_validation_uses_completed_previous_slot_for_active_current_slot(self):
+    def test_forged_previous_state_cannot_mask_authoritative_completed_to_active_transition(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            self._write_project(root)
-            previous_path = self._write_transition_states(
+            self._commit_authoritative_state_history(
                 root,
                 self._slot("COMPLETED"),
                 self._slot("ACTIVE"),
             )
-            current_path = root / ".gpt-codex/STATE.json"
-            previous_before = previous_path.read_text(encoding="utf-8")
-            current_before = current_path.read_text(encoding="utf-8")
+            forged_path = root / "forged-previous-state.json"
+            self._write_json(root, "forged-previous-state.json", self._slot_state(6, self._slot("ACTIVE")))
 
-            result = self._validate(root, previous_state=previous_path)
+            result = self._validate(root, previous_state=forged_path)
+
+            self.assertNotEqual(result.returncode, 0)
+
+    def test_project_validation_resolves_completed_previous_slot_from_git_history(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._commit_authoritative_state_history(
+                root,
+                self._slot("COMPLETED"),
+                self._slot("ACTIVE"),
+            )
+
+            result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("SLOT_IDLE_RESET_REQUIRED", result.stdout)
-            self.assertEqual(previous_path.read_text(encoding="utf-8"), previous_before)
-            self.assertEqual(current_path.read_text(encoding="utf-8"), current_before)
 
-    def test_project_validation_rejects_generic_blocked_return_from_previous_slot(self):
+    def test_tampered_previous_state_file_cannot_establish_authority(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            self._write_project(root)
-            previous_path = self._write_transition_states(
+            self._commit_authoritative_state_history(
+                root,
+                self._slot("COMPLETED"),
+                self._slot("ACTIVE"),
+            )
+            tampered_path = root / "tampered-previous-state.json"
+            self._write_json(root, "tampered-previous-state.json", self._slot_state(6, self._slot("ACTIVE")))
+
+            result = self._validate(root, previous_state=tampered_path)
+
+            self.assertNotEqual(result.returncode, 0)
+
+    def test_current_state_byte_tampering_breaks_git_authority_binding(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._commit_authoritative_state_history(
+                root,
+                self._slot("ACTIVE"),
+                self._slot("ACTIVE"),
+            )
+            state_path = root / ".gpt-codex/STATE.json"
+            tampered = json.loads(state_path.read_text(encoding="utf-8"))
+            tampered["active_execution_slots"][0]["next_action"] = "FORGED_NEXT_ACTION"
+            self._write_json(root, ".gpt-codex/STATE.json", tampered)
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("AUTHORITATIVE_STATE_CURRENT_MISMATCH", result.stdout)
+
+    def test_project_validation_rejects_invalid_git_history_edge_despite_fabricated_legal_previous_state(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._commit_authoritative_state_history(
+                root,
+                self._slot("IDLE"),
+                self._slot("REVIEWING"),
+            )
+            forged_path = root / "forged-legal-previous-state.json"
+            self._write_json(root, "forged-legal-previous-state.json", self._slot_state(6, self._slot("AWAITING_REVIEW")))
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("SLOT_TRANSITION_INVALID", result.stdout)
+            forged_result = self._validate(root, previous_state=forged_path)
+            self.assertNotEqual(forged_result.returncode, 0)
+
+    def test_project_validation_uses_real_blocked_previous_slot_from_git_history(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._commit_authoritative_state_history(
                 root,
                 self._slot("BLOCKED"),
                 self._slot("REVIEWING"),
             )
 
-            result = self._validate(root, previous_state=previous_path)
+            result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("SLOT_BLOCKED_RETURN_FORBIDDEN", result.stdout)
 
-    def test_project_validation_rejects_invalid_prior_to_current_edge(self):
+    def test_project_validation_rejects_structurally_invalid_git_predecessor(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            self._write_project(root)
-            previous_path = self._write_transition_states(
-                root,
-                self._slot("IDLE"),
-                self._slot("REVIEWING"),
-            )
-
-            result = self._validate(root, previous_state=previous_path)
-
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn("SLOT_TRANSITION_INVALID", result.stdout)
-
-    def test_project_validation_accepts_independently_sourced_unchanged_slot(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            self._write_project(root)
-            previous_path = self._write_transition_states(
-                root,
-                self._slot("ACTIVE"),
-                self._slot("ACTIVE"),
-            )
-
-            result = self._validate(root, previous_state=previous_path)
-
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-
-    def test_project_validation_rejects_structurally_invalid_previous_state(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            self._write_project(root)
-            previous_path = self._write_transition_states(
+            self._commit_authoritative_state_history(
                 root,
                 self._slot("IDLE", work_unit_id="stale-work-unit"),
                 self._slot("ACTIVE"),
             )
 
-            result = self._validate(root, previous_state=previous_path)
+            result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("PREVIOUS_STATE_INVALID", result.stdout)
+            self.assertIn("AUTHORITATIVE_PREVIOUS_STATE_INVALID", result.stdout)
+
+    def test_project_validation_accepts_genuine_unchanged_slot_from_git_history(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._commit_authoritative_state_history(
+                root,
+                self._slot("ACTIVE"),
+                self._slot("ACTIVE"),
+            )
+
+            result = self._validate(root)
+
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_foreign_project_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
