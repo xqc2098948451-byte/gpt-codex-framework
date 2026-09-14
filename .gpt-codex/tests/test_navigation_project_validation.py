@@ -304,6 +304,159 @@ class NavigationProjectValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
             activate_execution_slot(activated, "CODEX-IMPL-B", self.assignment("WU-3"), 6)
 
+    def test_reset_rejects_every_non_completed_slot_status(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import reset_completed_slot
+
+        for status in ("IDLE", "ACTIVE", "BLOCKED", "AWAITING_REVIEW", "REVIEWING"):
+            with self.subTest(status=status):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    reset_completed_slot(
+                        self._slot_state(4, self._slot(status)),
+                        "CODEX-IMPL-B",
+                        ["result-1"],
+                        4,
+                    )
+
+    def test_reset_rejects_invalid_closure_references(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import reset_completed_slot
+
+        for closure_refs in (None, [], (), "", "result-1", [""], ["   "], [123], ["result-1", ""], ["result-1", None]):
+            with self.subTest(closure_refs=closure_refs):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    reset_completed_slot(self.completed_state(), "CODEX-IMPL-B", closure_refs, 4)
+
+        reset = reset_completed_slot(self.completed_state(), "CODEX-IMPL-B", ["result-1"], 4)
+        self.assertEqual(reset["active_execution_slots"][0]["status"], "IDLE")
+
+    def test_activation_requires_every_declared_assignment_field(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        for field in (
+            "work_unit_id", "primary_module", "project_context_id", "branch", "worktree",
+            "base_sha", "current_head_sha", "instruction_id", "next_action",
+        ):
+            with self.subTest(field=field):
+                assignment = self.assignment("WU-2")
+                del assignment[field]
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    activate_execution_slot(
+                        self._slot_state(4, self._slot("IDLE")),
+                        "CODEX-IMPL-B",
+                        assignment,
+                        4,
+                    )
+
+    def test_activation_rejects_extra_fields_and_mismatched_project_context(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        extra = self.assignment("WU-2")
+        extra["unexpected_field"] = "value"
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(self._slot_state(4, self._slot("IDLE")), "CODEX-IMPL-B", extra, 4)
+
+        mismatched_context = self.assignment("WU-2")
+        mismatched_context["project_context_id"] = "22222222-2222-4222-8222-222222222222"
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(
+                self._slot_state(4, self._slot("IDLE")),
+                "CODEX-IMPL-B",
+                mismatched_context,
+                4,
+            )
+
+        activated = activate_execution_slot(
+            self._slot_state(4, self._slot("IDLE")),
+            "CODEX-IMPL-B",
+            self.assignment("WU-2"),
+            4,
+        )
+        self.assertEqual(activated["active_execution_slots"][0]["project_context_id"], "11111111-1111-4111-8111-111111111111")
+
+    def test_activation_rejects_malformed_sha_fields(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        invalid_shas = ("", "abc", "a" * 39, "a" * 41, "g" * 40, None)
+        for field in ("base_sha", "current_head_sha"):
+            for value in invalid_shas:
+                with self.subTest(field=field, value=value):
+                    assignment = self.assignment("WU-2")
+                    assignment[field] = value
+                    with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                        activate_execution_slot(
+                            self._slot_state(4, self._slot("IDLE")),
+                            "CODEX-IMPL-B",
+                            assignment,
+                            4,
+                        )
+
+    def test_activation_rejects_empty_string_assignment_fields(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        for field in ("work_unit_id", "primary_module", "project_context_id", "instruction_id", "next_action"):
+            for value in ("", "   "):
+                with self.subTest(field=field, value=value):
+                    assignment = self.assignment("WU-2")
+                    assignment[field] = value
+                    with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                        activate_execution_slot(
+                            self._slot_state(4, self._slot("IDLE")),
+                            "CODEX-IMPL-B",
+                            assignment,
+                            4,
+                        )
+        assignment = self.assignment("WU-2")
+        assignment["next_action"] = "AWAIT_ASSIGNMENT"
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(self._slot_state(4, self._slot("IDLE")), "CODEX-IMPL-B", assignment, 4)
+
+    def test_activation_validates_branch_and_worktree_shapes(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        for field in ("branch", "worktree"):
+            for value in (None, "local-value"):
+                with self.subTest(field=field, valid_value=value):
+                    assignment = self.assignment("WU-2")
+                    assignment[field] = value
+                    activated = activate_execution_slot(
+                        self._slot_state(4, self._slot("IDLE")),
+                        "CODEX-IMPL-B",
+                        assignment,
+                        4,
+                    )
+                    self.assertEqual(activated["active_execution_slots"][0][field], value)
+            for value in ("", "   ", 123, {}):
+                with self.subTest(field=field, invalid_value=value):
+                    assignment = self.assignment("WU-2")
+                    assignment[field] = value
+                    with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                        activate_execution_slot(
+                            self._slot_state(4, self._slot("IDLE")),
+                            "CODEX-IMPL-B",
+                            assignment,
+                            4,
+                        )
+
     def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
