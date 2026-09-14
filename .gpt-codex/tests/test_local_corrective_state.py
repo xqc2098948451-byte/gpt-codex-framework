@@ -11,15 +11,21 @@ class LocalCorrectiveStateTests(unittest.TestCase):
     def test_current_state_is_complete_and_synchronized(self):
         state = json.loads((GOV / "STATE.json").read_text(encoding="utf-8"))
         continuity = state["continuity"]
-        self.assertEqual(state["revision"], 6)
+        self.assertEqual(state["revision"], 7)
         self.assertEqual(state["state"], "COMPLETE")
+        self.assertEqual(state["active_work_unit"], "framework-project-separation-release-001")
         self.assertEqual(continuity["sync_status"], "SYNCED")
+        self.assertEqual(continuity["latest_synced_state_revision"], 7)
+        self.assertEqual(
+            continuity["last_verified_result_ref"],
+            ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
+        )
         self.assertEqual(
             continuity["latest_verified_remote_sha"],
-            "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+            "a2f950138895df1a56564880977ed8530653b89f",
         )
 
-    def test_corrective_result_is_confirmed_publication_attestation(self):
+    def test_historical_v250_result_is_confirmed_publication_attestation(self):
         result_path = GOV / "evidence" / "results" / "RESULT-V2.5.0-PUBLICATION.json"
         result = json.loads(result_path.read_text(encoding="utf-8"))
         self.assertEqual(result["status"], "PASS")
@@ -31,10 +37,24 @@ class LocalCorrectiveStateTests(unittest.TestCase):
         self.assertEqual(result["source_github_repository_id"], "1366213495")
         self.assertEqual(result["framework_version"], "2.5.0")
 
+    def test_current_v260_result_is_confirmed_publication_attestation(self):
+        result_path = GOV / "evidence" / "results" / "RESULT-V2.6.0-PUBLICATION.json"
+        result = json.loads(result_path.read_text(encoding="utf-8"))
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["framework_version"], "2.6.0")
+        self.assertEqual(result["state_revision"], 7)
+        self.assertEqual(result["remote_head_sha"], "a2f950138895df1a56564880977ed8530653b89f")
+        self.assertEqual(result["publication_authority"], "CONFIRMED_PUBLICATION")
+        self.assertEqual(result["publication_attestation"], "P is management-only and does not self-reference P.")
+
     def test_current_state_references_corrective_evidence(self):
         state = json.loads((GOV / "STATE.json").read_text(encoding="utf-8"))
         self.assertIn(
             ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json",
+            state["evidence_refs"],
+        )
+        self.assertIn(
+            ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
             state["evidence_refs"],
         )
 

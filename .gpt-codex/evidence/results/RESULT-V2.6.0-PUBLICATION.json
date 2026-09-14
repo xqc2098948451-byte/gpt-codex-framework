@@ -1,0 +1,56 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-project-separation-release-001",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.6.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "a2f950138895df1a56564880977ed8530653b89f",
+  "remote_head_sha": "a2f950138895df1a56564880977ed8530653b89f",
+  "verified_baseline_sha": "a2f950138895df1a56564880977ed8530653b89f",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 7,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
+  "publication_attestation": "P is management-only and does not self-reference P.",
+  "changed": [
+    "v2.6.0 Framework–Project Separation source",
+    "v2.6.0 consumer-safe release metadata and artifact",
+    "management-only W/P publication attestation"
+  ],
+  "verify": [
+    "accepted implementation baseline: 2c6015b3bea3b70e2c00f687a4ed69f520da22f6",
+    "W normal push to release branch: SUCCEEDED",
+    "W normal fast-forward push to main: SUCCEEDED",
+    "remote main after W push: VERIFIED at a2f950138895df1a56564880977ed8530653b89f",
+    "v2.6.0 annotated tag target: VERIFIED at a2f950138895df1a56564880977ed8530653b89f",
+    "GitHub release v2.6.0: PUBLISHED with one uploaded asset",
+    "remote canonical artifact SHA-256: 0ee0842902a330cc6d9afec150766fbaa31a07255c5b3b553a7c8a42c097aeb2",
+    "remote canonical artifact size: 97217 bytes",
+    "P is management-only; this Result binds confirmed publication authority to verified W and does not self-reference P"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.6.0-RELEASE-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "2c6015b3bea3b70e2c00f687a4ed69f520da22f6",
+    "implementation_sha": "2c6015b3bea3b70e2c00f687a4ed69f520da22f6",
+    "work_commit_sha": "a2f950138895df1a56564880977ed8530653b89f"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "GPT_VERIFY_V2_6_0_PUBLICATION_AND_FREEZE_BASELINE"
+}
