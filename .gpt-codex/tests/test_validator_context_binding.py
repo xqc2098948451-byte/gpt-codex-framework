@@ -13,6 +13,10 @@ from validate_project import (
     validate_project_identity_and_derived,
     validate_project_identity_boundary,
 )
+from context_binding import (
+    evaluate_cross_project_resource_boundary,
+    load_project_identity,
+)
 
 
 class ValidatorContextBindingTests(unittest.TestCase):
@@ -99,6 +103,123 @@ class ValidatorContextBindingTests(unittest.TestCase):
         self.assertTrue(path.is_file())
         source = path.read_text(encoding="utf-8")
         self.assertIn("REQUIRED_CONTEXT_GUARDRAIL", source)
+
+    def test_resource_boundary_rejects_foreign_or_ambiguous_authority_resources(self):
+        identity = load_project_identity(self._complete_identity_control())
+        resource_types = (
+            "CONTROL", "STATE", "WORK_UNIT", "INSTRUCTION", "RESULT",
+            "EVIDENCE", "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION",
+            "PROJECT_MAP", "RESUME",
+        )
+        matching_resource = {
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "123",
+            "repository_full_name": "example/project",
+        }
+        foreign_context = "22222222-2222-4222-8222-222222222222"
+
+        for resource_type in resource_types:
+            with self.subTest(resource_type=resource_type, scenario="matching"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity, matching_resource, resource_type=resource_type,
+                )
+                self.assertEqual((decision.decision, decision.identity_match, decision.action_executable),
+                                 ("ALLOW", True, False))
+
+            with self.subTest(resource_type=resource_type, scenario="foreign-context"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity,
+                    {**matching_resource, "project_context_id": foreign_context},
+                    resource_type=resource_type,
+                )
+                self.assertEqual((decision.reason, decision.packet_status, decision.action_executable),
+                                 ("CROSS_PROJECT_CONTEXT_MISMATCH", "QUARANTINED", False))
+
+            with self.subTest(resource_type=resource_type, scenario="missing-repository-id"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity,
+                    {key: value for key, value in matching_resource.items() if key != "repository_id"},
+                    resource_type=resource_type,
+                )
+                self.assertEqual((decision.reason, decision.packet_status, decision.action_executable),
+                                 ("PROJECT_IDENTITY_INVALID", "QUARANTINED", False))
+
+            with self.subTest(resource_type=resource_type, scenario="verified-repository-contradiction"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity,
+                    {**matching_resource, "repository_full_name": "other/project"},
+                    resource_type=resource_type,
+                )
+                self.assertEqual((decision.reason, decision.packet_status, decision.action_executable),
+                                 ("GITHUB_REPOSITORY_MISMATCH", "QUARANTINED", False))
+
+            with self.subTest(resource_type=resource_type, scenario="analysis-only"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity,
+                    {**matching_resource, "project_context_id": foreign_context},
+                    resource_type=resource_type, analysis_only=True,
+                )
+                self.assertEqual((decision.reason, decision.packet_status, decision.action_executable,
+                                  decision.current_project_mutation),
+                                 ("CROSS_PROJECT_CONTEXT_MISMATCH", "QUARANTINED", False, False))
+
+            with self.subTest(resource_type=resource_type, scenario="weak-identity-cannot-fill-binding"):
+                decision = evaluate_cross_project_resource_boundary(
+                    identity,
+                    {
+                        "project_id": "PRJ-001",
+                        "project_context_id": "11111111-1111-4111-8111-111111111111",
+                        "repository_full_name": "example/project",
+                        "project_name": "Example Project",
+                        "display_name": "Example Project",
+                        "git_remote": "git@github.com:example/project.git",
+                        "filesystem_path": "D:/example/project",
+                    },
+                    resource_type=resource_type,
+                )
+                self.assertEqual((decision.reason, decision.packet_status, decision.action_executable),
+                                 ("PROJECT_IDENTITY_INVALID", "QUARANTINED", False))
+
+    def test_repository_binding_classifies_malformed_configuration_before_conflict(self):
+        from github_repository_binding import (
+            ObservedRepository,
+            compare_repository_binding,
+            scan_repository_compatibility,
+        )
+
+        malformed = compare_repository_binding(
+            {"github": {"repository_id": "123", "repository_full_name": "example/project"}},
+            ObservedRepository("123", "example/project", "origin", "github:example/project"),
+        )
+        self.assertEqual(malformed.reason, "PROJECT_IDENTITY_INVALID")
+
+        with patch(
+            "github_repository_binding._git",
+            side_effect=[
+                (0, "true", ""),
+                (0, "origin", ""),
+                (0, "https://github.com/example/project.git", ""),
+            ],
+        ):
+            malformed_scan = scan_repository_compatibility(
+                Path("."), {"repository_id": "123", "repository_full_name": "not/a/path/"},
+            )
+        self.assertEqual(malformed_scan["classification"], "PROJECT_IDENTITY_INVALID")
+
+        with patch(
+            "github_repository_binding._git",
+            side_effect=[
+                (0, "true", ""),
+                (0, "origin", ""),
+                (0, "https://github.com/example/project.git", ""),
+            ],
+        ):
+            contradiction = scan_repository_compatibility(
+                Path("."),
+                {"repository_id": "123", "repository_full_name": "example/project", "observed_repository_id": "456"},
+            )
+        self.assertEqual(contradiction["classification"], "GITHUB_REPOSITORY_MISMATCH")
 
 
 if __name__ == "__main__":

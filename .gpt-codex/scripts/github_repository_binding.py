@@ -78,7 +78,7 @@ def compare_repository_binding(control: Mapping[str, Any], observed: ObservedRep
         return BindingDecision("DENY", "GITHUB_REPOSITORY_UNBOUND", False, False)
     binding = _binding_from_control(control)
     if binding is None:
-        return BindingDecision("DENY", "REPOSITORY_CONFLICT", False, False)
+        return BindingDecision("DENY", "PROJECT_IDENTITY_INVALID", False, False)
     if str(observed.repository_id) != binding.repository_id:
         return BindingDecision("DENY", "GITHUB_REPOSITORY_MISMATCH", False, False)
     if (
@@ -107,9 +107,20 @@ def scan_repository_compatibility(repo_root: Path, github_metadata: Mapping[str,
     remotes = [line for line in remotes_text.splitlines() if line]
     if not remotes:
         return {"classification": "LOCAL_GIT_ONLY", "git_available": True, "mutated": False}
+    if github_metadata is not None and not isinstance(github_metadata, Mapping):
+        return {"classification": "PROJECT_IDENTITY_INVALID", "mutated": False}
     metadata = github_metadata or {}
     configured_id = metadata.get("repository_id") if isinstance(metadata, Mapping) else None
     observed = metadata.get("observed_repository_id") if isinstance(metadata, Mapping) else None
+    configured_full_name = metadata.get("repository_full_name")
+    if (
+        configured_id not in (None, "")
+        and (not isinstance(configured_id, str) or not configured_id.strip())
+    ) or (
+        configured_full_name not in (None, "")
+        and (not isinstance(configured_full_name, str) or not _FULL_NAME.fullmatch(configured_full_name.strip()))
+    ):
+        return {"classification": "PROJECT_IDENTITY_INVALID", "mutated": False}
     if len(remotes) > 1 and not metadata.get("selected_remote_name"):
         return {"classification": "MULTIPLE_REMOTE_REVIEW_REQUIRED", "remotes": remotes, "mutated": False}
     remote_name = metadata.get("selected_remote_name", remotes[0])
@@ -121,5 +132,5 @@ def scan_repository_compatibility(repo_root: Path, github_metadata: Mapping[str,
     if not configured_id:
         return {"classification": "GITHUB_BINDING_REQUIRED", "canonical_remote": canonical, "mutated": False}
     if observed is not None and str(observed) != str(configured_id):
-        return {"classification": "REPOSITORY_CONFLICT", "canonical_remote": canonical, "mutated": False}
+        return {"classification": "GITHUB_REPOSITORY_MISMATCH", "canonical_remote": canonical, "mutated": False}
     return {"classification": "ALREADY_BOUND", "canonical_remote": canonical, "remote_name": remote_name, "mutated": False}

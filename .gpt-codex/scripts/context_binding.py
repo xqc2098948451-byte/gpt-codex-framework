@@ -11,6 +11,10 @@ from uuid import UUID, uuid4
 REQUIRED_GUARDRAIL_ID = "cross-project-context-binding"
 REQUIRED_GUARDRAIL_VERSION = "1.0.0"
 _READ_ONLY_BOUNDARY_OPERATIONS = frozenset({"READ", "EVALUATE"})
+_PROTECTED_RESOURCE_TYPES = frozenset({
+    "CONTROL", "STATE", "WORK_UNIT", "INSTRUCTION", "RESULT", "EVIDENCE",
+    "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION", "PROJECT_MAP", "RESUME",
+})
 
 
 @dataclass
@@ -39,6 +43,15 @@ class ProjectIdentity:
     management: bool
     project_role: str
     framework_role: str
+
+
+@dataclass(frozen=True)
+class ProjectResourceBinding:
+    project_id: str
+    project_context_id: str
+    repository_id: str
+    repository_full_name: str | None
+    resource_type: str
 
 
 def is_valid_project_context_id(value: object) -> bool:
@@ -111,6 +124,78 @@ def evaluate_project_identity(
         return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
     return _decision("ALLOW", "IDENTITY_MATCH", identity_match=True, freshness_match=True,
                      current_project_mutation=False, action_executable=False, authority="IDENTITY_VALIDATION")
+
+
+def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> ProjectResourceBinding | None:
+    if resource_type not in _PROTECTED_RESOURCE_TYPES:
+        return None
+    project_id = resource.get("project_id")
+    project_context_id = resource.get("project_context_id")
+    repository_id = resource.get("repository_id")
+    repository_full_name = resource.get("repository_full_name")
+    if (
+        not isinstance(project_id, str) or not project_id.strip()
+        or not is_valid_project_context_id(project_context_id)
+        or not isinstance(repository_id, str) or not repository_id.strip()
+        or (repository_full_name is not None and (
+            not isinstance(repository_full_name, str) or not repository_full_name.strip()
+        ))
+    ):
+        return None
+    return ProjectResourceBinding(
+        project_id=project_id.strip(),
+        project_context_id=project_context_id,
+        repository_id=repository_id.strip(),
+        repository_full_name=repository_full_name.strip() if isinstance(repository_full_name, str) else None,
+        resource_type=resource_type,
+    )
+
+
+def _quarantined_resource_decision(reason: str, *, analysis_only: bool) -> ContextDecision:
+    return _decision(
+        "ANALYSIS_ONLY" if analysis_only else "DENY",
+        reason,
+        current_project_mutation=False,
+        action_executable=False,
+        authority="NONE",
+        hard_stop=not analysis_only,
+        packet_status="QUARANTINED",
+    )
+
+
+def evaluate_cross_project_resource_boundary(
+    active_identity: ProjectIdentity,
+    resource: Mapping[str, Any],
+    *,
+    resource_type: str,
+    analysis_only: bool = False,
+) -> ContextDecision:
+    """Classify a protected resource without granting execution authority."""
+    binding = _resource_binding(resource, resource_type)
+    if binding is None:
+        return _quarantined_resource_decision("PROJECT_IDENTITY_INVALID", analysis_only=analysis_only)
+    if (
+        binding.project_id != active_identity.project_id
+        or binding.project_context_id != active_identity.project_context_id
+    ):
+        return _quarantined_resource_decision("CROSS_PROJECT_CONTEXT_MISMATCH", analysis_only=analysis_only)
+    if (
+        binding.repository_id != active_identity.repository_id
+        or (
+            binding.repository_full_name is not None
+            and binding.repository_full_name != active_identity.repository_full_name
+        )
+    ):
+        return _quarantined_resource_decision("GITHUB_REPOSITORY_MISMATCH", analysis_only=analysis_only)
+    return _decision(
+        "ALLOW",
+        "RESOURCE_BINDING_MATCH",
+        identity_match=True,
+        freshness_match=True,
+        current_project_mutation=False,
+        action_executable=False,
+        authority="RESOURCE_BOUNDARY_READ_ONLY",
+    )
 
 
 def evaluate_project_authority_boundary(
