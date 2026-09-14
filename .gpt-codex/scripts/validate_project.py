@@ -65,7 +65,13 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
 
 
 def _is_safe_repository_relative_path(value: object) -> bool:
-    if not isinstance(value, str) or not value or "\\" in value or value.startswith("/"):
+    if (
+        not isinstance(value, str)
+        or not value
+        or "\\" in value
+        or value.startswith("/")
+        or re.match(r"^[A-Za-z]:", value)
+    ):
         return False
     return all(component not in {"", ".", ".."} for component in value.split("/"))
 

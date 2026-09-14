@@ -58,7 +58,16 @@ class HarnessProjectLayeringTests(unittest.TestCase):
                 )
 
     def test_unsafe_semantic_root_paths_are_rejected(self):
-        for unsafe in ("/absolute", "../traversal", "app/../other", "./app", "app//nested", "app\\windows"):
+        for unsafe in (
+            "/absolute",
+            "../traversal",
+            "app/../other",
+            "./app",
+            "app//nested",
+            "app\\windows",
+            "C:/harness",
+            "C:relative",
+        ):
             with self.subTest(unsafe=unsafe):
                 self.assertEqual(
                     validate_harness_root_separation(
@@ -70,6 +79,21 @@ class HarnessProjectLayeringTests(unittest.TestCase):
                         }}
                     ),
                     ["HARNESS_ROOTS_INVALID"],
+                )
+
+    def test_posix_semantic_root_paths_remain_valid(self):
+        for root in ("app", "app/backend", ".harness", "ops/prod"):
+            with self.subTest(root=root):
+                self.assertEqual(
+                    validate_harness_root_separation(
+                        {"roots": {
+                            "harness_root": root,
+                            "product_roots": ["product"],
+                            "deploy_roots": ["deploy"],
+                            "production_excludes": [root],
+                        }}
+                    ),
+                    [],
                 )
 
     def test_harness_must_be_excluded_from_production(self):
