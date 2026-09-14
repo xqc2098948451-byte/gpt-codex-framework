@@ -49,7 +49,7 @@ class HarnessHandoffTests(unittest.TestCase):
             "project_id": "PROJECT-ONE",
             "project_context_id": slot["project_context_id"],
             "github": {"repository_id": "repo-1", "repository_full_name": "owner/repo", "default_branch": "main"},
-            "roots": {"project_role": "FRAMEWORK_MANAGEMENT"},
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
         })
         self.write_json(root, ".gpt-codex/STATE.json", {
             "revision": 1, "state": "ACTIVE", "active_work_unit": "WU-1",
@@ -113,6 +113,52 @@ class HarnessHandoffTests(unittest.TestCase):
             (root / ".gpt-codex/work/work.json").unlink()
             result = build_project_handoff(root, execution_slot_id="slot-1")
         self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_invalid_but_readable_control_fails_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            path = root / ".gpt-codex/CONTROL.json"
+            control = json.loads(path.read_text(encoding="utf-8"))
+            control["roots"] = {}
+            path.write_text(json.dumps(control), encoding="utf-8")
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+        self.assertTrue(result["reconciliation_required"])
+
+    def test_task_one_strategy_format_is_parsed_and_bounded(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            reasoning = root / ".harness/REASONING.md"
+            reasoning.parent.mkdir()
+            reasoning.write_text(
+                "# Development Strategy and Process Record\n\n## Strategy\n"
+                "STRATEGY_PROFILE = PROJECT_DEFAULT\nGPT_STRATEGY = MINIMAL_CLOSED_LOOP\n"
+                "CODEX_IMPLEMENTER_STRATEGY = MINIMAL_DIFF_TDD\nCODEX_REVIEWER_STRATEGY = CONTRACT_FIRST\n"
+                "TASK_SPLITTING = PROJECT_DETERMINED\nREVIEW_POLICY = RISK_OR_MILESTONE\n"
+                "INSTRUCTION_POLICY = REFERENCE_FIRST\nRESULT_RETURN_POLICY = DURABLE_REF_FIRST\n"
+                "\n## Decision Records\nNOT_A_STRATEGY = ignored\n",
+                encoding="utf-8",
+            )
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+        self.assertEqual(result["strategy"]["GPT_STRATEGY"], "MINIMAL_CLOSED_LOOP")
+        self.assertEqual(len(result["strategy"]), 8)
+
+    def test_missing_reasoning_is_non_blocking_and_handoff_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            before = {path.relative_to(root): path.read_bytes() for path in (root / ".gpt-codex").rglob("*") if path.is_file()}
+            head = self.git(root, "rev-parse", "HEAD")
+            status = self.git(root, "status", "--porcelain")
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+            after = {path.relative_to(root): path.read_bytes() for path in (root / ".gpt-codex").rglob("*") if path.is_file()}
+            self.assertEqual(self.git(root, "rev-parse", "HEAD"), head)
+            self.assertEqual(self.git(root, "status", "--porcelain"), status)
+        self.assertEqual(result["status"], "HANDOFF_READY")
+        self.assertIsNone(result["strategy"])
+        self.assertEqual(after, before)
 
 
 if __name__ == "__main__":

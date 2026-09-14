@@ -768,8 +768,18 @@ def _load_harness_strategy(root: Path) -> dict[str, str] | None:
         lines = path.read_text(encoding="utf-8").splitlines()
     except OSError:
         return None
-    result = {key.strip(): value.strip() for line in lines[:64] if ":" in line
-              for key, value in [line.split(":", 1)] if key.strip() and value.strip()}
+    in_strategy = False
+    result: dict[str, str] = {}
+    for line in lines[:128]:
+        if line == "## Strategy":
+            in_strategy = True
+            continue
+        if in_strategy and line.startswith("## "):
+            break
+        if in_strategy and " = " in line:
+            key, value = line.split(" = ", 1)
+            if key.strip() and value.strip():
+                result[key.strip()] = value.strip()
     return result or None
 
 
@@ -780,6 +790,10 @@ def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> d
     except (OSError, json.JSONDecodeError):
         return _recovery_result()
     if not isinstance(control, Mapping):
+        return _recovery_result()
+    try:
+        identity = load_project_identity(control, project_root=root)
+    except (TypeError, ValueError, KeyError):
         return _recovery_result()
     slots = state.get("active_execution_slots")
     if not isinstance(slots, list):
@@ -800,8 +814,8 @@ def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> d
     if refs is None or errors:
         return _recovery_result()
     return {"status": "HANDOFF_READY", "reconciliation_required": False,
-            "project": {"project_id": control.get("project_id"), "project_context_id": control.get("project_context_id"),
-                        "repository": (control.get("github") or {}).get("repository_full_name")},
+            "project": {"project_id": identity.project_id, "project_context_id": identity.project_context_id,
+                        "repository": identity.repository_full_name},
             "state": {"revision": state.get("revision"), "state": state.get("state")},
             "current_work": {"execution_slot_id": slot.get("slot_id"), "status": slot.get("status"), "work_unit_id": slot.get("work_unit_id")},
             "git": {"branch": slot.get("branch"), "base_sha": slot.get("base_sha"), "current_head_sha": slot.get("current_head_sha"),
