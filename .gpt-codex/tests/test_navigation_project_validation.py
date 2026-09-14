@@ -617,7 +617,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
     def _write_task5_durable_project(self, root, *, include_work_unit=True, work_units=None):
         self._write_task5_project(root, self.task5_slot())
         (root / ".gitignore").write_text(
-            ".gpt-codex/CONTROL.json\n.gpt-codex/STATE.json\n.gpt-codex/work/\n.gpt-codex/evidence/\n",
+            ".gpt-codex/CONTROL.json\n.gpt-codex/STATE.json\n.gpt-codex/work/\n.gpt-codex/evidence/\n.gpt-codex/continuity/\n",
             encoding="utf-8",
         )
         (root / "README.md").write_text("task-5 durable recovery fixture\n", encoding="utf-8")
@@ -1102,6 +1102,31 @@ class NavigationProjectValidationTests(unittest.TestCase):
 
                 result = recover(root, slot)
                 self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_cold_recovery_keeps_derived_navigation_and_window_observations_non_authoritative(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        for condition in ("missing_map", "missing_resume", "stale_resume", "replacement_window"):
+            with self.subTest(condition=condition), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                slot = self._write_task5_durable_project(root)
+                if condition == "stale_resume":
+                    self._write_json(root, ".gpt-codex/continuity/RESUME.json", {
+                        "schema_version": 1,
+                        "authority": "DERIVED_CACHE",
+                        "context_sources": [{"path": "README.md", "fingerprint": "sha256:stale"}],
+                    })
+                result = load_continuity_resume(
+                    root,
+                    "repo-a",
+                    execution_slot_id="CODEX-IMPL-B",
+                    execution_slot_binding=self.task5_binding(slot),
+                )
+                self.assertEqual(result["status"], "LATEST_SYNCED_REMOTE_STATE")
+                self.assertEqual(result["next_action"], "AWAIT_REVIEW")
 
     def test_reviewer_reference_is_the_review_request_and_reassignment_needs_durable_chain(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
