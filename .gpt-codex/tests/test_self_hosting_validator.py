@@ -292,6 +292,33 @@ class SelfHostingValidatorTests(unittest.TestCase):
             "schedule_execution", "force_adoption", "work_unit",
         }.intersection(row))
 
+    def test_structured_management_evolution_records_are_rejected_without_flagging_python_constants(self):
+        from consumer_projection import scan_consumer_boundary
+
+        records = {
+            "framework-management.json": {"governance_profile": "FRAMEWORK_MANAGEMENT"},
+            "self-managed.json": {"roots": {"framework_role": "SELF_MANAGED"}},
+            "framework-management-classification.json": {"classification": "FRAMEWORK_MANAGEMENT"},
+            "self-managed-classification.json": {"classification": "SELF_MANAGED"},
+            "index.json": {"classification": "FRAMEWORK_MANAGEMENT_METADATA"},
+            "observation.json": {
+                "classification": "DERIVED_OBSERVATION_ONLY",
+                "explicit_enrollment": True,
+                "enrollment_status": "ACTIVE",
+            },
+        }
+        with tempfile.TemporaryDirectory() as td:
+            staging = Path(td)
+            for name, record in records.items():
+                (staging / name).write_text(json.dumps(record), encoding="utf-8")
+            (staging / "constants.py").write_text(
+                'CLASSIFICATION = "FRAMEWORK_MANAGEMENT_METADATA"\n', encoding="utf-8",
+            )
+            result = scan_consumer_boundary(staging, {"contamination": {"forbidden_values": []}})
+
+        self.assertEqual(set(result["management_identity_hits"]), set(records))
+        self.assertNotIn("constants.py", result["management_identity_hits"])
+
 
 if __name__ == "__main__":
     unittest.main()

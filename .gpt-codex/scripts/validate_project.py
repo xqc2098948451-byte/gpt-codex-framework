@@ -11,10 +11,12 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
 from context_binding import (
+    build_project_evolution_observation,
     evaluate_project_identity,
     evaluate_return,
     is_valid_project_context_id,
     required_guardrail_allows,
+    validate_project_evolution_enrollment,
 )
 from continuity_resume import load_resume_checkpoint
 from publication_contract import validate_result_authority, validate_state_authority
@@ -81,6 +83,13 @@ def validate_project_identity_and_derived(root: Path, gov: Path, control: Mappin
         active_context_id=control.get("project_context_id"),
         local_repository_id=repository_id,
     )
+
+
+def validate_project_evolution_orchestration() -> list[str]:
+    """Confirm Task 5's local-only interfaces exist without evaluating or mutating a Project."""
+    return [] if callable(validate_project_evolution_enrollment) and callable(build_project_evolution_observation) else [
+        "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"
+    ]
 
 
 def evaluate_framework_compatibility(
@@ -618,6 +627,7 @@ def main():
     control_p = gov / 'CONTROL.json'
     state_p = gov / 'STATE.json'
     errors = []
+    errors += validate_project_evolution_orchestration()
     for p in (control_p, state_p):
         if not p.exists():
             errors.append(f'missing {p}')
