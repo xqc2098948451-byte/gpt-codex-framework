@@ -172,11 +172,18 @@ def test_normalize_event_requires_common_fields_and_derived_provenance(self):
             normalize_event(valid_payload(**{field: None}), collector_id="collector", collector_version="1.0", timestamp=NOW)
 
 def test_low_confidence_fallback_requires_run_and_sequence(self):
-    fallback = valid_payload(authoritative_record_ref=None, provenance={
-        "classification": "DERIVED", "completeness": "LOW_CONFIDENCE",
-        "producer_run_id": "run-1", "producer_sequence": 0,
-    })
-    normalize_event(fallback, collector_id="collector", collector_version="1.0", timestamp=NOW)
+    fallback = valid_payload(
+        event_class="REMOTE_EVIDENCE_OBSERVED",
+        result_id=None,
+        authoritative_record_ref=None,
+        provenance={
+            "classification": "DERIVED", "completeness": "LOW_CONFIDENCE",
+            "producer_run_id": "run-1", "producer_sequence": 0,
+        },
+    )
+    event = normalize_event(fallback, collector_id="collector", collector_version="1.0", timestamp=NOW)
+    self.assertIsNone(correlation_ref_for(event))
+    self.assertTrue(event.logical_key)
     for omitted in ("producer_run_id", "producer_sequence"):
         invalid = dict(fallback)
         invalid["provenance"] = dict(fallback["provenance"])
@@ -363,11 +370,13 @@ def test_low_confidence_producer_sequence_is_a_reachable_out_of_order_chain(self
     collector = TelemetryCollector()
     first = collector.emit(normalized_event(
         event_class="REMOTE_EVIDENCE_OBSERVED", slot_id="NONE",
+        result_id=None,
         authoritative_record_ref=None,
         provenance={"classification": "DERIVED", "completeness": "LOW_CONFIDENCE", "producer_run_id": "run-1", "producer_sequence": 5},
     ))
     later_arrival = collector.emit(normalized_event(
         event_class="REMOTE_EVIDENCE_OBSERVED", slot_id="NONE",
+        result_id=None,
         authoritative_record_ref=None,
         provenance={"classification": "DERIVED", "completeness": "LOW_CONFIDENCE", "producer_run_id": "run-1", "producer_sequence": 3},
     ))
