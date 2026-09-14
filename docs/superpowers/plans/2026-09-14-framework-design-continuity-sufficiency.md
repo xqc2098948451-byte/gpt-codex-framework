@@ -186,7 +186,7 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 ## Plan self-review
 
 - Tasks 1–6 cover required fields, IDLE nullability, atomic reset/assignment, one-active-Work-Unit, blocked remediation, revision semantics, mismatch/cold recovery, reviewer seriality, P0-6 non-authority, and projection closure.
-- Dependencies are ordered: contract, validator, assignment/reset, remediation, recovery/reviewer behavior, then projection closure.
+- Dependencies are ordered: contract, validator, assignment/reset, remediation, recovery/reviewer behavior, then final verification of pre-integrated projection state.
 - Every referenced production path has a Registry owner; every behavior test uses the owned validator test asset.
 - The Plan contains no unfinished markers, generic validation instructions, or omitted file paths.
 
@@ -194,7 +194,7 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 
 Do not edit the projection manifest in this Plan stage. The sole permitted stage-local debts are `docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md` and `docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md`.
 
-`PROJECTION_STAGE_DEVIATION = DEFERRED_NONBLOCKING` until Task 6 closes integration.
+`PROJECTION_STAGE_DEVIATION = DEFERRED_NONBLOCKING` until a separately authorized integration step closes it; Task 6 verifies only.
 
 ## Executable field, test, and projection matrix
 
@@ -209,6 +209,6 @@ Do not edit the projection manifest in this Plan stage. The sole permitted stage
 | REVIEWING | required | required | required exact reviewed revision |
 | COMPLETED | required | required | required before reset |
 
-Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 RED coverage must separately assert `EXECUTION_SLOT_MISMATCH` or `RECONCILIATION_REQUIRED` for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, and STATE revision mismatches; missing durable facts, dirty/ambiguous worktree, stale Resume, missing Map with sufficient authoritative facts, and physical-window replacement. Task 6 RED coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
+Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 RED coverage must separately assert `EXECUTION_SLOT_MISMATCH` or `RECONCILIATION_REQUIRED` for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, and STATE revision mismatches; missing durable facts, dirty/ambiguous worktree, stale Resume, missing Map with sufficient authoritative facts, and physical-window replacement. Task 5 RED coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
 
 At Task 6, the manifest remains `MANAGEMENT_ONLY`; listed runtime paths remain `CONSUMER_REQUIRED`; validator/test assets remain `MANAGEMENT_ONLY`. The only new classifications are the Design and Plan as `DEVELOPMENT_HISTORY`. Final evidence records the numeric unittest output (`Ran <integer> tests`, `failures = 0`, `errors = 0`), `projection unknown = 0`, `projection missing required = 0`, and a clean worktree.
