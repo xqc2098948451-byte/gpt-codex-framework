@@ -501,7 +501,9 @@ def _load_recovery_work_unit(root: Path, control: Mapping, slot: Mapping, state:
     return record
 
 
-def _lifecycle_records_are_durable(root: Path, slot: Mapping) -> bool:
+def _lifecycle_records_are_durable(
+    root: Path, control: Mapping, slot: Mapping, state: Mapping,
+) -> bool:
     references = {
         value
         for field in (
@@ -532,7 +534,30 @@ def _lifecycle_records_are_durable(root: Path, slot: Mapping) -> bool:
             for reference in references:
                 if record.get("result_id") == reference or record.get("evidence_id") == reference:
                     records[reference].append(record)
-    return all(len(matches) == 1 for matches in records.values())
+    for reference, matches in records.items():
+        if len(matches) != 1:
+            return False
+        record = matches[0]
+        if (
+            record.get("project_id") != control.get("project_id")
+            or record.get("work_unit_id") != slot.get("work_unit_id")
+            or record.get("state_revision") != state.get("revision")
+        ):
+            return False
+        if reference == slot.get("review_result_ref") and (
+            record.get("result_message_type") != "REVIEW_RESULT"
+            or record.get("response_to_instruction_id") != slot.get("review_request_id")
+            or record.get("responder_role") != "CODEX_REVIEWER"
+            or record.get("review_target_revision") != slot.get("current_head_sha")
+        ):
+            return False
+        if reference == slot.get("reviewer_reassignment_ref") and (
+            record.get("evidence_id") != reference
+            or record.get("subject") != "REVIEWER_REASSIGNMENT"
+            or record.get("source") == "MODEL_INFERRED"
+        ):
+            return False
+    return True
 
 
 def _git_recovery_is_current(root: Path, slot: Mapping, state: Mapping) -> bool:
@@ -614,7 +639,7 @@ def _execution_slot_recovery(
         slot.get("state_revision") != state.get("revision")
         or not _is_nonempty_string(slot.get("next_action"))
         or _load_recovery_work_unit(root, control, slot, state) is None
-        or not _lifecycle_records_are_durable(root, slot)
+        or not _lifecycle_records_are_durable(root, control, slot, state)
         or not _git_recovery_is_current(root, slot, state)
     ):
         return _recovery_result()

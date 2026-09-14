@@ -536,7 +536,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             last_accepted_sha="a" * 40,
             instruction_id="instruction-1",
             review_request_id="review-request-1",
-            review_result_ref=None,
+            review_result_ref="review-result-1",
             next_action="AWAIT_REVIEW",
         )
         slot["state_revision"] = 8
@@ -557,7 +557,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "work_unit_id": "WU-1",
             "instruction_id": "instruction-1",
             "review_request_id": "review-request-1",
-            "review_result_ref": None,
+            "review_result_ref": "review-result-1",
             "current_git_sha": "a" * 40,
             "git_ancestry_valid": True,
             "state_revision": 8,
@@ -639,6 +639,19 @@ class NavigationProjectValidationTests(unittest.TestCase):
         state = json.loads(state_path.read_text(encoding="utf-8"))
         state["continuity"]["latest_verified_remote_sha"] = head
         self._write_json(root, ".gpt-codex/STATE.json", state)
+        self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "result_id": "review-result-1",
+            "project_id": "PROJECT-ONE",
+            "work_unit_id": "WU-1",
+            "state_revision": 8,
+            "status": "PASS",
+            "result_message_type": "REVIEW_RESULT",
+            "response_to_instruction_id": "review-request-1",
+            "responder_role": "CODEX_REVIEWER",
+            "review_target_revision": head,
+        })
         if include_work_unit:
             records = [self._task5_work_unit()] if work_units is None else work_units
             for index, record in enumerate(records):
@@ -1004,7 +1017,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             slot = self._write_task5_durable_project(root)
             state_path = root / ".gpt-codex/STATE.json"
             state = json.loads(state_path.read_text(encoding="utf-8"))
-            state["active_execution_slots"][0]["review_result_ref"] = "review-result-1"
+            (root / ".gpt-codex/evidence/results/review-result-1.json").unlink()
             self._write_json(root, ".gpt-codex/STATE.json", state)
 
             result = load_continuity_resume(
@@ -1015,6 +1028,80 @@ class NavigationProjectValidationTests(unittest.TestCase):
             )
 
         self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_cold_recovery_rejects_lifecycle_result_that_does_not_bind_the_slot(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            slot = self._write_task5_durable_project(root)
+            result_path = root / ".gpt-codex/evidence/results/review-result-1.json"
+            result_record = json.loads(result_path.read_text(encoding="utf-8"))
+            result_record["response_to_instruction_id"] = "review-request-other"
+            self._write_json(root, ".gpt-codex/evidence/results/review-result-1.json", result_record)
+
+            result = load_continuity_resume(
+                root,
+                "repo-a",
+                execution_slot_id="CODEX-IMPL-B",
+                execution_slot_binding=self.task5_binding(slot),
+            )
+
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_cold_recovery_fails_closed_for_real_git_and_work_unit_conflicts(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        def recover(root, slot):
+            return load_continuity_resume(
+                root,
+                "repo-a",
+                execution_slot_id="CODEX-IMPL-B",
+                execution_slot_binding=self.task5_binding(slot),
+            )
+
+        for condition in (
+            "dirty", "head_mismatch", "base_not_ancestor", "accepted_not_ancestor",
+            "duplicate_work_unit", "foreign_work_unit",
+        ):
+            with self.subTest(condition=condition), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                slot = self._write_task5_durable_project(root)
+                if condition == "dirty":
+                    (root / "dirty.txt").write_text("not clean\n", encoding="utf-8")
+                elif condition in {"head_mismatch", "base_not_ancestor", "accepted_not_ancestor"}:
+                    state_path = root / ".gpt-codex/STATE.json"
+                    state = json.loads(state_path.read_text(encoding="utf-8"))
+                    if condition == "head_mismatch":
+                        state["active_execution_slots"][0]["current_head_sha"] = "b" * 40
+                    else:
+                        self._git(root, "switch", "--orphan", "unrelated")
+                        (root / "unrelated.txt").write_text("unrelated\n", encoding="utf-8")
+                        self._git(root, "add", "unrelated.txt")
+                        self._git(root, "commit", "-m", "unrelated")
+                        unrelated = self._git(root, "rev-parse", "HEAD")
+                        self._git(root, "switch", "feature/task-5")
+                        field = "base_sha" if condition == "base_not_ancestor" else "last_accepted_sha"
+                        state["active_execution_slots"][0][field] = unrelated
+                        if field == "base_sha":
+                            state["continuity"]["latest_verified_remote_sha"] = unrelated
+                    self._write_json(root, ".gpt-codex/STATE.json", state)
+                    slot = state["active_execution_slots"][0]
+                elif condition == "duplicate_work_unit":
+                    self._write_json(root, ".gpt-codex/work/duplicate.json", self._task5_work_unit())
+                else:
+                    foreign = self._task5_work_unit()
+                    foreign["project_id"] = "PROJECT-OTHER"
+                    self._write_json(root, ".gpt-codex/work/record-0.json", foreign)
+
+                result = recover(root, slot)
+                self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
 
     def test_reviewer_reference_is_the_review_request_and_reassignment_needs_durable_chain(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
@@ -1073,6 +1160,10 @@ class NavigationProjectValidationTests(unittest.TestCase):
             ("expected_state_revision", 7),
             ("target_work_unit", "WU-OTHER"),
             ("target_project_context_id", "22222222-2222-4222-8222-222222222222"),
+            ("instruction_id", "review-request-other"),
+            ("issuer_role", "CODEX_REVIEWER"),
+            ("executor_role", "CODEX_IMPLEMENTER"),
+            ("review_target_revision", "b" * 40),
         ):
             with self.subTest(field=field):
                 invalid_instruction = dict(reassignment_instruction, **{field: value})
@@ -1084,6 +1175,27 @@ class NavigationProjectValidationTests(unittest.TestCase):
                         8,
                         reassignment_instruction=invalid_instruction,
                         reassignment_evidence=reassignment_evidence,
+                    ),
+                )
+        for field, value in (
+            ("evidence_id", "made-up"),
+            ("source_review_request_id", "review-request-other"),
+            ("target_review_request_id", "review-request-other"),
+            ("work_unit_id", "WU-OTHER"),
+            ("state_revision", 7),
+            ("current_head_sha", "b" * 40),
+            ("source", "MODEL_INFERRED"),
+        ):
+            with self.subTest(evidence_field=field):
+                invalid_evidence = dict(reassignment_evidence, **{field: value})
+                self.assertIn(
+                    "RECONCILIATION_REQUIRED",
+                    validate_reviewer_assignment(
+                        slot,
+                        "review-request-2",
+                        8,
+                        reassignment_instruction=reassignment_instruction,
+                        reassignment_evidence=invalid_evidence,
                     ),
                 )
 
