@@ -17,8 +17,10 @@ from validate_project import (
 )
 from context_binding import (
     build_project_evolution_observation,
+    classify_framework_evolution_index,
     evaluate_cross_project_resource_boundary,
     load_project_identity,
+    validate_repository_transfer,
     validate_project_evolution_enrollment,
 )
 
@@ -446,6 +448,108 @@ class ValidatorContextBindingTests(unittest.TestCase):
             ).reason,
             "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
         )
+
+    def test_evolution_index_classifies_lifecycle_without_project_authority(self):
+        enrollment = {
+            "explicit_enrollment": True,
+            "enrollment_id": "enroll-1",
+            "enrollment_status": "ACTIVE",
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "123",
+            "repository_full_name": "example/project",
+            "transport": "MANUAL",
+        }
+        observation = {
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "123",
+            "repository_full_name": "example/project",
+            "source_framework_version": "2.7.0",
+            "source_provenance_digest": "a" * 64,
+            "compatibility_outcome": "RECOMMENDED_UPGRADE",
+            "observed_at": 900,
+            "local_revision_ref": "revision-7",
+            "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+        }
+        current = classify_framework_evolution_index(
+            [enrollment], [observation], now=1000, stale_after_seconds=200,
+        )[0]
+        stale = classify_framework_evolution_index(
+            [enrollment], [observation], now=1200, stale_after_seconds=200,
+        )[0]
+        conflict = classify_framework_evolution_index(
+            [enrollment, {**enrollment, "repository_id": "456", "repository_full_name": "other/project"}],
+            [observation], now=1000, stale_after_seconds=200,
+        )[0]
+        not_enrolled = classify_framework_evolution_index(
+            [], [observation], now=1000, stale_after_seconds=200,
+        )[0]
+
+        self.assertEqual(current["classification"], "FRAMEWORK_MANAGEMENT_METADATA")
+        self.assertEqual(current["evolution_status"], "PROJECT_EVOLUTION_OBSERVATION_CURRENT")
+        self.assertEqual(stale["evolution_status"], "PROJECT_EVOLUTION_OBSERVATION_STALE")
+        self.assertEqual(conflict["evolution_status"], "PROJECT_EVOLUTION_ENROLLMENT_CONFLICT")
+        self.assertEqual(not_enrolled["evolution_status"], "PROJECT_EVOLUTION_NOT_ENROLLED")
+        self.assertFalse(
+            {"command", "retry", "queue", "target_work_unit", "authorized_actions", "project_mutation",
+             "schedule_execution", "force_adoption", "work_unit"}.intersection(current)
+        )
+        retired = classify_framework_evolution_index(
+            [{**enrollment, "enrollment_status": "RETIRED"}], [observation],
+            now=1000, stale_after_seconds=200,
+        )[0]
+        self.assertEqual(retired["evolution_status"], "PROJECT_EVOLUTION_OBSERVATION_STALE")
+        renamed = classify_framework_evolution_index(
+            [{**enrollment, "repository_full_name": "example/renamed", "display_name": "Renamed"}],
+            [{**observation, "repository_full_name": "example/renamed"}],
+            now=1000, stale_after_seconds=200,
+        )[0]
+        self.assertEqual(renamed["evolution_status"], "PROJECT_EVOLUTION_OBSERVATION_CURRENT")
+        self.assertEqual(renamed["repository_id"], "123")
+
+    def test_repository_transfer_requires_both_identity_bound_evidence(self):
+        old_enrollment = {
+            "explicit_enrollment": True,
+            "project_id": "PRJ-001",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "repository_id": "123",
+            "repository_full_name": "example/project",
+            "transport": "MANUAL",
+        }
+        new_enrollment = {
+            **old_enrollment, "repository_id": "456", "repository_full_name": "example/renamed",
+        }
+        old_evidence = {"status": "VERIFIED", "repository_id": "123", "repository_full_name": "example/project"}
+        new_evidence = {"status": "VERIFIED", "repository_id": "456", "repository_full_name": "example/renamed"}
+
+        self.assertEqual(
+            validate_repository_transfer(
+                old_enrollment, {**old_enrollment, "repository_full_name": "example/renamed"},
+                old_repository_evidence=old_evidence, new_repository_evidence=new_evidence,
+            ).reason,
+            "PROJECT_IDENTITY_INVALID",
+        )
+        self.assertNotEqual(
+            validate_repository_transfer(
+                old_enrollment, new_enrollment,
+                old_repository_evidence=None, new_repository_evidence=new_evidence,
+            ).decision,
+            "ALLOW",
+        )
+        self.assertNotEqual(
+            validate_repository_transfer(
+                old_enrollment, new_enrollment,
+                old_repository_evidence=old_evidence, new_repository_evidence=None,
+            ).decision,
+            "ALLOW",
+        )
+        decision = validate_repository_transfer(
+            old_enrollment, new_enrollment,
+            old_repository_evidence=old_evidence, new_repository_evidence=new_evidence,
+        )
+        self.assertEqual((decision.decision, decision.current_project_mutation, decision.action_executable),
+                         ("ALLOW", False, False))
 
     def test_adoption_requires_local_authority_not_source_or_observation(self):
         control, instruction, work_unit = self._adoption_facts()

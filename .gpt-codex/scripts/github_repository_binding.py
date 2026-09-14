@@ -89,6 +89,18 @@ def compare_repository_binding(control: Mapping[str, Any], observed: ObservedRep
     return BindingDecision("ALLOW", "GITHUB_REPOSITORY_ID_MATCH", True, True)
 
 
+def repository_evidence_matches_identity(identity: Mapping[str, Any], evidence: Mapping[str, Any] | None) -> bool:
+    """Verify supplied repository evidence against an already explicit identity."""
+    if not isinstance(identity, Mapping) or not isinstance(evidence, Mapping):
+        return False
+    return (
+        isinstance(identity.get("repository_id"), str)
+        and isinstance(identity.get("repository_full_name"), str)
+        and identity["repository_id"] == evidence.get("repository_id")
+        and identity["repository_full_name"] == evidence.get("repository_full_name")
+    )
+
+
 def _git(repo_root: Path, *args: str) -> tuple[int, str, str]:
     try:
         proc = subprocess.run(["git", *args], cwd=repo_root, capture_output=True, text=True, check=False)

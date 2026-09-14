@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass
+from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -229,6 +230,145 @@ def build_project_evolution_observation(
     if _is_bounded_result_evidence_ref(result_evidence_ref):
         observation["result_evidence_ref"] = result_evidence_ref
     return observation
+
+
+def _index_identity_tuple(value: object) -> tuple[str, str, str] | None:
+    if not isinstance(value, Mapping):
+        return None
+    project_id = value.get("project_id")
+    context_id = value.get("project_context_id")
+    repository_id = value.get("repository_id")
+    if (
+        not isinstance(project_id, str) or not project_id.strip()
+        or not is_valid_project_context_id(context_id)
+        or not isinstance(repository_id, str) or not repository_id.strip()
+    ):
+        return None
+    return project_id.strip(), context_id, repository_id.strip()
+
+
+def _observation_timestamp(value: object) -> float | None:
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return float(value)
+    if isinstance(value, str):
+        try:
+            return datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            return None
+    return None
+
+
+def _index_row(
+    identity: tuple[str, str, str], enrollment: Mapping[str, Any] | None,
+    observation: Mapping[str, Any] | None, status: str,
+) -> dict[str, Any]:
+    row: dict[str, Any] = {
+        "classification": "FRAMEWORK_MANAGEMENT_METADATA",
+        "evolution_status": status,
+        "project_id": identity[0],
+        "project_context_id": identity[1],
+        "repository_id": identity[2],
+    }
+    for source in (enrollment, observation):
+        if isinstance(source, Mapping):
+            full_name = source.get("repository_full_name")
+            if isinstance(full_name, str) and full_name.strip():
+                row["repository_full_name"] = full_name.strip()
+                break
+    if isinstance(enrollment, Mapping):
+        enrollment_id = enrollment.get("enrollment_id")
+        if _is_bounded_result_evidence_ref(enrollment_id):
+            row["enrollment_id"] = enrollment_id
+        row["enrollment_status"] = "RETIRED" if enrollment.get("enrollment_status") == "RETIRED" else "ACTIVE"
+    if isinstance(observation, Mapping):
+        for key in ("source_framework_version", "source_provenance_digest", "compatibility_outcome", "observed_at", "local_revision_ref"):
+            value = observation.get(key)
+            if isinstance(value, (str, int, float)) and not isinstance(value, bool):
+                row[key] = value
+        if _is_bounded_result_evidence_ref(observation.get("result_evidence_ref")):
+            row["result_evidence_ref"] = observation["result_evidence_ref"]
+    return row
+
+
+def classify_framework_evolution_index(
+    enrollments: list[Mapping[str, Any]] | tuple[Mapping[str, Any], ...],
+    observations: list[Mapping[str, Any]] | tuple[Mapping[str, Any], ...],
+    *, now: object, stale_after_seconds: object,
+) -> list[dict[str, Any]]:
+    """Classify supplied management facts only; no Project authority or persistence is created."""
+    now_timestamp = _observation_timestamp(now)
+    stale_after = float(stale_after_seconds) if isinstance(stale_after_seconds, (int, float)) else None
+    if now_timestamp is None or stale_after is None or stale_after < 0:
+        return []
+    enrolled: dict[tuple[str, str, str], list[Mapping[str, Any]]] = {}
+    for enrollment in enrollments:
+        identity = _index_identity_tuple(enrollment)
+        if identity is not None and enrollment.get("explicit_enrollment") is True:
+            enrolled.setdefault(identity, []).append(enrollment)
+    observed: dict[tuple[str, str, str], list[Mapping[str, Any]]] = {}
+    for observation in observations:
+        identity = _index_identity_tuple(observation)
+        if identity is not None:
+            observed.setdefault(identity, []).append(observation)
+    conflicted_contexts = {
+        (identity[0], identity[1])
+        for identity in enrolled
+        if len({candidate[2] for candidate in enrolled if candidate[:2] == identity[:2]}) > 1
+    }
+    rows: list[dict[str, Any]] = []
+    for identity in sorted(set(enrolled) | set(observed)):
+        enrollment = sorted(enrolled.get(identity, []), key=lambda item: json.dumps(item, sort_keys=True, default=str))[0] if identity in enrolled else None
+        candidates = observed.get(identity, [])
+        observation = max(candidates, key=lambda item: (_observation_timestamp(item.get("observed_at")) or float("-inf"), json.dumps(item, sort_keys=True, default=str))) if candidates else None
+        if identity[:2] in conflicted_contexts:
+            status = "PROJECT_EVOLUTION_ENROLLMENT_CONFLICT"
+        elif enrollment is None:
+            status = "PROJECT_EVOLUTION_NOT_ENROLLED"
+        else:
+            observed_at = _observation_timestamp(observation.get("observed_at")) if observation else None
+            if enrollment.get("enrollment_status") == "RETIRED" or observed_at is None or now_timestamp - observed_at >= stale_after:
+                status = "PROJECT_EVOLUTION_OBSERVATION_STALE"
+            else:
+                status = "PROJECT_EVOLUTION_OBSERVATION_CURRENT"
+        rows.append(_index_row(identity, enrollment, observation, status))
+    return rows
+
+
+def _complete_transfer_identity(value: object) -> tuple[str, str, str, str] | None:
+    identity = _index_identity_tuple(value)
+    if not isinstance(value, Mapping) or identity is None or value.get("explicit_enrollment") is not True:
+        return None
+    full_name = value.get("repository_full_name")
+    if not isinstance(full_name, str) or not full_name.strip():
+        return None
+    return *identity, full_name.strip()
+
+
+def validate_repository_transfer(
+    old_enrollment: Mapping[str, Any], new_enrollment: Mapping[str, Any], *,
+    old_repository_evidence: Mapping[str, Any] | None, new_repository_evidence: Mapping[str, Any] | None,
+) -> ContextDecision:
+    """Validate supplied two-ended transfer evidence without transferring or mutating anything."""
+    from github_repository_binding import repository_evidence_matches_identity
+    from git_continuity import is_verified_repository_continuity_evidence
+
+    old_identity = _complete_transfer_identity(old_enrollment)
+    new_identity = _complete_transfer_identity(new_enrollment)
+    if old_identity is None or new_identity is None:
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    if old_identity[:2] != new_identity[:2] or (old_identity[2] == new_identity[2] and old_identity[3] != new_identity[3]):
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    if not (
+        is_verified_repository_continuity_evidence(old_repository_evidence)
+        and is_verified_repository_continuity_evidence(new_repository_evidence)
+        and repository_evidence_matches_identity(old_enrollment, old_repository_evidence)
+        and repository_evidence_matches_identity(new_enrollment, new_repository_evidence)
+    ):
+        return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
+    return _decision(
+        "ALLOW", "REPOSITORY_TRANSFER_RECONCILIATION", identity_match=True,
+        current_project_mutation=False, action_executable=False, authority="REPOSITORY_EVIDENCE_READ_ONLY",
+    )
 
 
 def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> ProjectResourceBinding | None:

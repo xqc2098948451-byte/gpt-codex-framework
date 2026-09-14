@@ -255,6 +255,43 @@ class SelfHostingValidatorTests(unittest.TestCase):
             ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"],
         )
 
+    def test_management_evolution_index_remains_non_authoritative(self):
+        from context_binding import classify_framework_evolution_index
+
+        control = management_control()
+        enrollment = {
+            "explicit_enrollment": True,
+            "enrollment_id": "management-1",
+            "enrollment_status": "ACTIVE",
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+            "repository_full_name": control["github"]["repository_full_name"],
+            "transport": "MANUAL",
+        }
+        observation = {
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+            "repository_full_name": control["github"]["repository_full_name"],
+            "source_framework_version": "2.7.0",
+            "source_provenance_digest": "a" * 64,
+            "compatibility_outcome": "NO_ACTION",
+            "observed_at": 1000,
+            "local_revision_ref": "revision-7",
+        }
+        row = classify_framework_evolution_index(
+            [enrollment], [observation], now=1001, stale_after_seconds=60,
+        )[0]
+        self.assertEqual(
+            (row["classification"], row["evolution_status"]),
+            ("FRAMEWORK_MANAGEMENT_METADATA", "PROJECT_EVOLUTION_OBSERVATION_CURRENT"),
+        )
+        self.assertFalse({
+            "command", "retry", "queue", "target_work_unit", "authorized_actions", "project_mutation",
+            "schedule_execution", "force_adoption", "work_unit",
+        }.intersection(row))
+
 
 if __name__ == "__main__":
     unittest.main()
