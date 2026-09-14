@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from copy import deepcopy
 from dataclasses import dataclass
+import hashlib
+import json
 from pathlib import Path
 import secrets
 from typing import Any, Callable, Mapping
@@ -11,6 +13,7 @@ from uuid import UUID, uuid4
 REQUIRED_GUARDRAIL_ID = "cross-project-context-binding"
 REQUIRED_GUARDRAIL_VERSION = "1.0.0"
 _READ_ONLY_BOUNDARY_OPERATIONS = frozenset({"READ", "EVALUATE"})
+_PROJECT_EVOLUTION_TRANSPORTS = frozenset({"MANUAL", "PROJECT_PUSH", "PROJECT_PULL"})
 _PROTECTED_RESOURCE_TYPES = frozenset({
     "CONTROL", "STATE", "WORK_UNIT", "INSTRUCTION", "RESULT", "EVIDENCE",
     "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION", "PROJECT_MAP", "RESUME",
@@ -124,6 +127,102 @@ def evaluate_project_identity(
         return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
     return _decision("ALLOW", "IDENTITY_MATCH", identity_match=True, freshness_match=True,
                      current_project_mutation=False, action_executable=False, authority="IDENTITY_VALIDATION")
+
+
+def _evolution_input_attempts_authority(value: object) -> bool:
+    if not isinstance(value, Mapping):
+        return False
+    from role_communication import _EVOLUTION_AUTHORITY_FIELDS, validate_evolution_metadata_authority
+
+    candidates = [value]
+    metadata = value.get("evolution_metadata")
+    if isinstance(metadata, Mapping):
+        candidates.append(metadata)
+    return any(
+        _EVOLUTION_AUTHORITY_FIELDS.intersection(candidate)
+        or validate_evolution_metadata_authority(candidate)
+        for candidate in candidates
+    )
+
+
+def validate_project_evolution_enrollment(
+    project_control: Mapping[str, Any], enrollment: Mapping[str, Any],
+) -> ContextDecision:
+    """Validate an explicit, identity-bound evolution enrollment without registering it."""
+    if not isinstance(enrollment, Mapping):
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    if _evolution_input_attempts_authority(enrollment):
+        return _decision("DENY", "PROJECT_AUTHORITY_BOUNDARY_VIOLATION", hard_stop=True)
+    if (
+        enrollment.get("explicit_enrollment") is not True
+        or enrollment.get("transport") not in _PROJECT_EVOLUTION_TRANSPORTS
+        or not isinstance(enrollment.get("project_id"), str) or not enrollment["project_id"].strip()
+        or not is_valid_project_context_id(enrollment.get("project_context_id"))
+        or not isinstance(enrollment.get("repository_id"), str) or not enrollment["repository_id"].strip()
+        or ("repository_full_name" in enrollment and (
+            not isinstance(enrollment["repository_full_name"], str)
+            or not enrollment["repository_full_name"].strip()
+        ))
+    ):
+        return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
+    return evaluate_project_identity(
+        project_control,
+        expected_project_id=enrollment["project_id"],
+        expected_project_context_id=enrollment["project_context_id"],
+        expected_repository_id=enrollment["repository_id"],
+        expected_repository_full_name=enrollment.get("repository_full_name"),
+    )
+
+
+def _source_provenance_digest(provenance: Mapping[str, Any]) -> str:
+    canonical = json.dumps(provenance, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def build_project_evolution_observation(
+    project_control: Mapping[str, Any],
+    evaluation: Mapping[str, Any],
+    enrollment: Mapping[str, Any],
+    *,
+    observed_at: str,
+    local_revision_ref: str,
+) -> dict[str, Any]:
+    """Create a bounded derived observation; it never authorizes or persists Project work."""
+    if _evolution_input_attempts_authority(enrollment) or _evolution_input_attempts_authority(evaluation):
+        raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+    enrollment_decision = validate_project_evolution_enrollment(project_control, enrollment)
+    if enrollment_decision.decision != "ALLOW":
+        raise ValueError(enrollment_decision.reason)
+    source_version = evaluation.get("source_framework_version")
+    provenance = evaluation.get("source_provenance")
+    outcome = evaluation.get("classification")
+    if (
+        not isinstance(source_version, str) or not source_version
+        or not isinstance(provenance, Mapping)
+        or not isinstance(outcome, str) or not outcome
+        or not isinstance(observed_at, str) or not observed_at
+        or not isinstance(local_revision_ref, str) or not local_revision_ref
+    ):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
+    identity = load_project_identity(project_control)
+    observation = {
+        "classification": "DERIVED_OBSERVATION_ONLY",
+        "project_id": identity.project_id,
+        "project_context_id": identity.project_context_id,
+        "repository_id": identity.repository_id,
+        "source_framework_version": source_version,
+        "source_provenance_digest": _source_provenance_digest(provenance),
+        "compatibility_outcome": outcome,
+        "observed_at": observed_at,
+        "local_revision_ref": local_revision_ref,
+    }
+    repository_full_name = enrollment.get("repository_full_name")
+    if isinstance(repository_full_name, str) and repository_full_name:
+        observation["repository_full_name"] = repository_full_name
+    result_evidence_ref = evaluation.get("result_evidence_ref")
+    if isinstance(result_evidence_ref, str) and result_evidence_ref:
+        observation["result_evidence_ref"] = result_evidence_ref
+    return observation
 
 
 def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> ProjectResourceBinding | None:

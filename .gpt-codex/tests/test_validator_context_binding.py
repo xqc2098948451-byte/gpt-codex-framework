@@ -16,8 +16,10 @@ from validate_project import (
     validate_project_identity_boundary,
 )
 from context_binding import (
+    build_project_evolution_observation,
     evaluate_cross_project_resource_boundary,
     load_project_identity,
+    validate_project_evolution_enrollment,
 )
 
 
@@ -323,6 +325,105 @@ class ValidatorContextBindingTests(unittest.TestCase):
         invalid_evaluation = evaluate_project_evolution(control, {"classification": "invalid"})
         self.assertEqual(invalid_evaluation["classification"], "FRAMEWORK_SOURCE_INVALID")
         self.assertIsNone(invalid_evaluation["source_framework_version"])
+
+    def test_explicit_enrollment_is_not_discovery(self):
+        control = self._complete_identity_control()
+        enrollment = {
+            "explicit_enrollment": True,
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+        }
+
+        self.assertEqual(
+            validate_project_evolution_enrollment(
+                control, {"repository_full_name": "example/project"},
+            ).reason,
+            "PROJECT_IDENTITY_INVALID",
+        )
+        for transport in ("MANUAL", "PROJECT_PUSH", "PROJECT_PULL"):
+            with self.subTest(transport=transport):
+                decision = validate_project_evolution_enrollment(
+                    control, {**enrollment, "transport": transport},
+                )
+                self.assertEqual((decision.decision, decision.action_executable), ("ALLOW", False))
+        self.assertEqual(
+            validate_project_evolution_enrollment(
+                control, {**enrollment, "transport": "DISCOVERY"},
+            ).reason,
+            "PROJECT_IDENTITY_INVALID",
+        )
+        self.assertEqual(
+            validate_project_evolution_enrollment(
+                control,
+                {**enrollment, "transport": "MANUAL", "project_context_id": "22222222-2222-4222-8222-222222222222"},
+            ).reason,
+            "CROSS_PROJECT_CONTEXT_MISMATCH",
+        )
+        self.assertEqual(
+            validate_project_evolution_enrollment(
+                control, {**enrollment, "transport": "MANUAL", "repository_id": "456"},
+            ).reason,
+            "GITHUB_REPOSITORY_MISMATCH",
+        )
+
+    def test_observation_is_minimized_and_non_authoritative(self):
+        control = self._complete_identity_control()
+        enrollment = {
+            "explicit_enrollment": True,
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+            "repository_full_name": control["github"]["repository_full_name"],
+            "transport": "MANUAL",
+            "control": {"secret": "must-not-copy"},
+        }
+        evaluation = {
+            "classification": "RECOMMENDED_UPGRADE",
+            "source_framework_version": "2.7.0",
+            "source_provenance": {"commit_sha": "a" * 40},
+            "mutated": False,
+            "adoption_authorized": False,
+            "result_evidence_ref": "RESULT-001",
+            "state": {"secret": "must-not-copy"},
+            "source_content": "must-not-copy",
+            "extensions": {"must-not-copy": True},
+            "unknown": "must-not-copy",
+        }
+
+        observation = build_project_evolution_observation(
+            control, evaluation, enrollment,
+            observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+        )
+        repeated = build_project_evolution_observation(
+            control, evaluation, enrollment,
+            observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+        )
+        self.assertEqual(observation["classification"], "DERIVED_OBSERVATION_ONLY")
+        self.assertEqual(observation["source_framework_version"], "2.7.0")
+        self.assertEqual(observation["compatibility_outcome"], "RECOMMENDED_UPGRADE")
+        self.assertEqual(observation["source_provenance_digest"], repeated["source_provenance_digest"])
+        self.assertEqual(observation["result_evidence_ref"], "RESULT-001")
+        self.assertFalse(
+            {"control", "state", "work_unit", "result", "evidence", "prompt", "reasoning", "credential",
+             "credentials", "token", "tokens", "secret", "source_content", "environment", "log", "logs",
+             "extensions", "unknown"}.intersection(observation)
+        )
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            build_project_evolution_observation(
+                control,
+                {**evaluation, "evolution_metadata": {
+                    "classification": "DERIVED_OBSERVATION_ONLY",
+                    "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+                }},
+                enrollment, observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+            )
+        self.assertEqual(
+            validate_project_evolution_enrollment(
+                control, {**enrollment, "authorized_actions": ["MUTATE_APPROVED_SCOPE"]},
+            ).reason,
+            "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+        )
 
     def test_adoption_requires_local_authority_not_source_or_observation(self):
         control, instruction, work_unit = self._adoption_facts()
