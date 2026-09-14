@@ -220,6 +220,44 @@ class ExecutionTelemetryTaskFourTests(unittest.TestCase):
         self.assertEqual(module.unknown_detail_from_telemetry((), "missing"), "UNKNOWN_FROM_TELEMETRY")
         self.assertEqual(module.telemetry_availability((event,), event.logical_key), "TELEMETRY_AVAILABLE")
 
+
+class ExecutionTelemetryTaskFiveTests(unittest.TestCase):
+    def test_event_classes_do_not_infer_authority(self):
+        module = load_module()
+        claims = {
+            "INSTRUCTION_ISSUED": "delivered",
+            "EXECUTION_COMPLETED": "accepted",
+            "REVIEW_RESULT": "remediation_authorized",
+            "REMOTE_EVIDENCE_OBSERVED": "published",
+            "SLOT_ASSIGNED": "assignment_authority",
+            "PUBLICATION_BOUNDARY_TRANSITION": "CONFIRMED_PUBLICATION",
+        }
+        for event_class, claim in claims.items():
+            with self.subTest(event_class=event_class), self.assertRaisesRegex(module.TelemetryValidationError, "PROHIBITED_AUTHORITY_CLAIM"):
+                module.normalize_event(valid_payload(event_class=event_class, authority_claim=claim), collector_id="collector", collector_version="1.0", timestamp=NOW)
+
+    def test_observation_only_and_reconstruction_are_reference_only(self):
+        module = load_module()
+        event = normalized_event(module)
+        self.assertIsNone(module.assert_observation_only(event))
+        forged = module.replace(event, provenance=module.replace(event.provenance, classification="AUTHORITATIVE"))
+        with self.assertRaisesRegex(module.TelemetryValidationError, "PROHIBITED_AUTHORITY_CLAIM"):
+            module.assert_observation_only(forged)
+        self.assertEqual(module.authoritative_reconstruction_required("authorization"), ("CONTROL", "Instruction"))
+        self.assertEqual(module.authoritative_reconstruction_required("slot"), ("ACTIVE_EXECUTION_SLOTS", "STATE"))
+        self.assertEqual(module.authoritative_reconstruction_required("result"), ("Result/Evidence",))
+        self.assertEqual(module.authoritative_reconstruction_required("git"), ("Git",))
+        self.assertEqual(module.authoritative_reconstruction_required("publication"), ("publication contract", "Result/Evidence", "Git"))
+        self.assertEqual(module.authoritative_reconstruction_required("unknown"), ())
+        self.assertEqual(module.authoritative_reconstruction_required("unrecognized"), ())
+
+    def test_zero_telemetry_is_not_authoritative_fallback_or_p0_5_implementation(self):
+        module = load_module()
+        self.assertEqual(module.telemetry_availability((), "missing"), "TELEMETRY_ABSENT")
+        self.assertEqual(module.unknown_detail_from_telemetry((), "missing"), "UNKNOWN_FROM_TELEMETRY")
+        self.assertEqual(module.authoritative_reconstruction_required("slot"), ("ACTIVE_EXECUTION_SLOTS", "STATE"))
+        self.assertEqual(module.RECOMMENDED_RETENTION_DAYS, 30)
+
     def test_low_confidence_sequence_identity_and_repeat_subject_enable_out_of_order(self):
         module = load_module()
         collector = module.TelemetryCollector()

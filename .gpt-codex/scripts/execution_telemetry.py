@@ -356,3 +356,22 @@ def unknown_detail_from_telemetry(events: Sequence[TelemetryEvent], logical_key:
     if telemetry_availability(events, logical_key) == "TELEMETRY_ABSENT":
         return "UNKNOWN_FROM_TELEMETRY"
     return "TELEMETRY_AVAILABLE"
+
+
+def authoritative_reconstruction_required(detail: str) -> tuple[str, ...]:
+    references = {
+        "authorization": ("CONTROL", "Instruction"),
+        "slot": ("ACTIVE_EXECUTION_SLOTS", "STATE"),
+        "result": ("Result/Evidence",),
+        "git": ("Git",),
+        "publication": ("publication contract", "Result/Evidence", "Git"),
+        "unknown": (),
+    }
+    return references.get(detail, ())
+
+
+def assert_observation_only(event: TelemetryEvent) -> None:
+    if event.event_class not in EVENT_CLASSES:
+        raise TelemetryValidationError("MALFORMED_TELEMETRY_EVENT")
+    if event.provenance.classification != "DERIVED":
+        raise TelemetryValidationError("PROHIBITED_AUTHORITY_CLAIM")
