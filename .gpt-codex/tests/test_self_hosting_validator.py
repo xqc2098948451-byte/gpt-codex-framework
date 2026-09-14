@@ -227,6 +227,34 @@ class SelfHostingValidatorTests(unittest.TestCase):
                 ["FRAMEWORK_SOURCE_INVALID"],
             )
 
+    def test_read_only_source_does_not_replace_local_work_unit_authority(self):
+        from validate_project import validate_framework_adoption
+
+        control = management_control()
+        instruction = {
+            "target_project_context_id": control["project_context_id"],
+            "target_github_repository_id": control["github"]["repository_id"],
+            "target_github_repository_full_name": control["github"]["repository_full_name"],
+            "target_work_unit": "WU-001",
+            "expected_state_revision": 1,
+            "executor_role": "CODEX_IMPLEMENTER",
+            "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+            "forbidden_actions": [],
+        }
+        work_unit = {
+            "project_id": control["project_id"],
+            "work_unit_id": "WU-001",
+            "state": "PROPOSED",
+            "basis_state_revision": 1,
+        }
+        self.assertEqual(
+            validate_framework_adoption(
+                control, instruction, work_unit, current_state_revision=1,
+                source=self._valid_evolution_source(),
+            ),
+            ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

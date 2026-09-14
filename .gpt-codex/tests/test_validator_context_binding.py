@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / ".gpt-codex" / "scripts"))
 
 from validate_project import (
+    evaluate_project_evolution,
+    validate_framework_adoption,
     validate_project_identity_and_derived,
     validate_project_identity_boundary,
 )
@@ -31,6 +33,37 @@ class ValidatorContextBindingTests(unittest.TestCase):
             },
             "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
         }
+
+    @staticmethod
+    def _valid_evolution_source(version="2.6.0", compatibility_rules=None):
+        return {
+            "classification": "READ_ONLY_EVOLUTION_SOURCE",
+            "framework_version": version,
+            "source_provenance": {"commit_sha": "a" * 40},
+            "compatibility_rules": compatibility_rules or {},
+            "migration_available": False,
+        }
+
+    def _adoption_facts(self):
+        control = self._complete_identity_control()
+        control["framework"] = {"adopted_version": "2.6.0"}
+        instruction = {
+            "target_project_context_id": control["project_context_id"],
+            "target_github_repository_id": control["github"]["repository_id"],
+            "target_github_repository_full_name": control["github"]["repository_full_name"],
+            "target_work_unit": "WU-001",
+            "expected_state_revision": 6,
+            "executor_role": "CODEX_IMPLEMENTER",
+            "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+            "forbidden_actions": [],
+        }
+        work_unit = {
+            "project_id": control["project_id"],
+            "work_unit_id": "WU-001",
+            "state": "AUTHORIZED",
+            "basis_state_revision": 6,
+        }
+        return control, instruction, work_unit
 
     def test_declared_invalid_identity_short_circuits_derived_validation(self):
         control = {"project_context_id": "not-a-uuid", "github": {}}
@@ -220,6 +253,92 @@ class ValidatorContextBindingTests(unittest.TestCase):
                 {"repository_id": "123", "repository_full_name": "example/project", "observed_repository_id": "456"},
             )
         self.assertEqual(contradiction["classification"], "GITHUB_REPOSITORY_MISMATCH")
+
+    def test_project_evolution_evaluation_is_read_only(self):
+        control = self._complete_identity_control()
+        control["framework"] = {"adopted_version": "2.6.0"}
+        cases = (
+            ("2.6.0", {}, "NO_ACTION"),
+            ("2.7.0", {"compatible": True, "reusable": True}, "OPTIONAL_REUSE"),
+            ("2.7.0", {"compatible": True, "reusable": False}, "RECOMMENDED_UPGRADE"),
+            ("2.7.0", {"compatible": True, "requires_migration": True}, "REQUIRED_MIGRATION"),
+            ("2.7.0", {"identity_conflict": True}, "CONFLICT"),
+        )
+        for version, compatibility_rules, classification in cases:
+            with self.subTest(classification=classification):
+                source = self._valid_evolution_source(version, compatibility_rules)
+                evaluation = evaluate_project_evolution(control, source)
+                self.assertEqual(evaluation["classification"], classification)
+                self.assertFalse(evaluation["mutated"])
+                self.assertFalse(evaluation["adoption_authorized"])
+                self.assertEqual(evaluation["source_provenance"], {"commit_sha": "a" * 40})
+
+        self.assertEqual(
+            evaluate_project_evolution(control, {"classification": "invalid"})["classification"],
+            "FRAMEWORK_SOURCE_INVALID",
+        )
+
+    def test_adoption_requires_local_authority_not_source_or_observation(self):
+        control, instruction, work_unit = self._adoption_facts()
+        source = self._valid_evolution_source()
+
+        self.assertEqual(
+            validate_framework_adoption(control, instruction, {**work_unit, "state": "PROPOSED"},
+                                        current_state_revision=6, source=source),
+            ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(control, instruction, work_unit, current_state_revision=7, source=source),
+            ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(
+                control,
+                {**instruction, "evolution_metadata": {
+                    "classification": "READ_ONLY_EVOLUTION_SOURCE",
+                    "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+                }},
+                work_unit,
+                current_state_revision=6,
+                source=source,
+            ),
+            ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(
+                control, {**instruction, "target_project_context_id": "22222222-2222-4222-8222-222222222222"},
+                work_unit, current_state_revision=6, source=source,
+            ),
+            ["CROSS_PROJECT_CONTEXT_MISMATCH"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(
+                control, {**instruction, "target_project_context_id": "not-a-uuid"},
+                work_unit, current_state_revision=6, source=source,
+            ),
+            ["PROJECT_IDENTITY_INVALID"],
+        )
+        malformed = {key: value for key, value in control.items() if key != "github"}
+        self.assertEqual(
+            validate_framework_adoption(malformed, instruction, work_unit, current_state_revision=6, source=source),
+            ["PROJECT_IDENTITY_INVALID"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(
+                control, {**instruction, "target_github_repository_id": "456"},
+                work_unit, current_state_revision=6, source=source,
+            ),
+            ["GITHUB_REPOSITORY_MISMATCH"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(control, instruction, work_unit, current_state_revision=6,
+                                        source={**source, "target_work_unit": "foreign"}),
+            ["FRAMEWORK_SOURCE_INVALID"],
+        )
+        self.assertEqual(
+            validate_framework_adoption(control, instruction, work_unit, current_state_revision=6, source=source),
+            [],
+        )
 
 
 if __name__ == "__main__":
