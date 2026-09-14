@@ -125,6 +125,12 @@ def _bounded_string(value: object, limit: int, code: str) -> str | None:
     return value
 
 
+def _required_bounded_string(value: object, limit: int, code: str) -> str:
+    if not isinstance(value, str) or not value or len(value) > limit:
+        raise TelemetryValidationError(code)
+    return value
+
+
 def _bounded_tuple(value: object, limit: int) -> tuple[str, ...]:
     if not isinstance(value, (list, tuple)) or len(value) > MAX_TUPLE_ITEMS:
         raise TelemetryValidationError("INVALID_TELEMETRY_PROVENANCE")
@@ -182,7 +188,11 @@ def logical_idempotency_key(event: TelemetryEvent) -> str:
         event.slot_id, correlation,
     ]
     if event.authoritative_record_ref is None and correlation is None:
-        if event.provenance.completeness != "LOW_CONFIDENCE":
+        if (
+            event.provenance.completeness != "LOW_CONFIDENCE"
+            or event.provenance.producer_run_id is None
+            or event.provenance.producer_sequence is None
+        ):
             raise TelemetryValidationError("INVALID_TELEMETRY_PROVENANCE")
         values.extend([event.provenance.producer_run_id, event.provenance.producer_sequence])
     return sha256(json.dumps(values, separators=(",", ":"), sort_keys=False).encode("utf-8")).hexdigest()
@@ -208,7 +218,7 @@ def normalize_event(payload: Mapping[str, object], *, collector_id: str, collect
     values = dict(
         event_id=str(uuid4()), event_class=event_class,
         work_unit_id=_bounded_string(payload.get("work_unit_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
-        slot_id=_bounded_string(payload.get("slot_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
+        slot_id=_required_bounded_string(payload.get("slot_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
         role=_bounded_string(payload.get("role"), MAX_ENUM_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
         state_revision=revision,
         project_context_id=_bounded_string(payload.get("project_context_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
@@ -219,7 +229,7 @@ def normalize_event(payload: Mapping[str, object], *, collector_id: str, collect
         review_gate=_bounded_string(payload.get("review_gate"), MAX_ENUM_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
         evidence_refs=_bounded_tuple(payload.get("evidence_refs"), MAX_REF_LENGTH),
         timestamp=timestamp,
-        source=_bounded_string(payload.get("source"), MAX_ENUM_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
+        source=_required_bounded_string(payload.get("source"), MAX_ENUM_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
         provenance=provenance,
         instruction_id=_bounded_string(payload.get("instruction_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
         result_id=_bounded_string(payload.get("result_id"), MAX_ID_LENGTH, "MALFORMED_TELEMETRY_EVENT"),
@@ -238,7 +248,6 @@ class AuthoritativeSnapshot:
     head_sha: str | None
     correlation_ref: str | None
     result_status: str | None
-    publication_status: str | None
     git_relation: str = "UNKNOWN"
 
     def __post_init__(self) -> None:
@@ -248,13 +257,18 @@ class AuthoritativeSnapshot:
 
 def repeat_subject_key(event: TelemetryEvent) -> str:
     correlation = correlation_ref_for(event)
+    if event.authoritative_record_ref is None and correlation is None:
+        values: list[object] = [
+            event.event_class,
+            event.slot_id,
+            event.provenance.producer_run_id,
+        ]
+        return sha256(json.dumps(values, separators=(",", ":")).encode("utf-8")).hexdigest()
     values: list[object] = [
         event.event_class, event.authoritative_record_ref,
         event.provenance.observed_state_revision, event.provenance.observed_head_sha,
         event.slot_id, correlation,
     ]
-    if event.authoritative_record_ref is None and correlation is None:
-        values.extend([event.provenance.producer_run_id, event.provenance.producer_sequence])
     return sha256(json.dumps(values, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
@@ -272,8 +286,6 @@ def classify_ordering(
             return "INCONSISTENT"
         if authoritative.correlation_ref == correlation:
             if authoritative.result_status is not None and event.result_status is not None and authoritative.result_status != event.result_status:
-                return "INCONSISTENT"
-            if authoritative.publication_status is not None and event.result_status is not None and authoritative.publication_status != event.result_status:
                 return "INCONSISTENT"
         if (authoritative.state_revision is not None and event.state_revision is not None and event.state_revision < authoritative.state_revision) or authoritative.git_relation == "ANCESTOR":
             return "STALE"
@@ -293,7 +305,8 @@ class TelemetryCollector:
     def __init__(self) -> None:
         self._events: list[TelemetryEvent] = []
         self._by_logical_key: dict[str, TelemetryEvent] = {}
-        self._by_repeat_subject: dict[str, TelemetryEvent] = {}
+        self._earliest_by_repeat_subject: dict[str, TelemetryEvent] = {}
+        self._latest_by_repeat_subject: dict[str, TelemetryEvent] = {}
 
     @staticmethod
     def _canonical(event: TelemetryEvent) -> TelemetryEvent:
@@ -306,18 +319,20 @@ class TelemetryCollector:
         authoritative: AuthoritativeSnapshot | None = None,
         arrival_timestamp: datetime | None = None,
     ) -> TelemetryEvent:
-        previous = self._by_repeat_subject.get(repeat_subject_key(event))
+        subject = repeat_subject_key(event)
+        previous = self._latest_by_repeat_subject.get(subject)
         ordering = classify_ordering(event, authoritative=authoritative, previous_related_event=previous)
         emitted = replace(event, ordering_status=ordering, arrival_timestamp=arrival_timestamp)
         existing = self._by_logical_key.get(event.logical_key)
         if existing is not None and self._canonical(existing) == self._canonical(emitted):
             return existing
-        subject = repeat_subject_key(event)
-        if previous is not None:
-            emitted = replace(emitted, observation_kind="REPEAT", repeats_event_id=previous.event_id)
+        earliest = self._earliest_by_repeat_subject.get(subject)
+        if earliest is not None:
+            emitted = replace(emitted, observation_kind="REPEAT", repeats_event_id=earliest.event_id)
         self._events.append(emitted)
         self._by_logical_key[event.logical_key] = emitted
-        self._by_repeat_subject.setdefault(subject, emitted)
+        self._earliest_by_repeat_subject.setdefault(subject, emitted)
+        self._latest_by_repeat_subject[subject] = emitted
         return emitted
 
     def events(self) -> tuple[TelemetryEvent, ...]:
