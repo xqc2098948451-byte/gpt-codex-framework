@@ -165,13 +165,19 @@ def _external_evolution_metadata_attempts_authority(instruction: Mapping[str, An
     )
 
 
-def _evaluation_result(classification: str, reason: str, provenance: Mapping[str, Any] | None = None) -> dict[str, Any]:
+def _evaluation_result(
+    classification: str,
+    reason: str,
+    provenance: Mapping[str, Any] | None = None,
+    source_framework_version: str | None = None,
+) -> dict[str, Any]:
     return {
         "classification": classification,
         "reason": reason,
         "mutated": False,
         "adoption_authorized": False,
         "source_provenance": dict(provenance) if provenance is not None else None,
+        "source_framework_version": source_framework_version,
     }
 
 
@@ -193,6 +199,7 @@ def evaluate_project_evolution(
         compatibility["classification"],
         compatibility["reason"],
         accepted_source["source_provenance"],
+        accepted_source["framework_version"],
     )
 
 

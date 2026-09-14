@@ -318,11 +318,11 @@ class ValidatorContextBindingTests(unittest.TestCase):
                 self.assertFalse(evaluation["mutated"])
                 self.assertFalse(evaluation["adoption_authorized"])
                 self.assertEqual(evaluation["source_provenance"], {"commit_sha": "a" * 40})
+                self.assertEqual(evaluation["source_framework_version"], version)
 
-        self.assertEqual(
-            evaluate_project_evolution(control, {"classification": "invalid"})["classification"],
-            "FRAMEWORK_SOURCE_INVALID",
-        )
+        invalid_evaluation = evaluate_project_evolution(control, {"classification": "invalid"})
+        self.assertEqual(invalid_evaluation["classification"], "FRAMEWORK_SOURCE_INVALID")
+        self.assertIsNone(invalid_evaluation["source_framework_version"])
 
     def test_adoption_requires_local_authority_not_source_or_observation(self):
         control, instruction, work_unit = self._adoption_facts()
