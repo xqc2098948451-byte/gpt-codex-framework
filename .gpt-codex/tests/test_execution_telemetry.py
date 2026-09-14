@@ -160,6 +160,12 @@ def normalized_event(module, **overrides):
     return module.normalize_event(valid_payload(**values), collector_id="collector", collector_version="1.0", timestamp=timestamp)
 
 
+def normalized_fallback_event(module, **overrides):
+    values = dict(overrides)
+    timestamp = values.pop("timestamp", NOW)
+    return module.normalize_event(low_confidence_fallback_payload(**values), collector_id="collector", collector_version="1.0", timestamp=timestamp)
+
+
 class ExecutionTelemetryTaskThreeTests(unittest.TestCase):
     def test_collector_deduplicates_retries_and_appends_cross_source_repeat(self):
         module = load_module()
@@ -209,6 +215,20 @@ class ExecutionTelemetryTaskThreeTests(unittest.TestCase):
         snapshot = module.AuthoritativeSnapshot("ctx-1", 3, None, "result-1", "FAIL")
         event = normalized_event(module, result_status="PASS")
         self.assertEqual(module.classify_ordering(event, authoritative=snapshot, previous_related_event=None), "INCONSISTENT")
+
+    def test_result_status_inconsistency_requires_matching_non_null_correlation(self):
+        module = load_module()
+        cases = (
+            ("both_absent", None, normalized_fallback_event(module, result_status="PASS"), "CURRENT"),
+            ("authoritative_absent", None, normalized_event(module, result_id="result-1", result_status="PASS"), "CURRENT"),
+            ("event_absent", "result-1", normalized_fallback_event(module, result_status="PASS"), "CURRENT"),
+            ("different_non_null", "result-1", normalized_event(module, result_id="result-2", result_status="PASS"), "CURRENT"),
+            ("matching_non_null", "result-1", normalized_event(module, result_id="result-1", result_status="PASS"), "INCONSISTENT"),
+        )
+        for name, correlation_ref, event, expected in cases:
+            snapshot = module.AuthoritativeSnapshot("ctx-1", 3, None, correlation_ref, "FAIL")
+            with self.subTest(name=name):
+                self.assertEqual(module.classify_ordering(event, authoritative=snapshot, previous_related_event=None), expected)
 
     def test_publication_event_remains_valid_and_out_of_order_outranks_late(self):
         module = load_module()

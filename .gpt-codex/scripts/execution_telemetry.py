@@ -284,7 +284,7 @@ def classify_ordering(
             return "INCONSISTENT"
         if authoritative.git_relation == "DIVERGED" and event.state_revision == authoritative.state_revision:
             return "INCONSISTENT"
-        if authoritative.correlation_ref == correlation:
+        if authoritative.correlation_ref is not None and correlation is not None and authoritative.correlation_ref == correlation:
             if authoritative.result_status is not None and event.result_status is not None and authoritative.result_status != event.result_status:
                 return "INCONSISTENT"
         if (authoritative.state_revision is not None and event.state_revision is not None and event.state_revision < authoritative.state_revision) or authoritative.git_relation == "ANCESTOR":
