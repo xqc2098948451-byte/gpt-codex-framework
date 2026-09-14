@@ -311,14 +311,25 @@ def test_changed_authoritative_fact_is_distinct_and_stale_or_inconsistent_never_
     self.assertEqual(stale.ordering_status, "STALE")
 
 def test_ordering_statuses_and_immutable_inputs_are_exact(self):
-    current = normalized_event()
-    prior = normalized_event(timestamp=LATER, state_revision=3)
-    snapshot = AuthoritativeSnapshot(None, 3, None, None, None, None)
+    current = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", state_revision=3, timestamp=NOW)
     self.assertEqual(classify_ordering(current, authoritative=None, previous_related_event=None), "CURRENT")
-    self.assertEqual(classify_ordering(normalized_event(timestamp=NOW), authoritative=None, previous_related_event=normalized_event(timestamp=LATER)), "LATE")
-    self.assertEqual(classify_ordering(normalized_event(state_revision=2), authoritative=snapshot, previous_related_event=prior), "OUT_OF_ORDER")
-    self.assertEqual(classify_ordering(normalized_event(state_revision=2), authoritative=snapshot, previous_related_event=None), "STALE")
-    self.assertEqual(classify_ordering(normalized_event(project_context_id="other"), authoritative=snapshot, previous_related_event=None), "INCONSISTENT")
+
+    previous = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", state_revision=3, timestamp=LATER)
+    late = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", state_revision=3, timestamp=NOW)
+    self.assertEqual(classify_ordering(late, authoritative=None, previous_related_event=previous), "LATE")
+
+    out_of_order = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", state_revision=2, timestamp=NOW)
+    self.assertEqual(classify_ordering(out_of_order, authoritative=None, previous_related_event=previous), "OUT_OF_ORDER")
+
+    snapshot = AuthoritativeSnapshot("ctx-1", 3, None, "result-1", None, None)
+    stale = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", project_context_id="ctx-1", state_revision=2)
+    self.assertEqual(classify_ordering(stale, authoritative=snapshot, previous_related_event=None), "STALE")
+
+    inconsistent = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", project_context_id="ctx-other", state_revision=3)
+    self.assertEqual(classify_ordering(inconsistent, authoritative=snapshot, previous_related_event=None), "INCONSISTENT")
+
+    overlap = normalized_event(event_class="EXECUTION_COMPLETED", result_id="result-1", project_context_id="ctx-1", state_revision=2, timestamp=NOW)
+    self.assertEqual(classify_ordering(overlap, authoritative=snapshot, previous_related_event=previous), "STALE")
     with self.assertRaises(FrozenInstanceError):
         current.provenance.collector_id = "other"
 ```
@@ -348,10 +359,14 @@ Classify in fixed order: `INCONSISTENT`, `STALE`, `OUT_OF_ORDER`, `LATE`,
 at the same revision, or matching correlation with conflicting Result/publication
 status. `STALE` covers lower event revision or `ANCESTOR` Git relation.
 `OUT_OF_ORDER` covers a lower revision in the same repeat/correlation chain or
-a lower sequence in the same producer run. `LATE` covers an earlier event
-timestamp for the same repeat subject after all higher-precedence checks.
-`CURRENT` is the remainder. Use `dataclasses.replace` to return a new frozen
-event with `arrival_timestamp`; never mutate event, snapshot, or prior event.
+a lower sequence in the same producer run only when no `INCONSISTENT` or
+`STALE` condition applies. `LATE` covers an earlier event timestamp for the
+same repeat subject only after all higher-precedence checks, including
+`OUT_OF_ORDER`. `CURRENT` is the remainder. The overlap assertion above proves
+that an event lower than both current authoritative STATE and a prior related
+telemetry event is `STALE`, not `OUT_OF_ORDER`. Use `dataclasses.replace` to
+return a new frozen event with `arrival_timestamp`; never mutate event,
+snapshot, or prior event.
 
 - [ ] **Step 4: Run the collector suite to verify GREEN**
 
