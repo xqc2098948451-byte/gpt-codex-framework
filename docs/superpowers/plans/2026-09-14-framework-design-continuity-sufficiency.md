@@ -302,6 +302,8 @@ When Map/Resume disagrees with that sufficient authority set, authoritative fact
 
 Cold recovery never reconstructs authority from lost chat, physical-window identity, telemetry, or model memory. If durable authoritative facts cannot determine exactly one safe continuation, it returns `RECONCILIATION_REQUIRED`.
 
+**Reviewer seriality:** Physical review window is not reviewer authority; multiple physical windows bound to the same logical reviewer neither create another reviewer nor require reassignment. Review Result/finding and telemetry are not reassignment authority. Only explicit, current, evidence-bound reassignment changes reviewer; timeout, inactivity, model/window change, and observation never reassign automatically.
+
 - [ ] **Step 1: Write failing tests**
 
 ```python
@@ -386,7 +388,24 @@ def test_second_reviewer_requires_explicit_reassignment(self):
 def test_reviewer_seriality_and_reassignment_evidence(self):
     self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(), "reviewer-1", 9), [])
     self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(reviewer_reassignment_ref="instruction-1"), "reviewer-2", 9), [])
-    self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(source="telemetry"), "reviewer-2", 9))
+
+def test_multiple_physical_review_windows_preserve_one_logical_reviewer(self):
+    slot = self.reviewing_slot(
+        reviewer_ref="reviewer-1",
+        physical_review_windows=("window-a", "window-b"),
+    )
+    self.assertEqual(validate_reviewer_assignment(slot, "reviewer-1", 9), [])
+    self.assertEqual(slot["reviewer_ref"], "reviewer-1")
+
+def test_derived_reviewer_observations_cannot_reassign(self):
+    for source in ("review_result_finding", "telemetry"):
+        with self.subTest(source=source):
+            errors = validate_reviewer_assignment(
+                self.reviewing_slot(reviewer_reassignment_source=source),
+                "reviewer-2",
+                9,
+            )
+            self.assertIn("RECONCILIATION_REQUIRED", errors)
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect keyword/helper absent.
