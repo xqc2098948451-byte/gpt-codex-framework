@@ -457,6 +457,236 @@ class NavigationProjectValidationTests(unittest.TestCase):
                             4,
                         )
 
+    def reviewing_state(self):
+        return self._slot_state(8, self._slot(
+            "REVIEWING",
+            work_unit_id="WU-1",
+            primary_module="navigation-continuity",
+            base_sha="a" * 40,
+            current_head_sha="a" * 40,
+            review_request_id="review-request-1",
+            review_result_ref="review-result-1",
+        ))
+
+    def blocked_state(self):
+        return self._slot_state(8, self._slot(
+            "BLOCKED",
+            work_unit_id="WU-1",
+            primary_module="navigation-continuity",
+            base_sha="a" * 40,
+            current_head_sha="a" * 40,
+            last_accepted_sha="a" * 40,
+            review_request_id="review-request-1",
+            review_result_ref="review-result-1",
+            finding_ref="finding-1",
+            remediation_authorization_ref="authorization-1",
+            fix_instruction_id="fix-instruction-1",
+            blocked_from_status="REVIEWING",
+            block_reason="AWAITING_REMEDIATION_AUTHORIZATION",
+        ))
+
+    def valid_fix_instruction(self, instruction_id="fix-instruction-1"):
+        return {
+            "instruction_id": instruction_id,
+            "instruction_type": "FIX_INSTRUCTION",
+            "issuer_role": "GPT_ORCHESTRATOR",
+            "executor_role": "CODEX_IMPLEMENTER",
+            "return_role": "GPT_ORCHESTRATOR",
+            "expected_state_revision": 8,
+            "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"],
+            "forbidden_actions": ["PUBLISH"],
+            "target_work_unit": "WU-1",
+            "scope_paths": [".gpt-codex/scripts/continuity_resume.py"],
+            "finding_ids": ["finding-1"],
+            "in_response_to_result_id": "22222222-2222-4222-8222-222222222222",
+            "expected_base_sha": "a" * 40,
+            "fix_round": 1,
+        }
+
+    def complete_authoritative_facts(self):
+        return {
+            "work_unit": {"work_unit_id": "WU-1"},
+            "review_request": {"review_request_id": "review-request-1"},
+            "review_result": {"review_result_ref": "review-result-1", "review_target_revision": "a" * 40},
+            "finding": {"finding_ref": "finding-1", "review_target_revision": "a" * 40},
+            "remediation_authorization": {
+                "remediation_authorization_ref": "authorization-1",
+                "issuer_role": "GPT_ORCHESTRATOR",
+            },
+            "current_git": {"current_head_sha": "a" * 40},
+        }
+
+    def test_finding_blocks_but_does_not_authorize_resumption_or_mutate_input(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import block_for_remediation, resume_authorized_remediation
+
+        source = self.reviewing_state()
+        source_before = json.loads(json.dumps(source))
+        blocked = block_for_remediation(source, "CODEX-IMPL-B", "finding-1", "review-result-1", 8)
+        slot = blocked["active_execution_slots"][0]
+        self.assertEqual(slot["status"], "BLOCKED")
+        self.assertEqual(slot["blocked_from_status"], "REVIEWING")
+        self.assertEqual(slot["block_reason"], "AWAITING_REMEDIATION_AUTHORIZATION")
+        self.assertEqual(source, source_before)
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            resume_authorized_remediation(
+                blocked, "CODEX-IMPL-B", None, None, 9,
+                authoritative_facts=self.complete_authoritative_facts(),
+            )
+
+    def test_block_for_remediation_rejects_invalid_preconditions(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import block_for_remediation
+
+        for status in ("IDLE", "ACTIVE", "BLOCKED", "AWAITING_REVIEW", "COMPLETED"):
+            with self.subTest(status=status):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    block_for_remediation(
+                        self._slot_state(8, self._slot(status)),
+                        "CODEX-IMPL-B", "finding-1", "review-result-1", 8,
+                    )
+        for finding_ref, review_ref in (("", "review-result-1"), ("   ", "review-result-1"), ("finding-1", ""), ("finding-1", "   "), (None, "review-result-1"), ("finding-1", None)):
+            with self.subTest(finding_ref=finding_ref, review_ref=review_ref):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    block_for_remediation(self.reviewing_state(), "CODEX-IMPL-B", finding_ref, review_ref, 8)
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            block_for_remediation(self.reviewing_state(), "CODEX-IMPL-B", "finding-1", "review-result-1", 7)
+
+    def test_remediation_resume_rejects_each_causal_mismatch(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        for mismatch in (
+            "finding_ref", "review_request_id", "review_result_ref",
+            "remediation_authorization_ref", "fix_instruction_id", "work_unit_id",
+            "reviewed_current_sha", "state_revision",
+        ):
+            with self.subTest(mismatch=mismatch):
+                state = self.blocked_state()
+                facts = self.complete_authoritative_facts()
+                authorization_ref = "authorization-1"
+                instruction = self.valid_fix_instruction()
+                slot = state["active_execution_slots"][0]
+                if mismatch == "reviewed_current_sha":
+                    facts["current_git"]["current_head_sha"] = "b" * 40
+                elif mismatch == "state_revision":
+                    state["revision"] = 7
+                elif mismatch == "fix_instruction_id":
+                    instruction["instruction_id"] = "fix-instruction-2"
+                elif mismatch == "remediation_authorization_ref":
+                    authorization_ref = "authorization-2"
+                elif mismatch == "work_unit_id":
+                    facts["work_unit"]["work_unit_id"] = "WU-2"
+                else:
+                    facts_key = {
+                        "finding_ref": ("finding", "finding_ref"),
+                        "review_request_id": ("review_request", "review_request_id"),
+                        "review_result_ref": ("review_result", "review_result_ref"),
+                    }[mismatch]
+                    facts[facts_key[0]][facts_key[1]] = "mismatch"
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        state, "CODEX-IMPL-B", authorization_ref, instruction, 8,
+                        authoritative_facts=facts,
+                    )
+
+    def test_remediation_resume_rejects_incomplete_or_malformed_authority(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        for missing_key in (
+            "work_unit", "finding", "review_request", "review_result",
+            "remediation_authorization", "current_git",
+        ):
+            with self.subTest(missing_key=missing_key):
+                facts = self.complete_authoritative_facts()
+                del facts[missing_key]
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        self.blocked_state(), "CODEX-IMPL-B", "authorization-1",
+                        self.valid_fix_instruction(), 8, authoritative_facts=facts,
+                    )
+        for subset in (
+            {"finding": self.complete_authoritative_facts()["finding"]},
+            {"review_result": self.complete_authoritative_facts()["review_result"]},
+            {"remediation_authorization": self.complete_authoritative_facts()["remediation_authorization"]},
+            {"current_git": self.complete_authoritative_facts()["current_git"]},
+            {"reviewer_message": "resume now"},
+            None,
+            "not-a-mapping",
+        ):
+            with self.subTest(subset=subset):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        self.blocked_state(), "CODEX-IMPL-B", "authorization-1",
+                        self.valid_fix_instruction(), 8, authoritative_facts=subset,
+                    )
+
+    def test_remediation_resume_rejects_non_blocked_and_invalid_authorization_or_instruction(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        for state in (
+            self.reviewing_state(),
+            self._slot_state(8, self._slot("ACTIVE")),
+            self._slot_state(8, self._slot("BLOCKED", blocked_from_status="ACTIVE")),
+            self._slot_state(8, self._slot("BLOCKED", block_reason="OTHER")),
+        ):
+            with self.subTest(state=state["active_execution_slots"][0]["status"]):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        state, "CODEX-IMPL-B", "authorization-1", self.valid_fix_instruction(), 8,
+                        authoritative_facts=self.complete_authoritative_facts(),
+                    )
+        invalid_authority = self.complete_authoritative_facts()
+        invalid_authority["remediation_authorization"]["issuer_role"] = "CODEX_REVIEWER"
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            resume_authorized_remediation(
+                self.blocked_state(), "CODEX-IMPL-B", "authorization-1", self.valid_fix_instruction(), 8,
+                authoritative_facts=invalid_authority,
+            )
+        invalid_instruction = self.valid_fix_instruction()
+        invalid_instruction["issuer_role"] = "CODEX_REVIEWER"
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            resume_authorized_remediation(
+                self.blocked_state(), "CODEX-IMPL-B", "authorization-1", invalid_instruction, 8,
+                authoritative_facts=self.complete_authoritative_facts(),
+            )
+
+    def test_complete_current_remediation_chain_resumes_without_mutating_inputs(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        state = self.blocked_state()
+        facts = self.complete_authoritative_facts()
+        state_before = json.loads(json.dumps(state))
+        facts_before = json.loads(json.dumps(facts))
+        resumed = resume_authorized_remediation(
+            state, "CODEX-IMPL-B", "authorization-1", self.valid_fix_instruction(), 8,
+            authoritative_facts=facts,
+        )
+        slot = resumed["active_execution_slots"][0]
+        self.assertEqual(resumed["revision"], 9)
+        self.assertEqual(slot["state_revision"], 9)
+        self.assertEqual(slot["status"], "ACTIVE")
+        self.assertEqual(slot["work_unit_id"], "WU-1")
+        self.assertEqual(slot["finding_ref"], "finding-1")
+        self.assertEqual(slot["remediation_authorization_ref"], "authorization-1")
+        self.assertEqual(state, state_before)
+        self.assertEqual(facts, facts_before)
+
     def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

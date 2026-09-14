@@ -228,6 +228,144 @@ def activate_execution_slot(
     return _updated_state(state, slot_index, active)
 
 
+def _is_nonempty_string(value: object) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _fact_matches(
+    facts: Mapping,
+    fact_name: str,
+    reference_field: str,
+    expected: object,
+) -> bool:
+    fact = facts.get(fact_name)
+    return isinstance(fact, Mapping) and fact.get(reference_field) == expected
+
+
+def block_for_remediation(
+    state: Mapping,
+    slot_id: str,
+    finding_ref: str,
+    review_ref: str,
+    expected_revision: int,
+) -> dict[str, Any]:
+    """Record a reviewing slot's finding without granting remediation authority."""
+    slot, slot_index = _current_slot(state, slot_id, expected_revision)
+    if (
+        slot.get("status") != "REVIEWING"
+        or not _is_nonempty_string(finding_ref)
+        or not _is_nonempty_string(review_ref)
+        or not _is_nonempty_string(slot.get("review_request_id"))
+    ):
+        _reconciliation_required()
+    blocked = dict(slot)
+    blocked.update({
+        "status": "BLOCKED",
+        "review_result_ref": review_ref,
+        "finding_ref": finding_ref,
+        "remediation_authorization_ref": None,
+        "fix_instruction_id": None,
+        "blocked_from_status": "REVIEWING",
+        "block_reason": "AWAITING_REMEDIATION_AUTHORIZATION",
+        "next_action": "AWAIT_REMEDIATION_AUTHORIZATION",
+    })
+    if validate_slot_transition(slot, blocked) or validate_execution_slots(_updated_state(state, slot_index, blocked)):
+        _reconciliation_required()
+    return _updated_state(state, slot_index, blocked)
+
+
+def _has_current_remediation_chain(
+    slot: Mapping,
+    authorization_ref: object,
+    fix_instruction: object,
+    expected_revision: int,
+    authoritative_facts: object,
+) -> bool:
+    if not isinstance(authoritative_facts, Mapping):
+        return False
+    required_facts = {
+        "work_unit", "finding", "review_request", "review_result",
+        "remediation_authorization", "current_git",
+    }
+    if not required_facts.issubset(authoritative_facts):
+        return False
+    if not _is_nonempty_string(authorization_ref) or slot.get("remediation_authorization_ref") != authorization_ref:
+        return False
+    if not _fact_matches(authoritative_facts, "work_unit", "work_unit_id", slot.get("work_unit_id")):
+        return False
+    if not _fact_matches(authoritative_facts, "finding", "finding_ref", slot.get("finding_ref")):
+        return False
+    if not _fact_matches(authoritative_facts, "review_request", "review_request_id", slot.get("review_request_id")):
+        return False
+    if not _fact_matches(authoritative_facts, "review_result", "review_result_ref", slot.get("review_result_ref")):
+        return False
+    if not _fact_matches(
+        authoritative_facts,
+        "remediation_authorization",
+        "remediation_authorization_ref",
+        authorization_ref,
+    ):
+        return False
+    authorization = authoritative_facts["remediation_authorization"]
+    if authorization.get("issuer_role") not in {"GPT_ORCHESTRATOR", "USER_APPROVER"}:
+        return False
+    review_result = authoritative_facts["review_result"]
+    finding = authoritative_facts["finding"]
+    reviewed_sha = review_result.get("review_target_revision")
+    if (
+        not isinstance(reviewed_sha, str)
+        or not _COMMIT_SHA.fullmatch(reviewed_sha)
+        or finding.get("review_target_revision") != reviewed_sha
+        or not _fact_matches(authoritative_facts, "current_git", "current_head_sha", slot.get("current_head_sha"))
+        or authoritative_facts["current_git"].get("current_head_sha") != reviewed_sha
+    ):
+        return False
+    if (
+        not isinstance(fix_instruction, Mapping)
+        or slot.get("fix_instruction_id") != fix_instruction.get("instruction_id")
+        or fix_instruction.get("instruction_type") != "FIX_INSTRUCTION"
+        or fix_instruction.get("expected_base_sha") != reviewed_sha
+    ):
+        return False
+    # This import is deliberately lazy: validate_project imports this module for
+    # validation orchestration, while this mutation helper consumes its existing
+    # pure Role Protocol authority gate without reproducing those rules.
+    from validate_project import validate_instruction_authority
+    return not validate_instruction_authority(fix_instruction, expected_revision)
+
+
+def resume_authorized_remediation(
+    state: Mapping,
+    slot_id: str,
+    authorization_ref: str,
+    fix_instruction: Mapping,
+    expected_revision: int,
+    *,
+    authoritative_facts: Mapping,
+) -> dict[str, Any]:
+    """Resume only a fully reconciled, explicitly authorized remediation."""
+    slot, slot_index = _current_slot(state, slot_id, expected_revision)
+    if (
+        slot.get("status") != "BLOCKED"
+        or slot.get("blocked_from_status") != "REVIEWING"
+        or slot.get("block_reason") != "AWAITING_REMEDIATION_AUTHORIZATION"
+        or not _has_current_remediation_chain(
+            slot, authorization_ref, fix_instruction, expected_revision, authoritative_facts,
+        )
+    ):
+        _reconciliation_required()
+    active = dict(slot)
+    active.update({
+        "status": "ACTIVE",
+        "blocked_from_status": None,
+        "block_reason": None,
+        "next_action": "CONTINUE_IMPLEMENTATION",
+    })
+    if validate_slot_transition(slot, active) or validate_execution_slots(_updated_state(state, slot_index, active)):
+        _reconciliation_required()
+    return _updated_state(state, slot_index, active)
+
+
 def _non_optimization_resume_fields() -> dict[str, Any]:
     return {
         "resume_mode": "COLD_RESUME",
