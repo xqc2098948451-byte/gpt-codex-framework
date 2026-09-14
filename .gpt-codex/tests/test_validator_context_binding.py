@@ -254,6 +254,29 @@ class ValidatorContextBindingTests(unittest.TestCase):
             )
         self.assertEqual(contradiction["classification"], "GITHUB_REPOSITORY_MISMATCH")
 
+    def test_evolution_metadata_is_descriptive_and_cannot_grant_role_instruction_or_result_authority(self):
+        from instruction_envelope import validate_instruction_evolution_metadata
+        from result_return import render_gpt_return, validate_result_evolution_metadata
+        from role_communication import validate_evolution_metadata_authority
+
+        descriptive = {"classification": "READ_ONLY_EVOLUTION_SOURCE", "framework_version": "2.6.0"}
+        executable = {**descriptive, "authorized_actions": ["MUTATE_APPROVED_SCOPE"]}
+        self.assertEqual(validate_evolution_metadata_authority(descriptive), [])
+        self.assertEqual(
+            validate_evolution_metadata_authority(executable),
+            ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+        )
+        self.assertEqual(
+            validate_instruction_evolution_metadata(executable),
+            ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+        )
+        self.assertEqual(
+            validate_result_evolution_metadata(executable),
+            ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+        )
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            render_gpt_return({"return_to_gpt_required": True, "evolution_metadata": executable})
+
     def test_project_evolution_evaluation_is_read_only(self):
         control = self._complete_identity_control()
         control["framework"] = {"adopted_version": "2.6.0"}

@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from role_communication import validate_evolution_metadata_authority
+
 from project_navigation import (
     affected_modules,
     classify_map_route,
@@ -47,6 +49,8 @@ def load_resume_checkpoint(gov: Path) -> dict[str, Any] | None:
         raise ValueError("RESUME_CHECKPOINT_SCHEMA_UNSUPPORTED")
     if checkpoint.get("authority") != "DERIVED_CACHE":
         raise ValueError("RESUME_CHECKPOINT_AUTHORITY_INVALID")
+    if validate_evolution_metadata_authority(checkpoint.get("evolution_metadata")):
+        raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
     return checkpoint
 
 

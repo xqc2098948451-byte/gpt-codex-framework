@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from typing import Any
 
+from role_communication import validate_evolution_metadata_authority
+
 
 _REQUIRED_SECTIONS = (
     "WORK_UNIT:",
@@ -15,6 +17,10 @@ _REQUIRED_SECTIONS = (
     "BLOCKERS:",
     "NEXT_GPT_ACTION:",
 )
+
+
+def validate_result_evolution_metadata(metadata: Mapping[str, Any] | None) -> list[str]:
+    return validate_evolution_metadata_authority(metadata)
 
 
 def required_return_sections() -> tuple[str, ...]:
@@ -50,6 +56,9 @@ def render_gpt_return(envelope: Mapping[str, Any]) -> str:
 
     if not envelope.get("return_to_gpt_required", False):
         return ""
+    metadata_errors = validate_result_evolution_metadata(envelope.get("evolution_metadata"))
+    if metadata_errors:
+        raise ValueError(", ".join(metadata_errors))
 
     git = envelope.get("git") or {}
     if not isinstance(git, Mapping):

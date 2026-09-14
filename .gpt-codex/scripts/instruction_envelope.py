@@ -18,6 +18,7 @@ from role_communication import (  # noqa: E402
     ROLES,
     resolve_legacy_codex_route,
     validate_action_authority,
+    validate_evolution_metadata_authority,
     validate_executor_role,
     validate_instruction_type,
 )
@@ -30,6 +31,10 @@ LEGACY_DEFAULTS = {
     "return_role": "GPT_ORCHESTRATOR",
 }
 COMPLETION_GATES = frozenset({"NONE", "GPT_DECISION", "USER_APPROVAL"})
+
+
+def validate_instruction_evolution_metadata(metadata: Mapping[str, Any] | None) -> list[str]:
+    return validate_evolution_metadata_authority(metadata)
 _UUID_RE = re.compile(
     r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
 )

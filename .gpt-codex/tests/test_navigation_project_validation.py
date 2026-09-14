@@ -236,6 +236,42 @@ class NavigationProjectValidationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("RESUME_SCHEMA_INVALID", result.stdout)
 
+    def test_map_and_resume_evolution_metadata_cannot_be_authority(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        sys.path.insert(0, str(scripts))
+        from continuity_resume import load_resume_checkpoint
+        from project_navigation import validate_navigation_identity
+
+        control = {
+            "project_id": "PROJECT-ONE",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "github": {"repository_id": "123"},
+        }
+        project_map = self._project_map([])
+        project_map["repository_id"] = "123"
+        project_map["evolution_metadata"] = {
+            "classification": "DERIVED_OBSERVATION_ONLY",
+            "target_work_unit": "WU-FOREIGN",
+        }
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            validate_navigation_identity(project_map, control)
+
+        with tempfile.TemporaryDirectory() as td:
+            gov = Path(td) / ".gpt-codex"
+            self._write_json(gov.parent, ".gpt-codex/continuity/RESUME.json", {
+                "schema_version": 1,
+                "authority": "DERIVED_CACHE",
+                "project_id": "PROJECT-ONE",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "repository_id": "123",
+                "evolution_metadata": {
+                    "classification": "DERIVED_OBSERVATION_ONLY",
+                    "command": "adopt",
+                },
+            })
+            with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+                load_resume_checkpoint(gov)
+
 
 if __name__ == "__main__":
     unittest.main()
