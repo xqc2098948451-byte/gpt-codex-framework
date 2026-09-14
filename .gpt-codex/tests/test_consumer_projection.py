@@ -94,13 +94,17 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 class ConsumerProjectionTests(unittest.TestCase):
     def test_harness_templates_are_consumer_required(self):
         manifest = load_projection_manifest(ROOT)
-        for relative in (
-            ".gpt-codex/project-template/.harness/RULES.template.md",
-            ".gpt-codex/project-template/.harness/STATE.template.md",
-            ".gpt-codex/project-template/.harness/REASONING.template.md",
-            ".gpt-codex/project-template/.harness/FEEDBACK.template.md",
-        ):
-            self.assertEqual(manifest["paths"].get(relative), "CONSUMER_REQUIRED")
+        expected = {
+            ".gpt-codex/project-template/.harness/RULES.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/STATE.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/REASONING.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/FEEDBACK.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/tests/test_harness_project_layering.py": "MANAGEMENT_ONLY",
+        }
+        self.assertEqual(
+            {relative: manifest["paths"].get(relative) for relative in expected},
+            expected,
+        )
 
     def test_execution_telemetry_is_management_only_and_stage_docs_are_history(self):
         manifest = load_projection_manifest(ROOT)

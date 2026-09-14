@@ -149,6 +149,8 @@ def stage_consumer_projection(
     root: Path,
     staging_root: Path,
     manifest: Mapping[str, object],
+    *,
+    production_excludes: tuple[str, ...] | list[str] = (),
 ) -> list[str]:
     root = Path(root).resolve()
     staging_root = Path(staging_root).resolve()
@@ -162,6 +164,12 @@ def stage_consumer_projection(
         raise ProjectionValidationError(f"staging root is not empty: {staging_root}")
     staging_root.mkdir(parents=True, exist_ok=True)
     inventory = build_consumer_inventory(root, manifest)
+    excluded_roots = tuple(production_excludes)
+    inventory = [
+        relative
+        for relative in inventory
+        if not any(relative == excluded or relative.startswith(excluded + "/") for excluded in excluded_roots)
+    ]
     for relative in inventory:
         source = root / Path(*PurePosixPath(relative).parts)
         target = staging_root / Path(*PurePosixPath(relative).parts)

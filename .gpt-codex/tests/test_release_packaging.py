@@ -20,6 +20,7 @@ from release_framework import (
     should_exclude,
 )
 from consumer_projection import stage_consumer_projection
+from validate_project import validate_harness_root_separation
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -78,18 +79,41 @@ class ReleasePackagingTests(unittest.TestCase):
             staging = Path(td) / "staging"
             (root / ".harness").mkdir(parents=True)
             (root / ".harness" / "RULES.md").write_text("governance\n", encoding="utf-8")
+            (root / ".harness" / "nested").mkdir()
+            (root / ".harness" / "nested" / "state.md").write_text("state\n", encoding="utf-8")
             (root / "app").mkdir()
             (root / "app" / "main.py").write_text("print('product')\n", encoding="utf-8")
             manifest = {
                 "paths": {
-                    ".harness/RULES.md": "MANAGEMENT_ONLY",
+                    ".harness/RULES.md": "CONSUMER_REQUIRED",
+                    ".harness/nested/state.md": "CONSUMER_REQUIRED",
                     "app/main.py": "CONSUMER_REQUIRED",
                 }
             }
-            inventory = stage_consumer_projection(root, staging, manifest)
+            control = {
+                "roots": {
+                    "harness_root": ".harness",
+                    "product_roots": ["app"],
+                    "deploy_roots": ["ops"],
+                    "production_excludes": [".harness"],
+                }
+            }
+            self.assertEqual(validate_harness_root_separation(control), [])
+            inventory = stage_consumer_projection(
+                root,
+                staging,
+                manifest,
+                production_excludes=control["roots"]["production_excludes"],
+            )
             self.assertEqual(inventory, ["app/main.py"])
             self.assertFalse((staging / ".harness" / "RULES.md").exists())
+            self.assertFalse((staging / ".harness" / "nested" / "state.md").exists())
             self.assertTrue((staging / "app" / "main.py").is_file())
+
+            default_staging = Path(td) / "default-staging"
+            default_inventory = stage_consumer_projection(root, default_staging, manifest)
+            self.assertIn(".harness/RULES.md", default_inventory)
+            self.assertTrue((default_staging / ".harness" / "RULES.md").is_file())
 
     def test_previous_recorded_version_accepts_prerelease_records(self):
         with tempfile.TemporaryDirectory() as td:

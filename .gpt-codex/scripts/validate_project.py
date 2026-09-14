@@ -64,6 +64,25 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
     return []
 
 
+def _is_safe_repository_relative_path(value: object) -> bool:
+    if not isinstance(value, str) or not value or "\\" in value or value.startswith("/"):
+        return False
+    return all(component not in {"", ".", ".."} for component in value.split("/"))
+
+
+def _paths_overlap(left: str, right: str) -> bool:
+    return left == right or left.startswith(right + "/") or right.startswith(left + "/")
+
+
+def _root_pairs(harness: str, products: list[str], deploy: list[str]) -> list[tuple[str, str]]:
+    roots = [harness, *products, *deploy]
+    return [
+        (roots[index], roots[other])
+        for index in range(len(roots))
+        for other in range(index + 1, len(roots))
+    ]
+
+
 def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
     roots = control.get("roots")
     if not isinstance(roots, Mapping):
@@ -90,8 +109,9 @@ def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
         or not all(isinstance(item, str) and item.strip() for item in excludes)
     ):
         return ["HARNESS_ROOTS_INVALID"]
-    all_runtime = set(products) | set(deploy)
-    if harness in all_runtime or set(products) & set(deploy):
+    if not all(_is_safe_repository_relative_path(item) for item in [harness, *products, *deploy, *excludes]):
+        return ["HARNESS_ROOTS_INVALID"]
+    if any(_paths_overlap(left, right) for left, right in _root_pairs(harness, products, deploy)):
         return ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"]
     if harness not in excludes:
         return ["HARNESS_PRODUCTION_EXCLUSION_REQUIRED"]

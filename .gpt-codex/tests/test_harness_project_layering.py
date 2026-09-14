@@ -38,6 +38,40 @@ class HarnessProjectLayeringTests(unittest.TestCase):
             ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"],
         )
 
+    def test_nested_semantic_roots_are_pairwise_disjoint(self):
+        for harness, products, deploy in (
+            (".harness", [".harness/app"], ["ops"]),
+            (".harness/project", [".harness"], ["ops"]),
+            (".harness", ["app"], ["app/deploy"]),
+        ):
+            with self.subTest(harness=harness, products=products, deploy=deploy):
+                self.assertEqual(
+                    validate_harness_root_separation(
+                        {"roots": {
+                            "harness_root": harness,
+                            "product_roots": products,
+                            "deploy_roots": deploy,
+                            "production_excludes": [harness],
+                        }}
+                    ),
+                    ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"],
+                )
+
+    def test_unsafe_semantic_root_paths_are_rejected(self):
+        for unsafe in ("/absolute", "../traversal", "app/../other", "./app", "app//nested", "app\\windows"):
+            with self.subTest(unsafe=unsafe):
+                self.assertEqual(
+                    validate_harness_root_separation(
+                        {"roots": {
+                            "harness_root": unsafe,
+                            "product_roots": ["app"],
+                            "deploy_roots": ["ops"],
+                            "production_excludes": [unsafe],
+                        }}
+                    ),
+                    ["HARNESS_ROOTS_INVALID"],
+                )
+
     def test_harness_must_be_excluded_from_production(self):
         control = {
             "roots": {
@@ -62,6 +96,12 @@ class HarnessProjectLayeringTests(unittest.TestCase):
                 "REASONING.template.md",
                 "FEEDBACK.template.md",
             },
+        )
+
+    def test_legacy_control_without_semantic_roots_remains_valid(self):
+        self.assertEqual(
+            validate_harness_root_separation({"roots": {"project_role": "AUTHORITATIVE"}}),
+            [],
         )
 
 
