@@ -369,6 +369,56 @@ class ValidatorContextBindingTests(unittest.TestCase):
             "GITHUB_REPOSITORY_MISMATCH",
         )
 
+    def test_retired_enrollment_rejects_new_observation_and_preserves_history(self):
+        control = self._complete_identity_control()
+        enrollment = {
+            "explicit_enrollment": True,
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+            "repository_full_name": control["github"]["repository_full_name"],
+            "transport": "MANUAL",
+        }
+        evaluation = {
+            "classification": "NO_ACTION",
+            "source_framework_version": "2.7.0",
+            "source_provenance": {"commit_sha": "a" * 40},
+        }
+        retired = {**enrollment, "enrollment_status": "RETIRED"}
+        decision = validate_project_evolution_enrollment(control, retired)
+        self.assertEqual(
+            (decision.decision, decision.reason, decision.action_executable, decision.current_project_mutation),
+            ("DENY", "PROJECT_EVOLUTION_NOT_ENROLLED", False, False),
+        )
+        with self.assertRaisesRegex(ValueError, "PROJECT_EVOLUTION_NOT_ENROLLED"):
+            build_project_evolution_observation(
+                control, evaluation, retired,
+                observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+            )
+        for status_enrollment in ({**enrollment, "enrollment_status": "ACTIVE"}, enrollment):
+            with self.subTest(status=status_enrollment.get("enrollment_status", "ABSENT")):
+                self.assertEqual(
+                    build_project_evolution_observation(
+                        control, evaluation, status_enrollment,
+                        observed_at="2026-09-14T12:00:00Z", local_revision_ref="revision-7",
+                    )["classification"],
+                    "DERIVED_OBSERVATION_ONLY",
+                )
+        historical = {
+            "project_id": control["project_id"],
+            "project_context_id": control["project_context_id"],
+            "repository_id": control["github"]["repository_id"],
+            "repository_full_name": control["github"]["repository_full_name"],
+            "observed_at": 1000,
+        }
+        index_row = classify_framework_evolution_index(
+            [retired], [historical], now=1001, stale_after_seconds=60,
+        )[0]
+        self.assertEqual(
+            (index_row["enrollment_status"], index_row["evolution_status"]),
+            ("RETIRED", "PROJECT_EVOLUTION_OBSERVATION_STALE"),
+        )
+
     def test_observation_is_minimized_and_non_authoritative(self):
         control = self._complete_identity_control()
         enrollment = {

@@ -156,6 +156,8 @@ def validate_project_evolution_enrollment(
         return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
     if _evolution_input_attempts_authority(enrollment):
         return _decision("DENY", "PROJECT_AUTHORITY_BOUNDARY_VIOLATION", hard_stop=True)
+    if enrollment.get("enrollment_status") == "RETIRED":
+        return _decision("DENY", "PROJECT_EVOLUTION_NOT_ENROLLED", hard_stop=True)
     if (
         enrollment.get("explicit_enrollment") is not True
         or enrollment.get("transport") not in _PROJECT_EVOLUTION_TRANSPORTS
