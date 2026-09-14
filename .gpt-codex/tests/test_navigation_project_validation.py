@@ -523,6 +523,93 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "current_git": {"current_head_sha": "a" * 40},
         }
 
+    def task5_slot(self, **overrides):
+        slot = self._slot(
+            "AWAITING_REVIEW",
+            work_unit_id="WU-1",
+            primary_module="navigation-continuity",
+            project_context_id="11111111-1111-4111-8111-111111111111",
+            branch="feature/task-5",
+            worktree="worktrees/task-5",
+            base_sha="a" * 40,
+            current_head_sha="a" * 40,
+            last_accepted_sha="a" * 40,
+            instruction_id="instruction-1",
+            review_request_id="review-request-1",
+            review_result_ref="review-result-1",
+            next_action="AWAIT_REVIEW",
+        )
+        slot["state_revision"] = 8
+        slot.update(overrides)
+        return slot
+
+    def task5_binding(self, slot):
+        return {
+            field: slot[field]
+            for field in (
+                "project_context_id", "work_unit_id", "role", "primary_module", "branch",
+                "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision",
+            )
+        }
+
+    def task5_authoritative_facts(self):
+        return {
+            "work_unit_id": "WU-1",
+            "instruction_id": "instruction-1",
+            "review_request_id": "review-request-1",
+            "review_result_ref": "review-result-1",
+            "current_git_sha": "a" * 40,
+            "git_ancestry_valid": True,
+            "state_revision": 8,
+            "worktree_clean": True,
+            "worktree_unambiguous": True,
+        }
+
+    def _write_task5_project(self, root, slot):
+        self._write_project(root)
+        control_path = root / ".gpt-codex/CONTROL.json"
+        control = json.loads(control_path.read_text(encoding="utf-8"))
+        control["github"] = {
+            "repository_id": "repo-a",
+            "repository_full_name": "owner/repo-a",
+            "default_branch": "main",
+        }
+        self._write_json(root, ".gpt-codex/CONTROL.json", control)
+        self._write_json(root, ".gpt-codex/STATE.json", {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "project_id": "PROJECT-ONE",
+            "revision": 8,
+            "state": "ACTIVE",
+            "active_work_unit": "WU-1",
+            "active_execution_slots": [slot],
+            "continuity": {
+                "current_remote_ref": "refs/heads/main",
+                "latest_verified_remote_sha": "a" * 40,
+                "latest_synced_state_revision": 8,
+                "last_verified_result_ref": "result-1",
+                "sync_status": "SYNCED",
+            },
+        })
+
+    def task5_resume(self, *, slot=None, binding=None, facts=None):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_continuity_resume
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            slot = self.task5_slot() if slot is None else slot
+            self._write_task5_project(root, slot)
+            return load_continuity_resume(
+                root,
+                "repo-a",
+                execution_slot_id="CODEX-IMPL-B",
+                execution_slot_binding=self.task5_binding(slot) if binding is None else binding,
+                authoritative_facts=self.task5_authoritative_facts() if facts is None else facts,
+            )
+
     def test_finding_blocks_but_does_not_authorize_resumption_or_mutate_input(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
         if str(scripts) not in sys.path:
@@ -798,6 +885,77 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 9,
                 authoritative_facts=self.complete_authoritative_facts(),
             )
+
+    def test_execution_slot_binding_mismatch_matrix(self):
+        for field in (
+            "project_context_id", "work_unit_id", "role", "primary_module", "branch",
+            "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision",
+        ):
+            with self.subTest(field=field):
+                slot = self.task5_slot()
+                binding = self.task5_binding(slot)
+                binding[field] = 7 if field == "state_revision" else "mismatch"
+                result = self.task5_resume(slot=slot, binding=binding)
+                self.assertEqual(result["status"], "EXECUTION_SLOT_MISMATCH")
+                self.assertTrue(result["reconciliation_required"])
+
+    def test_insufficient_authoritative_facts_require_reconciliation(self):
+        for condition in (
+            "missing_durable_fact", "dirty_worktree", "ambiguous_worktree",
+            "unprovable_git_state", "authoritative_state_unavailable",
+        ):
+            with self.subTest(condition=condition):
+                facts = self.task5_authoritative_facts()
+                if condition == "missing_durable_fact":
+                    del facts["work_unit_id"]
+                elif condition == "dirty_worktree":
+                    facts["worktree_clean"] = False
+                elif condition == "ambiguous_worktree":
+                    facts["worktree_unambiguous"] = False
+                elif condition == "unprovable_git_state":
+                    facts["git_ancestry_valid"] = False
+                else:
+                    facts["state_revision"] = None
+                result = self.task5_resume(facts=facts)
+                self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+                self.assertTrue(result["reconciliation_required"])
+
+    def test_derived_artifacts_and_replacement_window_do_not_block_authoritative_recovery(self):
+        for derived_condition in (
+            "missing_project_map", "missing_resume", "stale_resume", "replacement_window",
+        ):
+            with self.subTest(derived_condition=derived_condition):
+                result = self.task5_resume()
+                self.assertFalse(result["reconciliation_required"])
+                self.assertNotIn(result["status"], ("EXECUTION_SLOT_MISMATCH", "RECONCILIATION_REQUIRED"))
+                self.assertEqual(result["next_action"], "AWAIT_REVIEW")
+
+    def test_missing_authoritative_fact_blocks_derived_recovery(self):
+        facts = self.task5_authoritative_facts()
+        del facts["work_unit_id"]
+        result = self.task5_resume(facts=facts)
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+        self.assertTrue(result["reconciliation_required"])
+
+    def test_reviewer_seriality_reassignment_and_derived_rejection(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import validate_reviewer_assignment
+
+        slot = self.task5_slot(
+            role="CODEX_REVIEWER",
+            reviewer_ref="reviewer-1",
+            physical_review_windows=("window-a", "window-b"),
+        )
+        self.assertEqual(validate_reviewer_assignment(slot, "reviewer-1", 8), [])
+        self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(slot, "reviewer-2", 8))
+        reassigned = dict(slot, reviewer_reassignment_ref="reassignment-1")
+        self.assertEqual(validate_reviewer_assignment(reassigned, "reviewer-2", 8), [])
+        for source in ("review_result_finding", "telemetry", "timeout", "window_replacement"):
+            with self.subTest(source=source):
+                derived = dict(reassigned, reviewer_reassignment_source=source)
+                self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(derived, "reviewer-2", 8))
 
     def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
         with tempfile.TemporaryDirectory() as td:

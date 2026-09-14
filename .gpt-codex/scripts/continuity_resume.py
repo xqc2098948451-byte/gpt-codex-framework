@@ -38,6 +38,10 @@ _LEGAL_SLOT_EDGES = {
     "BLOCKED": frozenset({"BLOCKED", "ACTIVE"}),
     "COMPLETED": frozenset({"COMPLETED", "IDLE"}),
 }
+_SLOT_BINDING_FIELDS = (
+    "project_context_id", "work_unit_id", "role", "primary_module", "branch",
+    "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision",
+)
 _ASSIGNMENT_FIELDS = (
     "work_unit_id", "primary_module", "project_context_id", "branch", "worktree",
     "base_sha", "current_head_sha", "instruction_id", "next_action",
@@ -396,6 +400,89 @@ def _non_optimization_resume_fields() -> dict[str, Any]:
     }
 
 
+def validate_reviewer_assignment(
+    slot: Mapping,
+    reviewer_ref: str,
+    expected_revision: int,
+) -> list[str]:
+    """Validate one logical reviewer without using physical-window observations."""
+    if (
+        not isinstance(slot, Mapping)
+        or not _is_nonempty_string(reviewer_ref)
+        or validate_slot_state_revision(slot.get("state_revision"), expected_revision)
+        or not _is_nonempty_string(slot.get("reviewer_ref"))
+    ):
+        return ["RECONCILIATION_REQUIRED"]
+    if reviewer_ref == slot.get("reviewer_ref"):
+        return []
+    if (
+        not _is_nonempty_string(slot.get("reviewer_reassignment_ref"))
+        or slot.get("reviewer_reassignment_source") in {
+            "review_result_finding", "telemetry", "timeout", "inactivity",
+            "model_change", "window_replacement",
+        }
+    ):
+        return ["RECONCILIATION_REQUIRED"]
+    return []
+
+
+def _execution_slot_recovery(
+    control: Mapping,
+    state: Mapping,
+    execution_slot_id: str,
+    execution_slot_binding: object,
+    authoritative_facts: object,
+) -> dict[str, Any]:
+    slots = state.get("active_execution_slots")
+    if not isinstance(slots, list):
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    matches = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("slot_id") == execution_slot_id]
+    if len(matches) != 1:
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    slot = matches[0]
+    if isinstance(execution_slot_binding, Mapping):
+        for field in _SLOT_BINDING_FIELDS:
+            if field in execution_slot_binding and execution_slot_binding[field] != slot.get(field):
+                return {"status": "EXECUTION_SLOT_MISMATCH", "reconciliation_required": True}
+    elif execution_slot_binding is not None:
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    if (
+        slot.get("project_context_id") != control.get("project_context_id")
+        or slot.get("work_unit_id") != state.get("active_work_unit")
+        or validate_execution_slots(state)
+        or not isinstance(authoritative_facts, Mapping)
+    ):
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    required = {
+        "work_unit_id", "instruction_id", "review_request_id", "review_result_ref",
+        "current_git_sha", "git_ancestry_valid", "state_revision", "worktree_clean",
+        "worktree_unambiguous",
+    }
+    if not required.issubset(authoritative_facts):
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    if (
+        authoritative_facts.get("work_unit_id") != slot.get("work_unit_id")
+        or authoritative_facts.get("instruction_id") != slot.get("instruction_id")
+        or authoritative_facts.get("review_request_id") != slot.get("review_request_id")
+        or authoritative_facts.get("review_result_ref") != slot.get("review_result_ref")
+        or authoritative_facts.get("current_git_sha") != slot.get("current_head_sha")
+        or authoritative_facts.get("state_revision") != state.get("revision")
+        or slot.get("state_revision") != state.get("revision")
+        or authoritative_facts.get("git_ancestry_valid") is not True
+        or authoritative_facts.get("worktree_clean") is not True
+        or authoritative_facts.get("worktree_unambiguous") is not True
+        or not _is_nonempty_string(slot.get("next_action"))
+    ):
+        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+    return {
+        "status": "LATEST_SYNCED_REMOTE_STATE",
+        "reconciliation_required": False,
+        "execution_slot_id": execution_slot_id,
+        "execution_slot": dict(slot),
+        "next_action": slot["next_action"],
+    }
+
+
 def load_resume_checkpoint(gov: Path, control: dict[str, Any] | None = None) -> dict[str, Any] | None:
     checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
     if not checkpoint_path.exists():
@@ -472,6 +559,9 @@ def load_continuity_resume(
     attestation_is_management_only: bool = True,
     attestation_references_work: bool = True,
     generic_tree_matches: bool = True,
+    execution_slot_id: str | None = None,
+    execution_slot_binding: Mapping | None = None,
+    authoritative_facts: Mapping | None = None,
 ) -> dict[str, Any]:
     root = Path(repo_root)
     gov = root / ".gpt-codex"
@@ -514,6 +604,15 @@ def load_continuity_resume(
             "continuity": continuity,
             **_non_optimization_resume_fields(),
         }
+
+    if execution_slot_id is not None:
+        return _execution_slot_recovery(
+            control,
+            state,
+            execution_slot_id,
+            execution_slot_binding,
+            authoritative_facts,
+        )
 
     project_map = load_project_map(root)
     if project_map is not None:
