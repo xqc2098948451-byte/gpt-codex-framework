@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from hashlib import sha256
 import json
@@ -229,3 +229,96 @@ def normalize_event(payload: Mapping[str, object], *, collector_id: str, collect
     )
     provisional = TelemetryEvent(logical_key="", **values)
     return TelemetryEvent(logical_key=logical_idempotency_key(provisional), **values)
+
+
+@dataclass(frozen=True, slots=True)
+class AuthoritativeSnapshot:
+    project_context_id: str | None
+    state_revision: int | None
+    head_sha: str | None
+    correlation_ref: str | None
+    result_status: str | None
+    publication_status: str | None
+    git_relation: str = "UNKNOWN"
+
+    def __post_init__(self) -> None:
+        if self.git_relation not in {"MATCH", "ANCESTOR", "DIVERGED", "UNKNOWN"}:
+            raise TelemetryValidationError("MALFORMED_TELEMETRY_EVENT")
+
+
+def repeat_subject_key(event: TelemetryEvent) -> str:
+    correlation = correlation_ref_for(event)
+    values: list[object] = [
+        event.event_class, event.authoritative_record_ref,
+        event.provenance.observed_state_revision, event.provenance.observed_head_sha,
+        event.slot_id, correlation,
+    ]
+    if event.authoritative_record_ref is None and correlation is None:
+        values.extend([event.provenance.producer_run_id, event.provenance.producer_sequence])
+    return sha256(json.dumps(values, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def classify_ordering(
+    event: TelemetryEvent,
+    *,
+    authoritative: AuthoritativeSnapshot | None,
+    previous_related_event: TelemetryEvent | None,
+) -> str:
+    correlation = correlation_ref_for(event)
+    if authoritative is not None:
+        if authoritative.project_context_id is not None and event.project_context_id != authoritative.project_context_id:
+            return "INCONSISTENT"
+        if authoritative.git_relation == "DIVERGED" and event.state_revision == authoritative.state_revision:
+            return "INCONSISTENT"
+        if authoritative.correlation_ref == correlation:
+            if authoritative.result_status is not None and event.result_status is not None and authoritative.result_status != event.result_status:
+                return "INCONSISTENT"
+            if authoritative.publication_status is not None and event.result_status is not None and authoritative.publication_status != event.result_status:
+                return "INCONSISTENT"
+        if (authoritative.state_revision is not None and event.state_revision is not None and event.state_revision < authoritative.state_revision) or authoritative.git_relation == "ANCESTOR":
+            return "STALE"
+    if previous_related_event is not None and repeat_subject_key(event) == repeat_subject_key(previous_related_event):
+        if event.state_revision is not None and previous_related_event.state_revision is not None and event.state_revision < previous_related_event.state_revision:
+            return "OUT_OF_ORDER"
+        if (event.provenance.producer_run_id is not None and event.provenance.producer_run_id == previous_related_event.provenance.producer_run_id and event.provenance.producer_sequence is not None and previous_related_event.provenance.producer_sequence is not None and event.provenance.producer_sequence < previous_related_event.provenance.producer_sequence):
+            return "OUT_OF_ORDER"
+        if event.timestamp < previous_related_event.timestamp:
+            return "LATE"
+    return "CURRENT"
+
+
+class TelemetryCollector:
+    """Caller-owned, in-memory append-only derived observations."""
+
+    def __init__(self) -> None:
+        self._events: list[TelemetryEvent] = []
+        self._by_logical_key: dict[str, TelemetryEvent] = {}
+        self._by_repeat_subject: dict[str, TelemetryEvent] = {}
+
+    @staticmethod
+    def _canonical(event: TelemetryEvent) -> TelemetryEvent:
+        return replace(event, event_id="", logical_key="", arrival_timestamp=None, ordering_status="CURRENT", observation_kind="PRIMARY", repeats_event_id=None, supersedes_observation_id=None)
+
+    def emit(
+        self,
+        event: TelemetryEvent,
+        *,
+        authoritative: AuthoritativeSnapshot | None = None,
+        arrival_timestamp: datetime | None = None,
+    ) -> TelemetryEvent:
+        previous = self._by_repeat_subject.get(repeat_subject_key(event))
+        ordering = classify_ordering(event, authoritative=authoritative, previous_related_event=previous)
+        emitted = replace(event, ordering_status=ordering, arrival_timestamp=arrival_timestamp)
+        existing = self._by_logical_key.get(event.logical_key)
+        if existing is not None and self._canonical(existing) == self._canonical(emitted):
+            return existing
+        subject = repeat_subject_key(event)
+        if previous is not None:
+            emitted = replace(emitted, observation_kind="REPEAT", repeats_event_id=previous.event_id)
+        self._events.append(emitted)
+        self._by_logical_key[event.logical_key] = emitted
+        self._by_repeat_subject.setdefault(subject, emitted)
+        return emitted
+
+    def events(self) -> tuple[TelemetryEvent, ...]:
+        return tuple(self._events)

@@ -43,6 +43,7 @@ class ExecutionTelemetryTaskOneTests(unittest.TestCase):
 
 
 NOW = datetime(2026, 9, 14, tzinfo=timezone.utc)
+LATER = datetime(2026, 9, 14, 0, 1, tzinfo=timezone.utc)
 
 
 def valid_payload(**overrides):
@@ -95,6 +96,33 @@ class ExecutionTelemetryTaskTwoTests(unittest.TestCase):
         for key, error in (("authority_claim", "PROHIBITED_AUTHORITY_CLAIM"), ("raw_prompt", "UNSAFE_TELEMETRY_CONTENT")):
             with self.subTest(key=key), self.assertRaisesRegex(module.TelemetryValidationError, error):
                 module.normalize_event(valid_payload(**{key: "value"}), collector_id="collector", collector_version="1.0", timestamp=NOW)
+
+
+def normalized_event(module, **overrides):
+    values = dict(overrides)
+    timestamp = values.pop("timestamp", NOW)
+    return module.normalize_event(valid_payload(**values), collector_id="collector", collector_version="1.0", timestamp=timestamp)
+
+
+class ExecutionTelemetryTaskThreeTests(unittest.TestCase):
+    def test_collector_deduplicates_retries_and_appends_cross_source_repeat(self):
+        module = load_module()
+        collector = module.TelemetryCollector()
+        first = collector.emit(normalized_event(module))
+        retry = collector.emit(normalized_event(module))
+        repeat = collector.emit(normalized_event(module, source="remote-evidence-read", timestamp=LATER))
+        self.assertEqual(retry.event_id, first.event_id)
+        self.assertEqual(repeat.observation_kind, "REPEAT")
+        self.assertEqual(repeat.repeats_event_id, first.event_id)
+        self.assertEqual(len(collector.events()), 2)
+
+    def test_ordering_precedence_stale_outranks_out_of_order(self):
+        module = load_module()
+        previous = normalized_event(module, state_revision=3, timestamp=LATER)
+        snapshot = module.AuthoritativeSnapshot("ctx-1", 3, None, "result-1", None, None)
+        event = normalized_event(module, state_revision=2, timestamp=NOW)
+        self.assertEqual(module.classify_ordering(event, authoritative=snapshot, previous_related_event=previous), "STALE")
+        self.assertEqual(module.classify_ordering(event, authoritative=None, previous_related_event=previous), "OUT_OF_ORDER")
 
 
 if __name__ == "__main__":
