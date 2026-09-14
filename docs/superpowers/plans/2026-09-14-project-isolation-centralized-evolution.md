@@ -28,15 +28,46 @@
 
 ## File Map and module ownership
 
-| Module | Exact files | Why this module owns the physical change |
-| --- | --- | --- |
-| `framework-core` | `.gpt-codex/scripts/kernel_rules.py`, `.gpt-codex/tests/test_kernel_conformance.py` | Kernel governance owns immutable Framework-source classification and compatibility vocabulary, not Project decisions. |
-| `identity-context` (primary) | `.gpt-codex/scripts/context_binding.py`, `.gpt-codex/scripts/github_repository_binding.py`, `.gpt-codex/tests/test_context_binding.py`, `.gpt-codex/tests/test_github_repository_binding.py`, `.gpt-codex/tests/test_multi_project_github_isolation.py` | Registered owner of Project/repository identity and cross-Project isolation. |
-| `role-communication` | `.gpt-codex/scripts/role_communication.py`, `.gpt-codex/scripts/instruction_envelope.py`, `.gpt-codex/scripts/result_return.py`, `.gpt-codex/tests/test_role_authority.py`, `.gpt-codex/tests/test_instruction_role_contract.py`, `.gpt-codex/tests/test_result_contract_schema.py` | Owns instruction/result authority and must reject source/index data presented as executable authority. |
-| `navigation-continuity` | `.gpt-codex/scripts/project_navigation.py`, `.gpt-codex/scripts/continuity_resume.py`, `.gpt-codex/tests/test_project_navigation.py`, `.gpt-codex/tests/test_continuity_resume.py`, `.gpt-codex/tests/test_context_window_resume.py` | Owns derived Map/Resume and keeps them subordinate to identity. |
-| `git-continuity` | `.gpt-codex/scripts/git_continuity.py`, `.gpt-codex/tests/test_git_continuity.py`, `.gpt-codex/tests/test_remote_verification.py` | Owns repository/revision continuity evidence used for a repository transfer without making a remote authoritative. |
-| `framework-validation` | `.gpt-codex/scripts/validate_project.py`, `.gpt-codex/scripts/validate_framework.py`, `.gpt-codex/tests/test_framework_project_separation.py`, `.gpt-codex/tests/test_validator_context_binding.py`, `.gpt-codex/tests/test_self_hosting_validator.py` | Orchestrates local evaluation/adoption and cross-module validation without taking ownership. |
-| `release-projection` | `.gpt-codex/scripts/consumer_projection.py`, `.gpt-codex/release/consumer-projection-manifest.json`, `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py` | Owns exact consumer filtering and the manifest classification closure. |
+Every `MUTATED_ASSET` below resolves to one existing Registry module through an `OWNED_ASSETS` exact path or a unique `REQUIRED_TESTS` entry. The `Projection` column is the canonical v2.6.0 manifest classification to retain at implementation time. A code contract's classification is distinct from runtime record content: a `CONSUMER_REQUIRED` module can recognize a management classification, while a projected runtime management record is still rejected by Task 7.
+
+| Exact path | Change type | Registry owner | Owning responsibility | Task(s) | Focused tests | Projection |
+| --- | --- | --- | --- | --- | --- | --- |
+| `.gpt-codex/scripts/context_binding.py` | MUTATED_ASSET | `identity-context` | Project/repository tuple, resource boundary, enrollment, observation, and index aggregation. | 1, 5, 6 | `test_context_binding.py`, `test_multi_project_github_isolation.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/scripts/github_repository_binding.py` | MUTATED_ASSET | `identity-context` | Verified repository mismatch and transfer binding. | 1, 6 | `test_github_repository_binding.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_context_binding.py` | MUTATED_ASSET | `identity-context` | Identity/resource/enrollment/index behavioral regression. | 1, 5, 6 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_github_repository_binding.py` | MUTATED_ASSET | `identity-context` | Repository binding and transfer regression. | 1, 6 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_multi_project_github_isolation.py` | MUTATED_ASSET | `identity-context` | Cross-Project identity/enrollment isolation regression. | 1, 5 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/kernel_rules.py` | MUTATED_ASSET | `framework-core` | Immutable read-only source classification and provenance rules. | 2 | `test_kernel_conformance.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_kernel_conformance.py` | MUTATED_ASSET | `framework-core` | Framework Evolution Source unit behavior. | 2 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/validate_framework.py` | MUTATED_ASSET | `framework-validation` | Framework-side source/index orchestration without Project ownership. | 2, 7 | `test_self_hosting_validator.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/scripts/validate_project.py` | MUTATED_ASSET | `framework-validation` | Local evaluation/adoption orchestration and exact failure propagation. | 3, 7 | `test_validator_context_binding.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_validator_context_binding.py` | MUTATED_ASSET | `framework-validation` | Local evolution/adoption and observation-as-instruction regression. | 3, 5, 7 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_self_hosting_validator.py` | MUTATED_ASSET | `framework-validation` | Source-validator integration and management/self-hosting non-expansion. | 2, 3, 7 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/role_communication.py` | MUTATED_ASSET | `role-communication` | Metadata cannot acquire instruction/action authority. | 4 | `test_role_authority.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/scripts/instruction_envelope.py` | MUTATED_ASSET | `role-communication` | Reject executable source/index metadata in instruction rendering. | 4 | `test_instruction_role_contract.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/scripts/result_return.py` | MUTATED_ASSET | `role-communication` | Preserve result authority boundary for evolution metadata. | 4 | `test_result_contract_schema.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_role_authority.py` | MUTATED_ASSET | `role-communication` | Metadata authority denial. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_instruction_role_contract.py` | MUTATED_ASSET | `role-communication` | Instruction envelope authority regression. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_result_contract_schema.py` | MUTATED_ASSET | `role-communication` | Result envelope authority regression. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/project_navigation.py` | MUTATED_ASSET | `navigation-continuity` | Derived Map identity boundary. | 4 | `test_project_navigation.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/scripts/continuity_resume.py` | MUTATED_ASSET | `navigation-continuity` | Derived Resume identity boundary. | 4 | `test_continuity_resume.py`, `test_context_window_resume.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_project_navigation.py` | MUTATED_ASSET | `navigation-continuity` | Foreign/ambiguous Map failure. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_continuity_resume.py` | MUTATED_ASSET | `navigation-continuity` | Foreign/ambiguous Resume failure. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_context_window_resume.py` | MUTATED_ASSET | `navigation-continuity` | Valid local derived-continuity regression. | 4 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/git_continuity.py` | MUTATED_ASSET | `git-continuity` | Independent old/new repository evidence for transfer. | 6 | `test_git_continuity.py`, `test_remote_verification.py` | CONSUMER_REQUIRED |
+| `.gpt-codex/tests/test_git_continuity.py` | MUTATED_ASSET | `git-continuity` | Repository-transfer evidence requirement. | 6 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_remote_verification.py` | MUTATED_ASSET | `git-continuity` | Remote evidence stays non-authoritative. | 6 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/scripts/consumer_projection.py` | MUTATED_ASSET | `release-projection` | Structured management-record rejection. | 7 | `test_consumer_projection.py` | MANAGEMENT_ONLY |
+| `.gpt-codex/release/consumer-projection-manifest.json` | MUTATED_ASSET | `release-projection` | Exact Design/Plan classification closure; manifest self-classification remains management-only. | 7 | `test_consumer_projection.py`, `test_consumer_runtime_closure.py` | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_consumer_projection.py` | MUTATED_ASSET | `release-projection` | Management-record projection rejection. | 7 | self | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_consumer_runtime_closure.py` | MUTATED_ASSET | `release-projection` | Consumer inventory closure. | 7 | self | MANAGEMENT_ONLY |
+
+### Verify-only regression assets
+
+| Exact path | Change type | Execution purpose | Command | Projection |
+| --- | --- | --- | --- | --- |
+| `.gpt-codex/tests/test_framework_module_validation.py` | VERIFY_ONLY_REGRESSION | Existing cross-module Framework-validation regression; no mutation target and no Registry owner is inferred. | `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_validation.py'` | MANAGEMENT_ONLY |
+| `.gpt-codex/tests/test_framework_project_separation.py` | VERIFY_ONLY_REGRESSION | Existing historical separation regression; no mutation target and no Registry owner is inferred. | `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'` | MANAGEMENT_ONLY |
 
 No schema or template file is changed: P0-4 uses additive, in-memory JSON-compatible contract mappings and existing Project-local authority structures. `framework_module_routing.py` is not changed; its responsibility-first route remains descriptive, never executable.
 
@@ -88,6 +119,26 @@ def classify_framework_evolution_index(
 
 The first applicable condition wins: malformed/missing/inferred strong identity returns `PROJECT_IDENTITY_INVALID`; a complete foreign context returns `CROSS_PROJECT_CONTEXT_MISMATCH`; a verified repository contradiction returns `GITHUB_REPOSITORY_MISMATCH`; attempted use of source/index/foreign metadata as local authority returns `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`; and an adoption lacking local decision/Work Unit/Role authority returns `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`. Derived Map/Resume and fleet observations are evaluated only after those checks.
 
+## Mandatory Implementation Baseline Preflight
+
+This hard execution gate is not a production Task and does not change `TASK_COUNT = 7`. Before Task 1, the executor must run:
+
+```bash
+git fetch origin
+git rev-parse origin/main
+git rev-parse HEAD
+git merge-base --is-ancestor 8125e13958e548ed24c53a978c8d86602d69c253 HEAD
+git merge-base --is-ancestor 37f9fdcc481ba6943efe184eb533bd3823b32bc8 HEAD
+python -c "from pathlib import Path; import runpy; routing = runpy.run_path('.gpt-codex/scripts/framework_module_routing.py'); decision = routing['route_responsibility'](Path('.'), 'identity-context', 'project and repository identity', planned_assets=['.gpt-codex/scripts/context_binding.py', '.gpt-codex/scripts/github_repository_binding.py', '.gpt-codex/scripts/kernel_rules.py', '.gpt-codex/scripts/validate_framework.py', '.gpt-codex/scripts/validate_project.py', '.gpt-codex/scripts/role_communication.py', '.gpt-codex/scripts/instruction_envelope.py', '.gpt-codex/scripts/result_return.py', '.gpt-codex/scripts/project_navigation.py', '.gpt-codex/scripts/continuity_resume.py', '.gpt-codex/scripts/git_continuity.py', '.gpt-codex/scripts/consumer_projection.py', '.gpt-codex/release/consumer-projection-manifest.json']); print(decision.outcome, decision.primary_module, ','.join(decision.affected_modules))"
+git status --short
+```
+
+Record `accepted_design_sha=8125e13958e548ed24c53a978c8d86602d69c253`, `accepted_plan_sha=37f9fdcc481ba6943efe184eb533bd3823b32bc8`, `observed_origin_main_sha`, `expected_canonical_base_sha`, `design_plan_ancestry_result`, `registry_route_result`, `changed_contract_conflict_result`, `worktree_status`, and `blockers`. The expected canonical base is `f49cd5afaa07aabaedac516d1c0e2c3524eef845`. The route call receives only mutated production assets; the File Map's unique `REQUIRED_TESTS` ownership is the separate test-path evidence.
+
+If `origin/main` equals that SHA, accepted Design/Plan ancestry is intact, Registry routing returns only `identity-context` for `project and repository identity`, the Design/Plan diff contains no contradictory contract drift, and the worktree is clean, set `BASELINE_PRECHECK = PASS`. GPT must independently verify the recorded evidence and `BLOCKERS = NONE` before Task 1 starts; `GPT_BASELINE_VERIFICATION = REQUIRED`.
+
+If `origin/main` differs from the expected SHA, if either ancestry check fails, or if a contradictory Registry/contract change is found, stop with `RESULT = RECONCILIATION_REQUIRED`. No production Task executes; Codex must not decide that a newer `main` is compatible, and may not silently rebase, merge, or rewrite accepted history.
+
 ## Implementation Tasks
 
 ### Task 1: Strong identity and cross-Project resource boundary foundation
@@ -129,7 +180,7 @@ self.assertEqual((decision.reason, decision.packet_status),
 - Modify: `.gpt-codex/scripts/kernel_rules.py`
 - Modify: `.gpt-codex/tests/test_kernel_conformance.py`
 - Modify: `.gpt-codex/scripts/validate_framework.py`
-- Modify: `.gpt-codex/tests/test_framework_module_validation.py`
+- Modify: `.gpt-codex/tests/test_self_hosting_validator.py`
 
 **Interfaces:**
 - Produces `validate_framework_evolution_source(source) -> EvolutionSourceDecision`.
@@ -147,17 +198,16 @@ self.assertEqual(validate_framework_evolution_source(source).classification,
                  "READ_ONLY_EVOLUTION_SOURCE")
 ```
 
-- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_kernel_conformance.py'`. Expected: import failure for `validate_framework_evolution_source`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_kernel_conformance.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`. Expected: import failure for `validate_framework_evolution_source` and missing Framework-validator source integration assertion.
 - [ ] **Step 3: Implement the minimum source validator.** In `kernel_rules.py`, add `EvolutionSourceDecision`, a frozen allowed-key set, and `validate_framework_evolution_source`. Reject unknown keys that imply execution (`authorized_actions`, `target_work_unit`, `state_revision`, `command`, `retry`, `queue`) and reject absent/invalid provenance. In `validate_framework.py`, validate only Framework-owned source fixtures when present; it reports invalid source but never creates one.
-- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_kernel_conformance.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_validation.py'`. Expected: PASS.
-- [ ] **Step 5: Run governance regression.** Run `python .gpt-codex/scripts/validate_framework.py`. Expected: `RESULT: PASS`; Registry routing and Framework version remain unchanged.
-- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/kernel_rules.py .gpt-codex/scripts/validate_framework.py .gpt-codex/tests/test_kernel_conformance.py .gpt-codex/tests/test_framework_module_validation.py` then `git commit -m "feat: validate read-only framework evolution sources"`.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_kernel_conformance.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`. Expected: PASS.
+- [ ] **Step 5: Run governance regressions.** Run `python .gpt-codex/scripts/validate_framework.py` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_module_validation.py'`. Expected: PASS; the latter is VERIFY_ONLY_REGRESSION, Registry routing and Framework version remain unchanged.
+- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/kernel_rules.py .gpt-codex/scripts/validate_framework.py .gpt-codex/tests/test_kernel_conformance.py .gpt-codex/tests/test_self_hosting_validator.py` then `git commit -m "feat: validate read-only framework evolution sources"`.
 
 ### Task 3: Local evaluation and explicit adoption decision boundary
 
 **Files:**
 - Modify: `.gpt-codex/scripts/validate_project.py`
-- Modify: `.gpt-codex/tests/test_framework_project_separation.py`
 - Modify: `.gpt-codex/tests/test_validator_context_binding.py`
 - Modify: `.gpt-codex/tests/test_self_hosting_validator.py`
 
@@ -166,7 +216,7 @@ self.assertEqual(validate_framework_evolution_source(source).classification,
 - Keeps `evaluate_framework_compatibility` as the compatibility classifier and preserves exactly `NO_ACTION`, `OPTIONAL_REUSE`, `RECOMMENDED_UPGRADE`, `REQUIRED_MIGRATION`, and `CONFLICT`.
 - Extends `validate_framework_adoption(project_control, instruction, work_unit, *, current_state_revision, source=None) -> list[str]`; it accepts migration only after valid identity, valid source, matching Project Work Unit/revision, and Role Protocol action authority. Otherwise it returns the exact first applicable frozen failure.
 
-- [ ] **Step 1: Write failing behavioral tests.** In `test_framework_project_separation.py`, add `test_project_evolution_evaluation_is_read_only` and `test_adoption_requires_local_authority_not_source_or_observation`. Assert source evaluation returns `mutated is False` and all five compatibility outcomes remain possible; assert an instruction carrying `FRAMEWORK_EVOLUTION_SOURCE` classification but no authorized local Work Unit yields `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`; assert a foreign `project_context_id` yields `CROSS_PROJECT_CONTEXT_MISMATCH`.
+- [ ] **Step 1: Write failing behavioral tests.** In `test_validator_context_binding.py`, add `test_project_evolution_evaluation_is_read_only` and `test_adoption_requires_local_authority_not_source_or_observation`. Assert source evaluation returns `mutated is False` and all five compatibility outcomes remain possible; assert an instruction carrying `FRAMEWORK_EVOLUTION_SOURCE` classification but no authorized local Work Unit yields `FRAMEWORK_ADOPTION_NOT_AUTHORIZED`; assert a foreign `project_context_id` yields `CROSS_PROJECT_CONTEXT_MISMATCH`.
 
 ```python
 source = {"classification": "READ_ONLY_EVOLUTION_SOURCE", "framework_version": "2.6.0",
@@ -182,11 +232,11 @@ self.assertIn(evaluation["classification"], {
 })
 ```
 
-- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected: import failure for `evaluate_project_evolution` and failed adoption boundary assertions.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`. Expected: import failure for `evaluate_project_evolution` and failed adoption boundary assertions.
 - [ ] **Step 3: Implement the minimum local-only evaluation.** In `validate_project.py`, call `load_project_identity` and `validate_framework_evolution_source` before compatibility classification. Map malformed identity to `PROJECT_IDENTITY_INVALID`, foreign context to `CROSS_PROJECT_CONTEXT_MISMATCH`, verified repository contradiction to `GITHUB_REPOSITORY_MISMATCH`, and action-bearing external metadata to `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`. Do not write CONTROL/STATE or construct a Work Unit. Extend adoption validation only to verify an already supplied local Work Unit and Role authority; it must never create either.
-- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected: PASS.
-- [ ] **Step 5: Run management/validator regression.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`. Expected: PASS; `FRAMEWORK_MANAGEMENT`/`SELF_MANAGED` do not expand ordinary Project authority.
-- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py` then `git commit -m "feat: keep framework evolution evaluation project-local"`.
+- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`. Expected: PASS.
+- [ ] **Step 5: Run management and historical regressions.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected: PASS; self-hosting does not expand ordinary authority and the latter remains VERIFY_ONLY_REGRESSION.
+- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/validate_project.py .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py` then `git commit -m "feat: keep framework evolution evaluation project-local"`.
 
 ### Task 4: Role, instruction/result, Project Map, and Resume non-authority
 
@@ -219,20 +269,20 @@ self.assertIn(evaluation["classification"], {
 **Files:**
 - Modify: `.gpt-codex/scripts/context_binding.py`
 - Modify: `.gpt-codex/tests/test_context_binding.py`
-- Modify: `.gpt-codex/tests/test_framework_project_separation.py`
 - Modify: `.gpt-codex/tests/test_multi_project_github_isolation.py`
+- Modify: `.gpt-codex/tests/test_validator_context_binding.py`
 
 **Interfaces:**
 - Produces `validate_project_evolution_enrollment(project_control, enrollment) -> ContextDecision` and `build_project_evolution_observation(project_control, evaluation, enrollment, *, observed_at, local_revision_ref) -> dict[str, Any]`.
 - Enrollment requires `explicit_enrollment is True`, the complete strong tuple, and `transport` exactly `MANUAL`, `PROJECT_PUSH`, or `PROJECT_PULL`. Discovery-like fields alone deny with `PROJECT_IDENTITY_INVALID`.
 - Observation has classification `DERIVED_OBSERVATION_ONLY` and only identity tuple, source version/provenance digest, local compatibility outcome, observed time, local revision reference, and bounded result/evidence reference. It contains neither action fields nor prohibited raw/sensitive fields.
 
-- [ ] **Step 1: Write failing behavioral tests.** Add `test_explicit_enrollment_is_not_discovery` and `test_observation_is_minimized_and_non_authoritative` in `test_framework_project_separation.py`. Use `{ "repository_full_name": "owner/repo" }` without `explicit_enrollment` and assert `PROJECT_IDENTITY_INVALID`; for valid enrollment, assert the observation key set excludes `control`, `state`, `work_unit`, `result`, `evidence`, `prompt`, `reasoning`, `credential`, `token`, `source_content`, `environment`, `log`, and `extensions`.
-- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected: imports for enrollment/observation interfaces do not exist.
+- [ ] **Step 1: Write failing behavioral tests.** Add `test_explicit_enrollment_is_not_discovery` and `test_observation_is_minimized_and_non_authoritative` in `test_context_binding.py`, with cross-Project transport assertions in `test_multi_project_github_isolation.py` and validation orchestration assertion in `test_validator_context_binding.py`. Use `{ "repository_full_name": "owner/repo" }` without `explicit_enrollment` and assert `PROJECT_IDENTITY_INVALID`; for valid enrollment, assert the observation key set excludes `control`, `state`, `work_unit`, `result`, `evidence`, `prompt`, `reasoning`, `credential`, `token`, `source_content`, `environment`, `log`, and `extensions`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'`, `python -m unittest discover -s .gpt-codex/tests -p 'test_multi_project_github_isolation.py'`, and `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`. Expected: imports for enrollment/observation interfaces do not exist.
 - [ ] **Step 3: Implement the minimum enrollment/observation constructors.** In `context_binding.py`, validate explicit identity-bound enrollment without I/O or auto-registration. Build a new mapping only from Design-approved fields; reject action-bearing input with `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`. Never read Git remote, scan the filesystem, mutate CONTROL/STATE, or retain arbitrary payloads.
-- [ ] **Step 4: Run GREEN.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_context_binding.py'`. Expected: PASS.
+- [ ] **Step 4: Run GREEN.** Run the three RED commands again. Expected: PASS.
 - [ ] **Step 5: Run isolation regression.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_multi_project_github_isolation.py'`. Expected: PASS; foreign and partial enrollment remain non-authoritative diagnostics only.
-- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_multi_project_github_isolation.py` then `git commit -m "feat: add bounded project evolution observations"`.
+- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/context_binding.py .gpt-codex/tests/test_context_binding.py .gpt-codex/tests/test_multi_project_github_isolation.py .gpt-codex/tests/test_validator_context_binding.py` then `git commit -m "feat: add bounded project evolution observations"`.
 
 ### Task 6: Management index, staleness, rename, retirement, and repository transfer
 
@@ -264,7 +314,6 @@ self.assertIn(evaluation["classification"], {
 - Modify: `.gpt-codex/scripts/validate_project.py`
 - Modify: `.gpt-codex/scripts/consumer_projection.py`
 - Modify: `.gpt-codex/release/consumer-projection-manifest.json`
-- Modify: `.gpt-codex/tests/test_framework_project_separation.py`
 - Modify: `.gpt-codex/tests/test_validator_context_binding.py`
 - Modify: `.gpt-codex/tests/test_self_hosting_validator.py`
 - Modify: `.gpt-codex/tests/test_consumer_projection.py`
@@ -275,12 +324,22 @@ self.assertIn(evaluation["classification"], {
 - `validate_framework.py` validates source/index classifications without acquiring Project ownership.
 - `consumer_projection.scan_consumer_boundary(staging_root, manifest)` parses projected JSON records and reports a management source/index/enrollment record as `management_identity_hits` when it has `framework_management_only: true`, `governance_profile: "FRAMEWORK_MANAGEMENT"`, `classification: "FRAMEWORK_MANAGEMENT_METADATA"`, or an enrollment/observation record classification. Python source code containing a classification constant is not itself a management record. The manifest classifies P0-4 Design/Plan/test artifacts as `DEVELOPMENT_HISTORY` or `MANAGEMENT_ONLY` exactly.
 
-- [ ] **Step 1: Write failing behavioral tests.** In `test_consumer_projection.py`, construct staged JSON files representing a `FRAMEWORK_MANAGEMENT` CONTROL record, a `FRAMEWORK_MANAGEMENT_METADATA` index record, and a `DERIVED_OBSERVATION_ONLY` observation record; assert `management_identity_hits` contains each path. Also stage a Python file that merely defines `FRAMEWORK_MANAGEMENT_METADATA` as a string and assert it is not a hit. In `test_consumer_runtime_closure.py`, assert consumer inventory excludes every P0-4 management-only asset. In `test_framework_project_separation.py`, assert a validation attempt to use an observation as an instruction returns `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`.
-- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_projection.py'`, `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_runtime_closure.py'`, and `python -m unittest discover -s .gpt-codex/tests -p 'test_framework_project_separation.py'`. Expected: management evolution markers are not yet forbidden in projection scanning and validator integration is incomplete.
-- [ ] **Step 3: Implement the minimum closure.** Extend `scan_consumer_boundary` with JSON-record inspection for the three exact management-record shapes from Step 1, while preserving byte-level secret scanning and existing manifest forbidden values. Add exact manifest entries for the P0-4 Design/Plan paths according to their established development classifications; existing modified implementation/test paths retain their current classifications. Update validators to orchestrate preceding interfaces only. Do not project index/enrollment records, do not add a consumer runtime command, and do not update VERSION/release assets.
-- [ ] **Step 4: Run GREEN.** Run the three RED commands again plus `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'` and `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`. Expected: PASS.
+**Deterministic manifest changes:**
+
+| Path set | Manifest action | Classification |
+| --- | --- | --- |
+| `docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md` | Add one entry. | DEVELOPMENT_HISTORY |
+| `docs/superpowers/plans/2026-09-14-project-isolation-centralized-evolution.md` | Add one entry. | DEVELOPMENT_HISTORY |
+| Every pre-existing path in the complete File Map | Do not rewrite its manifest entry because contents changed. | Classification unchanged from the File Map. |
+| `.gpt-codex/release/consumer-projection-manifest.json` | Retain its own existing entry. | MANAGEMENT_ONLY |
+| Project Evolution Source, enrollment, and index runtime data | Add no manifest entry: no persistent P0-4 data file exists. | Not a projection asset. |
+
+- [ ] **Step 1: Write failing behavioral tests.** In `test_consumer_projection.py`, construct staged JSON files representing a `FRAMEWORK_MANAGEMENT` CONTROL record, a `FRAMEWORK_MANAGEMENT_METADATA` index record, and a `DERIVED_OBSERVATION_ONLY` observation record; assert `management_identity_hits` contains each path. Also stage a Python file that merely defines `FRAMEWORK_MANAGEMENT_METADATA` as a string and assert it is not a hit. In `test_consumer_runtime_closure.py`, assert consumer inventory excludes every P0-4 management-only asset. In `test_validator_context_binding.py`, assert a validation attempt to use an observation as an instruction returns `PROJECT_AUTHORITY_BOUNDARY_VIOLATION`.
+- [ ] **Step 2: Run RED.** Run `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_projection.py'`, `python -m unittest discover -s .gpt-codex/tests -p 'test_consumer_runtime_closure.py'`, and `python -m unittest discover -s .gpt-codex/tests -p 'test_validator_context_binding.py'`. Expected: management evolution records are not yet rejected in projection scanning and validator integration is incomplete.
+- [ ] **Step 3: Implement the minimum closure.** Extend `scan_consumer_boundary` with JSON-record inspection for the three exact management-record shapes from Step 1, while preserving byte-level secret scanning and existing manifest forbidden values. In the manifest, add exactly `docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md` and `docs/superpowers/plans/2026-09-14-project-isolation-centralized-evolution.md` as `DEVELOPMENT_HISTORY`. Do not rewrite entries for any existing path: every existing production script retains the File Map classification, every existing test retains `MANAGEMENT_ONLY`, and the manifest retains `MANAGEMENT_ONLY`. Update validators to orchestrate preceding interfaces only. Do not project index/enrollment records, do not add a consumer runtime command, and do not update VERSION/release assets.
+- [ ] **Step 4: Run GREEN.** Run the three RED commands again plus `python -m unittest discover -s .gpt-codex/tests -p 'test_self_hosting_validator.py'`. Expected: PASS.
 - [ ] **Step 5: Run final implementation verification.** Run `python .gpt-codex/scripts/validate_framework.py`; `python .gpt-codex/scripts/validate_project.py .`; `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`; `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; `git diff --check`; and `git status --short`. Expected: zero test failures/errors, projection unknown = 0, projection missing required = 0, whitespace check passes, and no uncommitted files after the commit step.
-- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/validate_framework.py .gpt-codex/scripts/validate_project.py .gpt-codex/scripts/consumer_projection.py .gpt-codex/release/consumer-projection-manifest.json .gpt-codex/tests/test_framework_project_separation.py .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py .gpt-codex/tests/test_consumer_projection.py .gpt-codex/tests/test_consumer_runtime_closure.py` then `git commit -m "feat: close evolution projection and validation boundaries"`. Re-run the final implementation verification after the commit; do not create a verification-only commit.
+- [ ] **Step 6: Commit.** Run `git add .gpt-codex/scripts/validate_framework.py .gpt-codex/scripts/validate_project.py .gpt-codex/scripts/consumer_projection.py .gpt-codex/release/consumer-projection-manifest.json .gpt-codex/tests/test_validator_context_binding.py .gpt-codex/tests/test_self_hosting_validator.py .gpt-codex/tests/test_consumer_projection.py .gpt-codex/tests/test_consumer_runtime_closure.py` then `git commit -m "feat: close evolution projection and validation boundaries"`. Re-run the final implementation verification after the commit; do not create a verification-only commit.
 
 ## Implementation acceptance and boundaries
 
@@ -300,11 +359,12 @@ This Plan creation changes only `docs/superpowers/plans/2026-09-14-project-isola
 ## Plan self-review
 
 - Full Design coverage: Tasks 1–7 cover every producer/consumer contract, the ten protected resource classes, source, local evaluation, adoption, explicit enrollment, observation/index lifecycle, consumer isolation, validation, and migration compatibility.
-- Exact files: every future source/test/manifest path is listed in File Map and task-local Files; each belongs to the existing Registry owner stated there.
+- Exact files: the mutation-path union equals the `MUTATED_ASSET` File Map rows; each has one existing Registry owner. `test_framework_module_validation.py` and `test_framework_project_separation.py` are `VERIFY_ONLY_REGRESSION` and are absent from all Task Modify lists and commit commands.
 - Interface consistency: Task 1 identity decision feeds Tasks 3–6; Task 2 source decision feeds Task 3; Task 5 observation feeds Task 6; Task 7 only orchestrates and filters those interfaces.
 - RED/GREEN correctness: every task starts with named behavioral tests and an exact expected missing/incorrect behavior, then reruns the same command after the smallest change.
 - Failure vocabulary: no alias is used as a code token; all frozen and P0-4-specific conditions preserve their distinct triggers.
 - Authority and privacy: no task persists a central Project record, creates a command queue, infers identity/enrollment, or centralizes sensitive Project payloads.
 - P0-5/P0-6 separation: slot lifecycle and telemetry mechanisms are explicitly absent from all tasks and interfaces.
-- Projection closure: only the Design/Plan pair is deferred at Plan stage; Task 7 resolves unknown/missing paths to zero.
+- Projection closure: only the Design/Plan pair is deferred at Plan stage; Task 7's deterministic manifest table adds those two development-history entries, retains every existing File Map classification unchanged, and resolves unknown/missing paths to zero.
+- Baseline execution gate: the mandatory preflight is outside the seven Tasks, records all required evidence, requires GPT verification before Task 1, and stops for `RECONCILIATION_REQUIRED` on canonical-main, ancestry, Registry-route, contract-drift, or worktree failure.
 - Required-marker scan: returns zero prohibited marker matches.
