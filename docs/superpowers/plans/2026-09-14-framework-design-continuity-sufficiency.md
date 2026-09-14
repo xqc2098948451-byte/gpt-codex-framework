@@ -177,13 +177,11 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 
 **Files:** `MUTATION = NONE`. Verify only `.gpt-codex/tests/test_consumer_projection.py`, `.gpt-codex/tests/test_consumer_runtime_closure.py`, `.gpt-codex/tests/test_release_packaging.py`, and `.gpt-codex/tests/test_publication_authority.py` in `MODE = VERIFY_ONLY_REGRESSION`; no Task 6 commit.
 
-**Interfaces:** Manifest classifies every actual implementation path once. The final routing decision includes `release-projection`; consumer bytes do not contain management identity. No Design/Plan or implementation path remains unknown after integration.
+**Interfaces:** Verify that the established projection contract has `unknown = 0` and `missing required = 0`; any unexpected physical path stops for separate routing adjudication.
 
-- [ ] **Step 1: Write failing classification assertion** — Add the actual new implementation paths to the manifest audit expectation only after routing confirms each owner/classification. Do not project management-only assets without an approved consumer-runtime decision.
-- [ ] **Step 1: Verify clean projection** — Run `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; at B0 expect `unknown = 0` and `missing required = 0`. New paths stop for routing adjudication; Task 6 never edits the manifest.
-- [ ] **Step 3: Minimal implementation** — Classify those paths; rerun Registry routing with the manifest. Do not change VERSION, release records, publish state, or create a release.
-- [ ] **Step 4: Verify GREEN** — Run `python .gpt-codex/scripts/validate_framework.py`, `python .gpt-codex/scripts/validate_project.py .`, `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, `git diff --check`, and `git status --short`. Record `Ran N tests`, `0 failures`, and `0 errors`.
-- [ ] **Step 5: Commit** — `git add .gpt-codex/release/consumer-projection-manifest.json && git commit -m "chore: classify execution continuity assets"`
+- [ ] **Step 1: Run projection verification** — `python .gpt-codex/scripts/validate_consumer_projection.py --root .`; do not edit the manifest.
+- [ ] **Step 2: Run verify-only regressions** — Run the four named consumer/release test files and the final framework/project/full-suite commands.
+- [ ] **Step 3: Stop without mutation** — Task 6 creates no path, edits no manifest, and creates no commit.
 
 ## Plan self-review
 
