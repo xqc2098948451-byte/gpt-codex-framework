@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -404,29 +405,186 @@ def validate_reviewer_assignment(
     slot: Mapping,
     reviewer_ref: str,
     expected_revision: int,
+    *,
+    reassignment_instruction: Mapping | None = None,
+    reassignment_evidence: Mapping | None = None,
 ) -> list[str]:
-    """Validate one logical reviewer without using physical-window observations."""
+    """Validate a review-request identity, never an agent or physical window."""
     if (
         not isinstance(slot, Mapping)
         or not _is_nonempty_string(reviewer_ref)
         or validate_slot_state_revision(slot.get("state_revision"), expected_revision)
-        or not _is_nonempty_string(slot.get("reviewer_ref"))
+        or not _is_nonempty_string(slot.get("review_request_id"))
     ):
         return ["RECONCILIATION_REQUIRED"]
-    if reviewer_ref == slot.get("reviewer_ref"):
+    if reviewer_ref == slot.get("review_request_id"):
         return []
+    if not _is_nonempty_string(slot.get("reviewer_reassignment_ref")):
+        return ["RECONCILIATION_REQUIRED"]
+    if not isinstance(reassignment_instruction, Mapping) or not isinstance(reassignment_evidence, Mapping):
+        return ["RECONCILIATION_REQUIRED"]
+    try:
+        from validate_project import validate_instruction_authority
+    except ImportError:
+        return ["RECONCILIATION_REQUIRED"]
+    if validate_instruction_authority(reassignment_instruction, expected_revision):
+        return ["RECONCILIATION_REQUIRED"]
     if (
-        not _is_nonempty_string(slot.get("reviewer_reassignment_ref"))
-        or slot.get("reviewer_reassignment_source") in {
-            "review_result_finding", "telemetry", "timeout", "inactivity",
-            "model_change", "window_replacement",
-        }
+        reassignment_instruction.get("instruction_id") != reviewer_ref
+        or reassignment_instruction.get("instruction_type") != "REVIEW_REQUEST"
+        or reassignment_instruction.get("issuer_role") != "GPT_ORCHESTRATOR"
+        or reassignment_instruction.get("executor_role") != "CODEX_REVIEWER"
+        or reassignment_instruction.get("target_work_unit") != slot.get("work_unit_id")
+        or reassignment_instruction.get("target_project_context_id") != slot.get("project_context_id")
+        or reassignment_instruction.get("expected_state_revision") != expected_revision
+        or reassignment_instruction.get("review_target_revision") != slot.get("current_head_sha")
+    ):
+        return ["RECONCILIATION_REQUIRED"]
+    required_evidence = {
+        "kernel_version": "2.0.0",
+        "schema_version": 1,
+        "evidence_id": slot.get("reviewer_reassignment_ref"),
+        "subject": "REVIEWER_REASSIGNMENT",
+        "source_review_request_id": slot.get("review_request_id"),
+        "target_review_request_id": reviewer_ref,
+        "work_unit_id": slot.get("work_unit_id"),
+        "state_revision": expected_revision,
+        "current_head_sha": slot.get("current_head_sha"),
+        "last_accepted_sha": slot.get("last_accepted_sha"),
+    }
+    if (
+        any(reassignment_evidence.get(field) != value for field, value in required_evidence.items())
+        or reassignment_evidence.get("source") == "MODEL_INFERRED"
+        or not _is_nonempty_string(reassignment_evidence.get("project_id"))
+        or not _is_nonempty_string(reassignment_evidence.get("result"))
     ):
         return ["RECONCILIATION_REQUIRED"]
     return []
 
 
+def _recovery_result(status: str = "RECONCILIATION_REQUIRED") -> dict[str, Any]:
+    return {"status": status, "reconciliation_required": True}
+
+
+def _load_recovery_work_unit(root: Path, control: Mapping, slot: Mapping, state: Mapping) -> Mapping | None:
+    work_root = root / ".gpt-codex" / "work"
+    if not work_root.is_dir():
+        return None
+    candidates: list[Mapping] = []
+    try:
+        paths = sorted(work_root.rglob("*.json"))
+    except OSError:
+        return None
+    for path in paths:
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        if not isinstance(record, Mapping) or record.get("project_id") != control.get("project_id"):
+            return None
+        if record.get("work_unit_id") == slot.get("work_unit_id"):
+            candidates.append(record)
+    if len(candidates) != 1:
+        return None
+    record = candidates[0]
+    required = ("work_unit_id", "project_id", "goal", "scope", "acceptance", "selected_extensions", "state", "basis_state_revision")
+    if (
+        any(field not in record for field in required)
+        or not _is_nonempty_string(record.get("goal"))
+        or not isinstance(record.get("scope"), list)
+        or not isinstance(record.get("acceptance"), list)
+        or not isinstance(record.get("selected_extensions"), list)
+        or record.get("state") != "AUTHORIZED"
+        or record.get("basis_state_revision") != state.get("revision")
+    ):
+        return None
+    return record
+
+
+def _lifecycle_records_are_durable(root: Path, slot: Mapping) -> bool:
+    references = {
+        value
+        for field in (
+            "review_result_ref", "finding_ref", "remediation_authorization_ref",
+            "reviewer_reassignment_ref",
+        )
+        if isinstance((value := slot.get(field)), str) and value
+    }
+    if not references:
+        return True
+    records: dict[str, list[Mapping]] = {reference: [] for reference in references}
+    for directory in (root / ".gpt-codex" / "evidence",):
+        if not directory.exists():
+            continue
+        if not directory.is_dir():
+            return False
+        try:
+            paths = sorted(directory.rglob("*.json"))
+        except OSError:
+            return False
+        for path in paths:
+            try:
+                record = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                return False
+            if not isinstance(record, Mapping):
+                return False
+            for reference in references:
+                if record.get("result_id") == reference or record.get("evidence_id") == reference:
+                    records[reference].append(record)
+    return all(len(matches) == 1 for matches in records.values())
+
+
+def _git_recovery_is_current(root: Path, slot: Mapping, state: Mapping) -> bool:
+    def git(*args: str) -> tuple[int, str]:
+        try:
+            result = subprocess.run(
+                ["git", "-C", str(root), *args], capture_output=True, text=True, check=False,
+            )
+        except OSError:
+            return 127, ""
+        return result.returncode, result.stdout.strip()
+
+    code, inside = git("rev-parse", "--is-inside-work-tree")
+    if code != 0 or inside != "true":
+        return False
+    code, head = git("rev-parse", "HEAD")
+    if code != 0 or head != slot.get("current_head_sha"):
+        return False
+    code, branch = git("symbolic-ref", "--quiet", "--short", "HEAD")
+    if code != 0 or branch != slot.get("branch"):
+        return False
+    code, top_level = git("rev-parse", "--show-toplevel")
+    if code != 0 or Path(top_level).resolve() != root.resolve():
+        return False
+    worktree = slot.get("worktree")
+    if not isinstance(worktree, str) or (root / worktree).resolve() != root.resolve():
+        return False
+    code, porcelain = git("status", "--porcelain")
+    if code != 0 or porcelain:
+        return False
+    for revision in (slot.get("base_sha"), slot.get("last_accepted_sha")):
+        if revision is None:
+            continue
+        if not isinstance(revision, str) or not _COMMIT_SHA.fullmatch(revision):
+            return False
+        code, _ = git("cat-file", "-e", f"{revision}^{{commit}}")
+        if code != 0:
+            return False
+        code, _ = git("merge-base", "--is-ancestor", revision, head)
+        if code != 0:
+            return False
+    continuity = state.get("continuity")
+    return (
+        isinstance(continuity, Mapping)
+        and continuity.get("sync_status") == "SYNCED"
+        and continuity.get("latest_synced_state_revision") == state.get("revision")
+        and continuity.get("latest_verified_remote_sha") == slot.get("base_sha")
+    )
+
+
 def _execution_slot_recovery(
+    root: Path,
     control: Mapping,
     state: Mapping,
     execution_slot_id: str,
@@ -435,45 +593,31 @@ def _execution_slot_recovery(
 ) -> dict[str, Any]:
     slots = state.get("active_execution_slots")
     if not isinstance(slots, list):
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+        return _recovery_result()
     matches = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("slot_id") == execution_slot_id]
     if len(matches) != 1:
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+        return _recovery_result()
     slot = matches[0]
     if isinstance(execution_slot_binding, Mapping):
         for field in _SLOT_BINDING_FIELDS:
             if field in execution_slot_binding and execution_slot_binding[field] != slot.get(field):
-                return {"status": "EXECUTION_SLOT_MISMATCH", "reconciliation_required": True}
+                return _recovery_result("EXECUTION_SLOT_MISMATCH")
     elif execution_slot_binding is not None:
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+        return _recovery_result()
     if (
         slot.get("project_context_id") != control.get("project_context_id")
         or slot.get("work_unit_id") != state.get("active_work_unit")
         or validate_execution_slots(state)
-        or not isinstance(authoritative_facts, Mapping)
     ):
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
-    required = {
-        "work_unit_id", "instruction_id", "review_request_id", "review_result_ref",
-        "current_git_sha", "git_ancestry_valid", "state_revision", "worktree_clean",
-        "worktree_unambiguous",
-    }
-    if not required.issubset(authoritative_facts):
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+        return _recovery_result()
     if (
-        authoritative_facts.get("work_unit_id") != slot.get("work_unit_id")
-        or authoritative_facts.get("instruction_id") != slot.get("instruction_id")
-        or authoritative_facts.get("review_request_id") != slot.get("review_request_id")
-        or authoritative_facts.get("review_result_ref") != slot.get("review_result_ref")
-        or authoritative_facts.get("current_git_sha") != slot.get("current_head_sha")
-        or authoritative_facts.get("state_revision") != state.get("revision")
-        or slot.get("state_revision") != state.get("revision")
-        or authoritative_facts.get("git_ancestry_valid") is not True
-        or authoritative_facts.get("worktree_clean") is not True
-        or authoritative_facts.get("worktree_unambiguous") is not True
+        slot.get("state_revision") != state.get("revision")
         or not _is_nonempty_string(slot.get("next_action"))
+        or _load_recovery_work_unit(root, control, slot, state) is None
+        or not _lifecycle_records_are_durable(root, slot)
+        or not _git_recovery_is_current(root, slot, state)
     ):
-        return {"status": "RECONCILIATION_REQUIRED", "reconciliation_required": True}
+        return _recovery_result()
     return {
         "status": "LATEST_SYNCED_REMOTE_STATE",
         "reconciliation_required": False,
@@ -607,6 +751,7 @@ def load_continuity_resume(
 
     if execution_slot_id is not None:
         return _execution_slot_recovery(
+            root,
             control,
             state,
             execution_slot_id,
