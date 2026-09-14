@@ -20,7 +20,11 @@
     "framework_role": "ADVISORY",
     "framework_kernel_access": "READ_ONLY",
     "framework_builtins_access": "READ_ONLY",
-    "harvest_namespace": "PRJ-EXAMPLE-001"
+    "harvest_namespace": "PRJ-EXAMPLE-001",
+    "harness_root": ".harness",
+    "product_roots": ["app"],
+    "deploy_roots": ["ops"],
+    "production_excludes": [".harness"]
   },
   "extensions": {
     "skills": [

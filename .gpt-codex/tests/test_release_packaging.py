@@ -19,6 +19,7 @@ from release_framework import (
     read_version,
     should_exclude,
 )
+from consumer_projection import stage_consumer_projection
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,6 +72,25 @@ def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
 
 
 class ReleasePackagingTests(unittest.TestCase):
+    def test_harness_material_is_not_staged_as_product_runtime_input(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "consumer"
+            staging = Path(td) / "staging"
+            (root / ".harness").mkdir(parents=True)
+            (root / ".harness" / "RULES.md").write_text("governance\n", encoding="utf-8")
+            (root / "app").mkdir()
+            (root / "app" / "main.py").write_text("print('product')\n", encoding="utf-8")
+            manifest = {
+                "paths": {
+                    ".harness/RULES.md": "MANAGEMENT_ONLY",
+                    "app/main.py": "CONSUMER_REQUIRED",
+                }
+            }
+            inventory = stage_consumer_projection(root, staging, manifest)
+            self.assertEqual(inventory, ["app/main.py"])
+            self.assertFalse((staging / ".harness" / "RULES.md").exists())
+            self.assertTrue((staging / "app" / "main.py").is_file())
+
     def test_previous_recorded_version_accepts_prerelease_records(self):
         with tempfile.TemporaryDirectory() as td:
             releases = Path(td) / "releases"

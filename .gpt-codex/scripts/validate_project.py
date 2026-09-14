@@ -64,6 +64,40 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
     return []
 
 
+def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
+    roots = control.get("roots")
+    if not isinstance(roots, Mapping):
+        return []
+    declared = (
+        "harness_root" in roots
+        or "product_roots" in roots
+        or "deploy_roots" in roots
+        or "production_excludes" in roots
+    )
+    if not declared:
+        return []
+    harness = roots.get("harness_root")
+    products = roots.get("product_roots")
+    deploy = roots.get("deploy_roots")
+    excludes = roots.get("production_excludes")
+    if (
+        not isinstance(harness, str) or not harness.strip()
+        or not isinstance(products, list) or not products
+        or not all(isinstance(item, str) and item.strip() for item in products)
+        or not isinstance(deploy, list)
+        or not all(isinstance(item, str) and item.strip() for item in deploy)
+        or not isinstance(excludes, list)
+        or not all(isinstance(item, str) and item.strip() for item in excludes)
+    ):
+        return ["HARNESS_ROOTS_INVALID"]
+    all_runtime = set(products) | set(deploy)
+    if harness in all_runtime or set(products) & set(deploy):
+        return ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"]
+    if harness not in excludes:
+        return ["HARNESS_PRODUCTION_EXCLUSION_REQUIRED"]
+    return []
+
+
 def has_complete_declared_project_identity(control: Mapping[str, Any]) -> bool:
     return "project_context_id" in control and "github" in control
 
@@ -789,6 +823,7 @@ def main():
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
     errors += validate_project_identity_boundary(control, consumer=not management_project)
+    errors += validate_harness_root_separation(control)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')
     github = control.get('github')

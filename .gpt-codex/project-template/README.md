@@ -1,6 +1,13 @@
 # Project Template
 
-Copy/adapt this directory into `PROJECT_ROOT/.gpt-codex/` during project bootstrap. Do not mechanically copy values: GPT must derive project configuration from repository evidence and user intent.
+The current transition supports the existing `.gpt-codex/` governance assets and the new minimal `.harness/` project surface in parallel.
+
+- Copy/adapt `.gpt-codex/project-template/.harness/` to `PROJECT_ROOT/.harness/`.
+- Existing `.gpt-codex/` P0 assets remain supported until the reduction phase proves they can be merged or removed.
+- Product/runtime code belongs in project product roots, not in `.harness/`.
+- Production packaging excludes `.harness/` by default.
+
+Do not mechanically copy values: GPT must derive project configuration from repository evidence and user intent.
 
 ## Consumer Workspace Setup
 
