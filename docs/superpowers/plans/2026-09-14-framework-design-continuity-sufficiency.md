@@ -452,15 +452,23 @@ These fields are current-assignment/current-causal-chain correlations only. They
 
 Existing remediation lifecycle conditions remain: `BLOCKED` with remediation requires non-null `finding_ref` and `review_result_ref`, `blocked_from_status="REVIEWING"`, and `block_reason="AWAITING_REMEDIATION_AUTHORIZATION"`; `BLOCKED → ACTIVE` requires non-null authorization and FIX instruction references.
 
-| Status | base_sha | current_head_sha | last_accepted_sha |
-| --- | --- | --- | --- |
-| IDLE | forbidden/null | forbidden/null | forbidden/null |
-| ACTIVE | required | required | nullable until acceptance |
-| BLOCKED | required | required | nullable unless accepted milestone exists |
-| AWAITING_REVIEW | required | required | required |
-| REVIEWING | required | required | required exact reviewed revision |
-| COMPLETED | required | required | required before reset |
+| SHA field | Created / initialized by | Lifecycle rule | Authoritative comparison | Cleared by |
+| --- | --- | --- | --- | --- |
+| `base_sha` | only `IDLE → ACTIVE` from the new Work Unit assignment | remains the base for that current Work Unit; branch name, Resume, Map, telemetry, and window state cannot replace it | governed assignment and Git ancestry facts | `COMPLETED → IDLE` |
+| `current_head_sha` | `IDLE → ACTIVE` | current recorded Git revision for the assignment; changes only when a governed STATE transition records verified current Git facts for the same Work Unit | current Git HEAD/ref evidence whenever continuation requires it | `COMPLETED → IDLE` |
+| `last_accepted_sha` | governed accepted review/result for the current Work Unit | follows the status/nullability contract below; advances only from a governed accepted review/result for the same Work Unit, never from finding, telemetry, Map/Resume, physical window, or unreviewed HEAD; historical accepted revisions remain in Result/Evidence/Git | accepted Result/Evidence and Git revision facts for the same Work Unit | `COMPLETED → IDLE` |
 
-Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 RED coverage must separately assert `EXECUTION_SLOT_MISMATCH` or `RECONCILIATION_REQUIRED` for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, and STATE revision mismatches; missing durable facts, dirty/ambiguous worktree, stale Resume, missing Map with sufficient authoritative facts, and physical-window replacement. Task 5 RED coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
+**Status/nullability contract remains unchanged:**
+
+- `IDLE`: `base_sha = null`; `current_head_sha = null`; `last_accepted_sha = null`.
+- `ACTIVE`: `base_sha` and `current_head_sha` required; `last_accepted_sha` nullable until acceptance.
+- `BLOCKED`: `base_sha` and `current_head_sha` required; `last_accepted_sha` nullable unless an accepted milestone exists.
+- `AWAITING_REVIEW`: all three SHA fields required.
+- `REVIEWING`: all three required; `last_accepted_sha` is the exact reviewed revision.
+- `COMPLETED`: all three required before reset.
+
+For SHA facts, actor/surface binding disagreement with a known durable slot SHA returns `EXECUTION_SLOT_MISMATCH`; without a binding contradiction, inability to establish required Git ancestry/current revision returns `RECONCILIATION_REQUIRED`. Branch name is never a SHA substitute.
+
+Recovery checks each SHA against Git facts; branch is never a SHA substitute. Task 5 coverage treats an actor/surface binding contradiction for project context, Work Unit, role, primary module, branch, worktree, base/current/accepted SHA, or STATE revision as exactly `EXECUTION_SLOT_MISMATCH`; without such a contradiction, missing durable facts, dirty/ambiguous worktree, or unprovable Git/STATE facts require exactly `RECONCILIATION_REQUIRED`. With sufficient authoritative facts, missing Map, missing/stale Resume, and physical-window replacement do not block cold recovery. Task 5 coverage must assert: same reviewer continuation allowed; second reviewer without evidence rejected; evidence-bound reassignment allowed; multiple windows do not allocate reviewers; Reviewer Result/finding and telemetry cannot reassign.
 
 At Task 6, the manifest remains `MANAGEMENT_ONLY`; listed runtime paths remain `CONSUMER_REQUIRED`; validator/test assets remain `MANAGEMENT_ONLY`. The only new classifications are the Design and Plan as `DEVELOPMENT_HISTORY`. Final evidence records the numeric unittest output (`Ran <integer> tests`, `failures = 0`, `errors = 0`), `projection unknown = 0`, `projection missing required = 0`, and a clean worktree.
