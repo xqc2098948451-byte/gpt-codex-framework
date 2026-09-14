@@ -169,6 +169,36 @@ class NavigationProjectValidationTests(unittest.TestCase):
             "active_execution_slots": [slot],
         }
 
+    def completed_state(self):
+        return self._slot_state(4, self._slot(
+            "COMPLETED",
+            last_accepted_sha="c" * 40,
+            review_request_id="review-request-1",
+            review_result_ref="review-result-1",
+            finding_ref="finding-1",
+            remediation_authorization_ref="authorization-1",
+            fix_instruction_id="fix-instruction-1",
+            reviewer_reassignment_ref="reassignment-1",
+            blocked_from_status="REVIEWING",
+            block_reason="AWAITING_REMEDIATION_AUTHORIZATION",
+        ))
+
+    def active_state(self):
+        return self._slot_state(4, self._slot("ACTIVE"))
+
+    def assignment(self, work_unit_id):
+        return {
+            "work_unit_id": work_unit_id,
+            "primary_module": "navigation-continuity",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "branch": "feature/framework-design-continuity-sufficiency-implementation",
+            "worktree": "worktrees/feature-framework-design-continuity-sufficiency-implementation",
+            "base_sha": "d" * 40,
+            "current_head_sha": "e" * 40,
+            "instruction_id": "instruction-2",
+            "next_action": "CONTINUE_IMPLEMENTATION",
+        }
+
     def _git(self, root, *args):
         return subprocess.run(
             ["git", "-C", str(root), *args],
@@ -197,6 +227,82 @@ class NavigationProjectValidationTests(unittest.TestCase):
             result = self._validate(root)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_reset_clears_all_current_assignment_facts(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import reset_completed_slot
+
+        original = self.completed_state()
+        reset = reset_completed_slot(original, "CODEX-IMPL-B", ["result-1"], 4)
+        slot = reset["active_execution_slots"][0]
+
+        self.assertEqual(reset["revision"], 5)
+        self.assertEqual(slot["status"], "IDLE")
+        self.assertEqual(slot["state_revision"], 5)
+        self.assertEqual(slot["next_action"], "AWAIT_ASSIGNMENT")
+        for field in (
+            "work_unit_id", "primary_module", "branch", "worktree", "base_sha",
+            "current_head_sha", "last_accepted_sha", "instruction_id",
+            "review_request_id", "review_result_ref", "finding_ref",
+            "remediation_authorization_ref", "fix_instruction_id",
+            "reviewer_reassignment_ref", "blocked_from_status", "block_reason",
+        ):
+            self.assertIsNone(slot[field])
+        self.assertEqual(original["revision"], 4)
+
+    def test_activate_requires_idle_and_fresh_values(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot
+
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(self.active_state(), "CODEX-IMPL-B", self.assignment("WU-2"), 4)
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(
+                self._slot_state(4, self._slot("IDLE")),
+                "CODEX-IMPL-B",
+                self.assignment(""),
+                4,
+            )
+
+    def test_activate_creates_fresh_assignment_after_completed_reset(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot, reset_completed_slot
+
+        reset = reset_completed_slot(self.completed_state(), "CODEX-IMPL-B", ["result-1"], 4)
+        activated = activate_execution_slot(reset, "CODEX-IMPL-B", self.assignment("WU-2"), 5)
+        slot = activated["active_execution_slots"][0]
+
+        self.assertEqual(activated["revision"], 6)
+        self.assertEqual(slot["status"], "ACTIVE")
+        self.assertEqual(slot["state_revision"], 6)
+        self.assertEqual(slot["work_unit_id"], "WU-2")
+        self.assertEqual(slot["primary_module"], "navigation-continuity")
+        self.assertEqual(slot["instruction_id"], "instruction-2")
+        self.assertEqual(slot["last_accepted_sha"], None)
+        self.assertEqual(slot["review_request_id"], None)
+        self.assertEqual(slot["finding_ref"], None)
+        self.assertEqual(slot["block_reason"], None)
+
+    def test_slot_assignment_rejects_stale_revision_and_double_assignment(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import activate_execution_slot, reset_completed_slot
+
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            reset_completed_slot(self.completed_state(), "CODEX-IMPL-B", ["result-1"], 3)
+        reset = reset_completed_slot(self.completed_state(), "CODEX-IMPL-B", ["result-1"], 4)
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(reset, "CODEX-IMPL-B", self.assignment("WU-2"), 4)
+        activated = activate_execution_slot(reset, "CODEX-IMPL-B", self.assignment("WU-2"), 5)
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            activate_execution_slot(activated, "CODEX-IMPL-B", self.assignment("WU-3"), 6)
 
     def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
         with tempfile.TemporaryDirectory() as td:

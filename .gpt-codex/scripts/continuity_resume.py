@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -37,6 +38,14 @@ _LEGAL_SLOT_EDGES = {
     "BLOCKED": frozenset({"BLOCKED", "ACTIVE"}),
     "COMPLETED": frozenset({"COMPLETED", "IDLE"}),
 }
+_ASSIGNMENT_FIELDS = (
+    "work_unit_id", "primary_module", "project_context_id", "branch", "worktree",
+    "base_sha", "current_head_sha", "instruction_id", "next_action",
+)
+_ASSIGNMENT_STRING_FIELDS = (
+    "work_unit_id", "primary_module", "project_context_id", "instruction_id", "next_action",
+)
+_COMMIT_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
 def _unique_errors(errors: list[str]) -> list[str]:
@@ -110,6 +119,113 @@ def validate_slot_transition(previous: Mapping, current: Mapping) -> list[str]:
         ):
             return ["RECONCILIATION_REQUIRED"]
     return []
+
+
+def _reconciliation_required() -> None:
+    raise ValueError("RECONCILIATION_REQUIRED")
+
+
+def _current_slot(state: Mapping, slot_id: str, expected_revision: int) -> tuple[dict[str, Any], int]:
+    if (
+        not isinstance(state, Mapping)
+        or not isinstance(slot_id, str)
+        or not slot_id
+        or validate_slot_state_revision(state.get("revision"), expected_revision)
+        or validate_execution_slots(state)
+    ):
+        _reconciliation_required()
+    slots = state.get("active_execution_slots")
+    if not isinstance(slots, list):
+        _reconciliation_required()
+    matching_indexes = [
+        index for index, candidate in enumerate(slots)
+        if isinstance(candidate, Mapping) and candidate.get("slot_id") == slot_id
+    ]
+    if len(matching_indexes) != 1:
+        _reconciliation_required()
+    index = matching_indexes[0]
+    return dict(slots[index]), index
+
+
+def _updated_state(state: Mapping, slot_index: int, slot: dict[str, Any]) -> dict[str, Any]:
+    updated = dict(state)
+    slots = list(state["active_execution_slots"])
+    slots[slot_index] = slot
+    updated["active_execution_slots"] = slots
+    updated["revision"] = state["revision"] + 1
+    slot["state_revision"] = updated["revision"]
+    return updated
+
+
+def _valid_closure_refs(closure_refs: object) -> bool:
+    return (
+        isinstance(closure_refs, (list, tuple))
+        and bool(closure_refs)
+        and all(isinstance(reference, str) and reference.strip() for reference in closure_refs)
+    )
+
+
+def _valid_assignment(assignment: object, slot: Mapping) -> bool:
+    if not isinstance(assignment, Mapping) or set(assignment) != set(_ASSIGNMENT_FIELDS):
+        return False
+    if any(
+        not isinstance(assignment.get(field), str) or not assignment[field].strip()
+        for field in _ASSIGNMENT_STRING_FIELDS
+    ):
+        return False
+    if assignment["next_action"] == "AWAIT_ASSIGNMENT":
+        return False
+    if assignment["project_context_id"] != slot.get("project_context_id"):
+        return False
+    if any(
+        value is not None and (not isinstance(value, str) or not value.strip())
+        for value in (assignment["branch"], assignment["worktree"])
+    ):
+        return False
+    return all(
+        isinstance(assignment[field], str) and _COMMIT_SHA.fullmatch(assignment[field])
+        for field in ("base_sha", "current_head_sha")
+    )
+
+
+def reset_completed_slot(
+    state: Mapping,
+    slot_id: str,
+    closure_refs: object,
+    expected_revision: int,
+) -> dict[str, Any]:
+    """Perform the only Task-3 completion reset: COMPLETED to fresh IDLE."""
+    slot, slot_index = _current_slot(state, slot_id, expected_revision)
+    if slot.get("status") != "COMPLETED" or not _valid_closure_refs(closure_refs):
+        _reconciliation_required()
+    reset = dict(slot)
+    for field in _IDLE_CLEARED_FIELDS:
+        reset[field] = None
+    reset["status"] = "IDLE"
+    reset["next_action"] = "AWAIT_ASSIGNMENT"
+    if validate_slot_transition(slot, reset):
+        _reconciliation_required()
+    return _updated_state(state, slot_index, reset)
+
+
+def activate_execution_slot(
+    state: Mapping,
+    slot_id: str,
+    assignment: Mapping,
+    expected_revision: int,
+) -> dict[str, Any]:
+    """Perform the only Task-3 assignment edge: IDLE to a fresh ACTIVE slot."""
+    slot, slot_index = _current_slot(state, slot_id, expected_revision)
+    if slot.get("status") != "IDLE" or not _valid_assignment(assignment, slot):
+        _reconciliation_required()
+    active = dict(slot)
+    for field in _IDLE_CLEARED_FIELDS:
+        active[field] = None
+    active.update(assignment)
+    active["status"] = "ACTIVE"
+    if validate_slot_transition(slot, active):
+        _reconciliation_required()
+    return _updated_state(state, slot_index, active)
 
 
 def _non_optimization_resume_fields() -> dict[str, Any]:
