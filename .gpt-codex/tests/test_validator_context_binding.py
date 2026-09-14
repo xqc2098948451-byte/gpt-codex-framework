@@ -277,6 +277,29 @@ class ValidatorContextBindingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
             render_gpt_return({"return_to_gpt_required": True, "evolution_metadata": executable})
 
+    def test_instruction_builder_and_renderer_enforce_evolution_metadata_boundary(self):
+        from instruction_envelope import build_instruction_envelope, render_codex_instruction
+
+        descriptive = {"classification": "READ_ONLY_EVOLUTION_SOURCE", "framework_version": "2.6.0"}
+        executable = {**descriptive, "authorized_actions": ["MUTATE_APPROVED_SCOPE"]}
+        envelope = build_instruction_envelope(
+            "WORK_UNIT", "11111111-1111-4111-8111-111111111111", "Example", 1, "2.6.0",
+        )
+        envelope["evolution_metadata"] = executable
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            render_codex_instruction(envelope, "body", {})
+
+        descriptive_envelope = build_instruction_envelope(
+            "WORK_UNIT", "11111111-1111-4111-8111-111111111111", "Example", 1, "2.6.0",
+            evolution_metadata=descriptive,
+        )
+        self.assertEqual(descriptive_envelope["evolution_metadata"], descriptive)
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            build_instruction_envelope(
+                "WORK_UNIT", "11111111-1111-4111-8111-111111111111", "Example", 1, "2.6.0",
+                evolution_metadata=executable,
+            )
+
     def test_project_evolution_evaluation_is_read_only(self):
         control = self._complete_identity_control()
         control["framework"] = {"adopted_version": "2.6.0"}

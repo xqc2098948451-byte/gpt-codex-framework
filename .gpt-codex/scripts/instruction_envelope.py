@@ -81,10 +81,14 @@ def build_instruction_envelope(
     artifact_stage: str | None = None,
     legacy_route_marker: str | None = None,
     legacy_route_context: str | list[str] | None = None,
+    evolution_metadata: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     type_errors = validate_instruction_type(instruction_type)
     if type_errors:
         raise ValueError(", ".join(type_errors))
+    metadata_errors = validate_instruction_evolution_metadata(evolution_metadata)
+    if metadata_errors:
+        raise ValueError(", ".join(metadata_errors))
     if instruction_type != "PROJECT_CONTEXT_BOOTSTRAP" and not target_project_context_id:
         raise ValueError("normal instructions require target_project_context_id")
     if bootstrap_phase in {"INITIAL_READ_ONLY", "CHALLENGE_BOUND"} and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":
@@ -187,6 +191,7 @@ def build_instruction_envelope(
         "finding_ids": finding_ids,
         "fix_round": fix_round,
         "artifact_stage": artifact_stage,
+        "evolution_metadata": dict(evolution_metadata) if evolution_metadata is not None else None,
     }
     envelope.update({key: value for key, value in optional.items() if value is not None})
     return envelope
@@ -223,6 +228,9 @@ def render_codex_instruction(
     task_body: str,
     routing: Mapping[str, str],
 ) -> str:
+    metadata_errors = validate_instruction_evolution_metadata(envelope.get("evolution_metadata"))
+    if metadata_errors:
+        raise ValueError(", ".join(metadata_errors))
     lines = [
         f"INSTRUCTION_ID: {_value(envelope.get('instruction_id'))}",
         f"INSTRUCTION_TYPE: {_value(envelope.get('instruction_type'))}",
