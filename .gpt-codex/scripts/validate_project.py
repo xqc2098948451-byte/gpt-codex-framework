@@ -11,10 +11,12 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
 from context_binding import (
+    build_project_evolution_observation,
     evaluate_project_identity,
     evaluate_return,
     is_valid_project_context_id,
     required_guardrail_allows,
+    validate_project_evolution_enrollment,
 )
 from continuity_resume import load_resume_checkpoint
 from publication_contract import validate_result_authority, validate_state_authority
@@ -83,6 +85,13 @@ def validate_project_identity_and_derived(root: Path, gov: Path, control: Mappin
     )
 
 
+def validate_project_evolution_orchestration() -> list[str]:
+    """Confirm Task 5's local-only interfaces exist without evaluating or mutating a Project."""
+    return [] if callable(validate_project_evolution_enrollment) and callable(build_project_evolution_observation) else [
+        "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"
+    ]
+
+
 def evaluate_framework_compatibility(
     project_control: Mapping[str, Any], framework_facts: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -101,9 +110,121 @@ def evaluate_framework_compatibility(
     return {"classification": classification, "reason": reason, "mutated": False, "adoption_authorized": False}
 
 
+_EXTERNAL_EVOLUTION_CLASSIFICATIONS = frozenset({
+    "READ_ONLY_EVOLUTION_SOURCE", "DERIVED_OBSERVATION_ONLY", "FRAMEWORK_MANAGEMENT_METADATA",
+})
+_EXTERNAL_AUTHORITY_FIELDS = frozenset({
+    "authorized_actions", "target_work_unit", "state_revision", "command", "retry", "queue",
+    "project_mutation", "role_authority", "schedule_execution", "force_adoption",
+})
+
+
+def _project_identity_decision(
+    project_control: Mapping[str, Any], instruction: Mapping[str, Any] | None = None,
+):
+    decision = evaluate_project_identity(project_control)
+    if decision.decision != "ALLOW" or instruction is None:
+        return decision
+    expected_context = instruction.get("target_project_context_id")
+    if expected_context is not None:
+        target_control = dict(project_control)
+        target_control["project_context_id"] = expected_context
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        decision = evaluate_project_identity(project_control, expected_project_context_id=expected_context)
+        if decision.decision != "ALLOW":
+            return decision
+    expected_repository_id = instruction.get("target_github_repository_id")
+    if expected_repository_id is not None:
+        target_control = dict(project_control)
+        target_github = dict(project_control.get("github") or {})
+        target_github["repository_id"] = expected_repository_id
+        target_control["github"] = target_github
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        decision = evaluate_project_identity(project_control, expected_repository_id=expected_repository_id)
+        if decision.decision != "ALLOW":
+            return decision
+    expected_repository_full_name = instruction.get("target_github_repository_full_name")
+    if expected_repository_full_name is not None:
+        target_control = dict(project_control)
+        target_github = dict(project_control.get("github") or {})
+        target_github["repository_full_name"] = expected_repository_full_name
+        target_control["github"] = target_github
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        return evaluate_project_identity(
+            project_control,
+            expected_repository_full_name=expected_repository_full_name,
+        )
+    return decision
+
+
+def _external_evolution_metadata_attempts_authority(instruction: Mapping[str, Any]) -> bool:
+    metadata = instruction.get("evolution_metadata")
+    if not isinstance(metadata, Mapping) and instruction.get("classification") in _EXTERNAL_EVOLUTION_CLASSIFICATIONS:
+        metadata = instruction
+    return (
+        isinstance(metadata, Mapping)
+        and metadata.get("classification") in _EXTERNAL_EVOLUTION_CLASSIFICATIONS
+        and bool(_EXTERNAL_AUTHORITY_FIELDS.intersection(metadata))
+    )
+
+
+def _evaluation_result(
+    classification: str,
+    reason: str,
+    provenance: Mapping[str, Any] | None = None,
+    source_framework_version: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "classification": classification,
+        "reason": reason,
+        "mutated": False,
+        "adoption_authorized": False,
+        "source_provenance": dict(provenance) if provenance is not None else None,
+        "source_framework_version": source_framework_version,
+    }
+
+
+def evaluate_project_evolution(
+    project_control: Mapping[str, Any], source: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Classify a valid Framework source using local facts without adopting it."""
+    identity = _project_identity_decision(project_control)
+    if identity.decision != "ALLOW":
+        return _evaluation_result(identity.reason, identity.reason)
+    source_decision = validate_framework_evolution_source(source)
+    if source_decision.classification != "READ_ONLY_EVOLUTION_SOURCE":
+        return _evaluation_result("FRAMEWORK_SOURCE_INVALID", "FRAMEWORK_SOURCE_INVALID")
+    accepted_source = source_decision.source or {}
+    compatibility_facts = dict(accepted_source["compatibility_rules"])
+    compatibility_facts["evaluated_version"] = accepted_source["framework_version"]
+    compatibility = evaluate_framework_compatibility(project_control, compatibility_facts)
+    return _evaluation_result(
+        compatibility["classification"],
+        compatibility["reason"],
+        accepted_source["source_provenance"],
+        accepted_source["framework_version"],
+    )
+
+
 def validate_framework_adoption(
-    project_control: Mapping[str, Any], instruction: Mapping[str, Any], work_unit: Mapping[str, Any], *, current_state_revision: int,
+    project_control: Mapping[str, Any], instruction: Mapping[str, Any], work_unit: Mapping[str, Any], *,
+    current_state_revision: int, source: Mapping[str, Any] | None = None,
 ) -> list[str]:
+    identity = _project_identity_decision(project_control, instruction)
+    if identity.decision != "ALLOW":
+        return [identity.reason]
+    if source is not None:
+        source_decision = validate_framework_evolution_source(source)
+        if source_decision.classification != "READ_ONLY_EVOLUTION_SOURCE":
+            return ["FRAMEWORK_SOURCE_INVALID"]
+    if _external_evolution_metadata_attempts_authority(instruction):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
     if project_control.get("project_id") != work_unit.get("project_id"):
         return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
     if instruction.get("target_work_unit") != work_unit.get("work_unit_id") or work_unit.get("state") != "AUTHORIZED":
@@ -506,6 +627,7 @@ def main():
     control_p = gov / 'CONTROL.json'
     state_p = gov / 'STATE.json'
     errors = []
+    errors += validate_project_evolution_orchestration()
     for p in (control_p, state_p):
         if not p.exists():
             errors.append(f'missing {p}')

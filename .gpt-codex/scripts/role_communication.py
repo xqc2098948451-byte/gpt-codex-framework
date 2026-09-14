@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 
 
 ROLES = frozenset(
@@ -16,6 +16,25 @@ ROLES = frozenset(
         "INFORMATION_ONLY",
     }
 )
+_EVOLUTION_METADATA_CLASSIFICATIONS = frozenset({
+    "READ_ONLY_EVOLUTION_SOURCE", "FRAMEWORK_MANAGEMENT_METADATA", "DERIVED_OBSERVATION_ONLY",
+})
+_EVOLUTION_AUTHORITY_FIELDS = frozenset({
+    "authorized_actions", "target_work_unit", "state_revision", "command", "retry", "queue",
+    "project_mutation", "role_authority", "schedule_execution", "force_adoption",
+})
+
+
+def validate_evolution_metadata_authority(metadata: Mapping[str, object] | None) -> list[str]:
+    """Keep evolution metadata descriptive; Role Protocol remains the authority source."""
+    if not isinstance(metadata, Mapping):
+        return []
+    if (
+        metadata.get("classification") in _EVOLUTION_METADATA_CLASSIFICATIONS
+        and _EVOLUTION_AUTHORITY_FIELDS.intersection(metadata)
+    ):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
+    return []
 
 INSTRUCTION_TYPES = frozenset(
     {

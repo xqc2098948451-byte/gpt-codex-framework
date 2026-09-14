@@ -236,6 +236,89 @@ class NavigationProjectValidationTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("RESUME_SCHEMA_INVALID", result.stdout)
 
+    def test_map_and_resume_evolution_metadata_cannot_be_authority(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        sys.path.insert(0, str(scripts))
+        from continuity_resume import load_resume_checkpoint
+        from project_navigation import validate_navigation_identity
+
+        control = {
+            "project_id": "PROJECT-ONE",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "github": {"repository_id": "123"},
+        }
+        project_map = self._project_map([])
+        project_map["repository_id"] = "123"
+        project_map["evolution_metadata"] = {
+            "classification": "DERIVED_OBSERVATION_ONLY",
+            "target_work_unit": "WU-FOREIGN",
+        }
+        with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+            validate_navigation_identity(project_map, control)
+
+        with tempfile.TemporaryDirectory() as td:
+            gov = Path(td) / ".gpt-codex"
+            self._write_json(gov.parent, ".gpt-codex/continuity/RESUME.json", {
+                "schema_version": 1,
+                "authority": "DERIVED_CACHE",
+                "project_id": "PROJECT-ONE",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "repository_id": "123",
+                "evolution_metadata": {
+                    "classification": "DERIVED_OBSERVATION_ONLY",
+                    "command": "adopt",
+                },
+            })
+            with self.assertRaisesRegex(ValueError, "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"):
+                load_resume_checkpoint(gov)
+
+    def test_complete_identity_binds_map_and_resume_to_task1_boundary(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import load_resume_checkpoint
+        from project_navigation import validate_navigation_identity
+
+        control = {
+            "project_id": "PROJECT-ONE",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "github": {"repository_id": "123", "repository_full_name": "owner/project", "default_branch": "main"},
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
+        }
+        valid_map = self._project_map([])
+        valid_map["repository_id"] = "123"
+        self.assertIsNone(validate_navigation_identity(valid_map, control))
+        for field, value, code in (
+            ("project_context_id", "22222222-2222-4222-8222-222222222222", "CROSS_PROJECT_CONTEXT_MISMATCH"),
+            ("repository_id", "456", "GITHUB_REPOSITORY_MISMATCH"),
+            ("repository_id", None, "PROJECT_IDENTITY_INVALID"),
+        ):
+            candidate = {**valid_map, field: value}
+            with self.subTest(kind="map", code=code), self.assertRaisesRegex(ValueError, code):
+                validate_navigation_identity(candidate, control)
+
+        with tempfile.TemporaryDirectory() as td:
+            gov = Path(td) / ".gpt-codex"
+            base_resume = {
+                "schema_version": 1, "authority": "DERIVED_CACHE", "project_id": "PROJECT-ONE",
+                "project_context_id": control["project_context_id"], "repository_id": "123",
+            }
+            for field, value, code in (
+                (None, None, None),
+                ("project_context_id", "22222222-2222-4222-8222-222222222222", "CROSS_PROJECT_CONTEXT_MISMATCH"),
+                ("repository_id", "456", "GITHUB_REPOSITORY_MISMATCH"),
+                ("repository_id", None, "PROJECT_IDENTITY_INVALID"),
+            ):
+                candidate = dict(base_resume)
+                if field is not None:
+                    candidate[field] = value
+                self._write_json(gov.parent, ".gpt-codex/continuity/RESUME.json", candidate)
+                if code is None:
+                    self.assertEqual(load_resume_checkpoint(gov, control), candidate)
+                else:
+                    with self.subTest(kind="resume", code=code), self.assertRaisesRegex(ValueError, code):
+                        load_resume_checkpoint(gov, control)
+
 
 if __name__ == "__main__":
     unittest.main()
