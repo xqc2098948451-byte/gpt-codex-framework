@@ -92,6 +92,39 @@ class NavigationProjectValidationTests(unittest.TestCase):
             text=True,
         )
 
+    def _state_with_slot(self, status, *, block_reason="AWAITING_REMEDIATION_AUTHORIZATION"):
+        return {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "project_id": "PROJECT-ONE",
+            "revision": 7,
+            "state": "ACTIVE",
+            "active_execution_slots": [{
+                "slot_id": "CODEX-IMPL-B",
+                "role": "CODEX_IMPLEMENTER",
+                "status": status,
+                "work_unit_id": "framework-design-continuity-sufficiency-implementation-task-1",
+                "primary_module": "framework-core",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "branch": "feature/framework-design-continuity-sufficiency-implementation",
+                "worktree": "worktrees/feature-framework-design-continuity-sufficiency-implementation",
+                "base_sha": "a" * 40,
+                "current_head_sha": "b" * 40,
+                "last_accepted_sha": None,
+                "state_revision": 7,
+                "next_action": "CONTINUE_IMPLEMENTATION",
+                "instruction_id": "instruction-1",
+                "review_request_id": None,
+                "review_result_ref": None,
+                "finding_ref": None,
+                "remediation_authorization_ref": None,
+                "fix_instruction_id": None,
+                "reviewer_reassignment_ref": None,
+                "blocked_from_status": None,
+                "block_reason": block_reason,
+            }],
+        }
+
     def test_project_without_navigation_or_resume_is_valid(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -100,6 +133,51 @@ class NavigationProjectValidationTests(unittest.TestCase):
             result = self._validate(root)
 
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            state_path = root / ".gpt-codex/STATE.json"
+            self._write_json(root, ".gpt-codex/STATE.json", self._state_with_slot("IDLE"))
+            state_before = state_path.read_text(encoding="utf-8")
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("IDLE_SLOT_ASSIGNMENT_FORBIDDEN", result.stdout)
+            self.assertEqual(state_path.read_text(encoding="utf-8"), state_before)
+
+    def test_blocked_slot_requires_reason_and_predecessor_without_state_mutation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            state_path = root / ".gpt-codex/STATE.json"
+            self._write_json(
+                root,
+                ".gpt-codex/STATE.json",
+                self._state_with_slot("BLOCKED", block_reason=None),
+            )
+            state_before = state_path.read_text(encoding="utf-8")
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("BLOCKED_SLOT_FIELDS_REQUIRED", result.stdout)
+            self.assertEqual(state_path.read_text(encoding="utf-8"), state_before)
+
+    def test_slot_state_revision_must_match_authoritative_state_revision(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._write_project(root)
+            state = self._state_with_slot("ACTIVE")
+            state["active_execution_slots"][0]["state_revision"] = 6
+            self._write_json(root, ".gpt-codex/STATE.json", state)
+
+            result = self._validate(root)
+
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("SLOT_STATE_REVISION_MISMATCH", result.stdout)
 
     def test_foreign_project_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
