@@ -156,6 +156,46 @@ def test_remediation_resume_rejects_each_causal_mismatch(self):
                     self.valid_fix_instruction(),
                     8,
                 )
+
+def test_incomplete_remediation_authority_cannot_resume(self):
+    cases = (
+        ("finding only", "finding_only"),
+        ("Review Result only", "review_result_only"),
+        ("remediation authorization only", "authorization_only"),
+        ("FIX_INSTRUCTION only", "fix_instruction_only"),
+        ("Reviewer message only", "reviewer_message_only"),
+    )
+    for label, authority_subset in cases:
+        with self.subTest(authority_subset=label):
+            # Each fixture retains only this named authority/evidence subset;
+            # none supplies the complete current remediation causal chain.
+            with self.assertRaisesRegex(ValueError, "^RECONCILIATION_REQUIRED$"):
+                resume_authorized_remediation(
+                    self.blocked_state(authority_subset=authority_subset),
+                    "S-1",
+                    self.authorization_for_subset(authority_subset),
+                    self.fix_instruction_for_subset(authority_subset),
+                    8,
+                )
+
+def test_complete_current_remediation_chain_resumes_blocked_slot(self):
+    resumed = resume_authorized_remediation(
+        self.blocked_state(
+            work_unit_id="WU-1",
+            finding_ref="finding-1",
+            review_request_id="review-request-1",
+            review_result_ref="review-result-1",
+            remediation_authorization_ref="authorization-1",
+            fix_instruction_id="fix-instruction-1",
+            reviewed_current_sha="head-abc123",
+            state_revision=8,
+        ),
+        "S-1",
+        "authorization-1",
+        self.valid_fix_instruction("fix-instruction-1"),
+        8,
+    )
+    self.assertEqual(resumed["active_execution_slots"][0]["status"], "ACTIVE")
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect missing causal APIs.
