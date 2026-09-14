@@ -281,21 +281,67 @@ def test_complete_current_remediation_chain_resumes_blocked_slot(self):
 
 **Interfaces:** Extend `load_continuity_resume(..., execution_slot_id: str|None=None) -> dict`; binding mismatch returns `status="EXECUTION_SLOT_MISMATCH"` and `reconciliation_required=True`. Add `validate_reviewer_assignment(slot, reviewer_ref, expected_revision) -> list[str]`.
 
+**Mismatch and reconciliation contract:** A known actor/surface-to-durable-slot binding contradiction returns exactly `EXECUTION_SLOT_MISMATCH` with `reconciliation_required=True`; it permits no continuation, reassignment, STATE overwrite, or Git mutation. With no such binding contradiction, insufficient authoritative facts for exactly one safe continuation return exactly `RECONCILIATION_REQUIRED`, with the same no-mutation guarantees. A bound worktree identity mismatch is the former; a dirty or ambiguous current worktree is the latter. Binding disagreement for `base_sha`, `current_head_sha`, or `last_accepted_sha` is the former, while unavailable/contradictory Git ancestry or ref evidence without an actor binding claim is the latter. Branch names never substitute for SHA facts. A bound `state_revision` that disagrees with current authoritative `STATE.revision` is the former; inability to establish current authoritative STATE/current assignment is the latter. No second slot-local revision sequence exists.
+
+**Failure precedence:**
+
+```text
+known actor-to-durable-slot binding contradiction
+→ EXECUTION_SLOT_MISMATCH
+
+no binding contradiction, but authoritative facts are insufficient for exactly one safe continuation
+→ RECONCILIATION_REQUIRED
+
+valid authoritative facts and only derived navigation/cache differences
+→ do not fail merely because of Map / Resume / window (completed in C2)
+```
+
+Physical window is not a logical execution slot and a replacement window alone has no lifecycle effect. Map / Resume are never authority; C1 deliberately does not decide missing/stale Map/Resume or replacement-window recovery semantics.
+
 - [ ] **Step 1: Write failing tests**
 
 ```python
-def test_cold_resume_rejects_slot_context_or_sha_mismatch(self):
-    result = load_continuity_resume(self.slot_fixture(context="foreign"), "repo-a", execution_slot_id="S-1")
-    self.assertEqual(result["status"], "EXECUTION_SLOT_MISMATCH")
+def test_execution_slot_binding_mismatch_matrix(self):
+    for field in (
+        "project_context_id",
+        "work_unit_id",
+        "role",
+        "primary_module",
+        "branch",
+        "worktree",
+        "base_sha",
+        "current_head_sha",
+        "last_accepted_sha",
+        "state_revision",
+    ):
+        with self.subTest(field=field):
+            result = load_continuity_resume(
+                self.slot_fixture(binding_mismatch=field),
+                "repo-a",
+                execution_slot_id="S-1",
+            )
+            self.assertEqual(result["status"], "EXECUTION_SLOT_MISMATCH")
+            self.assertTrue(result["reconciliation_required"])
+
+def test_unresolved_authoritative_repository_or_state_facts_require_reconciliation(self):
+    for condition in (
+        "missing_durable_fact",
+        "dirty_worktree",
+        "ambiguous_worktree",
+        "unprovable_git_state",
+        "authoritative_state_unavailable",
+    ):
+        with self.subTest(condition=condition):
+            result = load_continuity_resume(
+                self.slot_fixture(condition=condition),
+                "repo-a",
+                execution_slot_id="S-1",
+            )
+            self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+            self.assertTrue(result["reconciliation_required"])
 
 def test_second_reviewer_requires_explicit_reassignment(self):
     self.assertIn("RECONCILIATION_REQUIRED", validate_reviewer_assignment(self.reviewing_slot(), "reviewer-2", 9))
-
-def test_recovery_mismatch_matrix_and_window_non_authority(self):
-    for field in ("project_context_id", "work_unit_id", "role", "primary_module", "branch", "worktree", "base_sha", "current_head_sha", "last_accepted_sha", "state_revision"):
-        self.assertEqual(load_continuity_resume(self.slot_fixture(mismatch=field), "repo-a", execution_slot_id="S-1")["status"], "EXECUTION_SLOT_MISMATCH")
-    for condition in ("missing_durable_fact", "stale_state", "dirty_worktree", "stale_resume", "replacement_window"):
-        self.assertEqual(load_continuity_resume(self.slot_fixture(condition=condition), "repo-a", execution_slot_id="S-1")["status"], "RECONCILIATION_REQUIRED")
 
 def test_reviewer_seriality_and_reassignment_evidence(self):
     self.assertEqual(validate_reviewer_assignment(self.reviewing_slot(), "reviewer-1", 9), [])
@@ -304,7 +350,7 @@ def test_reviewer_seriality_and_reassignment_evidence(self):
 ```
 
 - [ ] **Step 2: Verify RED** — Run `python .gpt-codex/tests/test_navigation_project_validation.py`; expect keyword/helper absent.
-- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. The Step 1 matrix covers every named mismatch plus missing fact, stale revision, dirty/ambiguous worktree, missing Map with authoritative recovery, stale Resume, and replacement window. Map/Resume only supply hints. Keep one reviewer; only evidence-bound reassignment is allowed; Reviewer Result/finding and telemetry never reassign.
+- [ ] **Step 3: Minimal implementation** — Bind CONTROL, STATE slots, Work Unit, instruction/Result/Evidence, and Git facts before action. The Step 1 matrices distinguish every named actor/slot binding mismatch from missing durable facts, dirty/ambiguous worktree, unprovable Git state, and unavailable authoritative STATE/current assignment. Map/Resume only supply hints; their derived recovery behavior remains C2. Keep one reviewer; only evidence-bound reassignment is allowed; Reviewer Result/finding and telemetry never reassign.
 - [ ] **Step 4: Verify GREEN** — Run the same test file; expect mismatch/cold recovery/seriality results to pass and derived navigation to remain non-authoritative.
 - [ ] **Step 5: Commit** — `git add .gpt-codex/scripts/continuity_resume.py .gpt-codex/scripts/project_navigation.py .gpt-codex/tests/test_navigation_project_validation.py && git commit -m "feat: recover and review execution slots"`
 
