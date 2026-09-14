@@ -283,13 +283,20 @@ def _has_current_remediation_chain(
 ) -> bool:
     if not isinstance(authoritative_facts, Mapping):
         return False
+    finding_ids = fix_instruction.get("finding_ids") if isinstance(fix_instruction, Mapping) else None
     required_facts = {
         "work_unit", "finding", "review_request", "review_result",
         "remediation_authorization", "current_git",
     }
     if not required_facts.issubset(authoritative_facts):
         return False
-    if not _is_nonempty_string(authorization_ref) or slot.get("remediation_authorization_ref") != authorization_ref:
+    if (
+        not _is_nonempty_string(authorization_ref)
+        or (
+            slot.get("remediation_authorization_ref") is not None
+            and slot.get("remediation_authorization_ref") != authorization_ref
+        )
+    ):
         return False
     if not _fact_matches(authoritative_facts, "work_unit", "work_unit_id", slot.get("work_unit_id")):
         return False
@@ -322,9 +329,16 @@ def _has_current_remediation_chain(
         return False
     if (
         not isinstance(fix_instruction, Mapping)
-        or slot.get("fix_instruction_id") != fix_instruction.get("instruction_id")
+        or not _is_nonempty_string(fix_instruction.get("instruction_id"))
+        or (
+            slot.get("fix_instruction_id") is not None
+            and slot.get("fix_instruction_id") != fix_instruction.get("instruction_id")
+        )
         or fix_instruction.get("instruction_type") != "FIX_INSTRUCTION"
         or fix_instruction.get("expected_base_sha") != reviewed_sha
+        or fix_instruction.get("target_work_unit") != slot.get("work_unit_id")
+        or not isinstance(finding_ids, list)
+        or slot.get("finding_ref") not in finding_ids
     ):
         return False
     # This import is deliberately lazy: validate_project imports this module for
@@ -357,6 +371,8 @@ def resume_authorized_remediation(
     active = dict(slot)
     active.update({
         "status": "ACTIVE",
+        "remediation_authorization_ref": authorization_ref,
+        "fix_instruction_id": fix_instruction["instruction_id"],
         "blocked_from_status": None,
         "block_reason": None,
         "next_action": "CONTINUE_IMPLEMENTATION",

@@ -485,19 +485,26 @@ class NavigationProjectValidationTests(unittest.TestCase):
             block_reason="AWAITING_REMEDIATION_AUTHORIZATION",
         ))
 
-    def valid_fix_instruction(self, instruction_id="fix-instruction-1"):
+    def valid_fix_instruction(
+        self,
+        instruction_id="fix-instruction-1",
+        *,
+        expected_state_revision=8,
+        target_work_unit="WU-1",
+        finding_ids=None,
+    ):
         return {
             "instruction_id": instruction_id,
             "instruction_type": "FIX_INSTRUCTION",
             "issuer_role": "GPT_ORCHESTRATOR",
             "executor_role": "CODEX_IMPLEMENTER",
             "return_role": "GPT_ORCHESTRATOR",
-            "expected_state_revision": 8,
+            "expected_state_revision": expected_state_revision,
             "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"],
             "forbidden_actions": ["PUBLISH"],
-            "target_work_unit": "WU-1",
+            "target_work_unit": target_work_unit,
             "scope_paths": [".gpt-codex/scripts/continuity_resume.py"],
-            "finding_ids": ["finding-1"],
+            "finding_ids": ["finding-1"] if finding_ids is None else finding_ids,
             "in_response_to_result_id": "22222222-2222-4222-8222-222222222222",
             "expected_base_sha": "a" * 40,
             "fix_round": 1,
@@ -662,6 +669,13 @@ class NavigationProjectValidationTests(unittest.TestCase):
                 self.blocked_state(), "CODEX-IMPL-B", "authorization-1", invalid_instruction, 8,
                 authoritative_facts=self.complete_authoritative_facts(),
             )
+        malformed_instruction = self.valid_fix_instruction(finding_ids=None)
+        malformed_instruction["finding_ids"] = None
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            resume_authorized_remediation(
+                self.blocked_state(), "CODEX-IMPL-B", "authorization-1", malformed_instruction, 8,
+                authoritative_facts=self.complete_authoritative_facts(),
+            )
 
     def test_complete_current_remediation_chain_resumes_without_mutating_inputs(self):
         scripts = ROOT / ".gpt-codex" / "scripts"
@@ -686,6 +700,104 @@ class NavigationProjectValidationTests(unittest.TestCase):
         self.assertEqual(slot["remediation_authorization_ref"], "authorization-1")
         self.assertEqual(state, state_before)
         self.assertEqual(facts, facts_before)
+
+    def test_real_block_authorization_fix_resume_chain_is_atomic(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import block_for_remediation, resume_authorized_remediation
+
+        source = self.reviewing_state()
+        source_before = json.loads(json.dumps(source))
+        blocked = block_for_remediation(source, "CODEX-IMPL-B", "finding-1", "review-result-1", 8)
+        blocked_before = json.loads(json.dumps(blocked))
+        blocked_slot = blocked["active_execution_slots"][0]
+        self.assertEqual(blocked["revision"], 9)
+        self.assertEqual(blocked_slot["status"], "BLOCKED")
+        self.assertIsNone(blocked_slot["remediation_authorization_ref"])
+        self.assertIsNone(blocked_slot["fix_instruction_id"])
+
+        resumed = resume_authorized_remediation(
+            blocked,
+            "CODEX-IMPL-B",
+            "authorization-1",
+            self.valid_fix_instruction(expected_state_revision=9),
+            9,
+            authoritative_facts=self.complete_authoritative_facts(),
+        )
+        slot = resumed["active_execution_slots"][0]
+        self.assertEqual(resumed["revision"], 10)
+        self.assertEqual(slot["state_revision"], 10)
+        self.assertEqual(slot["status"], "ACTIVE")
+        self.assertEqual(slot["work_unit_id"], "WU-1")
+        self.assertEqual(slot["finding_ref"], "finding-1")
+        self.assertEqual(slot["remediation_authorization_ref"], "authorization-1")
+        self.assertEqual(slot["fix_instruction_id"], "fix-instruction-1")
+        self.assertEqual(source, source_before)
+        self.assertEqual(blocked, blocked_before)
+
+    def test_remediation_fix_instruction_must_bind_current_work_unit_and_finding(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        for instruction in (
+            self.valid_fix_instruction(target_work_unit="WU-OTHER"),
+            self.valid_fix_instruction(finding_ids=["finding-OTHER"]),
+        ):
+            with self.subTest(instruction=instruction):
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        self.blocked_state(),
+                        "CODEX-IMPL-B",
+                        "authorization-1",
+                        instruction,
+                        8,
+                        authoritative_facts=self.complete_authoritative_facts(),
+                    )
+
+    def test_remediation_rejects_preexisting_contradictory_correlations(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import resume_authorized_remediation
+
+        for field, value in (
+            ("remediation_authorization_ref", "authorization-old"),
+            ("fix_instruction_id", "fix-old"),
+        ):
+            with self.subTest(field=field):
+                state = self.blocked_state()
+                state["active_execution_slots"][0][field] = value
+                with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+                    resume_authorized_remediation(
+                        state,
+                        "CODEX-IMPL-B",
+                        "authorization-1",
+                        self.valid_fix_instruction(),
+                        8,
+                        authoritative_facts=self.complete_authoritative_facts(),
+                    )
+
+    def test_real_block_chain_requires_fix_instruction_for_blocked_revision(self):
+        scripts = ROOT / ".gpt-codex" / "scripts"
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from continuity_resume import block_for_remediation, resume_authorized_remediation
+
+        blocked = block_for_remediation(
+            self.reviewing_state(), "CODEX-IMPL-B", "finding-1", "review-result-1", 8,
+        )
+        with self.assertRaisesRegex(ValueError, "RECONCILIATION_REQUIRED"):
+            resume_authorized_remediation(
+                blocked,
+                "CODEX-IMPL-B",
+                "authorization-1",
+                self.valid_fix_instruction(expected_state_revision=8),
+                9,
+                authoritative_facts=self.complete_authoritative_facts(),
+            )
 
     def test_idle_slot_rejects_stale_assignment_without_state_mutation(self):
         with tempfile.TemporaryDirectory() as td:
