@@ -62,6 +62,24 @@ class ReleaseArchiveTests(unittest.TestCase):
             index = load_release_index(releases)
             self.assertEqual(index["latest_recorded_version"], "2.0.2")
 
+    def test_release_archive_writes_canonical_lf_metadata(self):
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            ensure_release_record(
+                releases_dir=releases,
+                version="2.0.2",
+                kernel_version="2.0.0",
+                schema_version=1,
+                previous_version="2.0.1",
+            )
+
+            for path in (releases / "INDEX.json", releases / "records" / "v2.0.2.json"):
+                with self.subTest(path=path):
+                    content = path.read_bytes()
+                    content.decode("utf-8")
+                    self.assertTrue(content.endswith(b"\n"))
+                    self.assertNotIn(b"\r\n", content)
+
     def test_current_release_record_preserves_corrective_publication_fields(self):
         with tempfile.TemporaryDirectory() as td:
             releases = Path(td) / "releases"

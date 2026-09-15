@@ -15,6 +15,7 @@ from release_framework import (
     _previous_recorded_version,
     artifact_basename,
     clean_output_dir,
+    finalize_release_manifest,
     package_release,
     read_version,
     should_exclude,
@@ -147,6 +148,25 @@ class ReleasePackagingTests(unittest.TestCase):
                 )
             )
             self.assertEqual(release_manifest["validation"]["tests"], "PASS")
+
+    def test_release_text_outputs_use_canonical_lf(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = _fresh_release_fixture(tmp)
+            result = package_release(
+                root=root,
+                output_dir=root / "dist",
+                kernel_version="2.0.0",
+                schema_version=1,
+                validation_summary={"framework": "PASS", "tests": "PENDING"},
+            )
+            finalize_release_manifest(Path(result["manifest_path"]))
+
+            for path in (Path(result["sha256_path"]), Path(result["manifest_path"])):
+                with self.subTest(path=path):
+                    content = path.read_bytes()
+                    content.decode("utf-8")
+                    self.assertTrue(content.endswith(b"\n"))
+                    self.assertNotIn(b"\r\n", content)
 
     def test_release_generation_is_metadata_idempotent(self):
         with tempfile.TemporaryDirectory() as tmp:

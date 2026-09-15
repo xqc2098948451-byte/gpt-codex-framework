@@ -1,5 +1,5 @@
 {
-  "framework_version": "2.6.0",
+  "framework_version": "2.7.0",
   "catalog_version": 1,
   "principle": "Preinstalled does not mean enabled",
   "required": {

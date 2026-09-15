@@ -143,7 +143,7 @@ def package_release(
             raise ProjectionValidationError(json.dumps(comparison, ensure_ascii=False, sort_keys=True))
 
     sha256 = hashlib.sha256(zip_path.read_bytes()).hexdigest()
-    sha_path.write_text(f"{sha256}  {zip_path.name}\n", encoding="utf-8")
+    sha_path.write_bytes(f"{sha256}  {zip_path.name}\n".encode("utf-8"))
     validation = dict(validation_summary)
     validation["zip_integrity"] = "PASS"
     validation["release_hygiene"] = "PASS"
@@ -156,7 +156,7 @@ def package_release(
         "validation": validation,
         "file_count": len(files),
     }
-    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    manifest_path.write_bytes((json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
     return {
         "zip_path": str(zip_path),
         "sha256_path": str(sha_path),
@@ -198,7 +198,7 @@ def finalize_release_manifest(manifest_path: Path) -> None:
     if not isinstance(validation, dict) or validation.get("tests") != "PENDING":
         raise RuntimeError("release manifest must await artifact-dependent test validation")
     validation["tests"] = "PASS"
-    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    manifest_path.write_bytes((json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
 
 
 def main() -> int:
