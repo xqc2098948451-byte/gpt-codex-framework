@@ -223,6 +223,31 @@ def _validate_evidence_requirements(value: Mapping[str, Any]) -> None:
             raise ValueError("INVALID_EVIDENCE_REQUIREMENTS")
 
 
+_MINIMAL_TASK_REFS = {"BASE_SHA", "PLAN_REF", "STATE_REF", "OPEN_FINDINGS", "STRATEGY_PROFILE"}
+
+def render_minimal_codex_task(envelope: Mapping[str, Any], *, goal: str, scope: list[str], constraints: list[str], done: list[str], refs: Mapping[str, str] | None = None, transfer: Mapping[str, Any] | None = None) -> str:
+    def items(value: object) -> list[str]:
+        if not isinstance(value, list) or not value or len(value) > 100 or not all(isinstance(x, str) and x.strip() for x in value):
+            raise ValueError("MINIMAL_TASK_INVALID")
+        return value
+    if not isinstance(goal, str) or not goal.strip(): raise ValueError("MINIMAL_TASK_INVALID")
+    scope, constraints, done = items(scope), items(constraints), items(done)
+    if refs is not None and (not isinstance(refs, Mapping) or set(refs) - _MINIMAL_TASK_REFS or not all(isinstance(v, str) and v.strip() for v in refs.values())): raise ValueError("MINIMAL_TASK_INVALID")
+    if transfer is None: transfer={"upload_required":False,"source":"Git SHA:path"}
+    if not isinstance(transfer, Mapping) or not isinstance(transfer.get("upload_required"), bool): raise ValueError("MINIMAL_TASK_INVALID")
+    upload=transfer["upload_required"]
+    allowed={"upload_required","source","items"} if upload else {"upload_required","source"}
+    if set(transfer)!=allowed or not isinstance(transfer.get("source"),str) or not transfer["source"].strip(): raise ValueError("MINIMAL_TASK_INVALID")
+    upload_items=transfer.get("items",[])
+    if upload: upload_items=items(upload_items)
+    lines=[f"是否需要你上传内容：{'需要' if upload else '不需要'}",f"需要上传的内容：{'、'.join(upload_items) if upload else '无'}",f"读取来源：{transfer['source']}", "",f"INSTRUCTION_ID: {_value(envelope.get('instruction_id'))}",f"INSTRUCTION_TYPE: {_value(envelope.get('instruction_type'))}",f"TARGET_WORK_UNIT: {_value(envelope.get('target_work_unit'))}"]
+    display=dict(refs or {})
+    if envelope.get("expected_base_sha") is not None: display["BASE_SHA"]=str(envelope["expected_base_sha"])
+    lines += [f"{key}: {value}" for key,value in display.items()]
+    for label, value in (("GOAL",[goal]),("SCOPE",scope),("CONSTRAINTS",constraints),("DONE",done)):
+        lines += ["",f"{label}:",*[f"- {item}" for item in value]]
+    return "\n".join(lines)
+
 def render_codex_instruction(
     envelope: Mapping[str, Any],
     task_body: str,

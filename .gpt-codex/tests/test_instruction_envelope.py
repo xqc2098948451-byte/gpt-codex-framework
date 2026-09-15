@@ -128,5 +128,16 @@ class InstructionEnvelopeTests(unittest.TestCase):
             )
 
 
+    def test_minimal_renderer_preserves_canonical_envelope(self):
+        module = load_instruction_envelope()
+        envelope = {"instruction_id": "i", "instruction_type": "EXECUTION_INSTRUCTION",
+                    "target_work_unit": "WU", "expected_base_sha": "a" * 40}
+        before = dict(envelope)
+        text = module.render_minimal_codex_task(envelope, goal="g", scope=["s"], constraints=["c"], done=["d"])
+        self.assertEqual(envelope, before)
+        self.assertIn("INSTRUCTION_ID: i", text)
+        self.assertIn("BASE_SHA: " + "a" * 40, text)
+
+
 if __name__ == "__main__":
     unittest.main()
