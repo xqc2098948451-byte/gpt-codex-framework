@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.0 — Minimal Closed-Loop Harness
+
+- Added semantic Harness / Product / Deploy roots with production isolation, repository-derived durable handoff, and fixed per-project execution strategy.
+- Added bounded ProcessReview and FrameworkFeedback data, compact GOAL / SCOPE / CONSTRAINTS / DONE task views, and durable-ref-first compact GPT Result returns while preserving canonical Instruction and Result authority.
+- Enforced centralized Framework evolution without cross-project policy propagation; retained capability-preserving structure evolution, project-closure convergence, and evidence-based reduction review.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`; no P0 authority is removed in v2.7.0.
+
 ## v2.6.0 — Framework–Project Separation
 
 - Defined explicit Framework-versus-Project authority: the Project root remains `AUTHORITATIVE`, while the Framework is auxiliary/advisory for ordinary consumers; the marked `FRAMEWORK_MANAGEMENT` / `SELF_MANAGED` context remains the narrow self-hosting exception.
