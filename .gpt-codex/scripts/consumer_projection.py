@@ -78,6 +78,37 @@ def _normalise_manifest_key(value: object) -> str | None:
     return path.as_posix()
 
 
+def _normalise_manifest_prefix(value: object) -> str | None:
+    if not isinstance(value, str) or not value or "\\" in value or not value.endswith("/"):
+        return None
+    if any(character in value for character in "*?[]"):
+        return None
+    path = PurePosixPath(value[:-1])
+    if (
+        not value[:-1]
+        or path.is_absolute()
+        or "." in path.parts
+        or ".." in path.parts
+        or f"{path.as_posix()}/" != value
+    ):
+        return None
+    return value
+
+
+def _resolve_projection_classification(
+    path: str,
+    exact_paths: Mapping[str, str],
+    prefix_defaults: Mapping[str, str],
+) -> str | None:
+    exact = exact_paths.get(path)
+    if exact is not None:
+        return exact
+    matches = [prefix for prefix in prefix_defaults if path.startswith(prefix)]
+    if not matches:
+        return None
+    return prefix_defaults[max(matches, key=len)]
+
+
 def load_projection_manifest(root: Path) -> dict[str, Any]:
     path = Path(root) / Path(*MANIFEST_RELATIVE_PATH.parts)
     try:
@@ -107,8 +138,10 @@ def _iter_non_local_files(root: Path) -> list[str]:
 def audit_projection_paths(root: Path, manifest: Mapping[str, object]) -> dict[str, list[str]]:
     root = Path(root)
     raw_paths = manifest.get("paths")
+    raw_prefix_defaults = manifest.get("prefix_defaults", {})
     invalid_classifications: list[str] = []
     manifest_paths: dict[str, str] = {}
+    prefix_defaults: dict[str, str] = {}
     if not isinstance(raw_paths, Mapping):
         invalid_classifications.append("paths")
         raw_paths = {}
@@ -118,10 +151,26 @@ def audit_projection_paths(root: Path, manifest: Mapping[str, object]) -> dict[s
             invalid_classifications.append(str(raw_key))
             continue
         manifest_paths[key] = str(classification)
+    if not isinstance(raw_prefix_defaults, Mapping):
+        invalid_classifications.append("prefix_defaults")
+        raw_prefix_defaults = {}
+    for raw_prefix, classification in raw_prefix_defaults.items():
+        prefix = _normalise_manifest_prefix(raw_prefix)
+        if (
+            prefix is None
+            or classification not in ALLOWED_CLASSIFICATIONS
+            or classification == "CONSUMER_REQUIRED"
+        ):
+            invalid_classifications.append(str(raw_prefix))
+            continue
+        prefix_defaults[prefix] = str(classification)
 
     actual_paths = set(_iter_non_local_files(root))
-    manifest_path_set = set(manifest_paths)
-    unknown_paths = sorted(actual_paths - manifest_path_set)
+    unknown_paths = sorted(
+        path
+        for path in actual_paths
+        if _resolve_projection_classification(path, manifest_paths, prefix_defaults) is None
+    )
     missing_required_paths = sorted(
         key for key, classification in manifest_paths.items()
         if classification == "CONSUMER_REQUIRED" and not (root / Path(*PurePosixPath(key).parts)).is_file()

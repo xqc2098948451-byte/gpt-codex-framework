@@ -13,6 +13,7 @@ CURRENT_VERSION = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
 CURRENT_PREFIX = f"gpt-codex-framework-v{CURRENT_VERSION}-bootstrap"
 sys.path.insert(0, str(SCRIPTS))
 
+import consumer_projection  # noqa: E402
 from consumer_projection import (  # noqa: E402
     ProjectionValidationError,
     audit_projection_paths,
@@ -47,6 +48,17 @@ def minimal_manifest() -> dict[str, object]:
             ".gpt-codex/release/consumer-projection-manifest.json": "MANAGEMENT_ONLY",
         },
     }
+
+
+def prefix_manifest() -> dict[str, object]:
+    manifest = minimal_manifest()
+    manifest["prefix_defaults"] = {
+        ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
+        "docs/superpowers/": "DEVELOPMENT_HISTORY",
+        ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
+        "releases/records/": "RELEASE_METADATA",
+    }
+    return manifest
 
 
 HISTORICAL_CONTINUITY_DOCS = (
@@ -113,8 +125,16 @@ class ConsumerProjectionTests(unittest.TestCase):
         self.assertEqual(paths.get(".gpt-codex/tests/test_execution_telemetry.py"), "MANAGEMENT_ONLY")
         self.assertEqual(paths.get(".gpt-codex/scripts/framework_feedback.py"), "CONSUMER_REQUIRED")
         self.assertEqual(paths.get(".gpt-codex/tests/test_framework_feedback.py"), "MANAGEMENT_ONLY")
-        self.assertEqual(paths.get("docs/superpowers/specs/2026-09-13-execution-telemetry-design.md"), "DEVELOPMENT_HISTORY")
-        self.assertEqual(paths.get("docs/superpowers/plans/2026-09-14-execution-telemetry.md"), "DEVELOPMENT_HISTORY")
+        for relative in (
+            "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+            "docs/superpowers/plans/2026-09-14-execution-telemetry.md",
+        ):
+            self.assertEqual(
+                consumer_projection._resolve_projection_classification(
+                    relative, paths, manifest["prefix_defaults"]
+                ),
+                "DEVELOPMENT_HISTORY",
+            )
         self.assertEqual(audit_projection_paths(ROOT, manifest)["unknown_paths"], [])
 
     def test_manifest_classifies_framework_module_management_boundary(self):
@@ -143,7 +163,12 @@ class ConsumerProjectionTests(unittest.TestCase):
                 f".gpt-codex/framework-modules/modules/{module_id}.json"
             ] = "MANAGEMENT_ONLY"
         for path, classification in expected_management_paths.items():
-            self.assertEqual(manifest["paths"].get(path), classification)
+            self.assertEqual(
+                consumer_projection._resolve_projection_classification(
+                    path, manifest["paths"], manifest["prefix_defaults"]
+                ),
+                classification,
+            )
         audit = audit_projection_paths(ROOT, manifest)
         self.assertEqual(audit["unknown_paths"], [])
         self.assertEqual(audit["missing_required_paths"], [])
@@ -222,12 +247,92 @@ class ConsumerProjectionTests(unittest.TestCase):
         self.assertEqual(manifest["projection"], "CONSUMER_BOOTSTRAP")
         self.assertEqual(manifest["paths"][".gpt-codex/CONTROL.json"], "MANAGEMENT_ONLY")
         self.assertEqual(
-            manifest["paths"][
-                "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md"
-            ],
+            consumer_projection._resolve_projection_classification(
+                "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+                manifest["paths"],
+                manifest["prefix_defaults"],
+            ),
             "DEVELOPMENT_HISTORY",
         )
         self.assertNotIn("**", manifest["paths"])
+
+    def test_prefix_defaults_classify_new_evidence_and_superpowers_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_minimal_projection_fixture(root)
+            evidence = root / ".gpt-codex/evidence/new-result.json"
+            history = root / "docs/superpowers/new-design.md"
+            evidence.parent.mkdir(parents=True)
+            history.parent.mkdir(parents=True)
+            evidence.write_text("{}", encoding="utf-8")
+            history.write_text("history", encoding="utf-8")
+
+            audit = audit_projection_paths(root, prefix_manifest())
+
+            self.assertEqual(audit["unknown_paths"], [])
+            self.assertEqual(audit["invalid_classifications"], [])
+            inventory = build_consumer_inventory(root, prefix_manifest())
+            self.assertNotIn(".gpt-codex/evidence/new-result.json", inventory)
+            self.assertNotIn("docs/superpowers/new-design.md", inventory)
+
+    def test_exact_consumer_path_overrides_exclusion_prefix_and_stays_in_inventory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_minimal_projection_fixture(root)
+            consumer_file = root / "docs/superpowers/required.md"
+            consumer_file.parent.mkdir(parents=True)
+            consumer_file.write_text("required", encoding="utf-8")
+            manifest = prefix_manifest()
+            manifest["paths"]["docs/superpowers/required.md"] = "CONSUMER_REQUIRED"
+
+            self.assertEqual(audit_projection_paths(root, manifest)["unknown_paths"], [])
+            self.assertIn("docs/superpowers/required.md", build_consumer_inventory(root, manifest))
+
+    def test_longest_matching_prefix_wins(self):
+        self.assertTrue(hasattr(consumer_projection, "_resolve_projection_classification"))
+        self.assertEqual(
+            consumer_projection._resolve_projection_classification(
+                "docs/superpowers/private/note.md",
+                {},
+                {
+                    "docs/superpowers/": "DEVELOPMENT_HISTORY",
+                    "docs/superpowers/private/": "MANAGEMENT_ONLY",
+                },
+            ),
+            "MANAGEMENT_ONLY",
+        )
+
+    def test_invalid_prefix_defaults_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_minimal_projection_fixture(root)
+            manifest = minimal_manifest()
+            manifest["prefix_defaults"] = {
+                "docs/superpowers/": "CONSUMER_REQUIRED",
+                "docs/*.md/": "DEVELOPMENT_HISTORY",
+            }
+
+            invalid = audit_projection_paths(root, manifest)["invalid_classifications"]
+
+            self.assertIn("docs/superpowers/", invalid)
+            self.assertIn("docs/*.md/", invalid)
+
+    def test_unmatched_path_stays_unknown_and_prefix_only_never_enters_inventory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_minimal_projection_fixture(root)
+            default_file = root / "docs/superpowers/history.md"
+            unmatched_file = root / "unmatched.md"
+            default_file.parent.mkdir(parents=True)
+            default_file.write_text("history", encoding="utf-8")
+            unmatched_file.write_text("unknown", encoding="utf-8")
+            manifest = prefix_manifest()
+
+            audit = audit_projection_paths(root, manifest)
+
+            self.assertEqual(audit["unknown_paths"], ["unmatched.md"])
+            with self.assertRaises(ProjectionValidationError):
+                build_consumer_inventory(root, manifest)
 
     def test_manifest_classifies_v230_navigation_consumer_boundary(self):
         manifest = load_projection_manifest(ROOT)
@@ -243,9 +348,11 @@ class ConsumerProjectionTests(unittest.TestCase):
         for relative in expected_consumer_paths:
             self.assertEqual(manifest["paths"][relative], "CONSUMER_REQUIRED")
         self.assertEqual(
-            manifest["paths"][
-                ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-brief.md"
-            ],
+            consumer_projection._resolve_projection_classification(
+                ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-brief.md",
+                manifest["paths"],
+                manifest["prefix_defaults"],
+            ),
             "DEVELOPMENT_HISTORY",
         )
 
@@ -269,7 +376,12 @@ class ConsumerProjectionTests(unittest.TestCase):
             ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/review-0eccd66..cca699b.diff",
             ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-9-report.md",
         ):
-            self.assertEqual(manifest["paths"][relative], "DEVELOPMENT_HISTORY")
+            self.assertEqual(
+                consumer_projection._resolve_projection_classification(
+                    relative, manifest["paths"], manifest["prefix_defaults"]
+                ),
+                "DEVELOPMENT_HISTORY",
+            )
 
     def test_framework_validator_reads_bootstrap_phrase_corpus_specifically(self):
         validator = (SCRIPTS / "validate_framework.py").read_text(encoding="utf-8")
