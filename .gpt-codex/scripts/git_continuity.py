@@ -50,6 +50,23 @@ class SyncDecision:
     publish_allowed: bool
 
 
+def evaluate_worktree_cleanup(
+    active_work_unit: bool | None,
+    durable_git_authority: bool | None,
+    review_or_integration_sufficient: bool | None,
+    has_dirty_only_data: bool | None,
+) -> str:
+    """Authorize cleanup only when every supplied evidence fact is conclusive."""
+    if (
+        active_work_unit is False
+        and durable_git_authority is True
+        and review_or_integration_sufficient is True
+        and has_dirty_only_data is False
+    ):
+        return "CLEAN"
+    return "KEEP"
+
+
 def is_verified_repository_continuity_evidence(evidence: Mapping[str, Any] | None) -> bool:
     """Recognize supplied continuity evidence without reading a repository or remote."""
     return isinstance(evidence, Mapping) and evidence.get("status") == "VERIFIED"

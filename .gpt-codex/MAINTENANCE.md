@@ -42,3 +42,7 @@ Publish framework changes. Projects do not receive automatic updates. Each maint
 ## 6. Release archive hygiene
 
 `releases/` is metadata-only. Keep source/history in Git/docs and keep distributable ZIP binaries outside the source tree. Import retained historical ZIP metadata with `release_archive.py` when useful, then allow local archive binaries to be removed according to your storage policy. `dist/` is a transient current-release output directory and is cleaned by the release Skill before generating a new release.
+
+## 7. Evidence-gated worktree cleanup
+
+Treat the `KEEP`/`CLEAN` decision as separate from any worktree operation. `CLEAN` is evidence-gated authorization, never automatic deletion; existing `KEEP` decisions are not automatically reinterpreted. Perform any actual operation with native Git only, first checking the current repository and worktree state. Do not force removal. The permitted commands are `git worktree list`, `git status`, `git worktree remove`, and `git worktree prune`.

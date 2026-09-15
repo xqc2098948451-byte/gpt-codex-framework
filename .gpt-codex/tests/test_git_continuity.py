@@ -82,6 +82,24 @@ class GitContinuityTests(unittest.TestCase):
 
         self.assertEqual(validate_review_history_operation("IMPLEMENTATION", "AMEND"), [])
 
+    def test_worktree_cleanup_is_evidence_gated_and_fail_closed(self):
+        from git_continuity import evaluate_worktree_cleanup
+
+        self.assertEqual(evaluate_worktree_cleanup(False, True, True, False), "CLEAN")
+        for facts in (
+            (True, True, True, False),
+            (False, False, True, False),
+            (False, True, False, False),
+            (False, True, True, True),
+        ):
+            with self.subTest(facts=facts):
+                self.assertEqual(evaluate_worktree_cleanup(*facts), "KEEP")
+        for position in range(4):
+            facts = [False, True, True, False]
+            facts[position] = None
+            with self.subTest(unknown_position=position):
+                self.assertEqual(evaluate_worktree_cleanup(*facts), "KEEP")
+
 
 if __name__ == "__main__":
     unittest.main()
