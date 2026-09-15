@@ -73,6 +73,7 @@ class ResultReturnTests(unittest.TestCase):
                 "next_gpt_action": "REVIEW",
                 "blockers": [],
                 "git": {"implementation_sha": "b" * 40},
+                "implementation_sha": "c" * 40,
                 "return_to_gpt_required": True,
             }
         )
@@ -117,6 +118,8 @@ class ResultReturnTests(unittest.TestCase):
 
         self.assertIn("HEAD_SHA: " + "c" * 40, rendered)
         self.assertIn("BLOCKERS: A, B", rendered)
+        value["git"] = "invalid"
+        self.assertIn("HEAD_SHA: " + "c" * 40, render_compact_gpt_return(value))
         value["blockers"] = "not-a-list"
         self.assertIn("BLOCKERS: NONE", render_compact_gpt_return(value))
 
