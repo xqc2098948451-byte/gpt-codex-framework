@@ -23,4 +23,14 @@ class MinimalTaskProtocolTests(unittest.TestCase):
    with self.assertRaisesRegex(ValueError,"MINIMAL_TASK_INVALID"):render_minimal_codex_task(base,goal="g",scope=["a"],constraints=["b"],done=["c"],refs=refs)
   for transfer in ({"upload_required":True,"source":"x"},{"upload_required":True,"items":[],"source":"x"},{"upload_required":False,"source":" ","items":[]},{"upload_required":"yes","source":"x"}):
    with self.assertRaisesRegex(ValueError,"MINIMAL_TASK_INVALID"):render_minimal_codex_task(base,goal="g",scope=["a"],constraints=["b"],done=["c"],transfer=transfer)
+ def test_no_upload_source_and_reference_order_are_frozen(self):
+  envelope={"instruction_id":"i","instruction_type":"t","target_work_unit":"w","expected_base_sha":"a"*40}
+  refs={"STRATEGY_PROFILE":"p","PLAN_REF":"plan","OPEN_FINDINGS":"NONE"}
+  text=render_minimal_codex_task(envelope,goal="g",scope=["a"],constraints=["b"],done=["c"],refs=refs)
+  self.assertLess(text.index("BASE_SHA:"),text.index("PLAN_REF:"))
+  self.assertLess(text.index("PLAN_REF:"),text.index("OPEN_FINDINGS:"))
+  self.assertLess(text.index("OPEN_FINDINGS:"),text.index("STRATEGY_PROFILE:"))
+  for source in ("attachment","当前附件","other source"):
+   with self.subTest(source=source):
+    with self.assertRaisesRegex(ValueError,"MINIMAL_TASK_INVALID"):render_minimal_codex_task({},goal="g",scope=["a"],constraints=["b"],done=["c"],transfer={"upload_required":False,"source":source})
 if __name__=="__main__":unittest.main()
