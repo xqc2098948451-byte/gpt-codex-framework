@@ -114,6 +114,27 @@ class FrameworkFeedbackTests(unittest.TestCase):
         self.assertFalse(framework_feedback_authorizes_mutation(ordinary, feedback))
         self.assertEqual(validate_framework_evolution_boundary(management, feedback), [])
         self.assertFalse(framework_feedback_authorizes_mutation(management, feedback))
+        for control in (None, [], {}, {"roots": None}):
+            with self.subTest(control=control):
+                self.assertEqual(
+                    validate_framework_evolution_boundary(control, feedback),
+                    ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+                )
+        for roots in (
+            {"project_role": "OTHER", "framework_role": "ADVISORY"},
+            {"project_role": "AUTHORITATIVE", "framework_role": "SELF_MANAGED"},
+        ):
+            with self.subTest(roots=roots):
+                self.assertEqual(
+                    validate_framework_evolution_boundary({"roots": roots}, feedback),
+                    ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"],
+                )
+        for control in (None, []):
+            with self.subTest(malformed_control=control):
+                self.assertFalse(framework_feedback_authorizes_mutation(control, feedback))
+        for malformed_feedback in (None, {"framework_mutation": "APPLY_NOW"}):
+            with self.subTest(malformed_feedback=malformed_feedback):
+                self.assertFalse(framework_feedback_authorizes_mutation(ordinary, malformed_feedback))
 
     def test_feedback_template_is_evidence_only(self):
         content = (ROOT / ".gpt-codex/project-template/.harness/FEEDBACK.template.md").read_text(encoding="utf-8")
