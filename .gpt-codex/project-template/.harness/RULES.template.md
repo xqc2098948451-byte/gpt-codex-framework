@@ -20,3 +20,11 @@ Harness content is development/governance-only and must not be required by produ
 Default compact view uses GOAL / SCOPE / CONSTRAINTS / DONE plus durable references.
 It never replaces canonical Instruction authority; its transfer preface is
 human-facing handoff metadata only. GPT determines task count and parallelism.
+
+## Structure Evolution
+- Responsibility before structure.
+- Do not split by file count, line count, agent count, or parallelism convenience.
+- Split only for durable responsibility/runtime/security/testing boundaries.
+- Merge/delete when layers always change together, are trivial wrappers, or duplicate ownership.
+- AFTER_CAPABILITIES must contain every required BEFORE_CAPABILITY.
+- Do not reorganize a stable structure for cosmetic reasons.

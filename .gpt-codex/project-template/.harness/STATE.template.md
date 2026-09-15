@@ -9,3 +9,11 @@ CURRENT_SHA = NONE
 BLOCKER = NONE
 PENDING_RESULT_REF = NONE
 NEXT_ACTION = INITIALIZE_PROJECT
+
+## Closure Rule
+When PROJECT_STATUS becomes COMPLETE:
+- CURRENT_TASK = NONE
+- BLOCKER = NONE
+- PENDING_RESULT_REF = NONE
+- NEXT_ACTION = MAINTENANCE
+Transient debugging/scratch state is removed or archived outside the active state view.

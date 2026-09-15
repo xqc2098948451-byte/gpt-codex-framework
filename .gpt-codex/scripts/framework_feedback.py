@@ -46,3 +46,13 @@ def validate_framework_evolution_boundary(project_control: Mapping[str, Any], fe
 
 def framework_feedback_authorizes_mutation(project_control: Mapping[str, Any], feedback: Mapping[str, Any]) -> bool:
     return False
+
+def evaluate_structure_change(before_capabilities: set[str], after_capabilities: set[str], evidence: Mapping[str, Any]) -> str:
+    if not before_capabilities.issubset(after_capabilities):
+        return "CAPABILITY_REGRESSION"
+    benefits = (
+        evidence.get("complexity_decreased") is True,
+        evidence.get("responsibility_clearer") is True,
+        evidence.get("deployment_maintenance_testing_improved") is True,
+    )
+    return "ALLOW" if any(benefits) else "NO_BENEFIT"
