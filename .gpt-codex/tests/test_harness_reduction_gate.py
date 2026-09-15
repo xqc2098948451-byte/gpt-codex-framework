@@ -112,8 +112,10 @@ class HarnessReductionGateTests(unittest.TestCase):
     def test_verification_evidence_transport_contract_reuses_retained_facts(self):
         verification = (ROOT / ".gpt-codex/builtins/skills/verification/SKILL.md").read_text(encoding="utf-8")
 
-        for fact in ("command", "tested SHA", "exit status", "test count", "failures", "errors", "concise relevant summary", "UNKNOWN"):
+        for fact in ("command", "tested SHA", "exit code", "test count", "failures", "errors", "concise relevant summary", "UNKNOWN"):
             self.assertIn(fact, verification)
+        self.assertNotIn("exit status", verification)
+        self.assertIn("reuse the existing Evidence/Result Envelope", verification)
         for rerun_cause in ("source/test change", "material environment change", "incomplete execution", "unauthentic evidence"):
             self.assertIn(rerun_cause, verification)
         for transport_only_case in ("console capture was lost", "report formatting", "must NOT be rerun"):
