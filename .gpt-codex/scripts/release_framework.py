@@ -10,6 +10,7 @@ import sys
 import tempfile
 import zipfile
 from pathlib import Path, PurePosixPath
+from typing import Any, Mapping
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_ROOT = HERE.parent.parent
@@ -38,6 +39,9 @@ EXCLUDED_RELATIVE_PATHS = {
 VERSIONED_FRAMEWORK_FOLDER = re.compile(
     r"^gpt-codex-framework-v\d+(?:\.\d+){1,2}(?:-[0-9A-Za-z.-]+)?-bootstrap$"
 )
+_IMMUTABLE_SHA = re.compile(r"^[0-9a-fA-F]{40}$")
+_SHA256 = re.compile(r"^[0-9a-fA-F]{64}$")
+_REQUIRED_PUBLICATION_CAPABILITIES = ("TAG_WRITE", "RELEASE_WRITE", "ASSET_UPLOAD")
 
 
 def read_version(root: Path) -> str:
@@ -51,6 +55,93 @@ def artifact_basename(version: str) -> str:
     if not SEMVER.fullmatch(version):
         raise ValueError(f"invalid SemVer: {version!r}")
     return f"gpt-codex-framework-v{version}-bootstrap"
+
+
+def _valid_canonical_artifact_ref(value: object) -> bool:
+    if not isinstance(value, str) or value.count(":") != 1:
+        return False
+    revision, relative = value.split(":")
+    if not _IMMUTABLE_SHA.fullmatch(revision) or not _valid_git_relative_path(relative):
+        return False
+    match = re.fullmatch(r"dist/gpt-codex-framework-v(.+)-bootstrap\.zip", relative)
+    return bool(match and SEMVER.fullmatch(match.group(1)))
+
+
+def _valid_git_relative_path(value: object) -> bool:
+    if not isinstance(value, str) or not value or "\\" in value or any(char in value for char in "*?[]"):
+        return False
+    path = PurePosixPath(value)
+    return not path.is_absolute() and "." not in path.parts and ".." not in path.parts and path.as_posix() == value
+
+
+def evaluate_publication_preflight(
+    facts: Mapping[str, Any],
+    required_capabilities: frozenset[str] = frozenset(_REQUIRED_PUBLICATION_CAPABILITIES),
+) -> list[str]:
+    facts = facts if isinstance(facts, Mapping) else {}
+    errors: list[str] = []
+    for key, code in (
+        ("source_version_closed", "SOURCE_VERSION_NOT_CLOSED"),
+        ("projection_closed", "PROJECTION_NOT_CLOSED"),
+        ("release_record_ready", "RELEASE_RECORD_NOT_READY"),
+        ("canonical_lf_verified", "CANONICAL_LF_NOT_VERIFIED"),
+        ("repository_identity_verified", "REPOSITORY_IDENTITY_NOT_VERIFIED"),
+        ("work_main_ancestry_verified", "WORK_MAIN_ANCESTRY_NOT_VERIFIED"),
+    ):
+        if facts.get(key) is not True:
+            errors.append(code)
+    if facts.get("tag_conflict") is not False:
+        errors.append("TAG_CONFLICT")
+    if facts.get("release_conflict") is not False:
+        errors.append("RELEASE_CONFLICT")
+    if facts.get("publication_mechanism_available") is not True:
+        errors.append("PUBLICATION_MECHANISM_UNAVAILABLE")
+    if not _valid_canonical_artifact_ref(facts.get("canonical_artifact_ref")):
+        errors.append("CANONICAL_ARTIFACT_REF_INVALID")
+    if not isinstance(facts.get("artifact_sha256"), str) or not _SHA256.fullmatch(facts["artifact_sha256"]):
+        errors.append("ARTIFACT_SHA256_INVALID")
+    size = facts.get("artifact_size_bytes")
+    if isinstance(size, bool) or not isinstance(size, int) or size <= 0:
+        errors.append("ARTIFACT_SIZE_INVALID")
+    available = facts.get("available_capabilities")
+    if not isinstance(available, (set, frozenset, list, tuple)) or not all(isinstance(item, str) for item in available):
+        available = ()
+    for capability in _REQUIRED_PUBLICATION_CAPABILITIES:
+        if capability in required_capabilities and capability not in available:
+            errors.append(f"MISSING_CAPABILITY_{capability}")
+    return errors
+
+
+def materialize_verified_git_artifact(
+    root: Path,
+    revision: str,
+    relative_path: str,
+    expected_sha256: str,
+    expected_size_bytes: int,
+    destination_dir: Path,
+) -> Path:
+    if not _IMMUTABLE_SHA.fullmatch(revision) or not _valid_git_relative_path(relative_path):
+        raise ValueError("CANONICAL_ARTIFACT_REF_INVALID")
+    if not isinstance(expected_sha256, str) or not _SHA256.fullmatch(expected_sha256):
+        raise ValueError("ARTIFACT_SHA256_INVALID")
+    if isinstance(expected_size_bytes, bool) or not isinstance(expected_size_bytes, int) or expected_size_bytes <= 0:
+        raise ValueError("ARTIFACT_SIZE_INVALID")
+    proc = subprocess.run(
+        ["git", "show", f"{revision}:{relative_path}"], cwd=Path(root).resolve(),
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+    )
+    if proc.returncode != 0:
+        raise ValueError("CANONICAL_ARTIFACT_LOOKUP_FAILED")
+    data = proc.stdout
+    if hashlib.sha256(data).hexdigest().lower() != expected_sha256.lower():
+        raise ValueError("ARTIFACT_SHA256_MISMATCH")
+    if len(data) != expected_size_bytes:
+        raise ValueError("ARTIFACT_SIZE_MISMATCH")
+    destination = Path(destination_dir).resolve()
+    destination.mkdir(parents=True, exist_ok=True)
+    target = destination / PurePosixPath(relative_path).name
+    target.write_bytes(data)
+    return target
 
 
 def should_exclude(relative_path: Path) -> bool:
