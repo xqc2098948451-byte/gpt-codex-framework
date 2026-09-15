@@ -48,7 +48,9 @@ class VersionConsistencyTests(unittest.TestCase):
         self.assertEqual(record["kernel_version"], "2.0.0")
         self.assertEqual(record["schema_version"], 1)
         self.assertEqual(index["latest_recorded_version"], CURRENT_VERSION)
+        self.assertTrue((ROOT / "releases" / "records" / "v2.6.0.json").is_file())
         self.assertIn(CURRENT_VERSION, {entry["version"] for entry in index["releases"]})
+        self.assertIn("2.6.0", {entry["version"] for entry in index["releases"]})
         self.assertIn("2.2.0", {entry["version"] for entry in index["releases"]})
         self.assertIn("2.0.3", {entry["version"] for entry in index["releases"]})
 
