@@ -1,0 +1,56 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "v2.7.0-release-task-7-publication-attestation-015",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.7.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+  "remote_head_sha": "5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+  "verified_baseline_sha": "5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 8,
+  "execution": "CONFIRMED_PUBLICATION_W_ATTESTATION",
+  "publication_attestation": "P is management-only and does not self-reference P.",
+  "changed": [
+    "v2.7.0 Minimal Closed-Loop Harness source",
+    "v2.7.0 consumer-safe release metadata and artifact",
+    "management-only W/P publication attestation"
+  ],
+  "verify": [
+    "accepted implementation baseline: ea929e3b275ab7cffad8658b34c013aff823df4f",
+    "W normal push to release branch: SUCCEEDED",
+    "W normal fast-forward push to main: SUCCEEDED",
+    "remote main after W push: VERIFIED at 5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+    "v2.7.0 annotated tag target: VERIFIED at 3608cd4ae82f4b8f41b844f9df3b27eb50d2833d",
+    "GitHub release v2.7.0: PUBLISHED with one uploaded asset",
+    "remote canonical artifact SHA-256: 34cd03aa26f20cfeb83f4e338d31462adc173252aa86ff20073d42c1b8009446",
+    "remote canonical artifact size: 118946 bytes",
+    "P is management-only; this Result binds confirmed publication authority to verified W and does not self-reference P"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.7.0-RELEASE-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+    "implementation_sha": "5a0b931e1d9bc9d0a03baee545fce6a491ad3eab",
+    "work_commit_sha": "3608cd4ae82f4b8f41b844f9df3b27eb50d2833d"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "REVIEW_P_PR_AND_REQUEST_MERGE_AUTHORIZATION"
+}
