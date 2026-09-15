@@ -1,6 +1,7 @@
 import json
 import sys
 import unittest
+from copy import deepcopy
 from pathlib import Path
 
 
@@ -18,10 +19,21 @@ class HarnessReductionGateTests(unittest.TestCase):
             evaluate_structure_change(before, before, {"complexity_decreased": True}),
             "ALLOW",
         )
-        self.assertEqual(
-            evaluate_structure_change(before, {"build", "test"}, {"complexity_decreased": True}),
-            "CAPABILITY_REGRESSION",
-        )
+        for evidence in (
+            {"complexity_decreased": True},
+            {"responsibility_clearer": True},
+            {"deployment_maintenance_testing_improved": True},
+            {
+                "complexity_decreased": True,
+                "responsibility_clearer": True,
+                "deployment_maintenance_testing_improved": True,
+            },
+        ):
+            with self.subTest(evidence=evidence):
+                self.assertEqual(
+                    evaluate_structure_change(before, {"build", "test"}, evidence),
+                    "CAPABILITY_REGRESSION",
+                )
         self.assertEqual(
             evaluate_structure_change({"build", "test"}, {"build", "test"}, {}),
             "NO_BENEFIT",
@@ -47,6 +59,15 @@ class HarnessReductionGateTests(unittest.TestCase):
             "ALLOW",
         )
         self.assertEqual(evaluate_structure_change(before, after, {}), "NO_BENEFIT")
+        evidence = {"responsibility_clearer": True, "extra_observation": ["unchanged"]}
+        before_snapshot = set(before)
+        after_snapshot = set(after)
+        evidence_snapshot = deepcopy(evidence)
+
+        self.assertEqual(evaluate_structure_change(before, after, evidence), "ALLOW")
+        self.assertEqual(before, before_snapshot)
+        self.assertEqual(after, after_snapshot)
+        self.assertEqual(evidence, evidence_snapshot)
 
     def test_structure_and_closure_templates_are_bounded_and_complete(self):
         rules = (ROOT / ".gpt-codex/project-template/.harness/RULES.template.md").read_text(encoding="utf-8")
