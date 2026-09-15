@@ -45,6 +45,12 @@
     "evidence_refs": {
       "type": "array"
     },
+    "active_execution_slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExecutionSlot"
+      }
+    },
     "continuity": {
       "type": "object",
       "required": [
@@ -94,5 +100,147 @@
         }
       }
     }
-  ]
+  ],
+  "$defs": {
+    "ExecutionSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "role",
+        "status",
+        "work_unit_id",
+        "primary_module",
+        "project_context_id",
+        "branch",
+        "worktree",
+        "base_sha",
+        "current_head_sha",
+        "last_accepted_sha",
+        "state_revision",
+        "next_action",
+        "instruction_id",
+        "review_request_id",
+        "review_result_ref",
+        "finding_ref",
+        "remediation_authorization_ref",
+        "fix_instruction_id",
+        "reviewer_reassignment_ref",
+        "blocked_from_status",
+        "block_reason"
+      ],
+      "properties": {
+        "slot_id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "status": {
+          "enum": ["IDLE", "ACTIVE", "BLOCKED", "AWAITING_REVIEW", "REVIEWING", "COMPLETED"]
+        },
+        "work_unit_id": {"type": ["string", "null"]},
+        "primary_module": {"type": ["string", "null"]},
+        "project_context_id": {"type": "string", "minLength": 1},
+        "branch": {"type": ["string", "null"]},
+        "worktree": {"type": ["string", "null"]},
+        "base_sha": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$"},
+        "current_head_sha": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$"},
+        "last_accepted_sha": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{40}$"},
+        "state_revision": {"type": "integer", "minimum": 0},
+        "next_action": {"type": "string", "minLength": 1, "maxLength": 128},
+        "instruction_id": {"type": ["string", "null"]},
+        "review_request_id": {"type": ["string", "null"]},
+        "review_result_ref": {"type": ["string", "null"]},
+        "finding_ref": {"type": ["string", "null"]},
+        "remediation_authorization_ref": {"type": ["string", "null"]},
+        "fix_instruction_id": {"type": ["string", "null"]},
+        "reviewer_reassignment_ref": {"type": ["string", "null"]},
+        "blocked_from_status": {
+          "type": ["string", "null"],
+          "enum": [null, "IDLE", "ACTIVE", "BLOCKED", "AWAITING_REVIEW", "REVIEWING", "COMPLETED"]
+        },
+        "block_reason": {"type": ["string", "null"], "minLength": 1, "maxLength": 128}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "IDLE"}}},
+          "then": {
+            "properties": {
+              "work_unit_id": {"const": null},
+              "primary_module": {"const": null},
+              "branch": {"const": null},
+              "worktree": {"const": null},
+              "base_sha": {"const": null},
+              "current_head_sha": {"const": null},
+              "last_accepted_sha": {"const": null},
+              "next_action": {"const": "AWAIT_ASSIGNMENT"},
+              "instruction_id": {"const": null},
+              "review_request_id": {"const": null},
+              "review_result_ref": {"const": null},
+              "finding_ref": {"const": null},
+              "remediation_authorization_ref": {"const": null},
+              "fix_instruction_id": {"const": null},
+              "reviewer_reassignment_ref": {"const": null},
+              "blocked_from_status": {"const": null},
+              "block_reason": {"const": null}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "ACTIVE"}}},
+          "then": {"properties": {"instruction_id": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "AWAITING_REVIEW"}}},
+          "then": {"properties": {"review_request_id": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "REVIEWING"}}},
+          "then": {"properties": {"review_request_id": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "BLOCKED"}}},
+          "then": {
+            "properties": {
+              "blocked_from_status": {"type": "string", "minLength": 1},
+              "block_reason": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "BLOCKED"},
+              "block_reason": {"const": "AWAITING_REMEDIATION_AUTHORIZATION"}
+            }
+          },
+          "then": {
+            "properties": {
+              "review_request_id": {"type": "string", "minLength": 1},
+              "review_result_ref": {"type": "string", "minLength": 1},
+              "finding_ref": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"review_result_ref": {"type": "string"}}},
+          "then": {"properties": {"review_request_id": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"finding_ref": {"type": "string"}}},
+          "then": {
+            "properties": {
+              "review_request_id": {"type": "string", "minLength": 1},
+              "review_result_ref": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"remediation_authorization_ref": {"type": "string"}}},
+          "then": {"properties": {"finding_ref": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"fix_instruction_id": {"type": "string"}}},
+          "then": {"properties": {"remediation_authorization_ref": {"type": "string", "minLength": 1}}}
+        }
+      ]
+    }
+  }
 }

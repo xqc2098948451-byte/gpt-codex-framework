@@ -34,6 +34,31 @@ SECRET_PATTERNS = (
     re.compile(rb"-----BEGIN [A-Z ]*PRIVATE KEY-----"),
     re.compile(rb"AKIA[0-9A-Z]{16}"),
 )
+_MANAGEMENT_RECORD_CLASSIFICATIONS = frozenset({
+    "FRAMEWORK_MANAGEMENT", "SELF_MANAGED", "FRAMEWORK_MANAGEMENT_METADATA",
+    "DERIVED_OBSERVATION_ONLY",
+    "PROJECT_EVOLUTION_ENROLLMENT", "PROJECT_EVOLUTION_OBSERVATION",
+})
+
+
+def _contains_management_evolution_record(value: object) -> bool:
+    if isinstance(value, list):
+        return any(_contains_management_evolution_record(item) for item in value)
+    if not isinstance(value, Mapping):
+        return False
+    roots = value.get("roots")
+    if (
+        value.get("framework_management_only") is True
+        or value.get("governance_profile") == "FRAMEWORK_MANAGEMENT"
+        or value.get("framework_role") == "SELF_MANAGED"
+        or (isinstance(roots, Mapping) and roots.get("framework_role") == "SELF_MANAGED")
+        or value.get("classification") in _MANAGEMENT_RECORD_CLASSIFICATIONS
+        or value.get("explicit_enrollment") is True
+        or "enrollment_id" in value
+        or "enrollment_status" in value
+    ):
+        return True
+    return any(_contains_management_evolution_record(item) for item in value.values())
 
 
 class ProjectionValidationError(ValueError):
@@ -124,6 +149,8 @@ def stage_consumer_projection(
     root: Path,
     staging_root: Path,
     manifest: Mapping[str, object],
+    *,
+    production_excludes: tuple[str, ...] | list[str] = (),
 ) -> list[str]:
     root = Path(root).resolve()
     staging_root = Path(staging_root).resolve()
@@ -137,6 +164,12 @@ def stage_consumer_projection(
         raise ProjectionValidationError(f"staging root is not empty: {staging_root}")
     staging_root.mkdir(parents=True, exist_ok=True)
     inventory = build_consumer_inventory(root, manifest)
+    excluded_roots = tuple(production_excludes)
+    inventory = [
+        relative
+        for relative in inventory
+        if not any(relative == excluded or relative.startswith(excluded + "/") for excluded in excluded_roots)
+    ]
     for relative in inventory:
         source = root / Path(*PurePosixPath(relative).parts)
         target = staging_root / Path(*PurePosixPath(relative).parts)
@@ -171,6 +204,13 @@ def scan_consumer_boundary(
         data = path.read_bytes()
         if any(needle.encode("utf-8") in data for needle in forbidden_values):
             management_identity_hits.append(relative)
+        if path.suffix.lower() == ".json":
+            try:
+                record = json.loads(data.decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                record = None
+            if _contains_management_evolution_record(record):
+                management_identity_hits.append(relative)
         if any(pattern.search(data) for pattern in SECRET_PATTERNS):
             secret_hits.append(relative)
     return {

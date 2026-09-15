@@ -92,6 +92,31 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_harness_templates_are_consumer_required(self):
+        manifest = load_projection_manifest(ROOT)
+        expected = {
+            ".gpt-codex/project-template/.harness/RULES.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/STATE.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/REASONING.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/project-template/.harness/FEEDBACK.template.md": "CONSUMER_REQUIRED",
+            ".gpt-codex/tests/test_harness_project_layering.py": "MANAGEMENT_ONLY",
+        }
+        self.assertEqual(
+            {relative: manifest["paths"].get(relative) for relative in expected},
+            expected,
+        )
+
+    def test_execution_telemetry_is_management_only_and_stage_docs_are_history(self):
+        manifest = load_projection_manifest(ROOT)
+        paths = manifest["paths"]
+        self.assertEqual(paths.get(".gpt-codex/scripts/execution_telemetry.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get(".gpt-codex/tests/test_execution_telemetry.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get(".gpt-codex/scripts/framework_feedback.py"), "CONSUMER_REQUIRED")
+        self.assertEqual(paths.get(".gpt-codex/tests/test_framework_feedback.py"), "MANAGEMENT_ONLY")
+        self.assertEqual(paths.get("docs/superpowers/specs/2026-09-13-execution-telemetry-design.md"), "DEVELOPMENT_HISTORY")
+        self.assertEqual(paths.get("docs/superpowers/plans/2026-09-14-execution-telemetry.md"), "DEVELOPMENT_HISTORY")
+        self.assertEqual(audit_projection_paths(ROOT, manifest)["unknown_paths"], [])
+
     def test_manifest_classifies_framework_module_management_boundary(self):
         manifest = load_projection_manifest(ROOT)
         expected_management_paths = {

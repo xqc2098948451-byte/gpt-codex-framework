@@ -3,6 +3,8 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from typing import Any
 
+from role_communication import validate_evolution_metadata_authority
+
 
 _REQUIRED_SECTIONS = (
     "WORK_UNIT:",
@@ -15,6 +17,10 @@ _REQUIRED_SECTIONS = (
     "BLOCKERS:",
     "NEXT_GPT_ACTION:",
 )
+
+
+def validate_result_evolution_metadata(metadata: Mapping[str, Any] | None) -> list[str]:
+    return validate_evolution_metadata_authority(metadata)
 
 
 def required_return_sections() -> tuple[str, ...]:
@@ -50,6 +56,9 @@ def render_gpt_return(envelope: Mapping[str, Any]) -> str:
 
     if not envelope.get("return_to_gpt_required", False):
         return ""
+    metadata_errors = validate_result_evolution_metadata(envelope.get("evolution_metadata"))
+    if metadata_errors:
+        raise ValueError(", ".join(metadata_errors))
 
     git = envelope.get("git") or {}
     if not isinstance(git, Mapping):
@@ -99,3 +108,37 @@ def render_gpt_return(envelope: Mapping[str, Any]) -> str:
         f"NEXT_GPT_ACTION: {_text(envelope.get('next_gpt_action'))}",
     ]
     return "\n".join(lines)
+
+
+def render_compact_gpt_return(envelope: Mapping[str, Any]) -> str:
+    """Render the derived durable-reference-first GPT return view."""
+
+    if not envelope.get("return_to_gpt_required", False):
+        return ""
+    result_ref = envelope.get("result_id")
+    if not isinstance(result_ref, str) or not result_ref.strip():
+        raise ValueError("DURABLE_RESULT_REF_REQUIRED")
+
+    git = envelope.get("git")
+    if not isinstance(git, Mapping):
+        git = {}
+    blockers = envelope.get("blockers")
+    blocker_text = "NONE"
+    if (
+        isinstance(blockers, Sequence)
+        and not isinstance(blockers, (str, bytes, bytearray))
+        and blockers
+    ):
+        blocker_text = ", ".join(str(item) for item in blockers)
+
+    return "\n".join(
+        [
+            f"RESULT: {_text(envelope.get('status'))}",
+            f"WORK_UNIT: {_text(envelope.get('work_unit_id'))}",
+            f"HEAD_SHA: {_text(git.get('implementation_sha', envelope.get('implementation_sha')))}",
+            f"RESULT_REF: {result_ref}",
+            f"STATE_REVISION: {_text(envelope.get('state_revision'))}",
+            f"BLOCKERS: {blocker_text}",
+            f"NEXT_ACTION: {_text(envelope.get('next_gpt_action'))}",
+        ]
+    )

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, sys
+import argparse, json, subprocess, sys, uuid
 from collections.abc import Mapping
 from pathlib import Path
 import re
@@ -10,13 +10,20 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
+from framework_feedback import validate_execution_policy
 from context_binding import (
+    build_project_evolution_observation,
     evaluate_project_identity,
     evaluate_return,
     is_valid_project_context_id,
     required_guardrail_allows,
+    validate_project_evolution_enrollment,
 )
-from continuity_resume import load_resume_checkpoint
+from continuity_resume import (
+    load_resume_checkpoint,
+    validate_execution_slots,
+    validate_slot_transition,
+)
 from publication_contract import validate_result_authority, validate_state_authority
 from role_communication import (
     INSTRUCTION_TYPES,
@@ -58,6 +65,66 @@ def validate_project_identity_boundary(control: Mapping[str, Any], *, consumer: 
     return []
 
 
+def _is_safe_repository_relative_path(value: object) -> bool:
+    if (
+        not isinstance(value, str)
+        or not value
+        or "\\" in value
+        or value.startswith("/")
+        or re.match(r"^[A-Za-z]:", value)
+    ):
+        return False
+    return all(component not in {"", ".", ".."} for component in value.split("/"))
+
+
+def _paths_overlap(left: str, right: str) -> bool:
+    return left == right or left.startswith(right + "/") or right.startswith(left + "/")
+
+
+def _root_pairs(harness: str, products: list[str], deploy: list[str]) -> list[tuple[str, str]]:
+    roots = [harness, *products, *deploy]
+    return [
+        (roots[index], roots[other])
+        for index in range(len(roots))
+        for other in range(index + 1, len(roots))
+    ]
+
+
+def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
+    roots = control.get("roots")
+    if not isinstance(roots, Mapping):
+        return []
+    declared = (
+        "harness_root" in roots
+        or "product_roots" in roots
+        or "deploy_roots" in roots
+        or "production_excludes" in roots
+    )
+    if not declared:
+        return []
+    harness = roots.get("harness_root")
+    products = roots.get("product_roots")
+    deploy = roots.get("deploy_roots")
+    excludes = roots.get("production_excludes")
+    if (
+        not isinstance(harness, str) or not harness.strip()
+        or not isinstance(products, list) or not products
+        or not all(isinstance(item, str) and item.strip() for item in products)
+        or not isinstance(deploy, list)
+        or not all(isinstance(item, str) and item.strip() for item in deploy)
+        or not isinstance(excludes, list)
+        or not all(isinstance(item, str) and item.strip() for item in excludes)
+    ):
+        return ["HARNESS_ROOTS_INVALID"]
+    if not all(_is_safe_repository_relative_path(item) for item in [harness, *products, *deploy, *excludes]):
+        return ["HARNESS_ROOTS_INVALID"]
+    if any(_paths_overlap(left, right) for left, right in _root_pairs(harness, products, deploy)):
+        return ["HARNESS_PRODUCT_DEPLOY_ROOT_OVERLAP"]
+    if harness not in excludes:
+        return ["HARNESS_PRODUCTION_EXCLUSION_REQUIRED"]
+    return []
+
+
 def has_complete_declared_project_identity(control: Mapping[str, Any]) -> bool:
     return "project_context_id" in control and "github" in control
 
@@ -83,6 +150,13 @@ def validate_project_identity_and_derived(root: Path, gov: Path, control: Mappin
     )
 
 
+def validate_project_evolution_orchestration() -> list[str]:
+    """Confirm Task 5's local-only interfaces exist without evaluating or mutating a Project."""
+    return [] if callable(validate_project_evolution_enrollment) and callable(build_project_evolution_observation) else [
+        "PROJECT_AUTHORITY_BOUNDARY_VIOLATION"
+    ]
+
+
 def evaluate_framework_compatibility(
     project_control: Mapping[str, Any], framework_facts: Mapping[str, Any],
 ) -> dict[str, Any]:
@@ -101,9 +175,121 @@ def evaluate_framework_compatibility(
     return {"classification": classification, "reason": reason, "mutated": False, "adoption_authorized": False}
 
 
+_EXTERNAL_EVOLUTION_CLASSIFICATIONS = frozenset({
+    "READ_ONLY_EVOLUTION_SOURCE", "DERIVED_OBSERVATION_ONLY", "FRAMEWORK_MANAGEMENT_METADATA",
+})
+_EXTERNAL_AUTHORITY_FIELDS = frozenset({
+    "authorized_actions", "target_work_unit", "state_revision", "command", "retry", "queue",
+    "project_mutation", "role_authority", "schedule_execution", "force_adoption",
+})
+
+
+def _project_identity_decision(
+    project_control: Mapping[str, Any], instruction: Mapping[str, Any] | None = None,
+):
+    decision = evaluate_project_identity(project_control)
+    if decision.decision != "ALLOW" or instruction is None:
+        return decision
+    expected_context = instruction.get("target_project_context_id")
+    if expected_context is not None:
+        target_control = dict(project_control)
+        target_control["project_context_id"] = expected_context
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        decision = evaluate_project_identity(project_control, expected_project_context_id=expected_context)
+        if decision.decision != "ALLOW":
+            return decision
+    expected_repository_id = instruction.get("target_github_repository_id")
+    if expected_repository_id is not None:
+        target_control = dict(project_control)
+        target_github = dict(project_control.get("github") or {})
+        target_github["repository_id"] = expected_repository_id
+        target_control["github"] = target_github
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        decision = evaluate_project_identity(project_control, expected_repository_id=expected_repository_id)
+        if decision.decision != "ALLOW":
+            return decision
+    expected_repository_full_name = instruction.get("target_github_repository_full_name")
+    if expected_repository_full_name is not None:
+        target_control = dict(project_control)
+        target_github = dict(project_control.get("github") or {})
+        target_github["repository_full_name"] = expected_repository_full_name
+        target_control["github"] = target_github
+        target_identity = evaluate_project_identity(target_control)
+        if target_identity.decision != "ALLOW":
+            return target_identity
+        return evaluate_project_identity(
+            project_control,
+            expected_repository_full_name=expected_repository_full_name,
+        )
+    return decision
+
+
+def _external_evolution_metadata_attempts_authority(instruction: Mapping[str, Any]) -> bool:
+    metadata = instruction.get("evolution_metadata")
+    if not isinstance(metadata, Mapping) and instruction.get("classification") in _EXTERNAL_EVOLUTION_CLASSIFICATIONS:
+        metadata = instruction
+    return (
+        isinstance(metadata, Mapping)
+        and metadata.get("classification") in _EXTERNAL_EVOLUTION_CLASSIFICATIONS
+        and bool(_EXTERNAL_AUTHORITY_FIELDS.intersection(metadata))
+    )
+
+
+def _evaluation_result(
+    classification: str,
+    reason: str,
+    provenance: Mapping[str, Any] | None = None,
+    source_framework_version: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "classification": classification,
+        "reason": reason,
+        "mutated": False,
+        "adoption_authorized": False,
+        "source_provenance": dict(provenance) if provenance is not None else None,
+        "source_framework_version": source_framework_version,
+    }
+
+
+def evaluate_project_evolution(
+    project_control: Mapping[str, Any], source: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Classify a valid Framework source using local facts without adopting it."""
+    identity = _project_identity_decision(project_control)
+    if identity.decision != "ALLOW":
+        return _evaluation_result(identity.reason, identity.reason)
+    source_decision = validate_framework_evolution_source(source)
+    if source_decision.classification != "READ_ONLY_EVOLUTION_SOURCE":
+        return _evaluation_result("FRAMEWORK_SOURCE_INVALID", "FRAMEWORK_SOURCE_INVALID")
+    accepted_source = source_decision.source or {}
+    compatibility_facts = dict(accepted_source["compatibility_rules"])
+    compatibility_facts["evaluated_version"] = accepted_source["framework_version"]
+    compatibility = evaluate_framework_compatibility(project_control, compatibility_facts)
+    return _evaluation_result(
+        compatibility["classification"],
+        compatibility["reason"],
+        accepted_source["source_provenance"],
+        accepted_source["framework_version"],
+    )
+
+
 def validate_framework_adoption(
-    project_control: Mapping[str, Any], instruction: Mapping[str, Any], work_unit: Mapping[str, Any], *, current_state_revision: int,
+    project_control: Mapping[str, Any], instruction: Mapping[str, Any], work_unit: Mapping[str, Any], *,
+    current_state_revision: int, source: Mapping[str, Any] | None = None,
 ) -> list[str]:
+    identity = _project_identity_decision(project_control, instruction)
+    if identity.decision != "ALLOW":
+        return [identity.reason]
+    if source is not None:
+        source_decision = validate_framework_evolution_source(source)
+        if source_decision.classification != "READ_ONLY_EVOLUTION_SOURCE":
+            return ["FRAMEWORK_SOURCE_INVALID"]
+    if _external_evolution_metadata_attempts_authority(instruction):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
     if project_control.get("project_id") != work_unit.get("project_id"):
         return ["FRAMEWORK_ADOPTION_NOT_AUTHORIZED"]
     if instruction.get("target_work_unit") != work_unit.get("work_unit_id") or work_unit.get("state") != "AUTHORIZED":
@@ -406,8 +592,21 @@ def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
         errors.append(f'{path} must equal {schema["const"]!r}')
     if 'enum' in schema and value not in schema['enum']:
         errors.append(f'{path} must be one of {schema["enum"]!r}')
+    if isinstance(value, str) and 'pattern' in schema:
+        try:
+            if re.search(schema['pattern'], value) is None:
+                errors.append(f'{path} does not match required pattern')
+        except re.error:
+            errors.append(f'{path} has unsupported schema pattern')
+    if isinstance(value, str) and schema.get('format') == 'uuid':
+        try:
+            uuid.UUID(value)
+        except (ValueError, AttributeError, TypeError):
+            errors.append(f'{path} must be a UUID')
     if isinstance(value, str) and 'minLength' in schema and len(value) < schema['minLength']:
         errors.append(f'{path} must not be empty')
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and 'minimum' in schema and value < schema['minimum']:
+        errors.append(f'{path} must be at least {schema["minimum"]}')
     if isinstance(value, dict):
         properties = schema.get('properties') or {}
         for required in schema.get('required') or []:
@@ -423,6 +622,26 @@ def _schema_shape_errors(value, schema: dict, path: str = '$') -> list[str]:
     if isinstance(value, list) and schema.get('items'):
         for index, item in enumerate(value):
             errors += _schema_shape_errors(item, schema['items'], f'{path}[{index}]')
+    if isinstance(value, list) and 'maxItems' in schema and len(value) > schema['maxItems']:
+        errors.append(f'{path} has too many items')
+    if isinstance(value, list) and 'minItems' in schema and len(value) < schema['minItems']:
+        errors.append(f'{path} has too few items')
+    if isinstance(value, list) and schema.get('uniqueItems'):
+        serialized = [json.dumps(item, sort_keys=True, ensure_ascii=False) for item in value]
+        if len(serialized) != len(set(serialized)):
+            errors.append(f'{path} must contain unique items')
+    if 'not' in schema and not _schema_shape_errors(value, schema['not'], path):
+        errors.append(f'{path} matches a forbidden schema')
+    for branch in schema.get('allOf') or []:
+        if not isinstance(branch, dict):
+            continue
+        if 'if' in branch:
+            condition_matches = not _schema_shape_errors(value, branch['if'], path)
+            selected = branch.get('then') if condition_matches else branch.get('else')
+            if isinstance(selected, dict):
+                errors += _schema_shape_errors(value, selected, path)
+        else:
+            errors += _schema_shape_errors(value, branch, path)
     return errors
 
 
@@ -436,6 +655,20 @@ def _derived_schema_errors(payload: dict, schema_name: str) -> list[str]:
         f'{schema_name.upper().replace("-", "_")}_SCHEMA_INVALID:{error}'
         for error in _schema_shape_errors(payload, schema)
     ]
+
+
+def validate_instruction_envelope_contract(instruction: Mapping[str, Any]) -> list[str]:
+    """Validate an already-built Instruction Envelope against its authoritative schema."""
+    if not isinstance(instruction, Mapping):
+        return ['INSTRUCTION_ENVELOPE_SCHEMA_INVALID:$ must be object']
+    return _derived_schema_errors(dict(instruction), 'instruction-envelope')
+
+
+def validate_result_envelope_contract(result: Mapping[str, Any]) -> list[str]:
+    """Validate an already-built Result Envelope against its authoritative schema."""
+    if not isinstance(result, Mapping):
+        return ['RESULT_ENVELOPE_SCHEMA_INVALID:$ must be object']
+    return _derived_schema_errors(dict(result), 'result-envelope')
 
 
 def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict) -> list[str]:
@@ -497,6 +730,48 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
     return errors
 
 
+def _git_state_bytes(root: Path, revision: str) -> bytes | None:
+    result = subprocess.run(
+        ['git', '-C', str(root), 'show', f'{revision}:.gpt-codex/STATE.json'],
+        capture_output=True,
+    )
+    return result.stdout if result.returncode == 0 else None
+
+
+def _authoritative_previous_state(root: Path, state_path: Path, current_state: Mapping) -> Mapping:
+    current_bytes = state_path.read_bytes()
+    head_state_bytes = _git_state_bytes(root, 'HEAD')
+    if head_state_bytes is None:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    if head_state_bytes != current_bytes:
+        raise ValueError('AUTHORITATIVE_STATE_CURRENT_MISMATCH')
+    current_revision = current_state.get('revision')
+    if not isinstance(current_revision, int) or isinstance(current_revision, bool) or current_revision <= 0:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    history = subprocess.run(
+        ['git', '-C', str(root), 'rev-list', '--first-parent', 'HEAD^'],
+        capture_output=True,
+        text=True,
+    )
+    if history.returncode != 0:
+        raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+    for revision in history.stdout.splitlines():
+        state_bytes = _git_state_bytes(root, revision)
+        if state_bytes is None:
+            continue
+        try:
+            candidate = json.loads(state_bytes)
+        except json.JSONDecodeError:
+            continue
+        if (
+            isinstance(candidate, Mapping)
+            and candidate.get('project_id') == current_state.get('project_id')
+            and candidate.get('revision') == current_revision - 1
+        ):
+            return candidate
+    raise ValueError('AUTHORITATIVE_STATE_HISTORY_REQUIRED')
+
+
 def main():
     ap = argparse.ArgumentParser(description='Validate GPT-Codex v2 project governance mechanically.')
     ap.add_argument('project_root', type=Path)
@@ -506,6 +781,7 @@ def main():
     control_p = gov / 'CONTROL.json'
     state_p = gov / 'STATE.json'
     errors = []
+    errors += validate_project_evolution_orchestration()
     for p in (control_p, state_p):
         if not p.exists():
             errors.append(f'missing {p}')
@@ -523,11 +799,59 @@ def main():
         errors.append('invalid STATE.state')
     if not isinstance(state.get('revision'), int) or state.get('revision') < 0:
         errors.append('STATE.revision must be a non-negative integer')
+    errors += [f'STATE: {error}' for error in validate_execution_slots(state)]
+    execution_slots = state.get('active_execution_slots')
+    if isinstance(execution_slots, list) and execution_slots:
+        try:
+            previous_state = _authoritative_previous_state(root, state_p, state)
+        except OSError:
+            errors.extend(['STATE: AUTHORITATIVE_STATE_HISTORY_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
+        except ValueError as exc:
+            errors.extend([f'STATE: {exc}', 'STATE: RECONCILIATION_REQUIRED'])
+        else:
+            previous_state_errors = (
+                check_common_version(previous_state)
+                + validate_execution_slots(previous_state)
+            )
+            if previous_state_errors:
+                errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_STATE_INVALID', 'STATE: RECONCILIATION_REQUIRED'])
+            else:
+                previous_revision = previous_state.get('revision')
+                current_revision = state.get('revision')
+                if (
+                    previous_state.get('project_id') != state.get('project_id')
+                    or not isinstance(previous_revision, int)
+                    or isinstance(previous_revision, bool)
+                    or validate_slot_state_revision(current_revision, previous_revision + 1)
+                ):
+                    errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_STATE_MISMATCH', 'STATE: RECONCILIATION_REQUIRED'])
+                else:
+                    previous_slots = previous_state.get('active_execution_slots')
+                    previous_by_slot_id = {}
+                    if isinstance(previous_slots, list):
+                        previous_by_slot_id = {
+                            slot.get('slot_id'): slot
+                            for slot in previous_slots
+                            if isinstance(slot, Mapping) and isinstance(slot.get('slot_id'), str)
+                        }
+                    for slot in execution_slots:
+                        if not isinstance(slot, Mapping):
+                            continue
+                        previous_slot = previous_by_slot_id.get(slot.get('slot_id'))
+                        if previous_slot is None:
+                            errors.extend(['STATE: AUTHORITATIVE_PREVIOUS_SLOT_REQUIRED', 'STATE: RECONCILIATION_REQUIRED'])
+                            continue
+                        errors += [
+                            f'STATE: {error}'
+                            for error in validate_slot_transition(previous_slot, slot)
+                        ]
     fw = control.get('framework') or {}
     if fw.get('evaluation_result') not in COMPAT_RESULTS:
         errors.append('invalid framework evaluation_result')
     management_project = control.get('framework_management_only') is True
     errors += validate_project_identity_boundary(control, consumer=not management_project)
+    errors += validate_execution_policy(control.get("execution_policy"))
+    errors += validate_harness_root_separation(control)
     if control.get('governance_profile') not in GOVERNANCE_PROFILES and not (management_project and control.get('governance_profile') == 'FRAMEWORK_MANAGEMENT'):
         errors.append('invalid governance_profile')
     github = control.get('github')

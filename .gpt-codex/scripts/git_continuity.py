@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import re
-from typing import Any, Callable
+from typing import Any, Callable, Mapping
 
 
 _REVIEW_STAGES = frozenset({"DESIGN", "PLAN", "IMPLEMENTATION"})
@@ -48,6 +48,11 @@ class SyncDecision:
     reason: str
     mutation_allowed: bool
     publish_allowed: bool
+
+
+def is_verified_repository_continuity_evidence(evidence: Mapping[str, Any] | None) -> bool:
+    """Recognize supplied continuity evidence without reading a repository or remote."""
+    return isinstance(evidence, Mapping) and evidence.get("status") == "VERIFIED"
 
 
 def review_routing_for_stage(stage: str, remote_trigger: str | None = None) -> dict[str, str]:

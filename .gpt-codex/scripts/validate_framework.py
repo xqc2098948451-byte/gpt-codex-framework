@@ -8,7 +8,11 @@ ROOT = HERE.parent.parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
-from context_binding import is_valid_project_context_id, required_guardrail_allows
+from context_binding import (
+    classify_framework_evolution_index,
+    is_valid_project_context_id,
+    required_guardrail_allows,
+)
 
 SEMVER = re.compile(
     r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
@@ -57,8 +61,28 @@ def validate_module_registry(root: Path, *, full_validation: bool = True) -> lis
     return errors
 
 
+def validate_optional_framework_evolution_source(root: Path) -> list[str]:
+    """Read and report the optional Framework-owned source; never create or repair it."""
+    source_path = Path(root) / '.gpt-codex' / 'FRAMEWORK_EVOLUTION_SOURCE.json'
+    if not source_path.exists():
+        return []
+    try:
+        source = load(source_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        return ['FRAMEWORK_SOURCE_INVALID']
+    decision = validate_framework_evolution_source(source)
+    return [] if decision.classification == 'READ_ONLY_EVOLUTION_SOURCE' else ['FRAMEWORK_SOURCE_INVALID']
+
+
+def validate_evolution_management_orchestration() -> list[str]:
+    """Confirm the read-only P0-4 index surface exists without loading Project state."""
+    return [] if callable(classify_framework_evolution_index) else ['PROJECT_AUTHORITY_BOUNDARY_VIOLATION']
+
+
 def main():
     errors = []
+    errors.extend(validate_optional_framework_evolution_source(ROOT))
+    errors.extend(validate_evolution_management_orchestration())
     required_files = [
         ROOT/'AGENTS.md', ROOT/'.gpt-codex/KERNEL.md', ROOT/'.gpt-codex/README.md',
         ROOT/'.gpt-codex/builtins/INDEX.json', ROOT/'.gpt-codex/project-template/CONTROL.template.json',

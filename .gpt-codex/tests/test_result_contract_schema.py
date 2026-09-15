@@ -1,12 +1,56 @@
 import json
+import sys
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / "scripts"
 
 
 class ResultContractSchemaTests(unittest.TestCase):
+    def test_public_result_contract_rejects_synced_empty_evidence_refs(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from validate_project import validate_result_envelope_contract
+
+        result = {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "project_id": "PROJECT-ONE",
+            "work_unit_id": "WU-1",
+            "extension": {"kind": "SKILL", "id": "verification", "version": "1.0.0"},
+            "status": "LOCAL_COMPLETE",
+            "evidence_refs": [],
+            "completion_gate": "GPT_DECISION",
+            "sync_status": "SYNCED",
+            "remote_verification": "VERIFIED",
+            "publication_authority": "CONFIRMED_PUBLICATION",
+            "remote_head_sha": "a" * 40,
+        }
+
+        self.assertTrue(validate_result_envelope_contract(result))
+        result["evidence_refs"] = ["evidence-1"]
+        self.assertEqual(validate_result_envelope_contract(result), [])
+
+        too_many = dict(result, finding_ids=[f"finding-{index}" for index in range(51)])
+        self.assertTrue(validate_result_envelope_contract(too_many))
+        duplicate = dict(result, finding_ids=["finding-1", "finding-1"])
+        self.assertTrue(validate_result_envelope_contract(duplicate))
+        forbidden = dict(result, message_type="legacy")
+        self.assertTrue(validate_result_envelope_contract(forbidden))
+
+        from validate_project import validate_instruction_envelope_contract
+        instruction = {
+            "instruction_id": "44444444-4444-4444-8444-444444444444",
+            "instruction_type": "WORK_UNIT",
+            "target_project_context_id": "11111111-1111-4111-8111-111111111111",
+            "target_project_name": "Project One",
+            "expected_state_revision": 8,
+            "framework_version": "2.0.0",
+        }
+        self.assertEqual(validate_instruction_envelope_contract(instruction), [])
+
     def test_schema_preserves_kernel_and_schema_versions_and_declares_return_fields(self):
         schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))
 

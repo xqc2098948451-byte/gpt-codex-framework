@@ -5,6 +5,7 @@
   "revision": 0,
   "state": "PROPOSED",
   "active_work_unit": null,
+  "active_execution_slots": [],
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [],

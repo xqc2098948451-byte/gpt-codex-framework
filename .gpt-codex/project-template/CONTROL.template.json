@@ -15,12 +15,26 @@
     "last_evaluated_version": "2.2.2-local.1",
     "evaluation_result": "ADOPTED"
   },
+  "execution_policy": {
+    "strategy_profile_id": "PROJECT_PROFILE_001",
+    "gpt_orchestrator_strategy": "MINIMAL_CLOSED_LOOP",
+    "codex_implementer_strategy": "MINIMAL_DIFF_TDD",
+    "codex_reviewer_strategy": "CONTRACT_FIRST",
+    "task_splitting": "PROJECT_DETERMINED",
+    "review_policy": "RISK_OR_MILESTONE",
+    "instruction_policy": "REFERENCE_FIRST",
+    "result_return_policy": "DURABLE_REF_FIRST"
+  },
   "roots": {
     "project_role": "AUTHORITATIVE",
     "framework_role": "ADVISORY",
     "framework_kernel_access": "READ_ONLY",
     "framework_builtins_access": "READ_ONLY",
-    "harvest_namespace": "PRJ-EXAMPLE-001"
+    "harvest_namespace": "PRJ-EXAMPLE-001",
+    "harness_root": ".harness",
+    "product_roots": ["app"],
+    "deploy_roots": ["ops"],
+    "production_excludes": [".harness"]
   },
   "extensions": {
     "skills": [
