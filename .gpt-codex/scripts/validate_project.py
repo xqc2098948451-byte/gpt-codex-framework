@@ -601,14 +601,22 @@ def _validate_project_guardrails(project_control: Mapping[str, Any], *, prefix_c
     """Apply the existing version-aware project Guardrail decisions once."""
 
     errors: list[str] = []
-    extensions = project_control.get("extensions") or {}
-    if not isinstance(extensions, Mapping):
+    raw_extensions = project_control.get("extensions")
+    if raw_extensions is None:
+        extensions = {}
+    elif not isinstance(raw_extensions, Mapping):
         errors.append("RECONCILIATION_REQUIRED")
         extensions = {}
-    framework = project_control.get("framework") or {}
-    if not isinstance(framework, Mapping):
+    else:
+        extensions = raw_extensions
+    raw_framework = project_control.get("framework")
+    if raw_framework is None:
+        framework = {}
+    elif not isinstance(raw_framework, Mapping):
         errors.append("RECONCILIATION_REQUIRED")
         framework = {}
+    else:
+        framework = raw_framework
     github = project_control.get("github")
     if isinstance(github, Mapping):
         guardrails = extensions.get("guardrails", [])

@@ -95,14 +95,15 @@ class SelfHostingValidatorTests(unittest.TestCase):
         control = management_control()
         state, work_unit, mutation, request, result = governed_envelopes(control)
         for field in ("framework", "extensions"):
-            with self.subTest(field=field):
-                malformed = deepcopy(control)
-                malformed[field] = "malformed"
-                errors = validate_governed_mutation_entry(
-                    malformed, state, work_unit, mutation, request, result, current_state_revision=3,
-                )
-                self.assertTrue(errors)
-                self.assertIn("RECONCILIATION_REQUIRED", errors)
+            for malformed_value in ("malformed", [], ""):
+                with self.subTest(field=field, malformed_value=repr(malformed_value)):
+                    malformed = deepcopy(control)
+                    malformed[field] = malformed_value
+                    errors = validate_governed_mutation_entry(
+                        malformed, state, work_unit, mutation, request, result, current_state_revision=3,
+                    )
+                    self.assertTrue(errors)
+                    self.assertIn("RECONCILIATION_REQUIRED", errors)
 
     def test_governed_entry_binds_review_result_identity_to_control_and_mutation(self):
         from validate_project import validate_governed_mutation_entry
