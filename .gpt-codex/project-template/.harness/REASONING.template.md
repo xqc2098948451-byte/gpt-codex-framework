@@ -13,6 +13,19 @@ RESULT_RETURN_POLICY = DURABLE_REF_FIRST
 ## Decision Records
 No project decisions recorded yet.
 
+## Governed Change Decision Format
+Record observable decision facts only; do not record private reasoning.
+
+CURRENT_AUTHORITY:
+EXISTING_CAPABILITY:
+EXISTING_AUTHORITY_REFS:
+ROOT_CAUSE:
+REUSE_PATH:
+MINIMUM_DELTA:
+NEW_MECHANISM_REQUIRED:
+
+`EXISTING -> reuse`; `PARTIAL -> extend existing capability`; `MISSING -> test existing responsibility/module before adding mechanism`.
+
 ## Process Reviews
 Record only observable milestone facts: task, key decision, error category,
 retry/intervention/review/remediation/handoff counts, final result, durable

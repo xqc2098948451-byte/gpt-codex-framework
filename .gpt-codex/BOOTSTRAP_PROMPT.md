@@ -107,6 +107,8 @@ Do not run repository discovery when a valid resume checkpoint exists.
 
 Validate state revision before writing. If your expected revision is stale, do not overwrite; enter `RECONCILIATION_REQUIRED`.
 
+Before durable business mutation, bind project identity/context, validate CONTROL and current state, validate Work Unit/Instruction authority and applicable Guardrails, then require a passing PRE-EXECUTION review. Failure is `ANALYSIS_ONLY / DENY_MUTATION`; read-only analysis remains allowed where current authority permits it.
+
 ## Framework upgrade flow
 
 If `FRAMEWORK_ROOT` version is newer than `CONTROL.framework.last_evaluated_version`, run the `framework-compatibility` Built-in read-only.

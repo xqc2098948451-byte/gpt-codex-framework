@@ -5,8 +5,21 @@ SCRIPTS = Path(__file__).resolve().parents[1] / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 from kernel_rules import *
 
+ROOT = Path(__file__).resolve().parents[2]
+
 
 class KernelConformanceTests(unittest.TestCase):
+    def test_governed_change_policy_is_present_on_canonical_surfaces(self):
+        kernel = (ROOT / '.gpt-codex/KERNEL.md').read_text(encoding='utf-8')
+        bootstrap = (ROOT / '.gpt-codex/BOOTSTRAP_PROMPT.md').read_text(encoding='utf-8')
+        agents = (ROOT / 'AGENTS.md').read_text(encoding='utf-8')
+        rules = (ROOT / '.gpt-codex/project-template/.harness/RULES.template.md').read_text(encoding='utf-8')
+        for text, phrases in ((kernel, ('capability-before-Design', 'PRE-EXECUTION review', 'non-retroactive')),
+                              (bootstrap, ('ANALYSIS_ONLY / DENY_MUTATION', 'PRE-EXECUTION review')),
+                              (agents, ('PRE-EXECUTION review', 'current accepted Framework governs')),
+                              (rules, ('capability check precedes new/materially-expanded Design', 'failed entry denies mutation'))):
+            for phrase in phrases:
+                self.assertIn(phrase, text)
     def test_valid_lifecycle(self):
         self.assertTrue(can_transition('PROPOSED','AUTHORIZED'))
         self.assertTrue(can_transition('AUTHORIZED','ACTIVE'))

@@ -100,6 +100,10 @@ The finding lifecycle is `REVIEW_FINDING` evidence → GPT/User decision → new
 
 Legacy `[CODEX]` compatibility is bounded and fail-closed: only a deterministic implementation/work-unit or explicitly review-bound context maps to one Codex role; unknown or ambiguous legacy forms are rejected. Handoff is a derived view of Result Envelope evidence, not a source of authority.
 
+### Governed mutation entry
+
+For Framework-governed work, durable mutation requires the existing project identity/state, authorized Work Unit and Instruction, applicable Guardrails, and a passing PRE-EXECUTION review before Execution Window A. Failure is `ANALYSIS_ONLY / DENY_MUTATION`; `IMPLEMENTER_CONTEXT != REVIEWER_CONTEXT` remains required. The current accepted Framework governs its self-modification, while a proposed rule is non-retroactive until its governed acceptance, validation, and integration lifecycle. Ordinary projects may provide execution, review, and feedback evidence but cannot evolve global Framework policy. The existing POST-EXECUTION `REVIEW_FINDING -> GPT/User decision -> FIX_INSTRUCTION -> re-review` lifecycle remains authoritative.
+
 ## Kernel invariants
 
 - Project is authoritative; Framework is advisory.

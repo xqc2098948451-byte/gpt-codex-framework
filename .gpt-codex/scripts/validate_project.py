@@ -520,6 +520,133 @@ def validate_review_lifecycle(
     return list(dict.fromkeys(errors))
 
 
+def validate_pre_execution_review(
+    mutation_instruction: Mapping[str, Any],
+    review_request: Mapping[str, Any] | None,
+    review_result: Mapping[str, Any] | None,
+    *,
+    current_state_revision: int,
+    authoritative_review_context: Mapping[str, Any] | None = None,
+) -> list[str]:
+    """Compose existing authority checks before a durable mutation may execute."""
+
+    errors = validate_instruction_authority(mutation_instruction, current_state_revision)
+    if not isinstance(mutation_instruction, Mapping) or not _UUID_RE.fullmatch(str(mutation_instruction.get("instruction_id", ""))):
+        errors.append("INVALID_INSTRUCTION")
+    expected_base = mutation_instruction.get("expected_base_sha") if isinstance(mutation_instruction, Mapping) else None
+    if not _is_sha(expected_base):
+        errors.append("INVALID_INSTRUCTION")
+    if review_request is None or review_result is None:
+        errors.append("PRE_EXECUTION_REVIEW_REQUIRED")
+        return list(dict.fromkeys(errors))
+
+    errors.extend(validate_instruction_authority(review_request, current_state_revision))
+    if not isinstance(review_request, Mapping):
+        return list(dict.fromkeys(errors))
+    if (
+        review_request.get("instruction_type") != "REVIEW_REQUEST"
+        or review_request.get("issuer_role") != "GPT_ORCHESTRATOR"
+        or review_request.get("executor_role") != "CODEX_REVIEWER"
+        or review_request.get("return_role") != "GPT_ORCHESTRATOR"
+        or review_request.get("in_response_to_instruction_id") != mutation_instruction.get("instruction_id")
+    ):
+        errors.append("PRE_EXECUTION_REVIEW_REQUEST_CORRELATION_REQUIRED")
+    errors.extend(_validate_identity(
+        review_request, mutation_instruction,
+        {
+            "target_project_context_id": "target_project_context_id",
+            "target_github_repository_id": "target_github_repository_id",
+            "target_github_repository_full_name": "target_github_repository_full_name",
+            "target_work_unit": "target_work_unit",
+            "expected_remote_ref": "expected_remote_ref",
+        },
+    ))
+    if review_request.get("expected_state_revision") != mutation_instruction.get("expected_state_revision"):
+        errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+    if review_request.get("review_target_revision") != expected_base:
+        errors.append("PRE_EXECUTION_REVIEW_TARGET_MISMATCH")
+
+    errors.extend(validate_review_result(review_result))
+    if not isinstance(review_result, Mapping):
+        return list(dict.fromkeys(errors))
+    if (
+        review_result.get("result_message_type") != "REVIEW_RESULT"
+        or review_result.get("responder_role") != "CODEX_REVIEWER"
+        or review_result.get("status") != "PASS"
+    ):
+        errors.append("PRE_EXECUTION_REVIEW_NOT_APPROVED")
+    if review_result.get("response_to_instruction_id") != review_request.get("instruction_id"):
+        errors.append("PRE_EXECUTION_REVIEW_RESULT_CORRELATION_REQUIRED")
+    if review_result.get("review_target_revision") != expected_base:
+        errors.append("PRE_EXECUTION_REVIEW_TARGET_MISMATCH")
+    if authoritative_review_context is not None:
+        if not isinstance(authoritative_review_context, Mapping):
+            errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_INVALID"])
+        else:
+            if authoritative_review_context.get("reviewed_revision") != expected_base:
+                errors.extend(["RECONCILIATION_REQUIRED", "STALE_REVIEW_REVISION"])
+            errors.extend(_validate_identity(
+                review_result, authoritative_review_context,
+                {
+                    "project_context_id": "source_project_context_id",
+                    "repository_id": "source_github_repository_id",
+                    "repository_full_name": "source_github_repository_full_name",
+                    "remote_ref": "current_remote_ref",
+                },
+            ))
+    return list(dict.fromkeys(errors))
+
+
+def _validate_governed_guardrails(project_control: Mapping[str, Any]) -> list[str]:
+    decision = required_guardrail_allows(project_control, "project_validation")
+    errors = [] if decision.decision == "ALLOW" else [decision.reason]
+    github = project_control.get("github")
+    if isinstance(github, Mapping):
+        guardrails = (project_control.get("extensions") or {}).get("guardrails", [])
+        repository_guardrails = [
+            item for item in guardrails if isinstance(item, Mapping) and item.get("id") == REQUIRED_REPOSITORY_GUARDRAIL
+        ] if isinstance(guardrails, list) else []
+        if len(repository_guardrails) != 1 or repository_guardrails[0].get("enabled") is not True:
+            errors.append("GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled")
+    return errors
+
+
+def validate_governed_mutation_entry(
+    project_control: Mapping[str, Any],
+    state: Mapping[str, Any],
+    work_unit: Mapping[str, Any],
+    mutation_instruction: Mapping[str, Any],
+    review_request: Mapping[str, Any] | None,
+    review_result: Mapping[str, Any] | None,
+    *,
+    current_state_revision: int,
+    approved_scope: set[str] | None = None,
+) -> list[str]:
+    """One fail-closed entry that composes existing project mutation authorities."""
+
+    errors: list[str] = []
+    if not isinstance(project_control, Mapping) or not isinstance(state, Mapping) or not isinstance(work_unit, Mapping):
+        return ["RECONCILIATION_REQUIRED"]
+    management = project_control.get("framework_management_only") is True
+    errors.extend(validate_project_identity_boundary(project_control, consumer=not management))
+    identity = _project_identity_decision(project_control, mutation_instruction)
+    if identity.decision != "ALLOW":
+        errors.append(identity.reason)
+    if state.get("project_id") != project_control.get("project_id"):
+        errors.extend(["RECONCILIATION_REQUIRED", "PROJECT_IDENTITY_INVALID"])
+    if state.get("revision") != current_state_revision:
+        errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+    errors.extend(validate_framework_adoption(
+        project_control, mutation_instruction, work_unit, current_state_revision=current_state_revision,
+    ))
+    errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
+    errors.extend(_validate_governed_guardrails(project_control))
+    errors.extend(validate_pre_execution_review(
+        mutation_instruction, review_request, review_result, current_state_revision=current_state_revision,
+    ))
+    return list(dict.fromkeys(errors))
+
+
 def validate_result_protocol(result: Mapping[str, Any]) -> list[str]:
     """Apply protocol result checks only to envelopes opting into result classification."""
 

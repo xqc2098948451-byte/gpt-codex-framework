@@ -54,7 +54,105 @@ def fix_instruction():
     }
 
 
+def mutation_instruction():
+    instruction = fix_instruction()
+    instruction.update({
+        "instruction_id": "11111111-1111-4111-8111-111111111111",
+        "instruction_type": "EXECUTION_INSTRUCTION",
+        "target_work_unit": "WU-001",
+        "expected_state_revision": 8,
+    })
+    instruction.pop("in_response_to_result_id")
+    instruction.pop("finding_ids")
+    instruction.pop("remediation_decision_ref")
+    instruction.pop("fix_round")
+    return instruction
+
+
+def review_request():
+    return {
+        **mutation_instruction(),
+        "instruction_id": "44444444-4444-4444-8444-444444444444",
+        "instruction_type": "REVIEW_REQUEST",
+        "executor_role": "CODEX_REVIEWER",
+        "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT"],
+        "in_response_to_instruction_id": "11111111-1111-4111-8111-111111111111",
+        "review_target_revision": VALID_SHA,
+    }
+
+
+def review_result():
+    return {
+        "result_message_type": "REVIEW_RESULT",
+        "responder_role": "CODEX_REVIEWER",
+        "response_to_instruction_id": "44444444-4444-4444-8444-444444444444",
+        "review_target_revision": VALID_SHA,
+        "status": "PASS",
+    }
+
+
 class ReviewLifecycleTests(unittest.TestCase):
+    def test_pre_execution_review_requires_exact_authorization_and_correlation(self):
+        validator = load_validator()
+        mutation = mutation_instruction()
+        request = review_request()
+        result = review_result()
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_REQUIRED",
+            validator.validate_pre_execution_review(mutation, None, None, current_state_revision=8),
+        )
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_REQUEST_CORRELATION_REQUIRED",
+            validator.validate_pre_execution_review(
+                mutation, {**request, "in_response_to_instruction_id": fix_instruction()["instruction_id"]}, result,
+                current_state_revision=8,
+            ),
+        )
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_RESULT_CORRELATION_REQUIRED",
+            validator.validate_pre_execution_review(
+                mutation, request, {**result, "response_to_instruction_id": fix_instruction()["instruction_id"]},
+                current_state_revision=8,
+            ),
+        )
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_TARGET_MISMATCH",
+            validator.validate_pre_execution_review(
+                mutation, {**request, "review_target_revision": NEW_SHA}, result, current_state_revision=8,
+            ),
+        )
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_NOT_APPROVED",
+            validator.validate_pre_execution_review(
+                mutation, request, {**result, "status": "FAIL"}, current_state_revision=8,
+            ),
+        )
+        self.assertEqual(validator.validate_pre_execution_review(mutation, request, result, current_state_revision=8), [])
+
+    def test_pre_execution_review_preserves_reviewer_and_identity_failures(self):
+        validator = load_validator()
+        mutation = mutation_instruction()
+        request = review_request()
+        reviewer_mutation = {**request, "authorized_actions": ["MUTATE_APPROVED_SCOPE"]}
+        errors = validator.validate_pre_execution_review(mutation, reviewer_mutation, review_result(), current_state_revision=8)
+        self.assertIn("REVIEWER_MUTATION_DENIED", errors)
+        context = {
+            "reviewed_revision": VALID_SHA, "project_context_id": "FOREIGN", "repository_id": "repo-001",
+            "repository_full_name": "owner/project", "remote_ref": "refs/heads/feature",
+        }
+        errors = validator.validate_pre_execution_review(
+            mutation, request, {**review_result(), "source_project_context_id": "PROJECT-CONTEXT-001", "source_github_repository_id": "repo-001", "source_github_repository_full_name": "owner/project", "current_remote_ref": "refs/heads/feature"},
+            current_state_revision=8, authoritative_review_context=context,
+        )
+        self.assertIn("RECONCILIATION_REQUIRED", errors)
+
+    def test_legacy_instruction_cannot_bypass_pre_execution_review(self):
+        validator = load_validator()
+        legacy = {**mutation_instruction(), "instruction_type": "WORK_UNIT"}
+        self.assertIn(
+            "PRE_EXECUTION_REVIEW_REQUIRED",
+            validator.validate_pre_execution_review(legacy, None, None, current_state_revision=8),
+        )
     def test_finding_requires_evidence_and_does_not_authorize_a_fix(self):
         validator = load_validator()
         finding = finding_result()

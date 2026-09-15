@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 import zipfile
+from copy import deepcopy
 from pathlib import Path
 
 
@@ -59,7 +60,65 @@ def write_project(root: Path, control: dict) -> None:
     }), encoding="utf-8")
 
 
+def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
+    base_sha = "a" * 40
+    state = {"project_id": control["project_id"], "revision": 3}
+    work_unit = {"project_id": control["project_id"], "work_unit_id": "WU-GOVERNED", "state": "AUTHORIZED", "basis_state_revision": 3}
+    mutation = {
+        "instruction_id": "11111111-1111-4111-8111-111111111111", "instruction_type": "EXECUTION_INSTRUCTION",
+        "issuer_role": "GPT_ORCHESTRATOR", "executor_role": "CODEX_IMPLEMENTER", "return_role": "GPT_ORCHESTRATOR",
+        "target_project_context_id": control["project_context_id"], "target_github_repository_id": control["github"]["repository_id"],
+        "target_github_repository_full_name": control["github"]["repository_full_name"], "target_work_unit": "WU-GOVERNED",
+        "expected_state_revision": 3, "expected_base_sha": base_sha, "expected_remote_ref": "refs/heads/main",
+        "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"], "forbidden_actions": [],
+    }
+    request = {
+        **mutation, "instruction_id": "22222222-2222-4222-8222-222222222222", "instruction_type": "REVIEW_REQUEST",
+        "executor_role": "CODEX_REVIEWER", "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT"],
+        "in_response_to_instruction_id": mutation["instruction_id"], "review_target_revision": base_sha,
+    }
+    result = {
+        "result_message_type": "REVIEW_RESULT", "responder_role": "CODEX_REVIEWER", "status": "PASS",
+        "response_to_instruction_id": request["instruction_id"], "review_target_revision": base_sha,
+    }
+    return state, work_unit, mutation, request, result
+
+
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_governed_mutation_entry_applies_equally_to_consumer_and_self_hosting(self):
+        from validate_project import validate_governed_mutation_entry
+
+        management = management_control()
+        consumer = deepcopy(management)
+        consumer["framework_management_only"] = False
+        consumer["governance_profile"] = "STANDARD"
+        consumer["roots"]["framework_role"] = "ADVISORY"
+        for control in (consumer, management):
+            with self.subTest(profile=control["governance_profile"]):
+                state, work_unit, mutation, request, result = governed_envelopes(control)
+                self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3), [])
+                self.assertTrue(validate_governed_mutation_entry(control, state, {**work_unit, "state": "PROPOSED"}, mutation, request, result, current_state_revision=3))
+                self.assertTrue(validate_governed_mutation_entry(control, {**state, "revision": 2}, work_unit, mutation, request, result, current_state_revision=3))
+                self.assertIn("PRE_EXECUTION_REVIEW_REQUIRED", validate_governed_mutation_entry(control, state, work_unit, mutation, None, None, current_state_revision=3))
+                self.assertTrue(validate_governed_mutation_entry(control, state, work_unit, {**mutation, "target_work_unit": "WRONG"}, request, result, current_state_revision=3))
+                self.assertTrue(validate_governed_mutation_entry(
+                    control, state, work_unit, {**mutation, "target_github_repository_id": "foreign-repository"}, request, result,
+                    current_state_revision=3,
+                ))
+
+    def test_governed_mutation_entry_denies_disabled_guardrail_and_reviewer_mutation(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        disabled = deepcopy(control)
+        disabled["extensions"]["guardrails"][0]["enabled"] = False
+        self.assertTrue(validate_governed_mutation_entry(disabled, state, work_unit, mutation, request, result, current_state_revision=3))
+        errors = validate_governed_mutation_entry(
+            control, state, work_unit, mutation, {**request, "authorized_actions": ["MUTATE_APPROVED_SCOPE"]}, result,
+            current_state_revision=3,
+        )
+        self.assertIn("REVIEWER_MUTATION_DENIED", errors)
     @staticmethod
     def _valid_evolution_source() -> dict:
         return {

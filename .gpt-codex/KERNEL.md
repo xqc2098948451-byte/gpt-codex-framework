@@ -152,6 +152,24 @@ Acceptable reasons derive from:
 
 Every project-local extension needs provenance and a retirement condition. Governance itself is eligible for periodic cleanup.
 
+## Governed Change Entry
+
+`capability-before-Design` is mandatory for a new or materially expanded Design: `EXISTING -> reuse`, `PARTIAL -> extend existing capability`, and `MISSING -> test existing responsibility first`. Record only observable authority, capability, root-cause, reuse-path, and minimum-delta facts.
+
+Durable mutation follows one existing-authority path:
+
+```text
+CURRENT AUTHORITY / STATE
+-> EXISTING CAPABILITY CHECK
+-> minimum delta
+-> authorized mutation
+-> PRE-EXECUTION review
+-> execution
+-> POST-EXECUTION review
+```
+
+A failed entry is `ANALYSIS_ONLY / DENY_MUTATION`; read-only analysis remains governed by its current authority. The current accepted Framework governs Framework self-modification. A proposed rule is non-retroactive and becomes authority only after its governed acceptance, validation, and integration lifecycle. POST-EXECUTION `REVIEW_FINDING -> decision -> FIX_INSTRUCTION -> re-review` remains authoritative.
+
 ## 11. Kernel Versioning / Compatibility / Migration
 
 Machine governance records:

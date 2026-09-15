@@ -90,6 +90,11 @@ class HarnessReductionGateTests(unittest.TestCase):
             self.assertIn(section, reasoning)
         for label in ("MOMENT:", "CHANGE:", "RESPONSIBILITY_REASON:", "BEFORE_CAPABILITIES:", "AFTER_CAPABILITIES:", "MEASURABLE_BENEFIT:", "RESULT:"):
             self.assertIn(label, reasoning)
+        self.assertIn("## Governed Change Decision Format", reasoning)
+        for label in ("CURRENT_AUTHORITY:", "EXISTING_CAPABILITY:", "EXISTING_AUTHORITY_REFS:", "ROOT_CAUSE:", "REUSE_PATH:", "MINIMUM_DELTA:", "NEW_MECHANISM_REQUIRED:"):
+            self.assertIn(label, reasoning)
+        for rule in ("EXISTING -> reuse", "PARTIAL -> extend existing capability", "MISSING -> test existing responsibility/module before adding mechanism"):
+            self.assertIn(rule, reasoning)
         for forbidden in ("RAW_PROMPT", "PROMPT", "CHAIN_OF_THOUGHT", "PRIVATE_REASONING", "SCRATCHPAD", "REASONING_TRANSCRIPT", "TOKEN_TRACE"):
             self.assertNotIn(forbidden, reasoning)
         self.assertIn("## Closure Rule", state)

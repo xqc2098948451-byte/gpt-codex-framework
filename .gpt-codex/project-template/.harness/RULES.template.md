@@ -15,6 +15,8 @@ Harness content is development/governance-only and must not be required by produ
 - Project authority remains local to this repository.
 - Reference durable artifacts instead of copying them when possible.
 - Framework-wide changes are feedback only; global evolution occurs in gpt-codex-framework.
+- A capability check precedes new/materially-expanded Design; duplicate mechanisms are denied when the capability already exists.
+- Durable mutation requires governed entry plus PRE-EXECUTION review; failed entry denies mutation.
 ## Codex Task Protocol
 
 Default compact view uses GOAL / SCOPE / CONSTRAINTS / DONE plus durable references.
