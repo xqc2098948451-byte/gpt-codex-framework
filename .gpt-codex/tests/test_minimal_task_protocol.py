@@ -36,6 +36,7 @@ class MinimalTaskProtocolTests(unittest.TestCase):
  def test_complete_transfer_and_output_regression_lock(self):
   base={"instruction_id":"i","instruction_type":"t","target_work_unit":"w","expected_base_sha":"a"*40}
   text=render_minimal_codex_task(base,goal="g",scope=["a"],constraints=["b"],done=["c"],refs={"PLAN_REF":"p","STRATEGY_PROFILE":"s"},transfer={"upload_required":False,"source":"Git SHA:path"})
+  self.assertEqual(text.splitlines()[:3],["是否需要你上传内容：不需要","需要上传的内容：无","读取来源：Git SHA:path"])
   for left,right in zip(("是否需要你上传内容","需要上传的内容","读取来源","INSTRUCTION_ID","INSTRUCTION_TYPE","TARGET_WORK_UNIT","BASE_SHA","PLAN_REF","STRATEGY_PROFILE","GOAL","SCOPE","CONSTRAINTS"),("需要上传的内容","读取来源","INSTRUCTION_ID","INSTRUCTION_TYPE","TARGET_WORK_UNIT","BASE_SHA","PLAN_REF","STRATEGY_PROFILE","GOAL","SCOPE","CONSTRAINTS","DONE")):self.assertLess(text.index(left),text.index(right))
   bad_transfers=[{"upload_required":False},{"upload_required":False,"source":"Git SHA:path","items":[]},{"upload_required":False,"source":"Git SHA:path","extra":"x"},{"upload_required":True,"items":[""],"source":"x"},{"upload_required":True,"items":[" "],"source":"x"},{"upload_required":True,"items":[123],"source":"x"},{"upload_required":True,"items":["x"]*101,"source":"x"},{"upload_required":True,"items":["x"]},{"upload_required":True,"items":["x"],"source":" "},{"upload_required":True,"items":["x"],"source":"x","extra":"x"},"invalid",[],123,{"upload_required":"yes","source":"Git SHA:path"}]
   for transfer in bad_transfers:
