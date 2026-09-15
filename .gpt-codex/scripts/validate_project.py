@@ -601,15 +601,22 @@ def _validate_project_guardrails(project_control: Mapping[str, Any], *, prefix_c
     """Apply the existing version-aware project Guardrail decisions once."""
 
     errors: list[str] = []
+    extensions = project_control.get("extensions") or {}
+    if not isinstance(extensions, Mapping):
+        errors.append("RECONCILIATION_REQUIRED")
+        extensions = {}
+    framework = project_control.get("framework") or {}
+    if not isinstance(framework, Mapping):
+        errors.append("RECONCILIATION_REQUIRED")
+        framework = {}
     github = project_control.get("github")
     if isinstance(github, Mapping):
-        guardrails = (project_control.get("extensions") or {}).get("guardrails", [])
+        guardrails = extensions.get("guardrails", [])
         repository_guardrails = [
             item for item in guardrails if isinstance(item, Mapping) and item.get("id") == REQUIRED_REPOSITORY_GUARDRAIL
         ] if isinstance(guardrails, list) else []
         if len(repository_guardrails) != 1 or repository_guardrails[0].get("enabled") is not True:
             errors.append("GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled")
-    framework = project_control.get("framework") or {}
     if str(framework.get("adopted_version", "")).startswith("2.1."):
         if not is_valid_project_context_id(project_control.get("project_context_id")):
             reason = "MIGRATION_REQUIRED (PROJECT_CONTEXT_ID_MISSING)"

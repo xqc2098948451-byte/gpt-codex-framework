@@ -89,6 +89,21 @@ def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_governed_entry_fails_closed_for_malformed_guardrail_control_mappings(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        for field in ("framework", "extensions"):
+            with self.subTest(field=field):
+                malformed = deepcopy(control)
+                malformed[field] = "malformed"
+                errors = validate_governed_mutation_entry(
+                    malformed, state, work_unit, mutation, request, result, current_state_revision=3,
+                )
+                self.assertTrue(errors)
+                self.assertIn("RECONCILIATION_REQUIRED", errors)
+
     def test_governed_entry_binds_review_result_identity_to_control_and_mutation(self):
         from validate_project import validate_governed_mutation_entry
 
