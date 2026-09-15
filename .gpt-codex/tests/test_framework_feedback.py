@@ -1,4 +1,7 @@
+import json
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -75,6 +78,36 @@ class FrameworkFeedbackTests(unittest.TestCase):
             with self.subTest(record=record):
                 with self.assertRaisesRegex(ValueError, "PROCESS_REVIEW_INVALID"):
                     build_process_review([record], "PROJECT_PROFILE_001")
+
+    def test_policy_key_and_length_boundaries(self):
+        for key in ("strategy_profile_id", "review_policy"):
+            policy = dict(POLICY); del policy[key]
+            self.assertEqual(validate_execution_policy(policy), ["EXECUTION_POLICY_INVALID"])
+        policy = dict(POLICY); policy["unexpected_policy_field"] = "x"
+        self.assertEqual(validate_execution_policy(policy), ["EXECUTION_POLICY_INVALID"])
+        policy = dict(POLICY); policy["strategy_profile_id"] = "x" * 128
+        self.assertEqual(validate_execution_policy(policy), [])
+        for key in ("strategy_profile_id", "gpt_orchestrator_strategy"):
+            policy = dict(POLICY); policy[key] = "x" * 129
+            self.assertEqual(validate_execution_policy(policy), ["EXECUTION_POLICY_INVALID"])
+
+    def test_validate_project_cli_reports_malformed_policy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            gov = root / ".gpt-codex"; gov.mkdir()
+            policy = dict(POLICY); del policy["strategy_profile_id"]
+            (gov / "CONTROL.json").write_text(json.dumps({
+                "kernel_version": "2.0.0", "schema_version": 1, "project_id": "PROJECT-ONE",
+                "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "framework_management_only": True, "governance_profile": "FRAMEWORK_MANAGEMENT",
+                "framework": {"adopted_version": "2.0.0", "last_evaluated_version": "2.0.0", "evaluation_result": "ADOPTED"},
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "SELF_MANAGED", "framework_kernel_access": "READ_ONLY", "framework_builtins_access": "READ_ONLY"},
+                "extensions": {"skills": [], "guardrails": [], "fitness": []}, "permissions": {}, "complexity": {}, "execution_policy": policy,
+            }), encoding="utf-8")
+            (gov / "STATE.json").write_text(json.dumps({"kernel_version": "2.0.0", "schema_version": 1, "project_id": "PROJECT-ONE", "revision": 1, "state": "ACTIVE"}), encoding="utf-8")
+            result = subprocess.run([sys.executable, str(ROOT / ".gpt-codex/scripts/validate_project.py"), str(root)], capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("EXECUTION_POLICY_INVALID", result.stdout + result.stderr)
 
 if __name__ == "__main__":
     unittest.main()
