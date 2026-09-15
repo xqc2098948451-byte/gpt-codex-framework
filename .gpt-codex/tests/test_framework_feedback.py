@@ -42,6 +42,53 @@ class FrameworkFeedbackTests(unittest.TestCase):
         self.assertEqual(review.project_result, "PASS")
         self.assertEqual(review.usage, "UNKNOWN")
 
+    def test_process_review_retains_all_observable_counters(self):
+        review = build_process_review(
+            [{
+                "codex_tasks": 1,
+                "codex_retries": 2,
+                "gpt_interventions": 1,
+                "review_rounds": 2,
+                "remediation_rounds": 1,
+                "handoffs": 1,
+                "handoff_failures": 0,
+                "project_result": "PASS",
+            }],
+            "PROJECT_PROFILE_001",
+            usage=None,
+        )
+
+        self.assertEqual(
+            (
+                review.codex_tasks,
+                review.codex_retries,
+                review.gpt_interventions,
+                review.review_rounds,
+                review.remediation_rounds,
+                review.handoffs,
+                review.handoff_failures,
+                review.project_result,
+                review.usage,
+            ),
+            (1, 2, 1, 2, 1, 1, 0, "PASS", "UNKNOWN"),
+        )
+
+    def test_reasoning_template_has_only_bounded_execution_record_fields(self):
+        content = (ROOT / ".gpt-codex/project-template/.harness/REASONING.template.md").read_text(encoding="utf-8")
+
+        self.assertIn("## Execution Record Format", content)
+        for label in (
+            "TASK:", "METHOD:", "KEY_DECISION:", "ERROR_CATEGORY:",
+            "CODEX_RETRIES:", "GPT_INTERVENTIONS:", "REVIEW_ROUNDS:",
+            "REMEDIATION_ROUNDS:", "HANDOFF_RESULT:", "FINAL_RESULT:", "GIT_SHA:",
+        ):
+            self.assertIn(label, content)
+        for forbidden in (
+            "RAW_PROMPT", "PROMPT", "CHAIN_OF_THOUGHT", "PRIVATE_REASONING",
+            "SCRATCHPAD", "REASONING_TRANSCRIPT", "TOKEN_TRACE",
+        ):
+            self.assertNotIn(forbidden, content)
+
     def test_feedback_is_evidence_only_and_rejects_authority(self):
         record = {"problem": "review overhead", "reason": "broad scope", "local_solution": "smaller tasks",
                   "result": "PASS", "framework_change_recommended": True, "evidence_refs": ["result:1"]}

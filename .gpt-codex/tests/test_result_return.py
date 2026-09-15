@@ -5,7 +5,7 @@ from pathlib import Path
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from result_return import render_gpt_return, required_return_sections
+from result_return import render_compact_gpt_return, render_gpt_return, required_return_sections
 
 
 def envelope(status="PASS"):
@@ -63,6 +63,69 @@ def envelope(status="PASS"):
 
 
 class ResultReturnTests(unittest.TestCase):
+    def test_compact_return_is_durable_ref_first(self):
+        value = envelope("PASS")
+        value.update(
+            {
+                "result_id": "result-1",
+                "state_revision": 7,
+                "work_unit_id": "WU-1",
+                "next_gpt_action": "REVIEW",
+                "blockers": [],
+                "git": {"implementation_sha": "b" * 40},
+                "return_to_gpt_required": True,
+            }
+        )
+
+        self.assertEqual(
+            render_compact_gpt_return(value).splitlines(),
+            [
+                "RESULT: PASS",
+                "WORK_UNIT: WU-1",
+                "HEAD_SHA: " + "b" * 40,
+                "RESULT_REF: result-1",
+                "STATE_REVISION: 7",
+                "BLOCKERS: NONE",
+                "NEXT_ACTION: REVIEW",
+            ],
+        )
+
+    def test_compact_return_requires_nonempty_durable_result_ref(self):
+        for result_id in (None, "", "   ", 7):
+            with self.subTest(result_id=result_id):
+                value = envelope("PASS")
+                value["return_to_gpt_required"] = True
+                if result_id is None:
+                    value.pop("result_id", None)
+                else:
+                    value["result_id"] = result_id
+                with self.assertRaisesRegex(ValueError, "DURABLE_RESULT_REF_REQUIRED"):
+                    render_compact_gpt_return(value)
+
+    def test_compact_return_uses_top_level_sha_fallback_and_renders_blockers(self):
+        value = envelope("PASS")
+        value.update(
+            {
+                "result_id": "result-2",
+                "implementation_sha": "c" * 40,
+                "git": {},
+                "blockers": ["A", "B"],
+            }
+        )
+
+        rendered = render_compact_gpt_return(value)
+
+        self.assertIn("HEAD_SHA: " + "c" * 40, rendered)
+        self.assertIn("BLOCKERS: A, B", rendered)
+        value["blockers"] = "not-a-list"
+        self.assertIn("BLOCKERS: NONE", render_compact_gpt_return(value))
+
+    def test_compact_return_is_empty_when_return_not_required(self):
+        value = envelope("PASS")
+        value["return_to_gpt_required"] = False
+
+        self.assertEqual(render_compact_gpt_return(value), "")
+
     def test_pass_produces_complete_paste_ready_return(self):
         rendered = render_gpt_return(envelope("PASS"))
 

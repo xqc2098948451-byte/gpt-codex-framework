@@ -17,3 +17,16 @@ No project decisions recorded yet.
 Record only observable milestone facts: task, key decision, error category,
 retry/intervention/review/remediation/handoff counts, final result, durable
 Git/evidence refs, and reliable usage (otherwise UNKNOWN).
+
+## Execution Record Format
+TASK:
+METHOD:
+KEY_DECISION:
+ERROR_CATEGORY:
+CODEX_RETRIES:
+GPT_INTERVENTIONS:
+REVIEW_ROUNDS:
+REMEDIATION_ROUNDS:
+HANDOFF_RESULT:
+FINAL_RESULT:
+GIT_SHA:
