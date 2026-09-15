@@ -78,7 +78,7 @@ def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
 class ReleasePackagingTests(unittest.TestCase):
     def test_publication_preflight_returns_ordered_blockers_for_invalid_facts(self):
         facts = {
-            "source_version_closed": True,
+            "source_version": "2.7.0", "source_version_closed": True,
             "projection_closed": True,
             "release_record_ready": True,
             "canonical_lf_verified": True,
@@ -113,7 +113,7 @@ class ReleasePackagingTests(unittest.TestCase):
 
     def test_publication_preflight_validates_each_fact_boundary(self):
         facts = {
-            "source_version_closed": True, "projection_closed": True, "release_record_ready": True,
+            "source_version": "2.7.0", "source_version_closed": True, "projection_closed": True, "release_record_ready": True,
             "canonical_lf_verified": True, "repository_identity_verified": True,
             "work_main_ancestry_verified": True, "tag_conflict": False, "release_conflict": False,
             "publication_mechanism_available": True,
@@ -136,6 +136,36 @@ class ReleasePackagingTests(unittest.TestCase):
         ):
             with self.subTest(key=key):
                 self.assertIn(code, evaluate_publication_preflight({**facts, key: value}))
+
+    def test_publication_preflight_binds_closed_source_version_to_canonical_artifact(self):
+        facts = {
+            "source_version": "2.7.0", "source_version_closed": True,
+            "projection_closed": True, "release_record_ready": True,
+            "canonical_lf_verified": True, "repository_identity_verified": True,
+            "work_main_ancestry_verified": True, "tag_conflict": False, "release_conflict": False,
+            "publication_mechanism_available": True,
+            "canonical_artifact_ref": "a" * 40 + ":dist/gpt-codex-framework-v2.7.0-bootstrap.zip",
+            "artifact_sha256": "b" * 64, "artifact_size_bytes": 1,
+            "available_capabilities": {"TAG_WRITE", "RELEASE_WRITE", "ASSET_UPLOAD"},
+        }
+        self.assertEqual(evaluate_publication_preflight(facts), [])
+        for source_version in (None, "not-semver"):
+            with self.subTest(source_version=source_version):
+                self.assertIn(
+                    "SOURCE_VERSION_NOT_CLOSED",
+                    evaluate_publication_preflight({**facts, "source_version": source_version}),
+                )
+        self.assertIn(
+            "SOURCE_VERSION_NOT_CLOSED",
+            evaluate_publication_preflight({**facts, "source_version_closed": False}),
+        )
+        self.assertIn(
+            "CANONICAL_ARTIFACT_REF_INVALID",
+            evaluate_publication_preflight({
+                **facts,
+                "canonical_artifact_ref": "a" * 40 + ":dist/gpt-codex-framework-v2.7.1-bootstrap.zip",
+            }),
+        )
 
     def test_materializer_reads_verified_binary_bytes_from_immutable_git_object(self):
         payload = b"\x00zip-like\xffbytes\n"
@@ -164,6 +194,47 @@ class ReleasePackagingTests(unittest.TestCase):
                 materialize_verified_git_artifact(root, "b" * 40, artifact.relative_to(root).as_posix(), digest, len(payload), target)
             with self.assertRaises(ValueError):
                 materialize_verified_git_artifact(root, revision, "../artifact.zip", digest, len(payload), target)
+
+    def test_materializer_never_overwrites_or_follows_existing_final_target(self):
+        payload = b"\x00immutable\xffartifact\n"
+        digest = hashlib.sha256(payload).hexdigest()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "repo"
+            root.mkdir()
+            subprocess.run(["git", "init"], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+            relative_path = "dist/gpt-codex-framework-v2.7.0-bootstrap.zip"
+            artifact = root / relative_path
+            artifact.parent.mkdir()
+            artifact.write_bytes(payload)
+            subprocess.run(["git", "add", "dist"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-m", "fixture"], cwd=root, check=True, capture_output=True)
+            revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+
+            destination = Path(td) / "materialized"
+            destination.mkdir()
+            target = destination / artifact.name
+            target.write_bytes(b"existing regular target")
+            with self.assertRaises(FileExistsError):
+                materialize_verified_git_artifact(root, revision, relative_path, digest, len(payload), destination)
+            self.assertEqual(target.read_bytes(), b"existing regular target")
+
+            target.unlink()
+            outside = Path(td) / "outside-target.zip"
+            outside.write_bytes(b"outside bytes must not change")
+            try:
+                target.symlink_to(outside)
+            except OSError as exc:
+                self.skipTest(f"symbolic links unavailable in this environment: {exc}")
+            with self.assertRaises(FileExistsError):
+                materialize_verified_git_artifact(root, revision, relative_path, digest, len(payload), destination)
+            self.assertEqual(outside.read_bytes(), b"outside bytes must not change")
+
+            target.unlink()
+            result = materialize_verified_git_artifact(root, revision, relative_path, digest, len(payload), destination)
+            self.assertEqual(result.parent, destination.resolve())
+            self.assertEqual(result.read_bytes(), payload)
     def test_harness_material_is_not_staged_as_product_runtime_input(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td) / "consumer"

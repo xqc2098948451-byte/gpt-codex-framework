@@ -57,14 +57,14 @@ def artifact_basename(version: str) -> str:
     return f"gpt-codex-framework-v{version}-bootstrap"
 
 
-def _valid_canonical_artifact_ref(value: object) -> bool:
+def _valid_canonical_artifact_ref(value: object, source_version: str | None = None) -> bool:
     if not isinstance(value, str) or value.count(":") != 1:
         return False
     revision, relative = value.split(":")
     if not _IMMUTABLE_SHA.fullmatch(revision) or not _valid_git_relative_path(relative):
         return False
     match = re.fullmatch(r"dist/gpt-codex-framework-v(.+)-bootstrap\.zip", relative)
-    return bool(match and SEMVER.fullmatch(match.group(1)))
+    return bool(match and SEMVER.fullmatch(match.group(1)) and (source_version is None or match.group(1) == source_version))
 
 
 def _valid_git_relative_path(value: object) -> bool:
@@ -80,8 +80,10 @@ def evaluate_publication_preflight(
 ) -> list[str]:
     facts = facts if isinstance(facts, Mapping) else {}
     errors: list[str] = []
+    source_version = facts.get("source_version")
+    if not isinstance(source_version, str) or not SEMVER.fullmatch(source_version) or facts.get("source_version_closed") is not True:
+        errors.append("SOURCE_VERSION_NOT_CLOSED")
     for key, code in (
-        ("source_version_closed", "SOURCE_VERSION_NOT_CLOSED"),
         ("projection_closed", "PROJECTION_NOT_CLOSED"),
         ("release_record_ready", "RELEASE_RECORD_NOT_READY"),
         ("canonical_lf_verified", "CANONICAL_LF_NOT_VERIFIED"),
@@ -96,7 +98,7 @@ def evaluate_publication_preflight(
         errors.append("RELEASE_CONFLICT")
     if facts.get("publication_mechanism_available") is not True:
         errors.append("PUBLICATION_MECHANISM_UNAVAILABLE")
-    if not _valid_canonical_artifact_ref(facts.get("canonical_artifact_ref")):
+    if not _valid_canonical_artifact_ref(facts.get("canonical_artifact_ref"), source_version if isinstance(source_version, str) and SEMVER.fullmatch(source_version) else None):
         errors.append("CANONICAL_ARTIFACT_REF_INVALID")
     if not isinstance(facts.get("artifact_sha256"), str) or not _SHA256.fullmatch(facts["artifact_sha256"]):
         errors.append("ARTIFACT_SHA256_INVALID")
@@ -140,7 +142,10 @@ def materialize_verified_git_artifact(
     destination = Path(destination_dir).resolve()
     destination.mkdir(parents=True, exist_ok=True)
     target = destination / PurePosixPath(relative_path).name
-    target.write_bytes(data)
+    if target.parent != destination:
+        raise ValueError("CANONICAL_ARTIFACT_REF_INVALID")
+    with target.open("xb") as artifact:
+        artifact.write(data)
     return target
 
 

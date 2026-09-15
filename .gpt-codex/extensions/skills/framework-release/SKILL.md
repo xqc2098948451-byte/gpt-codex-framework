@@ -50,9 +50,9 @@ A validation failure blocks publication. The script must not report a successful
 
 ## Publication preflight and immutable artifact handoff
 
-Before every publication write, evaluate observed preflight facts and prove all three capabilities: `TAG_WRITE`, `RELEASE_WRITE`, and `ASSET_UPLOAD`. The preflight is a blocker check; it does not create a tag, Release, or upload.
+Before every publication write, evaluate observed preflight facts and prove all three capabilities: `TAG_WRITE`, `RELEASE_WRITE`, and `ASSET_UPLOAD`. The preflight is a blocker check; it does not create a tag, Release, or upload. Bind the valid closed source `VERSION` to the version in the canonical artifact path before any publication write.
 
-The accepted canonical asset is immutable `<W_SHA>:dist/gpt-codex-framework-vX.Y.Z-bootstrap.zip`. If it is absent locally, materialize that exact Git object, verify its SHA-256 and byte size, then use the verified temporary copy. Never regenerate an accepted artifact for publication, and never treat a same-named local ZIP as authority unless its hash and size match the canonical W authority.
+The accepted canonical asset is immutable `<W_SHA>:dist/gpt-codex-framework-vX.Y.Z-bootstrap.zip`. If it is absent locally, materialize that exact Git object, verify its SHA-256 and byte size, then use the verified temporary copy. Final materialization is no-overwrite: an existing final target of any type, including a symlink, blocks materialization and is never followed or replaced. Never regenerate an accepted artifact for publication, and never treat a same-named local ZIP as authority unless its hash and size match the canonical W authority.
 
 Derive release-specific facts from current Git and remote observations. Existing Result/structure may be reused, but prior release-specific factual values must not be copied forward. Temporary materialization is disposable and does not create a second release system.
 
