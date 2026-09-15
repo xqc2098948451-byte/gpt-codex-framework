@@ -28,3 +28,21 @@ def build_process_review(records: Sequence[Mapping[str, Any]], strategy_profile:
 def validate_framework_feedback(record: Mapping[str, Any]) -> list[str]:
     if not isinstance(record,Mapping) or set(record)!=_FEEDBACK_FIELDS or _AUTHORITY_FIELDS & set(record) or any(not isinstance(record.get(k),str) or not record[k].strip() for k in ("problem","reason","local_solution","result")) or not isinstance(record.get("framework_change_recommended"),bool) or not isinstance(record.get("evidence_refs"),list) or not record["evidence_refs"] or not all(isinstance(ref,str) and ref.strip() for ref in record["evidence_refs"]):return ["FRAMEWORK_FEEDBACK_INVALID"]
     return []
+
+def validate_framework_evolution_boundary(project_control: Mapping[str, Any], feedback: Mapping[str, Any]) -> list[str]:
+    errors = validate_framework_feedback(feedback)
+    if errors:
+        return errors
+    if not isinstance(project_control, Mapping):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
+    if project_control.get("framework_management_only") is True:
+        return []
+    roots = project_control.get("roots")
+    if not isinstance(roots, Mapping):
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
+    if roots.get("project_role") != "AUTHORITATIVE" or roots.get("framework_role") != "ADVISORY":
+        return ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"]
+    return []
+
+def framework_feedback_authorizes_mutation(project_control: Mapping[str, Any], feedback: Mapping[str, Any]) -> bool:
+    return False

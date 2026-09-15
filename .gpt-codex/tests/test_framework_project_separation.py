@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 
 
@@ -19,6 +20,10 @@ from validate_project import (
     evaluate_framework_compatibility,
     validate_evidence_project_binding,
     validate_framework_adoption,
+)
+from framework_feedback import (  # noqa: E402
+    framework_feedback_authorizes_mutation,
+    validate_framework_evolution_boundary,
 )
 
 
@@ -109,6 +114,32 @@ def complete_result(source_context_id: str, *, repository_id: str = "123", repos
 
 
 class AuthorityAndCompatibilityTests(unittest.TestCase):
+    def test_feedback_boundary_preserves_project_authority_and_inputs(self):
+        control = valid_control()
+        feedback = {"problem": "review overhead", "reason": "broad scope", "local_solution": "smaller tasks",
+                    "result": "PASS", "framework_change_recommended": True, "evidence_refs": ["result:1"]}
+        original_control = deepcopy(control)
+        original_feedback = deepcopy(feedback)
+
+        self.assertEqual(validate_framework_evolution_boundary(control, feedback), [])
+        self.assertFalse(framework_feedback_authorizes_mutation(control, feedback))
+        self.assertEqual(control, original_control)
+        self.assertEqual(feedback, original_feedback)
+        self.assertEqual(control["framework"]["adopted_version"], "2.5.0")
+        self.assertEqual(control["governance_profile"], "STANDARD")
+
+    def test_feedback_boundary_rejects_invalid_project_authority_and_allows_management_import(self):
+        feedback = {"problem": "review overhead", "reason": "broad scope", "local_solution": "smaller tasks",
+                    "result": "PASS", "framework_change_recommended": True, "evidence_refs": ["result:1"]}
+        invalid = valid_control()
+        invalid["roots"]["framework_role"] = "SELF_MANAGED"
+        management = valid_control()
+        management["framework_management_only"] = True
+
+        self.assertEqual(validate_framework_evolution_boundary(invalid, feedback), ["PROJECT_AUTHORITY_BOUNDARY_VIOLATION"])
+        self.assertEqual(validate_framework_evolution_boundary(management, feedback), [])
+        self.assertFalse(framework_feedback_authorizes_mutation(management, feedback))
+
     def test_project_read_is_allowed_but_does_not_authorize_mutation(self):
         decision = evaluate_project_authority_boundary(load_project_identity(valid_control()), source="project", operation="READ")
         self.assertEqual(decision.decision, "ALLOW")

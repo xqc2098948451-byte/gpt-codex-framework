@@ -10,7 +10,8 @@ sys.path.insert(0, str(ROOT / ".gpt-codex" / "scripts"))
 
 from framework_feedback import (  # noqa: E402
     FrameworkFeedback, ProcessReview, build_process_review,
-    validate_execution_policy, validate_framework_feedback,
+    framework_feedback_authorizes_mutation, validate_execution_policy,
+    validate_framework_evolution_boundary, validate_framework_feedback,
 )
 
 
@@ -97,6 +98,31 @@ class FrameworkFeedbackTests(unittest.TestCase):
         for key in ("authorized_actions", "framework_mutation", "policy_update", "release_authority", "adoption_authority"):
             with self.subTest(key=key):
                 self.assertEqual(validate_framework_feedback({**record, key: True}), ["FRAMEWORK_FEEDBACK_INVALID"])
+        self.assertEqual(
+            validate_framework_feedback({**record, "framework_mutation": "APPLY_NOW"}),
+            ["FRAMEWORK_FEEDBACK_INVALID"],
+        )
+
+    def test_valid_feedback_is_evidence_but_never_mutation_authority(self):
+        feedback = {"problem": "review overhead", "reason": "broad scope", "local_solution": "smaller tasks",
+                    "result": "PASS", "framework_change_recommended": True, "evidence_refs": ["result:1"]}
+        ordinary = {"project_id": "PRJ-1", "governance_profile": "STANDARD",
+                    "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"}}
+        management = {"framework_management_only": True}
+
+        self.assertEqual(validate_framework_evolution_boundary(ordinary, feedback), [])
+        self.assertFalse(framework_feedback_authorizes_mutation(ordinary, feedback))
+        self.assertEqual(validate_framework_evolution_boundary(management, feedback), [])
+        self.assertFalse(framework_feedback_authorizes_mutation(management, feedback))
+
+    def test_feedback_template_is_evidence_only(self):
+        content = (ROOT / ".gpt-codex/project-template/.harness/FEEDBACK.template.md").read_text(encoding="utf-8")
+
+        self.assertIn("## Authority Boundary", content)
+        self.assertIn("This file is project evidence only.", content)
+        self.assertIn("Global evolution occurs only in the gpt-codex-framework management project after User approval.", content)
+        for forbidden in ("APPROVE:", "APPLY:", "AUTHORIZED_ACTIONS:", "RELEASE:", "ADOPT:"):
+            self.assertNotIn(forbidden, content)
 
     def test_feedback_evidence_refs_are_immutable_and_validated(self):
         feedback = FrameworkFeedback("p", "r", "s", "PASS", True, ("result:1",))
