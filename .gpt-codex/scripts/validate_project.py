@@ -597,9 +597,10 @@ def validate_pre_execution_review(
     return list(dict.fromkeys(errors))
 
 
-def _validate_governed_guardrails(project_control: Mapping[str, Any]) -> list[str]:
-    decision = required_guardrail_allows(project_control, "project_validation")
-    errors = [] if decision.decision == "ALLOW" else [decision.reason]
+def _validate_project_guardrails(project_control: Mapping[str, Any], *, prefix_context_error: bool) -> list[str]:
+    """Apply the existing version-aware project Guardrail decisions once."""
+
+    errors: list[str] = []
     github = project_control.get("github")
     if isinstance(github, Mapping):
         guardrails = (project_control.get("extensions") or {}).get("guardrails", [])
@@ -608,6 +609,17 @@ def _validate_governed_guardrails(project_control: Mapping[str, Any]) -> list[st
         ] if isinstance(guardrails, list) else []
         if len(repository_guardrails) != 1 or repository_guardrails[0].get("enabled") is not True:
             errors.append("GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled")
+    framework = project_control.get("framework") or {}
+    if str(framework.get("adopted_version", "")).startswith("2.1."):
+        if not is_valid_project_context_id(project_control.get("project_context_id")):
+            reason = "MIGRATION_REQUIRED (PROJECT_CONTEXT_ID_MISSING)"
+            errors.append(f"PROJECT_CONTEXT_BINDING: {reason}" if prefix_context_error else reason)
+        else:
+            decision = required_guardrail_allows(project_control, "project_validation")
+            if decision.decision != "ALLOW":
+                errors.append(
+                    f"PROJECT_CONTEXT_BINDING: {decision.reason}" if prefix_context_error else decision.reason
+                )
     return errors
 
 
@@ -640,9 +652,18 @@ def validate_governed_mutation_entry(
         project_control, mutation_instruction, work_unit, current_state_revision=current_state_revision,
     ))
     errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
-    errors.extend(_validate_governed_guardrails(project_control))
+    errors.extend(_validate_project_guardrails(project_control, prefix_context_error=False))
+    github = project_control.get("github")
+    authoritative_review_context = {
+        "reviewed_revision": mutation_instruction.get("expected_base_sha") if isinstance(mutation_instruction, Mapping) else None,
+        "project_context_id": project_control.get("project_context_id"),
+        "repository_id": github.get("repository_id") if isinstance(github, Mapping) else None,
+        "repository_full_name": github.get("repository_full_name") if isinstance(github, Mapping) else None,
+        "remote_ref": mutation_instruction.get("expected_remote_ref") if isinstance(mutation_instruction, Mapping) else None,
+    }
     errors.extend(validate_pre_execution_review(
         mutation_instruction, review_request, review_result, current_state_revision=current_state_revision,
+        authoritative_review_context=authoritative_review_context,
     ))
     return list(dict.fromkeys(errors))
 
@@ -987,9 +1008,6 @@ def main():
             errors.append('GITHUB_REPOSITORY_BINDING: exactly repository_id, repository_full_name, default_branch are required')
         elif not all(isinstance(github.get(key), str) and github.get(key).strip() for key in ('repository_id', 'repository_full_name', 'default_branch')):
             errors.append('GITHUB_REPOSITORY_BINDING: fields must be non-empty strings')
-        repository_guardrails = [item for item in (control.get('extensions') or {}).get('guardrails', []) if item.get('id') == REQUIRED_REPOSITORY_GUARDRAIL]
-        if len(repository_guardrails) != 1 or not repository_guardrails[0].get('enabled'):
-            errors.append('GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled')
     continuity = state.get('continuity')
     if continuity is not None:
         required_continuity = {'current_remote_ref', 'latest_verified_remote_sha', 'latest_synced_state_revision', 'last_verified_result_ref', 'sync_status'}
@@ -997,14 +1015,7 @@ def main():
             errors.append('STATE.continuity: incomplete continuity facts')
         elif continuity.get('sync_status') not in {'SYNCED', 'SYNC_PENDING', 'RECONCILIATION_REQUIRED'}:
             errors.append('STATE.continuity: invalid sync_status')
-    project_context_id = control.get('project_context_id')
-    if str(fw.get('adopted_version', '')).startswith('2.1.'):
-        if not is_valid_project_context_id(project_context_id):
-            errors.append('PROJECT_CONTEXT_BINDING: MIGRATION_REQUIRED (PROJECT_CONTEXT_ID_MISSING)')
-        else:
-            binding = required_guardrail_allows(control, 'project_validation')
-            if binding.decision != 'ALLOW':
-                errors.append(f'PROJECT_CONTEXT_BINDING: {binding.reason}')
+    errors.extend(_validate_project_guardrails(control, prefix_context_error=True))
     roots = control.get('roots') or {}
     roots_valid = (
         roots.get('project_role') == 'AUTHORITATIVE' and roots.get('framework_role') == 'ADVISORY'

@@ -80,11 +80,81 @@ def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
     result = {
         "result_message_type": "REVIEW_RESULT", "responder_role": "CODEX_REVIEWER", "status": "PASS",
         "response_to_instruction_id": request["instruction_id"], "review_target_revision": base_sha,
+        "source_project_context_id": control["project_context_id"],
+        "source_github_repository_id": control["github"]["repository_id"],
+        "source_github_repository_full_name": control["github"]["repository_full_name"],
+        "current_remote_ref": mutation["expected_remote_ref"],
     }
     return state, work_unit, mutation, request, result
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_governed_entry_binds_review_result_identity_to_control_and_mutation(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3), [])
+        for field in (
+            "source_project_context_id", "source_github_repository_id",
+            "source_github_repository_full_name", "current_remote_ref",
+        ):
+            with self.subTest(field=field):
+                errors = validate_governed_mutation_entry(
+                    control, state, work_unit, mutation, request, {**result, field: "foreign"}, current_state_revision=3,
+                )
+                self.assertIn("RECONCILIATION_REQUIRED", errors)
+                self.assertIn(f"IDENTITY_MISMATCH:{field}", errors)
+                errors = validate_governed_mutation_entry(
+                    control, state, work_unit, mutation, request, {key: value for key, value in result.items() if key != field},
+                    current_state_revision=3,
+                )
+                self.assertIn("RECONCILIATION_REQUIRED", errors)
+                self.assertIn(f"IDENTITY_MISMATCH:{field}", errors)
+
+    def test_repository_guardrail_is_shared_by_governed_entry_and_main_validation(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        missing = deepcopy(control)
+        missing["extensions"]["guardrails"] = []
+        disabled = deepcopy(control)
+        disabled["extensions"]["guardrails"][0]["enabled"] = False
+        for candidate in (missing, disabled):
+            with self.subTest(candidate=candidate["extensions"]["guardrails"]):
+                errors = validate_governed_mutation_entry(candidate, state, work_unit, mutation, request, result, current_state_revision=3)
+                self.assertIn("GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled", errors)
+                with tempfile.TemporaryDirectory() as td:
+                    write_project(Path(td), candidate)
+                    main_result = run_validator(Path(td))
+                self.assertIn("GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled", main_result.stdout)
+
+    def test_main_context_guardrail_keeps_2_1_rules_but_not_non_2_1_projects(self):
+        control = management_control()
+        control["framework_management_only"] = False
+        control["governance_profile"] = "STANDARD"
+        control["roots"]["framework_role"] = "ADVISORY"
+        control["framework"]["adopted_version"] = "2.1.9"
+        control["extensions"]["guardrails"].append(
+            {"id": "cross-project-context-binding", "source": "builtin", "enabled": True, "version": "1.0.0"},
+        )
+        missing = deepcopy(control)
+        missing["extensions"]["guardrails"] = [item for item in missing["extensions"]["guardrails"] if item["id"] != "cross-project-context-binding"]
+        disabled = deepcopy(control)
+        next(item for item in disabled["extensions"]["guardrails"] if item["id"] == "cross-project-context-binding")["enabled"] = False
+        for candidate, expected in (
+            (missing, "PROJECT_CONTEXT_BINDING: REQUIRED_CONTEXT_GUARDRAIL_ABSENT"),
+            (disabled, "PROJECT_CONTEXT_BINDING: REQUIRED_CONTEXT_GUARDRAIL_DISABLED"),
+        ):
+            with self.subTest(expected=expected), tempfile.TemporaryDirectory() as td:
+                write_project(Path(td), candidate)
+                self.assertIn(expected, run_validator(Path(td)).stdout)
+        non_21 = deepcopy(missing)
+        non_21["framework"]["adopted_version"] = "2.2.1"
+        with tempfile.TemporaryDirectory() as td:
+            write_project(Path(td), non_21)
+            self.assertNotIn("PROJECT_CONTEXT_BINDING:", run_validator(Path(td)).stdout)
     def test_governed_mutation_entry_applies_equally_to_consumer_and_self_hosting(self):
         from validate_project import validate_governed_mutation_entry
 
