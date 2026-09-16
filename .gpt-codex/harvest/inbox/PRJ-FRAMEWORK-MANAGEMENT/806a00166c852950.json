@@ -1,0 +1,48 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "806a00166c852950",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "USER_ASSERTED",
+  "subject": "REMOTE_ARTIFACT_REVIEW_CONTINUITY_GAP",
+  "state_revision": 7,
+  "result": "CONFIRMED_GAP",
+  "source_repository_id": "1366213495",
+  "source_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_commit_sha": "4c1fa3cb899b5edc07f32804abc1e0ff2ac88e43",
+  "source_work_unit_id": "post-foundation-governance-plugin-plan-tdd-structure-correction-129",
+  "framework_version_used": "2.7.0",
+  "observed_at": "2026-09-16",
+  "evidence_type": [
+    "OBSERVED_FRICTION",
+    "RECOVERY_FAILURE"
+  ],
+  "observed_fact": "Codex-generated Design and Implementation Plan candidates existed only in local worktrees/branches, so GPT could not directly retrieve exact candidate artifacts from the bound GitHub repository for review. The user had to locate and upload files manually between Codex and GPT review rounds.",
+  "impact": "Manual file transfer breaks repository-only review continuity, adds user handling cost, and creates avoidable risk that GPT reviews a file copy that is not the exact repository candidate revision. It also prevents fresh GPT windows from independently recovering reviewable Design/Plan candidates from repository authority alone.",
+  "root_cause_status": "CONFIRMED_GAP_IN_REMOTE_ARTIFACT_REVIEW_CONTINUITY",
+  "root_cause": "REVIEWABLE_DESIGN_PLAN_CANDIDATES_WERE_NOT_REQUIRED_TO_BE_PUSHED_AND_REMOTELY_VERIFIED_BEFORE_GPT_REVIEW",
+  "current_workaround": "User manually uploads the current Design/Plan file to GPT after Codex creates or amends it locally.",
+  "existing_capability_used": [
+    "GIT_CONTINUITY",
+    "GITHUB_REPOSITORY_BINDING",
+    "ARTIFACT_REFS",
+    "EXACT_GIT_SHA"
+  ],
+  "preservation_evidence": "Existing Git continuity, repository binding, artifact paths, and immutable commit SHAs already provide the necessary primitives. The minimum change is to require review candidates to be committed, pushed to the bound project repository, and remotely verified before GPT review; no new artifact server, database, module, or state system is needed.",
+  "optimization_candidate": {
+    "name": "REMOTE_ARTIFACT_REVIEW_CONTINUITY",
+    "status": "USER_APPROVED_FOR_CURRENT_DESIGN_AMENDMENT",
+    "minimum_closure_hypothesis": [
+      "Every reviewable Design/Plan candidate is committed and pushed to the bound project GitHub review branch",
+      "Codex returns repository, remote branch/ref, exact remote SHA, artifact path, and remote verification",
+      "GPT reviews the exact remote SHA and path directly from GitHub",
+      "Review branches may advance during amendment rounds without making candidates authoritative",
+      "After GPT review passes and the user approves, accepted Design/Plan authority freezes the exact SHA plus path",
+      "Local-only artifacts are not treated as normal GPT review-ready candidates"
+    ],
+    "new_module_required": false,
+    "new_database_required": false,
+    "new_state_system_required": false
+  },
+  "authority_boundary": "Remote publication makes an artifact reviewable, not accepted. REMOTE_REVIEW_CANDIDATE is not ACCEPTED_AUTHORITY. Acceptance/freeze occurs only after GPT review passes and explicit user approval binds the exact SHA and artifact path."
+}
