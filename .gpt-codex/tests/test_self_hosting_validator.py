@@ -89,6 +89,63 @@ def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_governed_entry_requires_repository_backed_execution_authority_when_policy_is_adopted(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        control["execution_policy"] = {
+            "strategy_profile_id": "PROJECT_PROFILE_001",
+            "gpt_orchestrator_strategy": "MINIMAL_CLOSED_LOOP",
+            "codex_implementer_strategy": "MINIMAL_DIFF_TDD",
+            "codex_reviewer_strategy": "CONTRACT_FIRST",
+            "task_splitting": "PROJECT_DETERMINED",
+            "review_policy": "RISK_OR_MILESTONE",
+            "instruction_policy": "REFERENCE_FIRST",
+            "result_return_policy": "DURABLE_REF_FIRST",
+        }
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        work_unit["strategy_profile_id"] = control["execution_policy"]["strategy_profile_id"]
+        authority = {
+            "accepted_design_ref": "design:foundation@" + "a" * 40,
+            "accepted_plan_ref": "plan:foundation@" + "b" * 40,
+            "project_context_id": control["project_context_id"],
+            "work_unit_id": work_unit["work_unit_id"],
+            "state_revision": 3,
+            "authorization": {
+                "authority_type": "INSTRUCTION",
+                "instruction_id": mutation["instruction_id"],
+                "status": "EXECUTION_AUTHORIZED",
+                "target_revision": mutation["expected_base_sha"],
+            },
+        }
+        self.assertIn(
+            "IMPLEMENTATION_AUTHORIZATION = DENY",
+            validate_governed_mutation_entry(
+                control, state, work_unit, mutation, request, result, current_state_revision=3,
+            ),
+        )
+        self.assertEqual(
+            validate_governed_mutation_entry(
+                control, state, work_unit, mutation, request, result, current_state_revision=3,
+                repository_authority=authority,
+            ),
+            [],
+        )
+        for invalid in (
+            {**authority, "authorization": {**authority["authorization"], "status": "ARTIFACT_ACCEPTED"}},
+            {**authority, "project_context_id": "chat-only"},
+            {key: value for key, value in authority.items() if key != "accepted_plan_ref"},
+            {**authority, "state_revision": 2},
+        ):
+            with self.subTest(invalid=invalid):
+                self.assertIn(
+                    "IMPLEMENTATION_AUTHORIZATION = DENY",
+                    validate_governed_mutation_entry(
+                        control, state, work_unit, mutation, request, result, current_state_revision=3,
+                        repository_authority=invalid,
+                    ),
+                )
+
     def test_governed_entry_fails_closed_for_malformed_guardrail_control_mappings(self):
         from validate_project import validate_governed_mutation_entry
 

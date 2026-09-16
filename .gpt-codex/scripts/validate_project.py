@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 from kernel_rules import *
-from framework_feedback import validate_execution_policy
+from framework_feedback import validate_execution_policy, validate_project_strategy_lifecycle
 from context_binding import (
     build_project_evolution_observation,
     evaluate_project_identity,
@@ -648,6 +648,7 @@ def validate_governed_mutation_entry(
     *,
     current_state_revision: int,
     approved_scope: set[str] | None = None,
+    repository_authority: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """One fail-closed entry that composes existing project mutation authorities."""
 
@@ -663,6 +664,12 @@ def validate_governed_mutation_entry(
         errors.extend(["RECONCILIATION_REQUIRED", "PROJECT_IDENTITY_INVALID"])
     if state.get("revision") != current_state_revision:
         errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+    policy = project_control.get("execution_policy")
+    if policy is not None:
+        errors.extend(validate_project_strategy_lifecycle(policy, [work_unit]))
+        errors.extend(validate_repository_authorization(
+            repository_authority, mutation_instruction, work_unit, current_state_revision=current_state_revision,
+        ))
     errors.extend(validate_framework_adoption(
         project_control, mutation_instruction, work_unit, current_state_revision=current_state_revision,
     ))
@@ -681,6 +688,36 @@ def validate_governed_mutation_entry(
         authoritative_review_context=authoritative_review_context,
     ))
     return list(dict.fromkeys(errors))
+
+
+def validate_repository_authorization(
+    authority: Mapping[str, Any] | None,
+    mutation_instruction: Mapping[str, Any],
+    work_unit: Mapping[str, Any],
+    *,
+    current_state_revision: int,
+) -> list[str]:
+    """Validate existing repository facts without creating an approval authority."""
+    deny = ["IMPLEMENTATION_AUTHORIZATION = DENY"]
+    if not isinstance(authority, Mapping) or not isinstance(mutation_instruction, Mapping) or not isinstance(work_unit, Mapping):
+        return deny
+    required = {"accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id", "state_revision", "authorization"}
+    if set(authority) != required or any(not _is_nonempty_string(authority.get(key)) for key in ("accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id")):
+        return deny
+    authorization = authority.get("authorization")
+    if not isinstance(authorization, Mapping) or set(authorization) != {"authority_type", "instruction_id", "status", "target_revision"}:
+        return deny
+    if (
+        authorization.get("authority_type") not in {"INSTRUCTION", "RESULT", "EVIDENCE"}
+        or authorization.get("status") != "EXECUTION_AUTHORIZED"
+        or authority.get("project_context_id") != mutation_instruction.get("target_project_context_id")
+        or authority.get("work_unit_id") != work_unit.get("work_unit_id")
+        or authority.get("state_revision") != current_state_revision
+        or authorization.get("instruction_id") != mutation_instruction.get("instruction_id")
+        or authorization.get("target_revision") != mutation_instruction.get("expected_base_sha")
+    ):
+        return deny
+    return []
 
 
 def validate_result_protocol(result: Mapping[str, Any]) -> list[str]:

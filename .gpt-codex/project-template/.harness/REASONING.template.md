@@ -32,6 +32,7 @@ retry/intervention/review/remediation/handoff counts, final result, durable
 Git/evidence refs, and reliable usage (otherwise UNKNOWN).
 
 ## Execution Record Format
+WORK_UNIT_ID:
 TASK:
 METHOD:
 KEY_DECISION:
@@ -43,6 +44,8 @@ REMEDIATION_ROUNDS:
 HANDOFF_RESULT:
 FINAL_RESULT:
 GIT_SHA:
+RESULT_REF:
+USAGE:
 
 ## Structure Review Format
 MOMENT:

@@ -12,6 +12,7 @@ from framework_feedback import (  # noqa: E402
     FrameworkFeedback, ProcessReview, build_process_review,
     framework_feedback_authorizes_mutation, validate_execution_policy,
     validate_framework_evolution_boundary, validate_framework_feedback,
+    validate_project_strategy_lifecycle, validate_work_unit_process_record,
 )
 
 
@@ -31,6 +32,56 @@ class FrameworkFeedbackTests(unittest.TestCase):
     def test_valid_fixed_execution_policy_is_accepted(self):
         self.assertEqual(validate_execution_policy(POLICY), [])
         self.assertEqual(validate_execution_policy(None), [])
+
+    def test_project_strategy_profile_governs_work_units_and_requires_explicit_change(self):
+        profile_a = POLICY["strategy_profile_id"]
+        self.assertEqual(
+            validate_project_strategy_lifecycle(
+                POLICY,
+                [{"work_unit_id": "WU-1", "strategy_profile_id": profile_a},
+                 {"work_unit_id": "WU-2", "strategy_profile_id": profile_a}],
+            ),
+            [],
+        )
+        self.assertIn(
+            "RECONCILIATION_REQUIRED",
+            validate_project_strategy_lifecycle(
+                POLICY,
+                [{"work_unit_id": "WU-1", "strategy_profile_id": profile_a},
+                 {"work_unit_id": "WU-2", "strategy_profile_id": "PROFILE_B"}],
+            ),
+        )
+        changed_policy = {**POLICY, "strategy_profile_id": "PROFILE_B"}
+        self.assertEqual(
+            validate_project_strategy_lifecycle(
+                changed_policy,
+                [{"work_unit_id": "WU-3", "strategy_profile_id": "PROFILE_B"}],
+                governed_strategy_change={
+                    "requirement_ref": "requirement:strategy-change-1",
+                    "accepted_strategy_profile_id": "PROFILE_B",
+                },
+            ),
+            [],
+        )
+        self.assertEqual(validate_project_strategy_lifecycle(None, [{"strategy_profile_id": "PROFILE_B"}]), [])
+
+    def test_closed_work_unit_record_is_bounded_and_unknown_usage_is_retained(self):
+        record = {
+            "work_unit_id": "WU-1", "final_result": "PASS", "codex_retries": 1,
+            "gpt_interventions": 0, "review_rounds": 1, "remediation_rounds": 0,
+            "handoff_result": "PASS", "usage": "UNKNOWN", "git_sha": "a" * 40,
+            "result_ref": "result:WU-1",
+        }
+        self.assertEqual(validate_work_unit_process_record(record), [])
+        review = build_process_review([record], POLICY["strategy_profile_id"])
+        self.assertEqual(review.usage, "UNKNOWN")
+        self.assertEqual(review.codex_tasks, 1)
+        self.assertEqual(review.project_result, "PASS")
+        self.assertEqual((review.work_unit_ids, review.result_refs), (("WU-1",), ("result:WU-1",)))
+        self.assertIn(
+            "PROCESS_REVIEW_INVALID",
+            validate_work_unit_process_record({key: value for key, value in record.items() if key != "result_ref"}),
+        )
 
     def test_process_review_aggregates_observable_counters_and_unknown_usage(self):
         review = build_process_review(
@@ -82,6 +133,7 @@ class FrameworkFeedbackTests(unittest.TestCase):
             "TASK:", "METHOD:", "KEY_DECISION:", "ERROR_CATEGORY:",
             "CODEX_RETRIES:", "GPT_INTERVENTIONS:", "REVIEW_ROUNDS:",
             "REMEDIATION_ROUNDS:", "HANDOFF_RESULT:", "FINAL_RESULT:", "GIT_SHA:",
+            "WORK_UNIT_ID:", "RESULT_REF:", "USAGE:",
         ):
             self.assertIn(label, content)
         for forbidden in (

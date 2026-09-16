@@ -4,9 +4,10 @@ _POLICY_FIELDS={"strategy_profile_id","gpt_orchestrator_strategy","codex_impleme
 _COUNTERS=("codex_tasks","codex_retries","gpt_interventions","review_rounds","remediation_rounds","handoffs","handoff_failures")
 _FEEDBACK_FIELDS={"problem","reason","local_solution","result","framework_change_recommended","evidence_refs"}
 _AUTHORITY_FIELDS={"authorized_actions","framework_mutation","policy_update","release_authority","adoption_authority"}
+_WORK_UNIT_RECORD_FIELDS={"work_unit_id","final_result","codex_retries","gpt_interventions","review_rounds","remediation_rounds","handoff_result","usage","git_sha","result_ref"}
 @dataclass(frozen=True, slots=True)
 class ProcessReview:
-    strategy_profile: str; codex_tasks: int; codex_retries: int; gpt_interventions: int; review_rounds: int; remediation_rounds: int; handoffs: int; handoff_failures: int; project_result: str; usage: Mapping[str, Any] | str
+    strategy_profile: str; codex_tasks: int; codex_retries: int; gpt_interventions: int; review_rounds: int; remediation_rounds: int; handoffs: int; handoff_failures: int; project_result: str; usage: Mapping[str, Any] | str; work_unit_ids: tuple[str, ...]=(); result_refs: tuple[str, ...]=()
 @dataclass(frozen=True, slots=True)
 class FrameworkFeedback:
     problem: str; reason: str; local_solution: str; result: str; framework_change_recommended: bool; evidence_refs: tuple[str, ...]
@@ -15,16 +16,54 @@ def validate_execution_policy(policy: Mapping[str, Any] | None) -> list[str]:
     strings=_POLICY_FIELDS-{"task_splitting","review_policy","instruction_policy","result_return_policy"}
     if not isinstance(policy,Mapping) or set(policy)!=_POLICY_FIELDS or any(not isinstance(policy.get(k),str) or not policy[k].strip() or len(policy[k])>128 for k in strings) or policy.get("task_splitting")!="PROJECT_DETERMINED" or policy.get("instruction_policy")!="REFERENCE_FIRST" or policy.get("result_return_policy")!="DURABLE_REF_FIRST" or policy.get("review_policy") not in {"RISK_OR_MILESTONE","EXPLICIT"}:return ["EXECUTION_POLICY_INVALID"]
     return []
+
+def validate_project_strategy_lifecycle(policy: Mapping[str, Any] | None, work_units: Sequence[Mapping[str, Any]], *, governed_strategy_change: Mapping[str, Any] | None=None) -> list[str]:
+    """Keep adopted Strategy authority at the Project, never a local Work Unit."""
+    if policy is None:
+        return []
+    if validate_execution_policy(policy) or not isinstance(work_units, Sequence):
+        return ["RECONCILIATION_REQUIRED"]
+    profile = policy["strategy_profile_id"]
+    if governed_strategy_change is not None and (
+        not isinstance(governed_strategy_change, Mapping)
+        or set(governed_strategy_change) != {"requirement_ref", "accepted_strategy_profile_id"}
+        or not all(isinstance(governed_strategy_change.get(key), str) and governed_strategy_change[key].strip() for key in governed_strategy_change)
+        or governed_strategy_change["accepted_strategy_profile_id"] != profile
+    ):
+        return ["RECONCILIATION_REQUIRED"]
+    for work_unit in work_units:
+        if not isinstance(work_unit, Mapping) or not isinstance(work_unit.get("work_unit_id"), str) or not work_unit["work_unit_id"].strip() or work_unit.get("strategy_profile_id") != profile:
+            return ["RECONCILIATION_REQUIRED"]
+    return []
+
+def validate_work_unit_process_record(record: Mapping[str, Any]) -> list[str]:
+    if not isinstance(record, Mapping) or set(record) != _WORK_UNIT_RECORD_FIELDS:
+        return ["PROCESS_REVIEW_INVALID"]
+    text_fields = _WORK_UNIT_RECORD_FIELDS-{"codex_retries","gpt_interventions","review_rounds","remediation_rounds","usage"}
+    if any(not isinstance(record.get(key), str) or not record[key].strip() for key in text_fields):
+        return ["PROCESS_REVIEW_INVALID"]
+    if any(not isinstance(record.get(key), int) or isinstance(record[key], bool) or record[key] < 0 for key in ("codex_retries","gpt_interventions","review_rounds","remediation_rounds")):
+        return ["PROCESS_REVIEW_INVALID"]
+    usage = record.get("usage")
+    if usage != "UNKNOWN" and not isinstance(usage, Mapping):
+        return ["PROCESS_REVIEW_INVALID"]
+    return []
+
 def build_process_review(records: Sequence[Mapping[str, Any]], strategy_profile: str, usage: Mapping[str, Any] | None=None) -> ProcessReview:
-    totals={k:0 for k in _COUNTERS}; result="UNKNOWN"
+    totals={k:0 for k in _COUNTERS}; result="UNKNOWN"; work_unit_ids=[]; result_refs=[]
     for record in records:
         if not isinstance(record,Mapping):raise ValueError("PROCESS_REVIEW_INVALID")
+        if "work_unit_id" in record:
+            if validate_work_unit_process_record(record):raise ValueError("PROCESS_REVIEW_INVALID")
+            work_unit_ids.append(record["work_unit_id"]); result_refs.append(record["result_ref"])
+            totals["codex_tasks"]+=1
         for key in _COUNTERS:
             value=record.get(key,0)
             if not isinstance(value,int) or isinstance(value,bool) or value<0:raise ValueError("PROCESS_REVIEW_INVALID")
             totals[key]+=value
-        if isinstance(record.get("project_result"),str) and record["project_result"].strip():result=record["project_result"]
-    return ProcessReview(strategy_profile,**totals,project_result=result,usage=dict(usage) if isinstance(usage,Mapping) else "UNKNOWN")
+        final = record.get("final_result", record.get("project_result"))
+        if isinstance(final,str) and final.strip():result=final
+    return ProcessReview(strategy_profile,**totals,project_result=result,usage=dict(usage) if isinstance(usage,Mapping) else "UNKNOWN",work_unit_ids=tuple(work_unit_ids),result_refs=tuple(result_refs))
 def validate_framework_feedback(record: Mapping[str, Any]) -> list[str]:
     if not isinstance(record,Mapping) or set(record)!=_FEEDBACK_FIELDS or _AUTHORITY_FIELDS & set(record) or any(not isinstance(record.get(k),str) or not record[k].strip() for k in ("problem","reason","local_solution","result")) or not isinstance(record.get("framework_change_recommended"),bool) or not isinstance(record.get("evidence_refs"),list) or not record["evidence_refs"] or not all(isinstance(ref,str) and ref.strip() for ref in record["evidence_refs"]):return ["FRAMEWORK_FEEDBACK_INVALID"]
     return []

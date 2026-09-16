@@ -92,6 +92,37 @@ def review_result():
 
 
 class ReviewLifecycleTests(unittest.TestCase):
+    def test_repository_authority_requires_correlated_execution_fact_not_artifact_existence(self):
+        validator = load_validator()
+        mutation = mutation_instruction()
+        authority = {
+            "accepted_design_ref": "design:foundation@" + VALID_SHA,
+            "accepted_plan_ref": "plan:foundation@" + NEW_SHA,
+            "project_context_id": mutation["target_project_context_id"],
+            "work_unit_id": mutation["target_work_unit"],
+            "state_revision": 8,
+            "authorization": {
+                "authority_type": "EVIDENCE",
+                "instruction_id": mutation["instruction_id"],
+                "status": "EXECUTION_AUTHORIZED",
+                "target_revision": VALID_SHA,
+            },
+        }
+        self.assertEqual(
+            validator.validate_repository_authorization(
+                authority, mutation, {"work_unit_id": mutation["target_work_unit"]},
+                current_state_revision=8,
+            ),
+            [],
+        )
+        self.assertIn(
+            "IMPLEMENTATION_AUTHORIZATION = DENY",
+            validator.validate_repository_authorization(
+                {**authority, "authorization": {**authority["authorization"], "status": "ARTIFACT_ACCEPTED"}},
+                mutation, {"work_unit_id": mutation["target_work_unit"]}, current_state_revision=8,
+            ),
+        )
+
     def test_pre_execution_review_requires_exact_authorization_and_correlation(self):
         validator = load_validator()
         mutation = mutation_instruction()
