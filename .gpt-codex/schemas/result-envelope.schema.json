@@ -235,6 +235,7 @@
         "required": ["completion_evidence"],
         "properties": {
           "completion_evidence": {
+            "type": "object",
             "required": ["execution_state", "process_completed", "exit_code", "intended_scope", "executed_scope", "test_files_expected", "test_files_executed", "test_count", "failure_count", "error_count", "validators_expected", "validators_completed", "blocker_evidence_refs"]
           }
         }
