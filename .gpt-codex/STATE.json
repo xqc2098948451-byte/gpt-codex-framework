@@ -2,7 +2,7 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 9,
+  "revision": 10,
   "state": "AUTHORIZED",
   "active_work_unit": "task-3-global-plugin-core-001",
   "blockers": [],
@@ -18,12 +18,15 @@
     ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json",
     ".gpt-codex/evidence/V2.6.0-RELEASE-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
-    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json"
+    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+    ".gpt-codex/evidence/results/RESULT-TASK3-PREEXEC-ROLE-AUTHORITY-001.json",
+    ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS.json",
+    ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "7ccc78514f231fb9d04207d6d6da1520f19dde67",
-    "latest_synced_state_revision": 9,
+    "latest_verified_remote_sha": "fe58d28ac1cc35fbb3d09241e80ca4c8b5ab8fcc",
+    "latest_synced_state_revision": 10,
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
     "sync_status": "SYNCED"
   },
