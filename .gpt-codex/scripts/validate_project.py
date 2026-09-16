@@ -24,7 +24,7 @@ from continuity_resume import (
     validate_execution_slots,
     validate_slot_transition,
 )
-from publication_contract import validate_result_authority, validate_state_authority
+from publication_contract import validate_completion_evidence, validate_result_authority, validate_state_authority
 from role_communication import (
     INSTRUCTION_TYPES,
     RESULT_MESSAGE_TYPES,
@@ -836,9 +836,10 @@ def _immutable_artifact_refs_resolve(root: Path, refs: object) -> bool:
 def validate_result_protocol(result: Mapping[str, Any]) -> list[str]:
     """Apply protocol result checks only to envelopes opting into result classification."""
 
+    errors = validate_completion_evidence(result)
     if "result_message_type" not in result:
-        return []
-    return validate_review_result(result)
+        return errors
+    return errors + validate_review_result(result)
 
 
 def _cataloged_builtin(kind: str, extension_id: str) -> tuple[bool, str]:

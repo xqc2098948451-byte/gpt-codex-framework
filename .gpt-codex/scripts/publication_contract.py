@@ -8,6 +8,32 @@ CANDIDATE_AUTHORITY = "PUBLICATION_CANDIDATE_ONLY"
 VERIFIED_AUTHORITY = "CONFIRMED_PUBLICATION"
 
 
+def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
+    """Fail closed when a PASS/BLOCKED result lacks its bounded closure facts."""
+    evidence = result.get("completion_evidence")
+    if not isinstance(evidence, Mapping):
+        # Historical publication results remain valid until a governed result
+        # opts into CAP-01; new INCOMPLETE/BLOCKED states require the evidence.
+        return ["COMPLETION_EVIDENCE_REQUIRED"] if result.get("status") in {"INCOMPLETE", "BLOCKED"} else []
+    state = evidence.get("execution_state")
+    if result.get("status") == "PASS":
+        required = (
+            state == "COMPLETED", evidence.get("process_completed") is True,
+            evidence.get("exit_code") == 0,
+            isinstance(evidence.get("intended_scope"), list) and evidence.get("intended_scope") == evidence.get("executed_scope"),
+            isinstance(evidence.get("test_files_expected"), int) and evidence.get("test_files_expected") == evidence.get("test_files_executed"),
+            isinstance(evidence.get("test_count"), int), evidence.get("failure_count") == 0,
+            evidence.get("error_count") == 0,
+            evidence.get("validators_expected") == evidence.get("validators_completed"),
+        )
+        return [] if all(required) else ["PASS_COMPLETION_EVIDENCE_INCOMPLETE"]
+    if result.get("status") == "BLOCKED":
+        return [] if state == "BLOCKED" and bool(evidence.get("blocker_evidence_refs")) else ["BLOCKED_REQUIRES_PROVEN_BLOCKER"]
+    if result.get("status") == "INCOMPLETE":
+        return [] if state == "INCOMPLETE" else ["INCOMPLETE_EXECUTION_STATE_REQUIRED"]
+    return []
+
+
 def validate_result_authority(
     result: Mapping[str, Any],
     verified_evidence_refs: set[str] | None = None,

@@ -155,6 +155,28 @@ class ResultContractSchemaTests(unittest.TestCase):
         self.assertIn("Return To GPT Required", handoff)
         self.assertIn("NONE", handoff)
 
+    def test_completion_evidence_contract_requires_completed_zero_exit_complete_scope_and_validators(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from publication_contract import validate_completion_evidence
+
+        complete = {
+            "status": "PASS",
+            "completion_evidence": {
+                "execution_state": "COMPLETED", "process_completed": True,
+                "exit_code": 0, "intended_scope": ["tests"], "executed_scope": ["tests"],
+                "test_files_expected": 1, "test_files_executed": 1, "test_count": 1,
+                "failure_count": 0, "error_count": 0,
+                "validators_expected": ["validate_project"],
+                "validators_completed": ["validate_project"], "blocker_evidence_refs": [],
+            },
+        }
+        self.assertEqual(validate_completion_evidence(complete), [])
+        for field, value in (("exit_code", None), ("test_files_expected", None), ("test_count", None), ("failure_count", 1), ("error_count", 1), ("validators_completed", [])):
+            candidate = json.loads(json.dumps(complete))
+            candidate["completion_evidence"][field] = value
+            self.assertTrue(validate_completion_evidence(candidate), field)
+
 
 if __name__ == "__main__":
     unittest.main()

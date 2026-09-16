@@ -27,7 +27,8 @@
         "FAIL",
         "BLOCKED",
         "PARTIAL",
-        "LOCAL_COMPLETE"
+        "LOCAL_COMPLETE",
+        "INCOMPLETE"
       ]
     },
     "return_to_gpt_required": {
@@ -141,6 +142,21 @@
     },
     "next_gpt_action": {
       "type": ["string", "array", "object", "null"]
+    },
+    "completion_evidence": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "execution_state": {"enum": ["COMPLETED", "INCOMPLETE", "BLOCKED"]},
+        "process_completed": {"type": "boolean"}, "exit_code": {"type": ["integer", "null"]},
+        "intended_scope": {"type": "array", "maxItems": 100, "items": {"type": "string"}},
+        "executed_scope": {"type": "array", "maxItems": 100, "items": {"type": "string"}},
+        "test_files_expected": {"type": ["integer", "null"], "minimum": 0}, "test_files_executed": {"type": ["integer", "null"], "minimum": 0},
+        "test_count": {"type": ["integer", "null"], "minimum": 0}, "failure_count": {"type": ["integer", "null"], "minimum": 0}, "error_count": {"type": ["integer", "null"], "minimum": 0},
+        "validators_expected": {"type": "array", "maxItems": 50, "uniqueItems": true, "items": {"type": "string"}},
+        "validators_completed": {"type": "array", "maxItems": 50, "uniqueItems": true, "items": {"type": "string"}},
+        "blocker_evidence_refs": {"type": "array", "maxItems": 50, "items": {"type": "string"}}
+      }
     },
     "completion_gate": {
       "enum": [
