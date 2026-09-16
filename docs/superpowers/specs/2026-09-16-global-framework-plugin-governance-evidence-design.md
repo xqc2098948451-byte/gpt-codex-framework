@@ -512,3 +512,56 @@ release/activation follows governed acceptance only. This specification has no
 unresolved design decision required for Plan creation. Existing
 `docs/superpowers/** -> DEVELOPMENT_HISTORY` projection coverage applies, so
 no projection-manifest change is required.
+
+## Remote artifact review continuity
+
+`REMOTE_ARTIFACT_REVIEW_CONTINUITY` is a bounded capability, not a new
+Framework module. It reuses Git continuity, GitHub repository binding,
+Design/Plan artifact refs, Work Unit, Instruction/Result/Evidence, exact Git
+SHA, and `PROJECT_RESUME`; it adds no database, artifact server, registry,
+state machine, or module.
+
+```text
+LOCAL_DRAFT
+-> COMMIT
+-> PUSH_REMOTE_REVIEW_CANDIDATE
+-> GPT_REVIEW
+-> AMEND_AND_REPUSH [zero or more rounds]
+-> GPT_REVIEW_PASS
+-> USER_APPROVAL
+-> ACCEPTED_ARTIFACT_FROZEN_AT_EXACT_SHA
+```
+
+`REMOTE_REVIEW_CANDIDATE != ACCEPTED_AUTHORITY`. Push makes an artifact
+remotely reviewable; it does not approve, activate, freeze, or authorize
+implementation. Formal review requires repository identity, artifact path,
+local SHA, remote branch/ref, remote SHA, and remote verification. Results
+carry `REMOTE_REPOSITORY`, `REMOTE_BRANCH`, `REMOTE_SHA`, `ARTIFACT_PATH`, and
+`REMOTE_VERIFICATION`. `ARTIFACT_REVIEW_READY = YES` only when the repository
+matches Project binding, the remote ref exists, remote SHA equals intended local
+candidate SHA, and the artifact exists at that exact SHA/path. Local-only work
+is not formal GPT-review-ready.
+
+A review branch may advance through candidates, but GPT reviews repository +
+exact SHA + exact path, never merely latest branch contents. After no material
+finding and explicit user approval, frozen authority is
+`ACCEPTED_ARTIFACT_REF = {repository, path, exact_commit_sha}`. Later branch
+movement does not alter it. Amendment is `ACCEPTED v1 -> new requirement or
+accepted finding -> candidate -> commit -> push -> GPT review -> user approval
+-> ACCEPTED v2 exact SHA`; old accepted SHA remains historical authority and
+accepted history is never force-rewritten.
+
+If remote publication cannot be proven, `REMOTE_ARTIFACT_SYNC = SYNC_PENDING`
+and `ARTIFACT_REVIEW_READY = NO`. Local drafting remains valid, but formal GPT
+review completion, freeze, and implementation authorization based on that
+candidate are denied. Transport failure is not BLOCKED without a proven
+blocker. A fresh GPT window recovers review coordinates from durable Work
+Unit/Instruction/Result refs; accepted recovery remains pinned to frozen SHA.
+
+Each Project publishes its own Design/Plan candidates only to its bound
+repository. This Framework-management Project uses
+`xqc2098948451-byte/gpt-codex-framework`; this flow is separate from the
+cross-project Evidence Bridge. User upload is not the normal artifact handoff:
+Codex commits/pushes/verifies and returns coordinates; GPT fetches and reviews
+the exact remote artifact. The current Plan is not changed by this amendment;
+a later separately authorized Plan amendment may adopt these rules.
