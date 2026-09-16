@@ -108,6 +108,8 @@
 
 - [ ] **Step 1: Add failing isolation, runtime-input, and mediation tests.**
 
+  In `test_continuity_resume.py`, directly lock the pair-selection matrix: no matching Reviewer slot; multiple Reviewers matching the same context, Work Unit, and review-request ID; a Reviewer without one unique correlated Implementer peer; and an attempted pair with equal Implementer/Reviewer `slot_id` each yield `RECONCILIATION_REQUIRED`.
+
   Add only these focused cases. (A) In `test_continuity_resume.py` and `test_navigation_project_validation.py`, aliases that resolve to the same actual worktree fail isolation. (B) Distinct physical worktrees pass when all other correlations hold. (C) In `test_review_lifecycle.py`, a reviewer with a wrong `HEAD` / review target SHA fails. (D) A dirty or mutated reviewer view denies review pass. (E) In `test_instruction_envelope.py`, missing, false, or unknown `FRESH_INDEPENDENT_ROLE_CONTEXT_VERIFIED` prevents a Review Request from being issued; retain this independently from input-source tests. (F) In that same test file, a Reviewer with only approved durable source kinds passes; an Implementer transcript, scratchpad, private reasoning, raw prompt, temporary private summary, or uncommitted private-workspace source for Reviewer input fails closed; and a Reviewer transcript, scratchpad, private reasoning, raw prompt, or unadjudicated Reviewer conclusion for Implementer input fails closed. (G) An unknown source kind fails closed for either role. (H) A GPT-adjudicated governed `FIX_INSTRUCTION` source remains allowed for a fresh Implementer, while a raw Reviewer conclusion remains blocked. Test source-kind membership only; do not scan source text or add persistence tests.
 
 - [ ] **Step 2: Run the focused RED tests.**
