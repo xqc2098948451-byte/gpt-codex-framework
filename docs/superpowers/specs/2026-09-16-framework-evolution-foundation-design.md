@@ -16,7 +16,9 @@ Once the required capabilities close and no material finding remains, further op
 
 The Foundation reuses `CONTROL.execution_policy`, `.harness/REASONING.md`, `ProcessReview`, `FrameworkFeedback`, and `STRATEGY_PROFILE`. A new project must have a project-specific Strategy Profile before formal implementation. `TASK_SPLITTING = PROJECT_DETERMINED` remains fixed: this Design does not fix Codex task count, reviewer count, parallelism, or agent count.
 
-Strategy is stable for a governed Work Unit and must not silently drift after a single failure. Any Strategy change is an explicit governed change bound to existing repository authority. Legacy projects that lack `execution_policy` do not automatically become invalid; compatibility remains fail-closed only when a new Foundation-governed implementation requires the new fact.
+Strategy is stable at the Project level for its governed lifecycle: one accepted Project Strategy Profile governs every governed Work Unit. The required invariant is `WU.strategy_profile_id == PROJECT.accepted_strategy_profile_id`, unless existing repository authority records an explicit governed Strategy change. A Work Unit may reference that accepted profile but cannot redefine or silently override it; `WORK_UNIT_LOCAL_OVERRIDE = DENY` and `SINGLE_WORK_UNIT_FAILURE != STRATEGY_CHANGE_AUTHORITY`.
+
+The only change path is `explicit requirement -> governed strategy change -> new/updated accepted Project Strategy authority -> persistence/validation -> subsequent Work Units use the new authority`. This reuses existing repository-backed authority and adds no Strategy registry, history database, or parallel Strategy system. Legacy projects that lack `execution_policy` do not automatically become invalid; compatibility remains fail-closed only when a new Foundation-governed implementation requires the new fact.
 
 ### Repository-backed discussion, acceptance, and authorization
 
@@ -81,7 +83,9 @@ IMPLEMENTER_PRIVATE_CONTEXT ∩ REVIEWER_INPUT = ∅
 REVIEWER_PRIVATE_CONTEXT ∩ IMPLEMENTER_INPUT = ∅
 ```
 
-Worktree identity is derived from real Git/repository facts, not raw strings. Canonicalization resolves an absolute path, symlinks, path aliases, the actual Git worktree root, repository identity, and Git worktree/admin identity. Two different strings that resolve to the same real worktree are `SAME_WORKTREE` and review is rejected.
+`validate_execution_slots(state)` remains a single-slot shape, lifecycle, and state-consistency validator. It does not discover physical worktrees or Git identity. Project-level review validation composes derived root-aware Git facts through the existing Git-continuity responsibility, rather than widening that slot validator.
+
+Worktree identity is a runtime-derived validation fact, never a persisted `worktree_id`, registry, database, or session identity. Its canonicalization pipeline is `absolute path -> resolve alias/symlink -> actual Git worktree root -> bind repository and Git worktree/admin identity`; root facts include repository identity, physical worktree root, Git worktree/admin identity, `HEAD`, and cleanliness. Pairwise isolation checks run only after these facts are derived. Two different strings that resolve to the same real worktree are `SAME_WORKTREE` and review is rejected.
 
 ### Reviewer view and exact target binding
 
@@ -90,14 +94,17 @@ At review start, all of the following are required:
 ```text
 REVIEW_VIEW_DISTINCT = TRUE
 REVIEW_HEAD_SHA == REVIEW_TARGET_SHA
+REVIEW_TARGET_SHA == IMPLEMENTATION_RESULT_SHA
 REVIEW_TRACKED_WORKTREE_CLEAN = TRUE
 ```
 
-Reviewer authority is limited to `READ`, `TEST`, `VALIDATE`, and `REPORT`; it excludes `MUTATE_APPROVED_SCOPE`, `COMMIT`, and `PUSH`. If tracked source is changed by the Reviewer and cannot be proven restored to the exact target revision, the review is `REVIEW_INVALID`.
+Reviewer authority is limited to `READ`, `TEST`, `VALIDATE`, and `REPORT`; it excludes `MUTATE_APPROVED_SCOPE`, `COMMIT`, and `PUSH`. The reviewer canonical worktree must differ from the implementer canonical worktree. If tracked source is changed by the Reviewer, is dirty at review entry, has the wrong `HEAD`, or cannot be proven still at the exact target revision after review, `REVIEW_RESULT_CANNOT_PASS`.
 
 ### Fresh role context and allowlisted inputs
 
-Durable repository separation does not prove that a model never saw another role's private conversation. Dispatch therefore requires a fresh independent role context plus an input allowlist. If either cannot be established, `ROLE_DISPATCH = BLOCKED`; changing a role label in one conversation is insufficient.
+Durable repository separation does not prove that a model never saw another role's private conversation. The existing Review Request issuance / role-action boundary must therefore require the runtime-only, non-authoritative precondition `FRESH_INDEPENDENT_ROLE_CONTEXT_VERIFIED = TRUE` plus an input allowlist. It proves only that the dispatcher/platform supplied this precondition; it cannot prove what a model has ever seen. Missing, false, or unknown freshness yields `REVIEW_REQUEST_DISPATCH = DENY` and `ROLE_DISPATCH = BLOCKED`; changing a role label in one conversation is insufficient.
+
+This freshness fact is evaluated before a Review Request is issued and is neither persisted nor added to any schema, identity, context system, registry, or database. Existing instruction and role authority remain the only dispatch boundary; freshness does not become verification or result authority.
 
 Implementer input may include Project authority, `CONTROL`, `STATE`, Rules, Strategy Profile, accepted Design/Plan, Work Unit, Execution/Fix Instruction, required repository files, and required verification evidence. It must not proactively receive Reviewer chat, transcripts, scratchpads, private reasoning, raw prompts, or unadjudicated conclusions.
 
