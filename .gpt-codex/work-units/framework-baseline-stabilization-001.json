@@ -1,0 +1,84 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-baseline-stabilization-001",
+  "goal": "Restore a clean pre-Plugin Framework baseline by correcting the two already-proven baseline defects, then prove the complete existing test suite and validators run cleanly before Test Effectiveness Phase 2.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_local_corrective_state.py"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/git_continuity.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      "plugins/gpt-codex-framework/",
+      ".gpt-codex/schemas/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "acceptance": [
+    "Consumer projection classifies the durable Task 3 Work Unit as management-only through the existing projection contract, without classifying unpublished Plugin candidate files.",
+    "test_local_corrective_state.py no longer pins mutable current STATE revision/state/work-unit/SHA facts to one historical snapshot and instead tests durable identity, continuity, and historical publication invariants.",
+    "Consumer-projection retrospective sensitivity proof: correct classification passes; simulated removal/absence of the classification fails; restoration passes.",
+    "State-oracle retrospective sensitivity proof: legitimate lifecycle changes remain accepted while simulated durable identity/continuity invariant violations fail.",
+    "The complete .gpt-codex test suite finishes with known counts, 0 failures, and 0 errors.",
+    "validate_consumer_projection.py --root ., validate_framework.py, validate_project.py ., and git diff --check all pass.",
+    "Independent post-execution review completes before integration."
+  ],
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 12,
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
+    ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json"
+  ],
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "authorized_task": "FRAMEWORK_BASELINE_STABILIZATION",
+    "implementation_authorized": true,
+    "implementation_start_allowed": false,
+    "next_gate": "PRE_EXECUTION_REVIEW",
+    "bootstrap_exception_ref": ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json"
+  },
+  "test_effectiveness": {
+    "consumer_projection": {
+      "classification": "RETROSPECTIVE_REGRESSION_SENSITIVITY_CHECK",
+      "fault_model": "management-only Work Unit exists but is left unclassified by the consumer projection"
+    },
+    "state_oracle": {
+      "classification": "RETROSPECTIVE_REGRESSION_SENSITIVITY_CHECK",
+      "fault_model": "test incorrectly treats one historical mutable STATE snapshot as a permanent invariant"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "USER_ASSERTED",
+  "subject": "ROOT_CONTROL_PLANE_BOOTSTRAP_ADJUDICATION",
+  "state_revision": 12,
+  "result": "ACCEPT",
+  "finding_id": "BOOTSTRAP-WU-AUTHORITY-001",
+  "decision": "ACCEPT",
+  "classification": "ONE_TIME_ROOT_CONTROL_PLANE_BOOTSTRAP_RECONCILIATION",
+  "reason": "NO_ACTIVE_WORK_UNIT_BOOTSTRAP_PATH",
+  "normal_mutation_gate_satisfied": false,
+  "user_approval_required": true,
+  "user_approval_observed": true,
+  "new_work_unit": "framework-baseline-stabilization-001",
+  "exception_scope": "CONTROL_PLANE_AUTHORITY_CREATION_ONLY",
+  "baseline_implementation_authorized_by_exception": false,
+  "plugin_implementation_authorized": false,
+  "general_bootstrap_mechanism_created": false,
+  "exception_ends_when_new_work_unit_is_durable": true
+}

@@ -1,0 +1,18 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "TASK3-DEFERRAL-PUBLICATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "TASK3_DEFERRAL_PUBLICATION_VERIFICATION",
+  "state_revision": 11,
+  "result": "VERIFIED",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "remote_ref": "refs/heads/main",
+  "remote_head_sha": "7963e29268cf9d2c48b684c2b7dcbabd4a2efa86",
+  "verified_deferral_result_ref": ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json",
+  "task3_completion_claimed": false,
+  "plugin_candidate_published": false,
+  "plugin_candidate_is_authority": false
+}

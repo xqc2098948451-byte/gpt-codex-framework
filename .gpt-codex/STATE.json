@@ -2,9 +2,9 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 11,
+  "revision": 12,
   "state": "AUTHORIZED",
-  "active_work_unit": null,
+  "active_work_unit": "framework-baseline-stabilization-001",
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
@@ -23,14 +23,17 @@
     ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS.json",
     ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION.json",
     ".gpt-codex/evidence/TASK3-USER-DIRECTED-DEFERRAL.json",
-    ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json"
+    ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json",
+    ".gpt-codex/evidence/TASK3-DEFERRAL-PUBLICATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
+    ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "0c143cf62b9755827ddeca2741979f08e7242beb",
-    "latest_synced_state_revision": 10,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+    "latest_verified_remote_sha": "7963e29268cf9d2c48b684c2b7dcbabd4a2efa86",
+    "latest_synced_state_revision": 11,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
     "sync_status": "SYNC_PENDING"
   },
-  "next_action": "BASELINE_STABILIZATION_WORK_UNIT_REQUIRED"
+  "next_action": "BASELINE_STABILIZATION_PRE_EXECUTION_REVIEW_REQUIRED"
 }
