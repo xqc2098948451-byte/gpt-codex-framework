@@ -665,11 +665,33 @@ def validate_governed_mutation_entry(
         errors.extend(["RECONCILIATION_REQUIRED", "PROJECT_IDENTITY_INVALID"])
     if state.get("revision") != current_state_revision:
         errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+    authority_work_unit = work_unit
     policy = project_control.get("execution_policy")
     if policy is not None:
-        errors.extend(validate_project_strategy_lifecycle(policy, [work_unit]))
+        canonical_work_unit = _resolve_work_unit_at_ref(repository_root, mutation_instruction.get("target_work_unit_ref")) if repository_root is not None else None
+        current_head = None
+        if repository_root is not None:
+            result = subprocess.run(
+                ["git", "-C", str(repository_root), "rev-parse", "HEAD"], capture_output=True, text=True,
+            )
+            if result.returncode == 0 and _is_sha(result.stdout.strip()):
+                current_head = result.stdout.strip()
+        current_control = _git_json_at_path(repository_root, current_head, ".gpt-codex/CONTROL.json") if current_head is not None else None
+        if not isinstance(canonical_work_unit, Mapping) or not isinstance(current_control, Mapping):
+            errors.append("RECONCILIATION_REQUIRED")
+        else:
+            assertion_keys = ("project_id", "work_unit_id", "state", "basis_state_revision", "strategy_profile_id")
+            optional_assertion_keys = ("scope", "artifact_refs")
+            if (
+                current_control.get("execution_policy") != policy
+                or any(work_unit.get(key) != canonical_work_unit.get(key) for key in assertion_keys)
+                or any(key in work_unit and work_unit.get(key) != canonical_work_unit.get(key) for key in optional_assertion_keys)
+            ):
+                errors.append("RECONCILIATION_REQUIRED")
+            authority_work_unit = canonical_work_unit
+        errors.extend(validate_project_strategy_lifecycle(policy, [authority_work_unit]))
         errors.extend(validate_repository_authorization(
-            repository_authority, mutation_instruction, work_unit, current_state_revision=current_state_revision,
+            repository_authority, mutation_instruction, authority_work_unit, current_state_revision=current_state_revision,
             repository_root=repository_root, project_control=project_control,
         ))
         baseline = _git_json_at_path(repository_root, mutation_instruction.get("expected_base_sha"), ".gpt-codex/CONTROL.json") if repository_root is not None else None
@@ -682,7 +704,7 @@ def validate_governed_mutation_entry(
             if not isinstance(owned, list) or ".gpt-codex/CONTROL.json" not in owned or not isinstance(actions, list) or "MUTATE_APPROVED_SCOPE" not in actions:
                 errors.append("RECONCILIATION_REQUIRED")
     errors.extend(validate_framework_adoption(
-        project_control, mutation_instruction, work_unit, current_state_revision=current_state_revision,
+        project_control, mutation_instruction, authority_work_unit, current_state_revision=current_state_revision,
     ))
     errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
     errors.extend(_validate_project_guardrails(project_control, prefix_context_error=False))
@@ -714,14 +736,18 @@ def validate_repository_authorization(
     deny = ["IMPLEMENTATION_AUTHORIZATION = DENY"]
     if not isinstance(authority, Mapping) or not isinstance(mutation_instruction, Mapping) or not isinstance(work_unit, Mapping) or repository_root is None or not isinstance(project_control, Mapping):
         return deny
-    required = {"accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id", "state_revision", "authorization"}
-    if set(authority) != required or any(not _is_nonempty_string(authority.get(key)) for key in ("accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id")):
+    required = {"project_context_id", "work_unit_id", "state_revision", "authorization"}
+    optional_assertions = {"accepted_design_ref", "accepted_plan_ref"}
+    if not required.issubset(authority) or not set(authority).issubset(required | optional_assertions) or any(not _is_nonempty_string(authority.get(key)) for key in ("project_context_id", "work_unit_id")):
         return deny
     authorization = authority.get("authorization")
     if not isinstance(authorization, Mapping) or set(authorization) != {"authority_type", "instruction_id", "status", "target_revision"}:
         return deny
     resolved = _resolve_work_unit_at_ref(repository_root, mutation_instruction.get("target_work_unit_ref"))
     if not isinstance(resolved, Mapping): return deny
+    refs = resolved.get("artifact_refs")
+    if not isinstance(refs, Mapping): return deny
+    expected_design = _artifact_ref_text(refs.get("design")); expected_plan = _artifact_ref_text(refs.get("plan"))
     if (
         authorization.get("authority_type") not in {"INSTRUCTION", "RESULT", "EVIDENCE"}
         or authorization.get("status") != "EXECUTION_AUTHORIZED"
@@ -730,6 +756,8 @@ def validate_repository_authorization(
         or authority.get("state_revision") != current_state_revision
         or authorization.get("instruction_id") != mutation_instruction.get("instruction_id")
         or authorization.get("target_revision") != mutation_instruction.get("expected_base_sha")
+        or ("accepted_design_ref" in authority and authority.get("accepted_design_ref") != expected_design)
+        or ("accepted_plan_ref" in authority and authority.get("accepted_plan_ref") != expected_plan)
         or resolved.get("work_unit_id") != mutation_instruction.get("target_work_unit")
         or resolved.get("project_id") != project_control.get("project_id")
         or resolved.get("state") != "AUTHORIZED"
@@ -738,6 +766,11 @@ def validate_repository_authorization(
     ):
         return deny
     return []
+
+def _artifact_ref_text(ref: object) -> str | None:
+    if not isinstance(ref, Mapping) or set(ref) != {"path", "sha"}: return None
+    path, sha = ref.get("path"), ref.get("sha")
+    return f"{path}@{sha}" if isinstance(path, str) and _is_sha(sha) else None
 
 def _resolve_work_unit_at_ref(root: Path, reference: object) -> Mapping[str, Any] | None:
     if not isinstance(reference, Mapping) or set(reference) != {"path", "sha"}: return None

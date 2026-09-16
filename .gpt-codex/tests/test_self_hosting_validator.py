@@ -120,22 +120,92 @@ class SelfHostingValidatorTests(unittest.TestCase):
             (root / "design.md").write_text("design", encoding="utf-8")
             (root / "plan.md").write_text("plan", encoding="utf-8")
             base = commit_repository(root, "base")
-            persisted = {**work_unit, "strategy_profile_id": "PROFILE_B", "scope": {"owned_paths": [".gpt-codex/CONTROL.json"]},
+            persisted = {**work_unit, "scope": {"owned_paths": [".gpt-codex/CONTROL.json"]},
                          "artifact_refs": {"design": {"path": "design.md", "sha": base}, "plan": {"path": "plan.md", "sha": base}}}
             (gov / "WU-GOVERNED.json").write_text(json.dumps(persisted), encoding="utf-8")
             locator_sha = commit_repository(root, "work unit")
             mutation.update({"expected_base_sha": base, "target_work_unit_ref": {"path": ".gpt-codex/WU-GOVERNED.json", "sha": locator_sha}})
             request["review_target_revision"] = base; result["review_target_revision"] = base
             authority = {
-                "accepted_design_ref": "design:foundation@" + "a" * 40,
-                "accepted_plan_ref": "plan:foundation@" + "b" * 40,
+                "accepted_design_ref": "design.md@" + base,
+                "accepted_plan_ref": "plan.md@" + base,
                 "project_context_id": control["project_context_id"], "work_unit_id": work_unit["work_unit_id"], "state_revision": 3,
                 "authorization": {"authority_type": "INSTRUCTION", "instruction_id": mutation["instruction_id"], "status": "EXECUTION_AUTHORIZED", "target_revision": base},
             }
             self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3, repository_authority=authority, repository_root=root), [])
-            changed = deepcopy(control); changed["execution_policy"]["strategy_profile_id"] = "PROFILE_B"
+            canonical_authority = {
+                key: value for key, value in authority.items() if key not in {"accepted_design_ref", "accepted_plan_ref"}
+            }
+            self.assertEqual(validate_governed_mutation_entry(
+                control, state, work_unit, mutation, request, result, current_state_revision=3,
+                repository_authority=canonical_authority, repository_root=root,
+            ), [])
+            self.assertIn("IMPLEMENTATION_AUTHORIZATION = DENY", validate_governed_mutation_entry(
+                control, state, work_unit, mutation, request, result, current_state_revision=3,
+                repository_authority={**authority, "accepted_design_ref": "fake"}, repository_root=root,
+            ))
+            for caller_assertion in (
+                {**work_unit, "scope": {"owned_paths": []}},
+                {**work_unit, "artifact_refs": {"design": {"path": "other.md", "sha": base}, "plan": {"path": "plan.md", "sha": base}}},
+            ):
+                with self.subTest(caller_assertion=caller_assertion):
+                    self.assertIn("RECONCILIATION_REQUIRED", validate_governed_mutation_entry(
+                        control, state, caller_assertion, mutation, request, result, current_state_revision=3,
+                        repository_authority=authority, repository_root=root,
+                    ))
+            caller_only_change = deepcopy(control)
+            caller_only_change["execution_policy"]["strategy_profile_id"] = "PROFILE_B"
+            self.assertIn("RECONCILIATION_REQUIRED", validate_governed_mutation_entry(
+                caller_only_change, state, {**work_unit, "strategy_profile_id": "PROFILE_B"}, mutation, request, result,
+                current_state_revision=3, repository_authority=authority, repository_root=root,
+            ))
+            changed_control = deepcopy(control)
+            changed_control["execution_policy"]["strategy_profile_id"] = "PROFILE_B"
             changed_work_unit = {**work_unit, "strategy_profile_id": "PROFILE_B"}
-            self.assertEqual(validate_governed_mutation_entry(changed, state, changed_work_unit, mutation, request, result, current_state_revision=3, repository_authority=authority, repository_root=root), [])
+            changed_persisted = {
+                **changed_work_unit,
+                "scope": {"owned_paths": [".gpt-codex/CONTROL.json"]},
+                "artifact_refs": persisted["artifact_refs"],
+            }
+            (gov / "CONTROL.json").write_text(json.dumps(changed_control), encoding="utf-8")
+            (gov / "WU-GOVERNED.json").write_text(json.dumps(changed_persisted), encoding="utf-8")
+            changed_sha = commit_repository(root, "governed strategy change")
+            changed_mutation = {**mutation, "target_work_unit_ref": {"path": ".gpt-codex/WU-GOVERNED.json", "sha": changed_sha}}
+            self.assertEqual(validate_governed_mutation_entry(
+                changed_control, state, changed_work_unit, changed_mutation, request, result, current_state_revision=3,
+                repository_authority=authority, repository_root=root,
+            ), [])
+            (gov / "WU-NO-CONTROL.json").write_text(json.dumps({
+                **changed_persisted, "scope": {"owned_paths": []},
+            }), encoding="utf-8")
+            unowned_sha = commit_repository(root, "unowned strategy change")
+            unowned_mutation = {
+                **changed_mutation,
+                "target_work_unit_ref": {"path": ".gpt-codex/WU-NO-CONTROL.json", "sha": unowned_sha},
+            }
+            self.assertIn("RECONCILIATION_REQUIRED", validate_governed_mutation_entry(
+                changed_control, state, changed_work_unit, unowned_mutation, request, result, current_state_revision=3,
+                repository_authority=authority, repository_root=root,
+            ))
+            self.assertIn("RECONCILIATION_REQUIRED", validate_governed_mutation_entry(
+                changed_control, state, changed_work_unit, {**changed_mutation, "target_work_unit": "WRONG"}, request, result,
+                current_state_revision=3, repository_authority=authority, repository_root=root,
+            ))
+            for role in ("design", "plan"):
+                with self.subTest(role=role):
+                    invalid_refs = deepcopy(changed_persisted)
+                    invalid_refs["artifact_refs"][role]["path"] = f"missing-{role}.md"
+                    invalid_path = f".gpt-codex/WU-BAD-{role}.json"
+                    (root / invalid_path).write_text(json.dumps(invalid_refs), encoding="utf-8")
+                    invalid_sha = commit_repository(root, f"invalid {role} ref")
+                    invalid_mutation = {
+                        **changed_mutation,
+                        "target_work_unit_ref": {"path": invalid_path, "sha": invalid_sha},
+                    }
+                    self.assertIn("IMPLEMENTATION_AUTHORIZATION = DENY", validate_governed_mutation_entry(
+                        changed_control, state, changed_work_unit, invalid_mutation, request, result,
+                        current_state_revision=3, repository_authority=authority, repository_root=root,
+                    ))
             self.assertIn("IMPLEMENTATION_AUTHORIZATION = DENY", validate_governed_mutation_entry(control, state, work_unit, {**mutation, "target_work_unit_ref": {"path": "missing.json", "sha": locator_sha}}, request, result, current_state_revision=3, repository_authority=authority, repository_root=root))
             return
         authority = {
