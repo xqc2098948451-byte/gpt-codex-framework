@@ -231,6 +231,14 @@ class ResultContractSchemaTests(unittest.TestCase):
         result = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "W", "extension": {}, "status": "INCOMPLETE", "evidence_refs": [], "completion_gate": "NONE", "completion_evidence": {"execution_state": "INCOMPLETE"}}
         self.assertEqual(validate_result_envelope_contract(result), [])
 
+    def test_schema_rejects_governed_pass_with_partial_completion_evidence(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from validate_project import validate_result_envelope_contract
+        partial = {"execution_state": "COMPLETED", "process_completed": True, "exit_code": 0, "intended_scope": ["suite"], "executed_scope": ["suite"], "test_files_expected": 1, "test_files_executed": 1, "test_count": 1, "failure_count": 0, "error_count": 0, "validators_expected": [], "blocker_evidence_refs": []}
+        result = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "W", "extension": {}, "status": "PASS", "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "VERIFIED", "result_message_type": "IMPLEMENTATION_RESULT", "completion_evidence": partial}
+        self.assertTrue(validate_result_envelope_contract(result))
+
 
 if __name__ == "__main__":
     unittest.main()
