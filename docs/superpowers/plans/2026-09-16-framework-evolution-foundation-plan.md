@@ -10,7 +10,7 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md`
 **DESIGN_PATH:** `docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md`
-**DESIGN_SHA:** `baaf204b860717e6766042b2dbedbf7a99c988bd`
+**DESIGN_SHA:** `3dc27babbbb50c2c68decb1ce87846292ff748a4`
 
 ## Global Constraints
 
@@ -37,7 +37,7 @@
 
 **Existing interfaces to extend:**
 
-- `validate_execution_policy(policy) -> list[str]` retains `None` acceptance for legacy projects and validates a project-specific `strategy_profile_id` when policy exists.
+- `validate_execution_policy(policy) -> list[str]` retains `None` acceptance for legacy projects and validates the accepted project `strategy_profile_id` when policy exists; the Foundation gate compares each governed Work Unit reference to that project authority.
 - `build_process_review(records, strategy_profile, usage=None) -> ProcessReview` remains the aggregate authority; bounded record validation must preserve `UNKNOWN` usage rather than estimate it.
 - `validate_framework_feedback(record) -> list[str]` and `framework_feedback_authorizes_mutation(...) -> bool` retain the rule that ordinary-project feedback is not Framework mutation authority.
 - `validate_governed_mutation_entry(...) -> list[str]` remains the one mutation gate and composes a repository-backed acceptance/authorization correlation check instead of introducing approval storage.
@@ -45,13 +45,13 @@
 
 **Produced behavior:**
 
-- A Foundation-governed new-project implementation requires a stable project Strategy Profile and rejects silent strategy mismatch; legacy input without `execution_policy` remains valid outside that new gate.
+- A Foundation-governed new-project implementation requires one accepted Project Strategy Profile across its governed Work Units. Each Work Unit may reference, but cannot redefine or silently override, that profile; silent cross-Work-Unit drift fails. An explicit governed Strategy change updates the accepted Project authority before subsequent Work Units can pass. Legacy input without `execution_policy` remains valid outside that new gate.
 - Repository-only recovery validates accepted Design/Plan refs, `AUTHORIZED` Work Unit, and a precise existing Instruction/Result/Evidence correlation over project context, Work Unit, artifact/revision, instruction/result identity, target revision, state revision, and completion gate. Absence, foreign identity, stale revision, or chat-only input yields `IMPLEMENTATION_AUTHORIZATION = DENY`.
 - The existing Reasoning execution record and `ProcessReview` aggregate the bounded fields `WORK_UNIT_ID`, `FINAL_RESULT`, retry/intervention/review/remediation counts, handoff result, reliable-or-`UNKNOWN` usage, Git SHA, and Result ref without duplicating scope, Strategy, test evidence, changed files, or Git authority.
 
 - [ ] **Step 1: Add failing lifecycle and repository-authorization tests.**
 
-  In `test_framework_feedback.py`, cover a valid project-specific policy; rejected silent profile drift; legacy `None` policy acceptance; a bounded closure record with all required references; and an `UNKNOWN` usage value that remains `UNKNOWN`. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover valid repository-backed Design/Plan + `AUTHORIZED` Work Unit + correlated approval fact, then independently reject missing approval, foreign project/work-unit/ref, stale target/state revision, and a chat-only or artifact-exists substitute. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
+  In `test_framework_feedback.py`, add only these Strategy lifecycle cases: (A) two governed Work Units that reference the same accepted Project profile pass; (B) a silent Work Unit profile drift fails; (C) an explicit governed Strategy change updates Project authority and a subsequent Work Unit using it passes; and (D) legacy `None` policy acceptance passes. Do not add Strategy registry, history, or parallel-subsystem tests. Separately retain the bounded closure record with all required references and an `UNKNOWN` usage value that remains `UNKNOWN`. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover valid repository-backed Design/Plan + `AUTHORIZED` Work Unit + correlated approval fact, then independently reject missing approval, foreign project/work-unit/ref, stale target/state revision, and a chat-only or artifact-exists substitute. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
 
 - [ ] **Step 2: Run the focused RED tests.**
 
@@ -62,7 +62,7 @@
 
 - [ ] **Step 3: Implement the minimum extensions in existing authorities.**
 
-  Extend `framework_feedback.py` with the smallest pure validators needed for a Foundation lifecycle record and stable Strategy comparison; keep `ProcessReview` as the aggregation result and `FrameworkFeedback` non-authoritative. Extend `validate_project.py` with a pure repository-authorization correlation check called by `validate_governed_mutation_entry`; it returns existing fail-closed validation errors plus `IMPLEMENTATION_AUTHORIZATION = DENY` when required proof is absent. Keep all data within existing mappings and references. Update the Reasoning template with the bounded observable record fields and the repository-only recovery rule.
+  Extend `framework_feedback.py` with the smallest pure validators needed for a Foundation lifecycle record and Project-level Strategy comparison; keep `ProcessReview` as the aggregation result and `FrameworkFeedback` non-authoritative. Reuse existing repository-backed authority for an explicit governed Strategy change, then persist/validate its accepted Project authority before a subsequent Work Unit uses it. Extend `validate_project.py` with a pure repository-authorization correlation check called by `validate_governed_mutation_entry`; it returns existing fail-closed validation errors plus `IMPLEMENTATION_AUTHORIZATION = DENY` when required proof is absent. Keep all data within existing mappings and references. Update the Reasoning template with the bounded observable record fields and the repository-only recovery rule.
 
 - [ ] **Step 4: Run focused GREEN and regression tests.**
 
@@ -78,41 +78,41 @@
 
 - Modify: `.gpt-codex/scripts/continuity_resume.py`
 - Modify: `.gpt-codex/scripts/validate_project.py`
-- Modify: `.gpt-codex/scripts/role_communication.py`
+- Modify: `.gpt-codex/scripts/instruction_envelope.py`
 - Test: `.gpt-codex/tests/test_navigation_project_validation.py`
 - Test: `.gpt-codex/tests/test_continuity_resume.py`
 - Test: `.gpt-codex/tests/test_review_lifecycle.py`
-- Test: `.gpt-codex/tests/test_role_authority.py`
+- Test: `.gpt-codex/tests/test_instruction_envelope.py`
 
 **Existing interfaces to extend:**
 
-- `validate_execution_slots(state) -> list[str]`, `validate_slot_transition(previous, current) -> list[str]`, and `validate_reviewer_assignment(...) -> list[str]` remain the ExecutionSlot authority.
-- Existing path resolution in `continuity_resume.py` and `project_navigation.py` supplies the base for canonical worktree facts; repository binding remains in existing Git/repository authority rather than a new identity system.
+- `validate_execution_slots(state) -> list[str]` remains limited to single-slot shape, lifecycle, and state consistency; it must not discover physical worktrees or Git identity. `validate_slot_transition(previous, current) -> list[str]` and `validate_reviewer_assignment(...) -> list[str]` retain their existing slot/reassignment responsibility.
+- `.gpt-codex/scripts/validate_project.py:validate_pre_execution_review(...)` is the project-level reviewer-correlation composition entry. It consumes nonpersisted root-aware facts derived by the existing Git-continuity path `.gpt-codex/scripts/continuity_resume.py:_execution_slot_recovery(...) -> _git_recovery_is_current(root, slot, state)`, rather than moving Git discovery into `validate_execution_slots`.
 - `validate_review_result(...)`, `validate_pre_execution_review(...)`, and `validate_review_lifecycle(...)` remain reviewer authority and finding/remediation authority.
-- `role_communication.py` continues to own role/message taxonomy; it validates allowlisted role inputs rather than storing conversations.
+- `.gpt-codex/scripts/instruction_envelope.py:build_instruction_envelope(...)` is the existing Review Request issuance boundary. It preserves `.gpt-codex/scripts/role_communication.py:validate_action_authority(...)` as role/action authority and checks a dispatcher-supplied runtime freshness precondition before a `REVIEW_REQUEST` envelope is issued.
 
 **Produced behavior:**
 
-- Implementer and Reviewer use distinct slots and canonical worktree identities. Canonicalization resolves absolute path, symlinks, aliases, actual Git worktree root, repository identity, and worktree/admin identity; aliases resolving to one real worktree are rejected as `SAME_WORKTREE`.
-- Reviewer start requires a distinct clean tracked view whose `HEAD` equals the exact review target SHA. Reviewer mutation, commit, push, mutable/uncommitted review input, or unrecoverable tracked mutation invalidates review.
-- Dispatch requires a fresh independent role context and role-specific allowlisted repository inputs. It blocks on absent proof and never treats a role-label change in one conversation as independent context.
+- Implementer and Reviewer use distinct slots and canonical worktree identities. Root facts are derived as `absolute path -> resolve alias/symlink -> actual Git worktree root -> bind repository and Git worktree/admin identity`, then include `HEAD` and cleanliness before pairwise comparison. Aliases resolving to one real worktree are rejected as `SAME_WORKTREE`; no `worktree_id`, registry, database, or session identity is persisted.
+- Reviewer start requires the reviewer canonical worktree to differ from the implementer canonical worktree, reviewer `HEAD == REVIEW_TARGET_SHA`, `REVIEW_TARGET_SHA == IMPLEMENTATION_RESULT_SHA`, and a clean tracked reviewer worktree. A dirty/mutated view, wrong SHA, or a post-review view no longer at the target yields `REVIEW_RESULT_CANNOT_PASS`.
+- Dispatch requires the runtime-only, non-authoritative `FRESH_INDEPENDENT_ROLE_CONTEXT_VERIFIED = TRUE` and role-specific allowlisted repository inputs. It proves only that the dispatcher/platform supplied that precondition, never that a model has not seen prior context. Missing, false, or unknown freshness yields `REVIEW_REQUEST_DISPATCH = DENY` and `ROLE_DISPATCH = BLOCKED`; the fact is not written to an envelope, schema, identity, registry, database, or context system.
 - A `REVIEW_FINDING` stays result-side evidence; only GPT adjudication may produce a correlated `FIX_INSTRUCTION` for a fresh Implementer context.
 
 - [ ] **Step 1: Add failing isolation and mediation tests.**
 
-  In `test_navigation_project_validation.py` and `test_continuity_resume.py`, build paired slots for one Work Unit and assert acceptance only for distinct slot IDs and distinct canonical Git worktrees. Add alias, symlink, and normalized-path cases that resolve to the same worktree and require rejection. Add clean-view, exact-HEAD/target-SHA, reviewer tracked-mutation, and stale target cases. In `test_role_authority.py` and `test_review_lifecycle.py`, assert role allowlists reject private transcript/scratchpad/raw-prompt input, reject missing fresh-role-context proof, deny Reviewer mutation/commit/push, and require GPT-mediated correlated `FIX_INSTRUCTION` rather than raw reviewer transfer.
+  Add only these focused cases. (A) In `test_continuity_resume.py` and `test_navigation_project_validation.py`, aliases that resolve to the same actual worktree fail isolation. (B) Distinct physical worktrees pass when all other correlations hold. (C) In `test_review_lifecycle.py`, a reviewer with a wrong `HEAD` / review target SHA fails. (D) A dirty or mutated reviewer view denies review pass. (E) In `test_instruction_envelope.py`, missing, false, or unknown `FRESH_INDEPENDENT_ROLE_CONTEXT_VERIFIED` prevents a Review Request from being issued. (F) The fresh fact plus all other existing authority permits issuance. Do not add speculative isolation, context, registry, or persistence tests.
 
 - [ ] **Step 2: Run the focused RED tests.**
 
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_navigation_project_validation.py"`
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_continuity_resume.py"`
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`
-  Run: `python -m unittest discover -s .gpt-codex/tests -p "test_role_authority.py"`
+  Run: `python -m unittest discover -s .gpt-codex/tests -p "test_instruction_envelope.py"`
   Expected: the new canonical-worktree, fresh-context, and allowlist assertions fail because the existing slot/review contracts do not yet require every Foundation fact.
 
 - [ ] **Step 3: Implement the minimum isolation extensions.**
 
-  Add small pure canonical-worktree and pairwise-slot checks within `continuity_resume.py`; use existing repository facts and path resolution, with no persistent context ID, registry, database, or worktree manager. Compose their errors through `validate_execution_slots`, `validate_reviewer_assignment`, and the existing review validators. Add closed allowlist validation in `role_communication.py` and call it from the existing validation path. Preserve `validate_review_result`, `validate_pre_execution_review`, and `validate_review_lifecycle` as the only reviewer/finding lifecycle, and preserve the current post-execution remediation sequence.
+  Extend the existing Git-continuity responsibility in `continuity_resume.py` around `_execution_slot_recovery(...)` and `_git_recovery_is_current(root, slot, state)` to derive the required nonpersisted root facts. Preserve `validate_execution_slots(state)` as slot-only; do not compose root facts through it. At the existing project-level entry `validate_project.validate_pre_execution_review(...)`, compare derived facts only after canonicalization and enforce canonical reviewer/implementer inequality, exact implementation/review target/`HEAD` correlation, clean entry, and unchanged target after review. At the existing issuance boundary `instruction_envelope.build_instruction_envelope(...)`, fail closed before constructing a `REVIEW_REQUEST` unless the dispatcher supplies `FRESH_INDEPENDENT_ROLE_CONTEXT_VERIFIED = TRUE`; do not persist this runtime fact or change schema. Reuse `role_communication.validate_action_authority(...)` unchanged for role/action authority. Preserve `validate_review_result`, `validate_pre_execution_review`, and `validate_review_lifecycle` as the only reviewer/finding lifecycle, and preserve the current post-execution remediation sequence.
 
 - [ ] **Step 4: Run focused GREEN and regression tests.**
 
