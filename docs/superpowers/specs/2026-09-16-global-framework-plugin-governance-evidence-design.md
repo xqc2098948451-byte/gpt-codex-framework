@@ -83,6 +83,21 @@ add Project-state fields. A Plugin update implies neither Framework adoption,
 Project migration, nor Project-state mutation. A Framework release does not
 imply Project adoption.
 
+`ACTIVE_RELEASED_FRAMEWORK_AUTHORITY` is conceptually bound to verified
+released Framework identity, immutable release SHA/ref, release metadata, and
+a verified release/activation fact. `ACTIVE_PLUGIN_AUTHORITY` is conceptually
+bound to installed/activated released Plugin identity, immutable Plugin
+source/release identity, and a verified activation fact. These are derivable
+authority facts, not new Project-state or schema fields; a later Plan must
+prove any added persistence is necessary.
+
+Consequently repository `main`/`HEAD` may hold Framework `N+1` candidate while
+`ACTIVE_RELEASED_FRAMEWORK_AUTHORITY` remains Framework `N`, until `N+1` is
+accepted, validated, integrated, released, and activated. A Plugin candidate
+source likewise does not become `ACTIVE_PLUGIN_AUTHORITY`. Marketplace or
+distribution content must bind to approved released Plugin content, never an
+arbitrary development `main` snapshot. This adds no release subsystem.
+
 ## Plugin V1 boundary
 
 Plugin V1 has exactly these responsibilities:
@@ -109,6 +124,31 @@ Unit, repository root, physical worktree when applicable, git-dir, common-dir,
 branch/ref, `HEAD`, and next authorized action. Any unresolved or conflicting
 fact yields `ANALYSIS_ONLY` or `RECONCILIATION_REQUIRED`, never mutation.
 Framework-management/self-hosting work receives no bypass.
+
+### Product-surface limitation and repository-native closure
+
+The installed Plugin is a proactive entry, resume, routing, and enforcement
+adapter; it is not an unbypassable product hook and is not promised to execute
+automatically in every ChatGPT window, Codex task, or product surface. The
+repository-native Framework is the final fail-closed governance authority.
+
+```text
+PLUGIN_ACTIVE_AND_INVOKED
+-> FRAMEWORK_ENTRY must pass before Plugin-authorized mutation
+
+PLUGIN_NOT_INVOKED
+PLUGIN_UNAVAILABLE
+PLUGIN_NOT_SUPPORTED_ON_SURFACE
+-> does NOT make project mutation valid
+-> repository-native authority still applies
+```
+
+Repository-native protection includes applicable `KERNEL`, `AGENTS`,
+`PROJECT`/`CONTROL`/`STATE`, Work Unit authority, Instruction/Result contracts,
+Guardrails, validators, and Git/review authority. The Plugin reduces
+orchestration escape risk; repository governance prevents escaped execution
+from becoming valid governed completion. No product-level interception claim is
+made.
 
 ## Resume, Work Unit continuity, and new windows
 
@@ -222,14 +262,52 @@ the candidate. Candidate Framework `N+1` remains non-authoritative until
 accepted, validated, integrated, released, and activated. On failure, active
 Framework authority remains `N`.
 
+### Initial Plugin bootstrap
+
+`INITIAL_PLUGIN_BOOTSTRAP` applies only when no `ACTIVE_PLUGIN_AUTHORITY`
+exists. In that state, current active released Framework plus a user-approved
+Plugin Design, user-approved Plugin Plan, and the existing Framework governance
+lifecycle govern Plugin V1 development:
+
+```text
+no ACTIVE_PLUGIN
+-> active released Framework
++ user-approved Plugin Design
++ user-approved Plugin Plan
++ existing Framework governance lifecycle
+-> govern Plugin V1
+```
+
+Plugin V1 has `NO ACTIVE ENFORCEMENT AUTHORITY` until it is accepted,
+validated, integrated, released/imported, and explicitly activated. `Plugin 0`,
+an implicit predecessor Plugin, and candidate Plugin authority are prohibited;
+they must not be invented or assumed. This bootstrap is not circular because
+the released Framework and its established lifecycle, rather than V1, are the
+governing authority.
+
+### Plugin upgrade after activation
+
 Candidate Plugin `N+1` is developed under active Plugin `N` and active
 released Framework authority; it cannot alter active enforcement until
 accepted, validated, integrated, released/imported, and activated.
 
 ## Framework feedback and Project-owned evidence
 
-At meaningful Work Unit/Project closure, every enrolled Project runs
-`FRAMEWORK_FEEDBACK_CHECK` for observable Framework-level evidence:
+Every governed Work Unit terminal event requires
+`FRAMEWORK_FEEDBACK_CHECK = REQUIRED`; every governed Project closure also
+requires `FRAMEWORK_FEEDBACK_CHECK = REQUIRED`. The required Work Unit terminal
+events include `COMPLETE`, `BLOCKED`, `RECONCILIATION_REQUIRED`, and
+user-directed termination after actual governed execution.
+
+`INCOMPLETE` while a Work Unit continues across a runtime turn/window is not a
+Work Unit terminal event and does not force a closure feedback package merely
+because that window ended. If incomplete execution itself exposes observable
+Framework-level failure and the current workflow explicitly records feedback,
+it may still produce evidence under existing authority.
+
+Mandatory means perform the check; mandatory does not mean manufacture
+evidence. A valid check result is `NONE` or one or more normalized Framework
+evidence candidates. The check concerns observable Framework-level evidence:
 
 ```text
 OBSERVED_GAP
