@@ -1,0 +1,30 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "ACCEPTED_AUTHORITY_BASIS",
+  "state_revision": 10,
+  "result": "CODEX_IMPLEMENTER authority is limited to READ, TEST, VALIDATE, REPORT, and MUTATE_APPROVED_SCOPE.",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "finding_ids": [
+    "TASK3-PREEXEC-ROLE-AUTHORITY-001"
+  ],
+  "accepted": true,
+  "authority_refs": [
+    ".gpt-codex/scripts/role_communication.py@e214b3a938a2225072daf121274c5abc57346400",
+    ".gpt-codex/work-units/task-3-global-plugin-core-001.json@e214b3a938a2225072daf121274c5abc57346400"
+  ],
+  "observed_allowed_actions": [
+    "READ",
+    "TEST",
+    "VALIDATE",
+    "REPORT",
+    "MUTATE_APPROVED_SCOPE"
+  ],
+  "observed_conflicting_actions": [
+    "COMMIT",
+    "PUSH"
+  ]
+}
