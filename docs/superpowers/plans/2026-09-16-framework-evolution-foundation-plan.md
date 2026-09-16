@@ -10,7 +10,7 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md`
 **DESIGN_PATH:** `docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md`
-**DESIGN_SHA:** `3dc27babbbb50c2c68decb1ce87846292ff748a4`
+**DESIGN_SHA:** `c955888d9075672e11a350efd96640ac4da68763`
 
 ## Global Constraints
 
@@ -18,7 +18,7 @@
 - Preserve `TASK_SPLITTING = PROJECT_DETERMINED`; do not fix task count, reviewer count, parallelism, or agent count.
 - Distinguish `ARTIFACT_ACCEPTED` from `EXECUTION_AUTHORIZED`; missing repository-backed correlation yields `IMPLEMENTATION_AUTHORIZATION = DENY`.
 - Preserve legacy projects without `execution_policy`; require the new Strategy fact only for Foundation-governed implementation.
-- Keep seven Framework modules. Create no schema, database, project-context store, conversation store, state machine, approval artifact, execution-context ID system, registry, Plugin, scoring, automatic learning, private-reasoning store, transcript store, or second lifecycle.
+- Keep seven Framework modules. Create no schema file, database, project-context store, conversation store, state machine, approval artifact, execution-context ID system, registry, Plugin, scoring, automatic learning, private-reasoning store, transcript store, or second lifecycle. The sole permitted existing-schema extension is optional Instruction `target_work_unit_ref`, used only by the governed repository-backed mutation gate.
 - `PRIVATE_PLUGIN_PHASE = DEFERRED`; create no `.agents/`, Plugin manifest, Plugin Skill, marketplace configuration, or updater.
 - Apply TDD to each behavior mutation. A reviewer remains read-only and remediation remains `REVIEW_FINDING -> GPT adjudication -> FIX_INSTRUCTION -> fresh Implementer context`.
 
@@ -29,7 +29,10 @@
 **Files:**
 
 - Modify: `.gpt-codex/project-template/.harness/REASONING.template.md`
+- Modify: `.gpt-codex/schemas/instruction-envelope.schema.json`
+- Modify: `.gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json`
 - Modify: `.gpt-codex/scripts/framework_feedback.py`
+- Modify: `.gpt-codex/scripts/instruction_envelope.py`
 - Modify: `.gpt-codex/scripts/validate_project.py`
 - Test: `.gpt-codex/tests/test_framework_feedback.py`
 - Test: `.gpt-codex/tests/test_self_hosting_validator.py`
@@ -40,18 +43,19 @@
 - `validate_execution_policy(policy) -> list[str]` retains `None` acceptance for legacy projects and validates the accepted project `strategy_profile_id` when policy exists; the Foundation gate compares each governed Work Unit reference to that project authority.
 - `build_process_review(records, strategy_profile, usage=None) -> ProcessReview` remains the aggregate authority; bounded record validation must preserve `UNKNOWN` usage rather than estimate it.
 - `validate_framework_feedback(record) -> list[str]` and `framework_feedback_authorizes_mutation(...) -> bool` retain the rule that ordinary-project feedback is not Framework mutation authority.
-- `validate_governed_mutation_entry(...) -> list[str]` remains the one mutation gate and composes a repository-backed acceptance/authorization correlation check instead of introducing approval storage.
+- `instruction_envelope.build_instruction_envelope(...)` and the existing Instruction schema/template gain optional `target_work_unit_ref = {path, sha}` without breaking legacy parsing; it binds the logical `target_work_unit` to a durable immutable Work Unit artifact.
+- `validate_governed_mutation_entry(...) -> list[str]` remains the one mutation gate and composes root-aware repository-backed acceptance/authorization correlation through that locator instead of introducing approval storage.
 - `validate_pre_execution_review(...)` and `validate_review_lifecycle(...)` remain the pre- and post-execution review authorities.
 
 **Produced behavior:**
 
-- A Foundation-governed new-project implementation requires one accepted Project Strategy Profile across its governed Work Units. Each Work Unit may reference, but cannot redefine or silently override, that profile; silent cross-Work-Unit drift fails. An explicit governed Strategy change updates the accepted Project authority before subsequent Work Units can pass. Legacy input without `execution_policy` remains valid outside that new gate.
-- Repository-only recovery validates accepted Design/Plan refs, `AUTHORIZED` Work Unit, and a precise existing Instruction/Result/Evidence correlation over project context, Work Unit, artifact/revision, instruction/result identity, target revision, state revision, and completion gate. Absence, foreign identity, stale revision, or chat-only input yields `IMPLEMENTATION_AUTHORIZATION = DENY`.
+- A Foundation-governed new-project implementation requires one accepted Project Strategy Profile across its governed Work Units. Each Work Unit may reference, but cannot redefine or silently override, that profile; silent cross-Work-Unit drift fails. Strategy baseline comes from `CONTROL.execution_policy` at the Instruction base SHA. A change passes only when the repository-resolved `AUTHORIZED` Work Unit owns `.gpt-codex/CONTROL.json`, its optional locator matches `target_work_unit`, and existing Instruction/project/state/artifact authority correlates. Legacy input without `execution_policy` remains valid outside that new gate.
+- Repository-only recovery validates accepted Design/Plan refs, an immutable `target_work_unit_ref` resolving at its Git SHA to the `AUTHORIZED` Work Unit, and a precise existing Instruction/Result/Evidence correlation over project context, Work Unit, artifact/revision, instruction/result identity, target revision, state revision, and completion gate. Missing, foreign, stale, Git-unresolvable, or chat-only input yields `IMPLEMENTATION_AUTHORIZATION = DENY`.
 - The existing Reasoning execution record and `ProcessReview` aggregate the bounded fields `WORK_UNIT_ID`, `FINAL_RESULT`, retry/intervention/review/remediation counts, handoff result, reliable-or-`UNKNOWN` usage, Git SHA, and Result ref without duplicating scope, Strategy, test evidence, changed files, or Git authority.
 
 - [ ] **Step 1: Add failing lifecycle and repository-authorization tests.**
 
-  In `test_framework_feedback.py`, add only these Strategy lifecycle cases: (A) two governed Work Units that reference the same accepted Project profile pass; (B) a silent Work Unit profile drift fails; (C) an explicit governed Strategy change updates Project authority and a subsequent Work Unit using it passes; and (D) legacy `None` policy acceptance passes. Do not add Strategy registry, history, or parallel-subsystem tests. Separately retain the bounded closure record with all required references and an `UNKNOWN` usage value that remains `UNKNOWN`. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover valid repository-backed Design/Plan + `AUTHORIZED` Work Unit + correlated approval fact, then independently reject missing approval, foreign project/work-unit/ref, stale target/state revision, and a chat-only or artifact-exists substitute. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
+  In `test_framework_feedback.py`, add only these Strategy lifecycle cases: (A) two governed Work Units that reference the same accepted Project profile pass; (B) a silent Work Unit profile drift fails; (C) a Git-base Strategy change passes only through an `AUTHORIZED` locator-resolved Work Unit owning `.gpt-codex/CONTROL.json`; and (D) legacy `None` policy acceptance passes. Do not add Strategy registry, history, or parallel-subsystem tests. Lock reliable record-level usage preservation/compatible aggregation, `UNKNOWN` fallback, and explicit aggregate compatibility. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover a valid Git-resolved Design/Plan + `AUTHORIZED` Work Unit locator + correlated authorization fact; reject missing object, wrong SHA/path, Work Unit ID mismatch, cross-project object, in-memory mapping without locator, stale target/state revision, and chat-only or artifact-exists substitutes. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
 
 - [ ] **Step 2: Run the focused RED tests.**
 
@@ -62,7 +66,7 @@
 
 - [ ] **Step 3: Implement the minimum extensions in existing authorities.**
 
-  Extend `framework_feedback.py` with the smallest pure validators needed for a Foundation lifecycle record and Project-level Strategy comparison; keep `ProcessReview` as the aggregation result and `FrameworkFeedback` non-authoritative. Reuse existing repository-backed authority for an explicit governed Strategy change, then persist/validate its accepted Project authority before a subsequent Work Unit uses it. Extend `validate_project.py` with a pure repository-authorization correlation check called by `validate_governed_mutation_entry`; it returns existing fail-closed validation errors plus `IMPLEMENTATION_AUTHORIZATION = DENY` when required proof is absent. Keep all data within existing mappings and references. Update the Reasoning template with the bounded observable record fields and the repository-only recovery rule.
+  Extend the existing Instruction schema/template and `instruction_envelope.py` only to carry optional `target_work_unit_ref {path, sha}` while retaining legacy parsing. Extend `framework_feedback.py` with the smallest pure lifecycle-record, Strategy, and usage aggregation validators; keep `ProcessReview` as the aggregation result and `FrameworkFeedback` non-authoritative. Extend `validate_project.py` with root-aware Git resolution of the locator and immutable Work Unit Design/Plan refs, called by `validate_governed_mutation_entry`; it derives baseline Strategy from `CONTROL.json` at the base SHA and returns existing fail-closed errors plus `IMPLEMENTATION_AUTHORIZATION = DENY` when proof is absent. Keep all data within existing artifacts and references; create no registry or new artifact. Update the Reasoning template only with the bounded observable record fields and repository-only recovery rule.
 
 - [ ] **Step 4: Run focused GREEN and regression tests.**
 
