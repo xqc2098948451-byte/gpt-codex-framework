@@ -708,18 +708,28 @@ def _derive_pairwise_review_facts(
     if implementer.get("slot_id") == reviewer.get("slot_id"):
         return _recovery_result()
     roots = []
+    verified_slots = []
     for slot in (implementer, reviewer):
         worktree = slot.get("worktree")
         if not isinstance(worktree, str) or not worktree.strip():
             return _recovery_result()
         candidate = (Path(root) / worktree).resolve()
-        normalized = dict(slot, worktree=".")
-        if not _git_recovery_is_current(candidate, normalized, state):
+        normalized_slots = [
+            dict(candidate_slot, worktree=".") if candidate_slot.get("slot_id") == slot.get("slot_id") else dict(candidate_slot)
+            for candidate_slot in slots
+        ]
+        recovery_state = dict(state, active_execution_slots=normalized_slots)
+        recovery = _execution_slot_recovery(
+            candidate, control, recovery_state, slot.get("slot_id"), None, None,
+        )
+        if recovery.get("reconciliation_required") or not isinstance(recovery.get("execution_slot"), Mapping):
             return _recovery_result()
         identity = _canonical_worktree_identity(candidate)
         if identity is None:
             return _recovery_result()
         roots.append(identity)
+        verified_slots.append(recovery["execution_slot"])
+    implementer, reviewer = verified_slots
     implementation_sha, reviewer_head_sha = implementer.get("current_head_sha"), reviewer.get("current_head_sha")
     if roots[0] == roots[1] or implementation_sha != review_request.get("review_target_revision") or reviewer_head_sha != review_request.get("review_target_revision"):
         return _recovery_result()

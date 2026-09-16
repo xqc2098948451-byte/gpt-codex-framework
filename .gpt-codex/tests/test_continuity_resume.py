@@ -4,12 +4,33 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_pairwise_derivation_uses_full_recovery_for_each_selected_slot(self):
+        from continuity_resume import _derive_pairwise_review_facts
+
+        state = {
+            "active_execution_slots": [
+                {"slot_id": "impl", "role": "CODEX_IMPLEMENTER", "project_context_id": "ctx", "work_unit_id": "wu", "worktree": "impl", "current_head_sha": "a" * 40},
+                {"slot_id": "review", "role": "CODEX_REVIEWER", "project_context_id": "ctx", "work_unit_id": "wu", "review_request_id": "request", "worktree": "review", "current_head_sha": "a" * 40},
+            ],
+        }
+        request = {"instruction_id": "request", "target_project_context_id": "ctx", "target_work_unit": "wu", "review_target_revision": "a" * 40}
+        def recovery(_root, _control, _state, slot_id, _binding, _facts):
+            return {"status": "LATEST_SYNCED_REMOTE_STATE", "reconciliation_required": False,
+                    "execution_slot": next(slot for slot in state["active_execution_slots"] if slot["slot_id"] == slot_id)}
+
+        with patch("continuity_resume._execution_slot_recovery", side_effect=recovery) as full_recovery, patch(
+            "continuity_resume._canonical_worktree_identity", side_effect=[Path("impl"), Path("review")],
+        ):
+            _derive_pairwise_review_facts(Path("."), {}, state, request)
+        self.assertEqual(full_recovery.call_count, 2)
+
     def test_pairwise_worktree_identity_distinguishes_aliases_from_real_worktrees(self):
         from continuity_resume import _canonical_worktree_identity
 
