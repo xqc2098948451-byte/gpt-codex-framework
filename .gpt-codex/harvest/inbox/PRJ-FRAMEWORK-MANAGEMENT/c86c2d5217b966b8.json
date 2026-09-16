@@ -1,0 +1,47 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "c86c2d5217b966b8",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "FRAMEWORK_PLAN_READINESS_GAP_REPEATED",
+  "state_revision": 7,
+  "result": "REPEATED_ACTIVE_GAP",
+  "source_repository_id": "1366213495",
+  "source_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_commit_sha": "14ec6006c08fb25ef19881b6b2291d6c250f9b1f",
+  "source_work_unit_id": "post-foundation-governance-plugin-plan-final-readiness-amendment-128",
+  "framework_version_used": "2.7.0",
+  "observed_at": "2026-09-16",
+  "evidence_type": [
+    "VALIDATOR_FALSE_POSITIVE",
+    "ROLE_ORCHESTRATION_FAILURE"
+  ],
+  "linked_evidence_id": "1682c2984f185114",
+  "observed_fact": "The final-readiness amendment reported TASKS_2_TO_6_EXPLICIT_TDD=PASS, NO_PLACEHOLDERS=PASS and IMPLEMENTATION_READY=PASS, but the persisted Plan still did not expand Tasks 2 through 6 into the required separate execution-ready TDD checkboxes. Instead, those tasks retained composite steps and a later prose paragraph stating that separate steps should exist. The persisted artifact therefore contradicted its own readiness result.",
+  "impact": "A result-declared PASS could again authorize implementation while the persisted Plan had not satisfied the exact execution-readiness contract, demonstrating that self-declared Plan readiness is not sufficient evidence of persisted artifact readiness.",
+  "root_cause_status": "REPEATED_ACTIVE_GAP",
+  "root_cause": "PLAN_READINESS_RESULT_NOT_BOUND_TO_PERSISTED_PLAN_STRUCTURE",
+  "current_workaround": "GPT independently inspects the persisted Plan artifact and verifies each required readiness invariant against the actual file before authorizing implementation.",
+  "existing_capability_used": [
+    "PRE_EXECUTION_REVIEW",
+    "FRAMEWORK_VALIDATION",
+    "REPOSITORY_AUTHORITY"
+  ],
+  "preservation_evidence": "Independent pre-execution artifact review again prevented premature implementation authorization. Preserve the existing review gate; optimize objective Plan-readiness evidence inside existing framework-validation responsibilities rather than add a second review system.",
+  "optimization_candidate": {
+    "name": "PLAN_READINESS_EVIDENCE",
+    "status": "EVIDENCE_ONLY_NOT_AUTHORIZED",
+    "current_relevance": "REPEATED_ACTIVE_GAP",
+    "minimum_closure_hypothesis": [
+      "Bind readiness result claims to the persisted Plan artifact rather than self-report alone",
+      "Verify required task-step cardinality/structure when the Plan declares an explicit execution checklist contract",
+      "Verify produced and consumed interfaces against repository facts",
+      "Reject contradictory Plan assertions where prose claims required steps exist but the task sections do not contain them"
+    ],
+    "new_module_required": false,
+    "new_database_required": false,
+    "new_state_system_required": false
+  },
+  "authority_boundary": "This evidence does not authorize Framework mutation. It is input for future user-approved Framework Optimization Review."
+}
