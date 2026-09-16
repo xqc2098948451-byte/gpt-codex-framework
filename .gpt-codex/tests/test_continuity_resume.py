@@ -11,6 +11,30 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_pairwise_derivation_rejects_ambiguous_correlated_reviewers(self):
+        from continuity_resume import _derive_pairwise_review_facts
+        slots = [
+            {"slot_id": "impl", "role": "CODEX_IMPLEMENTER", "project_context_id": "ctx", "work_unit_id": "wu"},
+            {"slot_id": "review-1", "role": "CODEX_REVIEWER", "project_context_id": "ctx", "work_unit_id": "wu", "review_request_id": "request"},
+            {"slot_id": "review-2", "role": "CODEX_REVIEWER", "project_context_id": "ctx", "work_unit_id": "wu", "review_request_id": "request"},
+        ]
+        result = _derive_pairwise_review_facts(Path("."), {}, {"active_execution_slots": slots}, {"instruction_id": "request", "target_project_context_id": "ctx", "target_work_unit": "wu"})
+        self.assertTrue(result["reconciliation_required"])
+
+    def test_pairwise_derivation_rejects_reviewer_without_unique_implementer_peer(self):
+        from continuity_resume import _derive_pairwise_review_facts
+        slots = [{"slot_id": "review", "role": "CODEX_REVIEWER", "project_context_id": "ctx", "work_unit_id": "wu", "review_request_id": "request"}]
+        result = _derive_pairwise_review_facts(Path("."), {}, {"active_execution_slots": slots}, {"instruction_id": "request", "target_project_context_id": "ctx", "target_work_unit": "wu"})
+        self.assertTrue(result["reconciliation_required"])
+
+    def test_pairwise_derivation_rejects_identical_implementer_and_reviewer_slot_id(self):
+        from continuity_resume import _derive_pairwise_review_facts
+        slots = [
+            {"slot_id": "shared", "role": "CODEX_IMPLEMENTER", "project_context_id": "ctx", "work_unit_id": "wu"},
+            {"slot_id": "shared", "role": "CODEX_REVIEWER", "project_context_id": "ctx", "work_unit_id": "wu", "review_request_id": "request"},
+        ]
+        result = _derive_pairwise_review_facts(Path("."), {}, {"active_execution_slots": slots}, {"instruction_id": "request", "target_project_context_id": "ctx", "target_work_unit": "wu"})
+        self.assertTrue(result["reconciliation_required"])
     def test_pairwise_derivation_uses_full_recovery_for_each_selected_slot(self):
         from continuity_resume import _derive_pairwise_review_facts
 
