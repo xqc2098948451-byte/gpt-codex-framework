@@ -184,6 +184,8 @@ class InstructionRoleContractTests(unittest.TestCase):
             return_role="GPT_ORCHESTRATOR",
             legacy_route_marker="[CODEX]",
             legacy_route_context="REVIEW",
+            runtime_fresh_context_verified=True,
+            runtime_input_source_kinds=["DURABLE_PROJECT_AUTHORITY", "REPOSITORY_CONTENT"],
         )
         self.assertEqual(envelope["executor_role"], "CODEX_REVIEWER")
         with self.assertRaisesRegex(ValueError, "LEGACY_ROUTE_CONTEXT_REQUIRED"):
