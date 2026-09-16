@@ -41,7 +41,7 @@ Marketplace/release source must use approved immutable Plugin release/tag/commit
 | Modify | `.gpt-codex/scripts/release_framework.py` | immutable Plugin release binding |
 | Create | `.gpt-codex/scripts/framework_plugin_entry.py` | repository helper for Codex/local validation |
 | Create | `plugins/gpt-codex-framework/` | verified Plugin package skills/resources only |
-| Create | `.codex-plugin/plugin.json` | supported native manifest |
+| Create | `plugins/gpt-codex-framework/.codex-plugin/plugin.json` | the sole native manifest |
 | Create | `.agents/plugins/marketplace.json` | supported marketplace descriptor |
 | Create | `docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md` | Chinese manual |
 | Test | `.gpt-codex/tests/test_result_contract_schema.py` | CAP-01 |
@@ -67,11 +67,18 @@ owners; neither stores authority or state.
 
 The Result Envelope gains status `INCOMPLETE` without weakening existing
 `PASS`, `FAIL`, `BLOCKED`, `PARTIAL`, or `LOCAL_COMPLETE`. Its frozen
-`completion_evidence` object has `execution_state: str`, `process_completed:
-bool`, `exit_code: int | null`, `intended_scope: list[str]`, `executed_scope:
-list[str]`, `test_files_expected: int | null`, `test_files_executed: int | null`,
+`completion_evidence.execution_state` is exactly `COMPLETED | INCOMPLETE |
+BLOCKED`; it has `process_completed: bool`, `exit_code: int | null`,
+`intended_scope: list[str]`, `executed_scope: list[str]`,
+`test_files_expected: int | null`, `test_files_executed: int | null`,
 `test_count: int | null`, `failure_count: int | null`, `error_count: int | null`,
-`validators_completed: list[str]`, and `blocker_evidence_refs: list[str]`.
+`validators_expected: list[str]`, `validators_completed: list[str]`, and
+`blocker_evidence_refs: list[str]`. Validator lists are unique, bounded,
+stable identifiers/commands. PASS requires COMPLETED, process true, exit 0,
+exact scope, known required test coverage/count, zero failures/errors, and
+completed validators exactly satisfying expected validators; both lists are []
+when none are required. INCOMPLETE has missing facts; BLOCKED has BLOCKED state
+and nonempty blocker refs. Existing remote/publication PASS rules remain.
 CAP-01 tests use a completed Result with `remote_verification=VERIFIED` so a
 RED result proves completion behavior, not existing publication requirements.
 
@@ -91,7 +98,7 @@ RED result proves completion behavior, not existing publication requirements.
 
 **Interfaces**
 - Consumes: `validate_review_lifecycle(...)`, `validate_review_result(result)`, `build_instruction_envelope(...)`.
-- Produces: `validate_remediation_adjudication(decision: Mapping[str, Any]) -> list[str]`, called before a Fix Instruction is accepted.
+- Produces: `validate_remediation_adjudication(decision_evidence: Mapping[str, Any], finding_result: Mapping[str, Any], resolved_basis: Mapping[str, Mapping[str, Any]]) -> list[str]`, called before a Fix Instruction is accepted.
 
 The durable carrier is existing Evidence, referenced by
 `FIX_INSTRUCTION.remediation_decision_ref`. Evidence uses
@@ -101,14 +108,14 @@ ACCEPTED_AUTHORITY_BASIS | CONCRETE_REGRESSION_EVIDENCE`, `basis_refs:
 list[str]`, and `adjudicated_at_revision: int`. The existing Evidence schema
 is changed only if its current `additionalProperties` validation cannot carry
 these fields. The frozen validator is
-`validate_remediation_adjudication(decision_evidence: Mapping[str, Any],
-finding_result: Mapping[str, Any]) -> list[str]`; repository recovery resolves
+the validator declared above; repository recovery resolves
 the referenced durable Evidence before allowing a Fix.
 
 - [ ] Write failing cases for Design/Plan/Work Unit basis, test/validator/contract regression basis, preference/refactor/unapproved criterion denial, REJECT denial, and valid MODIFY.
 - [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`; expect unsupported finding-to-fix authorization.
 - [ ] Require `ACCEPTED_AUTHORITY_BASIS` or `CONCRETE_REGRESSION_EVIDENCE` and bind ACCEPT/MODIFY to the new Fix Instruction; do not add a lifecycle.
 - [ ] Add RED cases: missing durable ref, wrong finding ref, and REJECT deny; only ACCEPT/MODIFY with valid basis allow FIX.
+- [ ] Assert `self.assertIn("REMEDIATION_BASIS_UNRESOLVED", validate_remediation_adjudication(decision, finding, {}))`; arbitrary, unrelated, stale/unaccepted authority, and non-failing regression refs DENY; resolved accepted authority and resolved failure evidence ALLOW.
 - [ ] Re-run review and instruction tests; run validators/diff check; independent review; commit `feat: bind remediation to authority evidence`.
 
 ### Phase-A Gate
@@ -154,6 +161,14 @@ Plugin routing hands write work to Codex; only Codex or an authorized
 write-capable GitHub action creates branch, writes normalized evidence, pushes,
 and creates PR under existing Instruction/Result authority.
 
+`safe_project_id` and `evidence_id` reject `..`, `/`, `\\`, absolute paths,
+and invalid Git-ref sequences before the Framework adds separators. Task 4 has
+separate RED/GREEN assertions for safe branch derivation, safe target path,
+duplicate identity, existing open branch/PR, unavailable GitHub -> SYNC_PENDING,
+and direct consumer-main write -> DENY. ChatGPT produces a governed existing-
+Instruction write handoff; Codex verifies handoff/branch/path/duplicates, writes
+one normalized package, pushes the branch, opens PR, and returns Result/Evidence refs.
+
 - [ ] Write failing cases for every terminal event, NONE, INCOMPLETE continuation, secret/private input denial, deterministic duplicate identity, unavailable transport/SYNC_PENDING, no main write, accepted-evidence-only intake, correction/retraction, and aging classifications.
 - [ ] Run `test_framework_feedback.py` and `test_github_evidence_bridge.py`; expect missing candidate/bridge functions.
 - [ ] Implement normalized project-owned feedback; sanitize before export; reuse Harvest/PR facts; route read-only ChatGPT to prepare/validate and Codex/authorized writer to branch/PR; intake never approves Framework change.
@@ -162,7 +177,7 @@ and creates PR under existing Instruction/Result authority.
 
 ### Task 5: Plugin Distribution + Chinese User Manual
 
-**Files:** Create `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, and `docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md`; modify `release_framework.py`; test `test_release_packaging.py` and `test_framework_plugin.py`.
+**Files:** Modify the existing `plugins/gpt-codex-framework/.codex-plugin/plugin.json`; create `.agents/plugins/marketplace.json` and `docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md`; modify `release_framework.py`; test `test_release_packaging.py` and `test_framework_plugin.py`.
 
 **Interfaces**
 - Consumes: Task 3 adapter and approved immutable Plugin release source.
@@ -188,6 +203,23 @@ and creates PR under existing Instruction/Result authority.
 - [ ] Re-run focused tests and full gate; independent review; release/activate only under current lifecycle and explicit user approval; commit `test: prove plugin self-hosting acceptance`.
 
 ## Review, Full Verification, and Design Coverage
+
+### Mandatory execution checklist for Tasks 2–6
+
+For each Task N (2 through 6), its listed failing cases are implemented as the
+separate exact test code step, followed by separate checkboxes: (1) write that
+test, (2) run its listed focused unittest command, (3) confirm the listed
+missing-interface RED reason, (4) implement its exact `Produces` interface,
+(5) rerun that focused command GREEN, (6) run the adjacent regression named in
+the Task, (7) run `python .gpt-codex/scripts/validate_project.py .` plus the
+Task-specific consumer/framework validator, (8) run `git diff --check`, (9)
+obtain independent post-execution review, and (10) create the Task's listed
+focused commit. Task 5 separately verifies one Plugin package root, marketplace
+released-source binding, manual recovery commands, and no MCP dependency. Task
+6 separately verifies Work Unit setup, fresh ChatGPT recovery, fresh Codex
+Implementer, acceptance-record-only mutation, exact-SHA Reviewer, CAP-01,
+conditional CAP-02 finding path, feedback CHECK, integration, release-candidate
+verification, and the explicit activation gate.
 
 Each task uses PRE-EXECUTION REVIEW -> implementation -> POST-EXECUTION REVIEW
 -> GPT adjudication -> focused remediation -> focused re-review. A failed test
