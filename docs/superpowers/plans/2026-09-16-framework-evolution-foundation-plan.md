@@ -37,6 +37,7 @@
 - Test: `.gpt-codex/tests/test_framework_feedback.py`
 - Test: `.gpt-codex/tests/test_self_hosting_validator.py`
 - Test: `.gpt-codex/tests/test_review_lifecycle.py`
+- Test: `.gpt-codex/tests/test_instruction_envelope.py`
 
 **Existing interfaces to extend:**
 
@@ -55,13 +56,14 @@
 
 - [ ] **Step 1: Add failing lifecycle and repository-authorization tests.**
 
-  In `test_framework_feedback.py`, add only these Strategy lifecycle cases: (A) two governed Work Units that reference the same accepted Project profile pass; (B) a silent Work Unit profile drift fails; (C) a Git-base Strategy change passes only through an `AUTHORIZED` locator-resolved Work Unit owning `.gpt-codex/CONTROL.json`; and (D) legacy `None` policy acceptance passes. Do not add Strategy registry, history, or parallel-subsystem tests. Lock reliable record-level usage preservation/compatible aggregation, `UNKNOWN` fallback, and explicit aggregate compatibility. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover a valid Git-resolved Design/Plan + `AUTHORIZED` Work Unit locator + correlated authorization fact; reject missing object, wrong SHA/path, Work Unit ID mismatch, cross-project object, in-memory mapping without locator, stale target/state revision, and chat-only or artifact-exists substitutes. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
+  In `test_framework_feedback.py`, add only these Strategy lifecycle cases: (A) two governed Work Units that reference the same accepted Project profile pass; (B) a silent Work Unit profile drift fails; (C) a Git-base Strategy change passes only through an `AUTHORIZED` locator-resolved Work Unit owning `.gpt-codex/CONTROL.json`; and (D) legacy `None` policy acceptance passes. Do not add Strategy registry, history, or parallel-subsystem tests. Lock reliable record-level usage preservation/compatible aggregation, `UNKNOWN` fallback, and explicit aggregate compatibility. In `test_self_hosting_validator.py` and `test_review_lifecycle.py`, cover a valid Git-resolved Design/Plan + `AUTHORIZED` Work Unit locator + correlated authorization fact; reject missing object, wrong SHA/path, Work Unit ID mismatch, cross-project object, in-memory mapping without locator, stale target/state revision, and chat-only or artifact-exists substitutes. In `test_instruction_envelope.py`, exclusively lock the optional `target_work_unit_ref` Instruction Envelope contract: valid `{path, sha}` shape; rejection of missing/empty path, missing/invalid SHA, and unexpected shape; legacy builder/parser compatibility without the field; and consistent field name, optionality, and shape across builder, template, and schema. Assert ordinary `FrameworkFeedback` still cannot authorize Framework mutation.
 
 - [ ] **Step 2: Run the focused RED tests.**
 
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_framework_feedback.py"`
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_self_hosting_validator.py"`
   Run: `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`
+  Run: `python -m unittest discover -s .gpt-codex/tests -p "test_instruction_envelope.py"`
   Expected: the new lifecycle/authorization assertions fail because existing validation lacks the bounded Foundation correlation or record checks, not because a second authority is missing.
 
 - [ ] **Step 3: Implement the minimum extensions in existing authorities.**
