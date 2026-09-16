@@ -116,7 +116,15 @@ the referenced durable Evidence before allowing a Fix.
 - [ ] Require `ACCEPTED_AUTHORITY_BASIS` or `CONCRETE_REGRESSION_EVIDENCE` and bind ACCEPT/MODIFY to the new Fix Instruction; do not add a lifecycle.
 - [ ] Add RED cases: missing durable ref, wrong finding ref, and REJECT deny; only ACCEPT/MODIFY with valid basis allow FIX.
 - [ ] Assert `self.assertIn("REMEDIATION_BASIS_UNRESOLVED", validate_remediation_adjudication(decision, finding, {}))`; arbitrary, unrelated, stale/unaccepted authority, and non-failing regression refs DENY; resolved accepted authority and resolved failure evidence ALLOW.
-- [ ] Re-run review and instruction tests; run validators/diff check; independent review; commit `feat: bind remediation to authority evidence`.
+- [ ] **RUN_EXACT_RED_COMMAND:** `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`.
+- [ ] **CONFIRM_EXPECTED_RED_REASON:** missing durable basis resolution returns `REMEDIATION_BASIS_UNRESOLVED`.
+- [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** add only the frozen three-argument adjudication validator and repository ref resolution.
+- [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`.
+- [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_instruction_envelope.py"`.
+- [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_project.py .`.
+- [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
+- [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** review durable finding/basis/ref correlation.
+- [ ] **CREATE_FOCUSED_COMMIT:** `feat: bind remediation to authority evidence`.
 
 ### Phase-A Gate
 
@@ -144,6 +152,17 @@ skills/resources beneath that root; modify `continuity_resume.py`,
 - [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`; expect import failure.
 - [ ] Implement the helper under the existing scripts owner and package skills/resources separately; Codex may execute helper under governed instruction, ChatGPT only loads skill/authority, and unavailable/not-invoked Plugin leaves repository-native governance fail-closed.
 - [ ] Re-run Plugin/continuity tests, project validator, diff check, independent review, and commit `feat: add governed plugin entry adapter`.
+- [ ] **PLUGIN_FORMAT_PREFLIGHT:** re-check official format; material difference is STOP_FOR_RECONCILIATION.
+- [ ] **WRITE_EXACT_RED_TEST:** add enrolled/unmanaged/conflict/fresh-resume fixture assertions in `test_framework_plugin.py`.
+- [ ] **RUN_EXACT_RED_COMMAND:** `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`.
+- [ ] **CONFIRM_EXPECTED_RED_REASON:** helper/package skill is absent.
+- [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** create `.gpt-codex/scripts/framework_plugin_entry.py`, package manifest, and supported skill separately; verify ChatGPT does not execute helper.
+- [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `test_framework_plugin.py`.
+- [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_continuity_resume.py"`.
+- [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_project.py .`.
+- [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
+- [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** inspect surface split and fail-closed fallback.
+- [ ] **CREATE_FOCUSED_COMMIT:** `feat: add governed plugin entry adapter`.
 
 ### Task 4: Framework Evidence Feedback + GitHub Evidence Bridge
 
@@ -173,7 +192,16 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] Run `test_framework_feedback.py` and `test_github_evidence_bridge.py`; expect missing candidate/bridge functions.
 - [ ] Implement normalized project-owned feedback; sanitize before export; reuse Harvest/PR facts; route read-only ChatGPT to prepare/validate and Codex/authorized writer to branch/PR; intake never approves Framework change.
 - [ ] Before PR creation check merged evidence, open evidence PR/branch, and duplicate `evidence_id`; consumer Projects never push Framework main.
-- [ ] Re-run focused files plus `test_git_continuity.py`; validators/diff check; independent review; commit `feat: add governed framework evidence bridge`.
+- [ ] **WRITE_EXACT_RED_TEST:** assert terminal CHECK, NONE, INCOMPLETE continuation, sanitization denial, deterministic ID, unsafe IDs, safe branch/path, merged/open duplicates, unavailable sync, main denial, intake boundary, correction, and aging in the two focused test files.
+- [ ] **RUN_EXACT_RED_COMMAND:** `python -m unittest discover -s .gpt-codex/tests -p "test_github_evidence_bridge.py"`.
+- [ ] **CONFIRM_EXPECTED_RED_REASON:** candidate/sanitization/decision helpers are absent.
+- [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** add only `build_framework_feedback_candidate`, `sanitize_feedback_export`, and frozen `EvidencePublicationDecision`.
+- [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `test_github_evidence_bridge.py` and `test_framework_feedback.py`.
+- [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_git_continuity.py"`.
+- [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_project.py .`.
+- [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
+- [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** inspect safe handoff and no-main-write proof.
+- [ ] **CREATE_FOCUSED_COMMIT:** `feat: add governed framework evidence bridge`.
 
 ### Task 5: Plugin Distribution + Chinese User Manual
 
@@ -188,6 +216,18 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] Run `test_release_packaging.py` and `test_framework_plugin.py`; expect missing manifests/manual/binding.
 - [ ] Implement supported fields only; bind marketplace source immutably; write Chinese manual for installation, permissions, bootstrap/enrollment, roles, results, feedback/PR, SYNC_PENDING, upgrades, self-hosting, and recovery.
 - [ ] Re-run focused tests, consumer/framework validators, diff check, independent review, and commit `docs: package plugin and add Chinese manual`.
+- [ ] **PLUGIN_DISTRIBUTION_PREFLIGHT:** re-check official marketplace format; material difference is STOP_FOR_RECONCILIATION.
+- [ ] **WRITE_EXACT_RED_TEST:** assert one package root, no root manifest, immutable marketplace source, no MCP, and all three copyable manual commands.
+- [ ] **RUN_EXACT_RED_COMMAND:** `python -m unittest discover -s .gpt-codex/tests -p "test_release_packaging.py"`.
+- [ ] **CONFIRM_EXPECTED_RED_REASON:** manifest binding/manual are absent.
+- [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** update Task-3 manifest only, create marketplace descriptor and immutable release binding.
+- [ ] **CREATE_CHINESE_MANUAL:** write required installation, recovery, ChatGPT, Codex, and self-hosting commands.
+- [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `test_release_packaging.py`.
+- [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`.
+- [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_framework.py`.
+- [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
+- [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** inspect immutable distribution binding.
+- [ ] **CREATE_FOCUSED_COMMIT:** `docs: package plugin and add Chinese manual`.
 
 ### Task 6: End-to-End Self-Hosting Acceptance and Activation
 
@@ -201,6 +241,21 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] Run focused acceptance files; expect missing acceptance correlation.
 - [ ] Execute the frozen real mutation: fresh ChatGPT Plugin Entry/Resume recovers one authorized acceptance Work Unit; fresh Codex Implementer creates/updates only `docs/superpowers/reviews/2026-09-16-global-framework-plugin-self-hosting-acceptance.md`, commits it, and fresh isolated Codex Reviewer reviews its exact SHA; record CAP-01, CAP-02 if a finding occurs, mandatory feedback CHECK, and normal integration using durable observable refs only.
 - [ ] Re-run focused tests and full gate; independent review; release/activate only under current lifecycle and explicit user approval; commit `test: prove plugin self-hosting acceptance`.
+- [ ] **ACCEPTANCE_WORK_UNIT_PREPARATION:** authorize the bounded acceptance Work Unit.
+- [ ] **FRESH_CHATGPT_ENTRY_RESUME:** invoke Plugin Entry/Resume in a fresh window.
+- [ ] **REPOSITORY_ONLY_RECOVERY_VERIFICATION:** prove no transcript is an authority input.
+- [ ] **FRESH_CODEX_IMPLEMENTER_LAUNCH:** use the authorized worktree.
+- [ ] **ACCEPTANCE_RECORD_ONLY_MUTATION:** update only the acceptance record and commit its target SHA.
+- [ ] **FRESH_ISOLATED_REVIEWER_LAUNCH:** open independent reviewer worktree.
+- [ ] **EXACT_TARGET_SHA_VERIFICATION:** reviewer verifies committed target SHA.
+- [ ] **CAP01_COMPLETION_EVIDENCE:** record complete verification evidence.
+- [ ] **CAP02_ADJUDICATION_IF_FINDING:** execute only if an actual finding exists.
+- [ ] **MANDATORY_FEEDBACK_CHECK:** record NONE or normalized candidate.
+- [ ] **NORMAL_INTEGRATION:** use existing review/integration authority.
+- [ ] **FULL_VERIFICATION:** run full suite and all three validators.
+- [ ] **PLUGIN_RELEASE_CANDIDATE_VERIFICATION:** verify immutable candidate source.
+- [ ] **EXPLICIT_USER_ACTIVATION_GATE:** NOT AUTHORIZED BY PLAN EXECUTION ALONE.
+- [ ] **CREATE_FOCUSED_ACCEPTANCE_COMMIT:** finalize durable Evidence/Result refs.
 
 ## Review, Full Verification, and Design Coverage
 
