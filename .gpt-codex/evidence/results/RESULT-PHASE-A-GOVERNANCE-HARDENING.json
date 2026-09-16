@@ -1,0 +1,96 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "post-foundation-phase-a-integration-checkpoint-143",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.7.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+  "remote_head_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+  "verified_baseline_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 8,
+  "execution": "PHASE_A_GOVERNANCE_HARDENING_CHECKPOINT",
+  "changed": [
+    "CAP-01 completion evidence",
+    "CAP-02 authority-bounded remediation adjudication",
+    "Phase-A reviewed work published at W"
+  ],
+  "verify": [
+    "full Framework test suite: 546 tests, 0 failures, 0 errors, 1 skipped",
+    "consumer projection validation: PASS",
+    "framework validation: PASS",
+    "project validation: PASS",
+    "diff check: PASS",
+    "W normal fast-forward push to main: VERIFIED at b8fff025d7f52abe56ec8a539ffc6450295d73dd"
+  ],
+  "evidence_refs": [
+    "CAP01_REVIEW_DEPTH_EVIDENCE:5439535fffca9227@PR#7"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "efba38d1e72ad690fca41a8cbac3861f8ee39b7e",
+    "implementation_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+    "work_commit_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "full Framework test suite",
+      "consumer projection validation",
+      "framework validation",
+      "project validation",
+      "diff check"
+    ],
+    "executed_scope": [
+      "full Framework test suite",
+      "consumer projection validation",
+      "framework validation",
+      "project validation",
+      "diff check"
+    ],
+    "test_files_expected": 52,
+    "test_files_executed": 52,
+    "test_count": 546,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": ["consumer projection", "framework", "project", "diff check"],
+    "validators_completed": ["consumer projection", "framework", "project", "diff check"],
+    "blocker_evidence_refs": []
+  },
+  "active_released_framework": "2.7.0",
+  "accepted_design_repository": "xqc2098948451-byte/gpt-codex-framework",
+  "accepted_design_path": "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+  "accepted_design_sha": "7bdf0ff17d058100f832d7a2321ddc4276586e04",
+  "accepted_plan_path": "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+  "accepted_plan_sha": "52e64cee79b6d7bec87d14f58977dd2eeb77696b",
+  "cap01_status": "CLOSED",
+  "cap01_closure_sha": "cd8da569265793d264cb6df8b0f4ff1ef0cf31ba",
+  "cap02_status": "CLOSED",
+  "cap02_closure_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+  "phase_a_status": "CLOSED",
+  "phase_a_work_sha": "b8fff025d7f52abe56ec8a539ffc6450295d73dd",
+  "next_phase": "TASK_3_GLOBAL_PLUGIN_CORE",
+  "next_action": "FRESH_GPT_REPO_ONLY_RESUME_THEN_AUTHORIZE_TASK3",
+  "task3_implementation_authorized": false,
+  "cap01_feedback_evidence_id": "5439535fffca9227",
+  "cap01_feedback_evidence_pr": "#7",
+  "cap02_feedback": "NONE",
+  "completion_gate": "GPT_DECISION"
+}
