@@ -649,6 +649,7 @@ def validate_governed_mutation_entry(
     current_state_revision: int,
     approved_scope: set[str] | None = None,
     repository_authority: Mapping[str, Any] | None = None,
+    repository_root: Path | None = None,
 ) -> list[str]:
     """One fail-closed entry that composes existing project mutation authorities."""
 
@@ -669,7 +670,17 @@ def validate_governed_mutation_entry(
         errors.extend(validate_project_strategy_lifecycle(policy, [work_unit]))
         errors.extend(validate_repository_authorization(
             repository_authority, mutation_instruction, work_unit, current_state_revision=current_state_revision,
+            repository_root=repository_root, project_control=project_control,
         ))
+        baseline = _git_json_at_path(repository_root, mutation_instruction.get("expected_base_sha"), ".gpt-codex/CONTROL.json") if repository_root is not None else None
+        baseline_policy = baseline.get("execution_policy") if isinstance(baseline, Mapping) else None
+        if not isinstance(baseline_policy, Mapping): errors.append("RECONCILIATION_REQUIRED")
+        elif baseline_policy.get("strategy_profile_id") != policy.get("strategy_profile_id"):
+            resolved = _resolve_work_unit_at_ref(repository_root, mutation_instruction.get("target_work_unit_ref")) if repository_root is not None else None
+            owned = ((resolved.get("scope") or {}).get("owned_paths") if isinstance(resolved, Mapping) else None)
+            actions = mutation_instruction.get("authorized_actions") if isinstance(mutation_instruction, Mapping) else None
+            if not isinstance(owned, list) or ".gpt-codex/CONTROL.json" not in owned or not isinstance(actions, list) or "MUTATE_APPROVED_SCOPE" not in actions:
+                errors.append("RECONCILIATION_REQUIRED")
     errors.extend(validate_framework_adoption(
         project_control, mutation_instruction, work_unit, current_state_revision=current_state_revision,
     ))
@@ -696,10 +707,12 @@ def validate_repository_authorization(
     work_unit: Mapping[str, Any],
     *,
     current_state_revision: int,
+    repository_root: Path | None = None,
+    project_control: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """Validate existing repository facts without creating an approval authority."""
     deny = ["IMPLEMENTATION_AUTHORIZATION = DENY"]
-    if not isinstance(authority, Mapping) or not isinstance(mutation_instruction, Mapping) or not isinstance(work_unit, Mapping):
+    if not isinstance(authority, Mapping) or not isinstance(mutation_instruction, Mapping) or not isinstance(work_unit, Mapping) or repository_root is None or not isinstance(project_control, Mapping):
         return deny
     required = {"accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id", "state_revision", "authorization"}
     if set(authority) != required or any(not _is_nonempty_string(authority.get(key)) for key in ("accepted_design_ref", "accepted_plan_ref", "project_context_id", "work_unit_id")):
@@ -707,6 +720,8 @@ def validate_repository_authorization(
     authorization = authority.get("authorization")
     if not isinstance(authorization, Mapping) or set(authorization) != {"authority_type", "instruction_id", "status", "target_revision"}:
         return deny
+    resolved = _resolve_work_unit_at_ref(repository_root, mutation_instruction.get("target_work_unit_ref"))
+    if not isinstance(resolved, Mapping): return deny
     if (
         authorization.get("authority_type") not in {"INSTRUCTION", "RESULT", "EVIDENCE"}
         or authorization.get("status") != "EXECUTION_AUTHORIZED"
@@ -715,9 +730,37 @@ def validate_repository_authorization(
         or authority.get("state_revision") != current_state_revision
         or authorization.get("instruction_id") != mutation_instruction.get("instruction_id")
         or authorization.get("target_revision") != mutation_instruction.get("expected_base_sha")
+        or resolved.get("work_unit_id") != mutation_instruction.get("target_work_unit")
+        or resolved.get("project_id") != project_control.get("project_id")
+        or resolved.get("state") != "AUTHORIZED"
+        or resolved.get("basis_state_revision") != current_state_revision
+        or not _immutable_artifact_refs_resolve(repository_root, resolved.get("artifact_refs"))
     ):
         return deny
     return []
+
+def _resolve_work_unit_at_ref(root: Path, reference: object) -> Mapping[str, Any] | None:
+    if not isinstance(reference, Mapping) or set(reference) != {"path", "sha"}: return None
+    path, sha = reference.get("path"), reference.get("sha")
+    if not isinstance(path, str) or not _is_safe_repository_relative_path(path) or not _is_sha(sha): return None
+    return _git_json_at_path(root, sha, path)
+
+def _git_json_at_path(root: Path, sha: object, path: object) -> Mapping[str, Any] | None:
+    if not isinstance(root, Path) or not _is_sha(sha) or not isinstance(path, str) or not _is_safe_repository_relative_path(path): return None
+    result = subprocess.run(["git", "-C", str(root), "show", f"{sha}:{path}"], capture_output=True)
+    if result.returncode: return None
+    try: value=json.loads(result.stdout)
+    except json.JSONDecodeError: return None
+    return value if isinstance(value, Mapping) else None
+
+def _immutable_artifact_refs_resolve(root: Path, refs: object) -> bool:
+    if not isinstance(refs, Mapping) or set(refs) != {"design", "plan"}: return False
+    for ref in refs.values():
+        if not isinstance(ref, Mapping) or set(ref) != {"path", "sha"}: return False
+        path, sha=ref.get("path"), ref.get("sha")
+        if not isinstance(path, str) or not _is_safe_repository_relative_path(path) or not _is_sha(sha): return False
+        if subprocess.run(["git", "-C", str(root), "cat-file", "-e", f"{sha}:{path}"], capture_output=True).returncode: return False
+    return True
 
 
 def validate_result_protocol(result: Mapping[str, Any]) -> list[str]:

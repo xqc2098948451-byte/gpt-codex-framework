@@ -27,6 +27,7 @@
   "fix_round": 0,
   "artifact_stage": "IMPLEMENTATION",
   "target_work_unit": "WORK_UNIT_ID",
+  "target_work_unit_ref": {"path": "REPOSITORY_RELATIVE_PATH", "sha": "40_HEX_GIT_SHA"},
   "expected_base_sha": "OPTIONAL_BASE_SHA",
   "target_github_repository_id": "OPTIONAL_GITHUB_REPOSITORY_ID",
   "target_github_repository_full_name": "OPTIONAL_OWNER_NAME",

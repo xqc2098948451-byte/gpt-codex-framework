@@ -50,20 +50,27 @@ def validate_work_unit_process_record(record: Mapping[str, Any]) -> list[str]:
     return []
 
 def build_process_review(records: Sequence[Mapping[str, Any]], strategy_profile: str, usage: Mapping[str, Any] | None=None) -> ProcessReview:
-    totals={k:0 for k in _COUNTERS}; result="UNKNOWN"; work_unit_ids=[]; result_refs=[]
+    totals={k:0 for k in _COUNTERS}; result="UNKNOWN"; work_unit_ids=[]; result_refs=[]; record_usage=[]
     for record in records:
         if not isinstance(record,Mapping):raise ValueError("PROCESS_REVIEW_INVALID")
         if "work_unit_id" in record:
             if validate_work_unit_process_record(record):raise ValueError("PROCESS_REVIEW_INVALID")
             work_unit_ids.append(record["work_unit_id"]); result_refs.append(record["result_ref"])
             totals["codex_tasks"]+=1
+            if isinstance(record["usage"], Mapping): record_usage.append(record["usage"])
         for key in _COUNTERS:
             value=record.get(key,0)
             if not isinstance(value,int) or isinstance(value,bool) or value<0:raise ValueError("PROCESS_REVIEW_INVALID")
             totals[key]+=value
         final = record.get("final_result", record.get("project_result"))
         if isinstance(final,str) and final.strip():result=final
-    return ProcessReview(strategy_profile,**totals,project_result=result,usage=dict(usage) if isinstance(usage,Mapping) else "UNKNOWN",work_unit_ids=tuple(work_unit_ids),result_refs=tuple(result_refs))
+    resolved_usage = dict(usage) if isinstance(usage, Mapping) else _aggregate_record_usage(record_usage)
+    return ProcessReview(strategy_profile,**totals,project_result=result,usage=resolved_usage,work_unit_ids=tuple(work_unit_ids),result_refs=tuple(result_refs))
+
+def _aggregate_record_usage(values: Sequence[Mapping[str, Any]]) -> Mapping[str, Any] | str:
+    if not values or not all(set(value) == set(values[0]) and value for value in values): return "UNKNOWN"
+    if any(any(not isinstance(amount, int) or isinstance(amount, bool) or amount < 0 for amount in value.values()) for value in values): return "UNKNOWN"
+    return {key: sum(value[key] for value in values) for key in values[0]}
 def validate_framework_feedback(record: Mapping[str, Any]) -> list[str]:
     if not isinstance(record,Mapping) or set(record)!=_FEEDBACK_FIELDS or _AUTHORITY_FIELDS & set(record) or any(not isinstance(record.get(k),str) or not record[k].strip() for k in ("problem","reason","local_solution","result")) or not isinstance(record.get("framework_change_recommended"),bool) or not isinstance(record.get("evidence_refs"),list) or not record["evidence_refs"] or not all(isinstance(ref,str) and ref.strip() for ref in record["evidence_refs"]):return ["FRAMEWORK_FEEDBACK_INVALID"]
     return []

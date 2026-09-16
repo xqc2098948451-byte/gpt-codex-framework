@@ -83,6 +83,17 @@ class FrameworkFeedbackTests(unittest.TestCase):
             validate_work_unit_process_record({key: value for key, value in record.items() if key != "result_ref"}),
         )
 
+    def test_process_review_aggregates_reliable_record_usage_without_overriding_explicit_usage(self):
+        def record(identifier, usage):
+            return {"work_unit_id": identifier, "final_result": "PASS", "codex_retries": 0,
+                    "gpt_interventions": 0, "review_rounds": 0, "remediation_rounds": 0,
+                    "handoff_result": "PASS", "usage": usage, "git_sha": "a" * 40,
+                    "result_ref": f"result:{identifier}"}
+        self.assertEqual(build_process_review([record("WU-0", "UNKNOWN")], POLICY["strategy_profile_id"]).usage, "UNKNOWN")
+        self.assertEqual(build_process_review([record("WU-1", {"observed_units": 1})], POLICY["strategy_profile_id"]).usage, {"observed_units": 1})
+        self.assertEqual(build_process_review([record("WU-1", {"observed_units": 1}), record("WU-2", {"observed_units": 2})], POLICY["strategy_profile_id"]).usage, {"observed_units": 3})
+        self.assertEqual(build_process_review([record("WU-1", {"observed_units": 1})], POLICY["strategy_profile_id"], usage={"observed_units": 9}).usage, {"observed_units": 9})
+
     def test_process_review_aggregates_observable_counters_and_unknown_usage(self):
         review = build_process_review(
             [{"codex_tasks": 2, "codex_retries": 1, "project_result": "PASS"},

@@ -88,6 +88,13 @@ def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
     return state, work_unit, mutation, request, result
 
 
+def commit_repository(root: Path, message: str) -> str:
+    for command in (("git", "init"), ("git", "config", "user.email", "test@example.com"),
+                    ("git", "config", "user.name", "Test"), ("git", "add", "."), ("git", "commit", "-m", message)):
+        subprocess.run(command, cwd=root, check=True, capture_output=True)
+    return subprocess.run(("git", "rev-parse", "HEAD"), cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+
 class SelfHostingValidatorTests(unittest.TestCase):
     def test_governed_entry_requires_repository_backed_execution_authority_when_policy_is_adopted(self):
         from validate_project import validate_governed_mutation_entry
@@ -105,6 +112,32 @@ class SelfHostingValidatorTests(unittest.TestCase):
         }
         state, work_unit, mutation, request, result = governed_envelopes(control)
         work_unit["strategy_profile_id"] = control["execution_policy"]["strategy_profile_id"]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            gov = root / ".gpt-codex"; gov.mkdir()
+            (gov / "CONTROL.json").write_text(json.dumps(control), encoding="utf-8")
+            (gov / "STATE.json").write_text(json.dumps({"project_id": control["project_id"], "revision": 3}), encoding="utf-8")
+            (root / "design.md").write_text("design", encoding="utf-8")
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            persisted = {**work_unit, "strategy_profile_id": "PROFILE_B", "scope": {"owned_paths": [".gpt-codex/CONTROL.json"]},
+                         "artifact_refs": {"design": {"path": "design.md", "sha": base}, "plan": {"path": "plan.md", "sha": base}}}
+            (gov / "WU-GOVERNED.json").write_text(json.dumps(persisted), encoding="utf-8")
+            locator_sha = commit_repository(root, "work unit")
+            mutation.update({"expected_base_sha": base, "target_work_unit_ref": {"path": ".gpt-codex/WU-GOVERNED.json", "sha": locator_sha}})
+            request["review_target_revision"] = base; result["review_target_revision"] = base
+            authority = {
+                "accepted_design_ref": "design:foundation@" + "a" * 40,
+                "accepted_plan_ref": "plan:foundation@" + "b" * 40,
+                "project_context_id": control["project_context_id"], "work_unit_id": work_unit["work_unit_id"], "state_revision": 3,
+                "authorization": {"authority_type": "INSTRUCTION", "instruction_id": mutation["instruction_id"], "status": "EXECUTION_AUTHORIZED", "target_revision": base},
+            }
+            self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3, repository_authority=authority, repository_root=root), [])
+            changed = deepcopy(control); changed["execution_policy"]["strategy_profile_id"] = "PROFILE_B"
+            changed_work_unit = {**work_unit, "strategy_profile_id": "PROFILE_B"}
+            self.assertEqual(validate_governed_mutation_entry(changed, state, changed_work_unit, mutation, request, result, current_state_revision=3, repository_authority=authority, repository_root=root), [])
+            self.assertIn("IMPLEMENTATION_AUTHORIZATION = DENY", validate_governed_mutation_entry(control, state, work_unit, {**mutation, "target_work_unit_ref": {"path": "missing.json", "sha": locator_sha}}, request, result, current_state_revision=3, repository_authority=authority, repository_root=root))
+            return
         authority = {
             "accepted_design_ref": "design:foundation@" + "a" * 40,
             "accepted_plan_ref": "plan:foundation@" + "b" * 40,

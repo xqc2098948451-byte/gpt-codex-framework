@@ -108,12 +108,12 @@ class ReviewLifecycleTests(unittest.TestCase):
                 "target_revision": VALID_SHA,
             },
         }
-        self.assertEqual(
+        self.assertIn(
+            "IMPLEMENTATION_AUTHORIZATION = DENY",
             validator.validate_repository_authorization(
                 authority, mutation, {"work_unit_id": mutation["target_work_unit"]},
                 current_state_revision=8,
             ),
-            [],
         )
         self.assertIn(
             "IMPLEMENTATION_AUTHORIZATION = DENY",

@@ -65,6 +65,7 @@ def build_instruction_envelope(
     expected_remote_ref: str | None = None,
     expected_remote_head_sha: str | None = None,
     expected_remote_name: str | None = None,
+    target_work_unit_ref: Mapping[str, str] | None = None,
     *,
     issuer_role: str | None = None,
     executor_role: str | list[str] | None = None,
@@ -158,6 +159,7 @@ def build_instruction_envelope(
         raise ValueError("INVALID_FIX_ROUND")
     if artifact_stage is not None and artifact_stage not in ARTIFACT_STAGES:
         raise ValueError("INVALID_ARTIFACT_STAGE")
+    _validate_target_work_unit_ref(target_work_unit_ref)
     envelope: dict[str, Any] = {
         "instruction_id": instruction_id or str(uuid4()),
         "instruction_type": instruction_type,
@@ -171,6 +173,7 @@ def build_instruction_envelope(
     }
     optional = {
         "target_work_unit": target_work_unit,
+        "target_work_unit_ref": dict(target_work_unit_ref) if target_work_unit_ref is not None else None,
         "expected_base_sha": expected_base_sha,
         "permission_scope": permission_scope,
         "bootstrap_target_project_id": bootstrap_target_project_id,
@@ -195,6 +198,17 @@ def build_instruction_envelope(
     }
     envelope.update({key: value for key, value in optional.items() if value is not None})
     return envelope
+
+
+def _validate_target_work_unit_ref(value: Mapping[str, str] | None) -> None:
+    if value is None:
+        return
+    if not isinstance(value, Mapping) or set(value) != {"path", "sha"}:
+        raise ValueError("INVALID_TARGET_WORK_UNIT_REF")
+    path, sha = value.get("path"), value.get("sha")
+    if (not isinstance(path, str) or not path.strip() or Path(path).is_absolute() or ".." in Path(path).parts
+            or not isinstance(sha, str) or not _SHA_RE.fullmatch(sha)):
+        raise ValueError("INVALID_TARGET_WORK_UNIT_REF")
 
 
 def _normalize_action_collection(value: Any) -> list[str] | None:

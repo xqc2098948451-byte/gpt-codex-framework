@@ -58,6 +58,35 @@ class InstructionEnvelopeTests(unittest.TestCase):
             self.assertIn(key, envelope)
         self.assertNotEqual(envelope["instruction_id"], "NONE")
 
+    def test_optional_work_unit_locator_has_one_consistent_shape_and_preserves_legacy_building(self):
+        ie = load_instruction_envelope()
+        locator = {"path": ".gpt-codex/work-units/WU-1.json", "sha": "a" * 40}
+        envelope = ie.build_instruction_envelope(
+            instruction_type="WORK_UNIT", target_project_context_id=VALID_ID,
+            target_project_name="Example Project", expected_state_revision=7,
+            framework_version="2.1.0", target_work_unit="WU-1", target_work_unit_ref=locator,
+        )
+        self.assertEqual(envelope["target_work_unit_ref"], locator)
+        legacy = ie.build_instruction_envelope(
+            instruction_type="WORK_UNIT", target_project_context_id=VALID_ID,
+            target_project_name="Example Project", expected_state_revision=7, framework_version="2.1.0",
+        )
+        self.assertNotIn("target_work_unit_ref", legacy)
+        for invalid in ({"sha": "a" * 40}, {"path": ".gpt-codex/WU.json"},
+                        {"path": "", "sha": "a" * 40}, {"path": ".gpt-codex/WU.json", "sha": "bad"},
+                        {"path": ".gpt-codex/WU.json", "sha": "a" * 40, "extra": True}):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    ie.build_instruction_envelope(
+                        instruction_type="WORK_UNIT", target_project_context_id=VALID_ID,
+                        target_project_name="Example Project", expected_state_revision=7,
+                        framework_version="2.1.0", target_work_unit_ref=invalid,
+                    )
+        schema = json.loads((ROOT / "schemas" / "instruction-envelope.schema.json").read_text(encoding="utf-8"))
+        template = json.loads((ROOT / "project-template" / "INSTRUCTION_ENVELOPE.template.json").read_text(encoding="utf-8"))
+        self.assertEqual(set(schema["properties"]["target_work_unit_ref"]["required"]), {"path", "sha"})
+        self.assertEqual(template["target_work_unit_ref"], {"path": "REPOSITORY_RELATIVE_PATH", "sha": "40_HEX_GIT_SHA"})
+
     def test_instruction_is_one_copyable_block_with_envelope_first(self):
         ie = load_instruction_envelope()
         envelope = ie.build_instruction_envelope(
