@@ -1,0 +1,27 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "TASK3-USER-DIRECTED-DEFERRAL",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "TASK3_USER_DIRECTED_DEFERRAL",
+  "state_revision": 11,
+  "result": "RECORDED",
+  "user_decision": "DEFER_TASK3_UNTIL_FRAMEWORK_STABILIZATION",
+  "work_unit_id": "task-3-global-plugin-core-001",
+  "authority_base_sha": "0c143cf62b9755827ddeca2741979f08e7242beb",
+  "completion_claimed": false,
+  "integration_claimed": false,
+  "plugin_release_claimed": false,
+  "plugin_activation_claimed": false,
+  "local_work_preserved": true,
+  "local_work_is_authority": false,
+  "resume_requires_new_authorization": true,
+  "preservation_paths": [
+    {"path": ".gpt-codex/scripts/framework_plugin_entry.py", "sha256": "45A58EC7E3320DB213F4FA221FB4C07404CCE184301AC6EA038548766F2A6373"},
+    {"path": ".gpt-codex/scripts/git_continuity.py", "sha256": "7FB8F6CF2D4CA4825796161D0BDD21A9E9EC6B49626B6A19D09216950F054971"},
+    {"path": ".gpt-codex/tests/test_framework_plugin.py", "sha256": "04F446A0440B26531AFCD06951B512FEF24CA3846680CB9CFAF417A1E9F5C166"},
+    {"path": "plugins/gpt-codex-framework/.codex-plugin/plugin.json", "sha256": "7911FC5D1E3D6B7E0D7B7656132FFB978E1B21B9EAE5CEB77C4BDCBD111DAEDE"},
+    {"path": "plugins/gpt-codex-framework/skills/governed-entry/SKILL.md", "sha256": "41AB8EB554913BEAAFF74EFAAE507D1B29BBFC4C572CFDF726150A891F4894E0"}
+  ]
+}

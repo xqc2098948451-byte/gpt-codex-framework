@@ -63,7 +63,7 @@
       "DIRECT_MAIN_IMPLEMENTATION"
     ]
   },
-  "state": "AUTHORIZED",
+  "state": "INCOMPLETE",
   "basis_state_revision": 10,
   "evidence_refs": [
     ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
@@ -105,5 +105,15 @@
     "corrected_from_sha": "e214b3a938a2225072daf121274c5abc57346400",
     "change": "Remove COMMIT and PUSH from CODEX_IMPLEMENTER durable authorized_actions.",
     "implementation_scope_changed": false
+  },
+  "deferral": {
+    "classification": "USER_DIRECTED_DEFERRAL",
+    "deferred_from_state": "AUTHORIZED",
+    "local_work_preserved": true,
+    "local_work_is_authority": false,
+    "completion_claimed": false,
+    "integration_claimed": false,
+    "release_claimed": false,
+    "resume_requires_new_authorization": true
   }
 }
