@@ -514,6 +514,48 @@ def validate_remediation_adjudication(
     return list(dict.fromkeys(errors))
 
 
+def _resolve_durable_remediation_adjudication(
+    repository_root: Path, remediation_decision_ref: object, current_state_revision: int | None,
+) -> tuple[Mapping[str, Any] | None, Mapping[str, Mapping[str, Any]], list[str]]:
+    """Recover the decision and its bases only from Evidence recorded at repository HEAD."""
+
+    if not isinstance(repository_root, Path) or not _is_nonempty_string(remediation_decision_ref):
+        return None, {}, ["REMEDIATION_BASIS_UNRESOLVED"]
+    head = subprocess.run(
+        ["git", "-C", str(repository_root), "rev-parse", "HEAD"], capture_output=True, text=True,
+    )
+    head_sha = head.stdout.strip() if head.returncode == 0 else None
+    state = _git_json_at_path(repository_root, head_sha, ".gpt-codex/STATE.json")
+    if not isinstance(state, Mapping) or state.get("revision") != current_state_revision:
+        return None, {}, ["REMEDIATION_BASIS_UNRESOLVED"]
+    evidence_refs = state.get("evidence_refs")
+    if not isinstance(evidence_refs, list):
+        return None, {}, ["REMEDIATION_BASIS_UNRESOLVED"]
+    evidence_by_id: dict[str, Mapping[str, Any]] = {}
+    for path in evidence_refs:
+        evidence = _git_json_at_path(repository_root, head_sha, path)
+        evidence_id = evidence.get("evidence_id") if isinstance(evidence, Mapping) else None
+        if _is_nonempty_string(evidence_id):
+            evidence_by_id[evidence_id] = evidence
+    decision = evidence_by_id.get(remediation_decision_ref)
+    if not isinstance(decision, Mapping):
+        return None, {}, ["REMEDIATION_BASIS_UNRESOLVED"]
+    if decision.get("adjudicated_at_revision") != state.get("revision"):
+        return decision, {}, ["REMEDIATION_BASIS_STALE"]
+    basis_refs = decision.get("basis_refs")
+    if not isinstance(basis_refs, list):
+        return decision, {}, ["REMEDIATION_BASIS_UNRESOLVED"]
+    resolved_basis: dict[str, Mapping[str, Any]] = {}
+    errors: list[str] = []
+    for basis_ref in basis_refs:
+        basis = evidence_by_id.get(basis_ref)
+        if not isinstance(basis, Mapping):
+            errors.append("REMEDIATION_BASIS_UNRESOLVED")
+        else:
+            resolved_basis[basis_ref] = basis
+    return decision, resolved_basis, list(dict.fromkeys(errors))
+
+
 def validate_review_lifecycle(
     instruction: Mapping[str, Any] | None,
     finding_result: Mapping[str, Any],
@@ -523,6 +565,7 @@ def validate_review_lifecycle(
     re_review_result: Mapping[str, Any] | None = None,
     resulting_revision: str | None = None,
     authoritative_review_context: Mapping[str, Any] | None = None,
+    repository_root: Path | None = None,
 ) -> list[str]:
     """Validate finding evidence, explicit remediation, fix causality, and re-review."""
 
@@ -535,11 +578,20 @@ def validate_review_lifecycle(
         return errors
     if instruction is None or instruction.get("instruction_type") != "FIX_INSTRUCTION":
         errors.append("FIX_INSTRUCTION_REQUIRED")
-    if not isinstance(remediation_decision, Mapping):
+    effective_decision = remediation_decision
+    effective_basis = resolved_basis
+    if repository_root is not None:
+        effective_decision, effective_basis, resolution_errors = _resolve_durable_remediation_adjudication(
+            repository_root,
+            instruction.get("remediation_decision_ref") if isinstance(instruction, Mapping) else None,
+            current_state_revision,
+        )
+        errors.extend(resolution_errors)
+    if not isinstance(effective_decision, Mapping):
         errors.append("REMEDIATION_DECISION_REQUIRED")
     else:
         errors.extend(validate_remediation_adjudication(
-            remediation_decision, finding_result, resolved_basis if resolved_basis is not None else {},
+            effective_decision, finding_result, effective_basis if effective_basis is not None else {},
         ))
     if authoritative_review_context is not None:
         if not isinstance(authoritative_review_context, Mapping):
@@ -573,8 +625,8 @@ def validate_review_lifecycle(
         if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
             errors.append("FIX_ROUND_MISMATCH")
         if (
-            isinstance(remediation_decision, Mapping)
-            and instruction.get("remediation_decision_ref") != remediation_decision.get("evidence_id")
+            isinstance(effective_decision, Mapping)
+            and instruction.get("remediation_decision_ref") != effective_decision.get("evidence_id")
         ):
             errors.append("REMEDIATION_DECISION_MISMATCH")
         if instruction.get("executor_role") != "CODEX_IMPLEMENTER":
@@ -740,6 +792,9 @@ def validate_governed_mutation_entry(
     approved_scope: set[str] | None = None,
     repository_authority: Mapping[str, Any] | None = None,
     repository_root: Path | None = None,
+    finding_result: Mapping[str, Any] | None = None,
+    remediation_decision: Mapping[str, Any] | None = None,
+    resolved_basis: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> list[str]:
     """One fail-closed entry that composes existing project mutation authorities."""
 
@@ -823,6 +878,17 @@ def validate_governed_mutation_entry(
         mutation_instruction, review_request, review_result, current_state_revision=current_state_revision,
         authoritative_review_context=authoritative_review_context,
     ))
+    if mutation_instruction.get("instruction_type") == "FIX_INSTRUCTION":
+        if not isinstance(finding_result, Mapping):
+            errors.append("FIX_FINDING_RESULT_REQUIRED")
+        elif not isinstance(repository_root, Path):
+            errors.append("REMEDIATION_BASIS_UNRESOLVED")
+        else:
+            errors.extend(validate_review_lifecycle(
+                mutation_instruction, finding_result, current_state_revision=current_state_revision,
+                remediation_decision=remediation_decision, resolved_basis=resolved_basis,
+                authoritative_review_context=authoritative_review_context, repository_root=repository_root,
+            ))
     return list(dict.fromkeys(errors))
 
 

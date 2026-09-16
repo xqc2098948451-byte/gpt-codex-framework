@@ -1,6 +1,9 @@
 import importlib.util
 import inspect
+import json
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -115,6 +118,30 @@ def resolved_basis(*, basis_type="ACCEPTED_AUTHORITY_BASIS", finding_ids=None,
             "failing": failing,
         },
     }
+
+
+def write_durable_adjudication_repository(root, decision_evidence=None, basis_evidence=None):
+    decision_evidence = decision_evidence or remediation_decision_evidence()
+    basis_evidence = basis_evidence or {
+        "evidence_id": "basis/accepted-001",
+        **resolved_basis()["basis/accepted-001"],
+    }
+    evidence_dir = root / ".gpt-codex" / "evidence"
+    evidence_dir.mkdir(parents=True)
+    decision_path = ".gpt-codex/evidence/decision.json"
+    basis_path = ".gpt-codex/evidence/basis.json"
+    (root / decision_path).write_text(json.dumps(decision_evidence), encoding="utf-8")
+    (root / basis_path).write_text(json.dumps(basis_evidence), encoding="utf-8")
+    (root / ".gpt-codex" / "STATE.json").write_text(json.dumps({
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "revision": 8,
+        "evidence_refs": [decision_path, basis_path],
+    }), encoding="utf-8")
+    for command in (
+        ["git", "init"], ["git", "config", "user.email", "tests@example.invalid"],
+        ["git", "config", "user.name", "Tests"], ["git", "add", "."], ["git", "commit", "-m", "fixture"],
+    ):
+        subprocess.run(command, cwd=root, check=True, capture_output=True)
 
 
 class ReviewLifecycleTests(unittest.TestCase):
@@ -311,6 +338,70 @@ class ReviewLifecycleTests(unittest.TestCase):
             remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
         )
         self.assertIn("REMEDIATION_DECISION_MISMATCH", errors)
+
+    def test_governed_fix_rejects_fake_memory_adjudication_without_durable_evidence(self):
+        validator = load_validator()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            write_durable_adjudication_repository(
+                root, decision_evidence={"evidence_id": "OTHER-DECISION"},
+                basis_evidence={"evidence_id": "OTHER-BASIS"},
+            )
+            errors = validator.validate_review_lifecycle(
+                fix_instruction(), finding_result(), current_state_revision=8,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
+                repository_root=root,
+            )
+        self.assertIn("REMEDIATION_BASIS_UNRESOLVED", errors)
+
+    def test_governed_fix_accepts_repository_resolved_adjudication(self):
+        validator = load_validator()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            write_durable_adjudication_repository(root)
+            errors = validator.validate_review_lifecycle(
+                fix_instruction(), finding_result(), current_state_revision=8,
+                repository_root=root,
+            )
+        self.assertEqual(errors, [])
+
+    def test_governed_fix_accepts_repository_resolved_regression_evidence(self):
+        validator = load_validator()
+        decision = remediation_decision_evidence(basis_type="CONCRETE_REGRESSION_EVIDENCE")
+        basis = {
+            "evidence_id": "basis/accepted-001",
+            **resolved_basis(
+                basis_type="CONCRETE_REGRESSION_EVIDENCE", accepted=False, failing=True,
+            )["basis/accepted-001"],
+        }
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            write_durable_adjudication_repository(root, decision, basis)
+            errors = validator.validate_review_lifecycle(
+                fix_instruction(), finding_result(), current_state_revision=8, repository_root=root,
+            )
+        self.assertEqual(errors, [])
+
+    def test_governed_mutation_entry_composes_durable_fix_gate(self):
+        validator = load_validator()
+        control = {
+            "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+            "project_context_id": "PROJECT-CONTEXT-001",
+            "github": {"repository_id": "repo-001", "repository_full_name": "owner/project"},
+        }
+        state = {"project_id": "PRJ-FRAMEWORK-MANAGEMENT", "revision": 8}
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            write_durable_adjudication_repository(
+                root, decision_evidence={"evidence_id": "OTHER-DECISION"},
+                basis_evidence={"evidence_id": "OTHER-BASIS"},
+            )
+            errors = validator.validate_governed_mutation_entry(
+                control, state, {}, fix_instruction(), review_request(), review_result(),
+                current_state_revision=8, repository_root=root, finding_result=finding_result(),
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
+            )
+        self.assertIn("REMEDIATION_BASIS_UNRESOLVED", errors)
 
     def test_re_review_binds_new_revision_and_retains_original_evidence(self):
         validator = load_validator()
