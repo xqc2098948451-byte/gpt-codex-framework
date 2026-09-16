@@ -1,0 +1,54 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "d00d7f11cfc80c63",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "FRESH_WINDOW_NEXT_INSTRUCTION_PROTOCOL_FIDELITY_GAP",
+  "state_revision": 10,
+  "result": "CONFIRMED_GAP",
+  "source_repository_id": "1366213495",
+  "source_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_commit_sha": "0c143cf62b9755827ddeca2741979f08e7242beb",
+  "source_work_unit_id": "task-3-global-plugin-core-001",
+  "framework_version_used": "2.7.0",
+  "observed_at": "2026-09-16T18:51:00+08:00",
+  "evidence_type": [
+    "ROLE_ORCHESTRATION_FAILURE",
+    "OBSERVED_FRICTION"
+  ],
+  "observed_fact": "The fresh-window repository-only handoff succeeded: a new GPT context recovered the active Framework, accepted Design and Plan, Phase-A closure, Task-3 boundary, and current repository authority from GitHub without relying on prior chat history. However, the next PRE_EXECUTION_REVIEW instruction was not fully protocol-faithful: it referenced only a proposed implementation-instruction id plus an authority summary instead of binding the reviewer to a complete durable exact implementation-instruction artifact; its requested REVIEW_RESULT fields did not fully match the current Result Envelope/CAP-01 completion contract; and machine refs/commands contained Markdown escape characters such as \\@ and \\_.",
+  "impact": "Repository-only continuity can recover where the project is while still allowing fresh-window orchestration to reconstruct the next governed instruction/result format imperfectly. That can yield a review that is semantically understandable to a human but not durably bound to the exact mutation instruction, or a Reviewer result that is not directly valid under the current repository protocol. This creates avoidable reconciliation work immediately after an otherwise successful handoff.",
+  "root_cause_status": "CONFIRMED_GAP_IN_NEXT_STEP_PROTOCOL_RECONSTRUCTION",
+  "root_cause": "DURABLE_HANDOFF_RECOVERS_PROJECT_STATE_AND_NEXT_ACTION_BUT_DOES_NOT_YET_ENSURE_FRESH_GPT_GENERATES_THE_NEXT_INSTRUCTION_AND_REVIEW_RESULT_DIRECTLY_FROM_CURRENT_DURABLE_PROTOCOL_ARTIFACTS_AND_SCHEMAS",
+  "current_workaround": "GPT manually re-reads the current Work Unit, Role Protocol, Instruction Envelope schema, Result Envelope schema, accepted authorities, and exact repository refs before issuing the next governed instruction; it then corrects protocol-field drift and binds PRE_EXECUTION review to exact durable artifacts rather than conversational summaries.",
+  "existing_capability_used": [
+    "REPOSITORY_ONLY_CONTINUITY",
+    "STATE_AND_RESULT_DURABILITY",
+    "WORK_UNIT_AUTHORITY",
+    "INSTRUCTION_ENVELOPE_SCHEMA",
+    "RESULT_ENVELOPE_SCHEMA",
+    "ROLE_PROTOCOL",
+    "EXACT_GIT_SHA",
+    "PRE_EXECUTION_REVIEW"
+  ],
+  "preservation_evidence": "The handoff mechanism itself worked and should be preserved: the fresh GPT recovered the correct Framework version, accepted Design/Plan, Phase-A closure and Task-3 boundary without old chat context. The minimum optimization is to make next-step protocol reconstruction reuse and bind existing durable Instruction/Result schemas and exact repository artifacts more mechanically; no second handoff system, state store, instruction system, review lifecycle or database is needed.",
+  "optimization_candidate": {
+    "name": "FRESH_WINDOW_NEXT_INSTRUCTION_PROTOCOL_FIDELITY",
+    "status": "EVIDENCE_ONLY_NOT_AUTHORIZED",
+    "minimum_closure_hypothesis": [
+      "A fresh-window next-step instruction is reconstructed from the current durable Work Unit, Role Protocol and Instruction Envelope contract rather than from a conversational summary template",
+      "Before PRE_EXECUTION review, the complete proposed implementation instruction is durably persisted or otherwise referenced by exact repository path plus immutable SHA so the reviewer reviews the exact instruction that would later authorize mutation",
+      "Reviewer return requirements are generated from the current Result Envelope/CAP-01 contract, including current identity, remote-verification and completion-evidence requirements when PASS is possible",
+      "Machine refs and commands use canonical unescaped strings; presentation-layer Markdown escaping must not alter durable authority coordinates",
+      "Fresh-window continuity success remains separate from next-instruction protocol fidelity so a successful resume does not imply the next instruction is automatically protocol-valid",
+      "Reuse existing STATE, Result, Work Unit, Instruction Envelope, Role Protocol and continuity machinery; add no second handoff or instruction subsystem"
+    ],
+    "new_module_required": false,
+    "new_database_required": false,
+    "new_state_system_required": false,
+    "new_review_system_required": false,
+    "new_instruction_system_required": false
+  },
+  "authority_boundary": "This evidence records a fresh-window orchestration gap only. It does not invalidate the successful repository-only handoff, does not modify Task-3 authority, and does not authorize a Framework change. Any optimization requires later Framework Optimization Review and explicit user approval."
+}
