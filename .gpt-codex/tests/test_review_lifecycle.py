@@ -92,6 +92,13 @@ def review_result():
 
 
 class ReviewLifecycleTests(unittest.TestCase):
+    def test_pairwise_review_policy_rejects_missing_or_ambiguous_slots(self):
+        validator = load_validator()
+        state = {"active_execution_slots": [{"slot_id": "impl", "role": "CODEX_IMPLEMENTER", "project_context_id": "PROJECT-CONTEXT-001", "work_unit_id": "WU-001"}]}
+        facts = {"implementer_slot_id": "impl", "reviewer_slot_id": "reviewer", "canonical_implementer_worktree": "impl-root", "canonical_reviewer_worktree": "review-root", "implementation_sha": VALID_SHA, "reviewer_head_sha": VALID_SHA, "reviewer_tracked_clean": True}
+        self.assertIn("RECONCILIATION_REQUIRED", validator._validate_pairwise_review_policy(state, review_request(), facts))
+        state["active_execution_slots"].append({"slot_id": "reviewer", "role": "CODEX_REVIEWER", "project_context_id": "PROJECT-CONTEXT-001", "work_unit_id": "WU-001", "review_request_id": review_request()["instruction_id"]})
+        self.assertEqual(validator._validate_pairwise_review_policy(state, review_request(), facts), [])
     def test_repository_authority_requires_correlated_execution_fact_not_artifact_existence(self):
         validator = load_validator()
         mutation = mutation_instruction()

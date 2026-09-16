@@ -20,6 +20,26 @@ def load_instruction_envelope():
 
 
 class InstructionEnvelopeTests(unittest.TestCase):
+    def test_role_input_sources_are_allowlist_first_and_runtime_only(self):
+        validate_role_input_sources = load_instruction_envelope().validate_role_input_sources
+
+        durable = ["DURABLE_PROJECT_AUTHORITY", "GOVERNED_ARTIFACT", "GOVERNED_INSTRUCTION", "REPOSITORY_CONTENT", "VERIFICATION_EVIDENCE"]
+        self.assertEqual(validate_role_input_sources("CODEX_REVIEWER", durable + ["ACCEPTED_FINDING"]), [])
+        self.assertEqual(validate_role_input_sources("CODEX_IMPLEMENTER", durable + ["GOVERNED_INSTRUCTION"]), [])
+        for role, source in (("CODEX_REVIEWER", "IMPLEMENTER_RAW_TRANSCRIPT"), ("CODEX_IMPLEMENTER", "REVIEWER_PRIVATE_REASONING"), ("CODEX_REVIEWER", "UNKNOWN")):
+            with self.subTest(role=role, source=source):
+                self.assertEqual(validate_role_input_sources(role, [source]), ["ROLE_DISPATCH = BLOCKED"])
+
+    def test_review_dispatch_requires_independent_freshness_and_allowed_sources(self):
+        ie = load_instruction_envelope()
+        args = dict(instruction_type="REVIEW_REQUEST", target_project_context_id="ctx", target_project_name="Project", expected_state_revision=1, framework_version="2.0.0", target_work_unit="WU-1", expected_base_sha="a" * 40, issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_REVIEWER", return_role="GPT_ORCHESTRATOR", target_github_repository_id="repo")
+        for freshness, sources in ((None, ["REPOSITORY_CONTENT"]), (False, ["REPOSITORY_CONTENT"]), (True, ["IMPLEMENTER_RAW_TRANSCRIPT"])):
+            with self.subTest(freshness=freshness, sources=sources):
+                with self.assertRaisesRegex(ValueError, "ROLE_DISPATCH = BLOCKED"):
+                    ie.build_instruction_envelope(**args, runtime_fresh_context_verified=freshness, runtime_input_source_kinds=sources)
+        envelope = ie.build_instruction_envelope(**args, runtime_fresh_context_verified=True, runtime_input_source_kinds=["REPOSITORY_CONTENT", "ACCEPTED_FINDING"])
+        self.assertNotIn("runtime_input_source_kinds", envelope)
+        self.assertNotIn("runtime_fresh_context_verified", envelope)
     def test_instruction_schema_and_template_exist_with_context_contract(self):
         schema_path = ROOT / "schemas" / "instruction-envelope.schema.json"
         template_path = ROOT / "project-template" / "INSTRUCTION_ENVELOPE.template.json"

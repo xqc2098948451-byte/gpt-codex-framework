@@ -676,6 +676,60 @@ def _git_recovery_is_current(root: Path, slot: Mapping, state: Mapping) -> bool:
     )
 
 
+def _canonical_worktree_identity(root: Path) -> Path | None:
+    """Return the nonpersistent physical Git worktree identity for a root candidate."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except OSError:
+        return None
+    if result.returncode != 0 or not result.stdout.strip():
+        return None
+    return Path(result.stdout.strip()).resolve()
+
+
+def _derive_pairwise_review_facts(
+    root: Path, control: Mapping, state: Mapping, review_request: Mapping,
+) -> dict[str, Any]:
+    """Derive nonpersistent, root-verified executor/reviewer review facts."""
+    slots = state.get("active_execution_slots") if isinstance(state, Mapping) else None
+    if not isinstance(slots, list) or not isinstance(review_request, Mapping):
+        return _recovery_result()
+    context_id, work_unit_id = review_request.get("target_project_context_id"), review_request.get("target_work_unit")
+    reviewers = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("role") == "CODEX_REVIEWER" and slot.get("project_context_id") == context_id and slot.get("work_unit_id") == work_unit_id and slot.get("review_request_id") == review_request.get("instruction_id")]
+    implementers = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("role") == "CODEX_IMPLEMENTER" and slot.get("project_context_id") == context_id and slot.get("work_unit_id") == work_unit_id]
+    if len(reviewers) != 1 or len(implementers) != 1:
+        return _recovery_result()
+    implementer, reviewer = implementers[0], reviewers[0]
+    if implementer.get("slot_id") == reviewer.get("slot_id"):
+        return _recovery_result()
+    roots = []
+    for slot in (implementer, reviewer):
+        worktree = slot.get("worktree")
+        if not isinstance(worktree, str) or not worktree.strip():
+            return _recovery_result()
+        candidate = (Path(root) / worktree).resolve()
+        normalized = dict(slot, worktree=".")
+        if not _git_recovery_is_current(candidate, normalized, state):
+            return _recovery_result()
+        identity = _canonical_worktree_identity(candidate)
+        if identity is None:
+            return _recovery_result()
+        roots.append(identity)
+    implementation_sha, reviewer_head_sha = implementer.get("current_head_sha"), reviewer.get("current_head_sha")
+    if roots[0] == roots[1] or implementation_sha != review_request.get("review_target_revision") or reviewer_head_sha != review_request.get("review_target_revision"):
+        return _recovery_result()
+    return {"status": "LATEST_SYNCED_REMOTE_STATE", "reconciliation_required": False,
+            "implementer_slot_id": implementer.get("slot_id"), "reviewer_slot_id": reviewer.get("slot_id"),
+            "canonical_implementer_worktree": str(roots[0]), "canonical_reviewer_worktree": str(roots[1]),
+            "implementation_sha": implementation_sha, "reviewer_head_sha": reviewer_head_sha,
+            "reviewer_tracked_clean": True}
+
+
 def _execution_slot_recovery(
     root: Path,
     control: Mapping,

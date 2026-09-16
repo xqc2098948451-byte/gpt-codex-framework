@@ -336,6 +336,26 @@ def _validate_identity(candidate: Mapping[str, Any], context: Mapping[str, Any],
     return errors
 
 
+def _validate_pairwise_review_policy(
+    state: Mapping[str, Any], review_request: Mapping[str, Any], facts: Mapping[str, Any],
+) -> list[str]:
+    """Fail closed on the durable executor/reviewer pair and its verified facts."""
+    slots = state.get("active_execution_slots") if isinstance(state, Mapping) else None
+    if not isinstance(slots, list) or not isinstance(review_request, Mapping) or not isinstance(facts, Mapping):
+        return ["RECONCILIATION_REQUIRED"]
+    context_id, work_unit_id = review_request.get("target_project_context_id"), review_request.get("target_work_unit")
+    reviewers = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("role") == "CODEX_REVIEWER" and slot.get("project_context_id") == context_id and slot.get("work_unit_id") == work_unit_id and slot.get("review_request_id") == review_request.get("instruction_id")]
+    implementers = [slot for slot in slots if isinstance(slot, Mapping) and slot.get("role") == "CODEX_IMPLEMENTER" and slot.get("project_context_id") == context_id and slot.get("work_unit_id") == work_unit_id]
+    if len(reviewers) != 1 or len(implementers) != 1:
+        return ["RECONCILIATION_REQUIRED"]
+    required = ("implementer_slot_id", "reviewer_slot_id", "canonical_implementer_worktree", "canonical_reviewer_worktree", "implementation_sha", "reviewer_head_sha", "reviewer_tracked_clean")
+    if any(key not in facts for key in required):
+        return ["RECONCILIATION_REQUIRED"]
+    if facts["implementer_slot_id"] != implementers[0].get("slot_id") or facts["reviewer_slot_id"] != reviewers[0].get("slot_id") or facts["implementer_slot_id"] == facts["reviewer_slot_id"] or facts["canonical_implementer_worktree"] == facts["canonical_reviewer_worktree"] or facts["implementation_sha"] != review_request.get("review_target_revision") or facts["reviewer_head_sha"] != review_request.get("review_target_revision") or facts["reviewer_tracked_clean"] is not True:
+        return ["RECONCILIATION_REQUIRED"]
+    return []
+
+
 def validate_instruction_authority(
     instruction: Mapping[str, Any],
     current_state_revision: int | None = None,
@@ -594,6 +614,10 @@ def validate_pre_execution_review(
                     "remote_ref": "current_remote_ref",
                 },
             ))
+            pairwise_state = authoritative_review_context.get("pairwise_state")
+            pairwise_facts = authoritative_review_context.get("pairwise_facts")
+            if pairwise_state is not None or pairwise_facts is not None:
+                errors.extend(_validate_pairwise_review_policy(pairwise_state, review_request, pairwise_facts))
     return list(dict.fromkeys(errors))
 
 

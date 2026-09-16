@@ -1,5 +1,6 @@
 import json
 import re
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -9,6 +10,42 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_pairwise_worktree_identity_distinguishes_aliases_from_real_worktrees(self):
+        from continuity_resume import _canonical_worktree_identity
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td) / "implementation"
+            reviewer = Path(td) / "reviewer"
+            subprocess.run(["git", "init", "-b", "main", str(root)], check=True, capture_output=True)
+            subprocess.run(["git", "-C", str(root), "config", "user.email", "test@example.invalid"], check=True)
+            subprocess.run(["git", "-C", str(root), "config", "user.name", "Test"], check=True)
+            (root / "tracked.txt").write_text("base\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "tracked.txt"], check=True)
+            subprocess.run(["git", "-C", str(root), "commit", "-m", "base"], check=True, capture_output=True)
+            subprocess.run(["git", "-C", str(root), "worktree", "add", "-b", "reviewer", str(reviewer)], check=True, capture_output=True)
+            alias = Path(td) / "implementation-alias"
+            try:
+                alias.symlink_to(root, target_is_directory=True)
+            except OSError as exc:
+                junction = subprocess.run(
+                    ["cmd", "/c", "mklink", "/J", str(alias), str(root)],
+                    capture_output=True,
+                    text=True,
+                )
+                if junction.returncode:
+                    self.skipTest(f"symlink/junction unavailable: {exc}; {junction.stderr}")
+
+            self.assertEqual(_canonical_worktree_identity(root), _canonical_worktree_identity(alias))
+            self.assertNotEqual(_canonical_worktree_identity(root), _canonical_worktree_identity(reviewer))
+
+    def test_pairwise_fact_derivation_fails_closed_without_a_unique_role_pair(self):
+        from continuity_resume import _derive_pairwise_review_facts
+
+        result = _derive_pairwise_review_facts(
+            Path("."), {}, {"active_execution_slots": []},
+            {"instruction_id": "review", "target_project_context_id": "ctx", "target_work_unit": "wu"},
+        )
+        self.assertTrue(result["reconciliation_required"])
     def test_resume_marks_only_the_changed_shared_fixture_module_stale(self):
         from continuity_resume import load_continuity_resume
         from test_context_window_resume import GovernedProjectFixture

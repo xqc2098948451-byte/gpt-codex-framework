@@ -31,6 +31,20 @@ LEGACY_DEFAULTS = {
     "return_role": "GPT_ORCHESTRATOR",
 }
 COMPLETION_GATES = frozenset({"NONE", "GPT_DECISION", "USER_APPROVAL"})
+_ROLE_INPUT_ALLOWLISTS = {
+    "CODEX_IMPLEMENTER": frozenset({"DURABLE_PROJECT_AUTHORITY", "GOVERNED_ARTIFACT", "GOVERNED_INSTRUCTION", "REPOSITORY_CONTENT", "VERIFICATION_EVIDENCE"}),
+    "CODEX_REVIEWER": frozenset({"DURABLE_PROJECT_AUTHORITY", "GOVERNED_ARTIFACT", "GOVERNED_INSTRUCTION", "REPOSITORY_CONTENT", "VERIFICATION_EVIDENCE", "ACCEPTED_FINDING"}),
+}
+
+
+def validate_role_input_sources(executor_role: object, input_source_kinds: object) -> list[str]:
+    """Fail closed for runtime dispatcher inputs outside the role allowlist."""
+    allowed = _ROLE_INPUT_ALLOWLISTS.get(executor_role)
+    if allowed is None or not isinstance(input_source_kinds, (list, tuple)):
+        return ["ROLE_DISPATCH = BLOCKED"]
+    if any(not isinstance(kind, str) or kind not in allowed for kind in input_source_kinds):
+        return ["ROLE_DISPATCH = BLOCKED"]
+    return []
 
 
 def validate_instruction_evolution_metadata(metadata: Mapping[str, Any] | None) -> list[str]:
@@ -66,6 +80,8 @@ def build_instruction_envelope(
     expected_remote_head_sha: str | None = None,
     expected_remote_name: str | None = None,
     target_work_unit_ref: Mapping[str, str] | None = None,
+    runtime_fresh_context_verified: bool | None = None,
+    runtime_input_source_kinds: list[str] | None = None,
     *,
     issuer_role: str | None = None,
     executor_role: str | list[str] | None = None,
@@ -118,6 +134,12 @@ def build_instruction_envelope(
     executor_errors = validate_executor_role(executor_role)
     if executor_errors:
         raise ValueError(", ".join(executor_errors))
+    if instruction_type == "REVIEW_REQUEST":
+        if runtime_fresh_context_verified is not True:
+            raise ValueError("ROLE_DISPATCH = BLOCKED")
+        input_errors = validate_role_input_sources(executor_role, runtime_input_source_kinds)
+        if input_errors:
+            raise ValueError(", ".join(input_errors))
     if issuer_role is None and instruction_type not in LEGACY_INSTRUCTION_ALIASES and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":
         raise ValueError("ISSUER_ROLE_REQUIRED")
     if return_role is None and instruction_type not in LEGACY_INSTRUCTION_ALIASES and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":
