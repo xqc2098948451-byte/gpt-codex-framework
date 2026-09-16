@@ -10,6 +10,8 @@
 
 **Spec:** docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md
 
+**Accepted Design Authority:** `ACCEPTED_DESIGN_REPOSITORY = xqc2098948451-byte/gpt-codex-framework`; `ACCEPTED_DESIGN_PATH = docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md`; `ACCEPTED_DESIGN_SHA = 7bdf0ff17d058100f832d7a2321ddc4276586e04`. Implementation argues from this exact SHA, not latest branch contents; later review-branch movement does not move Design authority.
+
 ## Global Constraints
 
 ```text
@@ -22,7 +24,19 @@ No database, second STATE, Work Unit system, review lifecycle, registry, context
 Work Unit continuity != runtime-turn continuity. BLOCKED requires proven blocker. INCOMPLETE is incomplete evidence.
 Every governed terminal event requires feedback CHECK; CHECK != evidence creation; intake != optimization approval; completion != feedback sync.
 Plugin update != Framework adoption != Project migration.
+Reviewable Design/Plan candidates are committed and pushed to the bound GitHub repository before formal GPT review. REMOTE_REVIEW_CANDIDATE != ACCEPTED_AUTHORITY; push makes reviewable, not accepted. GPT binds repository + artifact path + exact SHA; acceptance freezes only after GPT pass plus user approval. Remote failure is REMOTE_ARTIFACT_SYNC = SYNC_PENDING and ARTIFACT_REVIEW_READY = NO unless separately proven BLOCKED. User upload is exceptional recovery, never normal handoff; no second sync/state system.
 ```
+
+## Remote artifact review continuity
+
+Future persistence results return `REMOTE_REPOSITORY`, `REMOTE_BRANCH`,
+`REMOTE_SHA`, `ARTIFACT_PATH`, `REMOTE_VERIFICATION`, and
+`ARTIFACT_REVIEW_READY`; amendments also return prior/current candidate SHA.
+Accepted references use `ACCEPTED_ARTIFACT_REPOSITORY`,
+`ACCEPTED_ARTIFACT_PATH`, and `ACCEPTED_ARTIFACT_SHA` through existing artifact
+refs, not an approval database. Normal Design and Plan loop is draft -> local
+validation -> commit -> non-force push -> remote verification -> coordinates ->
+GPT exact SHA/path review -> amend/re-push -> user approval -> exact-SHA freeze.
 
 Before Task 5, re-check official OpenAI Plugin Management documentation.
 Marketplace/release source must use approved immutable Plugin release/tag/commit.
@@ -163,6 +177,8 @@ skills/resources beneath that root; modify `continuity_resume.py`,
 - [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
 - [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** inspect surface split and fail-closed fallback.
 - [ ] **CREATE_FOCUSED_COMMIT:** `feat: add governed plugin entry adapter`.
+- [ ] **WRITE_REMOTE_REVIEW_RED_TEST:** matching bound repo/SHA/path is YES; wrong repo reconciles; missing/mismatched ref or artifact and local-only are NO; outage is SYNC_PENDING; exact candidate/frozen refs survive branch movement and fresh resume.
+- [ ] **IMPLEMENT_REMOTE_REVIEW_COORDINATES:** reuse `git_continuity.py`, `continuity_resume.py`, `validate_project.py`, and helper to derive `REMOTE_REPOSITORY`, `REMOTE_BRANCH`, `REMOTE_SHA`, `ARTIFACT_PATH`, `REMOTE_VERIFICATION`, `ARTIFACT_REVIEW_READY`; candidate is never authority.
 
 ### Task 4: Framework Evidence Feedback + GitHub Evidence Bridge
 
@@ -222,6 +238,7 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] **CONFIRM_EXPECTED_RED_REASON:** manifest binding/manual are absent.
 - [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** update Task-3 manifest only, create marketplace descriptor and immutable release binding.
 - [ ] **CREATE_CHINESE_MANUAL:** write required installation, recovery, ChatGPT, Codex, and self-hosting commands.
+- [ ] **CREATE_REMOTE_REVIEW_MANUAL_FLOW:** explain GitHub review branch, GPT exact SHA/path review, amendment/re-push, candidate versus frozen authority, SYNC_PENDING, and a copyable Chinese workflow without normal file upload.
 - [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `test_release_packaging.py`.
 - [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`.
 - [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_framework.py`.
@@ -256,6 +273,7 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] **PLUGIN_RELEASE_CANDIDATE_VERIFICATION:** verify immutable candidate source.
 - [ ] **EXPLICIT_USER_ACTIVATION_GATE:** NOT AUTHORIZED BY PLAN EXECUTION ALONE.
 - [ ] **CREATE_FOCUSED_ACCEPTANCE_COMMIT:** finalize durable Evidence/Result refs.
+- [ ] **REMOTE_REVIEW_ACCEPTANCE:** push acceptance artifact candidate; fresh GPT fetches exact repository/SHA/path without upload; record `REMOTE_ARTIFACT_REVIEW_CONTINUITY = PASS` and `USER_FILE_TRANSFER_REQUIRED = NO` as durable observable Evidence.
 
 ## Review, Full Verification, and Design Coverage
 
@@ -302,6 +320,7 @@ PASS.
 | Distribution and Chinese manual | Task 5 |
 | Real self-hosting acceptance and activation | Task 6 |
 | Seven modules, no duplicate system, approval boundary | Global Constraints |
+| REMOTE_ARTIFACT_REVIEW_CONTINUITY | Global Constraints, Tasks 3, 5, and 6 |
 
 `IMPLEMENTED`, `VALIDATED`, `INTEGRATED`, `RELEASED`, and `ACTIVATED` differ.
 No active Plugin exists before V1 activation; development `main` cannot become
