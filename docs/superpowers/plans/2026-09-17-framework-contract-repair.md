@@ -31,6 +31,57 @@
 | Governed entry | `validate_project.py` | fail-closed ordinary/FIX/control-plane composition |
 | Bridge and seed | two Work Unit JSON files, release source/metadata/artifacts | one non-reusable bootstrap and exact revision-12 seed |
 
+## Frozen bridge authority
+
+### BRIDGE_AUTHORIZED_PATHS
+
+The one-time bridge may create or modify only this duplicate-free, repository-relative set; no glob, runtime expansion, or implied test path is valid:
+
+1. `.gpt-codex/schemas/instruction-envelope.schema.json`
+2. `.gpt-codex/schemas/result-envelope.schema.json`
+3. `.gpt-codex/schemas/work-unit.schema.json`
+4. `.gpt-codex/scripts/instruction_envelope.py`
+5. `.gpt-codex/scripts/role_communication.py`
+6. `.gpt-codex/scripts/result_return.py`
+7. `.gpt-codex/scripts/git_continuity.py`
+8. `.gpt-codex/scripts/validate_project.py`
+9. `.gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json`
+10. `.gpt-codex/project-template/RESULT_ENVELOPE.template.json`
+11. `.gpt-codex/project-template/WORK_UNIT.template.json`
+12. `.gpt-codex/work-units/framework-contract-repair-001.json`
+13. `.gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json`
+14. `.gpt-codex/tests/test_instruction_envelope.py`
+15. `.gpt-codex/tests/test_instruction_role_contract.py`
+16. `.gpt-codex/tests/test_result_contract_schema.py`
+17. `.gpt-codex/tests/test_role_communication_taxonomy.py`
+18. `.gpt-codex/tests/test_result_return.py`
+19. `.gpt-codex/tests/test_self_hosting_validator.py`
+20. `.gpt-codex/tests/test_validator_context_binding.py`
+21. `.gpt-codex/tests/test_git_continuity.py`
+22. `.gpt-codex/tests/test_review_lifecycle.py`
+23. `.gpt-codex/tests/test_version_consistency.py`
+24. `.gpt-codex/tests/test_release_packaging.py`
+25. `VERSION`
+26. `.gpt-codex/builtins/INDEX.json`
+27. `.gpt-codex/CHANGELOG.md`
+28. `releases/INDEX.json`
+29. `releases/records/v2.7.1.json`
+30. `dist/gpt-codex-framework-v2.7.1-bootstrap.zip`
+31. `dist/gpt-codex-framework-v2.7.1-bootstrap.zip.sha256`
+32. `dist/gpt-codex-framework-v2.7.1-release.json`
+
+`actual changed paths ⊆ BRIDGE_AUTHORIZED_PATHS`. The bridge authorization object carries this exact list. The repair Work Unit owns the applicable implementation, schema, template, test, and release paths; the seed Work Unit owns only its frozen four paths. Post-execution observed path union must equal the bridge object list intersected with paths actually changed, never a path inferred from a task.
+
+### BRIDGE_AUTHORIZATION_OBJECT
+
+`BRIDGE_OBJECT_TYPE = signed annotated Git tag`. `BRIDGE_REMOTE_REF = refs/tags/bridge/framework-contract-repair-001`. `BRIDGE_OBJECT_TARGET = Accepted Plan SHA 905a2a32f98e285b21f4ce36e5139d71c858b9df`. `BRIDGE_OBJECT_IDENTITY = annotated tag object SHA returned by git rev-parse refs/tags/bridge/framework-contract-repair-001^{tag}`. `BRIDGE_PAYLOAD_ENCODING = canonical UTF-8 JSON with sorted keys, trailing LF, stored as the annotated tag message`. `BRIDGE_CREATOR_ROLE = USER_APPROVER`.
+
+The reviewed bridge authority core is canonical JSON excluding the review-artifact locator. CODEX_REVIEWER first emits the independent review artifact; USER_APPROVER then creates the outer signed annotated tag binding that artifact SHA-256 without changing the reviewed core. Before creation USER_LOCAL verifies the ref has no remote output using `git ls-remote origin refs/tags/bridge/framework-contract-repair-001`. USER_LOCAL preflights signing with `git config --get user.signingkey` and `git tag -s --help`; an unavailable signing capability returns `RECONCILIATION_REQUIRED`, with no unsigned fallback. USER_APPROVER creates the tag locally, USER_LOCAL pushes only `git push origin refs/tags/bridge/framework-contract-repair-001`, never `--force` or `--force-with-lease`, then verifies remote tag object SHA, tag target, canonical payload hash, and review-artifact hash. A preexisting ref, SHA mismatch, replacement, replay after consumption, or a tag target other than the Accepted Plan SHA returns `RECONCILIATION_REQUIRED`. Consumption is recorded by the exact accepted remote repair SHA; expiry occurs only after remote active-authority verification, and the tag cannot authorize a second mutation while pending.
+
+### Pre-activation actor rule
+
+Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation in Tasks 1–10 has actor `USER_LOCAL_APPLY`. `CODEX_PREPARE` reads, tests without governed mutation, produces the bounded edit/failing-test expectation, validates, and reports. `CODEX_VERIFY` runs or reads focused verification and reports. CODEX_IMPLEMENTER has zero governed-worktree mutation, commit, push, tag, or release steps before activation. CODEX_REVIEWER is read/test/validate/report only. USER_APPROVER authors approval semantics only. After remote active-authority verification, repaired native authority may authorize CODEX_IMPLEMENTER mutation under a new valid instruction.
+
 ## Task 1: Freeze bridge authorization and operational boundaries
 
 **Files:** Create `.gpt-codex/work-units/framework-contract-repair-001.json` and `.gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json`; modify only the exact bridge allowlist files declared by the bridge authorization, including release surfaces for `2.7.1`.
@@ -221,6 +272,22 @@
 
 **Completion evidence:** remote refs, tag target, release asset facts, bridge termination record, seed-consumption result. **Handoff:** Plugin remains deferred.
 
+## USER_LOCAL post-activation approval evidence transport
+
+`refs/heads/gpt-codex-approval-evidence` is protected operationally by the fail-closed Git-continuity rule: USER_LOCAL observes its exact remote head before writing, every non-initial evidence commit must descend from that observed head, push is fast-forward only, and any non-fast-forward, force, force-with-lease, missing remote object, or ancestry mismatch returns `RECONCILIATION_REQUIRED`. Its mutable head is discovery/reachability only and never authority.
+
+1. USER_APPROVER emits canonical immutable `APPROVAL_RESULT` bytes.
+2. USER_LOCAL receives the bytes and verifies their SHA-256 before and after storage; any byte change fails.
+3. USER_LOCAL fetches and observes `refs/heads/gpt-codex-approval-evidence`.
+4. On first transport, USER_LOCAL creates an orphan evidence commit containing only `approvals/<result_id>.json`, records its commit SHA, and pushes without force.
+5. On each subsequent transport, USER_LOCAL creates the evidence commit with the verified current evidence commit as parent.
+6. USER_LOCAL pushes with `git push origin HEAD:refs/heads/gpt-codex-approval-evidence`; no force option is permitted.
+7. USER_LOCAL re-observes the exact remote ref, verifies pushed-commit reachability, resolves `git show <commit>:approvals/<result_id>.json`, computes blob SHA and payload SHA-256, and compares them to the original bytes.
+8. USER_LOCAL returns `approval_evidence_ref = {remote_ref, evidence_commit_sha, path, blob_sha}`.
+9. GPT_ORCHESTRATOR may insert only that locator into the `RECONCILIATION_REQUEST`; it cannot alter the closed approved authority core.
+
+Sensitivity fixtures cover non-fast-forward update, force-update attempt, ref advance after locator issuance where the old bound tuple remains valid, and a different blob at the same path on a newer ref that cannot substitute authority.
+
 ## Lifecycle checkpoints
 
 Accepted Design -> Plan draft -> remote Plan review candidate -> GPT Plan review -> user Plan approval -> Accepted Plan frozen at exact SHA -> bridge authorization preparation -> independent PRE_EXECUTION review -> explicit user bridge approval -> one-time bridge execution -> Tasks 2–10 -> task verification -> composed final verification -> independent POST_EXECUTION review -> remote repair candidate -> independent exact-SHA review -> user acceptance -> exact main fast-forward -> release/tag/publication -> remote active-authority verification -> bridge terminated -> first native Baseline control-plane checkpoint -> blocked Baseline Work Unit -> fresh State Oracle REVIEW_FINDING -> fresh basis/adjudication -> State Oracle FIX.
@@ -250,3 +317,7 @@ The plan uses `scope_paths`, `remediation_decision_ref`, `approval_evidence_ref`
 ### Authority and scope review
 
 No candidate rule authorizes its own implementation. No task grants CODEX_IMPLEMENTER commit, push, bridge, integration, tag, or publication authority. The Plan has no Plugin work, State Oracle implementation repair, or unrelated Framework refactor.
+
+### Amendment consistency review
+
+Tasks 1–10 mutate only `BRIDGE_AUTHORIZED_PATHS`; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 4 closes `scope` as `additionalProperties = false` with required `owned_paths` and optional compatible `excluded_paths`, both unique safe repository-relative arrays. The existing Baseline and Task-3 Work Units are compatibility fixtures; `WORK_UNIT.template.json` changes because its empty `owned_paths` would violate the new minimum. The bridge has one signed annotated-tag representation, and approval evidence has the explicit creation/update procedure above.
