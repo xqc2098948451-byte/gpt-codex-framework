@@ -177,6 +177,28 @@ class ResultContractSchemaTests(unittest.TestCase):
             candidate["completion_evidence"][field] = value
             self.assertTrue(validate_completion_evidence(candidate), field)
 
+    def test_governed_pass_fails_closed_while_legacy_result_remains_compatible(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from validate_project import validate_result_protocol
+        governed = {"result_message_type": "IMPLEMENTATION_RESULT", "status": "PASS"}
+        self.assertIn("COMPLETION_EVIDENCE_REQUIRED", validate_result_protocol(governed))
+        self.assertEqual(validate_result_protocol({"status": "PASS"}), [])
+
+    def test_completion_evidence_denies_absent_validators_partial_process_and_blocked_without_proof(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from publication_contract import validate_completion_evidence
+        base = {"status": "PASS", "completion_evidence": {"execution_state": "COMPLETED", "process_completed": True, "exit_code": 0, "intended_scope": ["x"], "executed_scope": ["x"], "test_files_expected": 1, "test_files_executed": 1, "test_count": 1, "failure_count": 0, "error_count": 0, "validators_expected": [], "validators_completed": [], "blocker_evidence_refs": []}}
+        missing = json.loads(json.dumps(base)); del missing["completion_evidence"]["validators_expected"]; del missing["completion_evidence"]["validators_completed"]
+        self.assertTrue(validate_completion_evidence(missing))
+        partial = json.loads(json.dumps(base)); partial["completion_evidence"]["process_completed"] = False
+        self.assertTrue(validate_completion_evidence(partial))
+        blocked = json.loads(json.dumps(base)); blocked["status"] = "BLOCKED"; blocked["completion_evidence"]["execution_state"] = "BLOCKED"
+        self.assertTrue(validate_completion_evidence(blocked))
+        incomplete = {"status": "INCOMPLETE", "completion_evidence": {"execution_state": "INCOMPLETE"}}
+        self.assertEqual(validate_completion_evidence(incomplete), [])
+
 
 if __name__ == "__main__":
     unittest.main()

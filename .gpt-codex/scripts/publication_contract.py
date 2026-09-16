@@ -14,7 +14,7 @@ def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
     if not isinstance(evidence, Mapping):
         # Historical publication results remain valid until a governed result
         # opts into CAP-01; new INCOMPLETE/BLOCKED states require the evidence.
-        return ["COMPLETION_EVIDENCE_REQUIRED"] if result.get("status") in {"INCOMPLETE", "BLOCKED"} else []
+        return ["COMPLETION_EVIDENCE_REQUIRED"] if result.get("status") in {"INCOMPLETE", "BLOCKED"} or (result.get("status") == "PASS" and "result_message_type" in result) else []
     state = evidence.get("execution_state")
     if result.get("status") == "PASS":
         required = (
@@ -24,7 +24,8 @@ def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
             isinstance(evidence.get("test_files_expected"), int) and evidence.get("test_files_expected") == evidence.get("test_files_executed"),
             isinstance(evidence.get("test_count"), int), evidence.get("failure_count") == 0,
             evidence.get("error_count") == 0,
-            evidence.get("validators_expected") == evidence.get("validators_completed"),
+            isinstance(evidence.get("validators_expected"), list) and isinstance(evidence.get("validators_completed"), list)
+            and evidence.get("validators_expected") == evidence.get("validators_completed"),
         )
         return [] if all(required) else ["PASS_COMPLETION_EVIDENCE_INCOMPLETE"]
     if result.get("status") == "BLOCKED":
