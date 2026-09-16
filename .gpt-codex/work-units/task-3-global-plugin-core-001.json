@@ -1,0 +1,81 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "task-3-global-plugin-core-001",
+  "goal": "Implement Task 3 Global Plugin Core exactly within the accepted Design and accepted Plan authority, without beginning Task 4+ or any Framework/Plugin release or activation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/git_continuity.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      "plugins/gpt-codex-framework/"
+    ],
+    "excluded_paths": [
+      "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+      "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+      ".agents/plugins/marketplace.json",
+      "docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "acceptance": [
+    "PLUGIN_FORMAT_PREFLIGHT remains PASS; any material official-format difference stops for reconciliation.",
+    "Base Plugin RED tests cover enrolled, unmanaged, conflict, and fresh repository-only resume cases.",
+    "Remote review RED tests cover bound, mismatch, missing, local-only, outage, moving-branch, frozen-ref, and fresh-resume cases.",
+    "Plugin entry and resume helper/package are implemented without creating a second authority or state system.",
+    "Remote review coordinates are derived through existing Git continuity; a candidate never becomes authority merely by being pushed.",
+    "test_framework_plugin.py passes.",
+    "test_continuity_resume.py adjacent regression passes.",
+    "project validation passes.",
+    "git diff --check passes.",
+    "Independent post-execution review is completed before integration."
+  ],
+  "selected_extensions": {
+    "skills": ["github-project-continuity"],
+    "guardrails": ["universal-safety", "cross-project-context-binding", "github-repository-binding"],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH"],
+    "forbidden_actions": ["PUBLISH", "SCOPE_EXPANSION", "FRAMEWORK_RELEASE", "PLUGIN_RELEASE", "PLUGIN_ACTIVATION", "DIRECT_MAIN_IMPLEMENTATION"]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 8,
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+      "sha": "7bdf0ff17d058100f832d7a2321ddc4276586e04"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+      "sha": "52e64cee79b6d7bec87d14f58977dd2eeb77696b"
+    }
+  },
+  "authorization": {
+    "authority_type": "GPT_DECISION",
+    "status": "AUTHORIZED",
+    "authorized_task": "TASK_3_GLOBAL_PLUGIN_CORE",
+    "implementation_authorized": true,
+    "implementation_start_allowed": false,
+    "next_gate": "PRE_EXECUTION_REVIEW"
+  },
+  "plugin_format_preflight": {
+    "checked_on": "2026-09-16",
+    "source_class": "TOOL_OBSERVED",
+    "result": "PASS",
+    "material_difference": false,
+    "observed_contract": [
+      ".codex-plugin/plugin.json remains a native Plugin manifest location",
+      ".agents/plugins/marketplace.json remains the Codex marketplace manifest location",
+      "GitHub marketplace import supports branch, tag, or exact commit binding"
+    ]
+  }
+}
