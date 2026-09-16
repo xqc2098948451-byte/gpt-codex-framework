@@ -69,18 +69,23 @@ The one-time bridge may create or modify only this duplicate-free, repository-re
 30. `dist/gpt-codex-framework-v2.7.1-bootstrap.zip`
 31. `dist/gpt-codex-framework-v2.7.1-bootstrap.zip.sha256`
 32. `dist/gpt-codex-framework-v2.7.1-release.json`
+33. `dist/gpt-codex-framework-v2.7.0-bootstrap.zip` — `DELETE_ONLY`
+34. `dist/gpt-codex-framework-v2.7.0-bootstrap.zip.sha256` — `DELETE_ONLY`
+35. `dist/gpt-codex-framework-v2.7.0-release.json` — `DELETE_ONLY`
 
-`actual changed paths ⊆ BRIDGE_AUTHORIZED_PATHS`. The bridge authorization object carries this exact list. The repair Work Unit owns the applicable implementation, schema, template, test, and release paths; the seed Work Unit owns only its frozen four paths. Post-execution observed path union must equal the bridge object list intersected with paths actually changed, never a path inferred from a task.
+`actual created, modified, or deleted paths ⊆ BRIDGE_AUTHORIZED_PATHS`. The bridge authorization object carries this exact list and the `DELETE_ONLY` operation restriction. The repair Work Unit owns the applicable implementation, schema, template, test, and release paths; the seed Work Unit owns only its frozen four paths. Post-execution observed path union must equal the bridge object list intersected with paths actually changed, never a path inferred from a task.
 
 ### BRIDGE_AUTHORIZATION_OBJECT
 
-`BRIDGE_OBJECT_TYPE = signed annotated Git tag`. `BRIDGE_REMOTE_REF = refs/tags/bridge/framework-contract-repair-001`. `BRIDGE_OBJECT_TARGET = Accepted Plan SHA 905a2a32f98e285b21f4ce36e5139d71c858b9df`. `BRIDGE_OBJECT_IDENTITY = annotated tag object SHA returned by git rev-parse refs/tags/bridge/framework-contract-repair-001^{tag}`. `BRIDGE_PAYLOAD_ENCODING = canonical UTF-8 JSON with sorted keys, trailing LF, stored as the annotated tag message`. `BRIDGE_CREATOR_ROLE = USER_APPROVER`.
+`BRIDGE_OBJECT_TYPE = signed annotated Git tag`. `BRIDGE_REMOTE_REF = refs/tags/bridge/framework-contract-repair-001`. `FINAL_ACCEPTED_PLAN_SHA = the exact remote Plan candidate SHA that received GPT review PASS and explicit USER_APPROVER approval`. `BRIDGE_OBJECT_TARGET = FINAL_ACCEPTED_PLAN_SHA`. `BRIDGE_OBJECT_IDENTITY = annotated tag object SHA returned by git rev-parse refs/tags/bridge/framework-contract-repair-001^{tag}`. `BRIDGE_PAYLOAD_ENCODING = canonical UTF-8 JSON with sorted keys, trailing LF, stored as the annotated tag message`. `BRIDGE_APPROVAL_AUTHOR_ROLE = USER_APPROVER`. `BRIDGE_TAG_CREATOR_ROLE = USER_LOCAL`. `BRIDGE_TAG_PUSH_ROLE = USER_LOCAL`.
 
-The reviewed bridge authority core is canonical JSON excluding the review-artifact locator. CODEX_REVIEWER first emits the independent review artifact; USER_APPROVER then creates the outer signed annotated tag binding that artifact SHA-256 without changing the reviewed core. Before creation USER_LOCAL verifies the ref has no remote output using `git ls-remote origin refs/tags/bridge/framework-contract-repair-001`. USER_LOCAL preflights signing with `git config --get user.signingkey` and `git tag -s --help`; an unavailable signing capability returns `RECONCILIATION_REQUIRED`, with no unsigned fallback. USER_APPROVER creates the tag locally, USER_LOCAL pushes only `git push origin refs/tags/bridge/framework-contract-repair-001`, never `--force` or `--force-with-lease`, then verifies remote tag object SHA, tag target, canonical payload hash, and review-artifact hash. A preexisting ref, SHA mismatch, replacement, replay after consumption, or a tag target other than the Accepted Plan SHA returns `RECONCILIATION_REQUIRED`. Consumption is recorded by the exact accepted remote repair SHA; expiry occurs only after remote active-authority verification, and the tag cannot authorize a second mutation while pending.
+The reviewed bridge authority core is canonical JSON excluding the review-artifact locator. CODEX_REVIEWER first emits the independent review artifact and its SHA-256; it then forms the canonical payload binding that review hash and `FINAL_ACCEPTED_PLAN_SHA`. USER_APPROVER makes the approval decision on those exact canonical bytes and authors no Git mutation. Before tag creation, USER_LOCAL reconciles and records `remote reviewed candidate SHA = GPT PASS candidate SHA = USER_APPROVER-approved candidate SHA = FINAL_ACCEPTED_PLAN_SHA`; any mismatch returns `RECONCILIATION_REQUIRED`. USER_LOCAL verifies the bridge ref has no remote output using `git ls-remote origin refs/tags/bridge/framework-contract-repair-001`.
+
+USER_LOCAL must prove real signing, not merely configuration: it confirms a configured signing key, performs an isolated disposable signed-tag probe in a temporary Git repository, and verifies that probe with `git verify-tag`. If the probe cannot be completed, USER_LOCAL must attempt the actual signed tag operation only as a fail-closed pre-bridge check; any signing failure returns `RECONCILIATION_REQUIRED` before bridge mutation. There is no unsigned fallback. After USER_APPROVER approval, USER_LOCAL verifies the exact bytes are unchanged, creates the signed annotated tag targeting `FINAL_ACCEPTED_PLAN_SHA`, pushes only `git push origin refs/tags/bridge/framework-contract-repair-001` (never `--force` or `--force-with-lease`), and verifies remote tag object SHA, peeled target, canonical payload hash, and review-artifact hash. The peeled target must equal `FINAL_ACCEPTED_PLAN_SHA`. A preexisting ref, SHA mismatch, replacement, replay after consumption, or any target mismatch returns `RECONCILIATION_REQUIRED`. Consumption is recorded by the exact accepted remote repair SHA; expiry occurs only after remote active-authority verification, and the tag cannot authorize a second mutation while pending.
 
 ### Pre-activation actor rule
 
-Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation in Tasks 1–10 has actor `USER_LOCAL_APPLY`. `CODEX_PREPARE` reads, tests without governed mutation, produces the bounded edit/failing-test expectation, validates, and reports. `CODEX_VERIFY` runs or reads focused verification and reports. CODEX_IMPLEMENTER has zero governed-worktree mutation, commit, push, tag, or release steps before activation. CODEX_REVIEWER is read/test/validate/report only. USER_APPROVER authors approval semantics only. After remote active-authority verification, repaired native authority may authorize CODEX_IMPLEMENTER mutation under a new valid instruction.
+Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation in Tasks 1–10 has actor `USER_LOCAL_APPLY`. In every RED→GREEN cycle, `[CODEX_PREPARE]` writes the bounded failing-test/edit expectation and runs read-only RED observation; `[USER_LOCAL_APPLY]` makes the failing-fixture or minimal implementation mutation; `[CODEX_VERIFY]` runs and reports the focused GREEN or sensitivity observation. Non-TDD cycles use the same explicit PREPARE/APPLY/VERIFY order. CODEX_IMPLEMENTER has zero governed-worktree mutation, commit, push, tag, or release steps before activation; before activation its mutation, commit, and push count is exactly zero. CODEX_REVIEWER is read/test/validate/report only. USER_APPROVER authors approval semantics only. After remote active-authority verification, repaired native authority may authorize CODEX_IMPLEMENTER mutation under a new valid instruction.
 
 ## Task 1: Freeze bridge authorization and operational boundaries
 
@@ -90,11 +95,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Accepted Plan is frozen at an exact SHA; USER_APPROVER has explicitly approved the bridge object; CODEX_REVIEWER has independently reviewed the base-SHA candidate; `git status --short` is empty before work.
 
-- [ ] Write a failing fixture in `.gpt-codex/tests/test_self_hosting_validator.py` with an absent bridge id, a bridge whose path list includes Plugin content, and a bridge whose object is not immutable.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; expect bridge-fixture assertions to fail because no bridge validation exists.
-- [ ] Add the two Work Unit fixtures and validator inputs required by the bridge contract; keep the repair Work Unit as output of the bridge, never as its authority source.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; expect valid bridge fixture PASS and each malformed bridge fixture FAIL.
-- [ ] Sensitivity proof: change one allowed path to `plugins/gpt-codex-framework/` and verify rejection; restore the original exact list and verify PASS.
+- [ ] [CODEX_PREPARE] Define the absent-id, Plugin-path, and non-immutable bridge-fixture RED expectation.
+- [ ] [USER_LOCAL_APPLY] Write those failing fixtures in `.gpt-codex/tests/test_self_hosting_validator.py`.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; record the expected RED bridge-fixture failures.
+- [ ] [CODEX_PREPARE] Bound the two Work Unit fixtures and validator inputs required by the bridge contract; the repair Work Unit remains bridge output, never authority source.
+- [ ] [USER_LOCAL_APPLY] Add those two Work Unit fixtures and minimal validator inputs.
+- [ ] [CODEX_VERIFY] Run the focused command; expect valid bridge fixture PASS and each malformed bridge fixture FAIL.
+- [ ] [CODEX_PREPARE] Define the single-path sensitivity change and restoration expectation.
+- [ ] [USER_LOCAL_APPLY] Change one allowed path to `plugins/gpt-codex-framework/`, then restore the exact list.
+- [ ] [CODEX_VERIFY] Record rejection for the altered list and PASS after restoration.
 
 **Completion evidence:** bridge id, immutable object id, bound review hash, exact path list, and test output. **Handoff:** USER_LOCAL retains the only bridge execution/publishing authority; no CODEX commit or push.
 
@@ -106,11 +115,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Task 1 bridge path list includes these three files and named tests.
 
-- [ ] Add parameterized failing tests for a mutating instruction with missing, empty, malformed, duplicate, or absolute/`..` `scope_paths`; add a production-shaped FIX with `remediation_decision_ref`; add a control-plane request with closed `{remote_ref,evidence_commit_sha,path,blob_sha}` locator.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_instruction_envelope .gpt-codex.tests.test_instruction_role_contract -v`; expect schema/builder failures for fields rejected by the closed envelope.
-- [ ] Add schema properties and conditional requirements; validate and render all three fields in `build_instruction_envelope`; add the template placeholders.
-- [ ] Run the same command; expect all valid shapes PASS and every malformed shape FAIL.
-- [ ] Sensitivity proof: remove only `remediation_decision_ref` from the FIX fixture and replace one locator blob SHA with a non-SHA; both fail, then restoration passes.
+- [ ] [CODEX_PREPARE] Define parameterized RED cases for missing, empty, malformed, duplicate, or absolute/`..` `scope_paths`, plus production FIX and closed locator shapes.
+- [ ] [USER_LOCAL_APPLY] Add those failing tests.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_instruction_envelope .gpt-codex.tests.test_instruction_role_contract -v`; record expected schema/builder RED failures.
+- [ ] [CODEX_PREPARE] Bound schema, builder, and template changes for the three fields.
+- [ ] [USER_LOCAL_APPLY] Add the minimal schema conditions, builder validation/rendering, and template placeholders.
+- [ ] [CODEX_VERIFY] Run the same command; expect all valid shapes PASS and every malformed shape FAIL.
+- [ ] [CODEX_PREPARE] Define the two sensitivity substitutions and restoration.
+- [ ] [USER_LOCAL_APPLY] Remove only `remediation_decision_ref` and replace one locator blob SHA with a non-SHA, then restore both.
+- [ ] [CODEX_VERIFY] Record both failures and restored PASS.
 
 **Completion evidence:** focused command output plus serialized template/render examples. **Handoff:** Task 3 consumes the production-shaped instruction and locator.
 
@@ -122,27 +135,35 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Task 2 supplies a production-shaped approval request and authority core.
 
-- [ ] Add failing schema/taxonomy tests for unknown `APPROVAL_RESULT`, a non-USER_APPROVER responder, `status = REJECT`, decision omitted, execution-style completion evidence, and any payload containing its final transport commit/blob SHA.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_result_contract_schema .gpt-codex.tests.test_role_communication_taxonomy -v`; expect failures at current taxonomy and PASS-completion rules.
-- [ ] Add the result type, closed decision and `approved_instruction` conditions, the PASS exception allowing `NOT_ATTEMPTED`, the null completion-evidence rule, and role enforcement.
-- [ ] Run the focused command; expect the intrinsic APPROVE and REJECT payloads PASS while every invalid variation FAILS.
-- [ ] Sensitivity proof: mutate `approved_instruction.scope_paths` after approval and verify the Task 7 composition fixture rejects it; restore exact core and verify PASS.
+- [ ] [CODEX_PREPARE] Define RED schema/taxonomy cases for every listed invalid approval shape and transport field.
+- [ ] [USER_LOCAL_APPLY] Add those failing schema/taxonomy tests.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_result_contract_schema .gpt-codex.tests.test_role_communication_taxonomy -v`; record expected RED failures.
+- [ ] [CODEX_PREPARE] Bound result type, closed decision/core, PASS exception, null evidence, and role enforcement changes.
+- [ ] [USER_LOCAL_APPLY] Add the minimal result/taxonomy implementation.
+- [ ] [CODEX_VERIFY] Run the focused command; expect intrinsic APPROVE and REJECT PASS and every invalid variation FAIL.
+- [ ] [CODEX_PREPARE] Define approved-core mutation sensitivity and restoration.
+- [ ] [USER_LOCAL_APPLY] Mutate `approved_instruction.scope_paths` after approval, then restore the exact core.
+- [ ] [CODEX_VERIFY] Record Task 7 fixture rejection then restored PASS.
 
 **Completion evidence:** schema validation results and role-taxonomy results. **Handoff:** Task 5 resolves the payload bytes, Task 7 validates its correlation.
 
 ## Task 4: Close Work Unit owned-path shape with RED→GREEN
 
-**Files:** Modify `.gpt-codex/schemas/work-unit.schema.json`; test `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
+**Files:** Modify `.gpt-codex/schemas/work-unit.schema.json` and `.gpt-codex/project-template/WORK_UNIT.template.json`; test `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
 
-**Interfaces:** `scope.owned_paths` is a non-empty, unique list of safe repository-relative paths. `CONTROL_PLANE_APPROVED_SCOPE_SOURCE = target_work_unit_ref resolved at immutable Git SHA -> scope.owned_paths`.
+**Interfaces:** `scope.additionalProperties = false`; `scope.owned_paths` is required and is a non-empty, unique selector array; `scope.excluded_paths` is optional and a unique selector array. A selector is either an exact relative file path or a relative directory prefix ending in exactly one `/`. Reject absolute paths, drive-qualified paths, backslashes, `.` components, `..` components, empty components, and empty strings. A requested exact instruction path is covered only when it equals an exact owned selector or starts with an owned directory-prefix selector. `CONTROL_PLANE_APPROVED_SCOPE_SOURCE = target_work_unit_ref resolved at immutable Git SHA -> scope.owned_paths`. Existing Baseline and Task-3 Work Units remain valid compatibility fixtures: their `owned_paths` and `excluded_paths` shapes are preserved. The template changes to a non-empty owned-path example and preserves `excluded_paths`.
 
 **Preconditions:** Task 1 fixture provides both bridge-created Work Units.
 
-- [ ] Add failing Work Unit fixtures with no owned paths, duplicates, an absolute path, and `a/../b`.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_validator_context_binding -v`; expect currently open `scope` schema behavior to admit at least one invalid fixture.
-- [ ] Close the Work Unit schema `scope` object and `owned_paths` item pattern; use the same safe relative-path convention as Instruction Envelope.
-- [ ] Run the focused command; expect all malformed Work Units FAIL and valid ordinary/seed Work Units PASS.
-- [ ] Sensitivity proof: append a fifth path to the seed fixture; verify failure; remove it and verify PASS.
+- [ ] [CODEX_PREPARE] Define RED fixtures for missing/empty/duplicate owned selectors; absolute, drive, backslash, `.`, `..`, and empty-component selectors; unexpected `scope` property; invalid directory suffix; and uncovered paths.
+- [ ] [USER_LOCAL_APPLY] Add those failing fixtures to exactly `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_validator_context_binding -v`; record that the currently open schema admits at least one invalid fixture.
+- [ ] [CODEX_PREPARE] Bound the closed `scope` grammar and non-empty template example without changing durable Work Unit shapes; if this grammar proves incompatible with either durable fixture, stop with `DESIGN_RECONCILIATION_REQUIRED`.
+- [ ] [USER_LOCAL_APPLY] Close the Work Unit schema and selector validation; update `WORK_UNIT.template.json` with non-empty `owned_paths` while preserving `excluded_paths`.
+- [ ] [CODEX_VERIFY] Run the focused command; expect malformed Work Units FAIL, ordinary/seed and existing Baseline/Task-3 Work Units PASS, `plugins/gpt-codex-framework/subpath.py` covered by `plugins/gpt-codex-framework/`, and `plugins/other/file.py` uncovered. Verify the seed owns exactly four file selectors, with no prefixes.
+- [ ] [CODEX_PREPARE] Define fifth-seed-path sensitivity and restoration.
+- [ ] [USER_LOCAL_APPLY] Append a fifth path to the seed fixture, then remove it.
+- [ ] [CODEX_VERIFY] Record failure then restored PASS.
 
 **Completion evidence:** validated seed JSON and test output. **Handoff:** Task 7 derives all native control-plane scope from this field.
 
@@ -154,11 +175,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Task 3 fixed payload and Task 2 closed locator shape.
 
-- [ ] Add failing monkeypatched Git tests for wrong commit, right commit/wrong blob, unreachable object, mutable-ref substitution, payload bytes changed after approval, and a byte-identical USER_LOCAL transport.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_git_continuity .gpt-codex.tests.test_validator_context_binding -v`; expect missing resolver failures.
-- [ ] Implement exact `git show <commit>:<path>`, blob hashing, fixed-SHA comparison, and explicit remote object/reachability checks; never derive authority from `refs/heads/gpt-codex-approval-evidence` head.
-- [ ] Run the focused command; expect every substitution fault FAIL and byte-identical transport PASS.
-- [ ] Sensitivity proof: provide the current mutable ref with an otherwise valid but different commit; verify failure; restore the bound commit and verify PASS.
+- [ ] [CODEX_PREPARE] Define RED Git cases for wrong commit, wrong blob, unreachable object, mutable-ref substitution, changed approval bytes, and byte-identical USER_LOCAL transport.
+- [ ] [USER_LOCAL_APPLY] Add those failing monkeypatched Git tests.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_git_continuity .gpt-codex.tests.test_validator_context_binding -v`; record missing-resolver RED failures.
+- [ ] [CODEX_PREPARE] Bound exact-show, blob, fixed-SHA, and remote reachability checks without mutable-head authority.
+- [ ] [USER_LOCAL_APPLY] Implement those minimal resolver checks.
+- [ ] [CODEX_VERIFY] Run the focused command; expect every substitution fault FAIL and byte-identical transport PASS.
+- [ ] [CODEX_PREPARE] Define mutable-ref substitution sensitivity and restoration.
+- [ ] [USER_LOCAL_APPLY] Supply the current mutable ref with a different commit, then restore the bound commit.
+- [ ] [CODEX_VERIFY] Record failure then PASS.
 
 **Completion evidence:** locator tuple, returned error codes, and test output. **Handoff:** Task 7 calls the resolver before admitting control-plane mutation.
 
@@ -170,11 +195,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Task 2 and Task 4 are green.
 
-- [ ] Add failing temporary-repository tests injecting one outside-scope unstaged file, one staged file, and one untracked file while HEAD remains the baseline.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_validator_context_binding .gpt-codex.tests.test_self_hosting_validator -v`; expect at least the untracked fixture to escape current authority checking.
-- [ ] Implement NUL-delimited path collection, safe repository-relative normalization, set union, subset enforcement, `files_changed` subset enforcement, and committed-path verification before push.
-- [ ] Run the focused command; expect each injected path class FAIL and the restored exact snapshot PASS.
-- [ ] Sensitivity proof: replace `git diff --cached --name-only -z` with an empty mocked output while a staged file exists; verify the test detects the regression.
+- [ ] [CODEX_PREPARE] Define RED temporary-repository cases for outside-scope unstaged, staged, and untracked paths.
+- [ ] [USER_LOCAL_APPLY] Add those failing tests while HEAD remains baseline.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_validator_context_binding .gpt-codex.tests.test_self_hosting_validator -v`; record expected untracked-path escape RED behavior.
+- [ ] [CODEX_PREPARE] Bound NUL collection, normalization, union, subset, evidence, and committed-path checks.
+- [ ] [USER_LOCAL_APPLY] Implement those minimal oracle checks.
+- [ ] [CODEX_VERIFY] Run the focused command; expect each injected class FAIL and restored exact snapshot PASS.
+- [ ] [CODEX_PREPARE] Define staged-output regression sensitivity.
+- [ ] [USER_LOCAL_APPLY] Replace `git diff --cached --name-only -z` with empty mocked output while a staged file exists, then restore it.
+- [ ] [CODEX_VERIFY] Record regression detection.
 
 **Completion evidence:** each Git command result and fault matrix. **Handoff:** Task 7 uses this shared oracle for ordinary, FIX, and control-plane paths.
 
@@ -186,11 +215,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Tasks 2–6 are green and the current State revision is supplied by fixture, not changed on disk.
 
-- [ ] Add failing composed fixtures for missing locator, approval result correlated directly to reconciliation, locator core mismatch, authorization Work Unit equal to target, State mismatch, implementation path in control-plane scope, and missing pre-execution review.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_review_lifecycle .gpt-codex.tests.test_validator_context_binding -v`; expect missing composition failures.
-- [ ] Add the dedicated reconciliation branch and explicit error codes; compare the approved authority core only, never the externally added locator.
-- [ ] Run the focused command; expect the production-shaped control-plane chain PASS and every fault fixture FAIL.
-- [ ] Sensitivity proof: remove only `approval_evidence_ref` from the valid request; expect failure; restore and expect PASS.
+- [ ] [CODEX_PREPARE] Define RED composed fixtures for each listed locator, correlation, Work Unit, State, scope, and review fault.
+- [ ] [USER_LOCAL_APPLY] Add those failing composed fixtures.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_review_lifecycle .gpt-codex.tests.test_validator_context_binding -v`; record missing-composition RED failures.
+- [ ] [CODEX_PREPARE] Bound reconciliation branch/error codes and approved-core-only comparison.
+- [ ] [USER_LOCAL_APPLY] Add the minimal dedicated reconciliation branch and error codes.
+- [ ] [CODEX_VERIFY] Run the focused command; expect production-shaped chain PASS and every fault fixture FAIL.
+- [ ] [CODEX_PREPARE] Define missing-locator sensitivity and restoration.
+- [ ] [USER_LOCAL_APPLY] Remove only `approval_evidence_ref` from the valid request, then restore it.
+- [ ] [CODEX_VERIFY] Record failure then PASS.
 
 **Completion evidence:** single-chain fixture JSON and complete error matrix. **Handoff:** Task 8 supplies the first seed; Task 9 performs end-to-end composed tests.
 
@@ -202,11 +235,15 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Tasks 4 and 7 are green; bridge authorization contains this exact file and four-path list.
 
-- [ ] Add failing fixtures for a missing path, either result path replaced, a fifth path, seed self-ownership, and reuse when State revision is 13.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; expect the absent seed and invalid shape fixtures to fail.
-- [ ] Create the closed seed Work Unit and enforce exact four-path equality plus revision-12-only use in the control-plane branch.
-- [ ] Run the focused command; expect the exact seed PASS and all five faults FAIL.
-- [ ] Sensitivity proof: swap the two result paths in a fixture; verify rejection; restore the frozen list and verify PASS.
+- [ ] [CODEX_PREPARE] Define RED seed fixtures for missing/replaced/fifth/self-owned paths and revision-13 reuse.
+- [ ] [USER_LOCAL_APPLY] Add those failing fixtures.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; record expected absent-seed and invalid-shape RED failures.
+- [ ] [CODEX_PREPARE] Bound the closed seed and revision-12-only control-plane enforcement.
+- [ ] [USER_LOCAL_APPLY] Create the closed seed Work Unit and minimal enforcement.
+- [ ] [CODEX_VERIFY] Run the focused command; expect exact seed PASS and all five faults FAIL.
+- [ ] [CODEX_PREPARE] Define result-path swap sensitivity and restoration.
+- [ ] [USER_LOCAL_APPLY] Swap the two result paths in a fixture, then restore the frozen list.
+- [ ] [CODEX_VERIFY] Record rejection then PASS.
 
 **Completion evidence:** immutable Work Unit ref, four-path list, revision-12 fixture output. **Handoff:** Task 9 consumes this seed once.
 
@@ -218,27 +255,35 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Preconditions:** Tasks 2–8 focused suites are green.
 
-- [ ] Add red composed tests that mutate one field at a time: missing `remediation_decision_ref`, stale finding SHA, stale adjudication revision, missing scope, unowned path, approval core mismatch, wrong blob, and untracked outside-scope file.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_review_lifecycle .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_validator_context_binding -v`; expect targeted failures before all composition fixes are connected.
-- [ ] Wire only missing calls among the existing builders, role validator, lifecycle validator, locator resolver, and governed entry.
-- [ ] Run the same command; expect each valid production chain PASS.
-- [ ] Sensitivity proof: inject each listed fault independently, record FAIL, restore the exact fixture, and record PASS; label these as sensitivity checks rather than original RED cases.
+- [ ] [CODEX_PREPARE] Define RED composed cases for each listed single-field fault.
+- [ ] [USER_LOCAL_APPLY] Add those red composed tests.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_review_lifecycle .gpt-codex.tests.test_self_hosting_validator .gpt-codex.tests.test_validator_context_binding -v`; record targeted RED failures before composition fixes connect.
+- [ ] [CODEX_PREPARE] Bound only missing calls among existing builders, validators, resolver, and governed entry.
+- [ ] [USER_LOCAL_APPLY] Wire only those missing calls.
+- [ ] [CODEX_VERIFY] Run the same command; expect each valid production chain PASS.
+- [ ] [CODEX_PREPARE] Define independent-fault sensitivity/restoration observations.
+- [ ] [USER_LOCAL_APPLY] Inject each listed fault independently, then restore the exact fixture.
+- [ ] [CODEX_VERIFY] Record FAIL then PASS for each, labeled sensitivity rather than original RED.
 
 **Completion evidence:** fixture identifiers, failure codes, restored PASS output. **Handoff:** Task 10 runs framework-wide verification.
 
 ## Task 10: Close release candidate at version 2.7.1 before final review
 
-**Files:** Modify `VERSION`, `.gpt-codex/builtins/INDEX.json`, `.gpt-codex/CHANGELOG.md`, `releases/INDEX.json`, `releases/records/v2.7.1.json`; create current `dist/gpt-codex-framework-v2.7.1-bootstrap.zip`, `.sha256`, and `-release.json`; test `.gpt-codex/tests/test_version_consistency.py`, `.gpt-codex/tests/test_release_packaging.py`.
+**Files:** Modify `VERSION`, `.gpt-codex/builtins/INDEX.json`, `.gpt-codex/CHANGELOG.md`, `releases/INDEX.json`, `releases/records/v2.7.1.json`; create current `dist/gpt-codex-framework-v2.7.1-bootstrap.zip`, `.sha256`, and `-release.json`; delete only `dist/gpt-codex-framework-v2.7.0-bootstrap.zip`, `.sha256`, and `-release.json`; test `.gpt-codex/tests/test_version_consistency.py`, `.gpt-codex/tests/test_release_packaging.py`.
 
 **Interfaces:** `VERSION = 2.7.1`; `v2.7.1` is the immutable tag name; `FRAMEWORK_ACTIVE_SHA` is its target and must equal final reviewed `main` SHA. Existing `release_framework.py` consumes `VERSION` and produces the canonical artifact and sidecars.
 
 **Preconditions:** Tasks 2–9 pass; SemVer history shows current `VERSION = 2.7.0`, so 2.7.1 is the minimal patch release; all source, metadata, and generated artifact paths are within the bridge allowlist before post-execution review.
 
-- [ ] Add failing version-consistency and release-packaging assertions for `2.7.1` absent from the index, changelog, record, and artifact metadata.
-- [ ] Run `python -m unittest .gpt-codex.tests.test_version_consistency .gpt-codex.tests.test_release_packaging -v`; expect failures until every version surface agrees.
-- [ ] Set all release source values to `2.7.1`, run `python .gpt-codex/scripts/release_framework.py`, and retain only its canonical current artifact, SHA sidecar, and manifest.
-- [ ] Run the focused command; expect release source, metadata, ZIP integrity, and artifact hash assertions PASS.
-- [ ] Sensitivity proof: change only `.gpt-codex/builtins/INDEX.json` back to `2.7.0`; expect version consistency FAIL; restore `2.7.1` and expect PASS.
+- [ ] [CODEX_PREPARE] Define RED version/release cases for missing `2.7.1` index, changelog, record, artifact metadata, retained v2.7.0 current outputs, and missing v2.7.1 outputs.
+- [ ] [USER_LOCAL_APPLY] Add those failing version-consistency and release-packaging assertions.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_version_consistency .gpt-codex.tests.test_release_packaging -v`; record expected RED failures until every version surface agrees.
+- [ ] [CODEX_PREPARE] Bound the 2.7.1 source/metadata update, exactly three canonical v2.7.1 output creations, and exactly three `DELETE_ONLY` v2.7.0 output deletions.
+- [ ] [USER_LOCAL_APPLY] Set source values to `2.7.1`, run `python .gpt-codex/scripts/release_framework.py`, retain only the three canonical v2.7.1 outputs, and delete only the three listed v2.7.0 outputs.
+- [ ] [CODEX_VERIFY] Run the focused command; expect release source/metadata/ZIP/hash PASS and the changed-path oracle to include all three creations and all three deletions.
+- [ ] [CODEX_PREPARE] Define release-hygiene sensitivity cases for a retained old output, a missing new output, and an unauthorized deletion.
+- [ ] [USER_LOCAL_APPLY] Independently introduce each hygiene fault in fixtures, then restore the exact output set.
+- [ ] [CODEX_VERIFY] Record FAIL for every hygiene fault and restored PASS.
 
 **Completion evidence:** release command output, artifact SHA-256/size, version-consistency output. **Handoff:** independent post-execution review receives the final candidate with every tracked activation file already included.
 
@@ -320,4 +365,4 @@ No candidate rule authorizes its own implementation. No task grants CODEX_IMPLEM
 
 ### Amendment consistency review
 
-Tasks 1–10 mutate only `BRIDGE_AUTHORIZED_PATHS`; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 4 closes `scope` as `additionalProperties = false` with required `owned_paths` and optional compatible `excluded_paths`, both unique safe repository-relative arrays. The existing Baseline and Task-3 Work Units are compatibility fixtures; `WORK_UNIT.template.json` changes because its empty `owned_paths` would violate the new minimum. The bridge has one signed annotated-tag representation, and approval evidence has the explicit creation/update procedure above.
+`BRIDGE_AUTHORIZED_PATHS` contains exactly 35 entries: 32 create/modify-capable paths and three explicitly `DELETE_ONLY` v2.7.0 outputs. Tasks 1–10 mutate only those paths; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 4 closes `scope` as `additionalProperties = false` with required `owned_paths` and optional compatible `excluded_paths`, both unique safe repository-relative selector arrays. The existing Baseline and Task-3 Work Units are compatibility fixtures; `WORK_UNIT.template.json` changes because its empty `owned_paths` would violate the new minimum. The bridge target is runtime-bound only to `FINAL_ACCEPTED_PLAN_SHA`, and its approval author, tag creator, and tag pusher are respectively USER_APPROVER, USER_LOCAL, and USER_LOCAL. Approval evidence retains the explicit orphan-first, parent-on-subsequent, fast-forward-only exact-tuple transport procedure above.
