@@ -37,7 +37,7 @@ _ROLE_INPUT_ALLOWLISTS = {
 }
 
 
-def validate_role_input_sources(executor_role: object, input_source_kinds: object) -> list[str]:
+def _validate_role_input_sources(executor_role: object, input_source_kinds: object) -> list[str]:
     """Fail closed for runtime dispatcher inputs outside the role allowlist."""
     allowed = _ROLE_INPUT_ALLOWLISTS.get(executor_role)
     if allowed is None or not isinstance(input_source_kinds, (list, tuple)):
@@ -137,7 +137,7 @@ def build_instruction_envelope(
     if instruction_type == "REVIEW_REQUEST":
         if runtime_fresh_context_verified is not True:
             raise ValueError("ROLE_DISPATCH = BLOCKED")
-        input_errors = validate_role_input_sources(executor_role, runtime_input_source_kinds)
+        input_errors = _validate_role_input_sources(executor_role, runtime_input_source_kinds)
         if input_errors:
             raise ValueError(", ".join(input_errors))
     if issuer_role is None and instruction_type not in LEGACY_INSTRUCTION_ALIASES and instruction_type != "PROJECT_CONTEXT_BOOTSTRAP":

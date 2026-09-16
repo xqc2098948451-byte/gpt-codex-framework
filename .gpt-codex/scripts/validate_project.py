@@ -740,6 +740,19 @@ def validate_governed_mutation_entry(
         "repository_full_name": github.get("repository_full_name") if isinstance(github, Mapping) else None,
         "remote_ref": mutation_instruction.get("expected_remote_ref") if isinstance(mutation_instruction, Mapping) else None,
     }
+    if state.get("active_execution_slots") is not None:
+        if not isinstance(review_request, Mapping) or not isinstance(repository_root, Path):
+            errors.append("RECONCILIATION_REQUIRED")
+        else:
+            from continuity_resume import _derive_pairwise_review_facts
+            derived_pairwise_facts = _derive_pairwise_review_facts(
+                repository_root, project_control, state, review_request,
+            )
+            if derived_pairwise_facts.get("reconciliation_required"):
+                errors.append("RECONCILIATION_REQUIRED")
+            else:
+                authoritative_review_context["pairwise_state"] = state
+                authoritative_review_context["pairwise_facts"] = derived_pairwise_facts
     errors.extend(validate_pre_execution_review(
         mutation_instruction, review_request, review_result, current_state_revision=current_state_revision,
         authoritative_review_context=authoritative_review_context,
