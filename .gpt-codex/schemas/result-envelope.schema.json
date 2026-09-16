@@ -222,6 +222,23 @@
       "then": {
         "required": ["source_project_context_id", "source_project_name", "framework_version"]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "result_message_type": {"type": "string"},
+          "status": {"const": "PASS"}
+        },
+        "required": ["result_message_type", "status"]
+      },
+      "then": {
+        "required": ["completion_evidence"],
+        "properties": {
+          "completion_evidence": {
+            "required": ["execution_state", "process_completed", "exit_code", "intended_scope", "executed_scope", "test_files_expected", "test_files_executed", "test_count", "failure_count", "error_count", "validators_expected", "validators_completed", "blocker_evidence_refs"]
+          }
+        }
+      }
     }
   ]
 }

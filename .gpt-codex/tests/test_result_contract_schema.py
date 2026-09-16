@@ -199,6 +199,24 @@ class ResultContractSchemaTests(unittest.TestCase):
         incomplete = {"status": "INCOMPLETE", "completion_evidence": {"execution_state": "INCOMPLETE"}}
         self.assertEqual(validate_completion_evidence(incomplete), [])
 
+    def test_schema_rejects_governed_pass_without_completion_evidence_but_keeps_legacy(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from validate_project import validate_result_envelope_contract
+        base = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "W", "extension": {}, "status": "PASS", "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "VERIFIED"}
+        governed = dict(base, result_message_type="IMPLEMENTATION_RESULT")
+        self.assertTrue(validate_result_envelope_contract(governed))
+        self.assertEqual(validate_result_envelope_contract(base), [])
+
+    def test_partial_scope_and_valid_blocked_are_direct_completion_behaviors(self):
+        if str(SCRIPTS) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS))
+        from publication_contract import validate_completion_evidence
+        evidence = {"execution_state": "COMPLETED", "process_completed": True, "exit_code": 0, "intended_scope": ["suite-a", "suite-b"], "executed_scope": ["suite-a"], "test_files_expected": 1, "test_files_executed": 1, "test_count": 1, "failure_count": 0, "error_count": 0, "validators_expected": [], "validators_completed": [], "blocker_evidence_refs": []}
+        self.assertTrue(validate_completion_evidence({"status": "PASS", "completion_evidence": evidence}))
+        evidence["execution_state"] = "BLOCKED"; evidence["blocker_evidence_refs"] = ["evidence/proven-blocker"]
+        self.assertEqual(validate_completion_evidence({"status": "BLOCKED", "completion_evidence": evidence}), [])
+
 
 if __name__ == "__main__":
     unittest.main()
