@@ -1,0 +1,178 @@
+# Global Framework Plugin and Governance Evidence Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Implement the approved governance hardening, global GPT–Codex Framework Plugin, evidence feedback bridge, distribution/manual, and self-hosting acceptance without adding a second governance system.
+
+**Architecture:** The active released Framework remains authoritative. CAP-01 and CAP-02 harden existing Result/Evidence and review lifecycle contracts first; the external Plugin then provides entry/resume/routing, followed by evidence feedback and GitHub PR transport. Project state remains project-owned, and Plugin/Framework candidates cannot self-authorize.
+
+**Tech Stack:** Python 3 standard library, JSON/JSON Schema, Git/GitHub, existing Framework validators/tests, OpenAI plugin manifest/marketplace formats supported at implementation time.
+
+**Spec:** docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md
+
+## Global Constraints
+
+```text
+Framework module count = 7; Plugin is NOT an eighth Framework module.
+Plugin routes. Framework governs. Project owns state. No authority -> no mutation.
+Current released Framework governs successors; candidate Framework/Plugin cannot self-authorize.
+INITIAL_PLUGIN_BOOTSTRAP = active released Framework + approved Design + approved Plan + existing lifecycle. No Plugin 0.
+Plugin is not an unavoidable product hook; repository-native Framework is final fail-closed authority.
+No database, second STATE, Work Unit system, review lifecycle, registry, context server, private reasoning archive, automatic learning/optimization, opaque score, or mandatory MCP.
+Work Unit continuity != runtime-turn continuity. BLOCKED requires proven blocker. INCOMPLETE is incomplete evidence.
+Every governed terminal event requires feedback CHECK; CHECK != evidence creation; intake != optimization approval; completion != feedback sync.
+Plugin update != Framework adoption != Project migration.
+```
+
+Before Task 5, re-check official OpenAI Plugin Management documentation.
+Marketplace/release source must use approved immutable Plugin release/tag/commit.
+
+## Planned File/Responsibility Map
+
+| Action | File | Responsibility |
+|---|---|---|
+| Modify | `.gpt-codex/scripts/publication_contract.py` | completion authority |
+| Modify | `.gpt-codex/scripts/validate_project.py` | result/review composition |
+| Modify | `.gpt-codex/schemas/result-envelope.schema.json` | bounded completion shape |
+| Modify | `.gpt-codex/scripts/framework_feedback.py` | feedback candidate/sanitization/dedupe |
+| Modify | `.gpt-codex/schemas/evidence.schema.json` | evidence-compatible package |
+| Modify | `.gpt-codex/scripts/continuity_resume.py` | durable resume derivation |
+| Modify | `.gpt-codex/scripts/git_continuity.py` | evidence branch/PR facts |
+| Modify | `.gpt-codex/scripts/release_framework.py` | immutable Plugin release binding |
+| Create | `.gpt-codex/plugin_resources/framework_plugin.py` | thin external adapter |
+| Create | `.gpt-codex/plugin_resources/plugin_skill.md` | routing resource |
+| Create | `.codex-plugin/plugin.json` | supported native manifest |
+| Create | `.agents/plugins/marketplace.json` | supported marketplace descriptor |
+| Create | `docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md` | Chinese manual |
+| Test | `.gpt-codex/tests/test_result_contract_schema.py` | CAP-01 |
+| Test | `.gpt-codex/tests/test_review_lifecycle.py` | CAP-02 |
+| Create/Test | `.gpt-codex/tests/test_framework_plugin.py` | Plugin core |
+| Create/Test | `.gpt-codex/tests/test_github_evidence_bridge.py` | bridge |
+| Test | `.gpt-codex/tests/test_framework_feedback.py`, `test_release_packaging.py` | evidence/release |
+
+Reuse existing Result/Evidence, Instruction Envelope, `validate_review_lifecycle`,
+`framework_feedback`, Harvest, `load_continuity_resume`, Git continuity, and
+release/projection. Only the thin adapter and bridge fixture lack present
+owners; neither stores authority or state.
+
+### Task 1: CAP-01 Completion Evidence Hardening
+
+**Files:** Modify `publication_contract.py`, `validate_project.py`,
+`result-envelope.schema.json`; test `test_result_contract_schema.py` and
+`test_navigation_project_validation.py`; document none.
+
+**Interfaces**
+- Consumes: `validate_result_authority(result, state)`, `validate_result_protocol(result)`.
+- Produces: `validate_completion_evidence(result: Mapping[str, Any]) -> list[str]`, composed by `validate_result_protocol`.
+
+- [ ] Write failing tests `test_completion_evidence_denies_timeout_unknown_exit_partial_scope_and_unknown_count`, `test_completion_evidence_denies_known_failures_or_errors`, and `test_proven_blocker_is_blocked_not_pass`; cover complete exit-0 scope, timeout, unknown exit, partial files, unknown count, failures/errors, blocker, and continuing window.
+- [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_result_contract_schema.py"`; expect missing completion-evidence validation.
+- [ ] Add minimal schema/validator: PASS needs COMPLETED, known exit, declared and executed complete scope, known counts, validators complete; all incomplete cases deny PASS; BLOCKED requires proof.
+- [ ] Re-run the exact file and `test_navigation_project_validation.py`; run project validator and `git diff --check`; obtain independent review; commit `feat: harden completion evidence`.
+
+### Task 2: CAP-02 Authority-Bounded Review / Adjudication
+
+**Files:** Modify `validate_project.py`, and `instruction_envelope.py` only if existing Fix metadata requires extension; test `test_review_lifecycle.py` and `test_instruction_envelope.py`; document none.
+
+**Interfaces**
+- Consumes: `validate_review_lifecycle(...)`, `validate_review_result(result)`, `build_instruction_envelope(...)`.
+- Produces: `validate_remediation_adjudication(decision: Mapping[str, Any]) -> list[str]`, called before a Fix Instruction is accepted.
+
+- [ ] Write failing cases for Design/Plan/Work Unit basis, test/validator/contract regression basis, preference/refactor/unapproved criterion denial, REJECT denial, and valid MODIFY.
+- [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_review_lifecycle.py"`; expect unsupported finding-to-fix authorization.
+- [ ] Require `ACCEPTED_AUTHORITY_BASIS` or `CONCRETE_REGRESSION_EVIDENCE` and bind ACCEPT/MODIFY to the new Fix Instruction; do not add a lifecycle.
+- [ ] Re-run review and instruction tests; run validators/diff check; independent review; commit `feat: bind remediation to authority evidence`.
+
+### Phase-A Gate
+
+Tasks 1–2 require independent review and integration with `CAP01 = CLOSED` and
+`CAP02 = CLOSED`. An unresolved CRITICAL/IMPORTANT finding stops execution
+before any Plugin activation work.
+
+### Task 3: Global Plugin Core
+
+**Files:** Create `.gpt-codex/plugin_resources/framework_plugin.py` and
+`plugin_skill.md`; modify `continuity_resume.py`, `validate_project.py`; create
+`test_framework_plugin.py`; test `test_continuity_resume.py`; document none.
+
+**Interfaces**
+- Consumes: `load_continuity_resume`, `build_project_handoff`, `validate_governed_mutation_entry`, Git facts.
+- Produces: `plugin_entry_report(root: Path, role: str) -> dict[str, Any]` and `plugin_resume_report(root: Path, role: str) -> dict[str, str]` with the eight required resume fields.
+
+- [ ] Write failing fixture tests for enrolled entry, unmanaged repository, identity/worktree/HEAD conflict, repository-only fresh resume, Plugin unavailable repository closure, V1 bootstrap, and inactive candidates.
+- [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`; expect import failure.
+- [ ] Implement only an adapter calling existing entry/resume validators; emit ANALYSIS_ONLY/RECONCILIATION_REQUIRED, persist nothing, and prove unavailable Plugin does not validate mutation.
+- [ ] Re-run Plugin/continuity tests, project validator, diff check, independent review, and commit `feat: add governed plugin entry adapter`.
+
+### Task 4: Framework Evidence Feedback + GitHub Evidence Bridge
+
+**Files:** Modify `framework_feedback.py`, `evidence.schema.json`, `git_continuity.py`, and `test_framework_feedback.py`; create `test_github_evidence_bridge.py`; document none.
+
+**Interfaces**
+- Consumes: `validate_framework_feedback`, terminal Work Unit result, Evidence refs, and Git remote facts.
+- Produces: `build_framework_feedback_candidate(...) -> Mapping[str, Any]`, `sanitize_feedback_export(candidate) -> Mapping[str, Any] | None`, and `evaluate_evidence_publication(...) -> SyncDecision`.
+
+- [ ] Write failing cases for every terminal event, NONE, INCOMPLETE continuation, secret/private input denial, deterministic duplicate identity, unavailable transport/SYNC_PENDING, no main write, accepted-evidence-only intake, correction/retraction, and aging classifications.
+- [ ] Run `test_framework_feedback.py` and `test_github_evidence_bridge.py`; expect missing candidate/bridge functions.
+- [ ] Implement normalized project-owned feedback; sanitize before export; reuse Harvest/PR facts; route read-only ChatGPT to prepare/validate and Codex/authorized writer to branch/PR; intake never approves Framework change.
+- [ ] Re-run focused files plus `test_git_continuity.py`; validators/diff check; independent review; commit `feat: add governed framework evidence bridge`.
+
+### Task 5: Plugin Distribution + Chinese User Manual
+
+**Files:** Create `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, and `docs/GPT_CODEX_FRAMEWORK_PLUGIN_USER_MANUAL.zh-CN.md`; modify `release_framework.py`; test `test_release_packaging.py` and `test_framework_plugin.py`.
+
+**Interfaces**
+- Consumes: Task 3 adapter and approved immutable Plugin release source.
+- Produces: `validate_plugin_release_binding(source_ref: str) -> list[str]`.
+
+- [ ] Re-check official Plugin Management documentation and record supported manifest fields in task Evidence before tests.
+- [ ] Write failing tests for immutable source, import/install validation, ChatGPT/Codex paths, no mandatory MCP, and Chinese new-window plus Framework-development commands.
+- [ ] Run `test_release_packaging.py` and `test_framework_plugin.py`; expect missing manifests/manual/binding.
+- [ ] Implement supported fields only; bind marketplace source immutably; write Chinese manual for installation, permissions, bootstrap/enrollment, roles, results, feedback/PR, SYNC_PENDING, upgrades, self-hosting, and recovery.
+- [ ] Re-run focused tests, consumer/framework validators, diff check, independent review, and commit `docs: package plugin and add Chinese manual`.
+
+### Task 6: End-to-End Self-Hosting Acceptance and Activation
+
+**Files:** Modify `test_framework_plugin.py`, `test_release_packaging.py`, `test_review_lifecycle.py`; document durable existing Evidence/Result/Work Unit refs under `.gpt-codex/evidence/`; create no database.
+
+**Interfaces**
+- Consumes: Tasks 1–5, `plugin_entry_report`, review lifecycle, release binding.
+- Produces: existing Evidence/Result refs proving `PLUGIN_RELEASE_CANDIDATE = VERIFIED` and `SELF_HOSTING_ACCEPTANCE = PASS`.
+
+- [ ] Write failing acceptance fixture for fresh-window recovery, active authority, Work Unit continuation, distinct Implementer/Reviewer, CAP-01 evidence, CAP-02 adjudication, feedback, integration, and activation.
+- [ ] Run focused acceptance files; expect missing acceptance correlation.
+- [ ] Execute one real self-development cycle in a fresh ChatGPT window and Codex task, recording only existing durable refs; candidate rules remain inactive until explicit activation.
+- [ ] Re-run focused tests and full gate; independent review; release/activate only under current lifecycle and explicit user approval; commit `test: prove plugin self-hosting acceptance`.
+
+## Review, Full Verification, and Design Coverage
+
+Each task uses PRE-EXECUTION REVIEW -> implementation -> POST-EXECUTION REVIEW
+-> GPT adjudication -> focused remediation -> focused re-review. A failed test
+does not create a Work Unit; a Work Unit may span turns. Every task executes
+the listed RED command, minimal GREEN change, adjacent regression, validator,
+diff check, independent review, and focused commit.
+
+```text
+python -m unittest discover -s .gpt-codex/tests -p "test_*.py"
+python .gpt-codex/scripts/validate_consumer_projection.py --root .
+python .gpt-codex/scripts/validate_framework.py
+python .gpt-codex/scripts/validate_project.py .
+git diff --check
+```
+
+Final evidence records exact test count/files/exit/failure/error counts,
+validator results, HEAD, and worktree cleanliness; partial output never proves
+PASS.
+
+| Design requirement | Task or constraint |
+|---|---|
+| CAP-01 / CAP-02 | Tasks 1 / 2 |
+| Entry, resume, bootstrap, active authority, surface limit | Task 3 |
+| Feedback, sanitization, dedupe, bridge, intake, aging/correction | Task 4 |
+| Distribution and Chinese manual | Task 5 |
+| Real self-hosting acceptance and activation | Task 6 |
+| Seven modules, no duplicate system, approval boundary | Global Constraints |
+
+`IMPLEMENTED`, `VALIDATED`, `INTEGRATED`, `RELEASED`, and `ACTIVATED` differ.
+No active Plugin exists before V1 activation; development `main` cannot become
+active governance by its existence.
