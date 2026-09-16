@@ -1,0 +1,26 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 10,
+  "result": "ACCEPT",
+  "finding_ids": [
+    "TASK3-PREEXEC-ROLE-AUTHORITY-001"
+  ],
+  "decision": "ACCEPT",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "basis_refs": [
+    "TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS"
+  ],
+  "adjudicated_at_revision": 10,
+  "finding_result_ref": ".gpt-codex/evidence/results/RESULT-TASK3-PREEXEC-ROLE-AUTHORITY-001.json#5b9b7216-2b8f-4795-9dca-11dec5bfe9e9",
+  "remediation_scope": [
+    "Remove COMMIT and PUSH from Task 3 CODEX_IMPLEMENTER authorized_actions.",
+    "Keep Task 3 implementation authorization but keep implementation_start_allowed=false.",
+    "Require a fresh PRE_EXECUTION review against the corrected remote main SHA."
+  ],
+  "scope_expansion": false
+}
