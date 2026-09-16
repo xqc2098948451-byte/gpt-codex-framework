@@ -456,11 +456,70 @@ def validate_review_result(result: Mapping[str, Any]) -> list[str]:
     return list(dict.fromkeys(errors))
 
 
+def validate_remediation_adjudication(
+    decision_evidence: Mapping[str, Any],
+    finding_result: Mapping[str, Any],
+    resolved_basis: Mapping[str, Mapping[str, Any]],
+) -> list[str]:
+    """Fail closed unless a remediation decision is grounded in current, relevant evidence."""
+
+    errors: list[str] = []
+    if not isinstance(decision_evidence, Mapping):
+        return ["REMEDIATION_DECISION_EVIDENCE_REQUIRED"]
+    if not isinstance(finding_result, Mapping):
+        return ["INVALID_RESULT"]
+    if not isinstance(resolved_basis, Mapping):
+        return ["REMEDIATION_BASIS_UNRESOLVED"]
+
+    finding_ids = finding_result.get("finding_ids")
+    decision_finding_ids = decision_evidence.get("finding_ids")
+    if decision_evidence.get("subject") != "REMEDIATION_ADJUDICATION":
+        errors.append("REMEDIATION_DECISION_SUBJECT_INVALID")
+    if decision_evidence.get("decision") not in {"ACCEPT", "MODIFY"}:
+        errors.append("REMEDIATION_DECISION_NOT_ACCEPTED")
+    if (
+        not isinstance(finding_ids, list)
+        or not finding_ids
+        or not isinstance(decision_finding_ids, list)
+        or set(decision_finding_ids) != set(finding_ids)
+    ):
+        errors.append("REMEDIATION_FINDING_CORRELATION_REQUIRED")
+
+    basis_type = decision_evidence.get("basis_type")
+    if basis_type not in {"ACCEPTED_AUTHORITY_BASIS", "CONCRETE_REGRESSION_EVIDENCE"}:
+        errors.append("REMEDIATION_BASIS_TYPE_INVALID")
+    basis_refs = decision_evidence.get("basis_refs")
+    if not isinstance(basis_refs, list) or not basis_refs or not all(_is_nonempty_string(ref) for ref in basis_refs):
+        errors.append("REMEDIATION_BASIS_UNRESOLVED")
+        return list(dict.fromkeys(errors))
+    adjudicated_at_revision = decision_evidence.get("adjudicated_at_revision")
+    if not isinstance(adjudicated_at_revision, int) or adjudicated_at_revision < 0:
+        errors.append("REMEDIATION_ADJUDICATION_REVISION_INVALID")
+
+    for basis_ref in basis_refs:
+        basis = resolved_basis.get(basis_ref)
+        if not isinstance(basis, Mapping):
+            errors.append("REMEDIATION_BASIS_UNRESOLVED")
+            continue
+        if basis.get("basis_type") != basis_type:
+            errors.append("REMEDIATION_BASIS_TYPE_INVALID")
+        if set(basis.get("finding_ids") or []) != set(finding_ids or []):
+            errors.append("REMEDIATION_FINDING_CORRELATION_REQUIRED")
+        if basis.get("state_revision") != adjudicated_at_revision:
+            errors.append("REMEDIATION_BASIS_STALE")
+        if basis_type == "ACCEPTED_AUTHORITY_BASIS" and basis.get("accepted") is not True:
+            errors.append("REMEDIATION_BASIS_NOT_ACCEPTED")
+        if basis_type == "CONCRETE_REGRESSION_EVIDENCE" and basis.get("failing") is not True:
+            errors.append("REMEDIATION_REGRESSION_NOT_PROVEN")
+    return list(dict.fromkeys(errors))
+
+
 def validate_review_lifecycle(
     instruction: Mapping[str, Any] | None,
     finding_result: Mapping[str, Any],
     current_state_revision: int | None = None,
-    remediation_decision: str | None = None,
+    remediation_decision: Mapping[str, Any] | None = None,
+    resolved_basis: Mapping[str, Mapping[str, Any]] | None = None,
     re_review_result: Mapping[str, Any] | None = None,
     resulting_revision: str | None = None,
     authoritative_review_context: Mapping[str, Any] | None = None,
@@ -476,8 +535,12 @@ def validate_review_lifecycle(
         return errors
     if instruction is None or instruction.get("instruction_type") != "FIX_INSTRUCTION":
         errors.append("FIX_INSTRUCTION_REQUIRED")
-    if not _is_nonempty_string(remediation_decision):
+    if not isinstance(remediation_decision, Mapping):
         errors.append("REMEDIATION_DECISION_REQUIRED")
+    else:
+        errors.extend(validate_remediation_adjudication(
+            remediation_decision, finding_result, resolved_basis if resolved_basis is not None else {},
+        ))
     if authoritative_review_context is not None:
         if not isinstance(authoritative_review_context, Mapping):
             errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_INVALID"])
@@ -509,7 +572,10 @@ def validate_review_lifecycle(
             errors.append("REVIEW_TARGET_REVISION_MISMATCH")
         if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
             errors.append("FIX_ROUND_MISMATCH")
-        if remediation_decision is not None and instruction.get("remediation_decision_ref") != remediation_decision:
+        if (
+            isinstance(remediation_decision, Mapping)
+            and instruction.get("remediation_decision_ref") != remediation_decision.get("evidence_id")
+        ):
             errors.append("REMEDIATION_DECISION_MISMATCH")
         if instruction.get("executor_role") != "CODEX_IMPLEMENTER":
             errors.append("FIX_EXECUTOR_MUST_BE_CODEX_IMPLEMENTER")

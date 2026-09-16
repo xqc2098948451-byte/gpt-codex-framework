@@ -91,6 +91,32 @@ def review_result():
     }
 
 
+def remediation_decision_evidence(*, decision="ACCEPT", basis_type="ACCEPTED_AUTHORITY_BASIS",
+                                  finding_ids=None, basis_refs=None, adjudicated_at_revision=8):
+    return {
+        "evidence_id": "DECISION-001",
+        "subject": "REMEDIATION_ADJUDICATION",
+        "finding_ids": finding_ids if finding_ids is not None else ["RCP-FINDING-001"],
+        "decision": decision,
+        "basis_type": basis_type,
+        "basis_refs": basis_refs if basis_refs is not None else ["basis/accepted-001"],
+        "adjudicated_at_revision": adjudicated_at_revision,
+    }
+
+
+def resolved_basis(*, basis_type="ACCEPTED_AUTHORITY_BASIS", finding_ids=None,
+                   state_revision=8, accepted=True, failing=False):
+    return {
+        "basis/accepted-001": {
+            "basis_type": basis_type,
+            "finding_ids": finding_ids if finding_ids is not None else ["RCP-FINDING-001"],
+            "state_revision": state_revision,
+            "accepted": accepted,
+            "failing": failing,
+        },
+    }
+
+
 class ReviewLifecycleTests(unittest.TestCase):
     def test_pairwise_review_policy_rejects_missing_or_ambiguous_slots(self):
         validator = load_validator()
@@ -211,9 +237,80 @@ class ReviewLifecycleTests(unittest.TestCase):
     def test_explicit_decision_and_new_fix_instruction_are_required_for_remediation(self):
         validator = load_validator()
         errors = validator.validate_review_lifecycle(
-            fix_instruction(), finding_result(), current_state_revision=8, remediation_decision="DECISION-001"
+            fix_instruction(), finding_result(), current_state_revision=8,
+            remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
         )
         self.assertEqual(errors, [])
+
+    def test_remediation_adjudication_accepts_authority_and_regression_bases(self):
+        validator = load_validator()
+        self.assertEqual(
+            validator.validate_remediation_adjudication(
+                remediation_decision_evidence(), finding_result(), resolved_basis(),
+            ),
+            [],
+        )
+        regression_decision = remediation_decision_evidence(
+            basis_type="CONCRETE_REGRESSION_EVIDENCE",
+        )
+        regression_basis = resolved_basis(
+            basis_type="CONCRETE_REGRESSION_EVIDENCE", accepted=False, failing=True,
+        )
+        self.assertEqual(
+            validator.validate_remediation_adjudication(
+                regression_decision, finding_result(), regression_basis,
+            ),
+            [],
+        )
+
+    def test_remediation_adjudication_fails_closed_for_invalid_or_unrelated_basis(self):
+        validator = load_validator()
+        valid_decision = remediation_decision_evidence()
+        cases = {
+            "missing_ref": (remediation_decision_evidence(basis_refs=[]), resolved_basis()),
+            "unresolved": (remediation_decision_evidence(basis_refs=["basis/missing"]), resolved_basis()),
+            "preference": (remediation_decision_evidence(basis_type="PREFERENCE"), resolved_basis()),
+            "reject": (remediation_decision_evidence(decision="REJECT"), resolved_basis()),
+            "unrelated": (valid_decision, resolved_basis(finding_ids=["OTHER-FINDING"])),
+            "stale": (valid_decision, resolved_basis(state_revision=7)),
+            "non_failing_regression": (
+                remediation_decision_evidence(basis_type="CONCRETE_REGRESSION_EVIDENCE"),
+                resolved_basis(basis_type="CONCRETE_REGRESSION_EVIDENCE", accepted=False, failing=False),
+            ),
+            "wrong_finding": (remediation_decision_evidence(finding_ids=["OTHER-FINDING"]), resolved_basis()),
+        }
+        for case_name, (decision, basis) in cases.items():
+            with self.subTest(case_name):
+                errors = validator.validate_remediation_adjudication(decision, finding_result(), basis)
+                self.assertTrue(errors)
+                if case_name == "unresolved":
+                    self.assertIn("REMEDIATION_BASIS_UNRESOLVED", errors)
+
+    def test_review_lifecycle_requires_decision_evidence_to_resolve_instruction_ref(self):
+        validator = load_validator()
+        self.assertEqual(
+            validator.validate_review_lifecycle(
+                fix_instruction(), finding_result(), current_state_revision=8,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
+            ),
+            [],
+        )
+        errors = validator.validate_review_lifecycle(
+            fix_instruction(), finding_result(), current_state_revision=8,
+            remediation_decision=remediation_decision_evidence(basis_refs=["basis/missing"]),
+            resolved_basis=resolved_basis(),
+        )
+        self.assertIn("REMEDIATION_BASIS_UNRESOLVED", errors)
+
+    def test_review_lifecycle_rejects_missing_decision_ref(self):
+        validator = load_validator()
+        instruction = fix_instruction()
+        instruction.pop("remediation_decision_ref")
+        errors = validator.validate_review_lifecycle(
+            instruction, finding_result(), current_state_revision=8,
+            remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(),
+        )
+        self.assertIn("REMEDIATION_DECISION_MISMATCH", errors)
 
     def test_re_review_binds_new_revision_and_retains_original_evidence(self):
         validator = load_validator()
@@ -229,7 +326,7 @@ class ReviewLifecycleTests(unittest.TestCase):
         self.assertEqual(
             validator.validate_review_lifecycle(
                 fix_instruction(), finding_result(), current_state_revision=8,
-                remediation_decision="DECISION-001", re_review_result=re_review,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), re_review_result=re_review,
                 resulting_revision=NEW_SHA,
             ),
             [],
@@ -262,7 +359,7 @@ class ReviewLifecycleTests(unittest.TestCase):
         self.assertEqual(
             validator.validate_review_lifecycle(
                 fix_instruction(), finding, current_state_revision=8,
-                remediation_decision="DECISION-001", authoritative_review_context=context,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), authoritative_review_context=context,
             ),
             [],
         )
@@ -271,7 +368,7 @@ class ReviewLifecycleTests(unittest.TestCase):
             "RECONCILIATION_REQUIRED",
             validator.validate_review_lifecycle(
                 fix_instruction(), finding, current_state_revision=8,
-                remediation_decision="DECISION-001", authoritative_review_context=stale,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), authoritative_review_context=stale,
             ),
         )
         foreign = dict(context, project_context_id="OTHER")
@@ -279,7 +376,7 @@ class ReviewLifecycleTests(unittest.TestCase):
             "RECONCILIATION_REQUIRED",
             validator.validate_review_lifecycle(
                 fix_instruction(), finding, current_state_revision=8,
-                remediation_decision="DECISION-001", authoritative_review_context=foreign,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), authoritative_review_context=foreign,
             ),
         )
         foreign_repository = dict(context, repository_id="other/repository")
@@ -287,7 +384,7 @@ class ReviewLifecycleTests(unittest.TestCase):
             "RECONCILIATION_REQUIRED",
             validator.validate_review_lifecycle(
                 fix_instruction(), finding, current_state_revision=8,
-                remediation_decision="DECISION-001", authoritative_review_context=foreign_repository,
+                remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), authoritative_review_context=foreign_repository,
             ),
         )
 
@@ -302,7 +399,7 @@ class ReviewLifecycleTests(unittest.TestCase):
         }
         errors = validator.validate_review_lifecycle(
             fix_instruction(), finding_result(), current_state_revision=8,
-            remediation_decision="DECISION-001", re_review_result=re_review,
+            remediation_decision=remediation_decision_evidence(), resolved_basis=resolved_basis(), re_review_result=re_review,
         )
         self.assertIn("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED", errors)
         self.assertIn("RESULTING_REVISION_REQUIRED", errors)
