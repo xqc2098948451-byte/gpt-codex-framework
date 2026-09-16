@@ -154,31 +154,27 @@ reconciliation.
 
 **Files:** Create `.gpt-codex/scripts/framework_plugin_entry.py`; create
 `plugins/gpt-codex-framework/.codex-plugin/plugin.json` and only the supported
-skills/resources beneath that root; modify `continuity_resume.py`,
-`validate_project.py`; create `test_framework_plugin.py`; test
+skills/resources beneath that root; modify `git_continuity.py` (derive/validate
+remote artifact review Git facts), `continuity_resume.py`, `validate_project.py`; create `test_framework_plugin.py`; test
 `test_continuity_resume.py`; document none.
 
 **Interfaces**
 - Consumes: `load_continuity_resume`, `build_project_handoff`, `validate_governed_mutation_entry`, Git facts.
 - Produces: repository helper `plugin_entry_report(root: Path, role: str) -> dict[str, Any]` and `plugin_resume_report(root: Path, role: str) -> dict[str, str]`; Plugin skills read/interpret accessible durable authority but never assume ChatGPT executes local Python.
 
-- [ ] Write failing fixture tests for enrolled entry, unmanaged repository, identity/worktree/HEAD conflict, repository-only fresh resume, Plugin unavailable repository closure, V1 bootstrap, and inactive candidates.
-- [ ] Run `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`; expect import failure.
-- [ ] Implement the helper under the existing scripts owner and package skills/resources separately; Codex may execute helper under governed instruction, ChatGPT only loads skill/authority, and unavailable/not-invoked Plugin leaves repository-native governance fail-closed.
-- [ ] Re-run Plugin/continuity tests, project validator, diff check, independent review, and commit `feat: add governed plugin entry adapter`.
 - [ ] **PLUGIN_FORMAT_PREFLIGHT:** re-check official format; material difference is STOP_FOR_RECONCILIATION.
-- [ ] **WRITE_EXACT_RED_TEST:** add enrolled/unmanaged/conflict/fresh-resume fixture assertions in `test_framework_plugin.py`.
+- [ ] **WRITE_BASE_PLUGIN_RED_TESTS:** add enrolled/unmanaged/conflict/fresh-resume fixture assertions in `test_framework_plugin.py`.
+- [ ] **WRITE_REMOTE_REVIEW_RED_TESTS:** add all bound/mismatch/missing/local/outage/moving-branch/frozen-ref/fresh-resume cases.
 - [ ] **RUN_EXACT_RED_COMMAND:** `python -m unittest discover -s .gpt-codex/tests -p "test_framework_plugin.py"`.
-- [ ] **CONFIRM_EXPECTED_RED_REASON:** helper/package skill is absent.
-- [ ] **IMPLEMENT_MINIMAL_PRODUCED_INTERFACE:** create `.gpt-codex/scripts/framework_plugin_entry.py`, package manifest, and supported skill separately; verify ChatGPT does not execute helper.
+- [ ] **CONFIRM_EXPECTED_RED_REASON:** helper/package skill and remote fact derivation are absent.
+- [ ] **IMPLEMENT_PLUGIN_ENTRY_AND_RESUME:** create helper/package separately; ChatGPT does not execute helper.
+- [ ] **IMPLEMENT_REMOTE_REVIEW_COORDINATES:** use `git_continuity.py` and existing facts; candidate is not authority.
 - [ ] **RUN_EXACT_GREEN_COMMAND:** rerun `test_framework_plugin.py`.
 - [ ] **RUN_EXACT_ADJACENT_REGRESSION:** `python -m unittest discover -s .gpt-codex/tests -p "test_continuity_resume.py"`.
 - [ ] **RUN_APPLICABLE_VALIDATORS:** `python .gpt-codex/scripts/validate_project.py .`.
 - [ ] **RUN_GIT_DIFF_CHECK:** `git diff --check`.
 - [ ] **OBTAIN_INDEPENDENT_POST_EXECUTION_REVIEW:** inspect surface split and fail-closed fallback.
 - [ ] **CREATE_FOCUSED_COMMIT:** `feat: add governed plugin entry adapter`.
-- [ ] **WRITE_REMOTE_REVIEW_RED_TEST:** matching bound repo/SHA/path is YES; wrong repo reconciles; missing/mismatched ref or artifact and local-only are NO; outage is SYNC_PENDING; exact candidate/frozen refs survive branch movement and fresh resume.
-- [ ] **IMPLEMENT_REMOTE_REVIEW_COORDINATES:** reuse `git_continuity.py`, `continuity_resume.py`, `validate_project.py`, and helper to derive `REMOTE_REPOSITORY`, `REMOTE_BRANCH`, `REMOTE_SHA`, `ARTIFACT_PATH`, `REMOTE_VERIFICATION`, `ARTIFACT_REVIEW_READY`; candidate is never authority.
 
 ### Task 4: Framework Evidence Feedback + GitHub Evidence Bridge
 
@@ -254,15 +250,16 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - Consumes: Tasks 1–5, `plugin_entry_report`, review lifecycle, release binding.
 - Produces: existing Evidence/Result refs proving `PLUGIN_RELEASE_CANDIDATE = VERIFIED` and `SELF_HOSTING_ACCEPTANCE = PASS`.
 
-- [ ] Write failing acceptance fixture for fresh-window recovery, active authority, Work Unit continuation, distinct Implementer/Reviewer, CAP-01 evidence, CAP-02 adjudication, feedback, integration, and activation.
-- [ ] Run focused acceptance files; expect missing acceptance correlation.
-- [ ] Execute the frozen real mutation: fresh ChatGPT Plugin Entry/Resume recovers one authorized acceptance Work Unit; fresh Codex Implementer creates/updates only `docs/superpowers/reviews/2026-09-16-global-framework-plugin-self-hosting-acceptance.md`, commits it, and fresh isolated Codex Reviewer reviews its exact SHA; record CAP-01, CAP-02 if a finding occurs, mandatory feedback CHECK, and normal integration using durable observable refs only.
-- [ ] Re-run focused tests and full gate; independent review; release/activate only under current lifecycle and explicit user approval; commit `test: prove plugin self-hosting acceptance`.
 - [ ] **ACCEPTANCE_WORK_UNIT_PREPARATION:** authorize the bounded acceptance Work Unit.
 - [ ] **FRESH_CHATGPT_ENTRY_RESUME:** invoke Plugin Entry/Resume in a fresh window.
 - [ ] **REPOSITORY_ONLY_RECOVERY_VERIFICATION:** prove no transcript is an authority input.
 - [ ] **FRESH_CODEX_IMPLEMENTER_LAUNCH:** use the authorized worktree.
-- [ ] **ACCEPTANCE_RECORD_ONLY_MUTATION:** update only the acceptance record and commit its target SHA.
+- [ ] **ACCEPTANCE_RECORD_ONLY_MUTATION:** update only the acceptance record.
+- [ ] **COMMIT_ACCEPTANCE_TARGET:** commit its target SHA.
+- [ ] **PUSH_ACCEPTANCE_REMOTE_REVIEW_CANDIDATE:** normal non-force push.
+- [ ] **VERIFY_ACCEPTANCE_REMOTE_SHA:** bind repository, branch, SHA, path, and remote verification.
+- [ ] **FRESH_CHATGPT_FETCH_EXACT_REMOTE_ARTIFACT:** no user file upload.
+- [ ] **VERIFY_NO_USER_FILE_TRANSFER:** durable `USER_FILE_TRANSFER_REQUIRED = NO`.
 - [ ] **FRESH_ISOLATED_REVIEWER_LAUNCH:** open independent reviewer worktree.
 - [ ] **EXACT_TARGET_SHA_VERIFICATION:** reviewer verifies committed target SHA.
 - [ ] **CAP01_COMPLETION_EVIDENCE:** record complete verification evidence.
@@ -271,9 +268,9 @@ one normalized package, pushes the branch, opens PR, and returns Result/Evidence
 - [ ] **NORMAL_INTEGRATION:** use existing review/integration authority.
 - [ ] **FULL_VERIFICATION:** run full suite and all three validators.
 - [ ] **PLUGIN_RELEASE_CANDIDATE_VERIFICATION:** verify immutable candidate source.
-- [ ] **EXPLICIT_USER_ACTIVATION_GATE:** NOT AUTHORIZED BY PLAN EXECUTION ALONE.
+- [ ] **FINALIZE_DURABLE_ACCEPTANCE_EVIDENCE:** bind remote coordinates, GPT_FETCHED_EXACT_REMOTE_ARTIFACT=YES, user-transfer NO, and continuity PASS before closure.
 - [ ] **CREATE_FOCUSED_ACCEPTANCE_COMMIT:** finalize durable Evidence/Result refs.
-- [ ] **REMOTE_REVIEW_ACCEPTANCE:** push acceptance artifact candidate; fresh GPT fetches exact repository/SHA/path without upload; record `REMOTE_ARTIFACT_REVIEW_CONTINUITY = PASS` and `USER_FILE_TRANSFER_REQUIRED = NO` as durable observable Evidence.
+- [ ] **EXPLICIT_USER_ACTIVATION_GATE:** NOT AUTHORIZED BY PLAN EXECUTION ALONE.
 
 ## Review, Full Verification, and Design Coverage
 
