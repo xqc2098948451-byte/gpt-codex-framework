@@ -36,18 +36,39 @@
     "Independent post-execution review is completed before integration."
   ],
   "selected_extensions": {
-    "skills": ["github-project-continuity"],
-    "guardrails": ["universal-safety", "cross-project-context-binding", "github-repository-binding"],
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
     "fitness": []
   },
   "permissions": {
-    "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH"],
-    "forbidden_actions": ["PUBLISH", "SCOPE_EXPANSION", "FRAMEWORK_RELEASE", "PLUGIN_RELEASE", "PLUGIN_ACTIVATION", "DIRECT_MAIN_IMPLEMENTATION"]
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "PUBLISH",
+      "SCOPE_EXPANSION",
+      "FRAMEWORK_RELEASE",
+      "PLUGIN_RELEASE",
+      "PLUGIN_ACTIVATION",
+      "DIRECT_MAIN_IMPLEMENTATION"
+    ]
   },
   "state": "AUTHORIZED",
-  "basis_state_revision": 8,
+  "basis_state_revision": 10,
   "evidence_refs": [
-    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json"
+    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+    ".gpt-codex/evidence/results/RESULT-TASK3-PREEXEC-ROLE-AUTHORITY-001.json",
+    ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION.json"
   ],
   "artifact_refs": {
     "design": {
@@ -77,5 +98,12 @@
       ".agents/plugins/marketplace.json remains the Codex marketplace manifest location",
       "GitHub marketplace import supports branch, tag, or exact commit binding"
     ]
+  },
+  "governance_correction": {
+    "finding_id": "TASK3-PREEXEC-ROLE-AUTHORITY-001",
+    "decision_ref": "TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION",
+    "corrected_from_sha": "e214b3a938a2225072daf121274c5abc57346400",
+    "change": "Remove COMMIT and PUSH from CODEX_IMPLEMENTER durable authorized_actions.",
+    "implementation_scope_changed": false
   }
 }
