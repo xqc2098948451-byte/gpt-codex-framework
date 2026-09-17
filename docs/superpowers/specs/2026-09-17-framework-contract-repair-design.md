@@ -251,3 +251,19 @@ Deferred: the STATE required-fields repair; every Baseline worktree change other
 - **Can `framework-contract-repair-bridge-002` be reused?** No: it reached partial local Tasks 1–3 execution but no repair candidate commit, push, publication, or activation; it is superseded by reconciliation, remains immutable predecessor/audit evidence, and its partial local bytes cannot satisfy successor completion evidence. Any successor 38-path bridge requires independent review and explicit `USER_APPROVER` approval.
 
 `DESIGN_BLOCKERS = NONE` for the Design: the one-time bridge is deliberately explicit, bounded, independently reviewed, durably recorded, non-reusable, and expires on durable native repair. Its use does not authorize a Plan or implementation.
+
+## Lifecycle amendment: Phase-A checkpoint and Phase-B successor
+
+This section supersedes every earlier release-ordering statement in this Design that describes `2.7.1` as requiring Tasks 5–10, as full Contract Repair completion, or as leaving bridge-003 available after publication. It changes lifecycle sequencing only; Tasks 1–4 technical semantics and their bounded verification remain unchanged.
+
+- `2.7.0` is the current released baseline.
+- `2.7.1` is a checkpoint/stabilization release containing only the Baseline Closure Prelude, Tasks 1–4, and the version/release surfaces necessary to publish that exact tested state.
+- `2.7.2` is the later full Contract Repair completion release, containing deferred Tasks 5–9 and the remaining native-authority completion work.
+
+Phase A must not claim external approval-evidence locator completion, actual-Git mutation-scope oracle completion, native control-plane authority composition, first native seed completion/consumption, or full Contract Repair completion. `STATE-ORACLE-SCHEMA-REQUIRED-FIELDS-001`, Plugin work, `GLOBAL_OPTIMUM_OVER_LOCAL_OPTIMUM`, and unrelated Framework refactors remain deferred.
+
+The Phase-A order is: Baseline Closure Prelude; Tasks 1–4; Phase-A final verification; `2.7.1` release candidate; independent `POST_EXECUTION` review; exact-SHA `USER_APPROVER` acceptance; governed `2.7.1` publication and remote verification; then stop and pause feature development. Before publication, the exact candidate must pass Prelude, Tasks 1–4, the full test suite, `validate_framework.py`, `validate_project.py`, `validate_consumer_projection.py`, `git diff --check`, authorized changed-path verification, and independent `POST_EXECUTION` review. USER_LOCAL may perform publication only after exact-SHA acceptance.
+
+`framework-contract-repair-bridge-003` authorizes only this Phase-A `2.7.1` candidate under its existing exact authority and retains `repair_candidate_commit_limit = 1`. After exact publication and remote active-authority verification it is consumed and terminated. It cannot authorize Tasks 5–9, a second repair candidate commit, or any post-Phase-A mutation.
+
+Phase B begins only after `2.7.1` is remotely active. Former Tasks 5–9 retain their existing technical semantics but target `2.7.2`: external approval-evidence locator verification, actual Git mutation-scope oracle, native control-plane authority composition, first native seed completion/consumption as applicable, and production-shaped composed lifecycles. Because `2.7.1` does not contain complete native repair authority, Phase B cannot self-authorize. A future separately reviewed and explicitly USER_APPROVER-approved `framework-contract-repair-bridge-004` is required; its exact payload and scope are prepared only after `2.7.1` is remotely active. This Design creates neither bridge-004 nor authority to create it.
