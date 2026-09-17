@@ -627,3 +627,11 @@ class SelfHostingValidatorTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FrameworkContractRepairBridgeTests(unittest.TestCase):
+    def test_bridge_output_work_units_are_materialized(self):
+        repair = ROOT / ".gpt-codex/work-units/framework-contract-repair-001.json"
+        seed = ROOT / ".gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json"
+        self.assertTrue(repair.is_file())
+        self.assertTrue(seed.is_file())

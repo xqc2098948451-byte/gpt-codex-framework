@@ -1,0 +1,12 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-contract-repair-001",
+  "goal": "Implement the bridge-bound Framework Contract Repair candidate.",
+  "scope": {"owned_paths": [".gpt-codex/"]},
+  "acceptance": {"bridge_id": "framework-contract-repair-bridge-003"},
+  "selected_extensions": [],
+  "state": "AUTHORIZED",
+  "basis_state_revision": 12
+}

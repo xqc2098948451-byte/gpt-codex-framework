@@ -702,3 +702,11 @@ class ValidatorContextBindingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ContractRepairTask4Tests(unittest.TestCase):
+    def test_existing_authority_gate_accepts_owned_directory_prefix(self):
+        from validate_project import validate_instruction_authority
+        instruction = {"instruction_type":"WORK_UNIT", "executor_role":"CODEX_IMPLEMENTER", "scope_paths":["plugins/gpt-codex-framework/subpath.py"]}
+        errors = validate_instruction_authority(instruction, approved_scope={"plugins/gpt-codex-framework/"})
+        self.assertNotIn("SCOPE_EXPANSION_DENIED", errors)

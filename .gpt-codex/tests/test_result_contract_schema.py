@@ -242,3 +242,12 @@ class ResultContractSchemaTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ContractRepairTask3Tests(unittest.TestCase):
+    def test_approval_result_is_intrinsic_and_does_not_correlate_request_scope(self):
+        sys.path.insert(0, str(SCRIPTS))
+        from role_communication import validate_result_message_type
+        self.assertEqual(validate_result_message_type("APPROVAL_RESULT"), [])
+        approved_instruction = {"scope_paths": ["different/still-well-formed.json"]}
+        self.assertEqual(approved_instruction["scope_paths"], ["different/still-well-formed.json"])

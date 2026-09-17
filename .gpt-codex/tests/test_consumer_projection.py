@@ -54,6 +54,7 @@ def prefix_manifest() -> dict[str, object]:
     manifest = minimal_manifest()
     manifest["prefix_defaults"] = {
         ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
+        ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
         "docs/superpowers/": "DEVELOPMENT_HISTORY",
         ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
         "releases/records/": "RELEASE_METADATA",
@@ -172,6 +173,30 @@ class ConsumerProjectionTests(unittest.TestCase):
         audit = audit_projection_paths(ROOT, manifest)
         self.assertEqual(audit["unknown_paths"], [])
         self.assertEqual(audit["missing_required_paths"], [])
+
+    def test_durable_work_units_are_management_only_and_missing_prefix_fails_closed(self):
+        manifest = load_projection_manifest(ROOT)
+        paths = manifest["paths"]
+        prefixes = manifest["prefix_defaults"]
+        durable_work_units = sorted(
+            path.relative_to(ROOT).as_posix()
+            for path in (ROOT / ".gpt-codex" / "work-units").glob("*.json")
+        )
+        for relative in durable_work_units:
+            self.assertEqual(
+                consumer_projection._resolve_projection_classification(relative, paths, prefixes),
+                "MANAGEMENT_ONLY",
+            )
+            self.assertNotIn(relative, build_consumer_inventory(ROOT, manifest))
+        faulted = dict(manifest)
+        faulted["prefix_defaults"] = {
+            key: value for key, value in prefixes.items()
+            if key != ".gpt-codex/work-units/"
+        }
+        self.assertEqual(
+            audit_projection_paths(ROOT, faulted)["unknown_paths"],
+            durable_work_units,
+        )
 
     def test_validate_consumer_projection_rejects_stale_canonical_archive(self):
         with tempfile.TemporaryDirectory() as tmp:

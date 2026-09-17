@@ -180,3 +180,15 @@ class InstructionEnvelopeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ContractRepairTask2Tests(unittest.TestCase):
+    def test_scope_paths_are_required_nonempty_relative_unique_selectors(self):
+        ie = load_instruction_envelope()
+        kwargs = dict(instruction_type="FIX_INSTRUCTION", target_project_context_id="ctx", target_project_name="Project", expected_state_revision=1, framework_version="2.7.0", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR")
+        envelope = ie.build_instruction_envelope(**kwargs, scope_paths=[".gpt-codex/scripts/validate_project.py"])
+        self.assertEqual(envelope["scope_paths"], [".gpt-codex/scripts/validate_project.py"])
+        for invalid in ([], ["x", "x"], ["/absolute"], ["../escape"]):
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ValueError):
+                    ie.build_instruction_envelope(**kwargs, scope_paths=invalid)

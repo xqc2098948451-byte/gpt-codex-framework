@@ -427,7 +427,11 @@ def validate_instruction_authority(
 
     requested_scope = instruction.get("scope_paths")
     if approved_scope is not None and requested_scope is not None:
-        if not isinstance(requested_scope, (list, tuple, set, frozenset)) or not set(requested_scope).issubset(approved_scope):
+        def covered(path: object) -> bool:
+            if not isinstance(path, str) or not path or path.startswith("/") or "\\" in path or any(part in {"", ".", ".."} for part in path.split("/")):
+                return False
+            return any(path == selector or (isinstance(selector, str) and selector.endswith("/") and path.startswith(selector)) for selector in approved_scope)
+        if not isinstance(requested_scope, (list, tuple, set, frozenset)) or not all(covered(path) for path in requested_scope):
             errors.extend(["ROLE_AUTHORITY_CONFLICT", "SCOPE_EXPANSION_DENIED"])
     return list(dict.fromkeys(errors))
 

@@ -82,6 +82,7 @@ def build_instruction_envelope(
     target_work_unit_ref: Mapping[str, str] | None = None,
     runtime_fresh_context_verified: bool | None = None,
     runtime_input_source_kinds: list[str] | None = None,
+    scope_paths: list[str] | None = None,
     *,
     issuer_role: str | None = None,
     executor_role: str | list[str] | None = None,
@@ -182,6 +183,11 @@ def build_instruction_envelope(
     if artifact_stage is not None and artifact_stage not in ARTIFACT_STAGES:
         raise ValueError("INVALID_ARTIFACT_STAGE")
     _validate_target_work_unit_ref(target_work_unit_ref)
+    if scope_paths is not None:
+        if (not isinstance(scope_paths, list) or not scope_paths or len(scope_paths) != len(set(scope_paths))
+                or any(not isinstance(path, str) or not path or path.startswith("/") or "\\" in path
+                       or any(part in {"", ".", ".."} for part in path.split("/")) for path in scope_paths)):
+            raise ValueError("INVALID_SCOPE_PATHS")
     envelope: dict[str, Any] = {
         "instruction_id": instruction_id or str(uuid4()),
         "instruction_type": instruction_type,
@@ -196,6 +202,7 @@ def build_instruction_envelope(
     optional = {
         "target_work_unit": target_work_unit,
         "target_work_unit_ref": dict(target_work_unit_ref) if target_work_unit_ref is not None else None,
+        "scope_paths": list(scope_paths) if scope_paths is not None else None,
         "expected_base_sha": expected_base_sha,
         "permission_scope": permission_scope,
         "bootstrap_target_project_id": bootstrap_target_project_id,

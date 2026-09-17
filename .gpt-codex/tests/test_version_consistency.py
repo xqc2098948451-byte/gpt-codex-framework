@@ -28,42 +28,42 @@ class VersionConsistencyTests(unittest.TestCase):
         self.assertEqual(expected_sha, index_entry["artifact_sha256"])
         self.assertNotEqual(expected_sha, "02171f7984d7409ce945ebb26154f216ff63027bbc35fcf1d3d99ad8ff2806c6")
 
-    def test_current_framework_source_version_is_v270(self):
+    def test_current_framework_source_version_is_v271(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         catalog = json.loads((ROOT / ".gpt-codex" / "builtins" / "INDEX.json").read_text(encoding="utf-8"))
         registry = json.loads((ROOT / ".gpt-codex" / "framework-modules" / "REGISTRY.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(version, "2.7.0")
+        self.assertEqual(version, "2.7.1")
         self.assertEqual(catalog["framework_version"], CURRENT_VERSION)
         self.assertEqual(registry["framework_version"], CURRENT_VERSION)
 
-    def test_current_release_metadata_is_v270(self):
+    def test_current_release_metadata_is_v271(self):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         record = json.loads((ROOT / "releases" / "records" / f"v{CURRENT_VERSION}.json").read_text(encoding="utf-8"))
         index = json.loads((ROOT / "releases" / "INDEX.json").read_text(encoding="utf-8"))
 
-        self.assertEqual(version, "2.7.0")
+        self.assertEqual(version, "2.7.1")
         self.assertEqual(record["version"], CURRENT_VERSION)
-        self.assertEqual(record["previous_version"], "2.6.0")
+        self.assertEqual(record["previous_version"], "2.7.0")
         self.assertEqual(record["kernel_version"], "2.0.0")
         self.assertEqual(record["schema_version"], 1)
         self.assertEqual(index["latest_recorded_version"], CURRENT_VERSION)
-        self.assertTrue((ROOT / "releases" / "records" / "v2.6.0.json").is_file())
+        self.assertTrue((ROOT / "releases" / "records" / "v2.7.0.json").is_file())
         self.assertIn(CURRENT_VERSION, {entry["version"] for entry in index["releases"]})
-        self.assertIn("2.6.0", {entry["version"] for entry in index["releases"]})
+        self.assertIn("2.7.0", {entry["version"] for entry in index["releases"]})
         self.assertIn("2.2.0", {entry["version"] for entry in index["releases"]})
         self.assertIn("2.0.3", {entry["version"] for entry in index["releases"]})
 
-    def test_current_docs_and_changelog_name_v270(self):
+    def test_current_docs_and_changelog_name_v271(self):
         changelog = (ROOT / ".gpt-codex" / "CHANGELOG.md").read_text(encoding="utf-8")
         readme = (ROOT / ".gpt-codex" / "README.md").read_text(encoding="utf-8")
         bootstrap = (ROOT / ".gpt-codex" / "BOOTSTRAP_PROMPT.md").read_text(encoding="utf-8")
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
 
-        self.assertIn("## v2.7.0 — Minimal Closed-Loop Harness", changelog)
-        self.assertIn("Framework v2.7.0", readme)
-        self.assertIn("Framework v2.7.0", bootstrap)
-        self.assertIn("Framework v2.7.0", agents)
+        self.assertIn("## v2.7.1 — Phase-A Checkpoint Stabilization", changelog)
+        self.assertIn("Framework v2.7.1", readme)
+        self.assertIn("Framework v2.7.1", bootstrap)
+        self.assertIn("Framework v2.7.1", agents)
         self.assertIn("PUBLICATION_CANDIDATE_ONLY", changelog)
         self.assertIn("SELF_MANAGED", readme)
 

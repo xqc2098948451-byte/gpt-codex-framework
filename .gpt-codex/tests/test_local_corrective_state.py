@@ -1,5 +1,6 @@
 import json
 import unittest
+from copy import deepcopy
 from pathlib import Path
 
 
@@ -8,22 +9,46 @@ GOV = ROOT / ".gpt-codex"
 
 
 class LocalCorrectiveStateTests(unittest.TestCase):
-    def test_current_state_is_complete_and_synchronized(self):
-        state = json.loads((GOV / "STATE.json").read_text(encoding="utf-8"))
+    def assert_durable_current_state_contract(self, state):
         continuity = state["continuity"]
-        self.assertEqual(state["revision"], 7)
-        self.assertEqual(state["state"], "COMPLETE")
-        self.assertEqual(state["active_work_unit"], "framework-project-separation-release-001")
-        self.assertEqual(continuity["sync_status"], "SYNCED")
-        self.assertEqual(continuity["latest_synced_state_revision"], 7)
-        self.assertEqual(
-            continuity["last_verified_result_ref"],
-            ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
-        )
-        self.assertEqual(
-            continuity["latest_verified_remote_sha"],
-            "a2f950138895df1a56564880977ed8530653b89f",
-        )
+        self.assertEqual(state["kernel_version"], "2.0.0")
+        self.assertEqual(state["schema_version"], 1)
+        self.assertEqual(state["project_id"], "PRJ-FRAMEWORK-MANAGEMENT")
+        self.assertIsInstance(state["revision"], int)
+        self.assertGreaterEqual(state["revision"], 0)
+        self.assertIn(state["state"], {"PROPOSED", "AUTHORIZED", "ACTIVE", "VERIFYING", "COMPLETE", "BLOCKED", "AWAITING_APPROVAL", "RECONCILIATION_REQUIRED"})
+        self.assertTrue({"current_remote_ref", "latest_verified_remote_sha", "latest_synced_state_revision", "last_verified_result_ref", "sync_status"}.issubset(continuity))
+        self.assertIn(continuity["sync_status"], {"SYNCED", "SYNC_PENDING", "RECONCILIATION_REQUIRED"})
+        self.assertIsInstance(continuity["latest_synced_state_revision"], int)
+        self.assertLessEqual(continuity["latest_synced_state_revision"], state["revision"])
+        result_ref = continuity["last_verified_result_ref"]
+        if result_ref is not None:
+            self.assertIsInstance(result_ref, str)
+            self.assertFalse(Path(result_ref).is_absolute())
+            self.assertTrue((ROOT / result_ref).is_file())
+        if continuity["sync_status"] == "SYNCED":
+            self.assertIsInstance(continuity["latest_verified_remote_sha"], str)
+            self.assertRegex(continuity["latest_verified_remote_sha"], r"^[0-9a-f]{40}$")
+
+    def test_current_state_satisfies_durable_contract(self):
+        state = json.loads((GOV / "STATE.json").read_text(encoding="utf-8"))
+        self.assert_durable_current_state_contract(state)
+
+    def test_state_oracle_accepts_lifecycle_variation_and_rejects_durable_faults(self):
+        state = json.loads((GOV / "STATE.json").read_text(encoding="utf-8"))
+        varied = deepcopy(state)
+        varied["revision"] += 1
+        varied["state"] = "ACTIVE"
+        varied["active_work_unit"] = None
+        self.assert_durable_current_state_contract(varied)
+        identity_fault = deepcopy(varied)
+        identity_fault["project_id"] = "FOREIGN"
+        with self.assertRaises(AssertionError):
+            self.assert_durable_current_state_contract(identity_fault)
+        continuity_fault = deepcopy(varied)
+        continuity_fault["continuity"]["latest_synced_state_revision"] = varied["revision"] + 1
+        with self.assertRaises(AssertionError):
+            self.assert_durable_current_state_contract(continuity_fault)
 
     def test_historical_v250_result_is_confirmed_publication_attestation(self):
         result_path = GOV / "evidence" / "results" / "RESULT-V2.5.0-PUBLICATION.json"

@@ -58,6 +58,7 @@ RESULT_MESSAGE_TYPES = frozenset(
         "IMPLEMENTATION_RESULT",
         "INVALID_INSTRUCTION",
         "ROLE_AUTHORITY_CONFLICT",
+        "APPROVAL_RESULT",
     }
 )
 

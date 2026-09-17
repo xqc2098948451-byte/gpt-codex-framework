@@ -1,5 +1,11 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.1 — Phase-A Checkpoint Stabilization
+
+- Records the tested Baseline Closure Prelude and Framework Contract Repair Tasks 1–4 checkpoint.
+- This checkpoint does not claim completion of external approval evidence, the actual Git scope oracle, native control-plane composition, seed completion, Tasks 5–9, or full Contract Repair.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
+
 ## v2.7.0 — Minimal Closed-Loop Harness
 
 - Added semantic Harness / Product / Deploy roots with production isolation, repository-derived durable handoff, and fixed per-project execution strategy.

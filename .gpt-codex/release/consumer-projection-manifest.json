@@ -1,9 +1,10 @@
 {
   "manifest_version": 1,
-  "framework_version": "2.7.0",
+  "framework_version": "2.7.1",
   "projection": "CONSUMER_BOOTSTRAP",
   "prefix_defaults": {
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
+    ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
     "docs/superpowers/": "DEVELOPMENT_HISTORY",
     ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
     "releases/records/": "RELEASE_METADATA"
@@ -205,6 +206,9 @@
     "dist/gpt-codex-framework-v2.7.0-bootstrap.zip": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.0-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.0-release.json": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.1-bootstrap.zip": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.1-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.1-release.json": "GENERATED_ARTIFACT",
     "releases/INDEX.json": "RELEASE_METADATA",
     "releases/README.md": "RELEASE_METADATA"
   }
