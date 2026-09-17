@@ -384,3 +384,21 @@ No candidate rule authorizes its own implementation. No task grants CODEX_IMPLEM
 ### Amendment consistency review
 
 `REPLACEMENT_BRIDGE_AUTHORIZED_PATHS` contains exactly 38 entries: 35 prior repair paths plus exactly three content-locked `BASELINE_CLOSURE_TARGET` paths; the existing three are explicitly `DELETE_ONLY` v2.7.0 outputs. The historical 35-path bridge is superseded-before-consumption and forbidden to replay; bridge-002 is superseded after partial local Tasks 1–3 execution and is preserved solely as immutable predecessor/audit evidence. Baseline Closure Prelude and Tasks 1–10 mutate only bridge-003 paths on clean `framework-contract-repair-implementation-002`; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 1 starts only after complete clean-baseline verification; Tasks 2–9 retain their architecture; the final candidate has exactly one repair candidate commit, not a Prelude/Baseline commit. The bridge binds `FINAL_ACCEPTED_AMENDED_PLAN_SHA`; `BRIDGE_PAYLOAD_BINDER_ROLE = GPT_ORCHESTRATOR`; `CODEX_REVIEWER_AUTHORITY_BINDING = NO`; and approval author, tag creator, and tag pusher are respectively USER_APPROVER, USER_LOCAL, and USER_LOCAL. Approval evidence retains the explicit orphan-first, parent-on-subsequent, fast-forward-only exact-tuple transport procedure above. `GLOBAL_OPTIMUM_OVER_LOCAL_OPTIMUM` remains deferred post-Contract-Repair optimization work.
+
+## Lifecycle amendment: 2.7.1 Phase A and 2.7.2 Phase B
+
+This amendment supersedes the earlier Task 10, Task 11, publication, and lifecycle-checkpoint sequencing wherever they require Tasks 5–9 for `2.7.1`, describe `2.7.1` as full Contract Repair completion, or leave bridge-003 usable after Phase-A publication. Tasks 1–4 remain technically unchanged.
+
+### Phase A — Framework 2.7.1 checkpoint/stabilization release
+
+`2.7.0` remains the released baseline. `2.7.1` contains only the Baseline Closure Prelude, Tasks 1–4, and only the version/release surfaces necessary to publish that exact tested state. It is not evidence of external approval-evidence locator completion, actual-Git scope-oracle completion, native control-plane authority composition, first native seed completion/consumption, or full Contract Repair completion.
+
+The executable order is: Baseline Closure Prelude; Tasks 1–4; Phase-A final verification; `2.7.1` release-candidate preparation; independent `POST_EXECUTION` review; exact-SHA USER_APPROVER acceptance; USER_LOCAL publication and remote verification; STOP/PAUSE FEATURE DEVELOPMENT. The Phase-A candidate must pass Prelude, Tasks 1–4, the full test suite, `validate_framework.py`, `validate_project.py .`, `validate_consumer_projection.py --root .`, `git diff --check`, and authorized changed-path verification before independent review. Publication is permitted only for the exact accepted candidate SHA.
+
+Bridge `framework-contract-repair-bridge-003` is limited to the Phase-A candidate under its existing exact 38-path authority and its one repair-candidate commit limit. After exact `2.7.1` publication and remote active-authority verification, it is consumed and terminated. It cannot authorize Tasks 5–9, any second repair candidate commit, or other mutation.
+
+### Phase B — Framework 2.7.2
+
+Former Tasks 5–9 are deferred to `2.7.2` with their technical semantics retained: external approval-evidence locator verification, actual Git mutation-scope oracle, native control-plane authority composition, first native seed completion/consumption as applicable, and production-shaped composed lifecycles. Phase B begins only after `2.7.1` is remotely active, and it must not claim self-authorization because Phase A does not complete native repair authority.
+
+The Phase-B order is: future bridge-004 lifecycle; Tasks 5–9; `2.7.2` release preparation; full final verification; independent review; exact-SHA acceptance; publication; activation. `framework-contract-repair-bridge-004` is a future, separately reviewed and USER_APPROVER-approved migration authority. Its payload and scope must be prepared later, after `2.7.1` is remotely active; this Plan neither creates bridge-004 nor authorizes its creation. `STATE-ORACLE-SCHEMA-REQUIRED-FIELDS-001`, Plugin work, `GLOBAL_OPTIMUM_OVER_LOCAL_OPTIMUM`, and unrelated Framework refactors remain deferred.
