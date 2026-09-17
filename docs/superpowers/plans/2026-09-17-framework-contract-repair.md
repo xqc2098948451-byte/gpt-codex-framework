@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python standard library, JSON Schema, Git, unittest, existing Framework validators and release tooling.
 
-**Spec:** `docs/superpowers/specs/2026-09-17-framework-contract-repair-design.md@3ab2ffdcdda4c3dac43dc59e9dee3a5a0ee11eda`
+**Spec:** `docs/superpowers/specs/2026-09-17-framework-contract-repair-design.md@e8077102fec52af7f77298cbf6eec0539d73a66d`
 
 ## Global Constraints
 
@@ -16,7 +16,7 @@
 - `scope_paths` is mutation authority; ordinary `scope_paths` is a subset of immutable Work Unit `scope.owned_paths`; `files_changed` is evidence only.
 - Preserve `remediation_decision_ref`, FIX freshness, staged/unstaged/untracked pre-COMMIT and pre-PUSH scope checks, historical readability, no eighth module, and one governed entry.
 - `APPROVAL_RESULT` uses `status = PASS`, `decision = APPROVE | REJECT`, `completion_gate = NONE`, and non-execution `completion_evidence = null`; status never encodes approval decision.
-- Plugin is deferred. The Baseline local implementation is preserved and untouched. `STATE-ORACLE-SCHEMA-REQUIRED-FIELDS-001` is deferred until the repair is active.
+- Plugin is deferred. The preserved Baseline source worktree remains read-only and untouched; exactly three content-locked Baseline snapshot files are admitted into the Contract Repair candidate as a release-closure prerequisite, and no other Baseline worktree file is admitted. `STATE-ORACLE-SCHEMA-REQUIRED-FIELDS-001` remains deferred until repaired native authority is active; Baseline lifecycle closure remains post-activation work. Snapshot SHA-256 values are `.gpt-codex/release/consumer-projection-manifest.json` = `A7CAEC033DAA058877C7C24DD745FF3DCD36B51335C84CD4553C69ABA2DCC195`, `.gpt-codex/tests/test_consumer_projection.py` = `E51159943EAC482F39F1C6A23665943AE22AB3228B4EF45BA990A388FDF240CC`, and `.gpt-codex/tests/test_local_corrective_state.py` = `AA5DBB9346E7DBBE47A27D4E300403485029CD00B40CE7A68E49387DA626AE98`; any mismatch is `RECONCILIATION_REQUIRED`, never a redesign.
 - `CODEX_IMPLEMENTER` may read, test, validate, report, and mutate only under a future valid instruction; it never commits or pushes. `CODEX_REVIEWER` never mutates. `USER_APPROVER` authors approval semantics. `USER_LOCAL` performs bridge-authorized local mutation plus exact evidence transport and publication operations.
 - Every implementation task ends with a reviewable report and a clean scope check; no task includes an implementer commit or push.
 
@@ -30,6 +30,7 @@
 | Git evidence | `git_continuity.py`, `validate_project.py` | `resolve_approval_evidence_locator(locator) -> Mapping` |
 | Governed entry | `validate_project.py` | fail-closed ordinary/FIX/control-plane composition |
 | Bridge and seed | two Work Unit JSON files, release source/metadata/artifacts | one non-reusable bootstrap and exact revision-12 seed |
+| Baseline release closure | `consumer-projection-manifest.json`, `test_consumer_projection.py`, `test_local_corrective_state.py` | exact content-locked `BASELINE_CLOSURE_SNAPSHOT` prerequisite |
 
 ## Frozen bridge authority
 
@@ -72,20 +73,34 @@ The one-time bridge may create or modify only this duplicate-free, repository-re
 33. `dist/gpt-codex-framework-v2.7.0-bootstrap.zip` — `DELETE_ONLY`
 34. `dist/gpt-codex-framework-v2.7.0-bootstrap.zip.sha256` — `DELETE_ONLY`
 35. `dist/gpt-codex-framework-v2.7.0-release.json` — `DELETE_ONLY`
+36. `.gpt-codex/release/consumer-projection-manifest.json`
+37. `.gpt-codex/tests/test_consumer_projection.py`
+38. `.gpt-codex/tests/test_local_corrective_state.py`
 
-`actual created, modified, or deleted paths ⊆ BRIDGE_AUTHORIZED_PATHS`. The bridge authorization object carries this exact list and the `DELETE_ONLY` operation restriction. The repair Work Unit owns the applicable implementation, schema, template, test, and release paths; the seed Work Unit owns only its frozen four paths. Post-execution observed path union must equal the bridge object list intersected with paths actually changed, never a path inferred from a task.
+`actual created, modified, or deleted paths ⊆ BRIDGE_AUTHORIZED_PATHS`. `REPLACEMENT_BRIDGE_AUTHORIZED_PATH_COUNT = 38`; `DELETE_ONLY_PATH_COUNT = 3`; `BASELINE_CLOSURE_PATH_COUNT = 3`; no 39th path is authorized. The bridge authorization object carries this exact list and the `DELETE_ONLY` operation restriction. The repair Work Unit owns the applicable implementation, schema, template, test, and release paths; the seed Work Unit owns only its frozen four paths. Post-execution observed path union must equal the bridge object list intersected with paths actually changed, never a path inferred from a task. The 35-path `bridge/framework-contract-repair-001` is historical only: `OLD_BRIDGE_STATUS = SUPERSEDED_BEFORE_CONSUMPTION`; `OLD_BRIDGE_REPLAY = FORBIDDEN`.
 
 ### BRIDGE_AUTHORIZATION_OBJECT
 
-`BRIDGE_OBJECT_TYPE = signed annotated Git tag`. `BRIDGE_REMOTE_REF = refs/tags/bridge/framework-contract-repair-001`. `FINAL_ACCEPTED_PLAN_SHA = the exact remote Plan candidate SHA that received GPT review PASS and explicit USER_APPROVER approval`. `BRIDGE_OBJECT_TARGET = FINAL_ACCEPTED_PLAN_SHA`. `BRIDGE_OBJECT_IDENTITY = annotated tag object SHA returned by git rev-parse refs/tags/bridge/framework-contract-repair-001^{tag}`. `BRIDGE_PAYLOAD_ENCODING = canonical UTF-8 JSON with sorted keys, trailing LF, stored as the annotated tag message`. `BRIDGE_APPROVAL_AUTHOR_ROLE = USER_APPROVER`. `BRIDGE_TAG_CREATOR_ROLE = USER_LOCAL`. `BRIDGE_TAG_PUSH_ROLE = USER_LOCAL`.
+`BRIDGE_OBJECT_TYPE = signed annotated Git tag`. `REPLACEMENT_BRIDGE_ID = framework-contract-repair-bridge-002`. `REPLACEMENT_BRIDGE_REMOTE_REF = refs/tags/bridge/framework-contract-repair-002`. `FINAL_ACCEPTED_AMENDED_PLAN_SHA = the exact remote Plan candidate SHA that received GPT review PASS and explicit USER_APPROVER approval`. `BRIDGE_OBJECT_TARGET = FINAL_ACCEPTED_AMENDED_PLAN_SHA`. `BRIDGE_OBJECT_IDENTITY = annotated tag object SHA returned by git rev-parse refs/tags/bridge/framework-contract-repair-002^{tag}`. `BRIDGE_PAYLOAD_ENCODING = canonical UTF-8 JSON with sorted keys, trailing LF, stored as the annotated tag message`. `BRIDGE_APPROVAL_AUTHOR_ROLE = USER_APPROVER`. `BRIDGE_TAG_CREATOR_ROLE = USER_LOCAL`. `BRIDGE_TAG_PUSH_ROLE = USER_LOCAL`.
 
-The reviewed bridge authority core is canonical JSON excluding the review-artifact locator. CODEX_REVIEWER independently reviews that frozen core, emits the PRE_EXECUTION review artifact, reports its SHA-256, and is limited to read, test, validate, and report; it does not create, bind, form, finalize, authorize, or mutate the bridge approval payload. GPT_ORCHESTRATOR takes the already-frozen authority core and binds `FINAL_ACCEPTED_PLAN_SHA`, the independent review-artifact SHA-256, repository identity, bridge id, the exact 35-path authority list, and one-time/expiry facts; it forms the final canonical UTF-8 JSON bridge approval payload, does not approve it, and performs no Git mutation. USER_APPROVER approves or rejects those exact canonical payload bytes and performs no Git mutation. Before tag creation, USER_LOCAL reconciles and records `remote reviewed candidate SHA = GPT PASS candidate SHA = USER_APPROVER-approved candidate SHA = FINAL_ACCEPTED_PLAN_SHA`; any mismatch returns `RECONCILIATION_REQUIRED`. USER_LOCAL verifies the bridge ref has no remote output using `git ls-remote origin refs/tags/bridge/framework-contract-repair-001`.
+The replacement bridge binds `ACCEPTED_AMENDED_DESIGN_SHA`, `FINAL_ACCEPTED_AMENDED_PLAN_SHA`, expected base SHA, repository id/name, candidate branch, expected State revision 12, the exact 38-path list, three `DELETE_ONLY` restrictions, three `BASELINE_CLOSURE_SNAPSHOT` SHA-256 values, one-time semantics, and `repair_candidate_commit_limit = 1`. CODEX_REVIEWER independently reviews that frozen core, emits a new PRE_EXECUTION review artifact, reports its SHA-256, and is limited to read, test, validate, and report; it does not create, bind, form, finalize, authorize, or mutate the bridge approval payload. GPT_ORCHESTRATOR forms the new canonical UTF-8 approval payload, does not approve it, and performs no Git mutation. USER_APPROVER approves or rejects those exact canonical bytes and performs no Git mutation. USER_LOCAL verifies bytes unchanged, signing-key fingerprint `SHA256:0ImsetedRxfosXnnsRUP4bKncRJi6ccR/oARZzfv2KM`, and remote absence of `refs/tags/bridge/framework-contract-repair-002` before creation. Old bridge review/payload evidence is historical and cannot satisfy this gate.
 
-USER_LOCAL must prove real signing, not merely configuration: it confirms a configured signing key, performs an isolated disposable signed-tag probe in a temporary Git repository, and verifies that probe with `git verify-tag`. If the probe cannot be completed, USER_LOCAL must attempt the actual signed tag operation only as a fail-closed pre-bridge check; any signing failure returns `RECONCILIATION_REQUIRED` before bridge mutation. There is no unsigned fallback. After USER_APPROVER approval, USER_LOCAL verifies the exact bytes are unchanged, creates the signed annotated tag targeting `FINAL_ACCEPTED_PLAN_SHA`, pushes only `git push origin refs/tags/bridge/framework-contract-repair-001` (never `--force` or `--force-with-lease`), and verifies remote tag object SHA, peeled target, canonical payload hash, and review-artifact hash. The peeled target must equal `FINAL_ACCEPTED_PLAN_SHA`. A preexisting ref, SHA mismatch, replacement, replay after consumption, or any target mismatch returns `RECONCILIATION_REQUIRED`. Consumption is recorded by the exact accepted remote repair SHA; expiry occurs only after remote active-authority verification, and the tag cannot authorize a second mutation while pending.
+USER_LOCAL must prove real signing, not merely configuration: it verifies the approved dedicated SSH signing identity fingerprint, performs an isolated disposable signed-tag probe in a temporary Git repository, and verifies that probe with `git verify-tag`. If the probe cannot be completed, actual replacement-tag signing failure returns `RECONCILIATION_REQUIRED` before bridge mutation. There is no unsigned fallback. After USER_APPROVER approval, USER_LOCAL verifies the exact bytes are unchanged, creates the signed annotated tag targeting `FINAL_ACCEPTED_AMENDED_PLAN_SHA`, pushes only `git push origin refs/tags/bridge/framework-contract-repair-002` (never `--force` or `--force-with-lease`), and verifies remote tag object SHA, peeled target, canonical payload hash, and new review-artifact hash. The peeled target must equal `FINAL_ACCEPTED_AMENDED_PLAN_SHA`. A preexisting ref, SHA mismatch, replacement, replay after consumption, or any target mismatch returns `RECONCILIATION_REQUIRED`. Consumption is recorded by the exact accepted remote repair SHA; expiry occurs only after remote active-authority verification, and the replacement tag cannot authorize a second mutation while pending.
 
 ### Pre-activation actor rule
 
-Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation in Tasks 1–10 has actor `USER_LOCAL_APPLY`. In every RED→GREEN cycle, `[CODEX_PREPARE]` writes the bounded failing-test/edit expectation and runs read-only RED observation; `[USER_LOCAL_APPLY]` makes the failing-fixture or minimal implementation mutation; `[CODEX_VERIFY]` runs and reports the focused GREEN or sensitivity observation. Non-TDD cycles use the same explicit PREPARE/APPLY/VERIFY order. CODEX_IMPLEMENTER has zero governed-worktree mutation, commit, push, tag, or release steps before activation; before activation its mutation, commit, and push count is exactly zero. CODEX_REVIEWER is read/test/validate/report only. USER_APPROVER authors approval semantics only. After remote active-authority verification, repaired native authority may authorize CODEX_IMPLEMENTER mutation under a new valid instruction.
+Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation in the Baseline Closure Prelude and Tasks 1–10 has actor `USER_LOCAL_APPLY`. In every RED→GREEN cycle, `[CODEX_PREPARE]` writes the bounded failing-test/edit expectation and runs read-only RED observation; `[USER_LOCAL_APPLY]` makes the failing-fixture or minimal implementation mutation; `[CODEX_VERIFY]` runs and reports the focused GREEN or sensitivity observation. Non-TDD cycles use the same explicit PREPARE/APPLY/VERIFY order. `CODEX_PREPARE` is read/test/report only and `CODEX_VERIFY` is read/test/validate/report only. CODEX_IMPLEMENTER has zero governed-worktree mutation, commit, push, tag, or release steps before activation; before activation its mutation, commit, and push count is exactly zero. CODEX_REVIEWER is read/test/validate/report only. USER_APPROVER authors approval semantics only. After remote active-authority verification, repaired native authority may authorize CODEX_IMPLEMENTER mutation under a new valid instruction.
+
+## Baseline Closure Prelude
+
+**Lifecycle:** `REPLACEMENT_BRIDGE_AUTHORIZED -> BASELINE_CLOSURE_SNAPSHOT_APPLY -> BASELINE_CLOSURE_FOCUSED_VERIFY -> CLEAN_BASELINE_FULL_VERIFY -> Task 1`.
+
+**Files:** Only `.gpt-codex/release/consumer-projection-manifest.json`, `.gpt-codex/tests/test_consumer_projection.py`, and `.gpt-codex/tests/test_local_corrective_state.py`.
+
+- [ ] [CODEX_PREPARE] Verify `framework-contract-repair-implementation-001` is clean at `a112efcc24c969369224804a6fc1e5961626c05b`; verify the source Baseline worktree is unchanged; recompute its three SHA-256 values against the frozen values; calculate expected target changed paths; perform no mutation.
+- [ ] [USER_LOCAL_APPLY] Copy/reproduce exactly those three byte sequences into `framework-contract-repair-implementation-001`; no manual editing, normalization, reformatting, equivalent content, or commit. Verify target SHA-256 values exactly equal the frozen values.
+- [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_consumer_projection -v`, `python -m unittest .gpt-codex.tests.test_local_corrective_state -v`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, and `git diff --check`; require PASS. Verify `git diff --name-only` equals exactly the three Prelude paths.
+- [ ] [CODEX_VERIFY] Run `python -m unittest discover -s .gpt-codex/tests -p "test_*.py"`, `python .gpt-codex/scripts/validate_framework.py`, `python .gpt-codex/scripts/validate_project.py .`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, and `git diff --check`; require complete output with known test count, zero failures/errors, and all validators PASS. A timeout or truncated output is `INCOMPLETE`, not PASS; use a method that lets the started local process complete and collect its full output. A reproducible failure after exact snapshot application is `RECONCILIATION_REQUIRED`; do not begin Task 1.
 
 ## Task 1: Freeze bridge authorization and operational boundaries
 
@@ -93,17 +108,17 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Interfaces:** The bridge authorization object is an immutable remote signed tag/object containing `bridge_id`, repository id/name, base SHA, candidate branch, pre-execution review SHA-256, a closed approved authority core, exhaustive path list, `one_time: true`, and expiry. The seed has `work_unit_id = framework-baseline-checkpoint-control-plane-001`, `basis_state_revision = 12`, `state = AUTHORIZED`, and the four frozen paths from Task 8.
 
-**Preconditions:** Accepted Plan is frozen at an exact SHA; USER_APPROVER has explicitly approved the bridge object; CODEX_REVIEWER has independently reviewed the base-SHA candidate; `git status --short` is empty before work.
+**Preconditions:** `REPLACEMENT_BRIDGE_AUTHORIZED`; `BASELINE_CLOSURE_SNAPSHOT_APPLY = PASS`; `BASELINE_CLOSURE_FOCUSED_VERIFY = PASS`; `CLEAN_BASELINE_FULL_VERIFY = PASS`; Accepted amended Plan is frozen at an exact SHA; USER_APPROVER has explicitly approved the replacement bridge object; CODEX_REVIEWER has independently reviewed the base-SHA candidate; `git status --short` contains only the three Prelude paths before the first RED fixture mutation.
 
-- [ ] [CODEX_PREPARE] Define the absent-id, Plugin-path, and non-immutable bridge-fixture RED expectation.
+- [ ] [CODEX_PREPARE] Define the absent-id, missing-Baseline-path, Plugin-path, 39th-arbitrary-path, and non-immutable replacement-bridge fixture RED expectation.
 - [ ] [USER_LOCAL_APPLY] Write those failing fixtures in `.gpt-codex/tests/test_self_hosting_validator.py`.
 - [ ] [CODEX_VERIFY] Run `python -m unittest .gpt-codex.tests.test_self_hosting_validator -v`; record the expected RED bridge-fixture failures.
 - [ ] [CODEX_PREPARE] Bound the two Work Unit fixtures and validator inputs required by the bridge contract; the repair Work Unit remains bridge output, never authority source.
 - [ ] [USER_LOCAL_APPLY] Add those two Work Unit fixtures and minimal validator inputs.
-- [ ] [CODEX_VERIFY] Run the focused command; expect valid bridge fixture PASS and each malformed bridge fixture FAIL.
-- [ ] [CODEX_PREPARE] Define the single-path sensitivity change and restoration expectation.
-- [ ] [USER_LOCAL_APPLY] Change one allowed path to `plugins/gpt-codex-framework/`, then restore the exact list.
-- [ ] [CODEX_VERIFY] Record rejection for the altered list and PASS after restoration.
+- [ ] [CODEX_VERIFY] Run the focused command; expect the exact 38-path replacement bridge PASS and each malformed bridge fixture FAIL.
+- [ ] [CODEX_PREPARE] Define sensitivity cases for one missing Baseline closure path, one Plugin path, and one 39th arbitrary path, with exact-list restoration.
+- [ ] [USER_LOCAL_APPLY] Independently remove one Baseline closure path, add `plugins/gpt-codex-framework/`, and add one arbitrary 39th path, restoring the exact 38-path list after each case.
+- [ ] [CODEX_VERIFY] Record rejection for every altered list and PASS after restoration.
 
 **Completion evidence:** bridge id, immutable object id, bound review hash, exact path list, and test output. **Handoff:** USER_LOCAL retains the only bridge execution/publishing authority; no CODEX commit or push.
 
@@ -273,7 +288,7 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Interfaces:** `VERSION = 2.7.1`; `v2.7.1` is the immutable tag name; `FRAMEWORK_ACTIVE_SHA` is its target and must equal final reviewed `main` SHA. Existing `release_framework.py` consumes `VERSION` and produces the canonical artifact and sidecars.
 
-**Preconditions:** Tasks 2–9 pass; SemVer history shows current `VERSION = 2.7.0`, so 2.7.1 is the minimal patch release; all source, metadata, and generated artifact paths are within the bridge allowlist before post-execution review.
+**Preconditions:** Baseline Closure Prelude is green; Tasks 2–9 pass; SemVer history shows current `VERSION = 2.7.0`, so 2.7.1 is the minimal patch release; all source, metadata, and generated artifact paths are within the replacement bridge allowlist before post-execution review. `release_framework.py` consumes the already-corrected consumer-projection state in this same uncommitted final candidate; no separate Baseline commit is authorized.
 
 - [ ] [CODEX_PREPARE] Define RED version/release cases for missing `2.7.1` index, changelog, record, artifact metadata, retained v2.7.0 current outputs, and missing v2.7.1 outputs.
 - [ ] [USER_LOCAL_APPLY] Add those failing version-consistency and release-packaging assertions.
@@ -291,14 +306,14 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 
 **Files:** No new source files beyond Task 1–10 scope; test all `.gpt-codex/tests/test_*.py` and existing validators.
 
-**Interfaces:** final candidate facts include exact base SHA, authorized changed paths, full test count discovered from command output, zero failures/errors, validator outputs, unchanged Plugin candidate hashes, and unchanged Baseline three-file snapshot.
+**Interfaces:** final candidate facts include exact frozen Baseline closure bytes + Contract Repair Tasks 1–10 + 2.7.1 release surfaces, exact base SHA, authorized changed paths, full test count discovered from complete command output, zero failures/errors, validator outputs, unchanged Plugin candidate hashes, and both implementation-worktree Baseline three-file hashes equal to the frozen snapshot and preserved-source Baseline worktree hashes byte-identical to its before snapshot.
 
 **Preconditions:** Task 10 green; USER_LOCAL has not committed or pushed; bridge allows no second implementation commit.
 
 - [ ] Run `python -m unittest discover -s .gpt-codex/tests -p 'test_*.py'`; expect exit 0 and record actual test count, failures 0, errors 0.
 - [ ] Run `python .gpt-codex/scripts/validate_framework.py`, `python .gpt-codex/scripts/validate_project.py .`, `python .gpt-codex/scripts/validate_consumer_projection.py --root .`, and `git diff --check`; expect each exit 0.
 - [ ] Run the Task 6 path oracle and `git diff --name-only`; expect every changed path to be in the bridge allowlist.
-- [ ] Run hashes for the preserved Baseline three-file snapshot and the Task-3 Plugin candidate before/after the task; expect byte-identical values.
+- [ ] Run hashes for the implementation-worktree three-file Baseline closure and require equality to the frozen snapshot; independently run hashes for the preserved source Baseline three-file snapshot and Task-3 Plugin candidate before/after the task, expecting byte-identical source/preserved values.
 - [ ] Sensitivity proof: use an isolated test fixture to add an unauthorized untracked file; expect the path oracle FAIL; remove it and expect PASS.
 
 **Completion evidence:** full-suite counts, validator logs, exact changed-path list, preservation hashes. **Handoff:** CODEX_REVIEWER conducts independent POST_EXECUTION review; no commit or push by CODEX_IMPLEMENTER.
@@ -335,7 +350,7 @@ Sensitivity fixtures cover non-fast-forward update, force-update attempt, ref ad
 
 ## Lifecycle checkpoints
 
-Accepted Design -> Plan draft -> remote Plan review candidate -> GPT Plan review -> user Plan approval -> Accepted Plan frozen at exact SHA -> bridge authorization preparation -> independent PRE_EXECUTION review -> explicit user bridge approval -> one-time bridge execution -> Tasks 2–10 -> task verification -> composed final verification -> independent POST_EXECUTION review -> remote repair candidate -> independent exact-SHA review -> user acceptance -> exact main fast-forward -> release/tag/publication -> remote active-authority verification -> bridge terminated -> first native Baseline control-plane checkpoint -> blocked Baseline Work Unit -> fresh State Oracle REVIEW_FINDING -> fresh basis/adjudication -> State Oracle FIX.
+Amended Design accepted -> amended Plan draft -> remote amended Plan review candidate -> GPT exact-SHA Plan review -> user amended Plan approval -> replacement bridge preparation -> new independent PRE_EXECUTION review -> USER_APPROVER approval of new exact payload -> remote replacement bridge verification -> REPLACEMENT_BRIDGE_AUTHORIZED -> Baseline Closure Prelude -> Tasks 1–10 -> task verification -> composed final verification -> independent POST_EXECUTION review -> one integrated remote repair candidate -> independent exact-SHA review -> user acceptance -> exact main fast-forward -> 2.7.1 tag/publication -> remote active-authority verification -> replacement bridge terminated -> first native Baseline control-plane checkpoint -> blocked Baseline Work Unit -> fresh State Oracle REVIEW_FINDING -> fresh basis/adjudication -> State Oracle FIX.
 
 ## Plan self-review
 
@@ -365,4 +380,4 @@ No candidate rule authorizes its own implementation. No task grants CODEX_IMPLEM
 
 ### Amendment consistency review
 
-`BRIDGE_AUTHORIZED_PATHS` contains exactly 35 entries: 32 create/modify-capable paths and three explicitly `DELETE_ONLY` v2.7.0 outputs. Tasks 1–10 mutate only those paths; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 4 closes `scope` as `additionalProperties = false` with required `owned_paths` and optional compatible `excluded_paths`, both unique safe repository-relative selector arrays. The existing Baseline and Task-3 Work Units are compatibility fixtures; `WORK_UNIT.template.json` changes because its empty `owned_paths` would violate the new minimum. The bridge target is runtime-bound only to `FINAL_ACCEPTED_PLAN_SHA`; `BRIDGE_PAYLOAD_BINDER_ROLE = GPT_ORCHESTRATOR`; `CODEX_REVIEWER_AUTHORITY_BINDING = NO`; and its approval author, tag creator, and tag pusher are respectively USER_APPROVER, USER_LOCAL, and USER_LOCAL. Approval evidence retains the explicit orphan-first, parent-on-subsequent, fast-forward-only exact-tuple transport procedure above.
+`REPLACEMENT_BRIDGE_AUTHORIZED_PATHS` contains exactly 38 entries: 35 prior repair paths plus exactly three content-locked Baseline closure paths; the existing three are explicitly `DELETE_ONLY` v2.7.0 outputs. The historical 35-path bridge is superseded-before-consumption and forbidden to replay. Baseline Closure Prelude and Tasks 1–10 mutate only replacement-bridge paths; all pre-activation mutation steps are `USER_LOCAL_APPLY`, and every CODEX step is PREPARE or VERIFY. Task 1 starts only after complete clean-baseline verification; Tasks 2–9 retain their architecture; the final candidate has exactly one repair candidate commit, not a Prelude/Baseline commit. The bridge binds `FINAL_ACCEPTED_AMENDED_PLAN_SHA`; `BRIDGE_PAYLOAD_BINDER_ROLE = GPT_ORCHESTRATOR`; `CODEX_REVIEWER_AUTHORITY_BINDING = NO`; and approval author, tag creator, and tag pusher are respectively USER_APPROVER, USER_LOCAL, and USER_LOCAL. Approval evidence retains the explicit orphan-first, parent-on-subsequent, fast-forward-only exact-tuple transport procedure above. `GLOBAL_OPTIMUM_OVER_LOCAL_OPTIMUM` remains deferred post-Contract-Repair optimization work.
