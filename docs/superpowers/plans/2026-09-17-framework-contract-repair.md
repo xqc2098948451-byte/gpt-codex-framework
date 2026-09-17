@@ -156,17 +156,17 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 - [ ] [CODEX_PREPARE] Bound result type, closed decision/core, PASS exception, null evidence, and role enforcement changes.
 - [ ] [USER_LOCAL_APPLY] Add the minimal result/taxonomy implementation.
 - [ ] [CODEX_VERIFY] Run the focused command; expect intrinsic APPROVE and REJECT PASS and every invalid variation FAIL.
-- [ ] [CODEX_PREPARE] Define approved-core mutation sensitivity and restoration.
-- [ ] [USER_LOCAL_APPLY] Mutate `approved_instruction.scope_paths` after approval, then restore the exact core.
-- [ ] [CODEX_VERIFY] Record Task 7 fixture rejection then restored PASS.
+- [ ] [CODEX_PREPARE] Define an intrinsic-payload boundary fixture by changing `approved_instruction.scope_paths` to a different still-well-formed, non-empty selector array while preserving every Result-envelope shape requirement. This change is intentionally not an intrinsic schema/taxonomy error; request correlation belongs to Task 7.
+- [ ] [USER_LOCAL_APPLY] Add the Task-3 schema/taxonomy fixture proving that the changed-but-well-formed `approved_instruction` remains intrinsically valid. Do not compare it to an execution request in Task 3.
+- [ ] [CODEX_VERIFY] Run the focused Task-3 command; require the changed-but-well-formed payload to remain schema/taxonomy PASS, and preserve the fixture shape for Task-7 correlation sensitivity.
 
 **Completion evidence:** schema validation results and role-taxonomy results. **Handoff:** Task 5 resolves the payload bytes, Task 7 validates its correlation.
 
 ## Task 4: Close Work Unit owned-path shape with RED→GREEN
 
-**Files:** Modify `.gpt-codex/schemas/work-unit.schema.json` and `.gpt-codex/project-template/WORK_UNIT.template.json`; test `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
+**Files:** Modify `.gpt-codex/schemas/work-unit.schema.json`, `.gpt-codex/scripts/validate_project.py`, and `.gpt-codex/project-template/WORK_UNIT.template.json`; test `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
 
-**Interfaces:** `scope.additionalProperties = false`; `scope.owned_paths` is required and is a non-empty, unique selector array; `scope.excluded_paths` is optional and a unique selector array. A selector is either an exact relative file path or a relative directory prefix ending in exactly one `/`. Reject absolute paths, drive-qualified paths, backslashes, `.` components, `..` components, empty components, and empty strings. A requested exact instruction path is covered only when it equals an exact owned selector or starts with an owned directory-prefix selector. `CONTROL_PLANE_APPROVED_SCOPE_SOURCE = target_work_unit_ref resolved at immutable Git SHA -> scope.owned_paths`. Existing Baseline and Task-3 Work Units remain valid compatibility fixtures: their `owned_paths` and `excluded_paths` shapes are preserved. The template changes to a non-empty owned-path example and preserves `excluded_paths`.
+**Interfaces:** `scope.additionalProperties = false`; `scope.owned_paths` is required and is a non-empty, unique selector array; `scope.excluded_paths` is optional and a unique selector array. A selector is either an exact relative file path or a relative directory prefix ending in exactly one `/`. Reject absolute paths, drive-qualified paths, backslashes, `.` components, `..` components, empty components, and empty strings. `validate_instruction_authority` remains the authority entry for ordinary requested scope. When immutable `approved_scope` contains Work Unit selectors, each requested exact `scope_paths` entry is covered only if it equals an exact owned selector or starts with an owned directory-prefix selector ending in `/`; raw set membership alone is insufficient. This extends the existing authority comparison and does not create a second authority or permission system. `CONTROL_PLANE_APPROVED_SCOPE_SOURCE = target_work_unit_ref resolved at immutable Git SHA -> scope.owned_paths`. Existing Baseline and Task-3 Work Units remain valid compatibility fixtures: their `owned_paths` and `excluded_paths` shapes are preserved. The template changes to a non-empty owned-path example and preserves `excluded_paths`.
 
 **Preconditions:** Task 1 fixture provides both bridge-created Work Units.
 
@@ -174,7 +174,7 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 - [ ] [USER_LOCAL_APPLY] Add those failing fixtures to exactly `.gpt-codex/tests/test_self_hosting_validator.py` and `.gpt-codex/tests/test_validator_context_binding.py`.
 - [ ] [CODEX_VERIFY] Run `python -m unittest discover -s .gpt-codex/tests -p "test_self_hosting_validator.py" -v` and `python -m unittest discover -s .gpt-codex/tests -p "test_validator_context_binding.py" -v`; record that the currently open schema admits at least one invalid fixture.
 - [ ] [CODEX_PREPARE] Bound the closed `scope` grammar and non-empty template example without changing durable Work Unit shapes; if this grammar proves incompatible with either durable fixture, stop with `DESIGN_RECONCILIATION_REQUIRED`.
-- [ ] [USER_LOCAL_APPLY] Close the Work Unit schema and selector validation; update `WORK_UNIT.template.json` with non-empty `owned_paths` while preserving `excluded_paths`.
+- [ ] [USER_LOCAL_APPLY] Close the Work Unit `scope` schema and selector grammar; update the existing `validate_instruction_authority` path in `validate_project.py` with the minimal selector-aware approved-scope coverage rule; update `WORK_UNIT.template.json` with a non-empty `owned_paths` example while preserving `excluded_paths`.
 - [ ] [CODEX_VERIFY] Run the focused command; expect malformed Work Units FAIL, ordinary/seed and existing Baseline/Task-3 Work Units PASS, `plugins/gpt-codex-framework/subpath.py` covered by `plugins/gpt-codex-framework/`, and `plugins/other/file.py` uncovered. Verify the seed owns exactly four file selectors, with no prefixes.
 - [ ] [CODEX_PREPARE] Define fifth-seed-path sensitivity and restoration.
 - [ ] [USER_LOCAL_APPLY] Append a fifth path to the seed fixture, then remove it.
@@ -236,6 +236,9 @@ Before `REMOTE_ACTIVE_AUTHORITY_VERIFICATION = PASS`, every repository mutation 
 - [ ] [CODEX_PREPARE] Bound reconciliation branch/error codes and approved-core-only comparison.
 - [ ] [USER_LOCAL_APPLY] Add the minimal dedicated reconciliation branch and error codes.
 - [ ] [CODEX_VERIFY] Run the focused command; expect production-shaped chain PASS and every fault fixture FAIL.
+- [ ] [CODEX_PREPARE] Define approved-core correlation sensitivity using the production-shaped valid chain: change only `APPROVAL_RESULT.approved_instruction.scope_paths` after approval while leaving the actual `RECONCILIATION_REQUEST` authority core unchanged; define exact restoration.
+- [ ] [USER_LOCAL_APPLY] Apply that mutation only to the composed Task-7 fixture, then restore the exact approved core.
+- [ ] [CODEX_VERIFY] Run the focused Task-7 command; require the mutated approved core to fail exact correlation and the restored chain to PASS.
 - [ ] [CODEX_PREPARE] Define missing-locator sensitivity and restoration.
 - [ ] [USER_LOCAL_APPLY] Remove only `approval_evidence_ref` from the valid request, then restore it.
 - [ ] [CODEX_VERIFY] Record failure then PASS.
