@@ -1,5 +1,11 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.2 — Group A Continuity Candidate
+
+- Adds the reviewed Group A continuity, handoff, release-preflight, and filesystem-safety hardening work.
+- Records a local release candidate only; artifact generation, remote verification, and publication remain separately gated.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
+
 ## v2.7.1 — Phase-A Checkpoint Stabilization
 
 - Records the tested Baseline Closure Prelude and Framework Contract Repair Tasks 1–4 checkpoint.
