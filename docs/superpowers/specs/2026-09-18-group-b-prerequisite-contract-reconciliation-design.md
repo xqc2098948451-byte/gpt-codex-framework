@@ -131,7 +131,7 @@ This Design does not:
 
 ## 6. Chosen reconciliation architecture
 
-The smallest safe correction is to complete the three historical prerequisite contracts in their existing owners. No parallel compatibility layer is introduced.
+The smallest safe correction is to complete the three historical prerequisite contracts in their existing owners and, as a separately classified current-baseline compatibility reconciliation, align Instruction version representation with the already-active repository SemVer grammar. No parallel compatibility layer is introduced.
 
 ### 6.1 Instruction contract completion
 
@@ -142,16 +142,16 @@ Existing owners remain:
 - `.gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json`
 - existing focused Instruction tests
 
-Required behavior is exactly the accepted historical Task-2 behavior:
+Historical Task-2 residual closure is limited to the already-accepted Task-2 behavior:
 
 - `scope_paths` is a non-empty, unique, safe repository-relative exact path list whenever a governed mutating instruction requires it.
 - `remediation_decision_ref` is represented for the existing FIX lifecycle without changing its accepted lifecycle semantics.
 - `approval_evidence_ref = {remote_ref, evidence_commit_sha, path, blob_sha}` is allowed only where the accepted mutating control-plane `RECONCILIATION_REQUEST` contract permits it.
 - the external locator remains outside the approved authority core.
 - malformed, partial, absolute, escaping, duplicate, or semantically ineligible shapes fail closed.
-- `framework_version` uses the same SemVer identity grammar already enforced by current `release_framework.py` / `validate_framework.py`, including valid prerelease/build metadata such as `2.7.2+fix.1`; arbitrary non-SemVer strings remain invalid.
-- this grammar alignment changes representation only: the instruction must still bind the exact current Framework identity required by the surrounding authority contract.
 - legacy read-only/history parsing remains compatible; compatibility does not authorize new mutation without the current required fields.
+
+The active-version SemVer issue is not historical Task-2 semantics; it is classified separately in section 6.4.
 
 ### 6.2 Approval Result contract completion
 
@@ -197,6 +197,18 @@ Required behavior is exactly the accepted historical Task-4 behavior:
 - durable current Work Units must remain valid; if closing the schema exposes a real incompatible durable Work Unit, implementation stops as `DESIGN_RECONCILIATION_REQUIRED` rather than weakening the grammar.
 
 The historical revision-12 seed remains historical evidence only. This reconciliation does not make it current or reusable.
+
+### 6.4 Current active-version compatibility reconciliation
+
+This subsection is a current B0 compatibility prerequisite, not part of the historical Task-2 semantic definition.
+
+Current owners remain the existing Instruction Envelope version field, its schema validation, and focused Instruction/version tests. The correction reuses the SemVer identity grammar already enforced by current `release_framework.py` and `validate_framework.py`:
+
+- `Instruction.framework_version` must be able to represent the exact active identity `2.7.2+fix.1`.
+- valid SemVer prerelease/build metadata is representationally valid; arbitrary non-SemVer strings remain invalid.
+- accepting the syntax does not grant authority, select a Framework version, or permit version substitution.
+- the surrounding instruction/project/repository/State authority checks must still bind the exact version identity required for the governed action.
+- no historical Task-2, Task-5–9, release, or authority semantic is reclassified as a result of this compatibility fix.
 
 ## 7. Implementation ordering after Design/Plan acceptance
 
@@ -280,9 +292,44 @@ Design candidate
 
 Only after the accepted correction is implemented and independently verified may B0 be re-run.
 
-Bridge-005 remains a future separate migration-authority lifecycle. Nothing in this candidate prepares its payload, scope, review artifact, approval, transport, or remote object.
+A repeated `B0 = PASS` is a semantic/readiness result only. It is not B1 mutation authority and cannot be converted into an execution permission by inference.
 
-## 11. Acceptance criteria
+The post-B0 sequence is explicitly:
+
+```text
+repeated B0 PASS
+-> re-observe current accepted migration-authority requirement
+-> if bridge-005/current successor migration authority remains required:
+   prepare exact current base + exact scope + exact payload
+-> independent PRE_EXECUTION review of that exact migration authority
+-> USER_APPROVER exact-payload approval
+-> remote immutable verification
+-> separate B1 Work Unit / Instruction authority
+-> B1
+```
+
+If current accepted authority supersedes the bridge-005 identifier with another governed migration mechanism, that substitution itself must be durably accepted before use; B0 cannot choose it informally.
+
+Bridge-005 therefore remains a future separate migration-authority lifecycle under the currently frozen architecture. Nothing in this candidate prepares its payload, scope, review artifact, approval, transport, or remote object.
+
+## 11. Independent review binding
+
+Independent Design review is bound to the cumulative candidate, never merely the last authoring commit.
+
+For each review invocation, the review request must record:
+
+```text
+base = exact immutable main/base SHA
+candidate = exact immutable PR HEAD SHA
+diff = base..candidate
+changed_paths = complete cumulative changed-path set
+```
+
+For PR #10 at the time review is requested, the cumulative changed-path set must be exactly this Design file. The reviewer evaluates the complete file as it exists at the exact candidate SHA and the complete cumulative diff from base. Reviewing only `HEAD~1..HEAD`, only the most recent patch, or an earlier candidate SHA is insufficient.
+
+Any authoring change after a review target is bound invalidates that target for acceptance. A new exact HEAD must be recorded and independently reviewed again before GPT adjudication or USER_APPROVER acceptance.
+
+## 12. Acceptance criteria
 
 This Design is acceptable only if independent review confirms all of the following:
 
@@ -292,16 +339,21 @@ This Design is acceptable only if independent review confirms all of the followi
 4. `2.7.2+fix.1` is treated as the corrective active Group-A baseline, not a new Group;
 5. no Plugin work or bridge-005 work begins;
 6. the Task-2/3/4 contracts are restored in their existing owners;
-7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority;
-8. no new authority/state/review/module subsystem is introduced;
-9. historical artifacts are not rewritten;
-10. Group-A reliability behavior remains protected by regression tests;
-11. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, and B0 is repeated successfully.
+7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
+8. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
+9. no new authority/state/review/module subsystem is introduced;
+10. historical artifacts are not rewritten;
+11. Group-A reliability behavior remains protected by regression tests;
+12. repeated B0 PASS does not itself grant B1 mutation authority;
+13. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, B0 is repeated successfully, and any still-required migration authority is separately reviewed, exactly approved, and remotely verified.
 
-## 12. Candidate self-review
+## 13. Candidate self-review
 
 - Capability-before-Design: PASS; existing owners were inspected before proposing structure.
 - Historical semantics preserved: PASS; the candidate quotes the accepted Task-2/3/4 responsibilities and leaves Tasks 5–9 unchanged.
+- SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure.
+- Review binding: PASS; independent review is defined over exact cumulative `base..candidate`, not the last commit only.
+- B1 authority boundary: PASS; repeated B0 PASS remains non-authorizing and any required migration authority stays separately gated.
 - Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners, including reuse of the already-existing Framework SemVer grammar for Instruction version representation.
 - New module/state/authority subsystem: NONE.
 - Plugin/bridge-005 work: NONE.
