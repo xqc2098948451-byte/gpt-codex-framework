@@ -27,7 +27,12 @@
       ".gpt-codex/CHANGELOG.md",
       "releases/INDEX.json",
       "releases/records/v2.7.2.json",
-      "dist/"
+      "dist/",
+      ".gpt-codex/tests/test_version_consistency.py",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      "AGENTS.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md"
     ],
     "excluded_paths": [
       ".gpt-codex/scripts/framework_plugin_entry.py",
@@ -58,7 +63,8 @@
     }
   },
   "evidence_refs": [
-    ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
+    ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
+    ".gpt-codex/evidence/GROUP-A-FINAL-RELEASE-CONSISTENCY-SCOPE-APPROVAL.json"
   ],
   "selected_extensions": {
     "skills": ["github-project-continuity"],
@@ -70,13 +76,13 @@
     "forbidden_actions": ["COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"]
   },
   "state": "AUTHORIZED",
-  "basis_state_revision": 13,
+  "basis_state_revision": 14,
   "authorization": {
     "authority_type": "USER_APPROVAL",
     "status": "AUTHORIZED",
     "implementation_authorized": true,
-    "implementation_start_allowed": false,
-    "next_gate": "PRE_EXECUTION_REVIEW",
+    "implementation_start_allowed": true,
+    "next_gate": "FINAL_RELEASE_CONSISTENCY_CORRECTION",
     "bootstrap_exception_ref": ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
   }
 }

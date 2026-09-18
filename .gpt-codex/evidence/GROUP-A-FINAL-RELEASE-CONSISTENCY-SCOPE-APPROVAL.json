@@ -1,0 +1,23 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GROUP-A-FINAL-RELEASE-CONSISTENCY-SCOPE-APPROVAL",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "USER_ASSERTED",
+  "subject": "GROUP_A_FINAL_RELEASE_CONSISTENCY_SCOPE_ADJUSTMENT",
+  "state_revision": 14,
+  "result": "APPROVED",
+  "work_unit_id": "framework-staged-closure-group-a-001",
+  "approved_paths": [
+    ".gpt-codex/tests/test_version_consistency.py",
+    ".gpt-codex/framework-modules/REGISTRY.json",
+    "AGENTS.md",
+    ".gpt-codex/README.md",
+    ".gpt-codex/BOOTSTRAP_PROMPT.md"
+  ],
+  "design_plan_change_required": false,
+  "schema_change_required": false,
+  "new_module_required": false,
+  "group_b_started": false,
+  "user_approval_observed": true
+}
