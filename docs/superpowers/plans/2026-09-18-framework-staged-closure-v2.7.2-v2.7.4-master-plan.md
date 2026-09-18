@@ -1,6 +1,6 @@
 # Framework staged closure v2.7.2–v2.7.4 Master Execution Plan
 
-> **For governed executors:** this is an accepted-plan candidate, not execution authority. Before any implementation task, use the current Framework's normal Work Unit, Instruction, PRE_EXECUTION review, Result/Evidence, and POST_EXECUTION review contracts. A task may be started only when its observed prerequisites and its release gate are true.
+> **For governed executors:** this is a Plan candidate; it is not yet accepted and is not execution authority. Before any implementation task, use the current Framework's normal Work Unit, Instruction, PRE_EXECUTION review, Result/Evidence, and POST_EXECUTION review contracts. A task may be started only when its observed prerequisites and its release gate are true.
 
 **Goal:** deliver three independently reviewed and remotely activated releases: Group A execution reliability in 2.7.2, the unchanged accepted Contract Repair Tasks 5–9 in 2.7.3, and a bounded evidence-to-improvement review loop in 2.7.4.
 
@@ -8,13 +8,13 @@
 
 **Current authority:** released Framework `2.7.1`; active base `6600a55ace1faf160309c82a1e5e2663c22d3dc6`; accepted staged-closure Design commit `e5fe291c243d0e2bc18e3e5a3cd905e6aa223546`, Design blob `2bf4e96b1a6c030d844dd6f0734b017e78e81b00`, and accepted Design SHA-256 `8821a913f38d80a1081d235c07cd47b19ea4a75a8cc56818e62ca5b65c979b6e`.
 
-**Authoritative references:** `AGENTS.md`; `.gpt-codex/KERNEL.md`; `VERSION`; `.gpt-codex/CONTROL.json`; `.gpt-codex/STATE.json`; `.gpt-codex/CHANGELOG.md`; the active Work Unit; current Result/Evidence; release records; the accepted Design above; and, by immutable Git object, the historical Contract Repair Design `4bd838b9f79e1d7a56d9408210fbff6193e7d08d:docs/superpowers/specs/2026-09-17-framework-contract-repair-design.md` (blob `caaa3c48069fda09ef93c7d3963e3153ec8f107b`) and Plan `5aed290c8f45fe53a5c32452b17749cdf9d2a5aa:docs/superpowers/plans/2026-09-17-framework-contract-repair.md` (blob `39e13a434a6581f4f4f1a3b107f20f7ebf0cbfa7`). A mutable branch/ref is discovery only; it never substitutes for these objects.
+**Authoritative references:** `AGENTS.md`; `.gpt-codex/KERNEL.md`; `VERSION`; `.gpt-codex/CONTROL.json`; `.gpt-codex/STATE.json`; `.gpt-codex/CHANGELOG.md`; the active Work Unit; current Result/Evidence; release records; the accepted Design above; and, by immutable Git object, the corrected accepted Contract Repair Design `135f1c06b205894f0e603b0fdbf34cc10ba6e3f6:docs/superpowers/specs/2026-09-17-framework-contract-repair-design.md` (blob `905be2ba58da02ae41900526ee7db4d397c081db`) and corrected accepted Plan `7f9c0cf46aee2b6bfdbadc36eb8d6373592d4a55:docs/superpowers/plans/2026-09-17-framework-contract-repair.md` (blob `7c775f12b2c8fcf102afb2f9c2c64c4634071958`). A mutable branch/ref is discovery only; it never substitutes for these objects.
 
 ## Global constraints and invariants
 
 - `GROUP_A_RELEASE = 2.7.2`; `GROUP_B_RELEASE = 2.7.3`; `GROUP_C_RELEASE = 2.7.4`. A+B and B+C combined releases are forbidden.
 - Group B starts only after fresh tool-observed `2.7.2 REMOTE_ACTIVE`; Group C starts only after fresh tool-observed `2.7.3 REMOTE_ACTIVE`.
-- `TASKS_5_9_TECHNICAL_SEMANTICS_CHANGED = NO`; `PLUGIN_WORK_RESUMED = NO`; `BRIDGE_005_CREATED_BY_PLAN = NO`; `IMPLEMENTATION_AUTHORIZED_BY_PLAN_CANDIDATE = NO`.
+- `TASKS_5_9_TECHNICAL_SEMANTICS_CHANGED = NO`; `FUTURE_BRIDGE_005_LIFECYCLE_PRESERVED = YES`; `PLUGIN_WORK_RESUMED = NO`; `BRIDGE_005_CREATED_BY_PLAN = NO`; `IMPLEMENTATION_AUTHORIZED_BY_PLAN_CANDIDATE = NO`.
 - The one lifecycle is: `CURRENT AUTHORITY / STATE -> EXISTING CAPABILITY CHECK -> minimum delta -> authorized mutation -> PRE_EXECUTION review -> execution -> POST_EXECUTION review`. A plan/review/Result/Handoff finding is evidence, not mutation authority.
 - The Kernel's State values, revision binding, evidence source restrictions, and `RECONCILIATION_REQUIRED` remain authoritative. Task-local outcome labels are derived observations, never new State values.
 - Existing `continuity_resume.py`, `git_continuity.py`, `result_return.py`, Result/Handoff, Evidence, publication contract, release package/record, and State finalization remain the sole continuity and publication routes. Handoff is a derived view, never an authority source.
