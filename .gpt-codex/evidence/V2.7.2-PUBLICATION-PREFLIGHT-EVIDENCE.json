@@ -1,0 +1,35 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "V2.7.2-PUBLICATION-PREFLIGHT-EVIDENCE",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "V2.7.2_LOCAL_PUBLICATION_PREFLIGHT",
+  "state_revision": 13,
+  "result": "LOCAL_ARTIFACT_AND_SOURCE_FACTS_OBSERVED_PENDING_PUBLICATION",
+  "repository_identity": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_remote_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework.git",
+  "candidate_source_sha": "197e31a0a0afef80691bd0912ca753bde2ba5db4",
+  "version": "2.7.2",
+  "canonical_git_facts": {
+    "deterministic": true,
+    "ambient_autocrlf": "FALSE",
+    "changed_paths": []
+  },
+  "main_ancestry": {
+    "remote_ref": "origin/main",
+    "remote_main_sha": "72e9d16fe7f17b2d6975fe3a4dafa85e7aded4fd",
+    "candidate_descends_from_remote_main": true
+  },
+  "artifact_identity": {
+    "artifact": "gpt-codex-framework-v2.7.2-bootstrap.zip",
+    "artifact_sha256": "4aff12f0726b69ba69e742c622514be7070424d4ca1504fc7f342266e53506c3",
+    "artifact_size_bytes": 133568,
+    "artifact_hash_location": "EXTERNAL_RELEASE_SIDECAR"
+  },
+  "artifact_locator": null,
+  "artifact_locator_status": "UNAVAILABLE_ARTIFACT_NOT_A_GIT_OBJECT",
+  "publication_status": "NOT_PUBLISHED",
+  "remote_tag": "v2.7.2",
+  "remote_tag_observed": false
+}
