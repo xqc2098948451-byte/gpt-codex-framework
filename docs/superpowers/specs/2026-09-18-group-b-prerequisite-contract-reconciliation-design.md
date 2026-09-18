@@ -165,6 +165,7 @@ Existing owners remain:
 
 Required behavior is exactly the accepted historical Task-3 behavior:
 
+- `result_id` is present as the intrinsic approval-result identity used by the accepted external evidence path.
 - `result_message_type = APPROVAL_RESULT`.
 - `responder_role = USER_APPROVER`.
 - `status = PASS` means the approval transaction was formed correctly; `decision` alone distinguishes `APPROVE` from `REJECT`.
@@ -207,7 +208,8 @@ Current owners remain the existing Instruction Envelope version field, its schem
 - `Instruction.framework_version` must be able to represent the exact active identity `2.7.2+fix.1`.
 - valid SemVer prerelease/build metadata is representationally valid; arbitrary non-SemVer strings remain invalid.
 - accepting the syntax does not grant authority, select a Framework version, or permit version substitution.
-- the surrounding instruction/project/repository/State authority checks must still bind the exact version identity required for the governed action.
+- this reconciliation adds no new version-equality authority gate. Existing project/repository/State/Instruction authority checks remain unchanged; `framework_version` grammar alignment is representational compatibility only.
+- if a future task requires a new version-equality authorization rule, that is outside this amendment and requires separate governed authority rather than being inferred from SemVer acceptance.
 - no historical Task-2, Task-5–9, release, or authority semantic is reclassified as a result of this compatibility fix.
 
 ## 7. Implementation ordering after Design/Plan acceptance
@@ -242,7 +244,7 @@ Minimum sensitivity matrix:
 | Instruction | active `2.7.2+fix.1` framework identity | schema accepts exact valid SemVer identity |
 | Instruction | arbitrary malformed/non-SemVer framework identity | schema rejects |
 | FIX | missing/stale `remediation_decision_ref` where lifecycle requires it | existing lifecycle/gate rejects |
-| Approval Result | wrong responder role | role/schema reject |
+| Approval Result | missing/invalid `result_id` or wrong responder role | schema/role reject |
 | Approval Result | missing/invalid decision or incomplete authority core | schema rejects |
 | Approval Result | execution-style completion evidence or remote-verified-at-creation substitution | schema rejects |
 | Approval Result | changed but still well-formed approved core | intrinsic schema may pass; future Task-7 exact correlation must reject |
@@ -339,7 +341,7 @@ This Design is acceptable only if independent review confirms all of the followi
 4. `2.7.2+fix.1` is treated as the corrective active Group-A baseline, not a new Group;
 5. no Plugin work or bridge-005 work begins;
 6. the Task-2/3/4 contracts are restored in their existing owners;
-7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
+7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority or adding a new version-equality authorization gate, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
 8. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
 9. no new authority/state/review/module subsystem is introduced;
 10. historical artifacts are not rewritten;
@@ -351,7 +353,7 @@ This Design is acceptable only if independent review confirms all of the followi
 
 - Capability-before-Design: PASS; existing owners were inspected before proposing structure.
 - Historical semantics preserved: PASS; the candidate quotes the accepted Task-2/3/4 responsibilities and leaves Tasks 5–9 unchanged.
-- SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure.
+- SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure and introduces no version-equality authority rule.
 - Review binding: PASS; independent review is defined over exact cumulative `base..candidate`, not the last commit only.
 - B1 authority boundary: PASS; repeated B0 PASS remains non-authorizing and any required migration authority stays separately gated.
 - Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners, including reuse of the already-existing Framework SemVer grammar for Instruction version representation.
