@@ -48,6 +48,7 @@ Current observed state:
 - the current builder does not expose `remediation_decision_ref`.
 - the current builder/schema do not expose `approval_evidence_ref`.
 - the current Instruction template does not materialize the historical closed Task-2 contract.
+- the current Instruction schema accepts only plain `x.y.z` in `framework_version`, while the active Framework identity is `2.7.2+fix.1`; by contrast, the existing release/Framework validators already use SemVer grammar that supports prerelease/build metadata. A fresh current-authority Instruction therefore cannot be represented faithfully without reconciling this field grammar.
 
 Therefore Task 5 cannot safely treat the historical locator input contract as already closed.
 
@@ -107,8 +108,9 @@ NEW_FRAMEWORK_MODULE = NO
 1. Materialize the already-accepted historical Task-2 Instruction contract completely across schema, builder, template, and focused tests.
 2. Materialize the already-accepted historical Task-3 `APPROVAL_RESULT` contract completely across schema, taxonomy/role validation, template/return surface where applicable, and focused tests.
 3. Materialize the already-accepted historical Task-4 Work Unit scope contract completely across schema, template, existing validator coverage, and focused tests.
-4. Prove that these corrections do not change Group-A execution-reliability behavior.
-5. Restore a valid B0 semantic-identity basis so the unchanged B1–B5 work can later receive its own Work Unit, PRE_EXECUTION review, and migration authority.
+4. Align Instruction `framework_version` representation with the repository's already-active SemVer release grammar so `2.7.2+fix.1` can be represented without weakening identity checks.
+5. Prove that these corrections do not change Group-A execution-reliability behavior.
+6. Restore a valid B0 semantic-identity basis so the unchanged B1–B5 work can later receive its own Work Unit, PRE_EXECUTION review, and migration authority.
 
 ## 5. Non-goals
 
@@ -147,6 +149,8 @@ Required behavior is exactly the accepted historical Task-2 behavior:
 - `approval_evidence_ref = {remote_ref, evidence_commit_sha, path, blob_sha}` is allowed only where the accepted mutating control-plane `RECONCILIATION_REQUEST` contract permits it.
 - the external locator remains outside the approved authority core.
 - malformed, partial, absolute, escaping, duplicate, or semantically ineligible shapes fail closed.
+- `framework_version` uses the same SemVer identity grammar already enforced by current `release_framework.py` / `validate_framework.py`, including valid prerelease/build metadata such as `2.7.2+fix.1`; arbitrary non-SemVer strings remain invalid.
+- this grammar alignment changes representation only: the instruction must still bind the exact current Framework identity required by the surrounding authority contract.
 - legacy read-only/history parsing remains compatible; compatibility does not authorize new mutation without the current required fields.
 
 ### 6.2 Approval Result contract completion
@@ -223,6 +227,8 @@ Minimum sensitivity matrix:
 | Instruction | empty/duplicate/absolute/escaping `scope_paths` | schema/builder reject |
 | Instruction | malformed `approval_evidence_ref` | schema/builder reject |
 | Instruction | locator on an ineligible instruction | contract rejects |
+| Instruction | active `2.7.2+fix.1` framework identity | schema accepts exact valid SemVer identity |
+| Instruction | arbitrary malformed/non-SemVer framework identity | schema rejects |
 | FIX | missing/stale `remediation_decision_ref` where lifecycle requires it | existing lifecycle/gate rejects |
 | Approval Result | wrong responder role | role/schema reject |
 | Approval Result | missing/invalid decision or incomplete authority core | schema rejects |
@@ -286,16 +292,17 @@ This Design is acceptable only if independent review confirms all of the followi
 4. `2.7.2+fix.1` is treated as the corrective active Group-A baseline, not a new Group;
 5. no Plugin work or bridge-005 work begins;
 6. the Task-2/3/4 contracts are restored in their existing owners;
-7. no new authority/state/review/module subsystem is introduced;
-8. historical artifacts are not rewritten;
-9. Group-A reliability behavior remains protected by regression tests;
-10. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, and B0 is repeated successfully.
+7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority;
+8. no new authority/state/review/module subsystem is introduced;
+9. historical artifacts are not rewritten;
+10. Group-A reliability behavior remains protected by regression tests;
+11. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, and B0 is repeated successfully.
 
 ## 12. Candidate self-review
 
 - Capability-before-Design: PASS; existing owners were inspected before proposing structure.
 - Historical semantics preserved: PASS; the candidate quotes the accepted Task-2/3/4 responsibilities and leaves Tasks 5–9 unchanged.
-- Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners.
+- Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners, including reuse of the already-existing Framework SemVer grammar for Instruction version representation.
 - New module/state/authority subsystem: NONE.
 - Plugin/bridge-005 work: NONE.
 - Release-boundary change: NONE.
