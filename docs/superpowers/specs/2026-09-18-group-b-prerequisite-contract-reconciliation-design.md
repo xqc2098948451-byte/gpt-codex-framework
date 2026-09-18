@@ -241,21 +241,44 @@ Responsibility remains with the existing owners:
 
 Dependency direction is preserved: `role-communication` depends on `framework-core`; `framework-validation` consumes both Framework governance and role-communication contracts. The future Plan must bind exact changed paths to these current owners and run the applicable descriptor-required tests. Cross-module routing is structural metadata only; it neither expands scope nor grants mutation authority.
 
+Current routing observation also exposes a prerequisite ownership gap: the historical Task-2/3 RED→GREEN work must mutate five role-communication-focused tests that are not present in any current module `OWNED_ASSETS`. Because `classify_changed_assets()` uses `OWNED_ASSETS` rather than `REQUIRED_TESTS` to resolve mutation ownership, those paths currently fail closed as `MODULE_ROUTE_UNRESOLVED`.
+
+The exact affected test paths are:
+
+- `.gpt-codex/tests/test_instruction_envelope.py`
+- `.gpt-codex/tests/test_instruction_role_contract.py`
+- `.gpt-codex/tests/test_result_contract_schema.py`
+- `.gpt-codex/tests/test_role_communication_taxonomy.py`
+- `.gpt-codex/tests/test_result_return.py`
+
+Before any Task-2/3 mutation, the future Plan must execute one bounded routing-metadata prerequisite, **R0 — role-communication test ownership registration**:
+
+1. R0 mutates only `.gpt-codex/framework-modules/modules/role-communication.json`; the descriptor path is already owned through the existing `framework-core` module-descriptor prefix.
+2. R0 adds exactly the five paths above to `role-communication.OWNED_ASSETS` as `EXACT_PATH` selectors.
+3. R0 adds `test_instruction_envelope.py` and `test_result_return.py` to `role-communication.REQUIRED_TESTS`; the other three affected files are already present there.
+4. R0 changes no module id, responsibility, dependency, permission, authority, Registry schema, routing algorithm, or new module.
+5. Before R0, routing evidence records the expected unresolved ownership of those five mutation paths. After R0, Registry validation must pass with no ownership conflict and `classify_changed_assets()` must map every one of those exact paths to exactly `role-communication`.
+6. R0 receives its own bounded Work Unit/Instruction, PRE_EXECUTION review, implementation, and POST_EXECUTION review. The updated descriptor must be durable at the exact base bound by the subsequent Task-2/3 Work Unit/Instruction; candidate metadata cannot retroactively authorize mutation performed under the old route.
+7. Registry ownership remains routing metadata only. Registering a test path does not itself grant mutation authority.
+8. Focused cross-contract composition introduced later by this amendment must use already-owned `framework-validation` test assets such as `test_self_hosting_validator.py` and/or `test_validator_context_binding.py`; selecting a different unowned mutation target requires a separately reviewed ownership-routing reconciliation rather than inference.
+
 ## 7. Implementation ordering after Design/Plan acceptance
 
 The future Plan amendment must keep the correction serial and bounded:
 
-1. prerequisite P0 observation, exact-path binding, and verification of the `CROSS_MODULE_CHANGE_REQUIRED` route against the current Registry;
-2. Task-2 contract RED -> minimal GREEN -> sensitivity restoration;
-3. independent post-review;
-4. Task-3 contract RED -> minimal GREEN -> sensitivity restoration;
+1. prerequisite P0 observation, exact-path binding, and verification of the `CROSS_MODULE_CHANGE_REQUIRED` route against the current Registry, including the expected unresolved ownership of the five Task-2/3 test mutation paths;
+2. R0 bounded role-communication test-ownership registration -> Registry validation -> exact ownership reclassification -> independent post-review;
+3. bind the post-R0 durable base before issuing later mutation authority;
+4. Task-2 contract RED -> minimal GREEN -> sensitivity restoration;
 5. independent post-review;
-6. Task-4 contract RED -> minimal GREEN -> sensitivity restoration;
+6. Task-3 contract RED -> minimal GREEN -> sensitivity restoration;
 7. independent post-review;
-8. focused cross-contract composition proving the three prerequisites coexist;
-9. full Framework/project/consumer validators and `git diff --check`;
-10. independent final reconciliation review;
-11. only then repeat B0 semantic-identity remap.
+8. Task-4 contract RED -> minimal GREEN -> sensitivity restoration;
+9. independent post-review;
+10. focused cross-contract composition in already-owned framework-validation test assets proving the three prerequisites coexist;
+11. full Framework/project/consumer validators and `git diff --check`;
+12. independent final reconciliation review;
+13. only then repeat B0 semantic-identity remap.
 
 No B1–B5 implementation is mixed into this correction.
 
@@ -283,6 +306,8 @@ Minimum sensitivity matrix:
 | Work Unit | same selectors, request `src/public/key` | effective scope coverage passes before other authority checks |
 | Work Unit | valid directory-prefix coverage without matching exclusion | existing authority comparison passes |
 | Work Unit | historical seed at current revision | remains non-current/non-reusable |
+| Module route | five Task-2/3 test mutation paths before R0 | `MODULE_ROUTE_UNRESOLVED` baseline is observed |
+| Module route | same five paths after exact R0 descriptor registration | every path resolves to exactly `role-communication`; no ownership conflict |
 
 Every sensitivity case must demonstrate FAIL on the injected fault and PASS after exact restoration.
 
@@ -298,7 +323,8 @@ At minimum, the implementation candidate must rerun the affected adjacent Group-
 - Git continuity;
 - project validation;
 - consumer projection/runtime validation;
-- Registry/module-routing validation and every applicable descriptor-required test for `role-communication`, `framework-core`, and `framework-validation`.
+- Registry/module-routing validation and every applicable descriptor-required test for `role-communication`, `framework-core`, and `framework-validation`;
+- explicit pre-R0 unresolved-route evidence and post-R0 exact single-owner evidence for the five role-communication test mutation paths.
 
 Any requirement to alter Group-A semantics, Result execution semantics, release-state semantics, or the staged release boundaries returns `AMENDMENT_REQUIRED` again.
 
@@ -376,12 +402,13 @@ This Design is acceptable only if independent review confirms all of the followi
 7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using strict SemVer 2.0.0 syntax without broadening authority or adding a new version-equality authorization gate, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
 8. Work Unit effective scope gives `excluded_paths` precedence over matching `owned_paths`, so exclusions can only narrow authority;
 9. the change is explicitly classified `CROSS_MODULE_CHANGE_REQUIRED` across the existing `role-communication`, `framework-core`, and `framework-validation` owners with their required tests and without ownership transfer;
-10. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
-11. no new authority/state/review/module subsystem is introduced;
-12. historical artifacts are not rewritten;
-13. Group-A reliability behavior remains protected by regression tests;
-14. repeated B0 PASS does not itself grant B1 mutation authority;
-15. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, B0 is repeated successfully, and any still-required migration authority is separately reviewed, exactly approved, and remotely verified.
+10. the current unowned Task-2/3 test paths are repaired through a separate bounded R0 descriptor-only registration before those tests are mutated, and post-R0 routing proves each exact test path has exactly one owner;
+11. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
+12. no new authority/state/review/module subsystem is introduced;
+13. historical artifacts are not rewritten;
+14. Group-A reliability behavior remains protected by regression tests;
+15. repeated B0 PASS does not itself grant B1 mutation authority;
+16. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, B0 is repeated successfully, and any still-required migration authority is separately reviewed, exactly approved, and remotely verified.
 
 ## 13. Candidate self-review
 
@@ -390,6 +417,7 @@ This Design is acceptable only if independent review confirms all of the followi
 - SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure, uses strict SemVer 2.0.0 syntax, and introduces no version-equality authority rule.
 - Effective-scope exclusion: PASS; excluded selectors take precedence and can only narrow Work Unit scope.
 - Module routing: `CROSS_MODULE_CHANGE_REQUIRED`; existing `role-communication`, `framework-core`, and `framework-validation` owners are explicit and no ownership transfer/new module is proposed.
+- Test ownership bootstrap: current Task-2/3 test mutation paths are recognized as unresolved before R0; the Design requires exact descriptor-only registration, durable rebinding, and post-R0 single-owner proof before test mutation.
 - Review binding: PASS; independent review is defined over exact cumulative `base..candidate`, not the last commit only.
 - B1 authority boundary: PASS; repeated B0 PASS remains non-authorizing and any required migration authority stays separately gated.
 - Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners; strict Instruction SemVer representation is local to the existing role-communication contract and does not alter release parsing.
