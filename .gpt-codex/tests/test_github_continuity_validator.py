@@ -12,6 +12,23 @@ if str(SCRIPTS) not in sys.path:
 
 
 class GithubContinuityValidatorTests(unittest.TestCase):
+    def test_git_decodes_unicode_controlled_remote_output_without_host_encoding_dependency(self):
+        from github_repository_binding import _git
+
+        with tempfile.TemporaryDirectory() as temporary:
+            repository = Path(temporary)
+            subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
+            subprocess.run(
+                ["git", "remote", "add", "中文远程", "https://github.com/example/repository.git"],
+                cwd=repository,
+                check=True,
+            )
+            code, stdout, stderr = _git(repository, "remote")
+
+        self.assertEqual(code, 0)
+        self.assertEqual(stdout, "中文远程")
+        self.assertEqual(stderr, "")
+
     def test_bounded_subprocess_diagnostic_preserves_safe_facts_and_never_argv_secret(self):
         from github_repository_binding import _run_bounded_diagnostic
 

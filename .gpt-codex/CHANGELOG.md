@@ -1,9 +1,16 @@
 # GPT–Codex Framework Changelog
 
-## v2.7.2 — Group A Continuity Candidate
+## v2.7.2+fix.1
 
-- Adds the reviewed Group A continuity, handoff, release-preflight, and filesystem-safety hardening work.
-- Records a local release candidate only; artifact generation, remote verification, and publication remain separately gated.
+- Carries the reviewed Windows Git-output deterministic UTF-8 / surrogateescape correction.
+- Carries the reviewed v2.7.2 version-consistency / metadata-only consistency corrections.
+- Corrects the consumer artifact delivered after v2.7.2; no Group B functionality.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
+
+## v2.7.2 — Group A Reliability Hardening
+
+- Ships the reviewed Group A continuity, handoff, release-preflight, and filesystem-safety hardening work.
+- v2.7.2 publication/remote verification completed with the verified release artifact.
 - `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
 
 ## v2.7.1 — Phase-A Checkpoint Stabilization

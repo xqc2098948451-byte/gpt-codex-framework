@@ -1,0 +1,17 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GROUP-A-V2.7.2-FIX1-CORRECTIVE-BUILD-APPROVAL",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "USER_ASSERTED",
+  "subject": "GROUP_A_V2.7.2_FIX1_CORRECTIVE_BUILD",
+  "state_revision": 14,
+  "result": "APPROVED",
+  "work_unit_id": "framework-staged-closure-group-a-001",
+  "approved_release_identity": "v2.7.2+fix.1",
+  "purpose": "CORRECT_V2.7.2_CONSUMER_ARTIFACT_WITH_ALREADY_REVIEWED_GROUP_A_FIXES",
+  "original_release_identity": "v2.7.2",
+  "original_release_mutation_allowed": false,
+  "group_b_started": false,
+  "user_approval_observed": true
+}

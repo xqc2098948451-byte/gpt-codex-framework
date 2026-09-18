@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "archive_policy": "METADATA_ONLY",
-  "latest_recorded_version": "2.7.2",
+  "latest_recorded_version": "2.7.2+fix.1",
   "releases": [
     {
       "version": "1.0",
@@ -163,6 +163,14 @@
       "artifact": "gpt-codex-framework-v2.7.2-bootstrap.zip",
       "record": "records/v2.7.2.json",
       "artifact_sha256": "4aff12f0726b69ba69e742c622514be7070424d4ca1504fc7f342266e53506c3",
+      "archive_policy": "METADATA_ONLY",
+      "record_status": "FRAMEWORK_RELEASE"
+    },
+    {
+      "version": "2.7.2+fix.1",
+      "artifact": "gpt-codex-framework-v2.7.2+fix.1-bootstrap.zip",
+      "record": "records/v2.7.2+fix.1.json",
+      "artifact_sha256": "63d53a6949e39ae1715ff978f089728e7e77a8041d8dcce28846f69c58537d27",
       "archive_policy": "METADATA_ONLY",
       "record_status": "FRAMEWORK_RELEASE"
     }

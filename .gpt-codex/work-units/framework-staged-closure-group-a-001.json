@@ -32,7 +32,9 @@
       ".gpt-codex/framework-modules/REGISTRY.json",
       "AGENTS.md",
       ".gpt-codex/README.md",
-      ".gpt-codex/BOOTSTRAP_PROMPT.md"
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/builtins/INDEX.json",
+      "releases/records/v2.7.2+fix.1.json"
     ],
     "excluded_paths": [
       ".gpt-codex/scripts/framework_plugin_entry.py",
@@ -64,7 +66,8 @@
   },
   "evidence_refs": [
     ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
-    ".gpt-codex/evidence/GROUP-A-FINAL-RELEASE-CONSISTENCY-SCOPE-APPROVAL.json"
+    ".gpt-codex/evidence/GROUP-A-FINAL-RELEASE-CONSISTENCY-SCOPE-APPROVAL.json",
+    ".gpt-codex/evidence/GROUP-A-V2.7.2-FIX1-CORRECTIVE-BUILD-APPROVAL.json"
   ],
   "selected_extensions": {
     "skills": ["github-project-continuity"],
@@ -82,7 +85,7 @@
     "status": "AUTHORIZED",
     "implementation_authorized": true,
     "implementation_start_allowed": true,
-    "next_gate": "FINAL_RELEASE_CONSISTENCY_CORRECTION",
+    "next_gate": "V272_FIX1_CORRECTIVE_BUILD_CANDIDATE_REVIEW",
     "bootstrap_exception_ref": ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
   }
 }

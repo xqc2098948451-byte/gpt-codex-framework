@@ -139,7 +139,15 @@ def repository_evidence_matches_identity(identity: Mapping[str, Any], evidence: 
 
 def _git(repo_root: Path, *args: str) -> tuple[int, str, str]:
     try:
-        proc = subprocess.run(["git", *args], cwd=repo_root, capture_output=True, text=True, check=False)
+        proc = subprocess.run(
+            ["git", *args],
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="surrogateescape",
+            check=False,
+        )
     except OSError as exc:
         return 127, "", str(exc)
     return proc.returncode, proc.stdout.strip(), proc.stderr.strip()
