@@ -136,7 +136,7 @@ Group A explicitly does not complete approval-evidence locator verification, act
 
 Group B is Contract Repair Native Closure. It starts only after fresh v2.7.2 remote-active and current repository/runtime observations. It inherits accepted Contract Repair Tasks 5–9 with unchanged technical semantics. Only future scheduling/release placement changes: this work now belongs in v2.7.3 after Group A activation.
 
-The retained native composition includes immutable approval evidence, exact mutation scope, pre-execution review/freshness, State revision binding, one governed mutation entry, durable authority artifacts, and fail-closed outcomes. Group B does not create/reuse a bridge, including bridge-005, or treat Group A as self-authorization.
+The retained native composition includes immutable approval evidence, exact mutation scope, pre-execution review/freshness, State revision binding, one governed mutation entry, durable authority artifacts, and fail-closed outcomes. This Design neither creates nor authorizes `framework-contract-repair-bridge-005`; bridge-004 cannot be reused, and Group A/v2.7.2 does not complete native Contract Repair authority. Therefore Group B still requires the accepted future migration-authority lifecycle before any Tasks 5–9 mutation. It preserves the accepted future bridge-005 identifier/role unless separately accepted future authority supersedes it. Its payload, exact scope, base facts, review evidence, and approval are not frozen now: they are prepared and re-observed only after v2.7.2 is remotely active, then receive independent PRE_EXECUTION review, exact-payload USER_APPROVER approval, and remote verification before use. No candidate rule may self-authorize that bridge.
 
 ## 13. Contract Repair Tasks 5–9 inheritance rules
 
@@ -145,8 +145,8 @@ TASKS_5_9_TECHNICAL_SEMANTICS_CHANGED = NO
 ```
 
 - **Task 5:** external approval-evidence locator verification remains immutable/content-addressed; a mutable ref is reachability/discovery only.
-- **Task 6:** actual Git changed-path oracle remains the post-execution scope authority for tracked staged/unstaged and untracked changes; expected evidence never grants scope.
-- **Task 7:** native control-plane composition stays within existing instruction/validator/governed-entry architecture, with anti-self-authorization, exact eligible scope, independent authority, review freshness, correlated approval, State revision binding, one governed mutation entry, and fail-closed behavior.
+- **Task 6:** actual Git changed-path oracle remains the post-execution scope authority. Before `COMMIT` or `PUSH`, it normalizes and unions tracked unstaged paths from `git diff --name-only -z`, tracked staged paths from `git diff --cached --name-only -z`, and untracked paths from `git ls-files --others --exclude-standard -z`; before `PUSH`, it additionally reads the committed candidate path set. The governed mutation path rejects `COMMIT`/`PUSH` unless each applicable actual-path union/set is a subset of the instruction's exact `scope_paths`. Expected evidence, including `files_changed`, and caller declarations never grant or replace authority.
+- **Task 7:** native control-plane composition stays within the existing instruction/validator/governed-entry architecture, with anti-self-authorization, exact eligible scope, independent authority, review freshness, State revision binding, one governed mutation entry, and fail-closed behavior. It preserves two-hop approval correlation exactly: `APPROVAL_REQUEST.in_response_to_instruction_id = RECONCILIATION_REQUEST.instruction_id`; `APPROVAL_RESULT.response_to_instruction_id = APPROVAL_REQUEST.instruction_id`; and `APPROVAL_RESULT.approved_instruction.instruction_id = RECONCILIATION_REQUEST.instruction_id`. The gate compares the closed `approved_instruction` authority core exactly with the actual `RECONCILIATION_REQUEST` authority core, including identity, expected State revision, base SHA, normalized exact `scope_paths`, issuer/executor roles, authorized action, and immutable target Work Unit reference. The execution-side locator remains bound to immutable external approval evidence (`evidence_commit_sha`, path, and `blob_sha`) with required remote reachability/verification; a mutable ref head is transport/discovery only and cannot replace the bound commit/blob tuple.
 - **Task 8:** first native seed materialization/bounded consumption retain accepted durable authority and exact limits; they are not general bootstrap authority.
 - **Task 9:** production-shaped composed FIX/control-plane proof retains schema, taxonomy, role, correlation, and authority composition; fixtures/in-memory shortcuts cannot replace it.
 
@@ -312,7 +312,7 @@ Plugin work remains deferred. This Design does not resume Task 3 Plugin Core, mo
 
 ## 29. Explicit deferred work
 
-Deferred: Plugin work; any bridge-005 proposal; automatic Framework/Plugin evolution; State Oracle work outside accepted Contract Repair scope; new authority/State/Resume/workflow systems; databases/services/daemons; opaque scoring/resource governance; and any semantic amendment or unresolved schema decision. Deferral grants no authority to resume.
+Deferred: Plugin work; bridge-005 payload preparation, scope selection, review evidence, approval, and authorization until after v2.7.2 is remotely active; automatic Framework/Plugin evolution; State Oracle work outside accepted Contract Repair scope; new authority/State/Resume/workflow systems; databases/services/daemons; opaque scoring/resource governance; and any semantic amendment or unresolved schema decision. Deferral grants no authority to resume.
 
 ## 30. Design acceptance criteria
 
@@ -326,5 +326,5 @@ Independent review can accept only if repository facts confirm:
 6. precedence prevents generic guidance from overriding Framework/Project authority or inventing a gate;
 7. cold recovery is repository-only and conflicts reconcile;
 8. existing mechanisms are reused with no unnecessary module/subsystem/schema assumption;
-9. Plugin remains deferred, bridge-005 is absent, and historical accepted artifacts are unchanged; and
+9. Plugin remains deferred, this candidate neither creates nor authorizes bridge-005, and historical accepted artifacts are unchanged; and
 10. the section-20 schema question is explicit and requires amendment if compatibility cannot be proven.
