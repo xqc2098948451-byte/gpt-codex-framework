@@ -1,0 +1,50 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "1682c2984f185114",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "FRAMEWORK_PLAN_READINESS_GAP",
+  "state_revision": 7,
+  "result": "CONFIRMED_GAP",
+  "source_repository_id": "1366213495",
+  "source_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_commit_sha": "efba38d1e72ad690fca41a8cbac3861f8ee39b7e",
+  "source_work_unit_id": "post-foundation-governance-plugin-implementation-plan-126",
+  "framework_version_used": "2.7.0",
+  "observed_at": "2026-09-16T16:49:00+08:00",
+  "evidence_type": [
+    "VALIDATOR_FALSE_POSITIVE",
+    "ROLE_ORCHESTRATION_FAILURE"
+  ],
+  "observed_candidate_plan_shas": [
+    "e9fd8eebc4b358326a68d9e714f27ecadefaa68d",
+    "19fc365d23575fc2ebf871724fe3c936b63cca32"
+  ],
+  "observed_fact": "Implementation Plan self-review reported IMPLEMENTATION_READY=PASS, NO_UNDEFINED_TYPES=PASS and NO_STALE_SIGNATURES=PASS, but independent review still found stale or contradictory interfaces, undefined or insufficiently resolved basis semantics, duplicate Plugin package-root declarations, and task steps that were not yet implementation-ready.",
+  "impact": "Without an independent repository-grounded readiness check, implementation could be authorized against a Plan whose declared interfaces, paths or execution steps do not match the current repository, causing avoidable remediation and scope churn during execution.",
+  "root_cause_status": "CONFIRMED_GAP_IN_PLAN_READINESS_EVIDENCE",
+  "root_cause": "PLAN_DECLARATION_DOES_NOT_PROVE_PLAN_EXECUTABILITY",
+  "current_workaround": "Before implementation authorization, GPT/Reviewer independently cross-checks Plan-declared existing function signatures, file/package paths, produced/consumed interfaces, type definitions and task execution granularity against the current repository authority.",
+  "existing_capability_used": [
+    "PRE_EXECUTION_REVIEW",
+    "FRAMEWORK_VALIDATION",
+    "REPOSITORY_AUTHORITY"
+  ],
+  "preservation_evidence": "Independent pre-execution review caught the Plan defects before implementation, demonstrating that the existing review gate remains valuable and should be preserved. The candidate optimization is to strengthen objective Plan-readiness evidence within existing framework-validation responsibility rather than create a second review system.",
+  "optimization_candidate": {
+    "name": "PLAN_READINESS_EVIDENCE",
+    "status": "EVIDENCE_ONLY_NOT_AUTHORIZED",
+    "minimum_closure_hypothesis": [
+      "Verify declared existing function signatures against repository code",
+      "Verify every produced type/interface is defined and every consumer matches it",
+      "Reject duplicate or conflicting output/package paths",
+      "Verify Plan task steps satisfy the declared executable TDD contract",
+      "Bind IMPLEMENTATION_READY claims to these repository-observed facts"
+    ],
+    "new_module_required": false,
+    "new_database_required": false,
+    "new_state_system_required": false
+  },
+  "authority_boundary": "This evidence does not authorize Framework mutation. It is input for a future user-approved Framework Optimization Review."
+}
