@@ -131,7 +131,7 @@ This Design does not:
 
 ## 6. Chosen reconciliation architecture
 
-The smallest safe correction is to complete the three historical prerequisite contracts in their existing owners and, as a separately classified current-baseline compatibility reconciliation, align Instruction version representation with the already-active repository SemVer grammar. No parallel compatibility layer is introduced.
+The smallest safe correction is to complete the three historical prerequisite contracts in their existing owners and, as a separately classified current-baseline compatibility reconciliation, make Instruction version representation accept the active version through strict SemVer 2.0.0 syntax. No parallel compatibility layer is introduced.
 
 ### 6.1 Instruction contract completion
 
@@ -192,9 +192,11 @@ Required behavior is exactly the accepted historical Task-4 behavior:
 - `scope.additionalProperties = false`.
 - `scope.owned_paths` is required, non-empty, unique.
 - `scope.excluded_paths` is optional and unique.
-- a selector is a safe repository-relative exact file path or a safe directory prefix ending in one `/`.
+- owned and excluded selectors use the same safe repository-relative exact-file / directory-prefix grammar; a directory prefix ends in exactly one `/`.
 - absolute paths, drive-qualified paths, backslashes, `.`, `..`, empty components, empty strings, malformed suffixes, and duplicate selectors fail closed.
-- requested exact paths are covered only by exact selector equality or a valid owned directory prefix.
+- an exact requested path is authorized by scope only when it matches at least one `owned_paths` selector **and matches no `excluded_paths` selector**.
+- exclusion has precedence over ownership for both exact selectors and directory-prefix selectors. `excluded_paths` can only narrow effective scope; it never grants or restores coverage.
+- for example, `owned_paths = ["src/"]`, `excluded_paths = ["src/private/"]`, and requested `src/private/key` must be rejected, while an otherwise valid requested `src/public/key` remains eligible for the other authority checks.
 - durable current Work Units must remain valid; if closing the schema exposes a real incompatible durable Work Unit, implementation stops as `DESIGN_RECONCILIATION_REQUIRED` rather than weakening the grammar.
 
 The historical revision-12 seed remains historical evidence only. This reconciliation does not make it current or reusable.
@@ -203,20 +205,47 @@ The historical revision-12 seed remains historical evidence only. This reconcili
 
 This subsection is a current B0 compatibility prerequisite, not part of the historical Task-2 semantic definition.
 
-Current owners remain the existing Instruction Envelope version field, its schema validation, and focused Instruction/version tests. The correction reuses the SemVer identity grammar already enforced by current `release_framework.py` and `validate_framework.py`:
+Current owners remain the existing Instruction Envelope version field, its schema validation, and focused Instruction/version tests. This correction does **not** copy the current permissive release regex as though it were SemVer-complete. The Instruction representation must use strict SemVer 2.0.0 syntax:
 
-- `Instruction.framework_version` must be able to represent the exact active identity `2.7.2+fix.1`.
-- valid SemVer prerelease/build metadata is representationally valid; arbitrary non-SemVer strings remain invalid.
-- accepting the syntax does not grant authority, select a Framework version, or permit version substitution.
-- this reconciliation adds no new version-equality authority gate. Existing project/repository/State/Instruction authority checks remain unchanged; `framework_version` grammar alignment is representational compatibility only.
-- if a future task requires a new version-equality authorization rule, that is outside this amendment and requires separate governed authority rather than being inferred from SemVer acceptance.
+- core version is `MAJOR.MINOR.PATCH`; each numeric core identifier is `0` or a non-zero digit followed by digits, so leading zeroes are rejected;
+- optional prerelease metadata is a dot-separated sequence of non-empty `[0-9A-Za-z-]` identifiers; a numeric prerelease identifier has no leading zeroes;
+- optional build metadata is a dot-separated sequence of non-empty `[0-9A-Za-z-]` identifiers; numeric build identifiers may contain leading zeroes as SemVer permits;
+- `Instruction.framework_version` must accept the exact active identity `2.7.2+fix.1`;
+- malformed identities such as `02.7.2`, `2.7.2-..`, `2.7.2-01`, and `2.7.2+` must be rejected;
+- accepting the syntax does not grant authority, select a Framework version, or permit version substitution;
+- this reconciliation adds no new version-equality authority gate. Existing project/repository/State/Instruction authority checks remain unchanged; version syntax is representational compatibility only;
+- the current release parser/validator regex is not modified or redefined by this amendment. Tightening release parsing, if desired, is separate governed work;
+- if a future task requires a new version-equality authorization rule, that is outside this amendment and requires separate governed authority rather than being inferred from SemVer acceptance;
 - no historical Task-2, Task-5–9, release, or authority semantic is reclassified as a result of this compatibility fix.
+
+### 6.5 Framework module route
+
+Fresh Registry observation classifies this prerequisite reconciliation as:
+
+```text
+CROSS_MODULE_CHANGE_REQUIRED = YES
+MODULE_ROUTE =
+  role-communication
+  -> framework-core
+  -> framework-validation
+NEW_FRAMEWORK_MODULE = NO
+OWNERSHIP_TRANSFER = NO
+ROUTING_GRANTS_EXECUTION_AUTHORITY = NO
+```
+
+Responsibility remains with the existing owners:
+
+- **`role-communication`** owns the Instruction/Result schemas, builders/return surface, role taxonomy, and corresponding templates in sections 6.1, 6.2, and 6.4. Its descriptor-required regression set is `test_role_authority.py`, `test_role_communication_taxonomy.py`, `test_instruction_role_contract.py`, and `test_result_contract_schema.py`.
+- **`framework-core`** owns `work-unit.schema.json` and `WORK_UNIT.template.json` in section 6.3. Its descriptor-required tests remain `test_framework_module_schemas.py`, `test_framework_module_routing.py`, `test_kernel_conformance.py`, `test_execution_telemetry.py`, and `test_framework_feedback.py`.
+- **`framework-validation`** owns `validate_project.py` and its self-hosting/context-binding validation tests used to enforce effective Work Unit scope. Its descriptor-required regression set is `test_self_hosting_validator.py`, `test_validator_context_binding.py`, and `test_framework_module_routing.py`.
+
+Dependency direction is preserved: `role-communication` depends on `framework-core`; `framework-validation` consumes both Framework governance and role-communication contracts. The future Plan must bind exact changed paths to these current owners and run the applicable descriptor-required tests. Cross-module routing is structural metadata only; it neither expands scope nor grants mutation authority.
 
 ## 7. Implementation ordering after Design/Plan acceptance
 
 The future Plan amendment must keep the correction serial and bounded:
 
-1. prerequisite P0 observation and exact-path binding;
+1. prerequisite P0 observation, exact-path binding, and verification of the `CROSS_MODULE_CHANGE_REQUIRED` route against the current Registry;
 2. Task-2 contract RED -> minimal GREEN -> sensitivity restoration;
 3. independent post-review;
 4. Task-3 contract RED -> minimal GREEN -> sensitivity restoration;
@@ -241,8 +270,8 @@ Minimum sensitivity matrix:
 | Instruction | empty/duplicate/absolute/escaping `scope_paths` | schema/builder reject |
 | Instruction | malformed `approval_evidence_ref` | schema/builder reject |
 | Instruction | locator on an ineligible instruction | contract rejects |
-| Instruction | active `2.7.2+fix.1` framework identity | schema accepts exact valid SemVer identity |
-| Instruction | arbitrary malformed/non-SemVer framework identity | schema rejects |
+| Instruction | active `2.7.2+fix.1` framework identity | schema accepts exact strict-SemVer identity |
+| Instruction | malformed `02.7.2`, `2.7.2-..`, `2.7.2-01`, or `2.7.2+` | schema/builder reject |
 | FIX | missing/stale `remediation_decision_ref` where lifecycle requires it | existing lifecycle/gate rejects |
 | Approval Result | missing/invalid `result_id` or wrong responder role | schema/role reject |
 | Approval Result | missing/invalid decision or incomplete authority core | schema rejects |
@@ -250,7 +279,9 @@ Minimum sensitivity matrix:
 | Approval Result | changed but still well-formed approved core | intrinsic schema may pass; future Task-7 exact correlation must reject |
 | Work Unit | missing/empty/duplicate/malformed selector | schema rejects |
 | Work Unit | uncovered requested path | existing authority comparison rejects |
-| Work Unit | valid directory-prefix coverage | existing authority comparison passes |
+| Work Unit | `owned_paths=["src/"]`, `excluded_paths=["src/private/"]`, request `src/private/key` | exclusion precedence rejects |
+| Work Unit | same selectors, request `src/public/key` | effective scope coverage passes before other authority checks |
+| Work Unit | valid directory-prefix coverage without matching exclusion | existing authority comparison passes |
 | Work Unit | historical seed at current revision | remains non-current/non-reusable |
 
 Every sensitivity case must demonstrate FAIL on the injected fault and PASS after exact restoration.
@@ -266,7 +297,8 @@ At minimum, the implementation candidate must rerun the affected adjacent Group-
 - continuity/resume;
 - Git continuity;
 - project validation;
-- consumer projection/runtime validation.
+- consumer projection/runtime validation;
+- Registry/module-routing validation and every applicable descriptor-required test for `role-communication`, `framework-core`, and `framework-validation`.
 
 Any requirement to alter Group-A semantics, Result execution semantics, release-state semantics, or the staged release boundaries returns `AMENDMENT_REQUIRED` again.
 
@@ -341,22 +373,26 @@ This Design is acceptable only if independent review confirms all of the followi
 4. `2.7.2+fix.1` is treated as the corrective active Group-A baseline, not a new Group;
 5. no Plugin work or bridge-005 work begins;
 6. the Task-2/3/4 contracts are restored in their existing owners;
-7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using the repository's existing SemVer grammar without broadening authority or adding a new version-equality authorization gate, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
-8. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
-9. no new authority/state/review/module subsystem is introduced;
-10. historical artifacts are not rewritten;
-11. Group-A reliability behavior remains protected by regression tests;
-12. repeated B0 PASS does not itself grant B1 mutation authority;
-13. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, B0 is repeated successfully, and any still-required migration authority is separately reviewed, exactly approved, and remotely verified.
+7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using strict SemVer 2.0.0 syntax without broadening authority or adding a new version-equality authorization gate, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
+8. Work Unit effective scope gives `excluded_paths` precedence over matching `owned_paths`, so exclusions can only narrow authority;
+9. the change is explicitly classified `CROSS_MODULE_CHANGE_REQUIRED` across the existing `role-communication`, `framework-core`, and `framework-validation` owners with their required tests and without ownership transfer;
+10. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
+11. no new authority/state/review/module subsystem is introduced;
+12. historical artifacts are not rewritten;
+13. Group-A reliability behavior remains protected by regression tests;
+14. repeated B0 PASS does not itself grant B1 mutation authority;
+15. B1–B5 remain blocked until this reconciliation is accepted, planned, implemented, reviewed, B0 is repeated successfully, and any still-required migration authority is separately reviewed, exactly approved, and remotely verified.
 
 ## 13. Candidate self-review
 
 - Capability-before-Design: PASS; existing owners were inspected before proposing structure.
 - Historical semantics preserved: PASS; the candidate quotes the accepted Task-2/3/4 responsibilities and leaves Tasks 5–9 unchanged.
-- SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure and introduces no version-equality authority rule.
+- SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure, uses strict SemVer 2.0.0 syntax, and introduces no version-equality authority rule.
+- Effective-scope exclusion: PASS; excluded selectors take precedence and can only narrow Work Unit scope.
+- Module routing: `CROSS_MODULE_CHANGE_REQUIRED`; existing `role-communication`, `framework-core`, and `framework-validation` owners are explicit and no ownership transfer/new module is proposed.
 - Review binding: PASS; independent review is defined over exact cumulative `base..candidate`, not the last commit only.
 - B1 authority boundary: PASS; repeated B0 PASS remains non-authorizing and any required migration authority stays separately gated.
-- Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners, including reuse of the already-existing Framework SemVer grammar for Instruction version representation.
+- Minimum structural delta: PASS; all changes stay in existing schema/builder/template/validator/test owners; strict Instruction SemVer representation is local to the existing role-communication contract and does not alter release parsing.
 - New module/state/authority subsystem: NONE.
 - Plugin/bridge-005 work: NONE.
 - Release-boundary change: NONE.
