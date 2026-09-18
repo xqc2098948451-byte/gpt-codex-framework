@@ -12,7 +12,7 @@
   "reason": "NO_ACTIVE_WORK_UNIT_BOOTSTRAP_PATH",
   "normal_mutation_gate_satisfied": false,
   "user_approval_required": true,
-  "user_approval_observed": false,
+  "user_approval_observed": true,
   "new_work_unit": "framework-staged-closure-group-a-001",
   "exception_scope": "CONTROL_PLANE_AUTHORITY_CREATION_ONLY",
   "group_a_implementation_authorized_by_exception": false,
@@ -38,7 +38,6 @@
   },
   "bootstrap_payload": {
     "base_remote_main": "6600a55ace1faf160309c82a1e5e2663c22d3dc6",
-    "candidate_sha": "PENDING_EXACT_REVIEWED_CANDIDATE_SHA",
     "changed_paths": [
       ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
       ".gpt-codex/work-units/framework-staged-closure-group-a-001.json",

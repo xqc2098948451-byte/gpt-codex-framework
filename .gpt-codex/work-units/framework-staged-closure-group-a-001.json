@@ -48,10 +48,18 @@
     ]
   },
   "artifact_refs": {
-    "design": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546:docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
-    "plan": "94eb80869f43800c1c6b1a53d7393b90b4e7433b:docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md",
-    "bootstrap_adjudication": ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
+      "sha": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md",
+      "sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b"
+    }
   },
+  "evidence_refs": [
+    ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
+  ],
   "selected_extensions": {
     "skills": ["github-project-continuity"],
     "guardrails": ["universal-safety", "cross-project-context-binding", "github-repository-binding"],
