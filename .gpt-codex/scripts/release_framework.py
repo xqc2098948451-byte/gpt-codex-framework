@@ -203,6 +203,22 @@ def _zip_write_deterministic(zf: zipfile.ZipFile, source: Path, archive_name: st
     zf.writestr(info, source.read_bytes())
 
 
+def _canonicalize_staged_consumer_payloads(staging_root: Path, files: list[str]) -> None:
+    """Normalize staged UTF-8 text line endings without touching opaque bytes."""
+    for relative in files:
+        path = staging_root / Path(*PurePosixPath(relative).parts)
+        payload = path.read_bytes()
+        if b"\0" in payload:
+            continue
+        try:
+            text = payload.decode("utf-8")
+        except UnicodeDecodeError:
+            continue
+        canonical = text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+        if canonical != payload:
+            path.write_bytes(canonical)
+
+
 def clean_output_dir(output_dir: Path) -> None:
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -245,6 +261,7 @@ def package_release(
     with tempfile.TemporaryDirectory(prefix="gpt-codex-consumer-projection-") as temp:
         staging_root = Path(temp)
         files = stage_consumer_projection(root, staging_root, manifest)
+        _canonicalize_staged_consumer_payloads(staging_root, files)
         boundary = scan_consumer_boundary(staging_root, manifest)
         boundary_failures = [item for values in boundary.values() for item in values]
         if boundary_failures:

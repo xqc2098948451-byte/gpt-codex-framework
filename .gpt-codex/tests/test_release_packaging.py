@@ -510,6 +510,48 @@ class ReleasePackagingTests(unittest.TestCase):
                 self.assertFalse(any(name.endswith("old-release.zip") for name in names))
                 self.assertIsNone(zf.testzip())
 
+    def test_package_release_canonicalizes_equivalent_consumer_lf_and_crlf_payloads(self):
+        with tempfile.TemporaryDirectory() as td:
+            lf_root = _fresh_release_fixture(td + "-lf")
+            crlf_root = _fresh_release_fixture(td + "-crlf")
+            lf_agents = lf_root / "AGENTS.md"
+            crlf_agents = crlf_root / "AGENTS.md"
+            lf_bytes = lf_agents.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+            crlf_bytes = lf_bytes.replace(b"\n", b"\r\n")
+            lf_agents.write_bytes(lf_bytes)
+            crlf_agents.write_bytes(crlf_bytes)
+            self.assertNotEqual(lf_agents.read_bytes(), crlf_agents.read_bytes())
+
+            lf_result = package_release(
+                lf_root, Path(td) / "lf-output", "2.0.0", 1, {"framework": "PASS", "tests": "PASS"}
+            )
+            crlf_result = package_release(
+                crlf_root, Path(td) / "crlf-output", "2.0.0", 1, {"framework": "PASS", "tests": "PASS"}
+            )
+            lf_zip = Path(lf_result["zip_path"])
+            crlf_zip = Path(crlf_result["zip_path"])
+
+            self.assertEqual(lf_zip.read_bytes(), crlf_zip.read_bytes())
+            self.assertEqual(lf_result["sha256"], crlf_result["sha256"])
+            self.assertEqual(lf_zip.stat().st_size, crlf_zip.stat().st_size)
+            with zipfile.ZipFile(lf_zip) as archive:
+                self.assertIsNone(archive.testzip())
+            with zipfile.ZipFile(crlf_zip) as archive:
+                self.assertIsNone(archive.testzip())
+
+    def test_canonicalization_preserves_opaque_payload_bytes(self):
+        from release_framework import _canonicalize_staged_consumer_payloads
+
+        with tempfile.TemporaryDirectory() as td:
+            staging_root = Path(td)
+            opaque = staging_root / "opaque.bin"
+            original = b"\x00\xff\r\nopaque\r"
+            opaque.write_bytes(original)
+
+            _canonicalize_staged_consumer_payloads(staging_root, ["opaque.bin"])
+
+            self.assertEqual(opaque.read_bytes(), original)
+
 
 if __name__ == "__main__":
     unittest.main()

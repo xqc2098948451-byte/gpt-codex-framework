@@ -1,8 +1,8 @@
 {
   "version": "2.7.2+fix.1",
   "artifact": "gpt-codex-framework-v2.7.2+fix.1-bootstrap.zip",
-  "artifact_sha256": "63d53a6949e39ae1715ff978f089728e7e77a8041d8dcce28846f69c58537d27",
-  "artifact_size_bytes": 134672,
+  "artifact_sha256": "8d4ea848e2995d7d51dab0e73f22be0dc78723b954d0e204ad865e0b85f381f8",
+  "artifact_size_bytes": 134590,
   "artifact_hash_location": "EXTERNAL_RELEASE_SIDECAR",
   "kernel_version": "2.0.0",
   "schema_version": 1,
