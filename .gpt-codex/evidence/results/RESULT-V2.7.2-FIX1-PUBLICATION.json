@@ -1,0 +1,48 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-staged-closure-group-a-001",
+  "extension": {
+    "kind": "SKILL",
+    "id": "github-project-continuity",
+    "version": "1.0.0"
+  },
+  "status": "PASS",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.7.2+fix.1",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+  "remote_head_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+  "verified_baseline_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "state_revision": 15,
+  "execution": "CONFIRMED_PUBLICATION_REMOTE_VERIFICATION",
+  "changed": [
+    "v2.7.2+fix.1 corrective release asset"
+  ],
+  "verify": [
+    "remote main: b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+    "annotated tag v2.7.2+fix.1 target: b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+    "remote VERSION: 2.7.2+fix.1",
+    "published asset SHA-256: 8d4ea848e2995d7d51dab0e73f22be0dc78723b954d0e204ad865e0b85f381f8",
+    "published asset size: 134590 bytes"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.7.2-FIX1-REMOTE-PUBLICATION-VERIFICATION.json"
+  ],
+  "deviations": [],
+  "blockers": [],
+  "git": {
+    "base_sha": "72e9d16fe7f17b2d6975fe3a4dafa85e7aded4fd",
+    "implementation_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6"
+  },
+  "completion_gate": "GPT_DECISION",
+  "next_gpt_action": "GROUP_B_PRE_EXECUTION_REOBSERVATION_REQUIRED"
+}

@@ -1,0 +1,38 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "V2.7.2-FIX1-REMOTE-PUBLICATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "V2.7.2_FIX1_CONFIRMED_REMOTE_PUBLICATION",
+  "state_revision": 15,
+  "result": "VERIFIED",
+  "repository_identity": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_remote_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework.git",
+  "current_remote_ref": "refs/heads/main",
+  "remote_main_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+  "tag": "v2.7.2+fix.1",
+  "annotated_tag_object_sha": "ad0a9a0fd203ad6b2e7e353f6308e27901cd3350",
+  "tag_target_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+  "release": {
+    "version": "v2.7.2+fix.1",
+    "published": true,
+    "url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.7.2%2Bfix.1"
+  },
+  "remote_version": "2.7.2+fix.1",
+  "artifact": {
+    "name": "gpt-codex-framework-v2.7.2+fix.1-bootstrap.zip",
+    "url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/download/v2.7.2%2Bfix.1/gpt-codex-framework-v2.7.2+fix.1-bootstrap.zip",
+    "sha256": "8d4ea848e2995d7d51dab0e73f22be0dc78723b954d0e204ad865e0b85f381f8",
+    "size_bytes": 134590
+  },
+  "verification": {
+    "repository_identity": "PASS",
+    "remote_main": "PASS",
+    "annotated_tag": "PASS",
+    "release": "PASS",
+    "remote_version": "PASS",
+    "artifact_sha256": "PASS",
+    "artifact_size": "PASS"
+  }
+}
