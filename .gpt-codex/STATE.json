@@ -2,9 +2,9 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 12,
+  "revision": 13,
   "state": "AUTHORIZED",
-  "active_work_unit": "framework-baseline-stabilization-001",
+  "active_work_unit": "framework-staged-closure-group-a-001",
   "blockers": [],
   "reconciliation": null,
   "evidence_refs": [
@@ -26,7 +26,8 @@
     ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json",
     ".gpt-codex/evidence/TASK3-DEFERRAL-PUBLICATION-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
-    ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json"
+    ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json",
+    ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
@@ -35,5 +36,5 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
     "sync_status": "SYNC_PENDING"
   },
-  "next_action": "BASELINE_STABILIZATION_PRE_EXECUTION_REVIEW_REQUIRED"
+  "next_action": "GROUP_A_PRE_EXECUTION_REVIEW_REQUIRED"
 }

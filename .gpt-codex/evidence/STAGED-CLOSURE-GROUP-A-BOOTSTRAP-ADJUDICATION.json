@@ -1,0 +1,50 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "USER_ASSERTED",
+  "subject": "ROOT_CONTROL_PLANE_BOOTSTRAP_ADJUDICATION",
+  "state_revision": 13,
+  "result": "ACCEPT",
+  "decision": "ACCEPT",
+  "classification": "ONE_TIME_ROOT_CONTROL_PLANE_BOOTSTRAP_RECONCILIATION",
+  "reason": "NO_ACTIVE_WORK_UNIT_BOOTSTRAP_PATH",
+  "normal_mutation_gate_satisfied": false,
+  "user_approval_required": true,
+  "user_approval_observed": false,
+  "new_work_unit": "framework-staged-closure-group-a-001",
+  "exception_scope": "CONTROL_PLANE_AUTHORITY_CREATION_ONLY",
+  "group_a_implementation_authorized_by_exception": false,
+  "plugin_implementation_authorized": false,
+  "group_b_or_c_authorized": false,
+  "general_bootstrap_mechanism_created": false,
+  "exception_ends_when_new_work_unit_is_durable": true,
+  "accepted_artifacts": {
+    "staged_closure_design": {
+      "commit_sha": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546",
+      "path": "docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
+      "blob_sha": "2bf4e96b1a6c030d844dd6f0734b017e78e81b00",
+      "sha256": "8821a913f38d80a1081d235c07cd47b19ea4a75a8cc56818e62ca5b65c979b6e",
+      "acceptance_decision": "ACCEPT"
+    },
+    "master_plan": {
+      "commit_sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b",
+      "path": "docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md",
+      "blob_sha": "a0677f224bf2d92014ef5c95218ca6a470027a0b",
+      "sha256": "1f22521e31eb8a8ed55f471da9ed2865d3e23b15ab3cb2c6cf9f968d333ba4a8",
+      "acceptance_decision": "ACCEPT"
+    }
+  },
+  "bootstrap_payload": {
+    "base_remote_main": "6600a55ace1faf160309c82a1e5e2663c22d3dc6",
+    "candidate_sha": "PENDING_EXACT_REVIEWED_CANDIDATE_SHA",
+    "changed_paths": [
+      ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
+      ".gpt-codex/work-units/framework-staged-closure-group-a-001.json",
+      ".gpt-codex/STATE.json"
+    ],
+    "state_transition": "12->13",
+    "work_unit_id": "framework-staged-closure-group-a-001"
+  }
+}

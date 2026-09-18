@@ -1,0 +1,74 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-staged-closure-group-a-001",
+  "goal": "Execute accepted Group A / v2.7.2 Stabilization / Execution Reliability under the accepted staged-closure Design and Master Plan.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/git_continuity.py",
+      ".gpt-codex/scripts/github_repository_binding.py",
+      ".gpt-codex/scripts/release_framework.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/result_return.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_git_continuity.py",
+      ".gpt-codex/tests/test_github_continuity_validator.py",
+      ".gpt-codex/tests/test_publication_authority.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/tests/test_remote_verification.py",
+      ".gpt-codex/tests/test_result_return.py",
+      ".gpt-codex/tests/test_handoff_navigation_contract.py",
+      ".gpt-codex/tests/test_harness_handoff.py",
+      "VERSION",
+      ".gpt-codex/CHANGELOG.md",
+      "releases/INDEX.json",
+      "releases/records/v2.7.2.json",
+      "dist/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      "plugins/gpt-codex-framework/",
+      ".gpt-codex/schemas/",
+      "docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
+      "docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md"
+    ]
+  },
+  "acceptance": {
+    "group": "A",
+    "release": "2.7.2",
+    "requirements": [
+      "Group A follows the accepted staged-closure Design and Master Plan.",
+      "Group B/C, Plugin work, and bridge-005 are excluded.",
+      "Implementation starts only after a separately passing PRE_EXECUTION review."
+    ]
+  },
+  "artifact_refs": {
+    "design": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546:docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
+    "plan": "94eb80869f43800c1c6b1a53d7393b90b4e7433b:docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md",
+    "bootstrap_adjudication": ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
+  },
+  "selected_extensions": {
+    "skills": ["github-project-continuity"],
+    "guardrails": ["universal-safety", "cross-project-context-binding", "github-repository-binding"],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"],
+    "forbidden_actions": ["COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 13,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": true,
+    "implementation_start_allowed": false,
+    "next_gate": "PRE_EXECUTION_REVIEW",
+    "bootstrap_exception_ref": ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json"
+  }
+}
