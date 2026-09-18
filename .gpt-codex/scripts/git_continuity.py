@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import re
+import subprocess
 from typing import Any, Callable, Mapping
+from pathlib import Path
 
 
 _REVIEW_STAGES = frozenset({"DESIGN", "PLAN", "IMPLEMENTATION"})
@@ -50,6 +52,50 @@ class SyncDecision:
     publish_allowed: bool
 
 
+def _canonical_git_runner(command: list[str], root: Path) -> tuple[int, str, str]:
+    try:
+        result = subprocess.run(command, cwd=root, capture_output=True, check=False)
+    except OSError as exc:
+        return 127, "", str(exc)
+    return result.returncode, result.stdout.decode("utf-8", "surrogateescape"), result.stderr.decode("utf-8", "surrogateescape")
+
+
+def observe_canonical_git_facts(root: Path, runner: Callable[[list[str], Path], tuple[int, str, str]] = _canonical_git_runner) -> dict[str, Any]:
+    """Read EOL-sensitive Git facts with a command-local canonical override."""
+    code, stdout, _stderr = runner(["git", "config", "--get", "--local", "core.autocrlf"], root)
+    if code not in (0, 1):
+        return {"deterministic": False, "mutation_allowed": False, "reason": "GIT_PROBE_FAILED"}
+    ambient = "UNSET" if code == 1 or not stdout.strip() else stdout.strip().upper()
+    if ambient not in {"TRUE", "FALSE", "INPUT", "UNSET"}:
+        return {"deterministic": False, "mutation_allowed": False, "reason": "AUTOCRLF_MALFORMED"}
+    code, status, _stderr = runner(["git", "-c", "core.autocrlf=false", "status", "--porcelain", "-z"], root)
+    if code != 0:
+        return {"deterministic": False, "mutation_allowed": False, "reason": "GIT_PROBE_FAILED"}
+    paths = tuple(sorted(item[3:] for item in status.split("\0") if len(item) >= 4))
+    return {"deterministic": True, "mutation_allowed": True, "ambient_autocrlf": ambient, "changed_paths": paths}
+
+
+def evaluate_execution_capability_preflight(observed: Mapping[str, Any]) -> SyncDecision:
+    """Fail closed before mutation from bounded A1 capability observations."""
+    if not isinstance(observed, Mapping):
+        return _deny("RECONCILIATION_REQUIRED", "CAPABILITY_OBSERVATION_MALFORMED")
+    required = (("powershell", "SUPPORTED"), ("python", "AVAILABLE"), ("git", "AVAILABLE"))
+    for name, expected in required:
+        fact = observed.get(name)
+        if not isinstance(fact, Mapping) or not isinstance(fact.get("status"), str):
+            return _deny("RECONCILIATION_REQUIRED", "CAPABILITY_OBSERVATION_MALFORMED")
+        if fact["status"] != expected:
+            return _deny("BLOCKED", f"REQUIRED_CAPABILITY_{name.upper()}_{fact['status']}")
+    remote = observed.get("remote")
+    if not isinstance(remote, Mapping) or not isinstance(remote.get("available"), bool):
+        return _deny("RECONCILIATION_REQUIRED", "CAPABILITY_OBSERVATION_MALFORMED")
+    if not remote["available"]:
+        return _deny("BLOCKED", "REQUIRED_CAPABILITY_REMOTE_UNAVAILABLE")
+    if observed.get("unicode_path_round_trip") is not True:
+        return _deny("BLOCKED", "REQUIRED_CAPABILITY_UNICODE_UNAVAILABLE")
+    return SyncDecision("CAPABILITY_READY", "CAPABILITY_READY", True, False)
+
+
 def evaluate_worktree_cleanup(
     active_work_unit: bool | None,
     durable_git_authority: bool | None,
@@ -65,6 +111,52 @@ def evaluate_worktree_cleanup(
     ):
         return "CLEAN"
     return "KEEP"
+
+
+def classify_cleanup_manifest(manifest: Mapping[str, Any], allowed_root: Path, filesystem_facts: Mapping[str, Any]) -> dict[str, Any]:
+    """Classify one manifest target without changing the filesystem."""
+    evidence = {"manifest_identity": None, "allowed_root": str(allowed_root), "target": None, "canonical_path": None}
+    if not isinstance(manifest, Mapping) or not isinstance(allowed_root, Path):
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_INVALID"}
+    manifest_id, manifest_root = manifest.get("manifest_id"), manifest.get("allowed_root")
+    if not isinstance(manifest_id, str) or not manifest_id.strip() or len(manifest_id) > 160 or not isinstance(manifest_root, str) or not manifest_root.strip():
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_IDENTITY_INVALID"}
+    try:
+        root = Path(manifest_root).resolve()
+    except OSError:
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_ROOT_INVALID"}
+    if root != allowed_root.resolve():
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_ROOT_MISMATCH"}
+    evidence["manifest_identity"] = manifest_id
+    evidence["allowed_root"] = str(root)
+    entries = manifest.get("entries")
+    if not isinstance(entries, list) or not entries:
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_INVALID"}
+    targets = [entry.get("target") for entry in entries if isinstance(entry, Mapping)]
+    if len(entries) != len(targets) or not all(isinstance(target, str) for target in targets) or len(set(targets)) != len(targets) or len(entries) != 1:
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_AMBIGUOUS"}
+    entry = entries[0]
+    operation, target = entry.get("operation"), entry.get("target")
+    evidence["target"] = target
+    if operation not in {"KEEP", "DELETE"} or not isinstance(target, str) or not target or any(char in target for char in "*?[]"):
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "MANIFEST_ENTRY_INVALID"}
+    candidate = Path(target)
+    if candidate.is_absolute() or candidate.drive or ".." in candidate.parts:
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "TARGET_PATH_UNSAFE"}
+    raw_target = root / candidate
+    if not raw_target.exists():
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "TARGET_MISSING"}
+    try:
+        stat = raw_target.lstat()
+        reparse = raw_target.is_symlink() or bool(getattr(stat, "st_file_attributes", 0) & 0x400)
+        canonical = raw_target.resolve()
+        canonical.relative_to(root)
+    except (OSError, ValueError):
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "TARGET_ESCAPES_ROOT"}
+    evidence["canonical_path"] = str(canonical)
+    if reparse:
+        return {**evidence, "decision": "RECONCILIATION_REQUIRED", "reason": "TARGET_REPARSE_POINT"}
+    return {**evidence, "decision": operation, "classification": "IN_ROOT_ORDINARY", "reason": "MANIFEST_TARGET_VALID"}
 
 
 def is_verified_repository_continuity_evidence(evidence: Mapping[str, Any] | None) -> bool:
@@ -301,3 +393,37 @@ def verify_remote_publication(
         "remote_ref": remote_ref,
         "remote_head_sha": expected_publication_commit,
     }
+
+
+def verify_remote_activation(facts: Mapping[str, Any]) -> dict[str, Any]:
+    """Classify caller-supplied authoritative activation observations only."""
+    if not isinstance(facts, Mapping) or facts.get("evidence_source") != "TOOL_OBSERVED":
+        return {"status": "FAILED", "reason": "REMOTE_EVIDENCE_SOURCE_INVALID", "evidence_type": "TOOL_OBSERVED"}
+    required = (
+        "bound_repository_id", "observed_repository_id", "expected_remote_ref", "observed_remote_ref",
+        "candidate_sha", "observed_remote_branch_sha", "observed_tag_target_sha", "target_version",
+        "expected_tag", "observed_tag", "observed_release_version", "observed_remote_version",
+    )
+    if any(facts.get(key) is None for key in required):
+        return {"status": "UNAVAILABLE", "reason": "REMOTE_ACTIVATION_FACT_UNAVAILABLE", "evidence_type": "TOOL_OBSERVED"}
+    for left, right, code in (
+        ("observed_repository_id", "bound_repository_id", "GITHUB_REPOSITORY_MISMATCH"),
+        ("observed_remote_ref", "expected_remote_ref", "REMOTE_REF_MISMATCH"),
+        ("observed_remote_branch_sha", "candidate_sha", "REMOTE_HEAD_MISMATCH"),
+        ("observed_tag_target_sha", "candidate_sha", "REMOTE_TAG_TARGET_MISMATCH"),
+        ("observed_tag", "expected_tag", "REMOTE_RELEASE_VERSION_MISMATCH"),
+        ("observed_release_version", "target_version", "REMOTE_RELEASE_VERSION_MISMATCH"),
+        ("observed_remote_version", "target_version", "REMOTE_VERSION_MISMATCH"),
+    ):
+        if facts[left] != facts[right]:
+            return {"status": "FAILED", "reason": code, "evidence_type": "TOOL_OBSERVED"}
+    for expected, observed, code in (
+        ("expected_artifact_sha256", "observed_artifact_sha256", "REMOTE_ARTIFACT_SHA_MISMATCH"),
+        ("expected_artifact_size_bytes", "observed_artifact_size_bytes", "REMOTE_ARTIFACT_SIZE_MISMATCH"),
+    ):
+        if facts.get(expected) is not None:
+            if facts.get(observed) is None:
+                return {"status": "UNAVAILABLE", "reason": "REMOTE_ACTIVATION_FACT_UNAVAILABLE", "evidence_type": "TOOL_OBSERVED"}
+            if facts[expected] != facts[observed]:
+                return {"status": "FAILED", "reason": code, "evidence_type": "TOOL_OBSERVED"}
+    return {"status": "VERIFIED", "reason": "REMOTE_ACTIVATION_VERIFIED", "evidence_type": "TOOL_OBSERVED", "candidate_sha": facts["candidate_sha"]}

@@ -77,19 +77,70 @@ class ResultReturnTests(unittest.TestCase):
                 "return_to_gpt_required": True,
             }
         )
-
         self.assertEqual(
             render_compact_gpt_return(value).splitlines(),
             [
-                "RESULT: PASS",
-                "WORK_UNIT: WU-1",
-                "HEAD_SHA: " + "b" * 40,
-                "RESULT_REF: result-1",
-                "STATE_REVISION: 7",
-                "BLOCKERS: NONE",
-                "NEXT_ACTION: REVIEW",
+                "RESULT: PASS", "WORK_UNIT: WU-1", "HEAD_SHA: " + "b" * 40,
+                "RESULT_REF: result-1", "STATE_REVISION: 7", "EVIDENCE_REFS: EVIDENCE-001",
+                "REVIEW_STATUS: NONE", "ARTIFACT_LOCATOR: NONE", "BLOCKERS: NONE", "NEXT_ACTION: REVIEW",
             ],
         )
+
+    def test_compact_return_includes_bounded_navigation_without_sensitive_content(self):
+        value = envelope("PASS")
+        value.update({"result_id": "result-3", "review_status": "PASS", "artifact_locator": {"commit_sha": "a" * 40, "path": "docs/plan.md", "blob_sha": "b" * 40}, "artifact_content": "SECRET_TOKEN=do-not-leak"})
+        rendered = render_compact_gpt_return(value)
+        self.assertIn("EVIDENCE_REFS: EVIDENCE-001", rendered)
+        self.assertIn("REVIEW_STATUS: PASS", rendered)
+        self.assertIn("ARTIFACT_LOCATOR:", rendered)
+        self.assertNotIn("SECRET_TOKEN", rendered)
+
+    def test_compact_return_omits_invalid_sensitive_or_oversized_locator(self):
+        value = envelope("PASS")
+        value.update({"result_id": "result-4", "artifact_locator": {"repository": "token=SECRET123", "commit_sha": "a" * 40, "path": "C:\\Users\\xxx", "blob_sha": "b" * 40}})
+        rendered = render_compact_gpt_return(value)
+        self.assertIn("ARTIFACT_LOCATOR: NONE", rendered)
+        self.assertNotIn("SECRET123", rendered)
+        self.assertNotIn("C:\\Users", rendered)
+        value["artifact_locator"] = {"repository": "r" * 500, "commit_sha": "a" * 40, "path": "docs/plan.md", "blob_sha": "b" * 40}
+        self.assertIn("ARTIFACT_LOCATOR: NONE", render_compact_gpt_return(value))
+
+    def test_compact_return_filters_all_secret_bearing_locator_fields(self):
+        value = envelope("PASS")
+        value["result_id"] = "result-5"
+        for locator in (
+            {"repository": "ghp_test_secret", "commit_sha": "a" * 40, "path": "docs/a", "blob_sha": "b" * 40},
+            {"repository": "owner/repo", "commit_sha": "a" * 40, "path": "reports/token=abc/result.json", "blob_sha": "b" * 40},
+            {"repository": "owner/repo", "commit_sha": "a" * 40, "path": "secret/password/value", "blob_sha": "b" * 40},
+            {"repository": "owner/repo", "commit_sha": "invalid text", "path": "docs/a", "blob_sha": "b" * 40},
+            {"repository": "owner/repo", "commit_sha": "a" * 40, "path": "docs/a", "blob_sha": "invalid text"},
+        ):
+            value["artifact_locator"] = locator
+            rendered = render_compact_gpt_return(value)
+            self.assertIn("ARTIFACT_LOCATOR: NONE", rendered)
+            self.assertNotIn("token=abc", rendered)
+            self.assertNotIn("ghp_test_secret", rendered)
+
+    def test_compact_return_allows_only_safe_repository_relative_locator_fields(self):
+        value = envelope("PASS")
+        value["result_id"] = "result-6"
+        valid = {"repository": "owner/repository", "commit_sha": "a" * 40, "path": "reports/result.json", "blob_sha": "b" * 40}
+        value["artifact_locator"] = valid
+        self.assertIn("ARTIFACT_LOCATOR: repository=owner/repository", render_compact_gpt_return(value))
+        for repository, path, commit, blob in (
+            ("not a valid repo !!!", "reports/result.json", "a" * 40, "b" * 40),
+            ("ghp_secret", "reports/result.json", "a" * 40, "b" * 40),
+            ("owner/repository", "ghp_secret/file.json", "a" * 40, "b" * 40),
+            ("owner/repository", "token=value/file.json", "a" * 40, "b" * 40),
+            ("owner/repository", "C:\\absolute\\file", "a" * 40, "b" * 40),
+            ("owner/repository", "reports/result.json", "invalid", "b" * 40),
+            ("owner/repository" * 100, "reports/result.json", "a" * 40, "b" * 40),
+        ):
+            value["artifact_locator"] = {"repository": repository, "commit_sha": commit, "path": path, "blob_sha": blob}
+            rendered = render_compact_gpt_return(value)
+            self.assertIn("ARTIFACT_LOCATOR: NONE", rendered)
+            self.assertNotIn(repository, rendered)
+            self.assertNotIn(path, rendered)
 
     def test_compact_return_requires_nonempty_durable_result_ref(self):
         for result_id in (None, "", "   ", 7):

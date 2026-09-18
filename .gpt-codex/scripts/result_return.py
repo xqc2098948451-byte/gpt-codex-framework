@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping, Sequence
+from pathlib import Path
 from typing import Any
 
 from role_communication import validate_evolution_metadata_authority
@@ -119,6 +121,25 @@ def render_compact_gpt_return(envelope: Mapping[str, Any]) -> str:
     if not isinstance(result_ref, str) or not result_ref.strip():
         raise ValueError("DURABLE_RESULT_REF_REQUIRED")
 
+    locator = envelope.get("artifact_locator")
+    locator_text = "NONE"
+    if isinstance(locator, Mapping):
+        repository, commit, path, blob = (locator.get(key) for key in ("repository", "commit_sha", "path", "blob_sha"))
+        repository_lower = repository.lower() if isinstance(repository, str) else ""
+        path_lower = path.lower() if isinstance(path, str) else ""
+        if (
+            isinstance(repository, str) and re.fullmatch(r"[A-Za-z0-9_.-]{1,80}/[A-Za-z0-9_.-]{1,80}", repository)
+            and not any(marker in repository_lower for marker in ("ghp_", "token", "password", "secret"))
+            and isinstance(commit, str) and re.fullmatch(r"[0-9a-fA-F]{40}", commit)
+            and isinstance(blob, str) and re.fullmatch(r"[0-9a-fA-F]{40}", blob)
+            and isinstance(path, str) and 0 < len(path) <= 240 and not re.match(r"^[A-Za-z]:", path)
+            and not path.startswith(("/", "\\")) and ".." not in Path(path).parts
+            and not any(char in path for char in "*?[]")
+            and not any(ord(char) < 32 or ord(char) == 127 for char in path)
+            and not any(marker in path_lower for marker in ("token", "secret", "credential", "password", "ghp_"))
+        ):
+            locator_text = f"repository={repository};commit_sha={commit};path={path};blob_sha={blob}"
+
     git = envelope.get("git")
     if not isinstance(git, Mapping):
         git = {}
@@ -138,6 +159,9 @@ def render_compact_gpt_return(envelope: Mapping[str, Any]) -> str:
             f"HEAD_SHA: {_text(git.get('implementation_sha', envelope.get('implementation_sha')))}",
             f"RESULT_REF: {result_ref}",
             f"STATE_REVISION: {_text(envelope.get('state_revision'))}",
+            f"EVIDENCE_REFS: {_text(', '.join(str(item) for item in envelope.get('evidence_refs', [])) if isinstance(envelope.get('evidence_refs'), Sequence) and not isinstance(envelope.get('evidence_refs'), (str, bytes, bytearray)) else None)}",
+            f"REVIEW_STATUS: {_text(envelope.get('review_status'))}",
+            f"ARTIFACT_LOCATOR: {locator_text}",
             f"BLOCKERS: {blocker_text}",
             f"NEXT_ACTION: {_text(envelope.get('next_gpt_action'))}",
         ]

@@ -1,5 +1,7 @@
 import importlib.util
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -10,6 +12,138 @@ if str(SCRIPTS) not in sys.path:
 
 
 class GitContinuityTests(unittest.TestCase):
+    def test_cleanup_manifest_classifier_is_pure_and_fails_closed(self):
+        from git_continuity import classify_cleanup_manifest
+        with tempfile.TemporaryDirectory(prefix="manifest-") as temporary:
+            root = Path(temporary) / "allowed"
+            root.mkdir()
+            (root / "中文.txt").write_text("safe", encoding="utf-8")
+            before = (root / "中文.txt").read_bytes()
+            manifest = {"manifest_id": "m-1", "allowed_root": str(root), "entries": [{"operation": "DELETE", "target": "中文.txt"}]}
+            result = classify_cleanup_manifest(manifest, root, {})
+            self.assertEqual(result["decision"], "DELETE")
+            self.assertEqual((root / "中文.txt").read_bytes(), before)
+            self.assertEqual(classify_cleanup_manifest({"manifest_id": "m-1", "allowed_root": str(root), "entries": [{"operation": "KEEP", "target": "中文.txt"}]}, root, {})["decision"], "KEEP")
+            for target in ("../outside", str(root / "中文.txt"), "*.txt", "missing.txt"):
+                with self.subTest(target=target):
+                    self.assertEqual(classify_cleanup_manifest({"manifest_id": "m-1", "allowed_root": str(root), "entries": [{"operation": "DELETE", "target": target}]}, root, {})["decision"], "RECONCILIATION_REQUIRED")
+            duplicate = {"manifest_id": "m-1", "allowed_root": str(root), "entries": [{"operation": "DELETE", "target": "中文.txt"}, {"operation": "KEEP", "target": "中文.txt"}]}
+            self.assertEqual(classify_cleanup_manifest(duplicate, root, {})["decision"], "RECONCILIATION_REQUIRED")
+            self.assertEqual(classify_cleanup_manifest({"entries": [{"operation": "DELETE", "target": "中文.txt"}]}, root, {})["decision"], "RECONCILIATION_REQUIRED")
+            self.assertEqual(classify_cleanup_manifest({"manifest_id": "m-1", "allowed_root": str(parent := root.parent), "entries": [{"operation": "DELETE", "target": "中文.txt"}]}, root, {})["decision"], "RECONCILIATION_REQUIRED")
+
+    def test_cleanup_manifest_blocks_symlink_escape_without_mutation(self):
+        from git_continuity import classify_cleanup_manifest
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root, outside = parent / "allowed", parent / "outside"
+            (root / "safe").mkdir(parents=True); outside.mkdir(); (outside / "file").write_text("outside", encoding="utf-8")
+            try:
+                (root / "safe" / "link").symlink_to(outside, target_is_directory=True)
+            except OSError as exc:
+                self.skipTest(f"symlink fixture unavailable: {exc}")
+            manifest = {"manifest_id": "m-2", "allowed_root": str(root), "entries": [{"operation": "DELETE", "target": "safe/link/file"}]}
+            self.assertEqual(classify_cleanup_manifest(manifest, root, {})["decision"], "RECONCILIATION_REQUIRED")
+            self.assertTrue((outside / "file").exists())
+
+    def test_cleanup_manifest_blocks_windows_junction_escape_without_mutation(self):
+        from git_continuity import classify_cleanup_manifest
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root, outside = parent / "allowed", parent / "outside"
+            root.mkdir(); outside.mkdir(); (outside / "target").write_text("outside", encoding="utf-8")
+            junction = root / "link"
+            created = subprocess.run(["cmd", "/c", "mklink", "/J", str(junction), str(outside)], capture_output=True, text=True)
+            if created.returncode != 0:
+                self.skipTest("junction fixture unavailable on current host")
+            manifest = {"manifest_id": "m-junction", "allowed_root": str(root), "entries": [{"operation": "DELETE", "target": "link/target"}]}
+            self.assertEqual(classify_cleanup_manifest(manifest, root, {})["decision"], "RECONCILIATION_REQUIRED")
+            self.assertEqual((outside / "target").read_text(encoding="utf-8"), "outside")
+    def test_canonical_eol_observation_is_stable_for_supported_ambient_values_and_unicode_path(self):
+        from git_continuity import observe_canonical_git_facts
+
+        with tempfile.TemporaryDirectory(prefix="中文-") as temporary:
+            root = Path(temporary)
+            subprocess.run(["git", "init"], cwd=root, check=True, capture_output=True)
+            (root / "中文.txt").write_bytes(b"line\r\n")
+            subprocess.run(["git", "add", "中文.txt"], cwd=root, check=True, capture_output=True)
+            expected = None
+            for value in ("true", "false", "input", None):
+                if value is None:
+                    subprocess.run(["git", "config", "--unset-all", "core.autocrlf"], cwd=root, capture_output=True)
+                else:
+                    subprocess.run(["git", "config", "core.autocrlf", value], cwd=root, check=True, capture_output=True)
+                observed = observe_canonical_git_facts(root)
+                self.assertTrue(observed["deterministic"])
+                self.assertEqual(observed["ambient_autocrlf"], "UNSET" if value is None else value.upper())
+                expected = observed["changed_paths"] if expected is None else expected
+                self.assertEqual(observed["changed_paths"], expected)
+
+    def test_canonical_eol_observation_fails_closed_for_malformed_config_or_probe_failure(self):
+        from git_continuity import observe_canonical_git_facts
+
+        malformed = observe_canonical_git_facts(Path("."), runner=lambda _command, _root: (0, "bogus\n", ""))
+        self.assertFalse(malformed["mutation_allowed"])
+        failed = observe_canonical_git_facts(Path("."), runner=lambda _command, _root: (1, "", "failure"))
+        self.assertFalse(failed["mutation_allowed"])
+
+    def test_lf_index_crlf_worktree_has_ambient_sensitivity_but_canonical_facts_are_equivalent(self):
+        from git_continuity import observe_canonical_git_facts
+
+        ambient_paths, canonical_paths = {}, {}
+        for value in ("true", "false", "input", None):
+            with tempfile.TemporaryDirectory(prefix="a2-eol-") as temporary:
+                root = Path(temporary)
+                subprocess.run(["git", "init"], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "config", "user.name", "A2 Fixture"], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "config", "user.email", "a2@example.invalid"], cwd=root, check=True, capture_output=True)
+                tracked = root / "line-endings.txt"
+                tracked.write_bytes(b"alpha\nbeta\n")
+                subprocess.run(["git", "add", "line-endings.txt"], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "commit", "-m", "LF baseline"], cwd=root, check=True, capture_output=True)
+                tracked_bytes = subprocess.run(
+                    ["git", "show", "HEAD:line-endings.txt"], cwd=root, check=True, capture_output=True
+                ).stdout
+                self.assertEqual(tracked_bytes, b"alpha\nbeta\n")
+                tracked.write_bytes(b"alpha\r\nbeta\r\n")
+                if value is None:
+                    subprocess.run(["git", "config", "--unset-all", "core.autocrlf"], cwd=root, capture_output=True)
+                else:
+                    subprocess.run(["git", "config", "core.autocrlf", value], cwd=root, check=True, capture_output=True)
+                ambient = subprocess.run(["git", "diff", "--name-only"], cwd=root, check=True, capture_output=True).stdout
+                ambient_paths["unset" if value is None else value] = ambient
+                canonical_paths["unset" if value is None else value] = observe_canonical_git_facts(root)["changed_paths"]
+                self.assertEqual(tracked.read_bytes(), b"alpha\r\nbeta\r\n")
+        self.assertGreater(len(set(ambient_paths.values())), 1, ambient_paths)
+        self.assertEqual(len(set(canonical_paths.values())), 1, canonical_paths)
+    def test_execution_capability_preflight_allows_supported_remote_route_without_gh(self):
+        from git_continuity import evaluate_execution_capability_preflight
+
+        decision = evaluate_execution_capability_preflight({
+            "powershell": {"status": "SUPPORTED"}, "python": {"status": "AVAILABLE"},
+            "git": {"status": "AVAILABLE"}, "gh": {"status": "ABSENT"},
+            "remote": {"available": True}, "unicode_path_round_trip": True,
+        })
+        self.assertTrue(decision.mutation_allowed)
+        self.assertEqual(decision.decision, "CAPABILITY_READY")
+
+    def test_execution_capability_preflight_denies_missing_or_malformed_required_facts_before_mutation(self):
+        from git_continuity import evaluate_execution_capability_preflight
+
+        ready = {
+            "powershell": {"status": "SUPPORTED"}, "python": {"status": "AVAILABLE"},
+            "git": {"status": "AVAILABLE"}, "remote": {"available": True},
+            "unicode_path_round_trip": True,
+        }
+        for key, value in (("powershell", {"status": "UNAVAILABLE"}), ("python", {"status": "UNAVAILABLE"}),
+                           ("git", {"status": "UNAVAILABLE"}), ("remote", {"available": False}),
+                           ("unicode_path_round_trip", False), ("powershell", "malformed")):
+            with self.subTest(key=key, value=value):
+                observed = dict(ready)
+                observed[key] = value
+                decision = evaluate_execution_capability_preflight(observed)
+                self.assertFalse(decision.mutation_allowed)
+                self.assertIn(decision.decision, {"BLOCKED", "RECONCILIATION_REQUIRED"})
     @classmethod
     def setUpClass(cls):
         cls.available = importlib.util.find_spec("git_continuity") is not None

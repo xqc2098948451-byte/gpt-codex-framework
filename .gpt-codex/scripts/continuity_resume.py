@@ -5,10 +5,11 @@ import json
 import re
 import subprocess
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
 
 from context_binding import evaluate_cross_project_resource_boundary, load_project_identity
 from kernel_rules import validate_slot_state_revision
+from publication_contract import validate_completion_evidence
 from role_communication import validate_evolution_metadata_authority
 
 from project_navigation import (
@@ -56,6 +57,52 @@ _EVIDENCE_SOURCES = frozenset({"TOOL_OBSERVED", "USER_ASSERTED", "SYSTEM_DERIVED
 
 def _unique_errors(errors: list[str]) -> list[str]:
     return list(dict.fromkeys(errors))
+
+
+def classify_execution_progress(
+    state: Mapping,
+    work_unit: Mapping,
+    results: Sequence[Mapping],
+    *,
+    instruction_id: str,
+    base_sha: str | None,
+    safe_postcondition: bool,
+    continuation_authorized: bool = True,
+    side_effect_state: str = "SAFE_TO_REPEAT",
+) -> str:
+    """Pure A4 projection over durable facts; never persists a lifecycle state."""
+    if not isinstance(state, Mapping) or not isinstance(work_unit, Mapping) or not isinstance(results, Sequence):
+        return "RECONCILIATION_REQUIRED"
+    revision = state.get("revision")
+    if (state.get("project_id") != work_unit.get("project_id") or state.get("active_work_unit") != work_unit.get("work_unit_id") or work_unit.get("basis_state_revision") != revision or work_unit.get("state") != "AUTHORIZED"):
+        return "RECONCILIATION_REQUIRED"
+    if not results:
+        return "NOT_STARTED"
+    if len(results) != 1:
+        return "RECONCILIATION_REQUIRED"
+    result = results[0]
+    if not isinstance(result, Mapping) or result.get("project_id") != state.get("project_id") or result.get("work_unit_id") != work_unit.get("work_unit_id") or result.get("state_revision") != revision or result.get("response_to_instruction_id") != instruction_id or (base_sha is not None and result.get("git_base_sha") != base_sha):
+        return "RECONCILIATION_REQUIRED"
+    evidence = result.get("completion_evidence")
+    if not isinstance(evidence, Mapping):
+        return "RECONCILIATION_REQUIRED"
+    if result.get("status") == "FAIL":
+        concrete_failure = any(
+            isinstance(value, int) and not isinstance(value, bool) and value > threshold
+            for value, threshold in (
+                (evidence.get("exit_code"), 0),
+                (evidence.get("failure_count"), 0),
+                (evidence.get("error_count"), 0),
+            )
+        )
+        return "FAILED" if concrete_failure else "RECONCILIATION_REQUIRED"
+    if result.get("status") in {"PARTIAL", "INCOMPLETE"} and evidence.get("execution_state") == "INCOMPLETE":
+        if side_effect_state == "AMBIGUOUS":
+            return "RECONCILIATION_REQUIRED"
+        return "READY_TO_CONTINUE" if continuation_authorized else "PARTIAL"
+    if result.get("status") == "PASS" and safe_postcondition and not validate_completion_evidence(result):
+        return "ALREADY_COMPLETE"
+    return "RECONCILIATION_REQUIRED"
 
 
 def validate_execution_slots(state: Mapping) -> list[str]:
@@ -795,6 +842,64 @@ def _git_object_path_exists(root: Path, sha: str, path: str) -> bool:
     return result.returncode == 0
 
 
+def resolve_immutable_artifact(root: Path, locator: Mapping[str, Any], expected_repository: str | None = None) -> dict[str, Any]:
+    """Resolve only an exact commit/path/blob tuple; mutable refs are not authority."""
+    if not isinstance(locator, Mapping) or not isinstance(locator.get("repository"), str) or not locator["repository"].strip():
+        return {"status": "FAIL", "reason": "ARTIFACT_LOCATOR_INVALID"}
+    if not isinstance(expected_repository, str) or not expected_repository.strip():
+        return {"status": "FAIL", "reason": "ARTIFACT_REPOSITORY_CONTEXT_REQUIRED"}
+    if locator["repository"] != expected_repository:
+        return {"status": "FAIL", "reason": "ARTIFACT_REPOSITORY_MISMATCH"}
+    commit = locator.get("commit_sha")
+    path = locator.get("path")
+    blob = locator.get("blob_sha")
+    if not isinstance(commit, str) or not _COMMIT_SHA.fullmatch(commit):
+        return {"status": "NOT_AUTHORITY", "reason": "IMMUTABLE_COMMIT_REQUIRED"}
+    if not isinstance(path, str) or not path.strip() or Path(path).is_absolute() or ".." in Path(path).parts:
+        return {"status": "FAIL", "reason": "ARTIFACT_PATH_INVALID"}
+    if not isinstance(blob, str) or not _COMMIT_SHA.fullmatch(blob) or not _git_object_path_exists(root, commit, path):
+        return {"status": "FAIL", "reason": "ARTIFACT_OBJECT_UNAVAILABLE"}
+    try:
+        actual = subprocess.run(["git", "-C", str(root), "rev-parse", f"{commit}:{path}"], capture_output=True, text=True, check=False)
+    except OSError:
+        return {"status": "FAIL", "reason": "ARTIFACT_OBJECT_UNAVAILABLE"}
+    if actual.returncode != 0 or actual.stdout.strip().lower() != blob.lower():
+        return {"status": "FAIL", "reason": "ARTIFACT_BLOB_MISMATCH"}
+    return {"status": "ALLOW", "locator": {"repository": locator["repository"], "commit_sha": commit, "path": path, "blob_sha": blob}}
+
+
+def _artifact_locators(root: Path, repository: str, refs: Mapping[str, Any]) -> dict[str, Any] | None:
+    locators: dict[str, Any] = {"design": None, "plan": None}
+    for name, ref in refs.items():
+        if ref is None:
+            continue
+        try:
+            blob = subprocess.run(["git", "-C", str(root), "rev-parse", f"{ref['sha']}:{ref['path']}"], capture_output=True, text=True, check=False)
+        except (OSError, KeyError):
+            return None
+        candidate = {"repository": repository, "commit_sha": ref["sha"], "path": ref["path"], "blob_sha": blob.stdout.strip()}
+        resolved = resolve_immutable_artifact(root, candidate, repository)
+        if resolved["status"] != "ALLOW":
+            return None
+        locators[name] = resolved["locator"]
+    return locators
+
+
+def _resolve_result_reference(root: Path, reference: object) -> tuple[Path, str] | None:
+    if not isinstance(reference, str) or not reference.strip():
+        return None
+    evidence_root = root / ".gpt-codex" / "evidence" / "results"
+    prefix = ".gpt-codex/evidence/results/"
+    if reference.startswith(prefix):
+        name = reference[len(prefix):]
+        if not name or "/" in name or "\\" in name or not name.endswith(".json"):
+            return None
+        return evidence_root / name, name[:-5]
+    if any(separator in reference for separator in ("/", "\\")) or reference.endswith(".json"):
+        return None
+    return evidence_root / f"{reference}.json", reference
+
+
 def _validated_artifact_refs(root: Path, work_unit: Mapping) -> dict[str, Any] | None:
     refs = work_unit.get("artifact_refs")
     if refs is None:
@@ -874,8 +979,35 @@ def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> d
         return _recovery_result("EXECUTION_CONTEXT_MISMATCH" if recovery.get("status") == "EXECUTION_SLOT_MISMATCH" else recovery.get("status"))
     work_unit = _load_recovery_work_unit(root, control, slot, state)
     refs = _validated_artifact_refs(root, work_unit) if work_unit else None
+    locators = _artifact_locators(root, identity.repository_full_name, refs) if refs is not None else None
     pending, errors = _discover_pending_result(root, control, slot, state)
-    if refs is None or errors:
+    latest_result_ref = (state.get("continuity") or {}).get("last_verified_result_ref")
+    if latest_result_ref is not None:
+        resolved_result = _resolve_result_reference(root, latest_result_ref)
+        if resolved_result is None:
+            return _recovery_result()
+        try:
+            latest_result = json.loads(resolved_result[0].read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return _recovery_result()
+        result_identity = latest_result.get("result_id") if isinstance(latest_result, Mapping) else None
+        if not isinstance(result_identity, str) or not result_identity.strip():
+            result_identity = latest_result_ref if isinstance(latest_result_ref, str) and latest_result_ref.startswith(".gpt-codex/evidence/results/") else None
+        if not isinstance(latest_result, Mapping) or result_identity is None or not isinstance(latest_result.get("evidence_refs"), list):
+            return _recovery_result()
+        if not (isinstance(latest_result_ref, str) and latest_result_ref.startswith(".gpt-codex/evidence/results/")) and result_identity != resolved_result[1]:
+            return _recovery_result()
+        try:
+            identities = []
+            for candidate_path in (root / ".gpt-codex" / "evidence" / "results").glob("*.json"):
+                candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
+                if isinstance(candidate, Mapping) and isinstance(candidate.get("result_id"), str) and candidate["result_id"].strip():
+                    identities.append(candidate["result_id"])
+        except (OSError, json.JSONDecodeError):
+            return _recovery_result()
+        if isinstance(latest_result.get("result_id"), str) and identities.count(latest_result["result_id"]) != 1:
+            return _recovery_result()
+    if refs is None or locators is None or errors:
         return _recovery_result()
     return {"status": "HANDOFF_READY", "reconciliation_required": False,
             "project": {"project_id": identity.project_id, "project_context_id": identity.project_context_id,
@@ -884,8 +1016,8 @@ def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> d
             "current_work": {"execution_slot_id": slot.get("slot_id"), "status": slot.get("status"), "work_unit_id": slot.get("work_unit_id")},
             "git": {"branch": slot.get("branch"), "base_sha": slot.get("base_sha"), "current_head_sha": slot.get("current_head_sha"),
                     "last_accepted_sha": slot.get("last_accepted_sha")},
-            "accepted_artifacts": refs, "strategy": _load_harness_strategy(root),
-            "latest_result_ref": (state.get("continuity") or {}).get("last_verified_result_ref"),
+            "accepted_artifacts": refs, "artifact_locator": locators, "strategy": _load_harness_strategy(root),
+            "latest_result_ref": latest_result_ref,
             "pending_result_ref": pending.get("result_id") if pending else None, "blocker": slot.get("block_reason"),
             "next_action": slot.get("next_action")}
 

@@ -8,6 +8,47 @@ CANDIDATE_AUTHORITY = "PUBLICATION_CANDIDATE_ONLY"
 VERIFIED_AUTHORITY = "CONFIRMED_PUBLICATION"
 
 
+def classify_release_phase(facts: Mapping[str, Any]) -> str:
+    """Derive an observational release phase from already supplied facts."""
+    if not isinstance(facts, Mapping) or facts.get("candidate_consistent") is not True:
+        return "RECONCILIATION_REQUIRED"
+    candidate_sha = facts.get("candidate_sha")
+    if not isinstance(candidate_sha, str) or not candidate_sha:
+        return "RECONCILIATION_REQUIRED"
+    reviewed_sha = facts.get("reviewed_sha")
+    if reviewed_sha is not None and reviewed_sha != candidate_sha:
+        return "RECONCILIATION_REQUIRED"
+    if facts.get("local_validation_passed") is not True or reviewed_sha != candidate_sha:
+        return "CANDIDATE"
+    phase = "LOCALLY_VERIFIED"
+    result = facts.get("publication_result")
+    if not isinstance(result, Mapping):
+        return phase
+    if result.get("remote_head_sha") not in {candidate_sha, result.get("verified_baseline_sha")}:
+        return "RECONCILIATION_REQUIRED"
+    if result.get("publication_authority") != VERIFIED_AUTHORITY or validate_result_authority(result):
+        return phase
+    phase = "PUBLISHED"
+    activation = facts.get("remote_activation")
+    if not isinstance(activation, Mapping):
+        return phase
+    if activation.get("candidate_sha") not in {None, candidate_sha}:
+        return "RECONCILIATION_REQUIRED"
+    if activation.get("status") != "VERIFIED" or activation.get("evidence_type") != "TOOL_OBSERVED":
+        return phase
+    state = facts.get("state")
+    durable_results = facts.get("durable_results")
+    if not isinstance(state, Mapping):
+        return phase
+    if state.get("continuity", {}).get("sync_status") != "SYNCED":
+        return phase
+    if validate_state_authority(state, durable_results if isinstance(durable_results, Mapping) else {}):
+        return "RECONCILIATION_REQUIRED"
+    if state.get("continuity", {}).get("latest_verified_remote_sha") != candidate_sha:
+        return "RECONCILIATION_REQUIRED"
+    return "REMOTE_ACTIVE"
+
+
 def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
     """Fail closed when a PASS/BLOCKED result lacks its bounded closure facts."""
     evidence = result.get("completion_evidence")
@@ -91,6 +132,10 @@ def validate_state_authority(
 
     if continuity.get("sync_status") == "SYNCED":
         latest_sha = continuity.get("latest_verified_remote_sha")
+        if continuity.get("latest_synced_state_revision") != state.get("revision"):
+            errors.append("SYNCED state requires current latest_synced_state_revision")
+        if not evidence_refs:
+            errors.append("SYNCED state requires durable evidence_refs")
         if not latest_sha:
             errors.append("SYNCED state requires latest_verified_remote_sha")
         if not result_ref or result_ref not in durable_results:

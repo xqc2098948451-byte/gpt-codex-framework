@@ -11,6 +11,57 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 class ContinuityResumeTests(unittest.TestCase):
+    def test_execution_progress_projection_derives_safe_and_fail_closed_outcomes(self):
+        from continuity_resume import classify_execution_progress
+        state = {"project_id": "p", "revision": 13, "active_work_unit": "wu"}
+        work_unit = {"project_id": "p", "work_unit_id": "wu", "basis_state_revision": 13, "state": "AUTHORIZED"}
+        self.assertEqual(classify_execution_progress(state, work_unit, [], instruction_id="i", base_sha="b", safe_postcondition=False), "NOT_STARTED")
+        partial = {"project_id": "p", "work_unit_id": "wu", "state_revision": 13, "status": "PARTIAL", "response_to_instruction_id": "i", "git_base_sha": "b", "completion_evidence": {"execution_state": "INCOMPLETE"}}
+        self.assertEqual(classify_execution_progress(state, work_unit, [partial], instruction_id="i", base_sha="b", safe_postcondition=False, continuation_authorized=False), "PARTIAL")
+        self.assertEqual(classify_execution_progress(state, work_unit, [partial], instruction_id="i", base_sha="b", safe_postcondition=False), "READY_TO_CONTINUE")
+        self.assertEqual(classify_execution_progress(state, work_unit, [partial], instruction_id="i", base_sha="b", safe_postcondition=False, side_effect_state="AMBIGUOUS"), "RECONCILIATION_REQUIRED")
+        failed = dict(partial, status="FAIL")
+        self.assertEqual(classify_execution_progress(state, work_unit, [failed], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        done = dict(partial, status="PASS", completion_evidence={
+            "execution_state": "COMPLETED", "process_completed": True, "exit_code": 0,
+            "intended_scope": ["x"], "executed_scope": ["x"],
+            "test_files_expected": 1, "test_files_executed": 1, "test_count": 1,
+            "failure_count": 0, "error_count": 0,
+            "validators_expected": ["validate_project"],
+            "validators_completed": ["validate_project"],
+        })
+        self.assertEqual(classify_execution_progress(state, work_unit, [done], instruction_id="i", base_sha="b", safe_postcondition=True), "ALREADY_COMPLETE")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(done, response_to_instruction_id="other")], instruction_id="i", base_sha="b", safe_postcondition=True), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(done, git_base_sha="other")], instruction_id="i", base_sha="b", safe_postcondition=True), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [done], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        validators_mismatch = json.loads(json.dumps(done))
+        validators_mismatch["completion_evidence"]["validators_completed"] = []
+        self.assertEqual(classify_execution_progress(state, work_unit, [validators_mismatch], instruction_id="i", base_sha="b", safe_postcondition=True), "RECONCILIATION_REQUIRED")
+        incomplete_completion = json.loads(json.dumps(done))
+        del incomplete_completion["completion_evidence"]["test_files_executed"]
+        self.assertEqual(classify_execution_progress(state, work_unit, [incomplete_completion], instruction_id="i", base_sha="b", safe_postcondition=True), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(partial, state_revision=12)], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [partial, done], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        reloaded = json.loads(json.dumps({"state": state, "work_unit": work_unit, "results": [partial]}))
+        self.assertEqual(classify_execution_progress(**reloaded, instruction_id="i", base_sha="b", safe_postcondition=False), "READY_TO_CONTINUE")
+
+    def test_execution_progress_projection_requires_concrete_failure_evidence(self):
+        from continuity_resume import classify_execution_progress
+
+        state = {"project_id": "p", "revision": 13, "active_work_unit": "wu"}
+        work_unit = {"project_id": "p", "work_unit_id": "wu", "basis_state_revision": 13, "state": "AUTHORIZED"}
+        failed = {
+            "project_id": "p", "work_unit_id": "wu", "state_revision": 13,
+            "status": "FAIL", "response_to_instruction_id": "i", "git_base_sha": "b",
+        }
+        self.assertEqual(classify_execution_progress(state, work_unit, [failed], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        no_signal = dict(failed, completion_evidence={"exit_code": 0, "failure_count": 0, "error_count": 0})
+        self.assertEqual(classify_execution_progress(state, work_unit, [no_signal], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(failed, completion_evidence={"exit_code": 1})], instruction_id="i", base_sha="b", safe_postcondition=False), "FAILED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(failed, completion_evidence={"failure_count": 1})], instruction_id="i", base_sha="b", safe_postcondition=False), "FAILED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(failed, completion_evidence={"error_count": 1})], instruction_id="i", base_sha="b", safe_postcondition=False), "FAILED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(failed, state_revision=12, completion_evidence={"exit_code": 1})], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
+        self.assertEqual(classify_execution_progress(state, work_unit, [dict(failed, git_base_sha="other", completion_evidence={"exit_code": 1})], instruction_id="i", base_sha="b", safe_postcondition=False), "RECONCILIATION_REQUIRED")
     def test_pairwise_derivation_rejects_ambiguous_correlated_reviewers(self):
         from continuity_resume import _derive_pairwise_review_facts
         slots = [

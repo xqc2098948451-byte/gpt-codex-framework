@@ -114,6 +114,28 @@ def evaluate_publication_preflight(
     return errors
 
 
+def validate_release_fact_consistency(facts: Mapping[str, Any]) -> list[str]:
+    """Compare supplied candidate-release facts without creating release state."""
+    if not isinstance(facts, Mapping):
+        return ["RELEASE_FACTS_MALFORMED"]
+    errors: list[str] = []
+    target_version = facts.get("target_version", facts.get("source_version"))
+    for key, code in (
+        ("release_record_version", "VERSION_RELEASE_RECORD_MISMATCH"),
+        ("manifest_framework_version", "VERSION_MANIFEST_MISMATCH"),
+    ):
+        if target_version is not None and facts.get(key) is not None and target_version != facts[key]:
+            errors.append(code)
+    for left, right, code in (
+        ("artifact_sha256", "release_record_artifact_sha256", "ARTIFACT_SHA_MISMATCH"),
+        ("artifact_size_bytes", "release_record_artifact_size_bytes", "ARTIFACT_SIZE_MISMATCH"),
+        ("candidate_sha", "reviewed_sha", "CANDIDATE_REVIEW_SHA_MISMATCH"),
+    ):
+        if facts.get(left) is not None and facts.get(right) is not None and facts[left] != facts[right]:
+            errors.append(code)
+    return errors
+
+
 def materialize_verified_git_artifact(
     root: Path,
     revision: str,

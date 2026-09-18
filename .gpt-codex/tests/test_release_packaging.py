@@ -21,6 +21,7 @@ from release_framework import (
     package_release,
     read_version,
     should_exclude,
+    validate_release_fact_consistency,
 )
 from consumer_projection import stage_consumer_projection
 from validate_project import validate_harness_root_separation
@@ -76,6 +77,25 @@ def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
 
 
 class ReleasePackagingTests(unittest.TestCase):
+    def test_release_fact_consistency_requires_exact_candidate_metadata(self):
+        facts = {
+            "target_version": "2.7.2", "release_record_version": "2.7.2",
+            "manifest_framework_version": "2.7.2", "artifact_sha256": "a" * 64,
+            "release_record_artifact_sha256": "a" * 64, "artifact_size_bytes": 17,
+            "release_record_artifact_size_bytes": 17, "candidate_sha": "b" * 40,
+            "reviewed_sha": "b" * 40,
+        }
+        self.assertEqual(validate_release_fact_consistency(facts), [])
+        for key, value, code in (
+            ("release_record_version", "2.7.1", "VERSION_RELEASE_RECORD_MISMATCH"),
+            ("manifest_framework_version", "2.7.1", "VERSION_MANIFEST_MISMATCH"),
+            ("release_record_artifact_sha256", "c" * 64, "ARTIFACT_SHA_MISMATCH"),
+            ("release_record_artifact_size_bytes", 18, "ARTIFACT_SIZE_MISMATCH"),
+            ("reviewed_sha", "c" * 40, "CANDIDATE_REVIEW_SHA_MISMATCH"),
+        ):
+            with self.subTest(code=code):
+                candidate = dict(facts, **{key: value})
+                self.assertIn(code, validate_release_fact_consistency(candidate))
     def test_publication_preflight_returns_ordered_blockers_for_invalid_facts(self):
         facts = {
             "source_version": "2.7.0", "source_version_closed": True,

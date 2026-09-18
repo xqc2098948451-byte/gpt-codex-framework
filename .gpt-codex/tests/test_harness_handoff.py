@@ -10,10 +10,33 @@ ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / ".gpt-codex" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from continuity_resume import build_project_handoff  # noqa: E402
+from continuity_resume import build_project_handoff, resolve_immutable_artifact  # noqa: E402
 
 
 class HarnessHandoffTests(unittest.TestCase):
+    def test_immutable_artifact_resolver_uses_commit_path_and_blob_not_local_file(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            head = self.write_fixture(root)
+            blob = self.git(root, "rev-parse", f"{head}:docs/plan.md")
+            locator = {"repository": "owner/repo", "commit_sha": head, "path": "docs/plan.md", "blob_sha": blob}
+            self.assertEqual(resolve_immutable_artifact(root, locator, "owner/repo")["status"], "ALLOW")
+            self.assertEqual(resolve_immutable_artifact(root, dict(locator, blob_sha="a" * 40), "owner/repo")["status"], "FAIL")
+            self.assertEqual(resolve_immutable_artifact(root, dict(locator, commit_sha="a" * 40), "owner/repo")["status"], "FAIL")
+            self.assertEqual(resolve_immutable_artifact(root, dict(locator, path="missing.md"), "owner/repo")["status"], "FAIL")
+            self.assertEqual(resolve_immutable_artifact(root, dict(locator, commit_sha="main"), "owner/repo")["status"], "NOT_AUTHORITY")
+            (root / "docs/plan.md").unlink()
+            self.assertEqual(resolve_immutable_artifact(root, locator, "owner/repo")["status"], "ALLOW")
+
+    def test_handoff_exposes_locator_without_authorization_or_chat_dependency(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+        self.assertEqual(result["status"], "HANDOFF_READY")
+        self.assertIn("artifact_locator", result)
+        self.assertNotIn("authorization", result)
+        self.assertNotIn("chat", result)
     def git(self, root, *args):
         return subprocess.run(
             ["git", "-C", str(root), *args],
@@ -98,6 +121,51 @@ class HarnessHandoffTests(unittest.TestCase):
                 })
             result = build_project_handoff(root, execution_slot_id="slot-1")
         self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_mismatched_latest_result_reference_fails_closed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            state_path = root / ".gpt-codex/STATE.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["continuity"]["last_verified_result_ref"] = "result-a"
+            self.write_json(root, ".gpt-codex/STATE.json", state)
+            self.write_json(root, ".gpt-codex/evidence/results/result-a.json", {"result_id": "other", "evidence_refs": ["evidence-a"]})
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_latest_result_reference_accepts_only_exact_path_or_bare_identifier(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            self.write_json(root, ".gpt-codex/evidence/results/RESULT-X.json", {"result_id": "RESULT-X", "evidence_refs": []})
+            state_path = root / ".gpt-codex/STATE.json"
+            for ref, expected in (
+                (".gpt-codex/evidence/results/RESULT-X.json", "HANDOFF_READY"),
+                ("RESULT-X", "HANDOFF_READY"),
+                ("../RESULT-X", "RECONCILIATION_REQUIRED"),
+                ("missing", "RECONCILIATION_REQUIRED"),
+                ("README.md", "RECONCILIATION_REQUIRED"),
+            ):
+                state = json.loads(state_path.read_text(encoding="utf-8"))
+                state["continuity"]["last_verified_result_ref"] = ref
+                self.write_json(root, ".gpt-codex/STATE.json", state)
+                self.assertEqual(build_project_handoff(root, execution_slot_id="slot-1")["status"], expected)
+
+    def test_historical_path_result_without_result_id_is_recoverable_but_duplicate_identity_is_not(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            self.write_json(root, ".gpt-codex/evidence/results/historical.json", {"evidence_refs": []})
+            state = json.loads((root / ".gpt-codex/STATE.json").read_text(encoding="utf-8"))
+            state["continuity"]["last_verified_result_ref"] = ".gpt-codex/evidence/results/historical.json"
+            self.write_json(root, ".gpt-codex/STATE.json", state)
+            self.assertEqual(build_project_handoff(root, execution_slot_id="slot-1")["status"], "HANDOFF_READY")
+            self.write_json(root, ".gpt-codex/evidence/results/duplicate.json", {"result_id": "RESULT-X", "evidence_refs": []})
+            self.write_json(root, ".gpt-codex/evidence/results/RESULT-X.json", {"result_id": "RESULT-X", "evidence_refs": []})
+            state["continuity"]["last_verified_result_ref"] = "RESULT-X"
+            self.write_json(root, ".gpt-codex/STATE.json", state)
+            self.assertEqual(build_project_handoff(root, execution_slot_id="slot-1")["status"], "RECONCILIATION_REQUIRED")
 
     def test_execution_slot_contradiction_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:

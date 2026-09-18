@@ -174,6 +174,7 @@
     ".gpt-codex/tests/test_release_archive.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_release_packaging.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_remote_verification.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/tests/test_windows_clean_room_e2e.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_result_contract_schema.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_result_return.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_return_context_binding.py": "MANAGEMENT_ONLY",

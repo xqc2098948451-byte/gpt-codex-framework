@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
 from typing import Any, Mapping
@@ -32,7 +34,41 @@ class BindingDecision:
     mutation_allowed: bool
 
 
+@dataclass(frozen=True)
+class BoundedDiagnostic:
+    command_identity: str
+    process_started: bool
+    exit_code: int | None
+    stdout: str
+    stderr: str
+    stdout_truncated: bool
+    stderr_truncated: bool
+    completion: str
+
+
 _FULL_NAME = re.compile(r"^[^/\s]+/[^/\s]+$")
+_DIAGNOSTIC_LIMIT = 4096
+
+
+def _bounded_text(value: object) -> tuple[str, bool]:
+    text = value if isinstance(value, str) else ""
+    return text[:_DIAGNOSTIC_LIMIT], len(text) > _DIAGNOSTIC_LIMIT
+
+
+def _run_bounded_diagnostic(command: list[str], command_identity: str, *, runner: Any = subprocess.run, timeout: int = 5, **kwargs: Any) -> BoundedDiagnostic:
+    """Run a probe without persisting argv or unbounded process output."""
+    try:
+        proc = runner(command, capture_output=True, text=True, check=False, timeout=timeout, **kwargs)
+    except subprocess.TimeoutExpired as exc:
+        stdout, out_cut = _bounded_text(exc.stdout)
+        stderr, err_cut = _bounded_text(exc.stderr)
+        return BoundedDiagnostic(command_identity, True, None, stdout, stderr, out_cut, err_cut, "INCOMPLETE")
+    except OSError as exc:
+        stderr, err_cut = _bounded_text(str(exc))
+        return BoundedDiagnostic(command_identity, False, None, "", stderr, False, err_cut, "LAUNCH_FAILED")
+    stdout, out_cut = _bounded_text(getattr(proc, "stdout", ""))
+    stderr, err_cut = _bounded_text(getattr(proc, "stderr", ""))
+    return BoundedDiagnostic(command_identity, True, getattr(proc, "returncode", None), stdout, stderr, out_cut, err_cut, "COMPLETE")
 
 
 def canonicalize_remote_url(url: str) -> str:
@@ -107,6 +143,82 @@ def _git(repo_root: Path, *args: str) -> tuple[int, str, str]:
     except OSError as exc:
         return 127, "", str(exc)
     return proc.returncode, proc.stdout.strip(), proc.stderr.strip()
+
+
+def _bounded_version_probe(executable: str) -> tuple[int, str, str]:
+    """Probe only a version line; never retain process environment or secret output."""
+    try:
+        diagnostic = _run_bounded_diagnostic([executable, "--version"], "VERSION_PROBE")
+    except Exception:
+        return 127, "", ""
+    if diagnostic.exit_code is None:
+        return 127, "", ""
+    return diagnostic.exit_code, diagnostic.stdout.splitlines()[0][:256] if diagnostic.stdout else "", ""
+
+
+def _read_only_remote_probe() -> bool:
+    """Check Git remote reachability without prompting or mutating credentials."""
+    try:
+        proc = subprocess.run(
+            ["git", "ls-remote", "--exit-code", "origin", "HEAD"], capture_output=True,
+            text=True, check=False, timeout=5, env={"GIT_TERMINAL_PROMPT": "0"},
+        )
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return proc.returncode == 0
+
+
+def _command_observation(executable: str | None, version_probe: Any, available: str) -> dict[str, str]:
+    if not executable:
+        return {"status": "UNAVAILABLE" if available == "AVAILABLE" else "ABSENT"}
+    try:
+        code, stdout, _stderr = version_probe(executable)
+    except Exception:
+        return {"status": "UNAVAILABLE"}
+    if not isinstance(code, int) or code != 0 or not isinstance(stdout, str):
+        return {"status": "UNAVAILABLE"}
+    return {"status": available, "version": stdout[:256]}
+
+
+def _filesystem_path_round_trip(path: object) -> bool:
+    """Observe the platform's actual path encode/decode behavior without I/O."""
+    try:
+        original = os.fspath(path)
+        if not isinstance(original, str):
+            return False
+        decoded = os.fsdecode(os.fsencode(original))
+        return os.path.normcase(os.path.normpath(decoded)) == os.path.normcase(os.path.normpath(original))
+    except (TypeError, ValueError, UnicodeError):
+        return False
+
+
+def observe_execution_capabilities(
+    *, executable_lookup: Any = shutil.which, version_probe: Any = _bounded_version_probe,
+    remote_probe: Any = _read_only_remote_probe, path: object | None = None,
+    path_probe: Any = _filesystem_path_round_trip,
+) -> dict[str, Any]:
+    """Return bounded, read-only A1 capability facts from injectable probes."""
+    pwsh = executable_lookup("pwsh")
+    powershell = _command_observation(pwsh, version_probe, "AVAILABLE")
+    if powershell.get("status") == "AVAILABLE":
+        powershell["status"] = "SUPPORTED" if re.search(r"PowerShell\s+7(?:\.|\b)", powershell.get("version", ""), re.I) else "UNSUPPORTED"
+    observed = {
+        "powershell": powershell,
+        "python": _command_observation(executable_lookup("python"), version_probe, "AVAILABLE"),
+        "git": _command_observation(executable_lookup("git"), version_probe, "AVAILABLE"),
+        "gh": _command_observation(executable_lookup("gh"), version_probe, "AVAILABLE"),
+    }
+    if observed["gh"].get("status") == "UNAVAILABLE":
+        observed["gh"]["status"] = "ABSENT"
+    try:
+        observed["remote"] = {"available": remote_probe() is True}
+    except Exception:
+        observed["remote"] = {"available": False}
+    try:
+        observed["unicode_path_round_trip"] = path_probe(Path.cwd() if path is None else path) is True
+    except Exception:
+        observed["unicode_path_round_trip"] = False
+    return observed
 
 
 def scan_repository_compatibility(repo_root: Path, github_metadata: Mapping[str, Any] | None) -> dict[str, Any]:
