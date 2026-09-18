@@ -161,6 +161,7 @@ Existing owners remain:
 - `.gpt-codex/scripts/role_communication.py`
 - `.gpt-codex/project-template/RESULT_ENVELOPE.template.json`
 - `.gpt-codex/scripts/result_return.py` only if required to preserve an already-produced Result field
+- `.gpt-codex/scripts/publication_contract.py` for the existing Result authority/completion consumers called by `validate_project.py`
 - existing focused Result/taxonomy tests
 
 Required behavior is exactly the accepted historical Task-3 behavior:
@@ -177,6 +178,8 @@ Required behavior is exactly the accepted historical Task-3 behavior:
 - only `USER_APPROVER` authors the result; `USER_LOCAL` remains transport-only.
 
 Any generic PASS/completion rule must be narrowed only enough to represent this already-accepted intrinsic non-execution transaction. Execution Results keep their current completion-evidence requirements.
+
+This includes the existing `publication_contract.py` consumers `validate_result_authority()` and `validate_completion_evidence()`, not only the Result schema. Their current generic rules reject an intrinsic approval with `status = PASS`, `remote_verification = NOT_ATTEMPTED`, and `completion_evidence = null`; schema-only closure would leave the production Result-validation path inconsistent. The future Task-3 correction must make these existing consumers agree with the complete validated intrinsic approval contract. The exception must not be selected by an unvalidated type token alone. An intrinsic approval is not publication verification or execution completion evidence and cannot by itself establish `SYNCED`, `CONFIRMED_PUBLICATION`, or a completed Work Unit. All execution/publication/State completion requirements remain unchanged.
 
 ### 6.3 Work Unit scope contract completion
 
@@ -228,6 +231,7 @@ MODULE_ROUTE =
   role-communication
   -> framework-core
   -> framework-validation
+  -> release-projection
 NEW_FRAMEWORK_MODULE = NO
 OWNERSHIP_TRANSFER = NO
 ROUTING_GRANTS_EXECUTION_AUTHORITY = NO
@@ -238,8 +242,9 @@ Responsibility remains with the existing owners:
 - **`role-communication`** owns the Instruction/Result schemas, builders/return surface, role taxonomy, and corresponding templates in sections 6.1, 6.2, and 6.4. Its descriptor-required regression set is `test_role_authority.py`, `test_role_communication_taxonomy.py`, `test_instruction_role_contract.py`, and `test_result_contract_schema.py`.
 - **`framework-core`** owns `work-unit.schema.json` and `WORK_UNIT.template.json` in section 6.3. Its descriptor-required tests remain `test_framework_module_schemas.py`, `test_framework_module_routing.py`, `test_kernel_conformance.py`, `test_execution_telemetry.py`, and `test_framework_feedback.py`.
 - **`framework-validation`** owns `validate_project.py` and its self-hosting/context-binding validation tests used to enforce effective Work Unit scope. Its descriptor-required regression set is `test_self_hosting_validator.py`, `test_validator_context_binding.py`, and `test_framework_module_routing.py`.
+- **`release-projection`** owns `.gpt-codex/scripts/publication_contract.py`, including the runtime Result authority/completion consumers in section 6.2. Its descriptor-required regression set is `test_consumer_projection.py`, `test_consumer_runtime_closure.py`, `test_release_packaging.py`, and `test_publication_authority.py`. Run these four existing suites unchanged; add the required approval-consumer composition checks in already-owned `framework-validation` tests under R0 item 8. This correction adds no test-mutation ownership registration beyond the existing five-path R0.
 
-Dependency direction is preserved: `role-communication` depends on `framework-core`; `framework-validation` consumes both Framework governance and role-communication contracts. The future Plan must bind exact changed paths to these current owners and run the applicable descriptor-required tests. Cross-module routing is structural metadata only; it neither expands scope nor grants mutation authority.
+Dependency direction is preserved: `role-communication` depends on `framework-core`; `framework-validation` consumes both Framework governance and role-communication contracts; `release-projection` retains its declared dependencies on `framework-core`, `git-continuity`, and `framework-validation`. Reading dependency contracts does not authorize changes to their assets. The future Plan must bind exact changed paths to these current owners and run the applicable descriptor-required tests. Cross-module routing is structural metadata only; it neither expands scope nor grants mutation authority.
 
 Current routing observation also exposes a prerequisite ownership gap: the historical Task-2/3 RED→GREEN work must mutate five role-communication-focused tests that are not present in any current module `OWNED_ASSETS`. Because `classify_changed_assets()` uses `OWNED_ASSETS` rather than `REQUIRED_TESTS` to resolve mutation ownership, those paths currently fail closed as `MODULE_ROUTE_UNRESOLVED`.
 
@@ -271,7 +276,7 @@ The future Plan amendment must keep the correction serial and bounded:
 3. bind the post-R0 durable base before issuing later mutation authority;
 4. Task-2 contract RED -> minimal GREEN -> sensitivity restoration;
 5. independent post-review;
-6. Task-3 contract RED -> minimal GREEN -> sensitivity restoration;
+6. Task-3 contract, including the existing publication-contract Result consumers, RED -> minimal GREEN -> sensitivity restoration;
 7. independent post-review;
 8. Task-4 contract RED -> minimal GREEN -> sensitivity restoration;
 9. independent post-review;
@@ -299,6 +304,7 @@ Minimum sensitivity matrix:
 | Approval Result | missing/invalid `result_id` or wrong responder role | schema/role reject |
 | Approval Result | missing/invalid decision or incomplete authority core | schema rejects |
 | Approval Result | execution-style completion evidence or remote-verified-at-creation substitution | schema rejects |
+| Approval Result consumers | valid intrinsic approval versus malformed approval/type-token substitution | existing schema/role/Result authority/completion composition accepts only the valid intrinsic shape; execution/publication/State completion requirements remain unchanged |
 | Approval Result | changed but still well-formed approved core | intrinsic schema may pass; future Task-7 exact correlation must reject |
 | Work Unit | missing/empty/duplicate/malformed selector | schema rejects |
 | Work Unit | uncovered requested path | existing authority comparison rejects |
@@ -323,7 +329,7 @@ At minimum, the implementation candidate must rerun the affected adjacent Group-
 - Git continuity;
 - project validation;
 - consumer projection/runtime validation;
-- Registry/module-routing validation and every applicable descriptor-required test for `role-communication`, `framework-core`, and `framework-validation`;
+- Registry/module-routing validation and every applicable descriptor-required test for `role-communication`, `framework-core`, `framework-validation`, and `release-projection`;
 - explicit pre-R0 unresolved-route evidence and post-R0 exact single-owner evidence for the five role-communication test mutation paths.
 
 Any requirement to alter Group-A semantics, Result execution semantics, release-state semantics, or the staged release boundaries returns `AMENDMENT_REQUIRED` again.
@@ -401,7 +407,7 @@ This Design is acceptable only if independent review confirms all of the followi
 6. the Task-2/3/4 contracts are restored in their existing owners;
 7. the Instruction version field can represent the exact active `2.7.2+fix.1` identity using strict SemVer 2.0.0 syntax without broadening authority or adding a new version-equality authorization gate, and this is explicitly classified as current compatibility reconciliation rather than historical Task-2 semantics;
 8. Work Unit effective scope gives `excluded_paths` precedence over matching `owned_paths`, so exclusions can only narrow authority;
-9. the change is explicitly classified `CROSS_MODULE_CHANGE_REQUIRED` across the existing `role-communication`, `framework-core`, and `framework-validation` owners with their required tests and without ownership transfer;
+9. the change is explicitly classified `CROSS_MODULE_CHANGE_REQUIRED` across the existing `role-communication`, `framework-core`, `framework-validation`, and `release-projection` owners with their required tests and without ownership transfer;
 10. the current unowned Task-2/3 test paths are repaired through a separate bounded R0 descriptor-only registration before those tests are mutated, and post-R0 routing proves each exact test path has exactly one owner;
 11. independent review binds the complete cumulative `base..candidate` diff at an exact candidate SHA;
 12. no new authority/state/review/module subsystem is introduced;
@@ -416,7 +422,7 @@ This Design is acceptable only if independent review confirms all of the followi
 - Historical semantics preserved: PASS; the candidate quotes the accepted Task-2/3/4 responsibilities and leaves Tasks 5–9 unchanged.
 - SemVer classification: PASS; active-version compatibility is explicitly separate from historical Task-2 residual closure, uses strict SemVer 2.0.0 syntax, and introduces no version-equality authority rule.
 - Effective-scope exclusion: PASS; excluded selectors take precedence and can only narrow Work Unit scope.
-- Module routing: `CROSS_MODULE_CHANGE_REQUIRED`; existing `role-communication`, `framework-core`, and `framework-validation` owners are explicit and no ownership transfer/new module is proposed.
+- Module routing: `CROSS_MODULE_CHANGE_REQUIRED`; existing `role-communication`, `framework-core`, `framework-validation`, and `release-projection` owners are explicit and no ownership transfer/new module is proposed.
 - Test ownership bootstrap: current Task-2/3 test mutation paths are recognized as unresolved before R0; the Design requires exact descriptor-only registration, durable rebinding, and post-R0 single-owner proof before test mutation.
 - Review binding: PASS; independent review is defined over exact cumulative `base..candidate`, not the last commit only.
 - B1 authority boundary: PASS; repeated B0 PASS remains non-authorizing and any required migration authority stays separately gated.
