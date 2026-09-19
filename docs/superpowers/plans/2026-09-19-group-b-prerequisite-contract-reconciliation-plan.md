@@ -354,7 +354,7 @@ The locator schema is exactly:
   "properties": {
     "remote_ref": {"type": "string", "minLength": 1},
     "evidence_commit_sha": {"type": "string", "pattern": "^[0-9a-fA-F]{40}$"},
-    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\.\.(?:/|$))(?!.*\\\\).+$"},
+    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"},
     "blob_sha": {"type": "string", "pattern": "^[0-9a-fA-F]{40}$"}
   }
 }
@@ -385,9 +385,17 @@ Update the template with real placeholders:
 }
 ```
 
-- [ ] **Step 5: Verify GREEN and sensitivity restoration**
+- [ ] **Step 5: Verify GREEN, JSON parseability, and sensitivity restoration**
 
-Run the two focused suites again; expect PASS.
+First verify the complete modified Instruction schema is valid JSON:
+
+```bash
+python -m json.tool .gpt-codex/schemas/instruction-envelope.schema.json >/dev/null
+```
+
+Expected: exit 0.
+
+Run the two focused suites again; expect PASS. The focused locator cases must prove that the parsed schema accepts `approvals/approval-result.json` and rejects at least `../x`, `a/../b`, a backslash-containing path, an absolute path, and a drive-qualified path.
 
 Then independently inject and restore:
 1. remove only `remediation_decision_ref` from a FIX fixture where the existing lifecycle requires it;
