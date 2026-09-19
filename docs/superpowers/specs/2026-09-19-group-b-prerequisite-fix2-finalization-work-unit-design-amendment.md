@@ -89,8 +89,41 @@ Required semantic shape:
     ],
     "excluded_paths": []
   },
+  "acceptance": {
+    "purpose": "V2.7.2_FIX2_PUBLICATION_STATE_FINALIZATION",
+    "requirements": [
+      "Record only tool-observed v2.7.2+fix.2 remote publication facts.",
+      "Mutate exactly the three owned paths.",
+      "Preserve B0 as the next read-only gate.",
+      "Do not authorize B1, bridge-005, Plugin, release publication, or prerequisite implementation."
+    ]
+  },
+  "selected_extensions": {
+    "skills": ["github-project-continuity"],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
   "state": "AUTHORIZED",
   "basis_state_revision": "<fresh bootstrap State revision>",
+  "evidence_refs": [],
   "artifact_refs": {
     "design": {
       "path": "docs/superpowers/specs/2026-09-19-group-b-prerequisite-fix2-finalization-work-unit-design-amendment.md",
@@ -104,7 +137,7 @@ Required semantic shape:
 }
 ```
 
-The corrected amended Plan may add the repository's existing required top-level Work Unit metadata such as `acceptance`, `selected_extensions`, `permissions`, and `evidence_refs`, but those fields must not broaden the authority described here.
+The corrected amended Plan must materialize the complete shape above and may only add top-level fields if the then-active Work Unit schema requires them. Any such required field must be non-authorizing or further narrow authority; it may not add an action, path, lifecycle permission, or publication capability beyond this Design.
 
 ## 5. Exact scope semantics
 
