@@ -477,6 +477,12 @@ Do not move existing reviewer/implementer authority into a new subsystem.
 
 Add `result_id`, `decision`, and `approved_instruction` schema properties and an `APPROVAL_RESULT` conditional branch with `additionalProperties: false` on the approved authority core.
 
+The approval branch must:
+- require every intrinsic field listed in the Task-3 interface;
+- forbid `approval_evidence_ref`, `evidence_commit_sha`, `blob_sha`, and other self-addressing approval-evidence fields;
+- require `publication_authority`, `sync_status`, and `remote_head_sha` to be absent or null when present;
+- preserve the changed-but-well-formed approved-core fixture as intrinsic schema PASS because execution-request correlation remains historical Task 7.
+
 For the generic PASS branches, make the exception conditional on the **complete intrinsic approval shape**, not only the type token. The schema must still require remote verification/completion evidence for existing execution-style PASS Results.
 
 Update the Result template to include the intrinsic fields as optional/example surface without changing the default implementation-result example.
@@ -485,10 +491,61 @@ Update `render_gpt_return()` to render `RESULT_ID`, `DECISION`, and `APPROVED_IN
 
 - [ ] **Step 4: Make publication_contract consumers understand only a validated intrinsic approval**
 
-Add one private helper whose predicate checks the intrinsic transaction values before any exception, conceptually:
+Add one private helper whose predicate checks the **complete closed intrinsic transaction shape** before any exception. It must validate the full approved authority core rather than accepting a type token plus an arbitrary Mapping.
+
+The helper must require:
+
+```text
+outer approval transaction:
+- result_message_type == APPROVAL_RESULT
+- responder_role == USER_APPROVER
+- status == PASS
+- decision in {APPROVE, REJECT}
+- result_id = non-empty string
+- response_to_instruction_id = UUID
+- evidence_refs == []
+- completion_gate == NONE
+- remote_verification == NOT_ATTEMPTED
+- completion_evidence key exists and value is null
+- publication_authority is absent/null
+- sync_status is absent/null
+- remote_head_sha is absent/null
+
+approved_instruction exact key set:
+- instruction_id
+- expected_state_revision
+- expected_base_sha
+- scope_paths
+- target_project_context_id
+- target_project_name
+- target_github_repository_id
+- target_github_repository_full_name
+- target_work_unit_ref
+- issuer_role
+- executor_role
+- authorized_actions
+
+approved_instruction values:
+- instruction_id = UUID
+- expected_state_revision = non-negative integer, not bool
+- expected_base_sha = 40-hex SHA
+- scope_paths = non-empty unique safe repository-relative exact paths
+- project/repository identity fields = non-empty strings
+- target_work_unit_ref = exactly {path, sha}, with safe repository-relative path + 40-hex SHA
+- issuer_role == GPT_ORCHESTRATOR
+- executor_role == CODEX_IMPLEMENTER
+- authorized_actions is a list containing MUTATE_APPROVED_SCOPE
+```
+
+Conceptually:
 
 ```python
 def _is_intrinsic_approval_transaction(result):
+    core = result.get("approved_instruction")
+    if not isinstance(core, Mapping) or set(core) != _APPROVED_INSTRUCTION_KEYS:
+        return False
+    if not _closed_approved_instruction_core_is_valid(core):
+        return False
     return (
         result.get("result_message_type") == "APPROVAL_RESULT"
         and result.get("responder_role") == "USER_APPROVER"
@@ -496,20 +553,23 @@ def _is_intrinsic_approval_transaction(result):
         and result.get("decision") in {"APPROVE", "REJECT"}
         and isinstance(result.get("result_id"), str)
         and bool(result.get("result_id"))
-        and isinstance(result.get("response_to_instruction_id"), str)
-        and isinstance(result.get("approved_instruction"), Mapping)
+        and _is_uuid(result.get("response_to_instruction_id"))
         and result.get("evidence_refs") == []
         and result.get("completion_gate") == "NONE"
         and result.get("remote_verification") == "NOT_ATTEMPTED"
+        and "completion_evidence" in result
         and result.get("completion_evidence") is None
+        and result.get("publication_authority") is None
+        and result.get("sync_status") is None
+        and result.get("remote_head_sha") is None
     )
 ```
 
 Then:
-- `validate_result_authority()` does not require `remote_verification=VERIFIED` only for this validated intrinsic transaction;
-- `validate_completion_evidence()` permits null only for this validated intrinsic transaction;
+- `validate_result_authority()` does not require `remote_verification=VERIFIED` only for this complete validated intrinsic transaction;
+- `validate_completion_evidence()` permits null only for this complete validated intrinsic transaction;
 - `SYNCED`, `CONFIRMED_PUBLICATION`, remote-head and State-completion rules remain unchanged;
-- a malformed or token-only approval continues to receive the existing PASS errors.
+- a malformed, incomplete-core, publication-claiming, or token-only approval continues to receive the existing PASS/authority errors.
 
 - [ ] **Step 5: Add production composition RED→GREEN tests**
 
@@ -900,7 +960,7 @@ No accepted Design requirement is intentionally deferred inside the prerequisite
 
 ### 2. Placeholder scan
 
-There are no `TBD`, `TODO`, “similar to Task N”, or unnamed implementation steps. `$ACCEPTED_PLAN_SHA` is a defined runtime authority input that cannot exist until this candidate itself is accepted; it is not an unresolved design placeholder.
+The prohibited placeholder-marker scan is clean, and no step delegates work through an unnamed “same as another task” instruction. `$ACCEPTED_PLAN_SHA` is a defined runtime authority input that cannot exist until this candidate itself is accepted; it is not an unresolved design placeholder.
 
 ### 3. Type/interface consistency
 
