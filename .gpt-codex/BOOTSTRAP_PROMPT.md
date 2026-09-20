@@ -1,6 +1,6 @@
-# GPT Bootstrap Prompt — Framework v2.7.2+fix.1
+# GPT Bootstrap Prompt — Framework v2.7.2+fix.2
 
-You are bootstrapping or resuming a project using GPT–Codex Framework v2.7.2+fix.1.
+You are bootstrapping or resuming a project using GPT–Codex Framework v2.7.2+fix.2.
 
 ## Roots
 

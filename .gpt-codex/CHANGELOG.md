@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.2+fix.2
+
+- Carries the reviewed Group-B prerequisite contract reconciliation required before a fresh Group-B B0.
+- Closes the Instruction, intrinsic APPROVAL_RESULT, Work Unit effective-scope, and cross-contract composition prerequisite gaps; no historical production Contract Repair Tasks 5–9 or B1 functionality is included.
+- Includes the reviewed future native fix2 finalization Work Unit; this candidate does not itself perform State finalization or release publication.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
+
 ## v2.7.2+fix.1
 
 - Carries the reviewed Windows Git-output deterministic UTF-8 / surrogateescape correction.

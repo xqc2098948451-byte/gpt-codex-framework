@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "authority": "FRAMEWORK_MODULE_REGISTRY",
-  "framework_version": "2.7.2+fix.1",
+  "framework_version": "2.7.2+fix.2",
   "modules": [
     {"module_id": "framework-core", "descriptor": ".gpt-codex/framework-modules/modules/framework-core.json", "status": "ACTIVE"},
     {"module_id": "identity-context", "descriptor": ".gpt-codex/framework-modules/modules/identity-context.json", "status": "ACTIVE"},
