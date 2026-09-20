@@ -1,0 +1,62 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-group-b-prerequisite-fix2-finalization-001",
+  "goal": "Finalize tool-observed v2.7.2+fix.2 remote publication facts into repository State and durable publication evidence after corrective activation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/V2.7.2-FIX2-REMOTE-PUBLICATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json"
+    ],
+    "excluded_paths": []
+  },
+  "acceptance": {
+    "purpose": "V2.7.2_FIX2_PUBLICATION_STATE_FINALIZATION",
+    "requirements": [
+      "Record only tool-observed v2.7.2+fix.2 remote publication facts.",
+      "Mutate exactly the three owned paths.",
+      "Preserve B0 as the next read-only gate.",
+      "Do not authorize B1, bridge-005, Plugin, release publication, or prerequisite implementation."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 15,
+  "evidence_refs": [],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-19-group-b-prerequisite-fix2-finalization-work-unit-design-amendment.md",
+      "sha": "7e14c42fc731e0f63e2dcc35f87f8b14b3eb7023"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-19-group-b-prerequisite-minimal-closure-plan.md",
+      "sha": "e13db71242db456789bc66bff46ef884e73a0fc1"
+    }
+  }
+}
