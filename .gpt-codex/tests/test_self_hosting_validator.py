@@ -158,6 +158,110 @@ class SelfHostingValidatorTests(unittest.TestCase):
             [],
         )
 
+    def test_group_b_prerequisite_contracts_compose_and_fail_at_their_owners(self):
+        from instruction_envelope import build_instruction_envelope
+        from publication_contract import validate_completion_evidence, validate_result_authority
+        from role_communication import is_intrinsic_approval_result
+        from validate_project import (
+            _derived_schema_errors, validate_instruction_authority,
+            validate_instruction_envelope_contract, validate_result_envelope_contract,
+        )
+
+        locator = {
+            "remote_ref": "refs/heads/gpt-codex-approval-evidence",
+            "evidence_commit_sha": "a" * 40,
+            "path": "approvals/approval-result.json",
+            "blob_sha": "b" * 40,
+        }
+        instruction = build_instruction_envelope(
+            "RECONCILIATION_REQUEST", "33333333-3333-4333-8333-333333333333", "Example", 15,
+            "2.7.2+fix.1", target_work_unit="WU-COMPOSED", expected_base_sha="c" * 40,
+            target_github_repository_id="123", target_github_repository_full_name="example/project",
+            target_work_unit_ref={"path": ".gpt-codex/work-units/composed.json", "sha": "d" * 40},
+            scope_paths=["src/public/key"], approval_evidence_ref=locator,
+            issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR",
+            authorized_actions=["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"],
+            forbidden_actions=[],
+        )
+        work_unit = {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "WU-COMPOSED",
+            "goal": "compose prerequisite contracts", "acceptance": [], "selected_extensions": {},
+            "state": "AUTHORIZED", "basis_state_revision": 15,
+            "scope": {"owned_paths": ["src/"], "excluded_paths": ["src/private/"]},
+        }
+        approved_instruction = {
+            key: instruction[key] for key in (
+                "instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths",
+                "target_project_context_id", "target_project_name", "target_github_repository_id",
+                "target_github_repository_full_name", "target_work_unit_ref", "issuer_role",
+                "executor_role", "authorized_actions",
+            )
+        }
+        approval = {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "WU-COMPOSED",
+            "extension": {}, "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT",
+            "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE",
+            "response_to_instruction_id": "11111111-1111-4111-8111-111111111111",
+            "approved_instruction": approved_instruction, "evidence_refs": [], "completion_gate": "NONE",
+            "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None,
+        }
+
+        self.assertEqual(validate_instruction_envelope_contract(instruction), [])
+        self.assertEqual(validate_instruction_authority(
+            instruction, current_state_revision=15, approved_scope={"src/"}, excluded_scope={"src/private/"},
+        ), [])
+        self.assertEqual(_derived_schema_errors(work_unit, "work-unit"), [])
+        self.assertEqual(validate_result_envelope_contract(approval), [])
+        self.assertTrue(is_intrinsic_approval_result(approval))
+        self.assertEqual(validate_result_authority(approval), [])
+        self.assertEqual(validate_completion_evidence(approval), [])
+
+        excluded_instruction = {**instruction, "scope_paths": ["src/private/key"]}
+        self.assertIn("SCOPE_EXPANSION_DENIED", validate_instruction_authority(
+            excluded_instruction, current_state_revision=15, approved_scope={"src/"}, excluded_scope={"src/private/"},
+        ))
+        malformed_locator = {**locator, "blob_sha": "not-a-sha"}
+        with self.assertRaisesRegex(ValueError, "INVALID_APPROVAL_EVIDENCE_REF"):
+            build_instruction_envelope(
+                "RECONCILIATION_REQUEST", "33333333-3333-4333-8333-333333333333", "Example", 15,
+                "2.7.2+fix.1", target_work_unit="WU-COMPOSED", expected_base_sha="c" * 40,
+                target_github_repository_id="123", target_github_repository_full_name="example/project",
+                target_work_unit_ref={"path": ".gpt-codex/work-units/composed.json", "sha": "d" * 40},
+                scope_paths=["src/public/key"], approval_evidence_ref=malformed_locator,
+                issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR",
+                authorized_actions=["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"],
+                forbidden_actions=[],
+            )
+        wrong_author = {**approval, "responder_role": "USER_LOCAL"}
+        self.assertFalse(is_intrinsic_approval_result(wrong_author))
+        self.assertTrue(validate_result_envelope_contract(wrong_author))
+        self.assertTrue(validate_result_authority(wrong_author))
+        ordinary_result = {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "WU-COMPOSED",
+            "extension": {}, "result_message_type": "IMPLEMENTATION_RESULT", "status": "PASS",
+            "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "VERIFIED",
+            "completion_evidence": {
+                "execution_state": "COMPLETED", "process_completed": True, "exit_code": 0,
+                "intended_scope": ["src/public/key"], "executed_scope": ["src/public/key"],
+                "test_files_expected": 1, "test_files_executed": 1, "test_count": 1,
+                "failure_count": 0, "error_count": 0, "validators_expected": [],
+                "validators_completed": [], "blocker_evidence_refs": [],
+            },
+        }
+        self.assertEqual(validate_result_envelope_contract(ordinary_result), [])
+        self.assertEqual(validate_result_authority(ordinary_result), [])
+        self.assertEqual(validate_completion_evidence(ordinary_result), [])
+        token_only = {**ordinary_result, "result_message_type": "APPROVAL_RESULT"}
+        self.assertTrue(validate_result_envelope_contract(token_only))
+        self.assertFalse(is_intrinsic_approval_result(token_only))
+        with self.assertRaisesRegex(ValueError, "INVALID_FRAMEWORK_VERSION"):
+            build_instruction_envelope(
+                "RECONCILIATION_REQUEST", "33333333-3333-4333-8333-333333333333", "Example", 15,
+                "2.7.2-01", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER",
+                return_role="GPT_ORCHESTRATOR", authorized_actions=["MUTATE_APPROVED_SCOPE"], forbidden_actions=[],
+                scope_paths=["src/public/key"], approval_evidence_ref=locator,
+            )
+
     def test_intrinsic_approval_cannot_be_state_completion_or_synchronization_evidence(self):
         from publication_contract import (
             validate_completion_evidence, validate_result_authority, validate_state_authority,
