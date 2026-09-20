@@ -2,7 +2,7 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 15,
+  "revision": 16,
   "state": "AUTHORIZED",
   "active_work_unit": "framework-staged-closure-group-a-001",
   "blockers": [],
@@ -31,13 +31,15 @@
     ".gpt-codex/evidence/V2.7.2-REMOTE-PUBLICATION-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-V2.7.2-PUBLICATION.json",
     ".gpt-codex/evidence/V2.7.2-FIX1-REMOTE-PUBLICATION-VERIFICATION.json",
-    ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json"
+    ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json",
+    ".gpt-codex/evidence/V2.7.2-FIX2-REMOTE-PUBLICATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
-    "latest_synced_state_revision": 15,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json",
+    "latest_verified_remote_sha": "084b1a080786b1554732ba3000a0b26e52c1d3c9",
+    "latest_synced_state_revision": 16,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json",
     "sync_status": "SYNCED"
   },
   "next_action": "GROUP_B_PRE_EXECUTION_REOBSERVATION_REQUIRED"
