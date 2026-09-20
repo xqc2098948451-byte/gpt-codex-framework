@@ -12,6 +12,11 @@
     {"type": "EXACT_PATH", "value": ".gpt-codex/schemas/result-envelope.schema.json"},
     {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json"},
     {"type": "EXACT_PATH", "value": ".gpt-codex/project-template/RESULT_ENVELOPE.template.json"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_instruction_envelope.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_instruction_role_contract.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_result_contract_schema.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_role_communication_taxonomy.py"},
+    {"type": "EXACT_PATH", "value": ".gpt-codex/tests/test_result_return.py"},
     {"type": "PATH_PREFIX", "value": ".gpt-codex/builtins/skills/handoff"}
   ],
   "ENTRY_POINTS": ["instruction envelope", "result envelope", "role authority validation"],
@@ -22,6 +27,6 @@
   "INVARIANTS": ["Registry metadata does not authorize execution", "Role Protocol remains authoritative"],
   "PERMISSIONS": ["READ_ONLY_REFERENCE", "CONSUMER_PROJECTED"],
   "CHANGE_RISK": "HIGH",
-  "REQUIRED_TESTS": [".gpt-codex/tests/test_role_authority.py", ".gpt-codex/tests/test_role_communication_taxonomy.py", ".gpt-codex/tests/test_instruction_role_contract.py", ".gpt-codex/tests/test_result_contract_schema.py"],
+  "REQUIRED_TESTS": [".gpt-codex/tests/test_role_authority.py", ".gpt-codex/tests/test_role_communication_taxonomy.py", ".gpt-codex/tests/test_instruction_role_contract.py", ".gpt-codex/tests/test_result_contract_schema.py", ".gpt-codex/tests/test_instruction_envelope.py", ".gpt-codex/tests/test_result_return.py"],
   "RELATED_MODULES": ["framework-core", "identity-context", "framework-validation"]
 }
