@@ -72,6 +72,8 @@ def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
     """Fail closed when a PASS/BLOCKED result lacks its bounded closure facts."""
     if _is_intrinsic_approval_transaction(result):
         return []
+    if result.get("result_message_type") == "APPROVAL_RESULT":
+        return ["INVALID_INTRINSIC_APPROVAL_RESULT"]
     evidence = result.get("completion_evidence")
     if not isinstance(evidence, Mapping):
         # Historical publication results remain valid until a governed result
@@ -109,6 +111,8 @@ def validate_result_authority(
     evidence_refs = result.get("evidence_refs") or []
 
     intrinsic_approval = _is_intrinsic_approval_transaction(result)
+    if result.get("result_message_type") == "APPROVAL_RESULT" and not intrinsic_approval:
+        errors.append("INVALID_INTRINSIC_APPROVAL_RESULT")
     if status == "PASS" and not intrinsic_approval and remote_verification != "VERIFIED":
         errors.append("PASS requires remote_verification=VERIFIED")
     if status == "PASS" and authority == CANDIDATE_AUTHORITY:

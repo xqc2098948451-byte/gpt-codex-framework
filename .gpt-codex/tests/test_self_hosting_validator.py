@@ -205,10 +205,13 @@ class SelfHostingValidatorTests(unittest.TestCase):
             "approved_instruction": approved_instruction, "evidence_refs": [], "completion_gate": "NONE",
             "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None,
         }
+        scope = work_unit["scope"]
+        owned_paths = scope["owned_paths"]
+        excluded_paths = scope.get("excluded_paths", [])
 
         self.assertEqual(validate_instruction_envelope_contract(instruction), [])
         self.assertEqual(validate_instruction_authority(
-            instruction, current_state_revision=15, approved_scope={"src/"}, excluded_scope={"src/private/"},
+            instruction, current_state_revision=15, approved_scope=set(owned_paths), excluded_scope=set(excluded_paths),
         ), [])
         self.assertEqual(_derived_schema_errors(work_unit, "work-unit"), [])
         self.assertEqual(validate_result_envelope_contract(approval), [])
@@ -218,7 +221,7 @@ class SelfHostingValidatorTests(unittest.TestCase):
 
         excluded_instruction = {**instruction, "scope_paths": ["src/private/key"]}
         self.assertIn("SCOPE_EXPANSION_DENIED", validate_instruction_authority(
-            excluded_instruction, current_state_revision=15, approved_scope={"src/"}, excluded_scope={"src/private/"},
+            excluded_instruction, current_state_revision=15, approved_scope=set(owned_paths), excluded_scope=set(excluded_paths),
         ))
         malformed_locator = {**locator, "blob_sha": "not-a-sha"}
         with self.assertRaisesRegex(ValueError, "INVALID_APPROVAL_EVIDENCE_REF"):
@@ -254,6 +257,8 @@ class SelfHostingValidatorTests(unittest.TestCase):
         token_only = {**ordinary_result, "result_message_type": "APPROVAL_RESULT"}
         self.assertTrue(validate_result_envelope_contract(token_only))
         self.assertFalse(is_intrinsic_approval_result(token_only))
+        self.assertTrue(validate_result_authority(token_only))
+        self.assertTrue(validate_completion_evidence(token_only))
         with self.assertRaisesRegex(ValueError, "INVALID_FRAMEWORK_VERSION"):
             build_instruction_envelope(
                 "RECONCILIATION_REQUEST", "33333333-3333-4333-8333-333333333333", "Example", 15,
