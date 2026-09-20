@@ -45,7 +45,35 @@
     },
     "result_message_type": {
       "type": "string",
-      "enum": ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT"]
+      "enum": ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT", "APPROVAL_RESULT"]
+    },
+    "result_id": { "type": ["string", "null"], "minLength": 1 },
+    "decision": { "type": ["string", "null"], "enum": ["APPROVE", "REJECT", null] },
+    "approved_instruction": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "instruction_id": { "type": "string", "format": "uuid" },
+        "expected_state_revision": { "type": "integer", "minimum": 0 },
+        "expected_base_sha": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" },
+        "scope_paths": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.?(?:/|$))(?!.*//).+$" } },
+        "target_project_context_id": { "type": "string", "minLength": 1 },
+        "target_project_name": { "type": "string", "minLength": 1 },
+        "target_github_repository_id": { "type": "string", "minLength": 1 },
+        "target_github_repository_full_name": { "type": "string", "minLength": 1 },
+        "target_work_unit_ref": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.?(?:/|$))(?!.*//).+$" },
+            "sha": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" }
+          },
+          "required": ["path", "sha"]
+        },
+        "issuer_role": { "const": "GPT_ORCHESTRATOR" },
+        "executor_role": { "const": "CODEX_IMPLEMENTER" },
+        "authorized_actions": { "type": "array", "minItems": 1, "items": { "type": "string" }, "contains": { "const": "MUTATE_APPROVED_SCOPE" } }
+      },
+      "required": ["instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths", "target_project_context_id", "target_project_name", "target_github_repository_id", "target_github_repository_full_name", "target_work_unit_ref", "issuer_role", "executor_role", "authorized_actions"]
     },
     "response_to_instruction_id": { "type": ["string", "null"], "format": "uuid" },
     "responder_role": {
@@ -178,13 +206,27 @@
       "then": { "not": {} }
     },
     {
-      "if": {
-        "properties": {"status": {"const": "PASS"}},
-        "required": ["status"]
-      },
+      "if": { "properties": { "result_message_type": { "const": "APPROVAL_RESULT" } }, "required": ["result_message_type"] },
       "then": {
-        "required": ["remote_verification"],
-        "properties": {"remote_verification": {"const": "VERIFIED"}}
+        "required": ["result_id", "result_message_type", "responder_role", "status", "decision", "response_to_instruction_id", "approved_instruction", "evidence_refs", "completion_gate", "remote_verification", "completion_evidence"],
+        "properties": {
+          "result_id": { "type": "string", "minLength": 1 },
+          "responder_role": { "const": "USER_APPROVER" }, "status": { "const": "PASS" },
+          "decision": { "enum": ["APPROVE", "REJECT"] }, "response_to_instruction_id": { "type": "string", "format": "uuid" },
+          "approved_instruction": { "type": "object" },
+          "evidence_refs": { "const": [] }, "completion_gate": { "const": "NONE" },
+          "remote_verification": { "const": "NOT_ATTEMPTED" }, "completion_evidence": { "const": null },
+          "publication_authority": { "const": null }, "sync_status": { "const": null }, "remote_head_sha": { "const": null }
+        },
+        "allOf": [
+          { "not": { "required": ["approval_evidence_ref"] } },
+          { "not": { "required": ["evidence_commit_sha"] } },
+          { "not": { "required": ["blob_sha"] } }
+        ]
+      },
+      "else": {
+        "if": { "properties": {"status": {"const": "PASS"}}, "required": ["status"] },
+        "then": { "required": ["remote_verification"], "properties": {"remote_verification": {"const": "VERIFIED"}} }
       }
     },
     {
@@ -225,21 +267,10 @@
     },
     {
       "if": {
-        "properties": {
-          "result_message_type": {"type": "string"},
-          "status": {"const": "PASS"}
-        },
+        "properties": { "result_message_type": { "type": "string", "not": { "const": "APPROVAL_RESULT" } }, "status": {"const": "PASS"}},
         "required": ["result_message_type", "status"]
       },
-      "then": {
-        "required": ["completion_evidence"],
-        "properties": {
-          "completion_evidence": {
-            "type": "object",
-            "required": ["execution_state", "process_completed", "exit_code", "intended_scope", "executed_scope", "test_files_expected", "test_files_executed", "test_count", "failure_count", "error_count", "validators_expected", "validators_completed", "blocker_evidence_refs"]
-          }
-        }
-      }
+      "then": { "required": ["completion_evidence"], "properties": { "completion_evidence": { "type": "object", "required": ["execution_state", "process_completed", "exit_code", "intended_scope", "executed_scope", "test_files_expected", "test_files_executed", "test_count", "failure_count", "error_count", "validators_expected", "validators_completed", "blocker_evidence_refs"] } } }
     }
   ]
 }

@@ -87,7 +87,7 @@ class ResultContractSchemaTests(unittest.TestCase):
         self.assertNotIn("message_type", schema["properties"])
         self.assertEqual(
             schema["properties"]["result_message_type"]["enum"],
-            ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT"],
+            ["REVIEW_RESULT", "REVIEW_FINDING", "IMPLEMENTATION_RESULT", "INVALID_INSTRUCTION", "ROLE_AUTHORITY_CONFLICT", "APPROVAL_RESULT"],
         )
 
     def test_result_type_is_not_instruction_type_and_generic_message_type_is_rejected(self):
@@ -245,6 +245,66 @@ if __name__ == "__main__":
 
 
 class ContractRepairTask3Tests(unittest.TestCase):
+    @staticmethod
+    def _intrinsic_approval_result(decision="APPROVE"):
+        return {
+            "kernel_version": "2.0.0", "schema_version": 1,
+            "project_id": "P", "work_unit_id": "W", "extension": {},
+            "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT",
+            "responder_role": "USER_APPROVER", "status": "PASS", "decision": decision,
+            "response_to_instruction_id": "11111111-1111-4111-8111-111111111111",
+            "evidence_refs": [], "completion_gate": "NONE",
+            "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None,
+            "approved_instruction": {
+                "instruction_id": "22222222-2222-4222-8222-222222222222",
+                "expected_state_revision": 15, "expected_base_sha": "a" * 40,
+                "scope_paths": [".gpt-codex/scripts/example.py"],
+                "target_project_context_id": "33333333-3333-4333-8333-333333333333",
+                "target_project_name": "Example", "target_github_repository_id": "123",
+                "target_github_repository_full_name": "example/project",
+                "target_work_unit_ref": {"path": ".gpt-codex/work-units/example.json", "sha": "b" * 40},
+                "issuer_role": "GPT_ORCHESTRATOR", "executor_role": "CODEX_IMPLEMENTER",
+                "authorized_actions": ["READ", "MUTATE_APPROVED_SCOPE"],
+            },
+        }
+
+    def test_intrinsic_approval_result_is_closed_and_only_complete_transaction_bypasses_execution_closure(self):
+        from validate_project import validate_result_envelope_contract
+        from publication_contract import validate_completion_evidence, validate_result_authority
+
+        for decision in ("APPROVE", "REJECT"):
+            approval = self._intrinsic_approval_result(decision)
+            with self.subTest(decision=decision):
+                self.assertEqual(validate_result_envelope_contract(approval), [])
+                self.assertEqual(validate_result_authority(approval), [])
+                self.assertEqual(validate_completion_evidence(approval), [])
+
+        invalid_cases = {
+            "wrong_responder": lambda value: value.__setitem__("responder_role", "USER_LOCAL"),
+            "missing_decision": lambda value: value.pop("decision"),
+            "extra_core_field": lambda value: value["approved_instruction"].__setitem__("unexpected", True),
+            "missing_core_field": lambda value: value["approved_instruction"].pop("issuer_role"),
+            "invalid_scope": lambda value: value["approved_instruction"].__setitem__("scope_paths", ["../escape"]),
+            "embedded_locator": lambda value: value["approved_instruction"].__setitem__("approval_evidence_ref", {"blob_sha": "x"}),
+            "evidence_refs": lambda value: value.__setitem__("evidence_refs", ["evidence"]),
+            "completion_gate": lambda value: value.__setitem__("completion_gate", "GPT_DECISION"),
+            "remote_verification": lambda value: value.__setitem__("remote_verification", "VERIFIED"),
+            "completion_evidence": lambda value: value.__setitem__("completion_evidence", {"execution_state": "COMPLETED"}),
+        }
+        for name, mutate in invalid_cases.items():
+            candidate = self._intrinsic_approval_result()
+            mutate(candidate)
+            with self.subTest(case=name):
+                self.assertTrue(
+                    validate_result_envelope_contract(candidate)
+                    or validate_result_authority(candidate)
+                    or validate_completion_evidence(candidate)
+                )
+
+        token_only = {"result_message_type": "APPROVAL_RESULT", "status": "PASS"}
+        self.assertTrue(validate_result_authority(token_only))
+        self.assertTrue(validate_completion_evidence(token_only))
+
     def test_approval_result_is_intrinsic_and_does_not_correlate_request_scope(self):
         sys.path.insert(0, str(SCRIPTS))
         from role_communication import validate_result_message_type

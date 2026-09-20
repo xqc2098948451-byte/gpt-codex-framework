@@ -50,6 +50,7 @@ class RoleCommunicationTaxonomyTests(unittest.TestCase):
         self.assertIn("REVIEW_RESULT", module.RESULT_MESSAGE_TYPES)
         self.assertIn("REVIEW_FINDING", module.RESULT_MESSAGE_TYPES)
         self.assertIn("IMPLEMENTATION_RESULT", module.RESULT_MESSAGE_TYPES)
+        self.assertIn("APPROVAL_RESULT", module.RESULT_MESSAGE_TYPES)
 
     def test_type_validators_are_side_specific(self):
         module = load_module()

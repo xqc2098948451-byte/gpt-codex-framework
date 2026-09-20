@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
+import re
 
 
 ROLES = frozenset(
@@ -23,6 +24,14 @@ _EVOLUTION_AUTHORITY_FIELDS = frozenset({
     "authorized_actions", "target_work_unit", "state_revision", "command", "retry", "queue",
     "project_mutation", "role_authority", "schedule_execution", "force_adoption",
 })
+_APPROVED_INSTRUCTION_KEYS = frozenset({
+    "instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths",
+    "target_project_context_id", "target_project_name", "target_github_repository_id",
+    "target_github_repository_full_name", "target_work_unit_ref", "issuer_role",
+    "executor_role", "authorized_actions",
+})
+_UUID_RE = re.compile(r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+_SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
 def validate_evolution_metadata_authority(metadata: Mapping[str, object] | None) -> list[str]:
@@ -150,6 +159,56 @@ def validate_result_message_type(value: object) -> list[str]:
     if value not in RESULT_MESSAGE_TYPES:
         return ["UNKNOWN_RESULT_MESSAGE_TYPE"]
     return []
+
+
+def is_intrinsic_approval_result(result: Mapping[str, object] | None) -> bool:
+    """Recognize only the closed, non-execution USER_APPROVER transaction."""
+    if not isinstance(result, Mapping):
+        return False
+    core = result.get("approved_instruction")
+    if not isinstance(core, Mapping) or set(core) != _APPROVED_INSTRUCTION_KEYS:
+        return False
+    scope_paths = core.get("scope_paths")
+    work_unit_ref = core.get("target_work_unit_ref")
+    safe_paths = (
+        isinstance(scope_paths, list) and bool(scope_paths) and len(scope_paths) == len(set(scope_paths))
+        and all(isinstance(path, str) and path and not path.startswith(("/", "\\"))
+                and "\\" not in path and ".." not in path.split("/") and "" not in path.split("/")
+                for path in scope_paths)
+    )
+    valid_core = (
+        isinstance(core.get("instruction_id"), str) and bool(_UUID_RE.fullmatch(core["instruction_id"]))
+        and isinstance(core.get("expected_state_revision"), int) and not isinstance(core.get("expected_state_revision"), bool)
+        and core["expected_state_revision"] >= 0
+        and isinstance(core.get("expected_base_sha"), str) and bool(_SHA_RE.fullmatch(core["expected_base_sha"]))
+        and safe_paths
+        and all(isinstance(core.get(key), str) and bool(core[key]) for key in (
+            "target_project_context_id", "target_project_name", "target_github_repository_id",
+            "target_github_repository_full_name",
+        ))
+        and isinstance(work_unit_ref, Mapping) and set(work_unit_ref) == {"path", "sha"}
+        and isinstance(work_unit_ref.get("path"), str) and bool(work_unit_ref["path"])
+        and not work_unit_ref["path"].startswith(("/", "\\")) and "\\" not in work_unit_ref["path"]
+        and ".." not in work_unit_ref["path"].split("/") and "" not in work_unit_ref["path"].split("/")
+        and isinstance(work_unit_ref.get("sha"), str) and bool(_SHA_RE.fullmatch(work_unit_ref["sha"]))
+        and core.get("issuer_role") == "GPT_ORCHESTRATOR"
+        and core.get("executor_role") == "CODEX_IMPLEMENTER"
+        and isinstance(core.get("authorized_actions"), list) and "MUTATE_APPROVED_SCOPE" in core["authorized_actions"]
+    )
+    forbidden_locator_fields = {"approval_evidence_ref", "evidence_commit_sha", "blob_sha"}
+    return valid_core and not forbidden_locator_fields.intersection(result) and (
+        isinstance(result.get("result_id"), str) and bool(result["result_id"].strip())
+        and result.get("result_message_type") == "APPROVAL_RESULT"
+        and result.get("responder_role") == "USER_APPROVER"
+        and result.get("status") == "PASS" and result.get("decision") in {"APPROVE", "REJECT"}
+        and isinstance(result.get("response_to_instruction_id"), str)
+        and bool(_UUID_RE.fullmatch(result["response_to_instruction_id"]))
+        and result.get("evidence_refs") == [] and result.get("completion_gate") == "NONE"
+        and result.get("remote_verification") == "NOT_ATTEMPTED"
+        and "completion_evidence" in result and result.get("completion_evidence") is None
+        and result.get("publication_authority") is None and result.get("sync_status") is None
+        and result.get("remote_head_sha") is None
+    )
 
 
 def allowed_actions_for_role(role: str) -> frozenset[str]:

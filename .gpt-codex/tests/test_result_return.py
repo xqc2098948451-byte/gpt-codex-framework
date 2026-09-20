@@ -277,6 +277,16 @@ class ResultReturnTests(unittest.TestCase):
         self.assertIn("ARTIFACT_PATH: .gpt-codex/scripts/example.py", rendered)
         self.assertNotIn("\nMESSAGE_TYPE:", "\n" + rendered)
 
+    def test_intrinsic_approval_fields_render_only_from_the_envelope(self):
+        value = envelope("PASS")
+        value.update({"result_id": "approval-1", "decision": "APPROVE", "approved_instruction": {"instruction_id": "i"}})
+
+        rendered = render_gpt_return(value)
+
+        self.assertIn("RESULT_ID: approval-1", rendered)
+        self.assertIn("DECISION: APPROVE", rendered)
+        self.assertIn("APPROVED_INSTRUCTION:\n- instruction_id: i", rendered)
+
 
 if __name__ == "__main__":
     unittest.main()
