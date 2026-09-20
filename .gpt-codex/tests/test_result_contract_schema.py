@@ -314,6 +314,7 @@ class ContractRepairTask3Tests(unittest.TestCase):
             branch["then"] for branch in schema["allOf"]
             if branch.get("if", {}).get("properties", {}).get("result_message_type", {}).get("const") == "APPROVAL_RESULT"
         )
+        self.assertEqual(set(approval_branch["properties"]), set(schema["properties"]))
 
         for name, value in (
             ("external_approval_locator", {
@@ -325,7 +326,7 @@ class ContractRepairTask3Tests(unittest.TestCase):
             approval = self._intrinsic_approval_result()
             approval[name] = value
             with self.subTest(field=name):
-                self.assertNotIn(name, approval_branch["propertyNames"]["enum"])
+                self.assertTrue(validate_result_envelope_contract(approval))
                 self.assertTrue(validate_result_authority(approval))
                 self.assertTrue(validate_completion_evidence(approval))
 

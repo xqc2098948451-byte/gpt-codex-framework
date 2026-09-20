@@ -21,6 +21,9 @@
     "schema_version": {
       "const": 1
     },
+    "project_id": {},
+    "work_unit_id": {},
+    "extension": {},
     "status": {
       "enum": [
         "PASS",
@@ -208,16 +211,26 @@
     {
       "if": { "properties": { "result_message_type": { "const": "APPROVAL_RESULT" } }, "required": ["result_message_type"] },
       "then": {
-        "propertyNames": { "enum": ["kernel_version", "schema_version", "project_id", "work_unit_id", "extension", "status", "return_to_gpt_required", "source_project_context_id", "source_project_name", "framework_version", "result_message_type", "result_id", "decision", "approved_instruction", "response_to_instruction_id", "responder_role", "return_role", "review_target_revision", "finding_ids", "fix_round", "remediation_decision_ref", "protocol_error", "role_observation", "artifact_stage", "artifact_path", "source_github_repository_id", "source_github_repository_full_name", "current_remote_ref", "local_head_sha", "remote_head_sha", "sync_status", "push_status", "remote_verification", "publication_authority", "state_revision", "execution", "changed", "verify", "evidence_refs", "deviations", "blockers", "git", "git_base_sha", "implementation_sha", "parallel_batch", "execution_unit", "observability_fitness", "extension_evidence_refs", "next_gpt_action", "completion_evidence", "completion_gate"] },
+        "additionalProperties": false,
         "required": ["result_id", "result_message_type", "responder_role", "status", "decision", "response_to_instruction_id", "approved_instruction", "evidence_refs", "completion_gate", "remote_verification", "completion_evidence"],
         "properties": {
+          "kernel_version": {}, "schema_version": {}, "project_id": {}, "work_unit_id": {}, "extension": {},
+          "return_to_gpt_required": {}, "source_project_context_id": {}, "source_project_name": {}, "framework_version": {},
+          "result_message_type": {},
           "result_id": { "type": "string", "minLength": 1 },
           "responder_role": { "const": "USER_APPROVER" }, "status": { "const": "PASS" },
           "decision": { "enum": ["APPROVE", "REJECT"] }, "response_to_instruction_id": { "type": "string", "format": "uuid" },
           "approved_instruction": { "type": "object" },
+          "return_role": {}, "review_target_revision": {}, "finding_ids": {}, "fix_round": {},
+          "remediation_decision_ref": {}, "protocol_error": {}, "role_observation": {}, "artifact_stage": {},
+          "artifact_path": {}, "source_github_repository_id": {}, "source_github_repository_full_name": {},
+          "current_remote_ref": {}, "local_head_sha": {},
           "evidence_refs": { "const": [] }, "completion_gate": { "const": "NONE" },
           "remote_verification": { "const": "NOT_ATTEMPTED" }, "completion_evidence": { "const": null },
-          "publication_authority": { "const": null }, "sync_status": { "const": null }, "remote_head_sha": { "const": null }
+          "publication_authority": { "const": null }, "sync_status": { "const": null }, "remote_head_sha": { "const": null },
+          "push_status": {}, "state_revision": {}, "execution": {}, "changed": {}, "verify": {}, "deviations": {},
+          "blockers": {}, "git": {}, "git_base_sha": {}, "implementation_sha": {}, "parallel_batch": {},
+          "execution_unit": {}, "observability_fitness": {}, "extension_evidence_refs": {}, "next_gpt_action": {}
         },
         "allOf": [
           { "not": { "required": ["approval_evidence_ref"] } },

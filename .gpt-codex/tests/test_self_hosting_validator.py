@@ -128,6 +128,15 @@ class SelfHostingValidatorTests(unittest.TestCase):
         }
         self.assertTrue(validate_result_authority(bad_approval))
         self.assertTrue(validate_completion_evidence(bad_approval))
+        arbitrary_claim = deepcopy(approval)
+        arbitrary_claim["extra_authority_claim"] = {"authorized": True}
+        self.assertTrue(validate_result_authority(arbitrary_claim))
+        self.assertTrue(validate_completion_evidence(arbitrary_claim))
+        token_only = {
+            "result_message_type": "APPROVAL_RESULT", "status": "PASS",
+        }
+        self.assertTrue(validate_result_authority(token_only))
+        self.assertTrue(validate_completion_evidence(token_only))
 
         complete = {
             "state": "COMPLETE", "revision": 15, "evidence_refs": ["approval"],
