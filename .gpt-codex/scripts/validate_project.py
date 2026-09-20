@@ -39,6 +39,7 @@ from project_navigation import (
     load_project_map,
     validate_navigation_identity,
 )
+from git_continuity import resolve_approval_evidence_locator
 
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
@@ -1155,6 +1156,25 @@ def validate_result_envelope_contract(result: Mapping[str, Any]) -> list[str]:
     if not isinstance(result, Mapping):
         return ['RESULT_ENVELOPE_SCHEMA_INVALID:$ must be object']
     return _derived_schema_errors(dict(result), 'result-envelope')
+
+
+def resolve_approval_evidence(
+    repository_root: Path, locator: Mapping[str, str],
+) -> tuple[Mapping[str, object] | None, list[str]]:
+    """Consume Task-5 approval evidence without adding Task-7 correlation."""
+
+    payload, errors = resolve_approval_evidence_locator(repository_root, locator)
+    if errors:
+        return None, errors
+    if not isinstance(payload, Mapping):
+        return None, ["APPROVAL_EVIDENCE_PAYLOAD_INVALID"]
+    if payload.get("result_message_type") != "APPROVAL_RESULT":
+        return None, ["APPROVAL_EVIDENCE_RESULT_TYPE_INVALID"]
+    if validate_result_envelope_contract(payload):
+        return None, ["APPROVAL_EVIDENCE_RESULT_SCHEMA_INVALID"]
+    if validate_result_authority(payload):
+        return None, ["APPROVAL_EVIDENCE_INTRINSIC_INVALID"]
+    return payload, []
 
 
 def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict) -> list[str]:

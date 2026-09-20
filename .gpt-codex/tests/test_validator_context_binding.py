@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -738,3 +739,64 @@ class ContractRepairTask4Tests(unittest.TestCase):
         instruction = {"instruction_type":"WORK_UNIT", "executor_role":"CODEX_IMPLEMENTER", "scope_paths":["plugins/gpt-codex-framework/subpath.py"]}
         errors = validate_instruction_authority(instruction, approved_scope={"plugins/gpt-codex-framework/"})
         self.assertNotIn("SCOPE_EXPANSION_DENIED", errors)
+
+
+class ApprovalEvidenceConsumerTests(unittest.TestCase):
+    def _intrinsic_approval(self):
+        return {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "PRJ-001", "work_unit_id": "WU-001", "extension": {},
+            "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT", "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE",
+            "response_to_instruction_id": "11111111-1111-4111-8111-111111111111", "evidence_refs": [], "completion_gate": "NONE",
+            "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None, "publication_authority": None, "sync_status": None, "remote_head_sha": None,
+            "approved_instruction": {
+                "instruction_id": "22222222-2222-4222-8222-222222222222", "expected_state_revision": 16, "expected_base_sha": "a" * 40,
+                "scope_paths": ["src/approved.py"], "target_project_context_id": "context", "target_project_name": "project",
+                "target_github_repository_id": "1", "target_github_repository_full_name": "example/project",
+                "target_work_unit_ref": {"path": ".gpt-codex/work-units/wu.json", "sha": "b" * 40},
+                "issuer_role": "GPT_ORCHESTRATOR", "executor_role": "CODEX_IMPLEMENTER", "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+            },
+        }
+
+    def test_approval_evidence_consumer_accepts_only_a_valid_intrinsic_approval_result(self):
+        from validate_project import resolve_approval_evidence
+        locator = {"remote_ref": "refs/heads/evidence", "evidence_commit_sha": "a" * 40, "path": "evidence/result.json", "blob_sha": "b" * 40}
+        with patch("validate_project.resolve_approval_evidence_locator", return_value=(self._intrinsic_approval(), [])):
+            payload, errors = resolve_approval_evidence(Path("."), locator)
+        self.assertEqual(errors, [])
+        self.assertEqual(payload["result_message_type"], "APPROVAL_RESULT")
+
+    def test_approval_evidence_consumer_accepts_a_valid_intrinsic_result_from_a_committed_blob(self):
+        from validate_project import resolve_approval_evidence
+        with tempfile.TemporaryDirectory(prefix="approval-consumer-") as temporary:
+            root, remote = Path(temporary) / "work", Path(temporary) / "remote.git"
+            subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+            root.mkdir()
+            for command in (("init",), ("config", "user.name", "Task 5 test"), ("config", "user.email", "task5@example.invalid"), ("remote", "add", "origin", str(remote))):
+                subprocess.run(["git", *command], cwd=root, check=True, capture_output=True)
+            path = "evidence/approval.json"; target = root / path; target.parent.mkdir()
+            target.write_text(json.dumps(self._intrinsic_approval(), separators=(",", ":")), encoding="utf-8")
+            subprocess.run(["git", "add", path], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
+            commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            blob = subprocess.run(["git", "rev-parse", f"{commit}:{path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            subprocess.run(["git", "branch", "-M", "evidence"], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "push", "-u", "origin", "evidence"], cwd=root, check=True, capture_output=True)
+            payload, errors = resolve_approval_evidence(root, {"remote_ref": "refs/heads/evidence", "evidence_commit_sha": commit, "path": path, "blob_sha": blob})
+        self.assertEqual(errors, [])
+        self.assertEqual(payload["result_message_type"], "APPROVAL_RESULT")
+
+    def test_approval_evidence_consumer_rejects_non_mapping_malformed_nonapproval_and_nonintrinsic_payloads(self):
+        from validate_project import resolve_approval_evidence
+        locator = {"remote_ref": "refs/heads/evidence", "evidence_commit_sha": "a" * 40, "path": "evidence/result.json", "blob_sha": "b" * 40}
+        invalids = (
+            None,
+            ["not", "an", "object"],
+            {**self._intrinsic_approval(), "result_message_type": "IMPLEMENTATION_RESULT"},
+            {**self._intrinsic_approval(), "approved_instruction": {"instruction_id": "bad"}},
+        )
+        for invalid in invalids:
+            with self.subTest(invalid=invalid):
+                with patch("validate_project.resolve_approval_evidence_locator", return_value=(invalid, [])):
+                    payload, errors = resolve_approval_evidence(Path("."), locator)
+                self.assertIsNone(payload)
+                self.assertTrue(errors)

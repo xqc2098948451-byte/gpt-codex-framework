@@ -235,5 +235,123 @@ class GitContinuityTests(unittest.TestCase):
                 self.assertEqual(evaluate_worktree_cleanup(*facts), "KEEP")
 
 
+class ApprovalEvidenceLocatorTests(unittest.TestCase):
+    """Task-5 integration tests: immutable Git blob authority beats mutable refs."""
+
+    def _git(self, root, *args):
+        return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+
+    def _fixture(self, payload=b'{"result_message_type":"APPROVAL_RESULT"}\n'):
+        temporary = tempfile.TemporaryDirectory(prefix="approval-evidence-")
+        root = Path(temporary.name) / "work"
+        remote = Path(temporary.name) / "remote.git"
+        self._git(Path(temporary.name), "init", "--bare", str(remote))
+        root.mkdir()
+        self._git(root, "init")
+        self._git(root, "config", "user.name", "Task 5 test")
+        self._git(root, "config", "user.email", "task5@example.invalid")
+        self._git(root, "remote", "add", "origin", str(remote))
+        path = "evidence/approval.json"
+        target = root / path
+        target.parent.mkdir()
+        target.write_bytes(payload)
+        self._git(root, "add", path)
+        self._git(root, "commit", "-m", "approval evidence")
+        commit = self._git(root, "rev-parse", "HEAD")
+        blob = self._git(root, "rev-parse", f"{commit}:{path}")
+        self._git(root, "branch", "-M", "evidence")
+        self._git(root, "push", "-u", "origin", "evidence")
+        return temporary, root, {"remote_ref": "refs/heads/evidence", "evidence_commit_sha": commit, "path": path, "blob_sha": blob}
+
+    def test_exact_locator_resolves_only_the_bound_commit_blob_and_json_mapping(self):
+        from git_continuity import resolve_approval_evidence_locator
+        temporary, root, locator = self._fixture()
+        with temporary:
+            payload, errors = resolve_approval_evidence_locator(root, locator)
+        self.assertEqual(errors, [])
+        self.assertEqual(payload, {"result_message_type": "APPROVAL_RESULT"})
+
+    def test_committed_invalid_utf8_and_malformed_json_blobs_fail_closed(self):
+        from git_continuity import resolve_approval_evidence_locator
+        for payload, expected_error in (
+            (b"\xff\xfe", "APPROVAL_EVIDENCE_PAYLOAD_INVALID"),
+            (b'{"result_message_type":', "APPROVAL_EVIDENCE_PAYLOAD_INVALID"),
+        ):
+            with self.subTest(payload=payload):
+                temporary, root, locator = self._fixture(payload)
+                with temporary:
+                    resolved, errors = resolve_approval_evidence_locator(root, locator)
+                self.assertIsNone(resolved)
+                self.assertIn(expected_error, errors)
+
+    def test_later_commit_with_byte_identical_blob_is_a_valid_transport_tuple(self):
+        from git_continuity import resolve_approval_evidence_locator
+        temporary, root, locator = self._fixture()
+        with temporary:
+            self._git(root, "commit", "--allow-empty", "-m", "byte-identical transport")
+            later_commit = self._git(root, "rev-parse", "HEAD")
+            self._git(root, "push", "origin", "evidence")
+            later = {**locator, "evidence_commit_sha": later_commit}
+            resolved, errors = resolve_approval_evidence_locator(root, later)
+        self.assertEqual(errors, [])
+        self.assertEqual(resolved, {"result_message_type": "APPROVAL_RESULT"})
+
+    def test_existing_different_commit_and_changed_bytes_cannot_satisfy_original_blob_binding(self):
+        from git_continuity import resolve_approval_evidence_locator
+        temporary, root, locator = self._fixture()
+        with temporary:
+            (root / locator["path"]).write_bytes(b'{"result_message_type":"APPROVAL_RESULT","changed":true}\n')
+            self._git(root, "add", locator["path"]); self._git(root, "commit", "-m", "changed approval bytes")
+            changed_commit = self._git(root, "rev-parse", "HEAD")
+            changed_blob = self._git(root, "rev-parse", f"{changed_commit}:{locator['path']}")
+            self.assertNotEqual(changed_blob, locator["blob_sha"])
+            self._git(root, "push", "origin", "evidence")
+            changed_with_original_blob = {**locator, "evidence_commit_sha": changed_commit}
+            resolved, errors = resolve_approval_evidence_locator(root, changed_with_original_blob)
+            original, original_errors = resolve_approval_evidence_locator(root, locator)
+        self.assertIsNone(resolved)
+        self.assertIn("APPROVAL_EVIDENCE_BLOB_MISMATCH", errors)
+        self.assertEqual(original_errors, [])
+        self.assertEqual(original, {"result_message_type": "APPROVAL_RESULT"})
+
+    def test_locator_fails_closed_for_invalid_identity_path_or_blob(self):
+        from git_continuity import resolve_approval_evidence_locator
+        temporary, root, locator = self._fixture()
+        with temporary:
+            cases = (
+                {"remote_ref": "refs/heads/evidence"},
+                {**locator, "evidence_commit_sha": "0" * 40},
+                {**locator, "path": "missing.json"},
+                {**locator, "path": "../unsafe.json"},
+                {**locator, "blob_sha": "0" * 40},
+            )
+            for case in cases:
+                with self.subTest(locator=case):
+                    payload, errors = resolve_approval_evidence_locator(root, case)
+                    self.assertIsNone(payload)
+                    self.assertTrue(errors)
+
+    def test_mutable_ref_advance_preserves_bound_authority_but_replacement_fails_reachability(self):
+        from git_continuity import resolve_approval_evidence_locator
+        temporary, root, locator = self._fixture()
+        with temporary:
+            path = root / locator["path"]
+            path.write_bytes(b'{"result_message_type":"APPROVAL_RESULT","advanced":true}\n')
+            self._git(root, "add", locator["path"]); self._git(root, "commit", "-m", "advance")
+            self._git(root, "push", "origin", "evidence")
+            self.assertEqual(resolve_approval_evidence_locator(root, locator)[1], [])
+            self._git(root, "checkout", "--orphan", "replacement")
+            for entry in root.iterdir():
+                if entry.name != ".git":
+                    if entry.is_dir(): subprocess.run(["cmd", "/c", "rmdir", "/s", "/q", str(entry)], check=True)
+                    else: entry.unlink()
+            path.parent.mkdir(); path.write_bytes(b'{"result_message_type":"APPROVAL_RESULT","replacement":true}\n')
+            self._git(root, "add", locator["path"]); self._git(root, "commit", "-m", "replace")
+            self._git(root, "push", "--force", "origin", "HEAD:refs/heads/evidence")
+            payload, errors = resolve_approval_evidence_locator(root, locator)
+        self.assertIsNone(payload)
+        self.assertIn("APPROVAL_EVIDENCE_REMOTE_UNREACHABLE", errors)
+
+
 if __name__ == "__main__":
     unittest.main()

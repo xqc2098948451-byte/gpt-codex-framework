@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import re
 import subprocess
 from typing import Any, Callable, Mapping
@@ -31,6 +32,79 @@ _FORBIDDEN_REVIEW_OPERATIONS = frozenset({
     "PUBLISH",
 })
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+
+
+def _is_safe_evidence_path(value: object) -> bool:
+    return (
+        isinstance(value, str) and bool(value) and "\\" not in value
+        and not value.startswith("/") and not re.match(r"^[A-Za-z]:", value)
+        and all(part not in {"", ".", ".."} for part in value.split("/"))
+    )
+
+
+def resolve_approval_evidence_locator(
+    repository_root: Path,
+    locator: Mapping[str, str],
+) -> tuple[Mapping[str, object] | None, list[str]]:
+    """Resolve approval evidence from its immutable commit/path/blob tuple.
+
+    ``remote_ref`` proves that the bound commit remains transport-reachable;
+    it is deliberately never used as the source of the approval bytes.
+    """
+
+    required = {"remote_ref", "evidence_commit_sha", "path", "blob_sha"}
+    if (
+        not isinstance(repository_root, Path) or not isinstance(locator, Mapping)
+        or set(locator) != required
+    ):
+        return None, ["APPROVAL_EVIDENCE_LOCATOR_INVALID"]
+    remote_ref = locator.get("remote_ref")
+    commit = locator.get("evidence_commit_sha")
+    path = locator.get("path")
+    blob = locator.get("blob_sha")
+    if (
+        not isinstance(remote_ref, str) or not remote_ref.strip() or "\n" in remote_ref
+        or remote_ref.startswith("-") or not isinstance(commit, str) or not _SHA_RE.fullmatch(commit)
+        or not isinstance(blob, str) or not _SHA_RE.fullmatch(blob) or not _is_safe_evidence_path(path)
+    ):
+        return None, ["APPROVAL_EVIDENCE_LOCATOR_INVALID"]
+
+    def run(*args: str) -> subprocess.CompletedProcess[bytes]:
+        try:
+            return subprocess.run(["git", "-C", str(repository_root), *args], capture_output=True, check=False)
+        except OSError:
+            return subprocess.CompletedProcess(args, 127, b"", b"")
+
+    if run("rev-parse", "--verify", f"{commit}^{{commit}}").returncode != 0:
+        return None, ["APPROVAL_EVIDENCE_COMMIT_MISSING"]
+    object_spec = f"{commit}:{path}"
+    resolved = run("rev-parse", "--verify", object_spec)
+    if resolved.returncode != 0:
+        return None, ["APPROVAL_EVIDENCE_PATH_MISSING"]
+    actual_blob = resolved.stdout.decode("ascii", "ignore").strip()
+    if not _SHA_RE.fullmatch(actual_blob) or run("cat-file", "-e", f"{actual_blob}^{{blob}}").returncode != 0:
+        return None, ["APPROVAL_EVIDENCE_PATH_MISSING"]
+    if actual_blob.lower() != blob.lower():
+        return None, ["APPROVAL_EVIDENCE_BLOB_MISMATCH"]
+
+    remote = run("ls-remote", "origin", remote_ref)
+    remote_lines = remote.stdout.decode("utf-8", "surrogateescape").splitlines() if remote.returncode == 0 else []
+    remote_head = next((line.split("\t", 1)[0] for line in remote_lines if "\t" in line and line.split("\t", 1)[1] == remote_ref), None)
+    if not isinstance(remote_head, str) or not _SHA_RE.fullmatch(remote_head):
+        return None, ["APPROVAL_EVIDENCE_REMOTE_UNREACHABLE"]
+    if run("merge-base", "--is-ancestor", commit, remote_head).returncode != 0:
+        return None, ["APPROVAL_EVIDENCE_REMOTE_UNREACHABLE"]
+
+    payload = run("cat-file", "blob", actual_blob)
+    if payload.returncode != 0:
+        return None, ["APPROVAL_EVIDENCE_PATH_MISSING"]
+    try:
+        parsed = json.loads(payload.stdout.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None, ["APPROVAL_EVIDENCE_PAYLOAD_INVALID"]
+    if not isinstance(parsed, Mapping):
+        return None, ["APPROVAL_EVIDENCE_PAYLOAD_INVALID"]
+    return parsed, []
 
 
 @dataclass(frozen=True)
