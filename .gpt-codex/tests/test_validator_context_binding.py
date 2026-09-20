@@ -800,3 +800,42 @@ class ApprovalEvidenceConsumerTests(unittest.TestCase):
                     payload, errors = resolve_approval_evidence(Path("."), locator)
                 self.assertIsNone(payload)
                 self.assertTrue(errors)
+
+
+class Task6GitScopeOracleTests(unittest.TestCase):
+    def test_actual_git_oracle_observes_real_unstaged_staged_untracked_and_restoration_states(self):
+        from validate_project import collect_actual_git_changed_paths
+        with tempfile.TemporaryDirectory(prefix="task6-real-") as temporary:
+            root = Path(temporary)
+            for command in (("init",), ("config", "user.name", "Task6 Fixture"), ("config", "user.email", "task6@example.invalid")):
+                subprocess.run(["git", *command], cwd=root, check=True, capture_output=True)
+            inside = root / "src/inside.py"; inside.parent.mkdir(); inside.write_text("base\n", encoding="utf-8")
+            subprocess.run(["git", "add", "."], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "base"], cwd=root, check=True, capture_output=True)
+            for state, path, stage in (("unstaged", "outside/u.py", False), ("staged", "outside/s.py", True), ("untracked", "outside/n.py", False), ("inside-unstaged", "src/u.py", False), ("inside-staged", "src/s.py", True), ("inside-untracked", "src/n.py", False)):
+                target=root/path; target.parent.mkdir(exist_ok=True); target.write_text(state, encoding="utf-8")
+                if stage: subprocess.run(["git","add",path],cwd=root,check=True,capture_output=True)
+                paths, errors = collect_actual_git_changed_paths(root)
+                self.assertEqual(errors, []); self.assertIn(path, paths)
+                if path.startswith("outside/"): self.assertIn("outside/" + path.split("/",1)[1], paths)
+                subprocess.run(["git","reset","--hard","HEAD"],cwd=root,check=True,capture_output=True); target.unlink(missing_ok=True)
+                restored, restore_errors = collect_actual_git_changed_paths(root)
+                self.assertEqual((restored, restore_errors), (set(), []))
+            inside.write_text("staged\n",encoding="utf-8"); subprocess.run(["git","add","src/inside.py"],cwd=root,check=True,capture_output=True); inside.write_text("staged and unstaged\n",encoding="utf-8")
+            paths, errors = collect_actual_git_changed_paths(root)
+            self.assertEqual(errors, []); self.assertEqual(paths, {"src/inside.py"})
+    def test_actual_git_oracle_unions_nul_delimited_unstaged_staged_and_untracked_paths(self):
+        from validate_project import collect_actual_git_changed_paths
+        responses = [b"src/inside.py\x00", b"src/inside.py\x00", b"notes/outside.txt\x00"]
+        def runner(_command, **_kwargs):
+            return subprocess.CompletedProcess(_command, 0, responses.pop(0), b"")
+        paths, errors = collect_actual_git_changed_paths(Path("."), runner=runner)
+        self.assertEqual(paths, {"src/inside.py", "notes/outside.txt"})
+        self.assertEqual(errors, [])
+
+    def test_actual_git_oracle_fails_closed_for_observation_failure_and_unsafe_paths(self):
+        from validate_project import collect_actual_git_changed_paths
+        failed, errors = collect_actual_git_changed_paths(Path("."), runner=lambda command, **kwargs: subprocess.CompletedProcess(command, 1, b"", b"failed"))
+        self.assertIsNone(failed); self.assertIn("ACTUAL_GIT_OBSERVATION_FAILED", errors)
+        responses = [b"../escape\x00", b"", b""]
+        unsafe, errors = collect_actual_git_changed_paths(Path("."), runner=lambda command, **kwargs: subprocess.CompletedProcess(command, 0, responses.pop(0), b""))
+        self.assertIsNone(unsafe); self.assertIn("ACTUAL_GIT_PATH_INVALID", errors)

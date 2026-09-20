@@ -71,6 +71,7 @@ def governed_envelopes(control: dict) -> tuple[dict, dict, dict, dict, dict]:
         "target_github_repository_full_name": control["github"]["repository_full_name"], "target_work_unit": "WU-GOVERNED",
         "expected_state_revision": 3, "expected_base_sha": base_sha, "expected_remote_ref": "refs/heads/main",
         "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"], "forbidden_actions": [],
+        "scope_paths": [],
     }
     request = {
         **mutation, "instruction_id": "22222222-2222-4222-8222-222222222222", "instruction_type": "REVIEW_REQUEST",
@@ -96,6 +97,101 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_task6_governed_entry_binds_real_worktree_and_candidate_oracles(self):
+        from validate_project import validate_governed_mutation_entry
+
+        def entry(root: Path, base: str, mutation: dict, *, candidate: str | None = None) -> list[str]:
+            control = management_control()
+            state, work_unit, original, request, result = governed_envelopes(control)
+            instruction = {**original, **mutation, "expected_base_sha": base, "scope_paths": ["src/"]}
+            request["review_target_revision"] = base
+            result["review_target_revision"] = base
+            return validate_governed_mutation_entry(
+                control, state, work_unit, instruction, request, result,
+                current_state_revision=3, repository_root=root, candidate_revision=candidate,
+            )
+
+        with tempfile.TemporaryDirectory(prefix="task6-governed-") as temporary:
+            root = Path(temporary)
+            for relative in ("src/inside.py", "outside/tracked.py"):
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("base\n", encoding="utf-8")
+            base = commit_repository(root, "base")
+            mutate = {"authorized_actions": ["READ", "MUTATE_APPROVED_SCOPE"]}
+
+            self.assertIn("ACTUAL_GIT_REPOSITORY_REQUIRED", validate_governed_mutation_entry(
+                management_control(), *governed_envelopes(management_control()), current_state_revision=3,
+            ))
+            commit_control = management_control()
+            commit_state, commit_work_unit, commit_mutation, commit_request, commit_result = governed_envelopes(commit_control)
+            self.assertIn("ACTUAL_GIT_REPOSITORY_REQUIRED", validate_governed_mutation_entry(
+                commit_control, commit_state, commit_work_unit,
+                {**commit_mutation, "authorized_actions": ["READ", "COMMIT"]}, commit_request, commit_result,
+                current_state_revision=3,
+            ))
+            for relative, staged in (("outside/tracked.py", False), ("outside/staged.py", True), ("outside/new.py", False)):
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("outside\n", encoding="utf-8")
+                if staged:
+                    subprocess.run(["git", "add", relative], cwd=root, check=True, capture_output=True)
+                self.assertIn("SCOPE_EXPANSION_DENIED", entry(root, base, mutate))
+                subprocess.run(["git", "reset", "HEAD", "--", relative], cwd=root, check=True, capture_output=True)
+                if relative.endswith("tracked.py"):
+                    subprocess.run(["git", "restore", "--worktree", "--", relative], cwd=root, check=True, capture_output=True)
+                elif target.exists():
+                    target.unlink()
+                self.assertNotIn("SCOPE_EXPANSION_DENIED", entry(root, base, mutate))
+            for relative, staged in (("src/inside.py", False), ("src/staged.py", True), ("src/new.py", False)):
+                target = root / relative
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("inside\n", encoding="utf-8")
+                if staged:
+                    subprocess.run(["git", "add", relative], cwd=root, check=True, capture_output=True)
+                self.assertNotIn("SCOPE_EXPANSION_DENIED", entry(root, base, mutate))
+                subprocess.run(["git", "reset", "HEAD", "--", relative], cwd=root, check=True, capture_output=True)
+                if relative == "src/inside.py":
+                    subprocess.run(["git", "restore", "--worktree", "--", relative], cwd=root, check=True, capture_output=True)
+                elif target.exists():
+                    target.unlink()
+            (root / "src/inside.py").write_text("staged\nunstaged\n", encoding="utf-8")
+            subprocess.run(["git", "add", "src/inside.py"], cwd=root, check=True, capture_output=True)
+            (root / "src/inside.py").write_text("staged\nunstaged\nmore\n", encoding="utf-8")
+            self.assertNotIn("SCOPE_EXPANSION_DENIED", entry(root, base, mutate))
+            subprocess.run(["git", "restore", "--staged", "--worktree", "--", "src/inside.py"], cwd=root, check=True, capture_output=True)
+
+        for changed_path, expected in (("outside/candidate.py", "SCOPE_EXPANSION_DENIED"), ("src/candidate.py", None)):
+            with self.subTest(candidate_path=changed_path), tempfile.TemporaryDirectory(prefix="task6-candidate-") as temporary:
+                root = Path(temporary)
+                (root / "src").mkdir()
+                (root / "src/base.py").write_text("base\n", encoding="utf-8")
+                base = commit_repository(root, "base")
+                target = root / changed_path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("candidate\n", encoding="utf-8")
+                subprocess.run(["git", "add", changed_path], cwd=root, check=True, capture_output=True)
+                candidate = subprocess.run(["git", "commit", "-m", "candidate"], cwd=root, check=True, capture_output=True)
+                candidate_sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+                push = {"authorized_actions": ["READ", "MUTATE_APPROVED_SCOPE", "PUSH"]}
+                errors = entry(root, base, push, candidate=candidate_sha)
+                if expected is None:
+                    self.assertNotIn("SCOPE_EXPANSION_DENIED", errors)
+                else:
+                    self.assertIn(expected, errors)
+                self.assertIn("ACTUAL_GIT_CANDIDATE_REQUIRED", entry(root, base, push))
+                self.assertIn("ACTUAL_GIT_CANDIDATE_INVALID", entry(root, base, push, candidate="invalid"))
+                (root / "outside").mkdir(exist_ok=True)
+                (root / "outside/worktree.py").write_text("outside\n", encoding="utf-8")
+                self.assertIn("SCOPE_EXPANSION_DENIED", entry(root, base, push, candidate=candidate_sha))
+
+    def test_task6_candidate_scope_check_rejects_outside_and_accepts_exact_paths(self):
+        from validate_project import validate_committed_candidate_scope
+        base, candidate = "a" * 40, "b" * 40
+        outside = lambda command, **kwargs: subprocess.CompletedProcess(command, 0, b"src/outside.py\x00", b"")
+        allowed = lambda command, **kwargs: subprocess.CompletedProcess(command, 0, b"src/inside.py\x00", b"")
+        self.assertIn("SCOPE_EXPANSION_DENIED", validate_committed_candidate_scope(Path("."), base, candidate, {"src/inside.py"}, set(), runner=outside))
+        self.assertEqual(validate_committed_candidate_scope(Path("."), base, candidate, {"src/inside.py"}, set(), runner=allowed), [])
     def test_work_unit_scope_schema_closes_owned_and_excluded_selectors(self):
         from validate_project import _derived_schema_errors
 
@@ -153,9 +249,9 @@ class SelfHostingValidatorTests(unittest.TestCase):
             validate_governed_mutation_entry(control, state, work_unit, denied, request, result, current_state_revision=3),
         )
         allowed = {**mutation, "scope_paths": ["src/public/key"]}
-        self.assertEqual(
+        self.assertIn(
+            "ACTUAL_GIT_REPOSITORY_REQUIRED",
             validate_governed_mutation_entry(control, state, work_unit, allowed, request, result, current_state_revision=3),
-            [],
         )
 
     def test_group_b_prerequisite_contracts_compose_and_fail_at_their_owners(self):
@@ -351,6 +447,7 @@ class SelfHostingValidatorTests(unittest.TestCase):
             (gov / "WU-GOVERNED.json").write_text(json.dumps(persisted), encoding="utf-8")
             locator_sha = commit_repository(root, "work unit")
             mutation.update({"expected_base_sha": base, "target_work_unit_ref": {"path": ".gpt-codex/WU-GOVERNED.json", "sha": locator_sha}})
+            mutation["scope_paths"] = [".gpt-codex/CONTROL.json"]
             request["review_target_revision"] = base; result["review_target_revision"] = base
             authority = {
                 "accepted_design_ref": "design.md@" + base,
@@ -496,7 +593,9 @@ class SelfHostingValidatorTests(unittest.TestCase):
 
         control = management_control()
         state, work_unit, mutation, request, result = governed_envelopes(control)
-        self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3), [])
+        self.assertIn("ACTUAL_GIT_REPOSITORY_REQUIRED", validate_governed_mutation_entry(
+            control, state, work_unit, mutation, request, result, current_state_revision=3,
+        ))
         for field in (
             "source_project_context_id", "source_github_repository_id",
             "source_github_repository_full_name", "current_remote_ref",
@@ -568,7 +667,9 @@ class SelfHostingValidatorTests(unittest.TestCase):
         for control in (consumer, management):
             with self.subTest(profile=control["governance_profile"]):
                 state, work_unit, mutation, request, result = governed_envelopes(control)
-                self.assertEqual(validate_governed_mutation_entry(control, state, work_unit, mutation, request, result, current_state_revision=3), [])
+                self.assertIn("ACTUAL_GIT_REPOSITORY_REQUIRED", validate_governed_mutation_entry(
+                    control, state, work_unit, mutation, request, result, current_state_revision=3,
+                ))
                 self.assertTrue(validate_governed_mutation_entry(control, state, {**work_unit, "state": "PROPOSED"}, mutation, request, result, current_state_revision=3))
                 self.assertTrue(validate_governed_mutation_entry(control, {**state, "revision": 2}, work_unit, mutation, request, result, current_state_revision=3))
                 self.assertIn("PRE_EXECUTION_REVIEW_REQUIRED", validate_governed_mutation_entry(control, state, work_unit, mutation, None, None, current_state_revision=3))

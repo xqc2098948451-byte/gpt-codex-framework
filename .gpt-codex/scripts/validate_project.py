@@ -99,6 +99,68 @@ def _scope_covers(path: object, owned: set[str], excluded: set[str]) -> bool:
     )
 
 
+def _nul_git_paths(output: bytes) -> tuple[set[str] | None, list[str]]:
+    if not isinstance(output, bytes) or (output and not output.endswith(b"\0")):
+        return None, ["ACTUAL_GIT_PATH_INVALID"]
+    paths: set[str] = set()
+    for raw in output.split(b"\0")[:-1] if output else ():
+        if not raw:
+            return None, ["ACTUAL_GIT_PATH_INVALID"]
+        try:
+            path = raw.decode("utf-8", "strict")
+        except UnicodeDecodeError:
+            return None, ["ACTUAL_GIT_PATH_INVALID"]
+        if not _is_safe_repository_relative_path(path):
+            return None, ["ACTUAL_GIT_PATH_INVALID"]
+        paths.add(path)
+    return paths, []
+
+
+def collect_actual_git_changed_paths(
+    repository_root: Path, *, runner=subprocess.run,
+) -> tuple[set[str] | None, list[str]]:
+    """Collect the authoritative worktree/index/untracked path union."""
+    if not isinstance(repository_root, Path):
+        return None, ["ACTUAL_GIT_OBSERVATION_FAILED"]
+    observed: set[str] = set()
+    for command in (
+        ["git", "-C", str(repository_root), "diff", "--name-only", "-z"],
+        ["git", "-C", str(repository_root), "diff", "--cached", "--name-only", "-z"],
+        ["git", "-C", str(repository_root), "ls-files", "--others", "--exclude-standard", "-z"],
+    ):
+        try:
+            result = runner(command, capture_output=True)
+        except OSError:
+            return None, ["ACTUAL_GIT_OBSERVATION_FAILED"]
+        if result.returncode != 0:
+            return None, ["ACTUAL_GIT_OBSERVATION_FAILED"]
+        paths, errors = _nul_git_paths(result.stdout)
+        if errors:
+            return None, errors
+        observed.update(paths or set())
+    return observed, []
+
+
+def validate_committed_candidate_scope(
+    repository_root: Path, expected_base_sha: object, candidate_revision: object,
+    owned_scope: set[str], excluded_scope: set[str], *, runner=subprocess.run,
+) -> list[str]:
+    if not isinstance(repository_root, Path) or not _is_sha(expected_base_sha) or not _is_sha(candidate_revision):
+        return ["ACTUAL_GIT_CANDIDATE_INVALID"]
+    try:
+        result = runner(["git", "-C", str(repository_root), "diff", "--name-only", "-z", expected_base_sha, candidate_revision], capture_output=True)
+    except OSError:
+        return ["ACTUAL_GIT_OBSERVATION_FAILED"]
+    if result.returncode != 0:
+        return ["ACTUAL_GIT_OBSERVATION_FAILED"]
+    paths, errors = _nul_git_paths(result.stdout)
+    if errors:
+        return errors
+    if not all(_scope_covers(path, owned_scope, excluded_scope) for path in paths or set()):
+        return ["SCOPE_EXPANSION_DENIED"]
+    return []
+
+
 def _paths_overlap(left: str, right: str) -> bool:
     return left == right or left.startswith(right + "/") or right.startswith(left + "/")
 
@@ -826,6 +888,7 @@ def validate_governed_mutation_entry(
     finding_result: Mapping[str, Any] | None = None,
     remediation_decision: Mapping[str, Any] | None = None,
     resolved_basis: Mapping[str, Mapping[str, Any]] | None = None,
+    candidate_revision: str | None = None,
 ) -> list[str]:
     """One fail-closed entry that composes existing project mutation authorities."""
 
@@ -893,6 +956,28 @@ def validate_governed_mutation_entry(
         ))
     else:
         errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
+    authorized_actions = mutation_instruction.get("authorized_actions") if isinstance(mutation_instruction, Mapping) else None
+    actions = set(authorized_actions) if isinstance(authorized_actions, (list, tuple, set, frozenset)) else set()
+    requires_worktree_oracle = bool({"MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH"} & actions)
+    requested_scope = mutation_instruction.get("scope_paths") if isinstance(mutation_instruction, Mapping) else None
+    requested = set(requested_scope) if isinstance(requested_scope, (list, tuple, set, frozenset)) else None
+    if requires_worktree_oracle:
+        if not isinstance(repository_root, Path):
+            errors.extend(["ACTUAL_GIT_REPOSITORY_REQUIRED", "RECONCILIATION_REQUIRED"])
+        elif requested is None or not all(_is_safe_scope_selector(path) for path in requested):
+            errors.append("SCOPE_EXPANSION_DENIED")
+        else:
+            actual_paths, actual_errors = collect_actual_git_changed_paths(repository_root)
+            errors.extend(actual_errors)
+            if actual_paths is not None and not all(_scope_covers(path, requested, set()) for path in actual_paths):
+                errors.append("SCOPE_EXPANSION_DENIED")
+    if "PUSH" in actions:
+        if candidate_revision is None:
+            errors.append("ACTUAL_GIT_CANDIDATE_REQUIRED")
+        elif isinstance(repository_root, Path) and requested is not None and all(_is_safe_scope_selector(path) for path in requested):
+            errors.extend(validate_committed_candidate_scope(
+                repository_root, mutation_instruction.get("expected_base_sha"), candidate_revision, requested, set(),
+            ))
     errors.extend(_validate_project_guardrails(project_control, prefix_context_error=False))
     github = project_control.get("github")
     authoritative_review_context = {
