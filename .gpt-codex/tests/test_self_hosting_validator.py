@@ -120,6 +120,27 @@ class SelfHostingValidatorTests(unittest.TestCase):
         self.assertTrue(_is_safe_scope_selector("src/main.py"))
         self.assertTrue(_is_safe_scope_selector("src/"))
 
+    def test_work_unit_selector_schema_matches_runtime_wildcard_grammar(self):
+        from validate_project import _derived_schema_errors, _is_safe_scope_selector
+
+        base = {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "W",
+            "goal": "selector parity", "acceptance": [], "selected_extensions": {}, "state": "AUTHORIZED",
+            "basis_state_revision": 1,
+        }
+        selectors = (
+            "src/a.py", "src/", ".gpt-codex/tests/", "VERSION",
+            "src/*.py", "src/?", "src/[x]", "a*/b", "a?b", "a[b]/c", "a]b",
+            "/src/a", "C:/src/a", "src\\a", ".", "..", "../src/a", "src/../a", "src//a", "",
+        )
+        for selector in selectors:
+            for field in ("owned_paths", "excluded_paths"):
+                scope = {"owned_paths": ["src/a.py"], "excluded_paths": []}
+                scope[field] = [selector]
+                with self.subTest(selector=selector, field=field):
+                    schema_accepts = not _derived_schema_errors({**base, "scope": scope}, "work-unit")
+                    self.assertEqual(schema_accepts, _is_safe_scope_selector(selector))
+
     def test_governed_mutation_uses_authoritative_work_unit_exclusions(self):
         from validate_project import validate_governed_mutation_entry
 
