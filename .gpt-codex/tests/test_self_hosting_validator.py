@@ -96,6 +96,47 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_work_unit_scope_schema_closes_owned_and_excluded_selectors(self):
+        from validate_project import _derived_schema_errors
+
+        valid = {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P", "work_unit_id": "W",
+            "goal": "scope test", "acceptance": [], "selected_extensions": {}, "state": "AUTHORIZED",
+            "basis_state_revision": 1, "scope": {"owned_paths": ["src/main.py"], "excluded_paths": []},
+        }
+        self.assertEqual(_derived_schema_errors(valid, "work-unit"), [])
+        invalid_scopes = (
+            {}, {"owned_paths": []}, {"owned_paths": ["src/a.py", "src/a.py"]},
+            {"owned_paths": ["src/a.py"], "unexpected": True},
+            {"owned_paths": ["src/a.py"], "excluded_paths": ["src/x", "src/x"]},
+        )
+        for scope in invalid_scopes:
+            with self.subTest(scope=scope):
+                self.assertTrue(_derived_schema_errors({**valid, "scope": scope}, "work-unit"))
+        from validate_project import _is_safe_scope_selector
+        for selector in ("", "src//", "/absolute", "C:/drive", "src\\file", ".", "..", "src/../file"):
+            with self.subTest(selector=selector):
+                self.assertFalse(_is_safe_scope_selector(selector))
+        self.assertTrue(_is_safe_scope_selector("src/main.py"))
+        self.assertTrue(_is_safe_scope_selector("src/"))
+
+    def test_governed_mutation_uses_authoritative_work_unit_exclusions(self):
+        from validate_project import validate_governed_mutation_entry
+
+        control = management_control()
+        state, work_unit, mutation, request, result = governed_envelopes(control)
+        work_unit["scope"] = {"owned_paths": ["src/"], "excluded_paths": ["src/private/"]}
+        denied = {**mutation, "scope_paths": ["src/private/key"]}
+        self.assertIn(
+            "SCOPE_EXPANSION_DENIED",
+            validate_governed_mutation_entry(control, state, work_unit, denied, request, result, current_state_revision=3),
+        )
+        allowed = {**mutation, "scope_paths": ["src/public/key"]}
+        self.assertEqual(
+            validate_governed_mutation_entry(control, state, work_unit, allowed, request, result, current_state_revision=3),
+            [],
+        )
+
     def test_intrinsic_approval_cannot_be_state_completion_or_synchronization_evidence(self):
         from publication_contract import (
             validate_completion_evidence, validate_result_authority, validate_state_authority,

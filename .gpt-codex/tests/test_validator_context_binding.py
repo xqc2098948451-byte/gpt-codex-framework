@@ -705,6 +705,34 @@ if __name__ == "__main__":
 
 
 class ContractRepairTask4Tests(unittest.TestCase):
+    def test_scope_exclusions_take_precedence_over_owned_prefixes(self):
+        from validate_project import validate_instruction_authority
+
+        instruction = {"instruction_type": "WORK_UNIT", "executor_role": "CODEX_IMPLEMENTER", "scope_paths": ["src/private/key"]}
+        errors = validate_instruction_authority(
+            instruction, approved_scope={"src/"}, excluded_scope={"src/private/"},
+        )
+        self.assertIn("SCOPE_EXPANSION_DENIED", errors)
+
+    def test_scope_selector_exact_prefix_and_exclusion_semantics(self):
+        from validate_project import validate_instruction_authority
+
+        def errors(path, owned, excluded=()):
+            return validate_instruction_authority(
+                {"instruction_type": "WORK_UNIT", "executor_role": "CODEX_IMPLEMENTER", "scope_paths": [path]},
+                approved_scope=set(owned), excluded_scope=set(excluded),
+            )
+
+        self.assertNotIn("SCOPE_EXPANSION_DENIED", errors("src/a.py", {"src/a.py"}))
+        self.assertIn("SCOPE_EXPANSION_DENIED", errors("src/a.py.extra", {"src/a.py"}))
+        self.assertNotIn("SCOPE_EXPANSION_DENIED", errors("src/a.py", {"src/"}))
+        self.assertIn("SCOPE_EXPANSION_DENIED", errors("src/a.py", {"src/"}, {"src/a.py"}))
+        self.assertIn("SCOPE_EXPANSION_DENIED", errors("src/private/a.py", {"src/"}, {"src/private/"}))
+        self.assertIn("SCOPE_EXPANSION_DENIED", errors("other/file", {"src/"}, {"docs/"}))
+        for malformed in ("", "/x", "C:/x", "src\\x", ".", "..", "src/../x", "src//"):
+            with self.subTest(malformed=malformed):
+                self.assertIn("SCOPE_EXPANSION_DENIED", errors("src/a.py", {malformed}))
+
     def test_existing_authority_gate_accepts_owned_directory_prefix(self):
         from validate_project import validate_instruction_authority
         instruction = {"instruction_type":"WORK_UNIT", "executor_role":"CODEX_IMPLEMENTER", "scope_paths":["plugins/gpt-codex-framework/subpath.py"]}

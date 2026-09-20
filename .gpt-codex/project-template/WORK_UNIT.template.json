@@ -5,7 +5,9 @@
   "work_unit_id": "WORK-001",
   "goal": "Replace with the smallest verifiable goal",
   "scope": {
-    "owned_paths": [],
+    "owned_paths": [
+      "PATH_IN_APPROVED_SCOPE"
+    ],
     "excluded_paths": []
   },
   "acceptance": [],

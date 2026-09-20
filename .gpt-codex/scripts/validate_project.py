@@ -77,6 +77,27 @@ def _is_safe_repository_relative_path(value: object) -> bool:
     return all(component not in {"", ".", ".."} for component in value.split("/"))
 
 
+def _is_safe_scope_selector(value: object) -> bool:
+    """Accept one exact repository path or one directory-prefix selector."""
+    if not isinstance(value, str) or not value or any(marker in value for marker in ("*", "?", "[", "]")):
+        return False
+    if value.endswith("/"):
+        return not value.endswith("//") and _is_safe_repository_relative_path(value[:-1])
+    return _is_safe_repository_relative_path(value)
+
+
+def _selector_covers(selector: object, path: object) -> bool:
+    return isinstance(selector, str) and isinstance(path, str) and (
+        path == selector or (selector.endswith("/") and path.startswith(selector))
+    )
+
+
+def _scope_covers(path: object, owned: set[str], excluded: set[str]) -> bool:
+    return any(_selector_covers(selector, path) for selector in owned) and not any(
+        _selector_covers(selector, path) for selector in excluded
+    )
+
+
 def _paths_overlap(left: str, right: str) -> bool:
     return left == right or left.startswith(right + "/") or right.startswith(left + "/")
 
@@ -360,6 +381,7 @@ def validate_instruction_authority(
     instruction: Mapping[str, Any],
     current_state_revision: int | None = None,
     approved_scope: set[str] | None = None,
+    excluded_scope: set[str] | None = None,
 ) -> list[str]:
     """Pure fail-closed authority gate for a parsed Instruction Envelope."""
 
@@ -427,11 +449,15 @@ def validate_instruction_authority(
 
     requested_scope = instruction.get("scope_paths")
     if approved_scope is not None and requested_scope is not None:
-        def covered(path: object) -> bool:
-            if not isinstance(path, str) or not path or path.startswith("/") or "\\" in path or any(part in {"", ".", ".."} for part in path.split("/")):
-                return False
-            return any(path == selector or (isinstance(selector, str) and selector.endswith("/") and path.startswith(selector)) for selector in approved_scope)
-        if not isinstance(requested_scope, (list, tuple, set, frozenset)) or not all(covered(path) for path in requested_scope):
+        excluded_scope = excluded_scope or set()
+        valid_selectors = all(_is_safe_scope_selector(selector) for selector in approved_scope) and all(
+            _is_safe_scope_selector(selector) for selector in excluded_scope
+        )
+        if (
+            not valid_selectors
+            or not isinstance(requested_scope, (list, tuple, set, frozenset))
+            or not all(_is_safe_repository_relative_path(path) and _scope_covers(path, approved_scope, excluded_scope) for path in requested_scope)
+        ):
             errors.extend(["ROLE_AUTHORITY_CONFLICT", "SCOPE_EXPANSION_DENIED"])
     return list(dict.fromkeys(errors))
 
@@ -855,7 +881,17 @@ def validate_governed_mutation_entry(
     errors.extend(validate_framework_adoption(
         project_control, mutation_instruction, authority_work_unit, current_state_revision=current_state_revision,
     ))
-    errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
+    work_unit_scope = authority_work_unit.get("scope") if isinstance(authority_work_unit, Mapping) else None
+    if isinstance(work_unit_scope, Mapping):
+        owned_scope = work_unit_scope.get("owned_paths")
+        excluded_scope = work_unit_scope.get("excluded_paths", [])
+        errors.extend(validate_instruction_authority(
+            mutation_instruction, current_state_revision,
+            set(owned_scope) if isinstance(owned_scope, list) else set(),
+            set(excluded_scope) if isinstance(excluded_scope, list) else set(),
+        ))
+    else:
+        errors.extend(validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope))
     errors.extend(_validate_project_guardrails(project_control, prefix_context_error=False))
     github = project_control.get("github")
     authoritative_review_context = {

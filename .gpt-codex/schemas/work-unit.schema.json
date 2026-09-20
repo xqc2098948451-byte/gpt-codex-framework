@@ -34,6 +34,21 @@
       "type": "integer",
       "minimum": 0
     },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owned_paths"],
+      "properties": {
+        "owned_paths": {
+          "type": "array", "minItems": 1, "maxItems": 100, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ScopeSelector"}
+        },
+        "excluded_paths": {
+          "type": "array", "uniqueItems": true,
+          "items": {"$ref": "#/$defs/ScopeSelector"}
+        }
+      }
+    },
     "artifact_refs": {
       "type": "object",
       "additionalProperties": false,
@@ -44,6 +59,10 @@
     }
   },
   "$defs": {
+    "ScopeSelector": {
+      "type": "string",
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?:[^/]+/)*[^/]+/?$"
+    },
     "ImmutableArtifactRef": {
       "type": ["object", "null"],
       "required": ["path", "sha"],
