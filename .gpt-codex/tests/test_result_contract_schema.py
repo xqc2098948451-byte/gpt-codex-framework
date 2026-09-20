@@ -305,6 +305,30 @@ class ContractRepairTask3Tests(unittest.TestCase):
         self.assertTrue(validate_result_authority(token_only))
         self.assertTrue(validate_completion_evidence(token_only))
 
+    def test_intrinsic_approval_rejects_unknown_outer_locator_and_authority_claim(self):
+        from validate_project import validate_result_envelope_contract
+        from publication_contract import validate_completion_evidence, validate_result_authority
+
+        schema = json.loads((ROOT / "schemas" / "result-envelope.schema.json").read_text(encoding="utf-8"))
+        approval_branch = next(
+            branch["then"] for branch in schema["allOf"]
+            if branch.get("if", {}).get("properties", {}).get("result_message_type", {}).get("const") == "APPROVAL_RESULT"
+        )
+
+        for name, value in (
+            ("external_approval_locator", {
+                "remote_ref": "refs/heads/example", "evidence_commit_sha": "a" * 40,
+                "path": "approvals/result.json", "blob_sha": "b" * 40,
+            }),
+            ("extra_authority_claim", {"authorized": True}),
+        ):
+            approval = self._intrinsic_approval_result()
+            approval[name] = value
+            with self.subTest(field=name):
+                self.assertNotIn(name, approval_branch["propertyNames"]["enum"])
+                self.assertTrue(validate_result_authority(approval))
+                self.assertTrue(validate_completion_evidence(approval))
+
     def test_approval_result_is_intrinsic_and_does_not_correlate_request_scope(self):
         sys.path.insert(0, str(SCRIPTS))
         from role_communication import validate_result_message_type

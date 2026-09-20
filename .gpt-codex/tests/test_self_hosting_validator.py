@@ -96,6 +96,52 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_intrinsic_approval_cannot_be_state_completion_or_synchronization_evidence(self):
+        from publication_contract import (
+            validate_completion_evidence, validate_result_authority, validate_state_authority,
+        )
+
+        approval = {
+            "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT",
+            "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE",
+            "response_to_instruction_id": "11111111-1111-4111-8111-111111111111",
+            "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "NOT_ATTEMPTED",
+            "completion_evidence": None,
+            "approved_instruction": {
+                "instruction_id": "22222222-2222-4222-8222-222222222222",
+                "expected_state_revision": 15, "expected_base_sha": "a" * 40,
+                "scope_paths": [".gpt-codex/scripts/example.py"],
+                "target_project_context_id": "33333333-3333-4333-8333-333333333333",
+                "target_project_name": "Example", "target_github_repository_id": "123",
+                "target_github_repository_full_name": "example/project",
+                "target_work_unit_ref": {"path": ".gpt-codex/work-units/example.json", "sha": "b" * 40},
+                "issuer_role": "GPT_ORCHESTRATOR", "executor_role": "CODEX_IMPLEMENTER",
+                "authorized_actions": ["MUTATE_APPROVED_SCOPE"],
+            },
+        }
+        self.assertEqual(validate_result_authority(approval), [])
+        self.assertEqual(validate_completion_evidence(approval), [])
+        bad_approval = deepcopy(approval)
+        bad_approval["external_approval_locator"] = {
+            "remote_ref": "refs/heads/example", "evidence_commit_sha": "a" * 40,
+            "path": "approvals/result.json", "blob_sha": "b" * 40,
+        }
+        self.assertTrue(validate_result_authority(bad_approval))
+        self.assertTrue(validate_completion_evidence(bad_approval))
+
+        complete = {
+            "state": "COMPLETE", "revision": 15, "evidence_refs": ["approval"],
+            "continuity": {"last_verified_result_ref": "approval"},
+        }
+        synced = {
+            "state": "AUTHORIZED", "revision": 15, "evidence_refs": ["approval"],
+            "continuity": {
+                "sync_status": "SYNCED", "latest_synced_state_revision": 15,
+                "latest_verified_remote_sha": "a" * 40, "last_verified_result_ref": "approval",
+            },
+        }
+        self.assertTrue(validate_state_authority(complete, {"approval": approval}))
+        self.assertTrue(validate_state_authority(synced, {"approval": approval}))
     def test_governed_entry_requires_repository_backed_execution_authority_when_policy_is_adopted(self):
         from validate_project import validate_governed_mutation_entry
 

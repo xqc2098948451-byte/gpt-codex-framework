@@ -8,6 +8,23 @@ from role_communication import is_intrinsic_approval_result
 
 CANDIDATE_AUTHORITY = "PUBLICATION_CANDIDATE_ONLY"
 VERIFIED_AUTHORITY = "CONFIRMED_PUBLICATION"
+_INTRINSIC_APPROVAL_OUTER_KEYS = frozenset({
+    "kernel_version", "schema_version", "project_id", "work_unit_id", "extension", "status",
+    "return_to_gpt_required", "source_project_context_id", "source_project_name", "framework_version",
+    "result_message_type", "result_id", "decision", "approved_instruction", "response_to_instruction_id",
+    "responder_role", "return_role", "review_target_revision", "finding_ids", "fix_round",
+    "remediation_decision_ref", "protocol_error", "role_observation", "artifact_stage", "artifact_path",
+    "source_github_repository_id", "source_github_repository_full_name", "current_remote_ref", "local_head_sha",
+    "remote_head_sha", "sync_status", "push_status", "remote_verification", "publication_authority",
+    "state_revision", "execution", "changed", "verify", "evidence_refs", "deviations", "blockers", "git",
+    "git_base_sha", "implementation_sha", "parallel_batch", "execution_unit", "observability_fitness",
+    "extension_evidence_refs", "next_gpt_action", "completion_evidence", "completion_gate",
+})
+
+
+def _is_intrinsic_approval_transaction(result: Mapping[str, Any]) -> bool:
+    """Fail closed unless every outer field belongs to the intrinsic Result surface."""
+    return set(result).issubset(_INTRINSIC_APPROVAL_OUTER_KEYS) and is_intrinsic_approval_result(result)
 
 
 def classify_release_phase(facts: Mapping[str, Any]) -> str:
@@ -53,7 +70,7 @@ def classify_release_phase(facts: Mapping[str, Any]) -> str:
 
 def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
     """Fail closed when a PASS/BLOCKED result lacks its bounded closure facts."""
-    if is_intrinsic_approval_result(result):
+    if _is_intrinsic_approval_transaction(result):
         return []
     evidence = result.get("completion_evidence")
     if not isinstance(evidence, Mapping):
@@ -91,7 +108,7 @@ def validate_result_authority(
     authority = result.get("publication_authority")
     evidence_refs = result.get("evidence_refs") or []
 
-    intrinsic_approval = is_intrinsic_approval_result(result)
+    intrinsic_approval = _is_intrinsic_approval_transaction(result)
     if status == "PASS" and not intrinsic_approval and remote_verification != "VERIFIED":
         errors.append("PASS requires remote_verification=VERIFIED")
     if status == "PASS" and authority == CANDIDATE_AUTHORITY:
@@ -132,6 +149,8 @@ def validate_state_authority(
         else:
             result = durable_results[result_ref]
             errors.extend(f"COMPLETE result: {error}" for error in validate_result_authority(result))
+            if _is_intrinsic_approval_transaction(result):
+                errors.append("COMPLETE state cannot use intrinsic approval Result")
             if result.get("status") != "PASS":
                 errors.append("COMPLETE state requires Result.status=PASS")
 
@@ -148,6 +167,8 @@ def validate_state_authority(
         else:
             result = durable_results[result_ref]
             errors.extend(f"SYNCED result: {error}" for error in validate_result_authority(result))
+            if _is_intrinsic_approval_transaction(result):
+                errors.append("SYNCED state cannot use intrinsic approval Result")
             if result.get("remote_verification") != "VERIFIED":
                 errors.append("SYNCED state requires verified publication evidence")
             if latest_sha and result.get("remote_head_sha") not in {latest_sha, result.get("verified_baseline_sha")}:
