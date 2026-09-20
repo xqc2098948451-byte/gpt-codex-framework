@@ -53,6 +53,7 @@ _UUID_RE = re.compile(
     r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
 )
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+_INSTRUCTION_SEMVER_RE = re.compile(r"^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-(?:(?:0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9][0-9]*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+(?:[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$")
 
 
 def _value(value: Any) -> str:
@@ -83,6 +84,8 @@ def build_instruction_envelope(
     runtime_fresh_context_verified: bool | None = None,
     runtime_input_source_kinds: list[str] | None = None,
     scope_paths: list[str] | None = None,
+    remediation_decision_ref: str | None = None,
+    approval_evidence_ref: Mapping[str, str] | None = None,
     *,
     issuer_role: str | None = None,
     executor_role: str | list[str] | None = None,
@@ -104,6 +107,8 @@ def build_instruction_envelope(
     type_errors = validate_instruction_type(instruction_type)
     if type_errors:
         raise ValueError(", ".join(type_errors))
+    if not isinstance(framework_version, str) or not _INSTRUCTION_SEMVER_RE.fullmatch(framework_version):
+        raise ValueError("INVALID_FRAMEWORK_VERSION")
     metadata_errors = validate_instruction_evolution_metadata(evolution_metadata)
     if metadata_errors:
         raise ValueError(", ".join(metadata_errors))
@@ -183,11 +188,24 @@ def build_instruction_envelope(
     if artifact_stage is not None and artifact_stage not in ARTIFACT_STAGES:
         raise ValueError("INVALID_ARTIFACT_STAGE")
     _validate_target_work_unit_ref(target_work_unit_ref)
+    requires_scope = instruction_type == "FIX_INSTRUCTION" or (
+        instruction_type in {"EXECUTION_INSTRUCTION", "RECONCILIATION_REQUEST"}
+        and authorized_actions is not None and "MUTATE_APPROVED_SCOPE" in authorized_actions
+    )
+    if requires_scope and scope_paths is None:
+        raise ValueError("SCOPE_PATHS_REQUIRED")
     if scope_paths is not None:
-        if (not isinstance(scope_paths, list) or not scope_paths or len(scope_paths) != len(set(scope_paths))
-                or any(not isinstance(path, str) or not path or path.startswith("/") or "\\" in path
+        if (not isinstance(scope_paths, list) or not 1 <= len(scope_paths) <= 100 or len(scope_paths) != len(set(scope_paths))
+                or any(not isinstance(path, str) or not path or path.startswith("/") or re.match(r"^[A-Za-z]:", path) or "\\" in path
                        or any(part in {"", ".", ".."} for part in path.split("/")) for path in scope_paths)):
             raise ValueError("INVALID_SCOPE_PATHS")
+    if remediation_decision_ref is not None and (not isinstance(remediation_decision_ref, str) or not remediation_decision_ref.strip()):
+        raise ValueError("INVALID_REMEDIATION_DECISION_REF")
+    _validate_approval_evidence_ref(approval_evidence_ref)
+    if approval_evidence_ref is not None and (
+        instruction_type != "RECONCILIATION_REQUEST" or authorized_actions is None or "MUTATE_APPROVED_SCOPE" not in authorized_actions
+    ):
+        raise ValueError("APPROVAL_EVIDENCE_REF_NOT_ALLOWED")
     envelope: dict[str, Any] = {
         "instruction_id": instruction_id or str(uuid4()),
         "instruction_type": instruction_type,
@@ -203,6 +221,8 @@ def build_instruction_envelope(
         "target_work_unit": target_work_unit,
         "target_work_unit_ref": dict(target_work_unit_ref) if target_work_unit_ref is not None else None,
         "scope_paths": list(scope_paths) if scope_paths is not None else None,
+        "remediation_decision_ref": remediation_decision_ref,
+        "approval_evidence_ref": dict(approval_evidence_ref) if approval_evidence_ref is not None else None,
         "expected_base_sha": expected_base_sha,
         "permission_scope": permission_scope,
         "bootstrap_target_project_id": bootstrap_target_project_id,
@@ -238,6 +258,19 @@ def _validate_target_work_unit_ref(value: Mapping[str, str] | None) -> None:
     if (not isinstance(path, str) or not path.strip() or Path(path).is_absolute() or ".." in Path(path).parts
             or not isinstance(sha, str) or not _SHA_RE.fullmatch(sha)):
         raise ValueError("INVALID_TARGET_WORK_UNIT_REF")
+
+
+def _validate_approval_evidence_ref(value: Mapping[str, str] | None) -> None:
+    if value is None:
+        return
+    if not isinstance(value, Mapping) or set(value) != {"remote_ref", "evidence_commit_sha", "path", "blob_sha"}:
+        raise ValueError("INVALID_APPROVAL_EVIDENCE_REF")
+    remote_ref, commit, path, blob = (value.get(key) for key in ("remote_ref", "evidence_commit_sha", "path", "blob_sha"))
+    if (not isinstance(remote_ref, str) or not remote_ref.strip() or not isinstance(commit, str) or not _SHA_RE.fullmatch(commit)
+            or not isinstance(blob, str) or not _SHA_RE.fullmatch(blob) or not isinstance(path, str) or not path
+            or path.startswith("/") or re.match(r"^[A-Za-z]:", path) or "\\" in path
+            or any(part in {"", ".", ".."} for part in path.split("/"))):
+        raise ValueError("INVALID_APPROVAL_EVIDENCE_REF")
 
 
 def _normalize_action_collection(value: Any) -> list[str] | None:

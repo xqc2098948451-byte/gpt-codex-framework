@@ -183,12 +183,37 @@ if __name__ == "__main__":
 
 
 class ContractRepairTask2Tests(unittest.TestCase):
+    def mutation_kwargs(self, instruction_type="EXECUTION_INSTRUCTION"):
+        return dict(instruction_type=instruction_type, target_project_context_id="ctx", target_project_name="Project", expected_state_revision=1, framework_version="2.7.2+fix.1", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR", authorized_actions=["MUTATE_APPROVED_SCOPE"])
+
     def test_scope_paths_are_required_nonempty_relative_unique_selectors(self):
         ie = load_instruction_envelope()
-        kwargs = dict(instruction_type="FIX_INSTRUCTION", target_project_context_id="ctx", target_project_name="Project", expected_state_revision=1, framework_version="2.7.0", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR")
+        kwargs = self.mutation_kwargs("FIX_INSTRUCTION")
         envelope = ie.build_instruction_envelope(**kwargs, scope_paths=[".gpt-codex/scripts/validate_project.py"])
         self.assertEqual(envelope["scope_paths"], [".gpt-codex/scripts/validate_project.py"])
-        for invalid in ([], ["x", "x"], ["/absolute"], ["../escape"]):
+        for invalid in ([], ["x", "x"], ["/absolute"], ["C:/drive"], ["a\\b"], ["."], [".."], ["a//b"], ["a/../b"]):
             with self.subTest(invalid=invalid):
                 with self.assertRaises(ValueError):
                     ie.build_instruction_envelope(**kwargs, scope_paths=invalid)
+
+    def test_mutating_instruction_types_require_scope_paths(self):
+        ie = load_instruction_envelope()
+        for instruction_type in ("EXECUTION_INSTRUCTION", "FIX_INSTRUCTION", "RECONCILIATION_REQUEST"):
+            with self.subTest(instruction_type=instruction_type), self.assertRaisesRegex(ValueError, "SCOPE_PATHS_REQUIRED"):
+                ie.build_instruction_envelope(**self.mutation_kwargs(instruction_type))
+
+    def test_remediation_ref_and_strict_semver_contract(self):
+        ie = load_instruction_envelope()
+        base = self.mutation_kwargs("FIX_INSTRUCTION")
+        base["scope_paths"] = [".gpt-codex/STATE.json"]
+        envelope = ie.build_instruction_envelope(**base, remediation_decision_ref="DECISION-001")
+        self.assertEqual(envelope["remediation_decision_ref"], "DECISION-001")
+        for value in ("", " ", 1):
+            with self.subTest(ref=value), self.assertRaisesRegex(ValueError, "INVALID_REMEDIATION_DECISION_REF"):
+                ie.build_instruction_envelope(**base, remediation_decision_ref=value)
+        for version in ("2.7.2", "2.7.2+fix.1", "2.7.2-alpha", "2.7.2-alpha.1+build.01"):
+            with self.subTest(version=version):
+                self.assertEqual(ie.build_instruction_envelope(**{**base, "framework_version": version})["framework_version"], version)
+        for version in ("02.7.2", "2.07.2", "2.7.02", "2.7.2-..", "2.7.2-01", "2.7.2+", "2.7"):
+            with self.subTest(version=version), self.assertRaisesRegex(ValueError, "INVALID_FRAMEWORK_VERSION"):
+                ie.build_instruction_envelope(**{**base, "framework_version": version})

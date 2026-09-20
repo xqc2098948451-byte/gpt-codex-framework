@@ -41,6 +41,7 @@ class InstructionRoleContractTests(unittest.TestCase):
             "finding_ids": ["RCP-001"],
             "fix_round": 1,
             "artifact_stage": "IMPLEMENTATION",
+            "scope_paths": [".gpt-codex/scripts/example.py"],
         }
 
     def build(self, **overrides):
@@ -65,11 +66,15 @@ class InstructionRoleContractTests(unittest.TestCase):
             "forbidden_actions", "evidence_requirements", "completion_gate",
             "in_response_to_instruction_id", "in_response_to_result_id",
             "review_target_revision", "finding_ids", "fix_round", "artifact_stage",
+            "scope_paths", "remediation_decision_ref", "approval_evidence_ref",
         }
         self.assertTrue(expected.issubset(schema["properties"]))
         self.assertTrue(expected.issubset(template))
         self.assertNotIn("message_type", schema["properties"])
         self.assertNotIn("result_message_type", schema["properties"])
+        locator = schema["properties"]["approval_evidence_ref"]
+        self.assertFalse(locator["additionalProperties"])
+        self.assertEqual(locator["required"], ["remote_ref", "evidence_commit_sha", "path", "blob_sha"])
         self.assertEqual(
             schema["properties"]["instruction_type"]["enum"],
             [
@@ -213,6 +218,20 @@ class InstructionRoleContractTests(unittest.TestCase):
             self.assertEqual(envelope["executor_role"], "CODEX_IMPLEMENTER")
             self.assertEqual(envelope["issuer_role"], "GPT_ORCHESTRATOR")
             self.assertEqual(envelope["return_role"], "GPT_ORCHESTRATOR")
+
+    def test_reconciliation_approval_evidence_locator_is_closed_and_eligible(self):
+        ie = load_instruction_envelope()
+        locator = {"remote_ref": "refs/heads/gpt-codex-approval-evidence", "evidence_commit_sha": "a" * 40, "path": "approvals/approval-result.json", "blob_sha": "b" * 40}
+        base = dict(instruction_type="RECONCILIATION_REQUEST", target_project_context_id=VALID_ID, target_project_name="Example Project", expected_state_revision=7, framework_version="2.7.2+fix.1", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR", authorized_actions=["MUTATE_APPROVED_SCOPE"], scope_paths=[".gpt-codex/STATE.json"])
+        self.assertEqual(ie.build_instruction_envelope(**base, approval_evidence_ref=locator)["approval_evidence_ref"], locator)
+        invalids = [{"remote_ref": locator["remote_ref"], "evidence_commit_sha": locator["evidence_commit_sha"], "path": locator["path"]}, {**locator, "extra": "no"}, {**locator, "path": "../x"}, {**locator, "path": "a/../b"}, {**locator, "path": "a\\b"}, {**locator, "path": "/absolute"}, {**locator, "path": "C:/drive"}, {**locator, "evidence_commit_sha": "bad"}, {**locator, "blob_sha": "bad"}]
+        for value in invalids:
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "INVALID_APPROVAL_EVIDENCE_REF"):
+                ie.build_instruction_envelope(**base, approval_evidence_ref=value)
+        with self.assertRaisesRegex(ValueError, "APPROVAL_EVIDENCE_REF_NOT_ALLOWED"):
+            ie.build_instruction_envelope(**{**base, "instruction_type": "EXECUTION_INSTRUCTION"}, approval_evidence_ref=locator)
+        with self.assertRaisesRegex(ValueError, "APPROVAL_EVIDENCE_REF_NOT_ALLOWED"):
+            ie.build_instruction_envelope(**{k: v for k, v in base.items() if k != "authorized_actions"}, approval_evidence_ref=locator)
 
 
 if __name__ == "__main__":
