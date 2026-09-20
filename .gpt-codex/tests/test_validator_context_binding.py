@@ -839,3 +839,20 @@ class Task6GitScopeOracleTests(unittest.TestCase):
         responses = [b"../escape\x00", b"", b""]
         unsafe, errors = collect_actual_git_changed_paths(Path("."), runner=lambda command, **kwargs: subprocess.CompletedProcess(command, 0, responses.pop(0), b""))
         self.assertIsNone(unsafe); self.assertIn("ACTUAL_GIT_PATH_INVALID", errors)
+
+
+class Task7ApprovedCoreTests(unittest.TestCase):
+    def test_control_plane_approved_core_is_closed_and_excludes_the_locator(self):
+        from validate_project import _control_plane_approved_core
+        instruction = {
+            "instruction_id": "11111111-1111-4111-8111-111111111111", "expected_state_revision": 16,
+            "expected_base_sha": "a" * 40, "scope_paths": [".gpt-codex/STATE.json"],
+            "target_project_context_id": "context", "target_project_name": "project",
+            "target_github_repository_id": "repo", "target_github_repository_full_name": "owner/repo",
+            "target_work_unit_ref": {"path": ".gpt-codex/work-units/auth.json", "sha": "b" * 40},
+            "issuer_role": "GPT_ORCHESTRATOR", "executor_role": "CODEX_IMPLEMENTER",
+            "authorized_actions": ["MUTATE_APPROVED_SCOPE"], "approval_evidence_ref": {"mutable": "outside core"},
+        }
+        core = _control_plane_approved_core(instruction)
+        self.assertNotIn("approval_evidence_ref", core)
+        self.assertEqual(core["scope_paths"], instruction["scope_paths"])

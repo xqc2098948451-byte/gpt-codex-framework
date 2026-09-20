@@ -873,6 +873,88 @@ def _validate_project_guardrails(project_control: Mapping[str, Any], *, prefix_c
     return errors
 
 
+_CONTROL_PLANE_APPROVED_CORE = (
+    "instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths",
+    "target_project_context_id", "target_project_name", "target_github_repository_id",
+    "target_github_repository_full_name", "target_work_unit_ref", "issuer_role",
+    "executor_role", "authorized_actions",
+)
+
+
+def _control_plane_approved_core(instruction: Mapping[str, Any]) -> dict[str, Any]:
+    return {key: instruction.get(key) for key in _CONTROL_PLANE_APPROVED_CORE}
+
+
+def _is_control_plane_path(path: object) -> bool:
+    if not _is_safe_repository_relative_path(path) or not isinstance(path, str):
+        return False
+    return (
+        path == ".gpt-codex/STATE.json"
+        or re.fullmatch(r"\.gpt-codex/work-units/[^/]+\.json", path) is not None
+        or re.fullmatch(r"\.gpt-codex/evidence/(?:results/)?[^/]+\.json", path) is not None
+    )
+
+
+def _validate_control_plane_admission(
+    repository_root: Path | None, state: Mapping[str, Any], work_unit: Mapping[str, Any],
+    instruction: Mapping[str, Any], approval_request: Mapping[str, Any] | None,
+    *, current_state_revision: int,
+) -> list[str]:
+    errors: list[str] = []
+    scope = instruction.get("scope_paths")
+    reference = instruction.get("target_work_unit_ref")
+    if not isinstance(repository_root, Path) or not isinstance(scope, list) or not scope:
+        return ["CONTROL_PLANE_AUTHORITY_REQUIRED"]
+    if not all(_is_control_plane_path(path) for path in scope):
+        errors.append("CONTROL_PLANE_SCOPE_INVALID")
+    resolved = _resolve_work_unit_at_ref(repository_root, reference)
+    if not isinstance(resolved, Mapping):
+        errors.append("CONTROL_PLANE_AUTHORITY_REQUIRED")
+    else:
+        owned = ((resolved.get("scope") or {}).get("owned_paths"))
+        if (
+            resolved.get("project_id") != state.get("project_id")
+            or resolved.get("state") != "AUTHORIZED"
+            or resolved.get("basis_state_revision") != current_state_revision
+            or not isinstance(owned, list)
+            or set(owned) != set(scope) or len(scope) != len(set(scope))
+            or len(owned) != len(set(owned))
+            or any(work_unit.get(key) != resolved.get(key) for key in ("project_id", "work_unit_id", "state", "basis_state_revision", "scope"))
+            or not _immutable_artifact_refs_resolve(repository_root, resolved.get("artifact_refs"))
+        ):
+            errors.append("CONTROL_PLANE_AUTHORITY_REQUIRED")
+        own_path = reference.get("path") if isinstance(reference, Mapping) else None
+        if own_path in scope:
+            errors.append("CONTROL_PLANE_SELF_AUTHORIZATION_DENIED")
+    locator = instruction.get("approval_evidence_ref")
+    if not isinstance(locator, Mapping):
+        errors.append("CONTROL_PLANE_AUTHORITY_REQUIRED")
+        approval = None
+    else:
+        approval, locator_errors = resolve_approval_evidence(repository_root, locator)
+        if locator_errors:
+            errors.extend(locator_errors)
+    if not isinstance(approval_request, Mapping):
+        errors.append("APPROVAL_REQUEST_REQUIRED")
+    elif (
+        approval_request.get("instruction_type") != "APPROVAL_REQUEST"
+        or approval_request.get("issuer_role") != "GPT_ORCHESTRATOR"
+        or approval_request.get("in_response_to_instruction_id") != instruction.get("instruction_id")
+        or validate_instruction_envelope_contract(approval_request)
+        or validate_instruction_authority(approval_request, current_state_revision)
+    ):
+        errors.append("APPROVAL_CORRELATION_REQUIRED")
+    if isinstance(approval, Mapping):
+        if approval.get("decision") != "APPROVE":
+            errors.append("APPROVAL_DECISION_DENIED")
+        if not isinstance(approval_request, Mapping) or approval.get("response_to_instruction_id") != approval_request.get("instruction_id"):
+            errors.append("APPROVAL_CORRELATION_REQUIRED")
+        approved = approval.get("approved_instruction")
+        if not isinstance(approved, Mapping) or approved != _control_plane_approved_core(instruction):
+            errors.append("APPROVED_INSTRUCTION_MISMATCH")
+    return list(dict.fromkeys(errors))
+
+
 def validate_governed_mutation_entry(
     project_control: Mapping[str, Any],
     state: Mapping[str, Any],
@@ -889,6 +971,7 @@ def validate_governed_mutation_entry(
     remediation_decision: Mapping[str, Any] | None = None,
     resolved_basis: Mapping[str, Mapping[str, Any]] | None = None,
     candidate_revision: str | None = None,
+    approval_request: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """One fail-closed entry that composes existing project mutation authorities."""
 
@@ -1004,6 +1087,14 @@ def validate_governed_mutation_entry(
         mutation_instruction, review_request, review_result, current_state_revision=current_state_revision,
         authoritative_review_context=authoritative_review_context,
     ))
+    if (
+        mutation_instruction.get("instruction_type") == "RECONCILIATION_REQUEST"
+        and "MUTATE_APPROVED_SCOPE" in actions
+    ):
+        errors.extend(_validate_control_plane_admission(
+            repository_root, state, authority_work_unit, mutation_instruction, approval_request,
+            current_state_revision=current_state_revision,
+        ))
     if mutation_instruction.get("instruction_type") == "FIX_INSTRUCTION":
         if not isinstance(finding_result, Mapping):
             errors.append("FIX_FINDING_RESULT_REQUIRED")

@@ -145,6 +145,13 @@ def write_durable_adjudication_repository(root, decision_evidence=None, basis_ev
 
 
 class ReviewLifecycleTests(unittest.TestCase):
+    def test_task7_control_plane_paths_remain_exact_files(self):
+        validator = load_validator()
+        self.assertTrue(validator._is_control_plane_path(".gpt-codex/STATE.json"))
+        self.assertTrue(validator._is_control_plane_path(".gpt-codex/evidence/results/result.json"))
+        self.assertFalse(validator._is_control_plane_path(".gpt-codex/work-units/"))
+        self.assertFalse(validator._is_control_plane_path(".gpt-codex/scripts/validate_project.py"))
+
     def test_pairwise_review_policy_rejects_missing_or_ambiguous_slots(self):
         validator = load_validator()
         state = {"active_execution_slots": [{"slot_id": "impl", "role": "CODEX_IMPLEMENTER", "project_context_id": "PROJECT-CONTEXT-001", "work_unit_id": "WU-001"}]}

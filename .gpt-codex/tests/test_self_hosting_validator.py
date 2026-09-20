@@ -97,6 +97,76 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_task7_admits_only_an_immutable_correlated_control_plane_chain(self):
+        from validate_project import validate_governed_mutation_entry
+
+        with tempfile.TemporaryDirectory(prefix="task7-chain-") as temporary:
+            root = Path(temporary)
+            control = management_control()
+            scope = [".gpt-codex/STATE.json"]
+            gov = root / ".gpt-codex"; (gov / "work-units").mkdir(parents=True)
+            (gov / "STATE.json").write_text(json.dumps({"project_id": control["project_id"], "revision": 3}), encoding="utf-8")
+            (root / "design.md").write_text("design", encoding="utf-8"); (root / "plan.md").write_text("plan", encoding="utf-8")
+            work_unit = {
+                "project_id": control["project_id"], "work_unit_id": "WU-CONTROL", "state": "AUTHORIZED", "basis_state_revision": 3,
+                "scope": {"owned_paths": scope, "excluded_paths": []},
+                "artifact_refs": {"design": {"path": "design.md", "sha": "a" * 40}, "plan": {"path": "plan.md", "sha": "a" * 40}},
+            }
+            work_unit_path = ".gpt-codex/work-units/authorization.json"
+            (root / work_unit_path).write_text(json.dumps(work_unit), encoding="utf-8")
+            base = commit_repository(root, "authority")
+            work_unit["artifact_refs"] = {"design": {"path": "design.md", "sha": base}, "plan": {"path": "plan.md", "sha": base}}
+            (root / work_unit_path).write_text(json.dumps(work_unit), encoding="utf-8")
+            subprocess.run(["git", "add", work_unit_path], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "bind authority"], cwd=root, check=True, capture_output=True)
+            base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            state, _, mutation, request, result = governed_envelopes(control)
+            reconciliation = {**mutation, "instruction_type": "RECONCILIATION_REQUEST", "target_work_unit": "WU-CONTROL", "target_project_name": "Framework", "framework_version": "2.7.2", "expected_base_sha": base, "scope_paths": scope, "target_work_unit_ref": {"path": work_unit_path, "sha": base}}
+            request = {**request, "in_response_to_instruction_id": reconciliation["instruction_id"], "review_target_revision": base, "target_work_unit": "WU-CONTROL"}
+            result["review_target_revision"] = base
+            approval_request = {**reconciliation, "instruction_id": "33333333-3333-4333-8333-333333333333", "instruction_type": "APPROVAL_REQUEST", "authorized_actions": ["READ", "VALIDATE", "REPORT"], "in_response_to_instruction_id": reconciliation["instruction_id"]}
+            approval = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": control["project_id"], "work_unit_id": "WU-CONTROL", "extension": {}, "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT", "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE", "response_to_instruction_id": approval_request["instruction_id"], "approved_instruction": {key: reconciliation[key] for key in ("instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths", "target_project_context_id", "target_project_name", "target_github_repository_id", "target_github_repository_full_name", "target_work_unit_ref", "issuer_role", "executor_role", "authorized_actions")}, "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None}
+            approval_path = "approvals/approval.json"; (root / "approvals").mkdir(); (root / approval_path).write_text(json.dumps(approval), encoding="utf-8")
+            subprocess.run(["git", "add", approval_path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
+            evidence_sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            blob_sha = subprocess.run(["git", "rev-parse", f"HEAD:{approval_path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            subprocess.run(["git", "remote", "add", "origin", str(root)], cwd=root, check=True, capture_output=True)
+            branch = subprocess.run(["git", "branch", "--show-current"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            reconciliation["approval_evidence_ref"] = {"remote_ref": f"refs/heads/{branch}", "evidence_commit_sha": evidence_sha, "path": approval_path, "blob_sha": blob_sha}
+            def validate(instruction=reconciliation, approval_req=approval_request):
+                return validate_governed_mutation_entry(control, state, work_unit, instruction, request, result, current_state_revision=3, repository_root=root, approval_request=approval_req)
+            self.assertEqual(validate(), [])
+            self.assertIn("APPROVAL_CORRELATION_REQUIRED", validate({**reconciliation, "approval_evidence_ref": reconciliation["approval_evidence_ref"]}, {**approval_request, "in_response_to_instruction_id": "wrong"}))
+            self.assertIn("CONTROL_PLANE_AUTHORITY_REQUIRED", validate({key: value for key, value in reconciliation.items() if key != "approval_evidence_ref"}))
+            self.assertIn("CONTROL_PLANE_SCOPE_INVALID", validate({**reconciliation, "scope_paths": [".gpt-codex/scripts/validate_project.py"]}))
+            (root / "outside.txt").write_text("outside", encoding="utf-8")
+            self.assertIn("SCOPE_EXPANSION_DENIED", validate())
+    def test_task7_reconciliation_mutation_requires_control_plane_approval_chain(self):
+        from validate_project import validate_governed_mutation_entry
+
+        with tempfile.TemporaryDirectory(prefix="task7-red-") as temporary:
+            root = Path(temporary)
+            state_path = root / ".gpt-codex" / "STATE.json"
+            state_path.parent.mkdir(parents=True)
+            state_path.write_text(json.dumps({"revision": 3}), encoding="utf-8")
+            base = commit_repository(root, "base")
+            control = management_control()
+            state, work_unit, mutation, request, result = governed_envelopes(control)
+            work_unit["scope"] = {"owned_paths": [".gpt-codex/STATE.json"], "excluded_paths": []}
+            reconciliation = {
+                **mutation,
+                "instruction_type": "RECONCILIATION_REQUEST",
+                "expected_base_sha": base,
+                "scope_paths": [".gpt-codex/STATE.json"],
+            }
+            request["review_target_revision"] = base
+            result["review_target_revision"] = base
+            errors = validate_governed_mutation_entry(
+                control, state, work_unit, reconciliation, request, result,
+                current_state_revision=3, repository_root=root,
+            )
+            self.assertIn("CONTROL_PLANE_AUTHORITY_REQUIRED", errors)
+
     def test_task6_governed_entry_binds_real_worktree_and_candidate_oracles(self):
         from validate_project import validate_governed_mutation_entry
 
