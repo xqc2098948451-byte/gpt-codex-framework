@@ -97,6 +97,53 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_task8_successor_seed_has_exact_current_four_path_authority(self):
+        from validate_project import _derived_schema_errors
+
+        seed_path = ROOT / ".gpt-codex/work-units/framework-group-b-control-plane-seed-001.json"
+        expected_paths = {
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/work-units/framework-baseline-stabilization-001.json",
+            ".gpt-codex/evidence/results/RESULT-BASELINE-STABILIZATION-POSTEXEC-FINDING.json",
+            ".gpt-codex/evidence/results/RESULT-FIX-REMEDIATION-LIFECYCLE-CONTRACT-RECONCILIATION.json",
+        }
+        self.assertTrue(seed_path.is_file(), "fresh Task-8 successor must be materialized")
+        seed = json.loads(seed_path.read_text(encoding="utf-8"))
+        self.assertEqual(seed["work_unit_id"], "framework-group-b-control-plane-seed-001")
+        self.assertEqual(seed["state"], "AUTHORIZED")
+        self.assertEqual(seed["basis_state_revision"], 16)
+        self.assertEqual(seed["scope"]["excluded_paths"], [])
+        self.assertEqual(set(seed["scope"]["owned_paths"]), expected_paths)
+        self.assertEqual(len(seed["scope"]["owned_paths"]), 4)
+        self.assertNotIn(".gpt-codex/work-units/framework-group-b-control-plane-seed-001.json", seed["scope"]["owned_paths"])
+        self.assertEqual(_derived_schema_errors(seed, "work-unit"), [])
+        def assert_exact_successor(candidate, revision=16):
+            self.assertEqual(candidate["work_unit_id"], "framework-group-b-control-plane-seed-001")
+            self.assertEqual(candidate["state"], "AUTHORIZED")
+            self.assertEqual(candidate["basis_state_revision"], revision)
+            self.assertEqual(set(candidate["scope"]["owned_paths"]), expected_paths)
+            self.assertEqual(len(candidate["scope"]["owned_paths"]), 4)
+            self.assertEqual(candidate["scope"]["excluded_paths"], [])
+            self.assertNotIn(".gpt-codex/work-units/framework-group-b-control-plane-seed-001.json", candidate["scope"]["owned_paths"])
+            self.assertEqual(candidate["artifact_refs"], seed["artifact_refs"])
+            self.assertEqual(_derived_schema_errors(candidate, "work-unit"), [])
+        for invalid in (
+            {**seed, "scope": {"owned_paths": seed["scope"]["owned_paths"][:-1], "excluded_paths": []}},
+            {**seed, "scope": {"owned_paths": [*seed["scope"]["owned_paths"][:-1], ".gpt-codex/evidence/results/OTHER.json"], "excluded_paths": []}},
+            {**seed, "scope": {"owned_paths": [*seed["scope"]["owned_paths"], "arbitrary.txt"], "excluded_paths": []}},
+            {**seed, "scope": {"owned_paths": [*seed["scope"]["owned_paths"], ".gpt-codex/work-units/framework-group-b-control-plane-seed-001.json"], "excluded_paths": []}},
+            {**seed, "state": "PROPOSED"},
+            {**seed, "basis_state_revision": 17},
+            {**seed, "artifact_refs": {**seed["artifact_refs"], "design": {"path": "design.md", "sha": "0" * 40}}},
+        ):
+            with self.assertRaises(AssertionError):
+                assert_exact_successor(invalid)
+        with self.assertRaises(AssertionError):
+            assert_exact_successor(seed, revision=17)
+        historical = json.loads((ROOT / ".gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json").read_text(encoding="utf-8"))
+        with self.assertRaises(AssertionError):
+            assert_exact_successor(historical)
+
     def test_task7_admits_only_an_immutable_correlated_control_plane_chain(self):
         from validate_project import validate_governed_mutation_entry
 

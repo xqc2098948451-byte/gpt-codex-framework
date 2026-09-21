@@ -1,0 +1,51 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-group-b-control-plane-seed-001",
+  "goal": "Authorize exactly one inherited Task-8 native control-plane seed use under Group B at State revision 16.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/work-units/framework-baseline-stabilization-001.json",
+      ".gpt-codex/evidence/results/RESULT-BASELINE-STABILIZATION-POSTEXEC-FINDING.json",
+      ".gpt-codex/evidence/results/RESULT-FIX-REMEDIATION-LIFECYCLE-CONTRACT-RECONCILIATION.json"
+    ],
+    "excluded_paths": []
+  },
+  "acceptance": {
+    "group": "B",
+    "inherited_task": 8,
+    "predecessor_seed_id": "framework-baseline-checkpoint-control-plane-001",
+    "requirements": [
+      "Historical Task-8 exact four-path seed semantics are retained.",
+      "The fresh successor is current only at State revision 16 and is invalid after the State revision changes.",
+      "The historical revision-12 seed remains immutable and non-reusable.",
+      "The successor seed cannot own or mutate its own authority artifact.",
+      "No Framework implementation, schema, Plugin, release, documentation, or arbitrary project path is authorized."
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-design.md",
+      "sha": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md",
+      "sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 16
+}
