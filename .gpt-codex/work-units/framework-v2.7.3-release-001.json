@@ -1,0 +1,83 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.3-release-001",
+  "goal": "Prepare and validate exactly the v2.7.3 release candidate metadata/source surface after B1–B6 closure, without changing Contract Repair technical semantics or publishing the release.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      "AGENTS.md",
+      "VERSION",
+      "releases/INDEX.json",
+      "releases/records/v2.7.3.json"
+    ],
+    "excluded_paths": []
+  },
+  "acceptance": {
+    "group": "B",
+    "release": "2.7.3",
+    "previous_release": "2.7.2+fix.2",
+    "target_tag": "v2.7.3",
+    "target_artifact": "gpt-codex-framework-v2.7.3-bootstrap.zip",
+    "target_release_record": "releases/records/v2.7.3.json",
+    "requirements": [
+      "Tasks 5–9 technical semantics remain unchanged.",
+      "B6 clean-room composed evidence remains valid.",
+      "Kernel version change is forbidden unless separately authorized.",
+      "Release candidate mutation is restricted to the exact nine owned paths.",
+      "The Work Unit does not authorize its own creation or mutation.",
+      "The Work Unit does not authorize State finalization.",
+      "The Work Unit does not authorize publication.",
+      "The Work Unit does not authorize Group C.",
+      "The Work Unit does not authorize Plugin work.",
+      "Legacy bridge reuse is forbidden.",
+      "Historical authority is not rewritten.",
+      "Scope expansion is forbidden."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 16,
+  "evidence_refs": [],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+      "sha": "096d326949883eccb42a047f85170ecb7ed97131"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+      "sha": "47ac3fd81890e48af94ba3423fb859522605e636"
+    }
+  }
+}
