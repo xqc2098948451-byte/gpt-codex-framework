@@ -742,6 +742,28 @@ class ContractRepairTask4Tests(unittest.TestCase):
 
 
 class ApprovalEvidenceConsumerTests(unittest.TestCase):
+    def test_task9_mutable_ref_cannot_replace_the_commit_and_blob_authority(self):
+        from validate_project import resolve_approval_evidence
+
+        with tempfile.TemporaryDirectory(prefix="task9-locator-") as temporary:
+            root, remote = Path(temporary) / "work", Path(temporary) / "remote.git"
+            subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+            root.mkdir()
+            for command in (("init",), ("config", "user.name", "Task9"), ("config", "user.email", "task9@example.invalid"), ("remote", "add", "origin", str(remote))):
+                subprocess.run(["git", *command], cwd=root, check=True, capture_output=True)
+            path = "evidence/approval.json"; target = root / path; target.parent.mkdir()
+            target.write_text(json.dumps(self._intrinsic_approval()), encoding="utf-8")
+            subprocess.run(["git", "add", path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
+            commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            blob = subprocess.run(["git", "rev-parse", f"HEAD:{path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            subprocess.run(["git", "branch", "-M", "evidence"], cwd=root, check=True, capture_output=True); subprocess.run(["git", "push", "-u", "origin", "evidence"], cwd=root, check=True, capture_output=True)
+            locator = {"remote_ref": "refs/heads/evidence", "evidence_commit_sha": commit, "path": path, "blob_sha": blob}
+            self.assertEqual(resolve_approval_evidence(root, locator)[1], [])
+            target.write_text(json.dumps({**self._intrinsic_approval(), "decision": "REJECT"}), encoding="utf-8")
+            subprocess.run(["git", "add", path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "move ref"], cwd=root, check=True, capture_output=True); subprocess.run(["git", "push", "origin", "evidence"], cwd=root, check=True, capture_output=True)
+            self.assertEqual(resolve_approval_evidence(root, locator)[1], [])
+            moved = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            self.assertIn("APPROVAL_EVIDENCE_BLOB_MISMATCH", resolve_approval_evidence(root, {**locator, "evidence_commit_sha": moved})[1])
     def _intrinsic_approval(self):
         return {
             "kernel_version": "2.0.0", "schema_version": 1, "project_id": "PRJ-001", "work_unit_id": "WU-001", "extension": {},

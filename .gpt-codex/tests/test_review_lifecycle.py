@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from copy import deepcopy
 from pathlib import Path
 
 
@@ -120,7 +121,7 @@ def resolved_basis(*, basis_type="ACCEPTED_AUTHORITY_BASIS", finding_ids=None,
     }
 
 
-def write_durable_adjudication_repository(root, decision_evidence=None, basis_evidence=None):
+def write_durable_adjudication_repository(root, decision_evidence=None, basis_evidence=None, state_revision=8):
     decision_evidence = decision_evidence or remediation_decision_evidence()
     basis_evidence = basis_evidence or {
         "evidence_id": "basis/accepted-001",
@@ -134,7 +135,7 @@ def write_durable_adjudication_repository(root, decision_evidence=None, basis_ev
     (root / basis_path).write_text(json.dumps(basis_evidence), encoding="utf-8")
     (root / ".gpt-codex" / "STATE.json").write_text(json.dumps({
         "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-        "revision": 8,
+        "revision": state_revision,
         "evidence_refs": [decision_path, basis_path],
     }), encoding="utf-8")
     for command in (
@@ -145,6 +146,106 @@ def write_durable_adjudication_repository(root, decision_evidence=None, basis_ev
 
 
 class ReviewLifecycleTests(unittest.TestCase):
+    def test_task9_composed_fix_chain_uses_production_builder_lifecycle_and_git_oracle(self):
+        """Task 9: exercise the whole FIX route, not a private helper in isolation."""
+        from instruction_envelope import build_instruction_envelope
+
+        validator = load_validator()
+        control = json.loads((ROOT / "CONTROL.json").read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory(prefix="task9-fix-") as temporary:
+            root = Path(temporary)
+            decision = remediation_decision_evidence(adjudicated_at_revision=16)
+            basis = {"evidence_id": "basis/accepted-001", **resolved_basis(state_revision=16)["basis/accepted-001"]}
+            write_durable_adjudication_repository(root, decision, basis, state_revision=16)
+            (root / "src").mkdir(); (root / "src/fix.py").write_text("base\n", encoding="utf-8")
+            subprocess.run(["git", "add", "src/fix.py"], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "fix baseline"], cwd=root, check=True, capture_output=True)
+            base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            finding = {
+                **finding_result(), "review_target_revision": base,
+                "source_project_context_id": control["project_context_id"],
+                "source_github_repository_id": control["github"]["repository_id"],
+                "source_github_repository_full_name": control["github"]["repository_full_name"],
+                "current_remote_ref": "refs/heads/main",
+            }
+            fix = build_instruction_envelope(
+                "FIX_INSTRUCTION", control["project_context_id"], "Framework", 16, "2.7.2",
+                target_work_unit="WU-B5-FIX", expected_base_sha=base, scope_paths=["src/fix.py"],
+                remediation_decision_ref="DECISION-001", instruction_id="33333333-3333-4333-8333-333333333333",
+                target_github_repository_id=control["github"]["repository_id"], target_github_repository_full_name=control["github"]["repository_full_name"],
+                expected_remote_ref="refs/heads/main", issuer_role="GPT_ORCHESTRATOR",
+                executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR",
+                authorized_actions=["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"], forbidden_actions=[],
+                in_response_to_result_id=finding["result_id"], finding_ids=finding["finding_ids"], fix_round=1,
+            )
+            review = build_instruction_envelope(
+                "REVIEW_REQUEST", control["project_context_id"], "Framework", 16, "2.7.2",
+                target_work_unit="WU-B5-FIX", expected_base_sha=base, scope_paths=["src/fix.py"],
+                instruction_id="44444444-4444-4444-8444-444444444444", target_github_repository_id=control["github"]["repository_id"],
+                target_github_repository_full_name=control["github"]["repository_full_name"], expected_remote_ref="refs/heads/main",
+                issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_REVIEWER", return_role="GPT_ORCHESTRATOR",
+                authorized_actions=["READ", "TEST", "VALIDATE", "REPORT"], forbidden_actions=[],
+                in_response_to_instruction_id=fix["instruction_id"], review_target_revision=base,
+                runtime_fresh_context_verified=True, runtime_input_source_kinds=["REPOSITORY_CONTENT"],
+            )
+            result = {"result_message_type": "REVIEW_RESULT", "responder_role": "CODEX_REVIEWER", "status": "PASS",
+                      "response_to_instruction_id": review["instruction_id"], "review_target_revision": base,
+                      "source_project_context_id": control["project_context_id"], "source_github_repository_id": control["github"]["repository_id"],
+                      "source_github_repository_full_name": control["github"]["repository_full_name"], "current_remote_ref": "refs/heads/main"}
+            state = {"project_id": control["project_id"], "revision": 16}
+            work_unit = {"project_id": control["project_id"], "work_unit_id": "WU-B5-FIX", "state": "AUTHORIZED",
+                         "basis_state_revision": 16, "scope": {"owned_paths": ["src/fix.py"], "excluded_paths": []}}
+            valid = lambda item=fix, req=review, res=result, finding_item=finding: validator.validate_governed_mutation_entry(
+                control, state, work_unit, item, req, res, current_state_revision=16, repository_root=root, finding_result=finding_item,
+            )
+            self.assertEqual(validator.validate_review_lifecycle(fix, finding, current_state_revision=16, repository_root=root), [])
+            self.assertEqual(valid(), [])
+            faults = {
+                "FIX-01 missing remediation_decision_ref": ({key: value for key, value in fix.items() if key != "remediation_decision_ref"}, review, result, finding),
+                "FIX-02 wrong finding/result correlation": ({**fix, "in_response_to_result_id": "55555555-5555-4555-8555-555555555555"}, review, result, finding),
+                "FIX-03 stale finding review target": (fix, review, result, {**finding, "review_target_revision": NEW_SHA}),
+                "FIX-05 wrong expected_base_sha": ({**fix, "expected_base_sha": NEW_SHA}, review, result, finding),
+                "FIX-06 stale expected_state_revision": ({**fix, "expected_state_revision": 15}, review, result, finding),
+                "FIX-07 missing PRE review": (fix, None, None, finding),
+                "FIX-08 stale PRE review": (fix, {**review, "review_target_revision": NEW_SHA}, result, finding),
+                "FIX-09 scope escape": ({**fix, "scope_paths": ["outside.py"]}, review, result, finding),
+            }
+            observed = {}
+            for name, (item, req, res, finding_item) in faults.items():
+                with self.subTest(name=name):
+                    observed[name] = valid(item, req, res, finding_item)
+                    self.assertTrue(observed[name], name)
+                    self.assertEqual(valid(), [])
+            decision_path = root / ".gpt-codex/evidence/decision.json"
+            original_decision = decision_path.read_text(encoding="utf-8")
+            try:
+                decision_path.write_text(json.dumps({**decision, "adjudicated_at_revision": 15}), encoding="utf-8")
+                subprocess.run(["git", "add", ".gpt-codex/evidence/decision.json"], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "commit", "-m", "stale adjudication fixture"], cwd=root, check=True, capture_output=True)
+                observed["FIX-04 stale remediation/adjudication basis"] = validator.validate_review_lifecycle(
+                    fix, finding, current_state_revision=16, repository_root=root,
+                )
+                self.assertTrue(observed["FIX-04 stale remediation/adjudication basis"])
+            finally:
+                subprocess.run(["git", "reset", "--hard", base], cwd=root, check=True, capture_output=True)
+                self.assertEqual(decision_path.read_text(encoding="utf-8"), original_decision)
+            self.assertEqual(valid(), [])
+            for case, path, staged in (
+                ("FIX-10 actual Git outside-scope unstaged path", "outside-unstaged.py", False),
+                ("FIX-11 actual Git outside-scope staged path", "outside-staged.py", True),
+                ("FIX-12 actual Git outside-scope untracked path", "outside-untracked.py", False),
+            ):
+                target = root / path
+                target.write_text("escape\n", encoding="utf-8")
+                if staged:
+                    subprocess.run(["git", "add", path], cwd=root, check=True, capture_output=True)
+                observed[case] = valid()
+                self.assertIn("SCOPE_EXPANSION_DENIED", observed[case])
+                if staged:
+                    subprocess.run(["git", "reset", "--", path], cwd=root, check=True, capture_output=True)
+                target.unlink()
+                self.assertEqual(valid(), [])
+            self.assertEqual(len(observed), 12)
     def test_task7_control_plane_paths_remain_exact_files(self):
         validator = load_validator()
         self.assertTrue(validator._is_control_plane_path(".gpt-codex/STATE.json"))

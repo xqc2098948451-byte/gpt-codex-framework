@@ -97,6 +97,197 @@ def commit_repository(root: Path, message: str) -> str:
 
 
 class SelfHostingValidatorTests(unittest.TestCase):
+    def test_task9_successor_control_plane_chain_uses_external_git_approval(self):
+        """Task 9 proves the active four-path authority through the public gate."""
+        from instruction_envelope import build_instruction_envelope
+        from validate_project import _control_plane_approved_core, validate_governed_mutation_entry
+
+        expected_scope = [
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/work-units/framework-baseline-stabilization-001.json",
+            ".gpt-codex/evidence/results/RESULT-BASELINE-STABILIZATION-POSTEXEC-FINDING.json",
+            ".gpt-codex/evidence/results/RESULT-FIX-REMEDIATION-LIFECYCLE-CONTRACT-RECONCILIATION.json",
+        ]
+        durable = json.loads((ROOT / ".gpt-codex/work-units/framework-group-b-control-plane-seed-001.json").read_text(encoding="utf-8"))
+        self.assertEqual(durable["basis_state_revision"], 16)
+        self.assertEqual(set(durable["scope"]["owned_paths"]), set(expected_scope))
+        control = management_control()
+        with tempfile.TemporaryDirectory(prefix="task9-control-") as temporary:
+            root = Path(temporary)
+            remote = root.parent / f"{root.name}-approval-evidence.git"
+            subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+            for path in expected_scope:
+                target = root / path; target.parent.mkdir(parents=True, exist_ok=True); target.write_text("fixture\n", encoding="utf-8")
+            (root / "design.md").write_text("design\n", encoding="utf-8")
+            (root / "plan.md").write_text("plan\n", encoding="utf-8")
+            work_unit_path = ".gpt-codex/work-units/successor.json"
+            work_unit = {**deepcopy(durable), "artifact_refs": {"design": {"path": "design.md", "sha": "a" * 40}, "plan": {"path": "plan.md", "sha": "a" * 40}}}
+            target = root / work_unit_path; target.parent.mkdir(parents=True, exist_ok=True); target.write_text(json.dumps(work_unit), encoding="utf-8")
+            initial = commit_repository(root, "fixture authority")
+            work_unit["artifact_refs"] = {"design": {"path": "design.md", "sha": initial}, "plan": {"path": "plan.md", "sha": initial}}
+            target.write_text(json.dumps(work_unit), encoding="utf-8")
+            subprocess.run(["git", "add", work_unit_path], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "bind successor"], cwd=root, check=True, capture_output=True)
+            base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            branch = subprocess.run(["git", "branch", "--show-current"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            state = {"project_id": control["project_id"], "revision": 16}
+            reconciliation = build_instruction_envelope(
+                "RECONCILIATION_REQUEST", control["project_context_id"], "Framework", 16, "2.7.2",
+                target_work_unit=work_unit["work_unit_id"], target_work_unit_ref={"path": work_unit_path, "sha": base},
+                expected_base_sha=base, scope_paths=expected_scope, instruction_id="11111111-1111-4111-8111-111111111111",
+                target_github_repository_id=control["github"]["repository_id"], target_github_repository_full_name=control["github"]["repository_full_name"],
+                expected_remote_ref=f"refs/heads/{branch}", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER",
+                return_role="GPT_ORCHESTRATOR", authorized_actions=["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"], forbidden_actions=[],
+            )
+            review = build_instruction_envelope(
+                "REVIEW_REQUEST", control["project_context_id"], "Framework", 16, "2.7.2", target_work_unit=work_unit["work_unit_id"],
+                expected_base_sha=base, scope_paths=expected_scope, instruction_id="22222222-2222-4222-8222-222222222222",
+                target_github_repository_id=control["github"]["repository_id"], target_github_repository_full_name=control["github"]["repository_full_name"], expected_remote_ref=f"refs/heads/{branch}",
+                issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_REVIEWER", return_role="GPT_ORCHESTRATOR", authorized_actions=["READ", "TEST", "VALIDATE", "REPORT"], forbidden_actions=[],
+                in_response_to_instruction_id=reconciliation["instruction_id"], review_target_revision=base, runtime_fresh_context_verified=True, runtime_input_source_kinds=["REPOSITORY_CONTENT"],
+            )
+            review_result = {"result_message_type": "REVIEW_RESULT", "responder_role": "CODEX_REVIEWER", "status": "PASS", "response_to_instruction_id": review["instruction_id"], "review_target_revision": base,
+                             "source_project_context_id": control["project_context_id"], "source_github_repository_id": control["github"]["repository_id"], "source_github_repository_full_name": control["github"]["repository_full_name"], "current_remote_ref": f"refs/heads/{branch}"}
+            approval_request = build_instruction_envelope(
+                "APPROVAL_REQUEST", control["project_context_id"], "Framework", 16, "2.7.2", target_work_unit=work_unit["work_unit_id"],
+                expected_base_sha=base, instruction_id="33333333-3333-4333-8333-333333333333", target_github_repository_id=control["github"]["repository_id"], target_github_repository_full_name=control["github"]["repository_full_name"], expected_remote_ref=f"refs/heads/{branch}",
+                issuer_role="GPT_ORCHESTRATOR", executor_role="USER_APPROVER", return_role="GPT_ORCHESTRATOR", authorized_actions=["APPROVE"], forbidden_actions=[], in_response_to_instruction_id=reconciliation["instruction_id"],
+            )
+            approval = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": control["project_id"], "work_unit_id": work_unit["work_unit_id"], "extension": {}, "result_id": "approval-task9", "result_message_type": "APPROVAL_RESULT", "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE", "response_to_instruction_id": approval_request["instruction_id"], "approved_instruction": _control_plane_approved_core(reconciliation), "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None, "publication_authority": None, "sync_status": None, "remote_head_sha": None}
+            approval_path = "approvals/result.json"; approval_file = root / approval_path; approval_file.parent.mkdir(); approval_file.write_text(json.dumps(approval), encoding="utf-8")
+            subprocess.run(["git", "add", approval_path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
+            evidence_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            blob = subprocess.run(["git", "rev-parse", f"HEAD:{approval_path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            subprocess.run(["git", "remote", "add", "origin", str(remote)], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "push", "-u", "origin", branch], cwd=root, check=True, capture_output=True)
+            reconciliation["approval_evidence_ref"] = {"remote_ref": f"refs/heads/{branch}", "evidence_commit_sha": evidence_commit, "path": approval_path, "blob_sha": blob}
+            def validate(instruction=reconciliation, request=approval_request):
+                return validate_governed_mutation_entry(control, state, work_unit, instruction, review, review_result, current_state_revision=16, repository_root=root, approval_request=request)
+            self.assertEqual(validate(), [])
+            missing_locator = {key: value for key, value in reconciliation.items() if key != "approval_evidence_ref"}
+            self.assertTrue(validate(missing_locator, approval_request))
+            self.assertEqual(validate(), [])
+            # Every row starts from the same immutable valid chain and restores it.
+            observed = {}
+            def denied(name, *, instruction=reconciliation, request=approval_request, review_item=review,
+                       result_item=review_result, state_item=state, work_unit_item=work_unit):
+                errors = validate_governed_mutation_entry(
+                    control, state_item, work_unit_item, instruction, review_item, result_item,
+                    current_state_revision=16, repository_root=root, approval_request=request,
+                )
+                observed[name] = errors
+                self.assertTrue(errors, name)
+
+            # Locator, external payload, two-hop correlation, and approved-core faults.
+            denied("CP-01 missing approval_evidence_ref", instruction=missing_locator)
+            denied("CP-02 malformed locator", instruction={**reconciliation, "approval_evidence_ref": {"bad": "locator"}})
+            denied("CP-03 wrong evidence commit", instruction={**reconciliation, "approval_evidence_ref": {**reconciliation["approval_evidence_ref"], "evidence_commit_sha": "a" * 40}})
+            denied("CP-04 wrong blob SHA", instruction={**reconciliation, "approval_evidence_ref": {**reconciliation["approval_evidence_ref"], "blob_sha": "b" * 40}})
+            denied("CP-05 unreachable evidence object", instruction={**reconciliation, "approval_evidence_ref": {**reconciliation["approval_evidence_ref"], "path": "missing.json"}})
+
+            def locator_for(payload):
+                approval_file.write_text(json.dumps(payload), encoding="utf-8")
+                subprocess.run(["git", "add", approval_path], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "commit", "-m", "fault approval evidence"], cwd=root, check=True, capture_output=True)
+                subprocess.run(["git", "push", "origin", branch], cwd=root, check=True, capture_output=True)
+                commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+                blob = subprocess.run(["git", "rev-parse", f"HEAD:{approval_path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+                return {**reconciliation["approval_evidence_ref"], "evidence_commit_sha": commit, "blob_sha": blob}
+
+            def approval_fault(name, payload, *, request=approval_request):
+                locator = locator_for(payload)
+                denied(name, instruction={**reconciliation, "approval_evidence_ref": locator}, request=request)
+
+            moved_locator = locator_for({**approval, "decision": "REJECT"})
+            denied("CP-06 mutable-ref substitution", instruction={**reconciliation, "approval_evidence_ref": {
+                **moved_locator, "blob_sha": reconciliation["approval_evidence_ref"]["blob_sha"],
+            }})
+            approval_fault("CP-07 non-APPROVAL_RESULT payload", {**approval, "result_message_type": "IMPLEMENTATION_RESULT"})
+            approval_fault("CP-08 non-intrinsic APPROVAL_RESULT", {**approval, "approved_instruction": {"instruction_id": "bad"}})
+            approval_fault("CP-09 decision = REJECT", {**approval, "decision": "REJECT"})
+            approval_fault("CP-10 wrong APPROVAL_REQUEST first-hop correlation", {**approval, "response_to_instruction_id": "55555555-5555-4555-8555-555555555555"})
+            wrong_request = {**approval_request, "in_response_to_instruction_id": "55555555-5555-4555-8555-555555555555"}
+            approval_fault("CP-11 wrong APPROVAL_RESULT second-hop correlation", approval, request=wrong_request)
+            for name, key, value in (
+                ("CP-12 approved_instruction.instruction_id mismatch", "instruction_id", "55555555-5555-4555-8555-555555555555"),
+                ("CP-13 approved_instruction.scope_paths mismatch", "scope_paths", [".gpt-codex/STATE.json"]),
+                ("CP-14 approved repository identity mismatch", "target_github_repository_id", "wrong-repository"),
+                ("CP-15 approved expected_base_sha mismatch", "expected_base_sha", "a" * 40),
+                ("CP-16 approved expected_state_revision mismatch", "expected_state_revision", 15),
+                ("CP-17 approved target_work_unit_ref mismatch", "target_work_unit_ref", {"path": work_unit_path, "sha": "a" * 40}),
+            ):
+                approval_fault(name, {**approval, "approved_instruction": {**approval["approved_instruction"], key: value}})
+
+            denied("CP-18 missing PRE review", review_item=None, result_item=None)
+            denied("CP-19 stale PRE review", review_item={**review, "review_target_revision": "a" * 40})
+            denied("CP-20 stale State revision", state_item={**state, "revision": 15})
+            denied("CP-21 wrong live expected_base_sha", instruction={**reconciliation, "expected_base_sha": "a" * 40})
+            denied("CP-22 scope escape", instruction={**reconciliation, "scope_paths": ["outside.py"]})
+            denied("CP-23 self-authority attempt", instruction={**reconciliation, "scope_paths": [*expected_scope, work_unit_path]})
+
+            # Task-6 proof: three distinct, real worktree states are denied then restored.
+            for name, path, staged in (
+                ("CP-24 actual Git outside-scope unstaged path", "outside-unstaged.py", False),
+                ("CP-25 actual Git outside-scope staged path", "outside-staged.py", True),
+                ("CP-26 actual Git outside-scope untracked path", "outside-untracked.py", False),
+            ):
+                target = root / path
+                target.write_text("outside\n", encoding="utf-8")
+                if staged:
+                    subprocess.run(["git", "add", path], cwd=root, check=True, capture_output=True)
+                denied(name)
+                if staged:
+                    subprocess.run(["git", "reset", "--", path], cwd=root, check=True, capture_output=True)
+                target.unlink()
+            self.assertEqual(len(observed), 26)
+            self.assertEqual(validate(), [])
+
+            # Fresh revision-17 envelopes isolate the immutable successor's stale basis.
+            fresh_base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            replay = build_instruction_envelope(
+                "RECONCILIATION_REQUEST", control["project_context_id"], "Framework", 17, "2.7.2",
+                target_work_unit=work_unit["work_unit_id"], target_work_unit_ref={"path": work_unit_path, "sha": fresh_base},
+                expected_base_sha=fresh_base, scope_paths=expected_scope, instruction_id="66666666-6666-4666-8666-666666666666",
+                target_github_repository_id=control["github"]["repository_id"], target_github_repository_full_name=control["github"]["repository_full_name"],
+                expected_remote_ref=f"refs/heads/{branch}", issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR",
+                authorized_actions=["READ", "TEST", "VALIDATE", "REPORT", "MUTATE_APPROVED_SCOPE"], forbidden_actions=[],
+            )
+            replay_review = {**review, "instruction_id": "77777777-7777-4777-8777-777777777777", "expected_state_revision": 17,
+                             "expected_base_sha": fresh_base, "review_target_revision": fresh_base, "in_response_to_instruction_id": replay["instruction_id"]}
+            replay_result = {**review_result, "response_to_instruction_id": replay_review["instruction_id"], "review_target_revision": fresh_base}
+            replay_request = {**approval_request, "instruction_id": "88888888-8888-4888-8888-888888888888", "expected_state_revision": 17,
+                              "expected_base_sha": fresh_base, "in_response_to_instruction_id": replay["instruction_id"]}
+            replay_approval = {**approval, "result_id": "approval-replay-17", "response_to_instruction_id": replay_request["instruction_id"],
+                                "approved_instruction": _control_plane_approved_core(replay)}
+            replay = {**replay, "approval_evidence_ref": locator_for(replay_approval)}
+            replay_errors = validate_governed_mutation_entry(control, {**state, "revision": 17}, work_unit, replay, replay_review, replay_result,
+                                                              current_state_revision=17, repository_root=root, approval_request=replay_request)
+            self.assertIn("CONTROL_PLANE_AUTHORITY_REQUIRED", replay_errors)
+            self.assertNotIn("PRE_EXECUTION_REVIEW_TARGET_MISMATCH", replay_errors)
+
+            # The immutable revision-12 seed is rejected by current native authority.
+            historical = json.loads((ROOT / ".gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json").read_text(encoding="utf-8"))
+            historical_path = ".gpt-codex/work-units/historical-rev12.json"
+            (root / historical_path).write_text(json.dumps(historical), encoding="utf-8")
+            subprocess.run(["git", "add", historical_path], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", "historical authority fixture"], cwd=root, check=True, capture_output=True)
+            subprocess.run(["git", "push", "origin", branch], cwd=root, check=True, capture_output=True)
+            historical_base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+            historical_instruction = {**reconciliation, "instruction_id": "99999999-9999-4999-8999-999999999999", "target_work_unit": historical["work_unit_id"],
+                                      "target_work_unit_ref": {"path": historical_path, "sha": historical_base}, "expected_base_sha": historical_base}
+            historical_review = {**review, "instruction_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa", "target_work_unit": historical["work_unit_id"],
+                                 "expected_base_sha": historical_base, "review_target_revision": historical_base, "in_response_to_instruction_id": historical_instruction["instruction_id"]}
+            historical_result = {**review_result, "response_to_instruction_id": historical_review["instruction_id"], "review_target_revision": historical_base}
+            historical_request = {**approval_request, "instruction_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb", "target_work_unit": historical["work_unit_id"],
+                                  "expected_base_sha": historical_base, "in_response_to_instruction_id": historical_instruction["instruction_id"]}
+            historical_approval = {**approval, "result_id": "approval-historical", "response_to_instruction_id": historical_request["instruction_id"],
+                                   "work_unit_id": historical["work_unit_id"], "approved_instruction": _control_plane_approved_core(historical_instruction)}
+            historical_instruction["approval_evidence_ref"] = locator_for(historical_approval)
+            historical_errors = validate_governed_mutation_entry(control, state, historical, historical_instruction, historical_review, historical_result,
+                                                                  current_state_revision=16, repository_root=root, approval_request=historical_request)
+            self.assertIn("CONTROL_PLANE_AUTHORITY_REQUIRED", historical_errors)
+            self.assertEqual(historical["basis_state_revision"], 12)
+            self.assertNotIn("artifact_refs", historical)
     def test_task8_successor_seed_has_exact_current_four_path_authority(self):
         from validate_project import _derived_schema_errors
 
