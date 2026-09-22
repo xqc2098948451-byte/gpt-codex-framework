@@ -1,0 +1,91 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-staged-closure-group-c-001",
+  "goal": "Execute accepted Group C C1-C7 bounded evidence-to-management-review connections for v2.7.4 through the current framework_feedback owner without authorizing C8/C9, release, State mutation, Plugin, Harvest promotion, schema/module change, telemetry mutation, or automatic evolution.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/framework_feedback.py",
+      ".gpt-codex/tests/test_framework_feedback.py"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/scripts/execution_telemetry.py",
+      ".gpt-codex/tests/test_execution_telemetry.py",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/harvest/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "acceptance": {
+    "group": "C",
+    "release": "2.7.4",
+    "authority_scope": "C1_C7_ONLY",
+    "requirements": [
+      "v2.7.3 REMOTE_ACTIVE and State 17 prerequisite.",
+      "C1 bounded observable process evidence only.",
+      "C2 existing ProcessReview/build_process_review ownership.",
+      "C3 existing FrameworkFeedback ownership.",
+      "framework_feedback_authorizes_mutation() remains false.",
+      "C4 Improvement Candidate is non-authorizing and remains in existing framework_feedback responsibility.",
+      "C5 deterministic recurrence/current relevance/resolution classification; no opaque scoring.",
+      "C6 Harvest remains a separate route; no automatic conversion/promotion.",
+      "C7 emits non-authorizing Framework-management review input with NO_DECISION/NO_MUTATION default.",
+      "execution_telemetry.py and its tests remain read-only.",
+      "no new schema/module/database/service/queue.",
+      "no State mutation.",
+      "no C8/C9.",
+      "no v2.7.4 release/publication.",
+      "no Plugin.",
+      "no automatic evolution/optimization.",
+      "no CODEX_IMPLEMENTER COMMIT/PUSH.",
+      "no scope expansion."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 17,
+  "evidence_refs": [
+    ".gpt-codex/evidence/V2.7.3-REMOTE-PUBLICATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+      "sha": "48e359de303135c24a551f1a3e87cfb685b0d1a9"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+      "sha": "9cc4875fb997d1c5b57eb58ea3e5e895329ce7e8"
+    }
+  }
+}
