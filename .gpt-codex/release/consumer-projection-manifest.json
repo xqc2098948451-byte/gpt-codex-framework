@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "framework_version": "2.7.1",
+  "framework_version": "2.7.3",
   "projection": "CONSUMER_BOOTSTRAP",
   "prefix_defaults": {
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
@@ -210,6 +210,9 @@
     "dist/gpt-codex-framework-v2.7.1-bootstrap.zip": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.1-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.1-release.json": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.3-bootstrap.zip": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.3-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.3-release.json": "GENERATED_ARTIFACT",
     "releases/INDEX.json": "RELEASE_METADATA",
     "releases/README.md": "RELEASE_METADATA"
   }
