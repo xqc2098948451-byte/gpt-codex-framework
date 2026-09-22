@@ -1,0 +1,46 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "V2.7.3-REMOTE-PUBLICATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "V2.7.3_CONFIRMED_REMOTE_PUBLICATION",
+  "state_revision": 16,
+  "result": "VERIFIED",
+  "repository_identity": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_remote_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework.git",
+  "current_remote_ref": "refs/heads/main",
+  "remote_main_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+  "work_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+  "tag": "v2.7.3",
+  "annotated_tag_object_sha": "66dcf92e418bf402183ab33ad545e632cff12e62",
+  "tag_target_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+  "release": {
+    "id": 393538102,
+    "version": "v2.7.3",
+    "published": true,
+    "url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.7.3"
+  },
+  "remote_version": "2.7.3",
+  "artifact": {
+    "id": 580868060,
+    "name": "gpt-codex-framework-v2.7.3-bootstrap.zip",
+    "sha256": "8da1be98f9d7ea18fb3008685331956dfcb2232ac1ccfdf9085dd466a793a39d",
+    "size_bytes": 139774
+  },
+  "verification": {
+    "repository_identity": "PASS",
+    "remote_main": "PASS",
+    "annotated_tag": "PASS",
+    "release": "PASS",
+    "remote_version": "PASS",
+    "artifact_sha256": "PASS",
+    "artifact_size": "PASS",
+    "release_record_consistency": "PASS",
+    "source_ancestry": "PASS",
+    "consumer_validation": "PASS",
+    "framework_validation": "PASS",
+    "project_validation": "PASS"
+  }
+}
+
