@@ -1,0 +1,80 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.3-publication-finalization-001",
+  "goal": "Finalize independently verified v2.7.3 remote publication facts into durable repository State/Evidence without changing publication or authorizing Group C implementation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/V2.7.3-REMOTE-PUBLICATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json"
+    ],
+    "excluded_paths": []
+  },
+  "acceptance": {
+    "purpose": "V2.7.3_PUBLICATION_STATE_FINALIZATION",
+    "framework_version": "2.7.3",
+    "source_candidate_sha": "d9dd439a6d6ca944a6f07ed1aa0b386b0ac0a0b7",
+    "source_candidate_content_set_sha256": "7862243dc275f3f27d600717d5e2bdc3a1373f9e49eb9bc80346b23df440efe6",
+    "W": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+    "remote_main": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+    "annotated_tag_object": "66dcf92e418bf402183ab33ad545e632cff12e62",
+    "tag": "v2.7.3",
+    "tag_target": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+    "github_release_id": 393538102,
+    "github_release_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.7.3",
+    "release_published": true,
+    "asset_id": 580868060,
+    "asset_name": "gpt-codex-framework-v2.7.3-bootstrap.zip",
+    "asset_sha256": "8da1be98f9d7ea18fb3008685331956dfcb2232ac1ccfdf9085dd466a793a39d",
+    "asset_size_bytes": 139774,
+    "remote_version": "2.7.3",
+    "release_record_path": "releases/records/v2.7.3.json",
+    "release_record_blob_sha": "2d8c222b181e4429a21d82d348be2d67f98264cb",
+    "release_record_sha256": "a50e4580d046b5b0d1dc608adb244f31028b54f64e72a8e8d7d852ac3bbce8d0",
+    "release_index_path": "releases/INDEX.json",
+    "release_index_blob_sha": "09639abc4ccec9fea84f52d5e2f8862a37d21300",
+    "release_index_sha256": "31f715a306ad3f10817ba503d20d0f3648d3c68f5239962a35202027d0212522"
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 16,
+  "evidence_refs": [],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+      "sha": "ebe14209d7990bcab177079ad2cba9fee97abb0b"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+      "sha": "2ed6254ddf5f4dce7fef27dbd2f04180b55bcf40"
+    }
+  }
+}
