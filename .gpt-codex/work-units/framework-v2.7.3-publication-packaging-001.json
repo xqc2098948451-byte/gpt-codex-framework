@@ -1,0 +1,84 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.3-publication-packaging-001",
+  "goal": "Materialize and validate the exact accepted v2.7.3 publication packaging surface needed to create immutable W, without changing S, publication authority, State, Group C, Plugin, or Contract Repair semantics.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "dist/gpt-codex-framework-v2.7.1-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.1-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.1-release.json",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.3-release.json"
+    ],
+    "excluded_paths": []
+  },
+  "acceptance": {
+    "group": "B",
+    "release": "2.7.3",
+    "source_candidate_sha": "d9dd439a6d6ca944a6f07ed1aa0b386b0ac0a0b7",
+    "source_candidate_content_set_sha256": "7862243dc275f3f27d600717d5e2bdc3a1373f9e49eb9bc80346b23df440efe6",
+    "source_path_count": 9,
+    "artifact": "gpt-codex-framework-v2.7.3-bootstrap.zip",
+    "artifact_sha256": "8da1be98f9d7ea18fb3008685331956dfcb2232ac1ccfdf9085dd466a793a39d",
+    "artifact_size_bytes": 139774,
+    "requirements": [
+      "The nine accepted S source paths remain byte-identical to S.",
+      "The accepted v2.7.3 ZIP is reused byte-for-byte; regeneration is forbidden.",
+      "Packaging mutation is restricted to the exact seven owned paths.",
+      "The W packaging commit changes exactly the seven owned paths relative to its immediate parent.",
+      "releases/INDEX.json mutation is forbidden.",
+      "releases/records/v2.7.3.json mutation is forbidden.",
+      "State and Evidence mutation are forbidden.",
+      "Scripts, tests, and schemas mutation are forbidden.",
+      "The Work Unit does not authorize its own creation.",
+      "The Work Unit does not authorize commit, push, publication, or State/Evidence finalization.",
+      "The Work Unit does not authorize Group C or Plugin work.",
+      "Legacy bridge reuse is forbidden.",
+      "Scope expansion is forbidden."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 16,
+  "evidence_refs": [],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+      "sha": "7984c2ee0c6d137bce4e6d27b8816ab59cdf5d09"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+      "sha": "7437a392544b7888e32fd1f0d4d56d4744f5096a"
+    }
+  }
+}
