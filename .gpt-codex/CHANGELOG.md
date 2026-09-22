@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.3 — Group B Contract Repair Closure
+
+- Ships the reviewed Group B closure for inherited Contract Repair Tasks 5–9 without changing their accepted technical semantics.
+- Includes the native approval-evidence locator, actual-Git scope enforcement, governed mutation/control-plane composition, successor control-plane seed, and production-shaped clean-room composed proof established by B1–B6.
+- Keeps legacy bridge reuse forbidden and does not include Group C or Plugin work; publication and State finalization remain separately governed.
+- `KERNEL_VERSION` remains `2.0.0`; `SCHEMA_VERSION` remains `1`.
+
 ## v2.7.2+fix.2
 
 - Carries the reviewed Group-B prerequisite contract reconciliation required before a fresh Group-B B0.

@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.7.2+fix.2
+# GPT–Codex Framework v2.7.3
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
