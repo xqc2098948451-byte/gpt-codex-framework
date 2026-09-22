@@ -10,8 +10,12 @@ sys.path.insert(0, str(ROOT / ".gpt-codex" / "scripts"))
 
 from framework_feedback import (  # noqa: E402
     FrameworkFeedback, ProcessReview, build_process_review,
+    build_framework_management_review_input, build_improvement_candidate,
+    build_process_review_from_evidence, classify_harvest_relation,
+    classify_recurrence_relevance, derive_framework_feedback,
     framework_feedback_authorizes_mutation, validate_execution_policy,
     validate_framework_evolution_boundary, validate_framework_feedback,
+    normalize_process_evidence, validate_process_evidence,
     validate_project_strategy_lifecycle, validate_work_unit_process_record,
 )
 
@@ -29,6 +33,108 @@ POLICY = {
 
 
 class FrameworkFeedbackTests(unittest.TestCase):
+    def process_evidence(self, **overrides):
+        value = {
+            "source": "result-envelope", "project_context_id": "ctx-1",
+            "work_unit_id": "WU-1", "state_revision": 17,
+            "result_ref": "result:WU-1", "evidence_refs": ["evidence:WU-1"],
+            "source_record_refs": ["record:WU-1"], "completeness": "COMPLETE",
+            "redactions": ["TRIMMED"],
+            "content": {"observation": "review succeeded", "outcome": "PASS"},
+            "process_record": {"work_unit_id": "WU-1", "final_result": "PASS", "codex_retries": 0,
+                               "gpt_interventions": 0, "review_rounds": 1, "remediation_rounds": 0,
+                               "handoff_result": "PASS", "usage": "UNKNOWN", "git_sha": "a" * 40,
+                               "result_ref": "result:WU-1"},
+        }
+        value.update(overrides)
+        return value
+
+    def test_c1_normalizes_bounded_complete_evidence_and_rejects_unsafe_or_authority_content(self):
+        raw = self.process_evidence()
+        self.assertEqual(validate_process_evidence(raw), [])
+        normalized = normalize_process_evidence(raw)
+        self.assertEqual(normalized["completeness"], "COMPLETE")
+        self.assertEqual(normalized["evidence_identity"], normalize_process_evidence(dict(raw))["evidence_identity"])
+        for invalid in (
+            self.process_evidence(source=""), self.process_evidence(evidence_refs=[]),
+            self.process_evidence(content={"raw_prompt": "secret"}),
+            self.process_evidence(authorized_actions=["MUTATE_APPROVED_SCOPE"]),
+            self.process_evidence(process_record={"work_unit_id": "bad"}),
+        ):
+            with self.subTest(invalid=invalid):
+                self.assertEqual(validate_process_evidence(invalid), ["PROCESS_EVIDENCE_INVALID"])
+        self.assertEqual(normalize_process_evidence(self.process_evidence(completeness="PARTIAL"))["completeness"], "PARTIAL")
+        self.assertEqual(normalize_process_evidence(self.process_evidence(completeness="LOW_CONFIDENCE"))["completeness"], "LOW_CONFIDENCE")
+
+    def test_c1_rejects_nonserializable_or_unbounded_nested_process_usage(self):
+        for usage in ({"detail": object()}, {"detail": "x" * 513}):
+            record = self.process_evidence()
+            record["process_record"] = {**record["process_record"], "usage": usage}
+            with self.subTest(usage=usage):
+                self.assertEqual(validate_process_evidence(record), ["PROCESS_EVIDENCE_INVALID"])
+
+    def test_c2_complete_evidence_derives_one_process_review_without_duplicate_counting(self):
+        complete = normalize_process_evidence(self.process_evidence())
+        partial = normalize_process_evidence(self.process_evidence(work_unit_id="WU-2", result_ref="result:WU-2", evidence_refs=["evidence:WU-2"], source_record_refs=["record:WU-2"], completeness="PARTIAL", process_record={"work_unit_id": "WU-2", "final_result": "FAIL", "codex_retries": 1, "gpt_interventions": 0, "review_rounds": 1, "remediation_rounds": 0, "handoff_result": "FAIL", "usage": "UNKNOWN", "git_sha": "b" * 40, "result_ref": "result:WU-2"}))
+        review = build_process_review_from_evidence([complete, complete, partial], POLICY["strategy_profile_id"])
+        self.assertEqual((review.codex_tasks, review.work_unit_ids, review.result_refs), (1, ("WU-1",), ("result:WU-1",)))
+        self.assertEqual(review.success_observations, ("review succeeded",))
+        self.assertEqual(review.failure_observations, ())
+
+    def test_c3_feedback_derivation_retains_review_and_evidence_links_without_authority(self):
+        evidence = normalize_process_evidence(self.process_evidence())
+        review = build_process_review_from_evidence([evidence], POLICY["strategy_profile_id"])
+        feedback = derive_framework_feedback(review, [evidence], kind="CAPABILITY_REUSE_SUCCESS")
+        self.assertEqual(validate_framework_feedback(feedback), [])
+        self.assertIn(evidence["evidence_identity"], feedback["evidence_refs"])
+        self.assertIn("process-review:", " ".join(feedback["evidence_refs"]))
+        self.assertFalse(framework_feedback_authorizes_mutation({"framework_management_only": True}, feedback))
+        with self.assertRaises(ValueError):
+            derive_framework_feedback(review, [dict(evidence, authority="yes")], kind="FRICTION")
+
+    def test_c4_candidate_is_bounded_deterministic_and_non_authorizing(self):
+        evidence = normalize_process_evidence(self.process_evidence())
+        feedback = derive_framework_feedback(build_process_review_from_evidence([evidence], POLICY["strategy_profile_id"]), [evidence], kind="FRICTION")
+        candidate = build_improvement_candidate(feedback, [evidence], problem_class="FRICTION", management_question="Should management inspect this?")
+        self.assertEqual(candidate["candidate_identity"], build_improvement_candidate(feedback, [evidence], problem_class="FRICTION", management_question="Should management inspect this?")["candidate_identity"])
+        self.assertEqual(candidate["status"], "OBSERVATION_ONLY")
+        self.assertFalse(set(candidate).intersection({"authorized_actions", "release_authority", "work_unit_authority"}))
+
+    def test_c5_recurrence_relevance_is_deterministic_and_retains_source_references(self):
+        first = normalize_process_evidence(self.process_evidence())
+        second = normalize_process_evidence(self.process_evidence(source="review-result", source_record_refs=["record:WU-1b"]))
+        self.assertEqual(classify_recurrence_relevance([first])["classification"], "SINGLE_CURRENT")
+        self.assertEqual(classify_recurrence_relevance([first, second])["classification"], "REPEATED_CURRENT")
+        self.assertEqual(classify_recurrence_relevance([first], resolution="RESOLVED")["classification"], "ALREADY_RESOLVED")
+        self.assertEqual(classify_recurrence_relevance([first], resolution="SUPERSEDED")["classification"], "SUPERSEDED")
+        self.assertEqual(classify_recurrence_relevance([first], resolution="RETRACTED")["classification"], "INVALIDATED_OR_RETRACTED")
+        self.assertEqual(classify_recurrence_relevance([first], preservation=True)["classification"], "PRESERVATION_EVIDENCE")
+        self.assertTrue(classify_recurrence_relevance([first, second])["source_refs"])
+        with self.assertRaises(ValueError):
+            classify_recurrence_relevance([first], authoritative_source=True)
+        with self.assertRaisesRegex(ValueError, "CORRELATION_CONFLICT"):
+            classify_recurrence_relevance([first, normalize_process_evidence(self.process_evidence(source="review-result", content={"observation": "review failed", "outcome": "FAIL"}))])
+        with self.assertRaisesRegex(ValueError, "INCOMPLETE_PROCESS_EVIDENCE"):
+            classify_recurrence_relevance([normalize_process_evidence(self.process_evidence(completeness="PARTIAL"))])
+
+    def test_c6_harvest_relation_remains_reference_only(self):
+        evidence = normalize_process_evidence(self.process_evidence())
+        feedback = derive_framework_feedback(build_process_review_from_evidence([evidence], POLICY["strategy_profile_id"]), [evidence], kind="CAPABILITY_REUSE_SUCCESS")
+        candidate = build_improvement_candidate(feedback, [evidence], problem_class="CAPABILITY_REUSE_SUCCESS", management_question="Inspect reuse?")
+        self.assertEqual(classify_harvest_relation(candidate)["classification"], "NO_HARVEST_RELATION")
+        self.assertEqual(classify_harvest_relation({**candidate, "existing_harvest_route": "harvest:existing-route"})["classification"], "HARVEST_REFERENCE_ELIGIBLE")
+        self.assertEqual(classify_harvest_relation({**candidate, "existing_harvest_route": "invalid"})["classification"], "HARVEST_RELATION_AMBIGUOUS")
+
+    def test_c7_management_input_is_non_authorizing_with_default_no_decision_no_mutation(self):
+        evidence = normalize_process_evidence(self.process_evidence())
+        review = build_process_review_from_evidence([evidence], POLICY["strategy_profile_id"])
+        feedback = derive_framework_feedback(review, [evidence], kind="OBSERVED_GAP")
+        candidate = build_improvement_candidate(feedback, [evidence], problem_class="OBSERVED_GAP", management_question="Inspect the observed gap?")
+        result = build_framework_management_review_input(review, feedback, candidate, [evidence])
+        self.assertEqual((result["decision"], result["mutation"]), ("NO_DECISION", "NO_MUTATION"))
+        self.assertEqual(result["candidate_identity"], candidate["candidate_identity"])
+        self.assertTrue(result["evidence_refs"])
+        self.assertFalse(set(result).intersection({"instruction", "work_unit", "scope_authorization", "release_authority"}))
     def test_valid_fixed_execution_policy_is_accepted(self):
         self.assertEqual(validate_execution_policy(POLICY), [])
         self.assertEqual(validate_execution_policy(None), [])
