@@ -1,0 +1,81 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.4-release-001",
+  "goal": "prepare and validate exactly the v2.7.4 release-source candidate with accepted C8 closed-loop content and no publication authority",
+  "scope": {
+    "owned_paths": [
+      "VERSION",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/README.md"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      "dist/",
+      "releases/",
+      "plugins/"
+    ]
+  },
+  "acceptance": {
+    "release": "2.7.4",
+    "previous_release": "2.7.3",
+    "target_tag": "v2.7.4",
+    "target_artifact": "gpt-codex-framework-v2.7.4-bootstrap.zip",
+    "c8_candidate": "6dfdc8d29ac5de8ca21e4d8c6addde5f3d3a85ac",
+    "c8_blobs": {
+      ".gpt-codex/tests/test_framework_feedback.py": "43521a001664b8f17bb2ffd2747143f091ca9782",
+      ".gpt-codex/tests/test_windows_clean_room_e2e.py": "9dc6179a32e9700e107bb06f503fa5f17b94808a"
+    },
+    "authority_base": "5723068caa02a92925e248f4abed4e8d01b9512e",
+    "forbidden_authority": [
+      "PACKAGING",
+      "PUBLICATION",
+      "STATE",
+      "FINALIZATION",
+      "PLUGIN"
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 17,
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+      "sha": "66ed13b29f24ee65c40ac07755de04f74951779a"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "sha": "763b6be1dab863381ad5eab3a971ecb35df03132"
+    }
+  }
+}
