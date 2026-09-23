@@ -1,5 +1,9 @@
 # GPT–Codex Framework Changelog
 
+## v2.7.4
+
+- Prepares the minimum release-source candidate with the accepted C8 feedback and clean-room validation connection.
+
 ## v2.7.3 — Group B Contract Repair Closure
 
 - Ships the reviewed Group B closure for inherited Contract Repair Tasks 5–9 without changing their accepted technical semantics.
