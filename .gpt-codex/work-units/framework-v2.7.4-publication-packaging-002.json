@@ -1,0 +1,169 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.4-publication-packaging-002",
+  "goal": "package exactly the accepted corrected seven-path v2.7.4 source candidate without source, publication, State, Evidence, or Plugin authority",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.3-release.json",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.4-release.json",
+      "releases/INDEX.json",
+      "releases/records/v2.7.4.json"
+    ],
+    "excluded_paths": [
+      "VERSION",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/",
+      "plugins/"
+    ]
+  },
+  "acceptance": {
+    "release": "2.7.4",
+    "source_candidate_sha": "5fd9cb4735d2c21fcefd2e9ce90e280e7e1a2de6",
+    "source_content_set_sha256": "3a8c703366510048e2769f4c65e30231062a60f02704a3e759e6aacece73648a",
+    "source_path_count": 7,
+    "source_identities": [
+      {
+        "path": "VERSION",
+        "sha256": "9885213cc1510f18babb86df504e11d53782f9f25c867a4f72670dd5e5e2785c",
+        "git_blob_sha1": "a4dd9dba4fbfc56b9de647bc31ed848d9f65885f"
+      },
+      {
+        "path": ".gpt-codex/builtins/INDEX.json",
+        "sha256": "143a1c8083153ec8cf14eee32534757e8606191b0b7651a13431926784cad25a",
+        "git_blob_sha1": "92d3f00d730c6e2ed049f9145b59a0ddd92db50e"
+      },
+      {
+        "path": ".gpt-codex/CHANGELOG.md",
+        "sha256": "b63c02d06d62d42e74ff8f80d6321032fe75fe3579f908e8aa7929c4b7f6a20d",
+        "git_blob_sha1": "74a3aae798bfce71dc3d8ffa7bd857bd5dcfdc56"
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "5c2af77547c67669346a89c711aba9214a98055340da4742f746569db373f731",
+        "git_blob_sha1": "e39087c8f429d570dc4902b880e35a6f57c9b69b"
+      },
+      {
+        "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        "sha256": "eca29a92437f0a2d65d9c126512966ab13abc1b333dfd3d7f429f6155cad83ff",
+        "git_blob_sha1": "108372c8ada9847e32c1a4f7db434020e65cf154"
+      },
+      {
+        "path": ".gpt-codex/README.md",
+        "sha256": "77f1f31b53786457740325cd954f62766a9dc58e948180738bf58b019522c05d",
+        "git_blob_sha1": "a2713f7c1df172a4287f3ab73de5bee7c61a8938"
+      },
+      {
+        "path": ".gpt-codex/framework-modules/REGISTRY.json",
+        "sha256": "03b753ef4a78c1039e99081c7c5244a7bf535aa86329fb04817020b448252a10",
+        "git_blob_sha1": "312f53caaaae85991818b13f917b1fd5c9127d9c"
+      }
+    ],
+    "packaging_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.3-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.3-release.json",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.4-release.json",
+      "releases/INDEX.json",
+      "releases/records/v2.7.4.json"
+    ],
+    "target_artifact": "gpt-codex-framework-v2.7.4-bootstrap.zip",
+    "state_basis": 17,
+    "supersedes_work_unit": "framework-v2.7.4-publication-packaging-001",
+    "historical_packaging": {
+      "work_unit_status": "IMMUTABLE_HISTORICAL_EVIDENCE_SUPERSEDED_FOR_CONTINUATION",
+      "authority_sha": "83a707545dc807da4859530ec54b10c11a0a3b66",
+      "instruction_id": "4e66b496-04bf-4317-8559-d7b1e27d9e74",
+      "instruction_status": "TERMINATED_AMENDMENT_REQUIRED",
+      "bootstrap_reuse": "FORBIDDEN"
+    },
+    "projection_manifest_packaging": {
+      "semantics": "VERSION_PLUS_NEW_ARTIFACT_CLASSIFICATION",
+      "framework_version": {
+        "from": "2.7.3",
+        "to": "2.7.4"
+      },
+      "new_generated_artifact_paths": [
+        "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+        "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+        "dist/gpt-codex-framework-v2.7.4-release.json"
+      ],
+      "historical_v2_7_3_classifications": "REMAIN",
+      "unrelated_normalization_or_reclassification": "FORBIDDEN"
+    },
+    "forbidden_authority": [
+      "SOURCE_MUTATION",
+      "PUBLICATION",
+      "STATE_EVIDENCE_MUTATION",
+      "PLUGIN"
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 17,
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+      "sha": "f3cefd8c8d9c3d0c0cd2e9e16a74288ebe62c7a1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+      "sha": "b8730483a0126534ddd67a2ab555e87d47a2b4da"
+    }
+  },
+  "base_design_ref": {
+    "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+    "sha": "66ed13b29f24ee65c40ac07755de04f74951779a"
+  },
+  "base_plan_refs": [
+    {
+      "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "sha": "763b6be1dab863381ad5eab3a971ecb35df03132"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+      "sha": "87fe1788d69bff5366a48993df5403f2aa56fcfc"
+    }
+  ]
+}
