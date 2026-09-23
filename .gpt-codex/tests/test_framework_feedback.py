@@ -135,6 +135,31 @@ class FrameworkFeedbackTests(unittest.TestCase):
         self.assertEqual(result["candidate_identity"], candidate["candidate_identity"])
         self.assertTrue(result["evidence_refs"])
         self.assertFalse(set(result).intersection({"instruction", "work_unit", "scope_authorization", "release_authority"}))
+
+    def test_c8_closed_loop_matrix_preserves_evidence_classification_and_candidate_non_authority(self):
+        complete = normalize_process_evidence(self.process_evidence())
+        duplicate = normalize_process_evidence(self.process_evidence())
+        stale = normalize_process_evidence(self.process_evidence(source="stale-result", source_record_refs=["record:stale"]))
+        preservation = normalize_process_evidence(self.process_evidence(source="preservation-result", source_record_refs=["record:preservation"]))
+        incomplete = normalize_process_evidence(self.process_evidence(completeness="PARTIAL", source_record_refs=["record:incomplete"]))
+
+        review = build_process_review_from_evidence([complete, duplicate, incomplete], POLICY["strategy_profile_id"])
+        self.assertEqual(review.codex_tasks, 1)
+        feedback = derive_framework_feedback(review, [complete], kind="OBSERVED_GAP")
+        candidate = build_improvement_candidate(feedback, [complete], problem_class="OBSERVED_GAP", management_question="Reject or retain this observation?")
+        management_input = build_framework_management_review_input(review, feedback, candidate, [complete])
+        rejected_management_input = build_framework_management_review_input(review, feedback, {**candidate, "status": "REJECTED"}, [complete])
+
+        self.assertEqual(classify_recurrence_relevance([stale], resolution="SUPERSEDED")["classification"], "SUPERSEDED")
+        self.assertEqual(classify_recurrence_relevance([complete], resolution="RESOLVED")["classification"], "ALREADY_RESOLVED")
+        self.assertEqual(classify_recurrence_relevance([preservation], preservation=True)["classification"], "PRESERVATION_EVIDENCE")
+        self.assertEqual((candidate["status"], management_input["decision"], management_input["mutation"]), ("OBSERVATION_ONLY", "NO_DECISION", "NO_MUTATION"))
+        self.assertEqual((rejected_management_input["decision"], rejected_management_input["mutation"]), ("NO_DECISION", "NO_MUTATION"))
+        self.assertFalse(framework_feedback_authorizes_mutation({"framework_management_only": True}, feedback))
+        self.assertFalse(set(candidate).intersection({"instruction", "work_unit", "authorized_actions", "scope_authorization", "framework_mutation", "publication", "release"}))
+        with self.assertRaisesRegex(ValueError, "INCOMPLETE_PROCESS_EVIDENCE"):
+            classify_recurrence_relevance([incomplete])
+
     def test_valid_fixed_execution_policy_is_accepted(self):
         self.assertEqual(validate_execution_policy(POLICY), [])
         self.assertEqual(validate_execution_policy(None), [])

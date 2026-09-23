@@ -110,6 +110,37 @@ class WindowsCleanRoomE2ETests(unittest.TestCase):
             self.assertEqual(classify_cleanup_manifest(manifest, root, {})["decision"], "RECONCILIATION_REQUIRED")
             self.assertEqual(sentinel.read_text(encoding="utf-8"), "keep")
 
+    def test_c8_clean_room_durable_evidence_reaches_non_authorizing_management_input(self):
+        from framework_feedback import (
+            build_framework_management_review_input, build_improvement_candidate,
+            build_process_review_from_evidence, derive_framework_feedback,
+            framework_feedback_authorizes_mutation, normalize_process_evidence,
+        )
+        helper_path = Path(__file__).with_name("test_harness_handoff.py")
+        spec = importlib.util.spec_from_file_location("c8_clean_room_handoff_fixture", helper_path)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory(prefix="c8-clean-room-") as td:
+            root = Path(td)
+            head = module.HarnessHandoffTests().write_fixture(root)
+            self.assertTrue((root / "docs" / "plan.md").is_file())
+            evidence = normalize_process_evidence({
+                "source": "durable-clean-room-handoff", "project_context_id": "PRJ-FRAMEWORK-MANAGEMENT",
+                "work_unit_id": "framework-staged-closure-group-c-c8-001", "state_revision": 17,
+                "result_ref": f"git:{head}:docs/plan.md", "evidence_refs": [f"git:{head}:docs/plan.md"],
+                "source_record_refs": ["handoff:slot-1"], "completeness": "COMPLETE", "redactions": ["NONE"],
+                "content": {"observation": "durable clean-room evidence consumed", "outcome": "PASS"},
+                "process_record": {"work_unit_id": "framework-staged-closure-group-c-c8-001", "final_result": "PASS", "codex_retries": 0,
+                                   "gpt_interventions": 0, "review_rounds": 1, "remediation_rounds": 0,
+                                   "handoff_result": "HANDOFF_READY", "usage": "UNKNOWN", "git_sha": head,
+                                   "result_ref": f"git:{head}:docs/plan.md"},
+            })
+            review = build_process_review_from_evidence([evidence], "PROJECT_PROFILE_001")
+            feedback = derive_framework_feedback(review, [evidence], kind="PRESERVATION_EVIDENCE")
+            candidate = build_improvement_candidate(feedback, [evidence], problem_class="PRESERVATION_EVIDENCE", management_question="Does management retain this evidence?")
+            management_input = build_framework_management_review_input(review, feedback, candidate, [evidence])
+            self.assertEqual((management_input["decision"], management_input["mutation"]), ("NO_DECISION", "NO_MUTATION"))
+            self.assertFalse(framework_feedback_authorizes_mutation({"framework_management_only": True}, feedback))
+
     def test_junction_cleanup_is_rejected_without_mutation(self):
         from git_continuity import classify_cleanup_manifest
         with tempfile.TemporaryDirectory(prefix="clean-junction-") as td:
