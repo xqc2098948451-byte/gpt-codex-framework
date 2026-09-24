@@ -213,6 +213,9 @@
     "dist/gpt-codex-framework-v2.7.3-bootstrap.zip": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.3-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.3-release.json": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.4-bootstrap.zip": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
+    "dist/gpt-codex-framework-v2.7.4-release.json": "GENERATED_ARTIFACT",
     "releases/INDEX.json": "RELEASE_METADATA",
     "releases/README.md": "RELEASE_METADATA"
   }
