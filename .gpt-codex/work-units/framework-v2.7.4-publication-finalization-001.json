@@ -1,0 +1,83 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.7.4-publication-finalization-001",
+  "goal": "Record independently verified v2.7.4 publication facts and the resolved State revision 18 transition without publishing, changing release artifacts, or authorizing source or packaging mutation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/V2.7.4-REMOTE-PUBLICATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-V2.7.4-PUBLICATION.json"
+    ],
+    "excluded_paths": [
+      "VERSION",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/README.md",
+      "dist/",
+      "releases/",
+      "plugins/"
+    ]
+  },
+  "acceptance": {
+    "purpose": "V2.7.4_PUBLICATION_STATE_FINALIZATION",
+    "framework_version": "2.7.4",
+    "basis_main_sha": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c",
+    "from_state_revision": 17,
+    "to_state_revision": 18,
+    "finalization_scope_path_count": 3,
+    "execution_status": "NOT_EXECUTED",
+    "state_mutation_before_execution": "FORBIDDEN",
+    "publication_before_execution": "FORBIDDEN",
+    "forbidden_authority": [
+      "PUBLICATION",
+      "SOURCE_MUTATION",
+      "PACKAGE_MUTATION",
+      "RELEASE_MUTATION",
+      "WU003_MUTATION",
+      "BOOTSTRAP003_MUTATION"
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 17,
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+      "sha": "66ed13b29f24ee65c40ac07755de04f74951779a"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "sha": "763b6be1dab863381ad5eab3a971ecb35df03132"
+    }
+  }
+}
