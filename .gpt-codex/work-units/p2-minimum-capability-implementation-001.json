@@ -1,0 +1,117 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "p2-minimum-capability-implementation-001",
+  "goal": "Implement the accepted P2 minimum governance capability through repository-native authority and a thin optional Plugin, only after a separate native PRE-EXECUTION PASS and GPT adjudication.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/instruction_envelope.py",
+      ".gpt-codex/scripts/result_return.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      ".gpt-codex/tests/test_instruction_envelope.py",
+      ".gpt-codex/tests/test_instruction_role_contract.py",
+      ".gpt-codex/tests/test_result_return.py",
+      ".gpt-codex/tests/test_framework_plugin_package.py",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "plugins/gpt-codex-framework/plugin.json",
+      "plugins/gpt-codex-framework/.codex-plugin/plugin.json",
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+      ".gpt-codex/evidence/instructions/",
+      ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json"
+    ],
+    "excluded_paths": [
+      "VERSION",
+      ".gpt-codex/CHANGELOG.md",
+      "releases/",
+      "dist/",
+      ".agents/plugins/marketplace.json",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+      "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json"
+    ]
+  },
+  "acceptance": {
+    "requirements": [
+      "Accepted P2 Design and governing Plan Revision 003 govern implementation; this Authority Plan governs only materialization.",
+      "Repository-level baseline resume works for every enrolled Project; valid execution-slot-aware enrichment is conditional.",
+      "Slotless handoff uses exact governed Instruction, immutable target_work_unit_ref, instruction_locator, target_work_unit_id and expected_state_revision; no invented slot or STATE.active_work_unit reinterpretation.",
+      "Missing, stale, ambiguous or conflicting handoff facts return RECONCILIATION_REQUIRED; valid slot authority and Instruction bindings must agree.",
+      "Plugin remains thin; Core owns recovery, STATE interpretation and Result discovery.",
+      "result_return.py changes only for a proven narrow adapter seam; .codex-plugin/plugin.json is an optional compatibility fallback; consumer projection manifest changes only when current validation proves classification is required.",
+      "Instruction Evidence writes are confined to .gpt-codex/evidence/instructions/<instruction_id>.json; no general Evidence write authority.",
+      "No STATE/CONTROL mutation, release, publication, activation, new schema, service, store, queue, or Plugin-owned recovery.",
+      "CODEX_IMPLEMENTER has no COMMIT or PUSH; implementation requires a separate native Instruction and independent PRE-EXECUTION PASS."
+    ],
+    "read_only_dependencies": [
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/scripts/role_communication.py",
+      ".gpt-codex/scripts/framework_feedback.py",
+      ".gpt-codex/tests/test_review_lifecycle.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/tests/test_framework_feedback.py",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/schemas/instruction-envelope.schema.json",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/work-unit.schema.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      "AGENTS.md"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "sha": "91b485c6c93584ef2f89c459c10e488750f5801f"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+      "sha": "40b704e343762c1c1acbef8c243adb8b0d25b1f6"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION",
+      "FRAMEWORK_RELEASE",
+      "PLUGIN_RELEASE",
+      "PLUGIN_ACTIVATION",
+      "DIRECT_MAIN_IMPLEMENTATION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 17,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "NATIVE_P2_PRE_EXECUTION_REVIEW"
+  }
+}
