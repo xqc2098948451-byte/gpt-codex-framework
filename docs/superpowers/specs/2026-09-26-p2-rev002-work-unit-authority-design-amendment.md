@@ -58,7 +58,7 @@ ROOT_CAUSE = P2_REV002_NATIVE_IMPLEMENTATION_WORK_UNIT_CREATION_AUTHORITY_MISSIN
 
 The accepted P2 Design/Plan define implementation scope and acceptance, but they deliberately do not authorize their own execution and do not create a Work Unit.
 
-The current STATE also names a different active Work Unit, so implementation cannot begin by merely writing a new Work Unit file or changing `STATE.active_work_unit`.
+The current STATE also names a different legacy/management `active_work_unit` value. That observation does not authorize changing it and does not, by itself, create or deny P2 execution authority. Existing native execution validation binds the exact Work Unit through `target_work_unit_ref`, `target_work_unit`, immutable artifact refs, and the current STATE revision. This Design therefore does not add a P2 activation STATE transition.
 
 ## Exact future P2 implementation Work Unit
 
@@ -68,7 +68,7 @@ The future canonical Work Unit is:
 WORK_UNIT_ID = p2-minimum-capability-implementation-001
 PROJECT_ID = PRJ-FRAMEWORK-MANAGEMENT
 STATE = AUTHORIZED
-BASIS_STATE_REVISION = <freshly observed revision at freeze>
+BASIS_STATE_REVISION = <final stable STATE revision observed immediately before freeze>
 ```
 
 The Work Unit binds exactly the accepted P2 Design and Plan above.
@@ -85,13 +85,11 @@ The default implementation mutation scope is limited to the paths required by th
 .gpt-codex/tests/test_instruction_envelope.py
 .gpt-codex/tests/test_instruction_role_contract.py
 .gpt-codex/tests/test_result_return.py
-.gpt-codex/tests/test_review_lifecycle.py
-.gpt-codex/tests/test_validator_context_binding.py
-.gpt-codex/tests/test_framework_feedback.py
 .gpt-codex/tests/test_framework_plugin_package.py
-.gpt-codex/tests/test_consumer_projection.py
 .gpt-codex/release/consumer-projection-manifest.json
-plugins/gpt-codex-framework/
+plugins/gpt-codex-framework/plugin.json
+plugins/gpt-codex-framework/.codex-plugin/plugin.json
+plugins/gpt-codex-framework/skills/framework-governance/SKILL.md
 .gpt-codex/evidence/instructions/
 .gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json
 ```
@@ -103,6 +101,10 @@ The following are read-only dependencies unless a later independent PRE review p
 .gpt-codex/scripts/validate_project.py
 .gpt-codex/scripts/role_communication.py
 .gpt-codex/scripts/framework_feedback.py
+.gpt-codex/tests/test_review_lifecycle.py
+.gpt-codex/tests/test_validator_context_binding.py
+.gpt-codex/tests/test_framework_feedback.py
+.gpt-codex/tests/test_consumer_projection.py
 .gpt-codex/schemas/instruction-envelope.schema.json
 .gpt-codex/schemas/result-envelope.schema.json
 .gpt-codex/schemas/work-unit.schema.json
@@ -199,40 +201,38 @@ P2_BOOTSTRAP_REUSE = FORBIDDEN
 
 Historical bootstrap refs may not be reused.
 
-## Active Work Unit reconciliation gate
+## STATE revision stability gate
 
-Creating the P2 Work Unit file does **not** make it the active Work Unit.
+The P2 Work Unit is bound to the **final stable STATE revision** used for execution authority.
 
-Before any P2 implementation Instruction can be issued:
+Any reconciliation or State transition that is independently required by existing authority must complete **before** canonical P2 Work Unit bytes are frozen. After that transition completes, GPT/User must freshly observe the resulting repository base and STATE revision and use that exact revision as both:
+
+- the Work Unit `basis_state_revision`; and
+- the bootstrap `expected_state_revision`.
+
+This Design does not require or authorize changing `STATE.active_work_unit` as a P2 activation step. Current native execution validation binds P2 through the immutable Work Unit reference, Work Unit ID, current STATE revision, accepted artifact refs, native Instruction, and PRE-EXECUTION authority.
+
+Therefore the legal ordering is:
 
 ```text
-CURRENT_ACTIVE_WORK_UNIT
--> existing-authority closure/reset/reconciliation
--> freshly observed STATE revision
--> P2 Work Unit activation through existing STATE/control-plane authority
--> native P2 implementation Instruction
+any separately required existing-authority STATE reconciliation
+-> fresh final STATE revision R / main observation
+-> freeze P2 Work Unit with basis_state_revision = R
+-> freeze bootstrap with expected_state_revision = R
+-> one-path Work Unit materialization
+-> verify STATE revision is still R
+-> native P2 Instruction with expected_state_revision = R
 -> independent PRE-EXECUTION review
+-> execution only while current STATE revision remains R
 ```
 
-This Design does not authorize or define a new STATE mutation mechanism.
+No STATE mutation is permitted between the Work Unit freeze and P2 implementation execution under this Work Unit. If STATE revision changes at any point after freeze, the frozen Work Unit is stale for execution and the result is `RECONCILIATION_REQUIRED`; it must not be rewritten in place or treated as current authority.
 
-Specifically:
-
-- do not overwrite `STATE.active_work_unit`;
-- do not mark Group A/C complete merely to make room for P2;
-- do not reinterpret `STATE.next_action`;
-- do not infer that user acceptance of P2 Design/Plan closes the current active Work Unit;
-- do not create a second active Work Unit field or parallel state store.
-
-If the existing Framework cannot produce a lawful transition from the current active Work Unit to a state where P2 can be activated, the result is:
-
-`RECONCILIATION_REQUIRED`
-
-and P2 implementation remains blocked.
+The current `STATE.active_work_unit` value is not silently overwritten, closed, or reinterpreted by this Design. If a future authoritative validator or PRE-EXECUTION review proves that a separate STATE transition is actually required for P2 execution, stop before implementation, complete that transition under separate existing authority, and then create a fresh successor Work Unit authority bound to the resulting revision.
 
 ## Instruction and PRE-EXECUTION boundary
 
-After Work Unit creation, activation, and fresh STATE binding, GPT may prepare one native implementation Instruction that:
+After exact Work Unit creation, remote verification, and confirmation that the STATE revision still equals the Work Unit `basis_state_revision`, GPT may prepare one native implementation Instruction that:
 
 - targets `p2-minimum-capability-implementation-001`;
 - includes an immutable `target_work_unit_ref`;
@@ -261,9 +261,10 @@ accepted P2 Design
 -> exact USER Plan acceptance
 -> bounded USER_LOCAL Plan integration
 -> independent remote verification
--> fresh main / STATE observation
--> canonical P2 Work Unit bytes freeze
--> canonical one-time bootstrap freeze
+-> complete any independently required existing-authority STATE reconciliation before freeze
+-> fresh final main / STATE revision R observation
+-> canonical P2 Work Unit bytes freeze with basis_state_revision = R
+-> canonical one-time bootstrap freeze with expected_state_revision = R
 -> independent bootstrap PRE-EXECUTION review
 -> GPT adjudication
 -> exact USER bootstrap approval
@@ -272,9 +273,8 @@ accepted P2 Design
 -> independent candidate verification
 -> conditional exact main fast-forward / verification
 -> bootstrap TERMINATED
--> current active Work Unit reconciliation/closure through existing authority
--> P2 activation through existing authority
--> native P2 Instruction
+-> verify current STATE revision remains R
+-> native P2 Instruction with expected_state_revision = R
 -> independent PRE-EXECUTION review
 -> GPT adjudication
 -> CODEX_IMPLEMENTER execution
@@ -290,7 +290,8 @@ No implementation mutation may occur before this ordering completes.
 | P2 Work Unit path unexpectedly preexists with non-identical bytes | `RECONCILIATION_REQUIRED` |
 | bootstrap ref unexpectedly preexists or is reused | `RECONCILIATION_REQUIRED` |
 | old `task-3-global-plugin-core-001` is treated as current P2 authority | `FAIL / STALE_AUTHORITY_REUSE` |
-| current active Work Unit is silently replaced | `FAIL / PROJECT_AUTHORITY_BOUNDARY_VIOLATION` |
+| current `STATE.active_work_unit` is silently replaced or reinterpreted | `FAIL / PROJECT_AUTHORITY_BOUNDARY_VIOLATION` |
+| STATE revision changes after Work Unit freeze | `RECONCILIATION_REQUIRED / STALE_WORK_UNIT` |
 | CODEX_IMPLEMENTER receives COMMIT/PUSH | `ROLE_AUTHORITY_CONFLICT` |
 | scope expands beyond accepted Plan without amendment | `FAIL / SCOPE_EXPANSION` |
 | Plugin release/publication/activation enters scope | `FAIL` |
@@ -309,9 +310,10 @@ The Reviewer must verify:
 7. task-level Plan commit checkpoints are correctly separated from Implementer authority;
 8. the one-time CREATE_ONLY bootstrap is exact, non-reusable, and creates one path only;
 9. Work Unit creation does not imply activation;
-10. current active Work Unit reconciliation remains a prerequisite under existing authority;
-11. no second state/control plane or generic bootstrap factory is introduced;
-12. no release/Plugin publication/activation authority is introduced.
+10. any required STATE reconciliation occurs before Work Unit freeze, and no P2-specific `active_work_unit` mutation is invented;
+11. the frozen Work Unit and bootstrap bind the same final stable STATE revision used by the native Instruction;
+12. no second state/control plane or generic bootstrap factory is introduced;
+13. no release/Plugin publication/activation authority is introduced.
 
 ## Non-goals
 
