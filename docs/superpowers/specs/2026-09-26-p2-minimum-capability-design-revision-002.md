@@ -29,7 +29,7 @@ The design is **automatic durable state handoff**, not automatic conversation sy
 
 The existing Framework already persists durable authority and evidence in repository records, but current use still leaves a practical handoff gap between GPT and Codex: one side may produce a new Instruction, Result, Evidence record, state revision, or authoritative Git SHA while the other side requires an explicit resume/read step before it can act on that change.
 
-P1 evidence already shows a related discoverability problem: the v2.7.2+fix.2 Result explicitly names an independent post-execution review as the next action, while the visible records inspected by P1 did not expose a distinct review outcome. That evidence remains `Deferred Pending More Evidence` and is not reclassified by this Design. It supports the need to make durable handoff and resume behavior reviewable; it does not authorize P2 implementation by itself.
+P1 evidence records a visible-review-result location gap: the v2.7.2+fix.2 Result explicitly names an independent post-execution review as the next action, while the visible records inspected by P1 did not expose a distinct review outcome. That evidence remains `Deferred Pending More Evidence`; whether it warrants a governance improvement remains unresolved and is not reclassified by this Design. It supports making durable handoff and resume behavior reviewable, but it does not authorize P2 implementation by itself.
 
 The user-approved integration objective for this revision is therefore:
 
@@ -68,11 +68,13 @@ LATEST_RESULT_ID / REF
 AUTHORITATIVE_GIT_SHA
 VALIDATION_STATUS / FINDING_REFS
 EVIDENCE_REFS
-NEXT_AUTHORIZED_ACTION
+NEXT_ACTION_HINT
 BLOCKERS_OR_RECONCILIATION
 ```
 
 These are derived from existing Project, CONTROL, STATE, Work Unit, Instruction, Result, Evidence, Guardrail, validation, and Git authority. This revision creates no second state database, synchronization database, conversation store, session registry, or parallel Work Unit system.
+
+`NEXT_ACTION_HINT` is presentation/routing information only, analogous to existing `NEXT_GPT_ACTION`; it is never synchronization or execution authority. A consumer that intends to execute a next action MUST independently resolve current authority from the applicable STATE revision, active Work Unit, Instruction, role/permission contract, Guardrails, and required Git/repository facts. If those authoritative bindings do not establish the action, the hint MUST NOT be upgraded to an authorized action and execution remains denied or reconciliation-bound.
 
 ## Context Access clarification — repository-backed resume
 
