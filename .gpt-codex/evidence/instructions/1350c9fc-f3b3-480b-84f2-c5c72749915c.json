@@ -1,0 +1,80 @@
+{
+  "artifact_stage": "IMPLEMENTATION",
+  "authorized_actions": [
+    "READ",
+    "TEST",
+    "VALIDATE",
+    "REPORT",
+    "MUTATE_APPROVED_SCOPE"
+  ],
+  "completion_gate": "GPT_DECISION",
+  "evidence_requirements": {
+    "files_changed": [
+      ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+      ".gpt-codex/evidence/instructions/1350c9fc-f3b3-480b-84f2-c5c72749915c.json"
+    ],
+    "files_read": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/p2-finding-004-provenance-fix-001.json",
+      ".gpt-codex/evidence/results/RESULT-P2-FINDING-004.json",
+      ".gpt-codex/evidence/P2-FINDING-004-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/P2-FINDING-004-AUTHORITY-BASIS.json",
+      ".gpt-codex/schemas/instruction-envelope.schema.json",
+      ".gpt-codex/schemas/evidence.schema.json",
+      "reviewed candidate 7f50439df6988111ae1544798d153e6c802a9a10:.gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json"
+    ],
+    "findings": [
+      "P2-FINDING-004"
+    ],
+    "result_references": [
+      "5e8f1c13-ccbe-4d7e-9e86-878d2c2d58d4"
+    ],
+    "revision": false,
+    "tests": [],
+    "validation": [
+      "python .gpt-codex/scripts/validate_framework.py",
+      "python .gpt-codex/scripts/validate_project.py .",
+      "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "git diff --check"
+    ]
+  },
+  "executor_role": "CODEX_IMPLEMENTER",
+  "expected_base_sha": "7f50439df6988111ae1544798d153e6c802a9a10",
+  "expected_remote_head_sha": "0dc1c5ac55edad9d08c82b17c3ea6dd8499c529a",
+  "expected_remote_ref": "refs/heads/main",
+  "expected_state_revision": 18,
+  "finding_ids": [
+    "P2-FINDING-004"
+  ],
+  "fix_round": 2,
+  "forbidden_actions": [
+    "COMMIT",
+    "PUSH",
+    "PUBLISH",
+    "AUTHORIZE",
+    "SCOPE_EXPANSION"
+  ],
+  "framework_version": "2.7.4",
+  "in_response_to_result_id": "5e8f1c13-ccbe-4d7e-9e86-878d2c2d58d4",
+  "instruction_id": "1350c9fc-f3b3-480b-84f2-c5c72749915c",
+  "instruction_type": "FIX_INSTRUCTION",
+  "issuer_role": "GPT_ORCHESTRATOR",
+  "permission_scope": "P2_FINDING_004_PROVENANCE_FIX_ONLY",
+  "remediation_decision_ref": "P2-FINDING-004-REMEDIATION-ADJUDICATION",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "7f50439df6988111ae1544798d153e6c802a9a10",
+  "scope_paths": [
+    ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+    ".gpt-codex/evidence/instructions/1350c9fc-f3b3-480b-84f2-c5c72749915c.json"
+  ],
+  "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "target_github_repository_id": "1366213495",
+  "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "target_project_name": "通用开发框架管理",
+  "target_work_unit": "p2-finding-004-provenance-fix-001",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/p2-finding-004-provenance-fix-001.json",
+    "sha": "0dc1c5ac55edad9d08c82b17c3ea6dd8499c529a"
+  }
+}

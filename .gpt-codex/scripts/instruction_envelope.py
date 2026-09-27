@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from collections.abc import Mapping
 from pathlib import Path
 import re
 import sys
 from typing import Any
 from uuid import uuid4
+from uuid import UUID
 
 
 HERE = Path(__file__).resolve().parent
@@ -60,6 +62,148 @@ def _value(value: Any) -> str:
     if value is None or value == "":
         return "NONE"
     return str(value)
+
+
+def instruction_artifact_relative_path(instruction_id: str) -> str:
+    """Return the sole project Evidence location for an Instruction ID."""
+    try:
+        parsed = UUID(instruction_id)
+    except (ValueError, TypeError, AttributeError) as exc:
+        raise ValueError("INSTRUCTION_ID_INVALID") from exc
+    if str(parsed) != instruction_id:
+        raise ValueError("INSTRUCTION_ID_INVALID")
+    return f".gpt-codex/evidence/instructions/{instruction_id}.json"
+
+
+def canonical_instruction_bytes(envelope: Mapping[str, Any]) -> bytes:
+    if not isinstance(envelope, Mapping):
+        raise ValueError("INSTRUCTION_ENVELOPE_INVALID")
+    return (json.dumps(dict(envelope), ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def resolve_durable_instruction(
+    root: Path, locator: Mapping[str, Any], expected_repository: str, *,
+    current_state_revision: int, approved_scope: set[str] | None = None,
+    excluded_scope: set[str] | None = None,
+) -> dict[str, Any]:
+    """Resolve immutable Instruction bytes and recheck current Core authority."""
+    from continuity_resume import load_continuity_resume, resolve_immutable_artifact
+    from github_repository_binding import canonicalize_remote_url
+    from validate_project import validate_instruction_authority, validate_instruction_envelope_contract
+
+    root = Path(root)
+    if resolve_immutable_artifact(root, locator, expected_repository).get("status") != "ALLOW":
+        return {"status": "RECONCILIATION_REQUIRED"}
+    try:
+        origin = subprocess.run(
+            ["git", "-C", str(root), "remote", "get-url", "origin"],
+            capture_output=True, text=True, check=False,
+        )
+        if origin.returncode != 0 or canonicalize_remote_url(origin.stdout) != f"github:{expected_repository}":
+            return {"status": "RECONCILIATION_REQUIRED"}
+        completed = subprocess.run(
+            ["git", "-C", str(root), "show", f"{locator['commit_sha']}:{locator['path']}"],
+            capture_output=True, check=False,
+        )
+        if completed.returncode != 0:
+            return {"status": "RECONCILIATION_REQUIRED"}
+        envelope = json.loads(completed.stdout)
+        if completed.stdout != canonical_instruction_bytes(envelope):
+            return {"status": "RECONCILIATION_REQUIRED"}
+        instruction_id = envelope["instruction_id"]
+        if locator["path"] != instruction_artifact_relative_path(instruction_id):
+            return {"status": "RECONCILIATION_REQUIRED"}
+        control = json.loads((root / ".gpt-codex/CONTROL.json").read_text(encoding="utf-8"))
+        state = json.loads((root / ".gpt-codex/STATE.json").read_text(encoding="utf-8"))
+        repository_id = str(control["github"]["repository_id"])
+        baseline = load_continuity_resume(root, repository_id)
+        work_ref = envelope["target_work_unit_ref"]
+        work_path = work_ref["path"]
+        work_sha = work_ref["sha"]
+        if work_path != f".gpt-codex/work-units/{envelope['target_work_unit']}.json":
+            return {"status": "RECONCILIATION_REQUIRED"}
+        work_blob = subprocess.run(
+            ["git", "-C", str(root), "show", f"{work_sha}:{work_path}"],
+            capture_output=True, check=False,
+        )
+        if work_blob.returncode != 0:
+            return {"status": "RECONCILIATION_REQUIRED"}
+        work_unit = json.loads(work_blob.stdout)
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return {"status": "RECONCILIATION_REQUIRED"}
+    work_scope = set((work_unit.get("scope") or {}).get("owned_paths") or [])
+    excluded = set((work_unit.get("scope") or {}).get("excluded_paths") or [])
+    if approved_scope is not None:
+        work_scope &= set(approved_scope)
+    if excluded_scope is not None:
+        excluded |= set(excluded_scope)
+    if (
+        baseline.get("status") != "LATEST_SYNCED_REMOTE_STATE"
+        or type(current_state_revision) is not int
+        or state.get("revision") != current_state_revision
+        or validate_instruction_envelope_contract(envelope)
+        or validate_instruction_authority(envelope, current_state_revision, work_scope, excluded)
+        or envelope.get("target_project_context_id") != control.get("project_context_id")
+        or envelope.get("target_project_name") != control.get("project_name")
+        or str(envelope.get("target_github_repository_id")) != repository_id
+        or envelope.get("target_github_repository_full_name") != expected_repository
+        or control["github"].get("repository_full_name") != expected_repository
+        or work_unit.get("project_id") != control.get("project_id")
+        or work_unit.get("work_unit_id") != envelope.get("target_work_unit")
+        or work_unit.get("state") != "AUTHORIZED"
+        or work_unit.get("basis_state_revision") != current_state_revision
+        or not set(envelope.get("authorized_actions") or []).issubset(
+            set((work_unit.get("permissions") or {}).get("authorized_actions") or []))
+    ):
+        return {"status": "RECONCILIATION_REQUIRED"}
+    return {
+        "status": "INSTRUCTION_RESOLVED", "instruction_id": instruction_id,
+        "instruction_locator": dict(locator),
+        "target_work_unit_id": envelope["target_work_unit"],
+        "target_work_unit_ref": dict(work_ref),
+        "expected_state_revision": current_state_revision,
+        "project_id": control["project_id"],
+        "project_context_id": control["project_context_id"],
+        "repository_id": repository_id, "repository": expected_repository,
+        "envelope": envelope, "work_unit": work_unit,
+    }
+
+
+def validate_durable_capability_request(
+    root: Path, locator: Mapping[str, Any], repository_id: str, *,
+    current_state_revision: int, requested_action: str,
+    review_request: Mapping[str, Any] | None = None,
+    review_result: Mapping[str, Any] | None = None,
+    repository_authority: Mapping[str, Any] | None = None,
+) -> list[str]:
+    """Route an executable request through the existing Core mutation gate."""
+    from validate_project import validate_governed_mutation_entry
+
+    root = Path(root)
+    try:
+        control = json.loads((root / ".gpt-codex/CONTROL.json").read_text(encoding="utf-8"))
+        state = json.loads((root / ".gpt-codex/STATE.json").read_text(encoding="utf-8"))
+        if str(control["github"]["repository_id"]) != str(repository_id):
+            return ["RECONCILIATION_REQUIRED"]
+        resolved = resolve_durable_instruction(
+            root, locator, control["github"]["repository_full_name"],
+            current_state_revision=current_state_revision,
+        )
+        if resolved.get("status") != "INSTRUCTION_RESOLVED":
+            return ["RECONCILIATION_REQUIRED"]
+        instruction = resolved["envelope"]
+        if requested_action not in instruction.get("authorized_actions", []):
+            return ["ROLE_AUTHORITY_CONFLICT"]
+        return validate_governed_mutation_entry(
+            control, state, resolved["work_unit"], instruction,
+            review_request, review_result,
+            current_state_revision=current_state_revision,
+            repository_authority=repository_authority,
+            repository_root=root,
+        )
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+        return ["RECONCILIATION_REQUIRED"]
 
 
 def build_instruction_envelope(

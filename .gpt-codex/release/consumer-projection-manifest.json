@@ -120,6 +120,7 @@
     ".gpt-codex/scripts/context_binding.py": "CONSUMER_REQUIRED",
     ".gpt-codex/scripts/continuity_resume.py": "CONSUMER_REQUIRED",
     ".gpt-codex/scripts/execution_telemetry.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/scripts/framework_plugin_entry.py": "MANAGEMENT_ONLY",
     ".gpt-codex/scripts/framework_feedback.py": "CONSUMER_REQUIRED",
     ".gpt-codex/scripts/framework_module_routing.py": "MANAGEMENT_ONLY",
     ".gpt-codex/scripts/git_continuity.py": "CONSUMER_REQUIRED",
@@ -146,6 +147,8 @@
     ".gpt-codex/tests/test_minimal_task_protocol.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_execution_telemetry.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_feedback.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/tests/test_framework_plugin.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/tests/test_framework_plugin_package.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_module_routing.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_module_schemas.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_framework_module_validation.py": "MANAGEMENT_ONLY",
@@ -216,6 +219,8 @@
     "dist/gpt-codex-framework-v2.7.4-bootstrap.zip": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.7.4-release.json": "GENERATED_ARTIFACT",
+    "plugins/gpt-codex-framework/plugin.json": "MANAGEMENT_ONLY",
+    "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md": "MANAGEMENT_ONLY",
     "releases/INDEX.json": "RELEASE_METADATA",
     "releases/README.md": "RELEASE_METADATA"
   }

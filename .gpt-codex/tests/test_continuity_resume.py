@@ -717,5 +717,297 @@ class ContinuityArtifactReferenceCompatibilityTests(unittest.TestCase):
         )
 
 
+class RepositoryHandoffBindingTests(unittest.TestCase):
+    def _durable_fixture(self, root, *, with_slot=False):
+        import subprocess
+        from instruction_envelope import build_instruction_envelope
+
+        remote = root / "owner" / "a"
+        remote.parent.mkdir(parents=True)
+        subprocess.run(["git", "init", "--bare", str(remote)], check=True, capture_output=True)
+        local = root / "checkout"
+        subprocess.run(["git", "clone", str(remote), str(local)], check=True, capture_output=True)
+
+        def git(*args):
+            return subprocess.run(["git", "-C", str(local), *args],
+                                  check=True, capture_output=True, text=True).stdout.strip()
+
+        def write(path, value):
+            destination = local / path
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+        git("config", "user.name", "Fixture")
+        git("config", "user.email", "fixture@example.com")
+        git("checkout", "-b", "main")
+        (local / ".gitignore").write_text(
+            ".gpt-codex/STATE.json\n.gpt-codex/work/\n", encoding="utf-8")
+        context_id = "11111111-1111-4111-8111-111111111111"
+        instruction_id = "22222222-2222-4222-8222-222222222222"
+        write(".gpt-codex/CONTROL.json", {
+            "project_id": "P", "project_context_id": context_id,
+            "project_name": "Fixture", "github": {"repository_id": "repo-a",
+            "repository_full_name": "owner/a", "default_branch": "main"},
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
+        })
+        write(".gpt-codex/STATE.json", {
+            "project_id": "P", "revision": 4, "state": "AUTHORIZED",
+            "active_work_unit": "historical-work-unit",
+            "continuity": {"sync_status": "SYNCED", "latest_verified_remote_sha": "a" * 40,
+                           "latest_synced_state_revision": 4,
+                           "last_verified_result_ref": None},
+        })
+        work_path = ".gpt-codex/work-units/new-work-unit.json"
+        write(work_path, {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P",
+            "work_unit_id": "new-work-unit", "state": "AUTHORIZED", "basis_state_revision": 4,
+            "scope": {"owned_paths": ["src/a"], "excluded_paths": []},
+            "permissions": {"authorized_actions": ["READ", "MUTATE_APPROVED_SCOPE"]},
+        })
+        git("add", ".")
+        git("commit", "-m", "fixture work unit")
+        work_sha = git("rev-parse", "HEAD")
+        work_ref = {"path": work_path, "sha": work_sha}
+        instruction = build_instruction_envelope(
+            "EXECUTION_INSTRUCTION", context_id, "Fixture", 4, "2.7.4",
+            target_work_unit="new-work-unit", instruction_id=instruction_id,
+            target_work_unit_ref=work_ref, target_github_repository_id="repo-a",
+            target_github_repository_full_name="owner/a", scope_paths=["src/a"],
+            issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER",
+            return_role="GPT_ORCHESTRATOR",
+            authorized_actions=["READ", "MUTATE_APPROVED_SCOPE"],
+            forbidden_actions=["COMMIT", "PUSH"],
+        )
+        instruction_path = f".gpt-codex/evidence/instructions/{instruction_id}.json"
+        (local / instruction_path).parent.mkdir(parents=True, exist_ok=True)
+        from instruction_envelope import canonical_instruction_bytes
+        (local / instruction_path).write_bytes(canonical_instruction_bytes(instruction))
+        git("add", ".")
+        git("commit", "-m", "fixture instruction")
+        execution_sha = git("rev-parse", "HEAD")
+        state_path = local / ".gpt-codex/STATE.json"
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        state["continuity"]["latest_verified_remote_sha"] = work_sha
+        write(".gpt-codex/STATE.json", state)
+        locator = {"repository": "owner/a", "commit_sha": execution_sha,
+                   "path": instruction_path, "blob_sha": git("rev-parse", f"HEAD:{instruction_path}")}
+        evidence_path = ".gpt-codex/evidence/fixture-evidence.json"
+        write(evidence_path, {"evidence_id": "fixture-evidence"})
+        result_path = ".gpt-codex/evidence/results/fixture-result.json"
+        write(result_path, {
+            "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P",
+            "work_unit_id": "new-work-unit", "extension": {}, "status": "PASS",
+            "result_id": "fixture-result", "response_to_instruction_id": instruction_id,
+            "source_project_context_id": context_id,
+            "source_project_name": "Fixture", "framework_version": "2.7.4",
+            "source_github_repository_id": "repo-a",
+            "source_github_repository_full_name": "owner/a",
+            "state_revision": 4, "evidence_refs": [evidence_path],
+            "completion_gate": "GPT_DECISION", "remote_verification": "VERIFIED",
+            "git": {"implementation_sha": execution_sha},
+            "next_gpt_action": "REVIEW", "return_to_gpt_required": True,
+        })
+        git("add", ".")
+        git("commit", "-m", "fixture result")
+        git("push", "-u", "origin", "main")
+        if with_slot:
+            head = git("rev-parse", "HEAD")
+            slot = {
+                "slot_id": "slot-1", "role": "CODEX_IMPLEMENTER", "status": "ACTIVE",
+                "work_unit_id": "new-work-unit", "primary_module": "core",
+                "project_context_id": context_id, "branch": "main", "worktree": ".",
+                "base_sha": head, "current_head_sha": head, "last_accepted_sha": head,
+                "instruction_id": instruction_id, "state_revision": 4,
+                "next_action": "REVIEW",
+            }
+            state_path = local / ".gpt-codex/STATE.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["active_work_unit"] = "new-work-unit"
+            state["active_execution_slots"] = [slot]
+            state["continuity"]["latest_verified_remote_sha"] = head
+            write(".gpt-codex/STATE.json", state)
+            write(".gpt-codex/work/work.json", {
+                "kernel_version": "2.0.0", "schema_version": 1, "project_id": "P",
+                "work_unit_id": "new-work-unit", "goal": "Fixture", "scope": {},
+                "acceptance": [], "selected_extensions": {}, "state": "AUTHORIZED",
+                "basis_state_revision": 4,
+            })
+        return local, work_ref, locator
+
+    def test_slotless_handoff_uses_exact_instruction_and_result(self):
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            root, work_ref, locator = self._durable_fixture(Path(td))
+            result = build_repository_handoff(
+                root, "repo-a", target_work_unit_id="new-work-unit",
+                target_work_unit_ref=work_ref, instruction_locator=locator,
+                expected_state_revision=4,
+            )
+            self.assertEqual(result["status"], "HANDOFF_READY")
+            self.assertEqual(result["result_id"], "fixture-result")
+            self.assertNotIn("execution_slot_id", result["current_work"])
+            self.assertNotIn("next_authorized_action", result)
+
+    def test_slotless_handoff_rejects_invalid_continuity_commits(self):
+        import subprocess
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            root, work_ref, locator = self._durable_fixture(Path(td))
+            def git(*args, input=None):
+                return subprocess.run(["git", "-C", str(root), *args], input=input,
+                                      capture_output=True, text=True, check=True).stdout.strip()
+            noncommit = git("hash-object", "-w", "--stdin", input="blob")
+            unrelated = git("commit-tree", git("rev-parse", "HEAD^{tree}"),
+                            "-m", "unrelated")
+            state_path = root / ".gpt-codex/STATE.json"
+            for sha in ("not-a-sha", "a" * 40, noncommit, unrelated):
+                with self.subTest(sha=sha):
+                    state = json.loads(state_path.read_text(encoding="utf-8"))
+                    state["continuity"]["latest_verified_remote_sha"] = sha
+                    state_path.write_text(json.dumps(state), encoding="utf-8")
+                    result = build_repository_handoff(
+                        root, "repo-a", target_work_unit_id="new-work-unit",
+                        target_work_unit_ref=work_ref, instruction_locator=locator,
+                        expected_state_revision=4,
+                    )
+                    self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_slotless_handoff_accepts_exact_verified_head(self):
+        import subprocess
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            root, work_ref, locator = self._durable_fixture(Path(td))
+            head = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"],
+                                  capture_output=True, text=True, check=True).stdout.strip()
+            state_path = root / ".gpt-codex/STATE.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["continuity"]["latest_verified_remote_sha"] = head
+            state_path.write_text(json.dumps(state), encoding="utf-8")
+            result = build_repository_handoff(
+                root, "repo-a", target_work_unit_id="new-work-unit",
+                target_work_unit_ref=work_ref, instruction_locator=locator,
+                expected_state_revision=4,
+            )
+            self.assertEqual(result["status"], "HANDOFF_READY")
+
+    def test_instruction_resolution_checks_actual_origin_identity(self):
+        import subprocess
+        from instruction_envelope import resolve_durable_instruction
+
+        with tempfile.TemporaryDirectory() as td:
+            root, _, locator = self._durable_fixture(Path(td))
+            def set_origin(url):
+                subprocess.run(["git", "-C", str(root), "remote", "set-url", "origin", url],
+                               check=True, capture_output=True)
+            for url in ("https://github.com/owner/a.git", "git@github.com:owner/a.git"):
+                with self.subTest(url=url):
+                    set_origin(url)
+                    result = resolve_durable_instruction(
+                        root, locator, "owner/a", current_state_revision=4)
+                    self.assertEqual(result["status"], "INSTRUCTION_RESOLVED")
+            set_origin("https://github.com/other/repo.git")
+            result = resolve_durable_instruction(root, locator, "owner/a", current_state_revision=4)
+            self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+            set_origin("https://github.com/owner/a.git")
+            result = resolve_durable_instruction(root, locator, "owner/other", current_state_revision=4)
+            self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+            set_origin("https://github.com/owner/other.git")
+            result = resolve_durable_instruction(
+                root, {**locator, "repository": "owner/other"}, "owner/other",
+                current_state_revision=4,
+            )
+            self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_instruction_resolution_requires_canonical_committed_bytes(self):
+        import subprocess
+        from instruction_envelope import resolve_durable_instruction
+
+        with tempfile.TemporaryDirectory() as td:
+            root, _, locator = self._durable_fixture(Path(td))
+            def git(*args):
+                return subprocess.run(["git", "-C", str(root), *args],
+                                      check=True, capture_output=True, text=True).stdout.strip()
+            git("remote", "set-url", "origin", "https://github.com/owner/a.git")
+            def resolve(candidate):
+                return resolve_durable_instruction(root, candidate, "owner/a",
+                                                   current_state_revision=4)["status"]
+            self.assertEqual(resolve(locator), "INSTRUCTION_RESOLVED")
+            path = root / locator["path"]
+            envelope = json.loads(path.read_bytes())
+            variants = (
+                json.dumps(envelope, ensure_ascii=False, indent=2).encode("utf-8"),
+                json.dumps(envelope, ensure_ascii=False, indent=4).encode("utf-8"),
+                path.read_bytes() + b"\n",
+                json.dumps({**envelope, "target_project_name": "Foreign"},
+                           ensure_ascii=False).encode("utf-8"),
+            )
+            for index, raw in enumerate(variants):
+                with self.subTest(index=index):
+                    path.write_bytes(raw)
+                    git("add", locator["path"])
+                    git("commit", "-m", f"variant {index}")
+                    candidate = {**locator, "commit_sha": git("rev-parse", "HEAD"),
+                                 "blob_sha": git("rev-parse", f"HEAD:{locator['path']}")}
+                    self.assertEqual(resolve(candidate), "RECONCILIATION_REQUIRED")
+            self.assertEqual(resolve({**locator, "blob_sha": "a" * 40}),
+                             "RECONCILIATION_REQUIRED")
+
+    def test_complete_slot_authority_enriches_exact_result_handoff(self):
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            root, work_ref, locator = self._durable_fixture(Path(td), with_slot=True)
+            result = build_repository_handoff(
+                root, "repo-a", target_work_unit_id="new-work-unit",
+                target_work_unit_ref=work_ref, instruction_locator=locator,
+                expected_state_revision=4,
+            )
+        self.assertEqual(result["status"], "HANDOFF_READY")
+        self.assertEqual(result["current_work"]["execution_slot_id"], "slot-1")
+
+    def test_missing_explicit_bindings_reconcile_without_using_active_work_unit(self):
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            result = build_repository_handoff(
+                Path(td), "repo-a", target_work_unit_id=None,
+                target_work_unit_ref=None, instruction_locator=None,
+                expected_state_revision=None,
+            )
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+
+    def test_slotless_repository_handoff_requires_unique_durable_result(self):
+        from continuity_resume import build_repository_handoff
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            gov = root / ".gpt-codex"
+            gov.mkdir()
+            (gov / "CONTROL.json").write_text(json.dumps({
+                "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
+            }), encoding="utf-8")
+            (gov / "STATE.json").write_text(json.dumps({
+                "project_id": "P", "revision": 4, "state": "AUTHORIZED",
+                "active_work_unit": "historical-work-unit",
+                "continuity": {"sync_status": "SYNCED", "latest_verified_remote_sha": "a" * 40,
+                               "latest_synced_state_revision": 4,
+                               "last_verified_result_ref": None},
+            }), encoding="utf-8")
+            result = build_repository_handoff(
+                root, "repo-a", target_work_unit_id="new-work-unit",
+                target_work_unit_ref={"path": ".gpt-codex/work-units/new-work-unit.json", "sha": "a" * 40},
+                instruction_locator={"repository": "owner/a", "commit_sha": "a" * 40,
+                                     "path": ".gpt-codex/evidence/instructions/11111111-1111-4111-8111-111111111111.json",
+                                     "blob_sha": "b" * 40},
+                expected_state_revision=4,
+            )
+        self.assertEqual(result["status"], "RECONCILIATION_REQUIRED")
+        self.assertNotIn("next_authorized_action", result)
+
+
 if __name__ == "__main__":
     unittest.main()

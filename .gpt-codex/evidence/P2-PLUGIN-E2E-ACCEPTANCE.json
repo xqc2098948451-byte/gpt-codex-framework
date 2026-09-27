@@ -1,0 +1,65 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "P2-PLUGIN-E2E-ACCEPTANCE",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "P2_MINIMUM_CAPABILITY_PLUGIN_E2E_ACCEPTANCE",
+  "state_revision": 17,
+  "result": "VERIFIED",
+  "installation": {
+    "chatgpt_web_private_personal_plugin_created": true,
+    "plugin_name": "gpt-codex-framework",
+    "plugin_version": "0.1.0",
+    "source_files": [
+      "plugins/gpt-codex-framework/plugin.json",
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md"
+    ],
+    "source_files_reviewed": true,
+    "public_publication_occurred": false,
+    "framework_release_or_version_change_occurred": false,
+    "source": "TOOL_OBSERVED"
+  },
+  "fresh_gpt": {
+    "FRESH_GPT_CONTEXT_RESUME": "PASS",
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "state_revision": 17,
+    "state": "AUTHORIZED",
+    "reconciliation": null,
+    "repository_level_slotless_resume": "PASS",
+    "next_action_treatment": "HINT_ONLY_NOT_EXECUTION_AUTHORITY",
+    "private_conversation_or_history_dependency": "ABSENT",
+    "codex_local_worktree_access_claimed": false,
+    "source": "USER_ASSERTED"
+  },
+  "fresh_codex": {
+    "SLOTLESS_RESUME": "PASS",
+    "DURABLE_INSTRUCTION_RESOLUTION": "PASS",
+    "RESULT_EVIDENCE_HANDOFF": "PASS",
+    "SLOT_AWARE_ENRICHMENT": "PASS",
+    "CONFLICT_FAIL_CLOSED": "PASS",
+    "PLUGIN_UNAVAILABLE_FALLBACK": "PASS",
+    "PRIVATE_CONTEXT_DEPENDENCY": "ABSENT",
+    "prior_full_validation": {
+      "tests": 666,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "validate_framework": "PASS",
+      "validate_project": "PASS",
+      "validate_consumer_projection": "PASS",
+      "git_diff_check": "PASS"
+    },
+    "source": "TOOL_OBSERVED"
+  },
+  "architecture_boundary": {
+    "codex_local_worktree_role": "EXECUTION_LOCAL_NOT_DURABLE_AUTHORITY",
+    "durable_project_state_location": "CORRESPONDING_PROJECT_REPOSITORY",
+    "plugin_introduces_second_state_store_server_daemon_queue_session_manager_or_workflow_engine": false,
+    "framework_repository_is_central_state_store_for_unrelated_projects": false,
+    "private_prompts_transcripts_or_reasoning_synchronized": false
+  }
+}

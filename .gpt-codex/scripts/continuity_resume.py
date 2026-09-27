@@ -1022,6 +1022,221 @@ def build_project_handoff(root: Path, execution_slot_id: str | None = None) -> d
             "next_action": slot.get("next_action")}
 
 
+def build_repository_handoff(
+    root: Path,
+    selected_repository_id: str,
+    *,
+    target_work_unit_id: str,
+    target_work_unit_ref: Mapping[str, str],
+    instruction_locator: Mapping[str, str],
+    expected_state_revision: int,
+    observed_remote_head_sha: str | None = None,
+) -> dict[str, Any]:
+    """Derive an exact Result handoff for a Project without execution slots.
+
+    This is a read-only Core operation.  Absence of any durable authority fact
+    is reconciliation, never an invitation to select STATE's legacy work unit.
+    """
+    root = Path(root)
+    if (
+        not _is_nonempty_string(target_work_unit_id)
+        or not isinstance(target_work_unit_ref, Mapping)
+        or set(target_work_unit_ref) != {"path", "sha"}
+        or not isinstance(instruction_locator, Mapping)
+        or type(expected_state_revision) is not int
+    ):
+        return _recovery_result()
+
+    def git(*args: str) -> str | None:
+        try:
+            completed = subprocess.run(
+                ["git", "-C", str(root), *args], capture_output=True,
+                text=True, check=False,
+            )
+        except OSError:
+            return None
+        return completed.stdout.strip() if completed.returncode == 0 else None
+
+    def committed_json(commit: str, path: str) -> Mapping | None:
+        raw = git("show", f"{commit}:{path}")
+        if raw is None:
+            return None
+        try:
+            value = json.loads(raw)
+        except json.JSONDecodeError:
+            return None
+        return value if isinstance(value, Mapping) else None
+
+    try:
+        baseline = load_continuity_resume(root, selected_repository_id,
+                                          observed_remote_head_sha=observed_remote_head_sha)
+        control = baseline["control"]
+        state = baseline["state"]
+        github = control["github"]
+    except (ValueError, KeyError, TypeError):
+        return _recovery_result()
+    if (
+        baseline.get("status") != "LATEST_SYNCED_REMOTE_STATE"
+        or state.get("revision") != expected_state_revision
+        or state.get("project_id") != control.get("project_id")
+        or str(github.get("repository_id")) != str(selected_repository_id)
+        or not _is_nonempty_string(control.get("project_context_id"))
+    ):
+        return _recovery_result()
+    slot_view = None
+    if "active_execution_slots" in state:
+        slot_view = build_project_handoff(root)
+        if slot_view.get("status") != "HANDOFF_READY":
+            return _recovery_result()
+        if slot_view["current_work"].get("work_unit_id") != target_work_unit_id:
+            return _recovery_result()
+
+    repository = github.get("repository_full_name")
+    origin = git("remote", "get-url", "origin")
+    if origin is not None:
+        origin = origin.replace("\\", "/")
+    if not isinstance(repository, str) or not isinstance(origin, str) or not (
+        origin.rstrip("/").removesuffix(".git").endswith("/" + repository)
+        or origin.rstrip("/").removesuffix(".git").endswith(":" + repository)
+    ):
+        return _recovery_result()
+    work_path, work_sha = target_work_unit_ref.get("path"), target_work_unit_ref.get("sha")
+    expected_work_path = f".gpt-codex/work-units/{target_work_unit_id}.json"
+    if work_path != expected_work_path or not _git_object_path_exists(root, work_sha, work_path):
+        return _recovery_result()
+    work_unit = committed_json(work_sha, work_path)
+    if (
+        work_unit is None
+        or work_unit.get("work_unit_id") != target_work_unit_id
+        or work_unit.get("project_id") != control.get("project_id")
+        or work_unit.get("state") != "AUTHORIZED"
+        or work_unit.get("basis_state_revision") != expected_state_revision
+    ):
+        return _recovery_result()
+    refs = _validated_artifact_refs(root, work_unit)
+    if refs is None or _artifact_locators(root, repository, refs) is None:
+        return _recovery_result()
+    if resolve_immutable_artifact(root, instruction_locator, repository).get("status") != "ALLOW":
+        return _recovery_result()
+    instruction = committed_json(instruction_locator["commit_sha"], instruction_locator["path"])
+    if instruction is None or instruction_locator.get("path") != (
+        f".gpt-codex/evidence/instructions/{instruction.get('instruction_id')}.json"
+    ):
+        return _recovery_result()
+    if slot_view is not None:
+        slot_id = slot_view["current_work"]["execution_slot_id"]
+        slot = next((item for item in state["active_execution_slots"]
+                     if item.get("slot_id") == slot_id), None)
+        if (
+            slot is None or slot.get("instruction_id") != instruction.get("instruction_id")
+            or slot.get("state_revision") != expected_state_revision
+        ):
+            return _recovery_result()
+    from validate_project import validate_instruction_authority, validate_instruction_envelope_contract
+    allowed_scope = set((work_unit.get("scope") or {}).get("owned_paths") or [])
+    excluded_scope = set((work_unit.get("scope") or {}).get("excluded_paths") or [])
+    if (
+        validate_instruction_envelope_contract(instruction)
+        or validate_instruction_authority(instruction, expected_state_revision,
+                                          allowed_scope, excluded_scope)
+        or instruction.get("target_work_unit") != target_work_unit_id
+        or instruction.get("target_work_unit_ref") != dict(target_work_unit_ref)
+        or instruction.get("target_project_context_id") != control.get("project_context_id")
+        or instruction.get("target_project_name") != control.get("project_name")
+        or str(instruction.get("target_github_repository_id")) != str(selected_repository_id)
+        or instruction.get("target_github_repository_full_name") != repository
+        or instruction.get("expected_state_revision") != expected_state_revision
+        or not set(instruction.get("authorized_actions") or []).issubset(
+            set((work_unit.get("permissions") or {}).get("authorized_actions") or []))
+    ):
+        return _recovery_result()
+
+    head = git("rev-parse", "HEAD")
+    remote = git("ls-remote", "origin", f"refs/heads/{github.get('default_branch')}")
+    remote_head = remote.split()[0] if remote else None
+    if (
+        not head or not _COMMIT_SHA.fullmatch(head)
+        or remote_head != head
+        or (observed_remote_head_sha is not None and observed_remote_head_sha != head)
+    ):
+        return _recovery_result()
+    verified_sha = baseline.get("verified_baseline_sha")
+    if (
+        not isinstance(verified_sha, str)
+        or not _COMMIT_SHA.fullmatch(verified_sha)
+        or git("cat-file", "-t", verified_sha) != "commit"
+        or git("merge-base", verified_sha, head) != verified_sha
+    ):
+        return _recovery_result()
+
+    result_dir = root / ".gpt-codex" / "evidence" / "results"
+    try:
+        paths = sorted(result_dir.glob("*.json"))
+    except OSError:
+        return _recovery_result()
+    matches: list[tuple[str, Mapping]] = []
+    seen_ids: set[str] = set()
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        record = committed_json(head, relative)
+        if record is None or git("status", "--porcelain", "--", relative) != "":
+            return _recovery_result()
+        result_id = record.get("result_id")
+        if not _is_nonempty_string(result_id) or result_id in seen_ids:
+            return _recovery_result()
+        seen_ids.add(result_id)
+        if record.get("response_to_instruction_id") == instruction.get("instruction_id"):
+            matches.append((relative, record))
+    if len(matches) != 1:
+        return _recovery_result()
+    result_path, result = matches[0]
+    from publication_contract import validate_result_authority
+    from validate_project import validate_result_envelope_contract
+    result_sha = (result.get("git") or {}).get("implementation_sha") or result.get("implementation_sha")
+    if (
+        validate_result_envelope_contract(result) or validate_result_authority(result)
+        or result.get("project_id") != control.get("project_id")
+        or result.get("source_project_context_id") != control.get("project_context_id")
+        or str(result.get("source_github_repository_id")) != str(selected_repository_id)
+        or result.get("source_github_repository_full_name") != repository
+        or result.get("work_unit_id") != target_work_unit_id
+        or result.get("state_revision") != expected_state_revision
+        or not isinstance(result_sha, str) or not _COMMIT_SHA.fullmatch(result_sha)
+        or git("cat-file", "-t", result_sha) != "commit"
+        or git("merge-base", result_sha, head) != result_sha
+    ):
+        return _recovery_result()
+    evidence_refs = result.get("evidence_refs")
+    if not isinstance(evidence_refs, list) or not evidence_refs:
+        return _recovery_result()
+    for reference in evidence_refs:
+        if (
+            not isinstance(reference, str)
+            or not reference.startswith(".gpt-codex/evidence/")
+            or ".." in Path(reference).parts
+            or not reference.endswith(".json")
+            or git("cat-file", "-e", f"{head}:{reference}") is None
+        ):
+            return _recovery_result()
+    return {
+        "status": "HANDOFF_READY", "reconciliation_required": False,
+        "project": {"project_id": control["project_id"],
+                    "project_context_id": control["project_context_id"],
+                    "repository": repository, "repository_id": str(selected_repository_id)},
+        "state": {"revision": expected_state_revision, "state": state.get("state")},
+        "current_work": slot_view["current_work"] if slot_view is not None else
+                        {"work_unit_id": target_work_unit_id, "status": work_unit.get("state")},
+        "instruction_id": instruction["instruction_id"],
+        "instruction_locator": dict(instruction_locator),
+        "result_id": result["result_id"], "result_ref": result_path,
+        "evidence_refs": evidence_refs,
+        "git": {"implementation_sha": result_sha, "current_head_sha": head},
+        "result_status": result["status"],
+        "next_action_hint": result.get("next_gpt_action"),
+        "blockers": result.get("blockers") or [],
+    }
+
+
 def load_resume_checkpoint(gov: Path, control: dict[str, Any] | None = None) -> dict[str, Any] | None:
     checkpoint_path = Path(gov) / RESUME_RELATIVE_PATH
     if not checkpoint_path.exists():
