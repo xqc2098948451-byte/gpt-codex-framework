@@ -1,0 +1,54 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "p2-minimum-capability-implementation-001",
+  "extension": {
+    "kind": "SKILL",
+    "id": "verification",
+    "version": "1.0.0"
+  },
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "5e8f1c13-ccbe-4d7e-9e86-878d2c2d58d4",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "7f50439df6988111ae1544798d153e6c802a9a10",
+  "finding_ids": [
+    "P2-FINDING-004"
+  ],
+  "fix_round": 1,
+  "artifact_stage": "IMPLEMENTATION",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.7.4",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "evidence_refs": [
+    ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json"
+  ],
+  "return_to_gpt_required": true,
+  "state_revision": 18,
+  "completion_gate": "GPT_DECISION",
+  "severity": "IMPORTANT",
+  "finding_summary": "The aggregate E2E acceptance Evidence uses top-level source TOOL_OBSERVED while combining observations and conclusions with distinct provenance, making their origins indistinguishable.",
+  "finding_detail": {
+    "evidence_path": ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+    "observed_top_level_source": "TOOL_OBSERVED",
+    "mixed_content": [
+      "Plugin backend observation",
+      "Fresh GPT independent-session return",
+      "Fresh Codex/local tool observation",
+      "System-derived acceptance conclusion"
+    ],
+    "provenance_classification": {
+      "top_level_source": "SYSTEM_DERIVED",
+      "plugin_installation": "TOOL_OBSERVED",
+      "fresh_gpt": "USER_ASSERTED",
+      "fresh_codex_local_validation": "TOOL_OBSERVED",
+      "acceptance_conclusion": "SYSTEM_DERIVED"
+    },
+    "fact_scope": "Preserve the scope of already observed facts."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "P2-FINDING-004-REMEDIATION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 18,
+  "result": "ACCEPTED",
+  "finding_ids": [
+    "P2-FINDING-004"
+  ],
+  "decision": "ACCEPT",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "basis_refs": [
+    "P2-FINDING-004-AUTHORITY-BASIS"
+  ],
+  "adjudicated_at_revision": 18,
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-P2-FINDING-004.json",
+  "review_finding_result_id": "5e8f1c13-ccbe-4d7e-9e86-878d2c2d58d4"
+}
