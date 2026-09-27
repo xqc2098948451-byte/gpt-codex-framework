@@ -1,0 +1,76 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "p2-finding-004-provenance-fix-001",
+  "goal": "Close P2-FINDING-004 through the accepted provenance-only correction to P2 Plugin E2E acceptance Evidence, using a new revision-18 FIX_INSTRUCTION and the existing remediation lifecycle without changing P2 implementation behavior.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+      ".gpt-codex/evidence/instructions/"
+    ]
+  },
+  "acceptance": {
+    "requirements": [
+      "Stage B is based on STATE revision 18, state AUTHORIZED, and the accepted Stage A reconciliation at current HEAD.",
+      "Generate a new canonical revision-18 FIX_INSTRUCTION; do not reuse historical superseded revision-17 Instruction commit a48d87cebf3c0d054a7a888a61d271463f7ae7d3.",
+      "Bind the new FIX_INSTRUCTION to in_response_to_result_id 5e8f1c13-ccbe-4d7e-9e86-878d2c2d58d4, finding_ids [\"P2-FINDING-004\"], review_target and expected remediation base 7f50439df6988111ae1544798d153e6c802a9a10, and remediation_decision_ref P2-FINDING-004-REMEDIATION-ADJUDICATION.",
+      "Resolve the durable REVIEW_FINDING Result, ACCEPT adjudication, and ACCEPTED_AUTHORITY_BASIS through current HEAD and STATE revision 18.",
+      "Write new FIX_INSTRUCTION Evidence only at .gpt-codex/evidence/instructions/<actual_instruction_id>.json; no general Evidence write authority.",
+      "Change only provenance in .gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json: top-level source SYSTEM_DERIVED; Plugin installation observation TOOL_OBSERVED; fresh GPT result USER_ASSERTED; fresh Codex/local validation TOOL_OBSERVED; acceptance conclusion SYSTEM_DERIVED.",
+      "Preserve all substantive P2 E2E claims and already accepted observations.",
+      "Do not change P2 implementation source or test behavior.",
+      "Do not mutate STATE or CONTROL.",
+      "Do not change schema, validator, or Framework Core.",
+      "Do not change Plugin release, publication, or version.",
+      "Do not perform Hooks, P3, P4, or Foundation work.",
+      "Stage B mutation requires exact Work Unit integration, a new durable FIX_INSTRUCTION, independent native PRE-EXECUTION PASS, and GPT adjudication."
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-27-p2-finding-004-remediation-reconciliation-design.md",
+      "sha": "ef6173a3766c2792824c4519504f36a9e397d2ab"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+      "sha": "ef6173a3766c2792824c4519504f36a9e397d2ab"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 18,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "STAGE_B_FIX_INSTRUCTION_AND_NATIVE_PRE"
+  }
+}
