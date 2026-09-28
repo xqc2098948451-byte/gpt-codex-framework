@@ -1,0 +1,109 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-c-temp-ref-cleanup-001",
+  "goal": "Append an independently reviewable Phase C temporary-ref cleanup decision set to the existing durable GitHub Repository Consolidation ref-cleanup ledger, based on live post-closure remote facts, without deleting any ref or modifying Phase C implementation/closure state.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION"
+    ]
+  },
+  "acceptance": {
+    "phase": "C_TEMP_REF_CLEANUP_LEDGER",
+    "module_route": [
+      "framework-core",
+      "github-continuity"
+    ],
+    "durable_main_sha": "2c269e493dfdffd988e77dd36a02d51bea62f6cc",
+    "state_revision": 20,
+    "requirements": [
+      "Execution requires a separate EXECUTION_INSTRUCTION and independent native PRE_EXECUTION PASS after this Work Unit is durably integrated. This Work Unit alone does not authorize repository mutation or ref deletion.",
+      "Fresh durable authority baseline is refs/heads/main=2c269e493dfdffd988e77dd36a02d51bea62f6cc, STATE revision 20 AUTHORIZED with continuity.sync_status=SYNCED/latest_synced_state_revision=20, and Framework version 2.7.4. Any drift requires RECONCILIATION_REQUIRED.",
+      "Modify only the existing .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json plus the exact execution Instruction evidence path. Preserve every existing Phase A ledger field/value and classification semantically unchanged; add only a clearly bounded Phase C temporary-ref cleanup decision section.",
+      "The Phase C decision section must classify exactly seven refs and no others: integration/github-consolidation-phase-c-wu-001@e7fb81a441cba95f16fd33fa39814ff13e77c3d1; integration/github-consolidation-phase-c-remediation-wu-001@05e1bfb3e48dd4bf9610f17b036f515e9d3f3ff3; integration/github-consolidation-phase-c-remediation-authority-001@eb03f74902a3906f48a04fdeadbc83a40c092558; integration/github-consolidation-phase-c-fix-round-1-wu-001@922780fd9561ce8790f52063a9a6ffc322c124cd; integration/github-consolidation-phase-c-fix-round-1-001@ff523437765cece6e026f15484573742d38eed57; integration/github-consolidation-phase-c-durable-closure-wu-001@54354f7be2759f82b5799862eae55cfa48e67c6b; integration/github-consolidation-phase-c-durable-closure-001@2c269e493dfdffd988e77dd36a02d51bea62f6cc.",
+      "Each of the seven refs may be classified DELETE_SAFE only after fresh PRE/implementation observations prove: the ref is not main; protected=false; no open PR uses it as head/base; no active execution slot depends on it; no current review/bootstrap/authority continuity depends on the mutable branch name; its head commit is equal to or an ancestor of current main; and deleting the ref cannot make any current durable-authority commit unreachable because refs/heads/main retains the complete Phase C ancestry.",
+      "Do not infer an active Phase C dependency from historical STATE.active_work_unit=framework-staged-closure-group-a-001. The current STATE has no active_execution_slots, blockers=[], reconciliation=null, and next_action=PHASE_C_TEMP_REF_CLEANUP_REQUIRED; next_action is descriptive, not deletion authority.",
+      "Live facts already observed for planning must be re-observed at PRE and candidate construction: open PR count=0; all seven Phase C branches protected=false; all seven branch heads are equal to or ancestors of main=2c269e493dfdffd988e77dd36a02d51bea62f6cc; exact branch-name repository searches currently return no current-tree dependency. These observations are not permanent if remote facts drift.",
+      "The ledger addition must record exact observed head SHAs, per-predicate PASS/FAIL facts, DELETE_SAFE decision reason, review status, current main/state identities, and retained reachability through main. It must explicitly state that classification evidence alone does not delete refs and that actual deletion needs separate USER_LOCAL authority plus fresh pre-delete ref checks.",
+      "Do not delete or create any branch/tag/PR in this Work Unit. Do not modify STATE, CONTROL, VERSION, Work Units, Results, source, tests, schemas, docs, plugins, releases, dist, or public-release state.",
+      "Run evidence schema validation, project/framework/consumer-projection validators and git diff --check. Confirm zero new durable directory prefixes and no mutation outside the two owned selectors.",
+      "CODEX_IMPLEMENTER has no COMMIT, PUSH, PUBLISH or remote-ref mutation authority. The reviewed candidate requires separate user acceptance and USER_LOCAL_PROXY durable integration; only after that integrated immutable ledger locator exists may GPT request exact branch deletions."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "sha": "7d8d1d4532226aeef35747231f80dec6e2ef4dfd"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 20,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_C_TEMP_REF_CLEANUP_LEDGER_NATIVE_PRE"
+  }
+}
