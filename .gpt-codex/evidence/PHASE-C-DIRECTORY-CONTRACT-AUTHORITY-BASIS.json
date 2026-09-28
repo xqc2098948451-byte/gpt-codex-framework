@@ -1,0 +1,37 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "PHASE_C_DIRECTORY_CONTRACT_ACCEPTED_AUTHORITY_BASIS",
+  "state_revision": 19,
+  "result": "VERIFIED",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "finding_ids": [
+    "PHASE-C-DIRECTORY-CONTRACT-F1",
+    "PHASE-C-DIRECTORY-CONTRACT-F2"
+  ],
+  "accepted": true,
+  "accepted_design": {
+    "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+    "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+  },
+  "accepted_plan": {
+    "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+    "sha": "7d8d1d4532226aeef35747231f80dec6e2ef4dfd"
+  },
+  "phase_c_work_unit_ref": {
+    "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-directory-creation-contract-001.json",
+    "sha": "e7fb81a441cba95f16fd33fa39814ff13e77c3d1"
+  },
+  "post_execution_review_request_id": "5c7e9887-3af5-4c69-b5ac-eca756c99e83",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+  "review_finding_result_id": "2eb52863-7745-4c2a-9040-44e7c44ee3b8",
+  "reviewed_candidate_revision": "e7fb81a441cba95f16fd33fa39814ff13e77c3d1",
+  "correction_scope": {
+    "PHASE-C-DIRECTORY-CONTRACT-F1": "Require positive explicit authorization of the exact declared top-level directory from accepted immutable Design/Architecture authority; negative/prohibitive or unrelated text does not authorize it.",
+    "PHASE-C-DIRECTORY-CONTRACT-F2": "Fail closed on repo-local candidate/review/workspace/scratch/cache/archive/backup/temporary output patterns, including src/candidate_workspace/ and src/temporary.zip."
+  },
+  "scope_expansion_authorized": false
+}

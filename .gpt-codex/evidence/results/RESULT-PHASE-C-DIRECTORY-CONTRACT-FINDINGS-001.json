@@ -1,0 +1,60 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-c-directory-creation-contract-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "2eb52863-7745-4c2a-9040-44e7c44ee3b8",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "5c7e9887-3af5-4c69-b5ac-eca756c99e83",
+  "review_target_revision": "e7fb81a441cba95f16fd33fa39814ff13e77c3d1",
+  "finding_ids": [
+    "PHASE-C-DIRECTORY-CONTRACT-F1",
+    "PHASE-C-DIRECTORY-CONTRACT-F2"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 18,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/instructions/8d7f8013-b6bd-4043-a6b3-d6ac37ae752c.json"
+  ],
+  "severity": "IMPORTANT",
+  "finding_summary": "F1: Top-level Design authority can approve a prohibited path when path and purpose appear separately. F2: Generic candidate workspace and temporary ZIP output are incorrectly allowed. All other POST review checks passed.",
+  "finding_detail": [
+    {
+      "finding_id": "PHASE-C-DIRECTORY-CONTRACT-F1",
+      "candidate_file": ".gpt-codex/scripts/validate_project.py",
+      "regression": "Design explicitly denies platform/ but unrelated purpose text still caused ALLOW",
+      "observed_result": "incorrectly allowed",
+      "required_fix": "Require positive, explicit authorization of the exact directory declaration from accepted immutable Design/Architecture authority; negative or prohibitive mentions must not count."
+    },
+    {
+      "finding_id": "PHASE-C-DIRECTORY-CONTRACT-F2",
+      "candidate_file": ".gpt-codex/scripts/validate_project.py",
+      "regressions": [
+        "src/candidate_workspace/",
+        "src/temporary.zip"
+      ],
+      "observed_result": "incorrectly allowed",
+      "required_fix": "Deny semantic candidate, review, workspace, scratch, cache, archive, backup, and temporary output patterns beyond narrow basename and ZIP tokens."
+    }
+  ],
+  "ACTUAL_CHANGED_PATH_COUNT": 10,
+  "NEW_DURABLE_DIRECTORY_PREFIX_COUNT": 0,
+  "OTHER_POST_REVIEW_CHECKS": "PASS",
+  "TOP_LEVEL_DESIGN_AUTHORITY_IMMUTABLY_VERIFIED": "NO",
+  "GENERIC_NAME_DENIAL_VALID": "NO",
+  "EPHEMERAL_OUTPUT_DENIAL_VALID": "NO",
+  "review_verdict": "REVIEW_FINDING"
+}
