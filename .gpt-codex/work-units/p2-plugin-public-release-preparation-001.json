@@ -1,0 +1,132 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "p2-plugin-public-release-preparation-001",
+  "goal": "Prepare and independently validate the accepted P2 skills-only Plugin public-release package, listing materials, test cases, and exact portal-ready Skills-only draft payload, without creating or updating an actual Portal draft, submitting for review, or publishing.",
+  "scope": {
+    "owned_paths": [
+      "plugins/gpt-codex-framework/plugin.json",
+      ".gpt-codex/evidence/instructions/",
+      ".gpt-codex/evidence/P2-PLUGIN-PUBLIC-RELEASE-PREPARATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      "VERSION",
+      ".gpt-codex/CHANGELOG.md",
+      "releases/",
+      "dist/",
+      "docs/superpowers/",
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+      "plugins/gpt-codex-framework/.codex-plugin/",
+      "plugins/gpt-codex-framework/mcp.json",
+      "plugins/gpt-codex-framework/hooks/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json"
+    ]
+  },
+  "acceptance": {
+    "requirements": [
+      "Resolve immutable Plugin release source commit 83727275ba47cd20b5c9ba4f18802f247884b715 and exact package blobs 3777c3c5cda047ab091957d36556fdd95b4d3792 (240 bytes) and e55cb30529e3cd8ca332753b4611ed331972c400 (2838 bytes); do not derive package bytes from later main.",
+      "Bind runtime public-release authority base 5c7d0e79c407699fbb522858bab2cd8d5b9538cd, STATE revision 18, AUTHORIZED, reconciliation null, and latest_synced_state_revision 18; reconcile later remote-main drift before execution.",
+      "Require source commit to be an ancestor of the frozen authority base.",
+      "Preserve name gpt-codex-framework, version 0.1.0, and SKILLS_ONLY_PLUGIN classification.",
+      "Package uses portable root plugin.json plus skills/ and the exact source skill tree.",
+      "Add no MCP, Hooks, second state, store, registry, Framework release, or P2 implementation source/test mutation.",
+      "Observe current type-specific official OpenAI submission and package requirements at execution time.",
+      "Native package validator and Portal type-specific errors outrank executor inference.",
+      "Apply TYPE_SPECIFIC_PORTAL_VALIDATION to website, support, privacy-policy and terms URLs; verify each supplied or required URL is public, accurate and publisher-consistent.",
+      "Never invent publisher-controlled facts; missing required facts return USER_INPUT_REQUIRED.",
+      "Prepare exact listing material, starter prompts, at least five positive tests, at least three negative tests, availability, release notes, and required attestations.",
+      "Every positive and negative test case is runnable without private conversation context and records expected and observed outcomes.",
+      "Validate final skill tree, package discovery and representative uses in a fresh environment independent of the private E2E instance.",
+      "A plugin.json change is conditional on a current validator-proven minimum listing-only metadata requirement; record exact delta and preserve skill behavior and bytes.",
+      "Record exact final package hash and bind it to the listing and exact portal-ready Skills-only draft payload.",
+      "Prepare an exact portal-ready Skills-only draft payload and bind it to the validated package hash; this Work Unit prepares the payload but does not create or update an actual Portal draft.",
+      "The sole durable preparation handoff bundle is .gpt-codex/evidence/P2-PLUGIN-PUBLIC-RELEASE-PREPARATION.json; this exact-file ownership grants no general Evidence-directory or results/ ownership and does not mutate STATE.",
+      "Preparation Evidence records project/context/repository identity, PLUGIN_RELEASE_SOURCE_SHA, PUBLIC_RELEASE_AUTHORITY_BASE_SHA, STATE revision, Plugin name/version/classification, exact source manifest and skill blob identities, final package identity/hash, any plugin.json delta identity, and confirmation that skill bytes are unchanged.",
+      "Preparation Evidence records exact listing material, starter prompts, at least five positive and three negative runnable tests with expected and observed outcomes, availability, release notes, required attestations, type-specific URL requirements and supplied URL facts, publisher-controlled values with source classification (USER_ASSERTED, TOOL_OBSERVED, or SYSTEM_DERIVED as supported by provenance), and the exact portal-ready Skills-only draft payload.",
+      "Preparation Evidence explicitly records ACTUAL_PORTAL_DRAFT_CREATION_AUTHORIZED = false, PORTAL_DRAFT_STATUS = NOT_CREATED, SUBMIT_FOR_REVIEW_AUTHORIZED = false, and PUBLISH_AUTHORIZED = false; no actual Portal draft ID may be asserted.",
+      "Preparation Evidence must not contain credentials, tokens, private conversation transcripts, private reasoning, or unnecessary personal or sensitive data; missing required publisher facts must leave preparation incomplete with USER_INPUT_REQUIRED, identify the missing fields, and must never be fabricated or marked portal-ready.",
+      "A later Portal Draft action may consume the payload only from an independently reviewed and integrated immutable Git locator for .gpt-codex/evidence/P2-PLUGIN-PUBLIC-RELEASE-PREPARATION.json; chat text or transient local files are not authority. If plugin.json changes, the Evidence must also bind its exact reviewed candidate identity.",
+      "The later Portal Draft action requires separate authorization and must explicitly forbid Submit for Review and Publish.",
+      "ACTUAL_PORTAL_DRAFT_CREATION = NOT_AUTHORIZED_BY_THIS_WORK_UNIT.",
+      "Actual Portal draft creation or update requires a separate bounded USER_LOCAL / LOCAL_ACTION authority. That later Portal Draft action may only materialize the exact reviewed draft payload into the external Portal and must explicitly forbid Submit for Review and Publish.",
+      "If no separate Portal Draft action has yet occurred, report PORTAL_DRAFT_STATUS = NOT_CREATED; never fabricate a draft ID.",
+      "SUBMIT_FOR_REVIEW = FORBIDDEN; PLUGIN_PUBLICATION = FORBIDDEN; FRAMEWORK_RELEASE = FORBIDDEN; PLUGIN_ACTIVATION = FORBIDDEN.",
+      "Plugin activation, Framework adoption and Project mutation are not implied.",
+      "No STATE or CONTROL mutation.",
+      "CODEX_IMPLEMENTER receives no COMMIT or PUSH authority.",
+      "Instruction Evidence may only be written at .gpt-codex/evidence/instructions/<actual_instruction_id>.json; ownership does not require a path change.",
+      "Execution requires a separate durable Instruction and independent native PRE review; completion requires independent POST before any submission authority may be requested."
+    ],
+    "read_only_dependencies": [
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "sha": "5c7d0e79c407699fbb522858bab2cd8d5b9538cd"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "sha": "5c7d0e79c407699fbb522858bab2cd8d5b9538cd"
+    }
+  },
+  "release_binding": {
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "plugin_release_source_sha": "83727275ba47cd20b5c9ba4f18802f247884b715",
+    "public_release_authority_base_sha": "5c7d0e79c407699fbb522858bab2cd8d5b9538cd",
+    "package_manifest": {
+      "path": "plugins/gpt-codex-framework/plugin.json",
+      "blob_sha1": "3777c3c5cda047ab091957d36556fdd95b4d3792",
+      "size_bytes": 240
+    },
+    "package_skill": {
+      "path": "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+      "blob_sha1": "e55cb30529e3cd8ca332753b4611ed331972c400",
+      "size_bytes": 2838
+    },
+    "classification": "SKILLS_ONLY_PLUGIN"
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 18,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PUBLIC_RELEASE_PREPARATION_NATIVE_PRE"
+  }
+}
