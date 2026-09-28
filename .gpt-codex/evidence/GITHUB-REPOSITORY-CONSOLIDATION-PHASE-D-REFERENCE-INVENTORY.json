@@ -1,0 +1,913 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "GITHUB_REPOSITORY_CONSOLIDATION_PHASE_D_REFERENCE_INVENTORY",
+  "state_revision": 20,
+  "result": "PHASE_D_REFERENCE_INVENTORY_CANDIDATE",
+  "execution_base": "20b48931167dd091d421f5354b0cb5b4274d9394",
+  "work_unit_id": "github-repository-consolidation-phase-d-reference-inventory-001",
+  "work_unit_blob": "fded7af725d76af1f040c6cf94b1cc83b642094c",
+  "execution_instruction_id": "e5aaf934-d712-4714-b337-89ef7fa4d692",
+  "framework_version": "2.7.4",
+  "candidate_report_count": 6,
+  "reference_scan_baseline": "20b48931167dd091d421f5354b0cb5b4274d9394",
+  "reference_scan_method": {
+    "commands": [
+      "git ls-tree -r <BASE> -- <six source paths>",
+      "git grep -n -F -e <full-source-path> <BASE> -- .",
+      "git grep -n -F -e <basename> <BASE> -- .",
+      "git grep -n -F <shared-folder> <BASE> -- .gpt-codex docs releases .superpowers",
+      "git grep -n -E 'task-.*report|report\\.md|sdd|history/reviews' <BASE> -- .gpt-codex/scripts .gpt-codex/tests .gpt-codex/schemas .gpt-codex/release releases/records",
+      "git rev-parse <BASE>:<source-path>",
+      "git cat-file -t <source-blob>"
+    ],
+    "scope": "Tracked baseline tree only; D1-created Evidence and Instruction are excluded from dependency counts.",
+    "direct_literal_match_count": 11,
+    "shared_prefix_and_collective_observations_per_report": 3,
+    "direct_match_interpretation": "Each per-report basename line is counted once, whether it contains the full source path or only the basename."
+  },
+  "reports": [
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+      "source_blob": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+      "basename": "task-1-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "line": 17,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "dependency_class": "DEVELOPMENT_HISTORY_REFERENCE",
+          "survival_dependency": false,
+          "reason": "The report records its own historical file location or past validator output; changing the current tree does not rewrite that historical statement.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 2
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 0
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+        "source_blob": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "observed_blob": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    },
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+      "source_blob": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+      "basename": "task-3-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "BASENAME_REFERENCE",
+          "matched_value": "task-3-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "line": 11,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "dependency_class": "DEVELOPMENT_HISTORY_REFERENCE",
+          "survival_dependency": false,
+          "reason": "The report records its own historical file location or past validator output; changing the current tree does not rewrite that historical statement.",
+          "later_update_required": false
+        },
+        {
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "line": 135,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "dependency_class": "DEVELOPMENT_HISTORY_REFERENCE",
+          "survival_dependency": false,
+          "reason": "The report records its own historical file location or past validator output; changing the current tree does not rewrite that historical statement.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 2
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+        "source_blob": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "observed_blob": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    },
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+      "source_blob": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+      "basename": "task-4-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "BASENAME_REFERENCE",
+          "matched_value": "task-4-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+          "line": 36,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+          "dependency_class": "DEVELOPMENT_HISTORY_REFERENCE",
+          "survival_dependency": false,
+          "reason": "The report records its own historical file location or past validator output; changing the current tree does not rewrite that historical statement.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+        "source_blob": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+          "observed_blob": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    },
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      "source_blob": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+      "basename": "task-6-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "BASENAME_REFERENCE",
+          "matched_value": "task-6-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 0
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+        "source_blob": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+          "observed_blob": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    },
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      "source_blob": "38344bad217a035e257433bf5af53a2d99f34024",
+      "basename": "task-11-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "BASENAME_REFERENCE",
+          "matched_value": "task-11-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 0
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+        "source_blob": "38344bad217a035e257433bf5af53a2d99f34024",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+          "observed_blob": "38344bad217a035e257433bf5af53a2d99f34024",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    },
+    {
+      "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "source_blob": "43548009628e95cde209fac793cb9bc8cc8dfe94",
+      "basename": "task-12-report.md",
+      "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "matches": [
+        {
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "line": 50,
+          "match_kind": "BASENAME_REFERENCE",
+          "matched_value": "task-12-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "Authorized Work Unit identifies the bounded historical candidate and blob; this record remains in place and does not resolve the current path at runtime.",
+          "later_update_required": false
+        },
+        {
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+          "line": 105,
+          "match_kind": "FULL_PATH_REFERENCE",
+          "matched_value": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+          "dependency_class": "DEVELOPMENT_HISTORY_REFERENCE",
+          "survival_dependency": false,
+          "reason": "The report records its own historical file location or past validator output; changing the current tree does not rewrite that historical statement.",
+          "later_update_required": false
+        },
+        {
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "line": 9,
+          "match_kind": "PREFIX_CLASSIFICATION",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "CURRENT_LIVE_DEPENDENCY",
+          "survival_dependency": false,
+          "reason": "The source inherits DEVELOPMENT_HISTORY. The destination has no prefix default, so D2 must establish a valid non-consumer classification before or with the move.",
+          "later_update_required": true
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "line": 59,
+          "match_kind": "TEST_PREFIX_REFERENCE",
+          "matched_value": ".superpowers/sdd/",
+          "dependency_class": "NON_SURVIVAL_TEXT_MATCH",
+          "survival_dependency": false,
+          "reason": "The test checks the shared source prefix and fixtures for other files; it does not name this report or require this path to survive.",
+          "later_update_required": false
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "line": 67,
+          "match_kind": "COLLECTIVE_REPORT_SET_REFERENCE",
+          "matched_value": "task-{1,3,4,6,11,12}-report.md",
+          "dependency_class": "MANAGEMENT_REFERENCE_ONLY",
+          "survival_dependency": false,
+          "reason": "The accepted plan names the six migration candidates collectively; it is a migration declaration, not a current-tree link or runtime lookup.",
+          "later_update_required": false
+        }
+      ],
+      "dependency_checks": {
+        "FULL_PATH_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "BASENAME_REFERENCE": {
+          "status": "ENUMERATED",
+          "count": 1
+        },
+        "RUNTIME_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No report-specific hit in scripts or runtime files; all direct literal hits are management or historical self-text."
+        },
+        "AUTHORITY_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No authority record uses this report as an executable current-path locator; the Work Unit is a candidate inventory declaration."
+        },
+        "EVIDENCE_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Evidence file contains the basename or exact source path."
+        },
+        "WORK_UNIT_DEPENDENCY": {
+          "status": "MANAGEMENT_REFERENCE_ONLY",
+          "basis": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json:50"
+        },
+        "INSTRUCTION_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline Instruction contains the basename or exact source path; the prospective D1 Instruction is outside the baseline scan."
+        },
+        "SCHEMA_OR_PATH_VALIDATOR_DEPENDENCY": {
+          "status": "REPAIRABLE_LATER",
+          "basis": "The consumer projection validator requires the destination path to be classified; current source is covered by the manifest prefix."
+        },
+        "TEST_DEPENDENCY": {
+          "status": "NO_REPORT_SPECIFIC_DEPENDENCY",
+          "basis": ".gpt-codex/tests/test_consumer_projection.py:59 tests the shared source prefix; its fixtures name different files."
+        },
+        "CONSUMER_PROJECTION_DEPENDENCY": {
+          "status": "D2_CLASSIFICATION_REQUIRED",
+          "basis": ".gpt-codex/release/consumer-projection-manifest.json:9 covers source; docs/history/ has no default."
+        },
+        "RELEASE_RECORD_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No releases/records literal hit names this report; records do not resolve this current path."
+        },
+        "CURRENT_DOC_LINK_DEPENDENCY": {
+          "status": "NONE_FOUND",
+          "basis": "No external current documentation link names this exact report; historical self-text and collective plan declaration are enumerated separately."
+        },
+        "IMMUTABLE_GIT_LOCATOR_REFERENCE": {
+          "status": "NONE_FOUND",
+          "basis": "No baseline literal hit contains a commit:path or commit:path+blob locator for this report."
+        }
+      },
+      "reconstruction_proof": {
+        "source_path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+        "source_blob": "43548009628e95cde209fac793cb9bc8cc8dfe94",
+        "baseline_commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+        "proposed_destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+        "historical_commit_reachability": {
+          "commit": "20b48931167dd091d421f5354b0cb5b4274d9394",
+          "object_spec": "20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+          "observed_blob": "43548009628e95cde209fac793cb9bc8cc8dfe94",
+          "reachable_from_current_main": true
+        },
+        "source_blob_reachable": true,
+        "immutable_locator_preserved": true,
+        "historical_locator_preserved": true,
+        "content_reconstructable": true,
+        "reconstruction_command": "git show 20b48931167dd091d421f5354b0cb5b4274d9394:.superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+        "prior_commits_rewritten": false,
+        "live_links_requiring_update": [],
+        "live_link_updates_enumerated": true,
+        "projection_change_required": true,
+        "directory_creation_required": true
+      },
+      "classification": "MOVE_ELIGIBLE",
+      "classification_reason": "All direct report-specific references are management declarations or historical self-text. Git reconstructs the exact source blob; no unresolved survival dependency remains. D2 must first satisfy destination projection classification and directory creation, then review the move and links."
+    }
+  ],
+  "move_set": [
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md"
+  ],
+  "keep_in_place_set": [],
+  "keep_in_place_by_phase_d1_scope": [
+    ".gpt-codex/evidence/",
+    ".gpt-codex/evidence/instructions/",
+    ".gpt-codex/evidence/results/",
+    ".gpt-codex/work-units/",
+    ".gpt-codex/schemas/",
+    "releases/records/",
+    "docs/superpowers/specs/",
+    "docs/superpowers/plans/",
+    "docs/superpowers/reviews/"
+  ],
+  "delete_set": [],
+  "current_tree_reference_match_count": 11,
+  "survival_dependency_count": 0,
+  "unresolved_dependency_count": 0,
+  "consumer_projection_observation": {
+    "manifest_path": ".gpt-codex/release/consumer-projection-manifest.json",
+    "source_prefix": ".superpowers/sdd/",
+    "source_classification": "DEVELOPMENT_HISTORY",
+    "destination_prefix": "docs/history/",
+    "destination_prefix_default_present": false,
+    "d2_move_before_projection_classification": "DENY",
+    "d2_requirement": "Establish a Design-consistent valid non-consumer classification before or with any D2 move.",
+    "consumer_projection_mutated": false
+  },
+  "future_directory_creation_observation": {
+    "absent_tracked_prefixes": [
+      "docs/architecture/",
+      "docs/decisions/",
+      "docs/plans/",
+      "docs/history/"
+    ],
+    "contract": "Phase C Directory Creation Contract",
+    "future_d2_contract_required": true,
+    "new_durable_directory_prefix_count": 0,
+    "directories_created_in_d1": []
+  },
+  "phase_d_batch_migration_policy": {
+    "d2_migration_strategy": "BATCHED_WITH_INDEPENDENT_REVIEW",
+    "sequence": [
+      "BATCH_1_MIGRATION",
+      "INDEPENDENT_POST_FUNCTIONAL_AUTHORITY_LINK_PROJECTION_REVIEW",
+      "PASS_GATE",
+      "BATCH_2_REMAINING_MIGRATION",
+      "INDEPENDENT_COMPLETE_REVIEW"
+    ],
+    "batch_1_started": false,
+    "batch_2_started": false
+  },
+  "blocking_findings": [],
+  "deferred_optimization_candidates": [],
+  "non_authority_flags": {
+    "candidate_only": true,
+    "d1_complete": false,
+    "phase_d_complete": false,
+    "post_execution_review_required": true,
+    "document_move_count": 0,
+    "document_delete_count": 0,
+    "state_mutated": false,
+    "consumer_projection_mutated": false,
+    "commit": false,
+    "push": false,
+    "remote_mutation": false
+  }
+}
