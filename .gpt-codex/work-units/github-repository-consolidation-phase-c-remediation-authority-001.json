@@ -1,0 +1,101 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-c-remediation-authority-001",
+  "goal": "Materialize the accepted Phase C Directory Creation Contract review findings F1/F2 as durable remediation authority, persist the exact REVIEW_FINDING Result and accepted adjudication/basis, and advance STATE revision 18 to 19 without modifying the Phase C implementation candidate.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+      ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION",
+      ".gpt-codex/CHANGELOG.md"
+    ]
+  },
+  "acceptance": {
+    "phase": "C_REMEDIATION_AUTHORITY",
+    "requirements": [
+      "Execution requires a separate exact Instruction and independent native PRE_EXECUTION PASS after this Work Unit is durably integrated. This Work Unit candidate alone grants no mutation authority.",
+      "Persist the exact formal REVIEW_FINDING Result with result_id 2eb52863-7745-4c2a-9040-44e7c44ee3b8, review_target_revision e7fb81a441cba95f16fd33fa39814ff13e77c3d1, fix_round 0, and exactly the finding_ids PHASE-C-DIRECTORY-CONTRACT-F1 and PHASE-C-DIRECTORY-CONTRACT-F2.",
+      "The durable REVIEW_FINDING Result preserves the reviewed candidate facts: actual_changed_path_count=10, new_durable_directory_prefix_count=0, F1 TOP_LEVEL_DESIGN_AUTHORITY_IMMUTABLY_VERIFIED=NO, F2 GENERIC_NAME_DENIAL_VALID=NO and EPHEMERAL_OUTPUT_DENIAL_VALID=NO, with all other POST review checks recorded as PASS.",
+      "Persist one REMEDIATION_ADJUDICATION Evidence with source SYSTEM_DERIVED, subject REMEDIATION_ADJUDICATION, decision ACCEPT, result ACCEPTED, basis_type ACCEPTED_AUTHORITY_BASIS, finding_ids exactly F1/F2, and review_finding_result_id 2eb52863-7745-4c2a-9040-44e7c44ee3b8.",
+      "Persist one ACCEPTED_AUTHORITY_BASIS Evidence with source SYSTEM_DERIVED, accepted=true, basis_type ACCEPTED_AUTHORITY_BASIS, finding_ids exactly F1/F2, and bind the accepted GitHub Repository Consolidation Design, governing baseline-binding correction Plan, Phase C Work Unit immutable locator, POST review request 5c7e9887-3af5-4c69-b5ac-eca756c99e83, formal finding Result ID, and review target revision e7fb81a441cba95f16fd33fa39814ff13e77c3d1.",
+      "The accepted authority basis records that F1 and F2 are corrections required to conform the existing Phase C implementation to already accepted Design semantics; they do not expand Phase C scope or authorize new functionality.",
+      "The F1 remediation basis requires positive explicit authorization of an exact declared top-level directory from the accepted immutable Design/Architecture authority; a negative/prohibitive mention or unrelated occurrence of path/purpose text cannot count as authorization.",
+      "The F2 remediation basis requires fail-closed denial of repo-local candidate/review/workspace/scratch/cache/archive/backup/temporary output patterns, including the independently proven regressions src/candidate_workspace/ and src/temporary.zip.",
+      "Set the adjudication and authority-basis state_revision/adjudicated_at_revision fields to resulting STATE revision 19. The durable REVIEW_FINDING Result retains its historical state_revision 18.",
+      "Advance only STATE revision 18 to 19 and append exactly the three new durable evidence refs for the REVIEW_FINDING Result, REMEDIATION_ADJUDICATION, and ACCEPTED_AUTHORITY_BASIS. Preserve state AUTHORIZED, active_work_unit, blockers, reconciliation, and existing evidence_refs order/content; do not infer current work from the historical active_work_unit field.",
+      "Preserve STATE continuity fields unless a repository-native validator requires a mechanical revision-correlation update; do not fabricate a future commit SHA or claim remote synchronization before integration.",
+      "Do not modify any Phase C implementation candidate file, Work Unit, schema, validator, test, AGENTS.md, Bootstrap prompt, framework module, consumer projection, docs, Plugin, release artifact, VERSION, or CONTROL in this remediation-authority stage.",
+      "This stage does not execute F1/F2 fixes. After durable integration and fresh verification, GPT may issue a separate FIX_INSTRUCTION with fix_round=1, in_response_to_result_id=2eb52863-7745-4c2a-9040-44e7c44ee3b8, finding_ids F1/F2, and remediation_decision_ref bound to the durable adjudication Evidence.",
+      "CODEX_IMPLEMENTER receives no COMMIT or PUSH authority under governed implementation. Durable integration of exact reviewed authority candidates remains a separate user-accepted action."
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "sha": "7d8d1d4532226aeef35747231f80dec6e2ef4dfd"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 18,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_C_REMEDIATION_AUTHORITY_NATIVE_PRE"
+  }
+}
