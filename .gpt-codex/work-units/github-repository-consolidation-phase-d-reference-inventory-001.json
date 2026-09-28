@@ -1,0 +1,115 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-d-reference-inventory-001",
+  "goal": "Build an independently reviewable Phase D current-tree reference and reconstruction inventory for the six bounded historical task-report migration candidates, without moving documents, creating new documentation directories, changing consumer projection, or mutating current Framework state.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CHANGELOG.md",
+      ".superpowers/",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION"
+    ]
+  },
+  "acceptance": {
+    "phase": "D1_REFERENCE_INVENTORY",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "release-projection"
+    ],
+    "authoring_main_sha": "5564f155fe80f6feb081a4418bedcc7a199977d3",
+    "state_revision": 20,
+    "requirements": [
+      "Execution requires a separate exact EXECUTION_INSTRUCTION and independent native PRE_EXECUTION PASS after this Work Unit is durably integrated. This Work Unit alone grants no execution authority.",
+      "At authoring time the observed durable baseline is refs/heads/main=5564f155fe80f6feb081a4418bedcc7a199977d3, STATE revision 20 AUTHORIZED with continuity.sync_status=SYNCED/latest_synced_state_revision=20, and Framework version 2.7.4. This SHA is an authoring snapshot, not a permanent execution base. After Work Unit materialization, PRE must freshly observe the exact execution base and prove any movement from the authoring snapshot is only the governed management-only Work Unit materialization; arbitrary drift requires RECONCILIATION_REQUIRED. Apply the immutable baseline-binding correction at 7d8d1d4532226aeef35747231f80dec6e2ef4dfd:docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md.",
+      "Phase D entry must be re-established from live repository facts rather than stale presentation hints. PRE must freshly verify that the seven exact Phase C cleanup target refs recorded in the immutable ref-cleanup ledger are absent, that integration/github-consolidation-phase-c-temp-ref-cleanup-wu-001 is the only residual Phase C management ref and is not a Phase D execution dependency, that framework-staged-closure-master-plan-001 remains retained, and that open PR count remains zero. Do not treat STATE.next_action=PHASE_C_TEMP_REF_CLEANUP_REQUIRED as current execution authority; arbitrary contradictory durable facts require RECONCILIATION_REQUIRED.",
+      "Modify only .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json plus the exact Execution Instruction evidence path. Do not move, rename, delete, or edit any documentation/report file in this Work Unit.",
+      "Inventory exactly six source reports and no other move candidates: .superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md@e47a5242882b89f23bd0fe31b208fbcb18f5c0e9; task-3-report.md@418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32; task-4-report.md@2877ed56bfb7f4049c19b0fb19418089a3b068c2; task-6-report.md@8298419cfb3c02a3aa91c10719d94ed3d11d48b2; task-11-report.md@38344bad217a035e257433bf5af53a2d99f34024; task-12-report.md@43548009628e95cde209fac793cb9bc8cc8dfe94.",
+      "For each of the six reports, freshly inspect the current Git tree and repository text for exact source-path references, basename references, schema/path validator dependencies, release-record dependencies, consumer-manifest/test dependencies, authority/evidence/work-unit dependencies, and immutable commit:path or commit:path+blob locators. Record every match with a bounded dependency classification and do not treat a textual match as a survival dependency without analysis.",
+      "For each report, establish a reconstruction proof that preserves historical meaning: the source path/blob is reachable from current durable Git history; the proposed destination is docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/<same-basename>; historical immutable locators remain unchanged because prior commits are not rewritten; and any live current-tree link requiring a path update is explicitly enumerated for the later migration Work Unit.",
+      "Classify each of the six reports as MOVE_ELIGIBLE or KEEP_IN_PLACE_REQUIRED. MOVE_ELIGIBLE requires no unresolved runtime, authority, schema, release, consumer, test, or mutable current-tree dependency that would be broken by a reviewed move plus enumerated link updates. Any unknown, conflicting, or unreconstructable dependency must produce KEEP_IN_PLACE_REQUIRED with an exact reason.",
+      "Preserve the Phase D KEEP_IN_PLACE_SET boundary: .gpt-codex/evidence/, evidence/instructions/, evidence/results/, work-units/, durable schemas, releases/records/, and existing docs/superpowers/specs/, docs/superpowers/plans/, and docs/superpowers/reviews/ remain in place in this Work Unit. DELETE_SET is empty.",
+      "Record consumer-projection facts needed by the later migration Work Unit. The current .superpowers/sdd/ prefix is DEVELOPMENT_HISTORY. The proposed docs/history/ destination is not currently covered by a prefix default and must not be moved until the later Work Unit adds or otherwise proves a valid non-consumer projection classification consistent with the accepted Design. Also record that docs/architecture/, docs/decisions/, docs/plans/, and docs/history/ are currently absent and their later creation must use the Phase C directory-creation contract.",
+      "Planning observations currently show no GitHub code-search basename hits for the six reports, but these are not execution authority. The implementation and reviewer must use fresh repository-native Git/tree/grep facts before deciding MOVE_ELIGIBLE.",
+      "Do not create docs/architecture/, docs/decisions/, docs/plans/, docs/history/, or any descendant in this Work Unit. directory_creations is intentionally absent because this inventory step creates no new durable directory prefix.",
+      "Do not modify STATE, CONTROL, VERSION, Work Units, Results, source, tests, schemas, consumer projection, docs, plugins, releases, dist, tags, PRs, or remote refs.",
+      "Validate the inventory as schema-compatible Evidence, run project/framework/consumer-projection validators and git diff --check, confirm zero new durable directory prefixes, and confirm mutation is limited to the two owned selectors.",
+      "CODEX_IMPLEMENTER has no COMMIT, PUSH, PUBLISH, AUTHORIZE, or remote-ref mutation authority. The reviewed inventory candidate requires separate user acceptance and USER_LOCAL_PROXY durable integration before it may become authority input to the later Phase D migration Work Unit."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity",
+      "repository-discovery"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 20,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_D_REFERENCE_INVENTORY_NATIVE_PRE"
+  }
+}
