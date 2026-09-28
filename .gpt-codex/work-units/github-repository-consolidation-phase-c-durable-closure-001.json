@@ -1,0 +1,117 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-c-durable-closure-001",
+  "goal": "Persist the independently verified Phase C Directory Creation Contract integration and final native re-review as durable management Evidence/Results, finalize repository continuity from STATE revision 19 SYNC_PENDING to revision 20 SYNCED against verified work commit ff523437765cece6e026f15484573742d38eed57, and stop before Phase D implementation or remote-ref cleanup.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION"
+    ]
+  },
+  "acceptance": {
+    "phase": "C_DURABLE_CLOSURE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "github-continuity"
+    ],
+    "verified_work_sha": "ff523437765cece6e026f15484573742d38eed57",
+    "verified_work_parent_sha": "922780fd9561ce8790f52063a9a6ffc322c124cd",
+    "final_native_rereview_result_id": "a79a6d01-835a-489b-9e4d-0e4cf0345663",
+    "requirements": [
+      "This Work Unit is management-only Phase C closure. It does not authorize any F1/F2 implementation change, Phase D work, public release activity, branch deletion, tag mutation, PR mutation, or repository-structure expansion.",
+      "Execution requires a separate EXECUTION_INSTRUCTION and an independent native PRE_EXECUTION PASS after this Work Unit is durably integrated. This Work Unit alone grants no mutation authority.",
+      "The verified work commit W is ff523437765cece6e026f15484573742d38eed57. Its parent is 922780fd9561ce8790f52063a9a6ffc322c124cd, it is integrated on refs/heads/main, it changes exactly the accepted eleven Phase C paths, and final native re-review Result ID a79a6d01-835a-489b-9e4d-0e4cf0345663 passed validate_review_lifecycle with resulting_revision equal to W.",
+      "Before any management-only authority commit advances main, capture and freeze TOOL_OBSERVED remote-integration facts for W: repository identity, refs/heads/main at W, the retained temporary fix branch at W, W parent, exact accepted eleven Git blobs, STATE revision 19 with sync_status SYNC_PENDING/latest_synced_state_revision 18, Framework version 2.7.4, final native re-review PASS, and zero out-of-scope/new-durable-directory-prefix findings.",
+      "Persist the exact schema-valid final native re-review REVIEW_RESULT as .gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json. Its result_id remains a79a6d01-835a-489b-9e4d-0e4cf0345663, response_to_instruction_id remains 96ac2d8a-3f6b-4c78-a7a8-0c5404e3e0aa, review_target_revision remains W, fix_round remains 1, and its evidence_refs/finding_ids/remediation_decision_ref are not weakened.",
+      "Persist TOOL_OBSERVED remote integration evidence as .gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json. It binds W, its parent, repository identity, refs/heads/main, the final re-review Result ID, exact accepted identities, and the observed pre-publication STATE revision 19 facts.",
+      "Create .gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json as the durable confirmed-publication/closure Result. It must be status PASS, remote_verification VERIFIED, publication_authority CONFIRMED_PUBLICATION, sync_status SYNCED, verified_baseline_sha W, remote_head_sha W, state_revision 20, completion_gate GPT_DECISION, and must reference the remote-integration evidence and durable final native re-review Result.",
+      "Mutate STATE exactly from revision 19 to revision 20 while keeping state AUTHORIZED and preserving unrelated historical fields/evidence. Append the Phase C remote-integration evidence, durable final native re-review Result, and Phase C closure Result to evidence_refs without deleting prior refs.",
+      "STATE revision 20 continuity must be current_remote_ref refs/heads/main, latest_verified_remote_sha W, latest_synced_state_revision 20, last_verified_result_ref .gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json, and sync_status SYNCED.",
+      "STATE.next_action after durable closure is PHASE_C_TEMP_REF_CLEANUP_REQUIRED. It is a presentation hint only and must not be used as authority for branch deletion or Phase D execution.",
+      "The management-only publication candidate P may reference W and the durable closure Result but must not contain or predict P's own commit SHA. No file outside the five owned selectors may change relative to the closure execution base.",
+      "Validate the persisted final native re-review Result against result-envelope/protocol/native review lifecycle requirements. Validate the closure Result with result-envelope schema, completion-evidence rules, validate_result_authority, and the W/P attestation semantics.",
+      "Validate STATE revision 20 with state.schema.json and validate_state_authority using the durable closure Result map. SYNCED is forbidden unless latest_synced_state_revision equals 20, latest_verified_remote_sha equals W, last_verified_result_ref resolves durably, and the referenced Result has verified remote authority.",
+      "Run project validation, framework validation, consumer-projection validation, publication/state authority validation, W/P attestation checks, and git diff --check. The generic repository tree outside the management-only owned paths must remain identical to W.",
+      "CODEX_IMPLEMENTER has no COMMIT, PUSH, PUBLISH, branch deletion, tag mutation, or main-update authority. After independent POST_EXECUTION review and user acceptance, USER_LOCAL_PROXY may create the management-only publication commit P and push it. GPT must then live-verify that refs/heads/main equals P and that W remains an ancestor before declaring continuity restored.",
+      "Do not delete any Phase C temporary branch in this Work Unit. Ref cleanup is a separate user-local action after durable closure and live verification."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+    ".gpt-codex/evidence/instructions/96ac2d8a-3f6b-4c78-a7a8-0c5404e3e0aa.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "sha": "7d8d1d4532226aeef35747231f80dec6e2ef4dfd"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 19,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_C_DURABLE_CLOSURE_NATIVE_PRE"
+  }
+}
