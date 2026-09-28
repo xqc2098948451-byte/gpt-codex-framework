@@ -2,7 +2,7 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 19,
+  "revision": 20,
   "state": "AUTHORIZED",
   "active_work_unit": "framework-staged-closure-group-a-001",
   "blockers": [],
@@ -41,14 +41,17 @@
     ".gpt-codex/evidence/P2-FINDING-004-AUTHORITY-BASIS.json",
     ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
     ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
-    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json"
+    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+    ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
-    "latest_synced_state_revision": 18,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json",
-    "sync_status": "SYNC_PENDING"
+    "latest_verified_remote_sha": "ff523437765cece6e026f15484573742d38eed57",
+    "latest_synced_state_revision": 20,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+    "sync_status": "SYNCED"
   },
-  "next_action": "GROUP_C_PRE_EXECUTION_REOBSERVATION_REQUIRED"
+  "next_action": "PHASE_C_TEMP_REF_CLEANUP_REQUIRED"
 }
