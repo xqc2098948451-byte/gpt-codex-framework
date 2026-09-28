@@ -120,6 +120,8 @@ class SelfHostingValidatorTests(unittest.TestCase):
                 target = root / path; target.parent.mkdir(parents=True, exist_ok=True); target.write_text("fixture\n", encoding="utf-8")
             (root / "design.md").write_text("design\n", encoding="utf-8")
             (root / "plan.md").write_text("plan\n", encoding="utf-8")
+            (root / "approvals").mkdir()
+            (root / "approvals/.keep").write_text("fixture\n", encoding="utf-8")
             work_unit_path = ".gpt-codex/work-units/successor.json"
             work_unit = {**deepcopy(durable), "artifact_refs": {"design": {"path": "design.md", "sha": "a" * 40}, "plan": {"path": "plan.md", "sha": "a" * 40}}}
             target = root / work_unit_path; target.parent.mkdir(parents=True, exist_ok=True); target.write_text(json.dumps(work_unit), encoding="utf-8")
@@ -154,7 +156,7 @@ class SelfHostingValidatorTests(unittest.TestCase):
                 issuer_role="GPT_ORCHESTRATOR", executor_role="USER_APPROVER", return_role="GPT_ORCHESTRATOR", authorized_actions=["APPROVE"], forbidden_actions=[], in_response_to_instruction_id=reconciliation["instruction_id"],
             )
             approval = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": control["project_id"], "work_unit_id": work_unit["work_unit_id"], "extension": {}, "result_id": "approval-task9", "result_message_type": "APPROVAL_RESULT", "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE", "response_to_instruction_id": approval_request["instruction_id"], "approved_instruction": _control_plane_approved_core(reconciliation), "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None, "publication_authority": None, "sync_status": None, "remote_head_sha": None}
-            approval_path = "approvals/result.json"; approval_file = root / approval_path; approval_file.parent.mkdir(); approval_file.write_text(json.dumps(approval), encoding="utf-8")
+            approval_path = "approvals/result.json"; approval_file = root / approval_path; approval_file.parent.mkdir(exist_ok=True); approval_file.write_text(json.dumps(approval), encoding="utf-8")
             subprocess.run(["git", "add", approval_path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
             evidence_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
             blob = subprocess.run(["git", "rev-parse", f"HEAD:{approval_path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
@@ -345,6 +347,8 @@ class SelfHostingValidatorTests(unittest.TestCase):
             gov = root / ".gpt-codex"; (gov / "work-units").mkdir(parents=True)
             (gov / "STATE.json").write_text(json.dumps({"project_id": control["project_id"], "revision": 3}), encoding="utf-8")
             (root / "design.md").write_text("design", encoding="utf-8"); (root / "plan.md").write_text("plan", encoding="utf-8")
+            (root / "approvals").mkdir()
+            (root / "approvals/.keep").write_text("fixture", encoding="utf-8")
             work_unit = {
                 "project_id": control["project_id"], "work_unit_id": "WU-CONTROL", "state": "AUTHORIZED", "basis_state_revision": 3,
                 "scope": {"owned_paths": scope, "excluded_paths": []},
@@ -364,7 +368,7 @@ class SelfHostingValidatorTests(unittest.TestCase):
             result["review_target_revision"] = base
             approval_request = {**reconciliation, "instruction_id": "33333333-3333-4333-8333-333333333333", "instruction_type": "APPROVAL_REQUEST", "authorized_actions": ["READ", "VALIDATE", "REPORT"], "in_response_to_instruction_id": reconciliation["instruction_id"]}
             approval = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": control["project_id"], "work_unit_id": "WU-CONTROL", "extension": {}, "result_id": "approval-1", "result_message_type": "APPROVAL_RESULT", "responder_role": "USER_APPROVER", "status": "PASS", "decision": "APPROVE", "response_to_instruction_id": approval_request["instruction_id"], "approved_instruction": {key: reconciliation[key] for key in ("instruction_id", "expected_state_revision", "expected_base_sha", "scope_paths", "target_project_context_id", "target_project_name", "target_github_repository_id", "target_github_repository_full_name", "target_work_unit_ref", "issuer_role", "executor_role", "authorized_actions")}, "evidence_refs": [], "completion_gate": "NONE", "remote_verification": "NOT_ATTEMPTED", "completion_evidence": None}
-            approval_path = "approvals/approval.json"; (root / "approvals").mkdir(); (root / approval_path).write_text(json.dumps(approval), encoding="utf-8")
+            approval_path = "approvals/approval.json"; (root / "approvals").mkdir(exist_ok=True); (root / approval_path).write_text(json.dumps(approval), encoding="utf-8")
             subprocess.run(["git", "add", approval_path], cwd=root, check=True, capture_output=True); subprocess.run(["git", "commit", "-m", "approval"], cwd=root, check=True, capture_output=True)
             evidence_sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
             blob_sha = subprocess.run(["git", "rev-parse", f"HEAD:{approval_path}"], cwd=root, check=True, capture_output=True, text=True).stdout.strip()
@@ -1258,6 +1262,391 @@ class SelfHostingValidatorTests(unittest.TestCase):
 
         self.assertEqual(set(result["management_identity_hits"]), set(records))
         self.assertNotIn("constants.py", result["management_identity_hits"])
+
+
+class DirectoryCreationContractTests(unittest.TestCase):
+    def setUp(self):
+        self.declaration = {
+            "path": "src/feature", "purpose": "Feature implementation", "owner": "WU-1",
+            "content_type": "Python source", "authority_type": "ACCEPTED_DESIGN",
+            "lifetime": "DURABLE", "consumer_visible": True,
+            "release_visible": True, "cleanup_policy": "Governed removal",
+        }
+        self.work = {"work_unit_id": "WU-1", "scope": {"owned_paths": ["src/"]},
+                     "directory_creations": [self.declaration]}
+        self.instruction = {"scope_paths": ["src/"]}
+
+    def check(self, candidate, *, base=("src/base.py",), work=None, instruction=None,
+              design_paths=()):
+        from validate_project import validate_directory_creation_contract
+        return validate_directory_creation_contract(
+            set(base), set(candidate), work if work is not None else self.work,
+            instruction if instruction is not None else self.instruction,
+            set(design_paths),
+        )
+
+    def check_top_level_design_document(self, design_text):
+        from validate_project import validate_candidate_directory_creation
+        with tempfile.TemporaryDirectory(prefix="directory-design-document-") as temporary:
+            root = Path(temporary)
+            (root / "base.py").write_text("base", encoding="utf-8")
+            (root / "design.md").write_text(design_text, encoding="utf-8")
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+            work = {"scope": {"owned_paths": ["platform/"]}, "directory_creations": [declaration],
+                    "artifact_refs": {"design": {"path": "design.md", "sha": base},
+                                      "plan": {"path": "plan.md", "sha": base}}}
+            (root / "platform").mkdir()
+            (root / "platform/main.py").write_text("main", encoding="utf-8")
+            candidate = commit_repository(root, "candidate")
+            return validate_candidate_directory_creation(
+                root, base, candidate, work, {"scope_paths": ["platform/"]})
+
+    def test_top_level_negative_authority_type_in_positive_table_is_rejected(self):
+        for authority_type in ("PROHIBITED", "FORBIDDEN", "DENIED", "DENY", "DISALLOWED",
+                               "UNAUTHORIZED", "NOT AUTHORIZED", "REJECTED", "NEGATIVE",
+                               "EXAMPLE ONLY"):
+            with self.subTest(authority_type=authority_type):
+                design = (
+                    "The following new directories are the only ones this candidate proposes.\n"
+                    "Each line is a directory declaration.\n\n"
+                    "| Path | Purpose | content_type | authority_type |\n"
+                    "| --- | --- | --- | --- |\n"
+                    f"| platform/ | Platform source | Source | {authority_type} |\n"
+                )
+                self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_non_authorizing_authority_variants_are_rejected(self):
+        for authority_type in (
+            "PROHIBITED", "NON_AUTHORIZING", "NON-AUTHORIZING", "NON AUTHORIZING",
+            "NOT_AUTHORIZED", "NOT-AUTHORIZED", "NOT AUTHORIZED",
+            "NOT_AUTHORIZING", "NOT-AUTHORIZING", "NOT AUTHORIZING",
+            "UNAUTHORIZED", "DENIED", "DENY", "FORBIDDEN", "DISALLOWED", "REJECTED",
+            "NO AUTHORIZATION", "DOES NOT AUTHORIZE", "MUST NOT AUTHORIZE",
+            "CANNOT AUTHORIZE", "EXAMPLE ONLY", "NON-AUTHORIZING EXAMPLE",
+        ):
+            with self.subTest(authority_type=authority_type):
+                design = (
+                    "The following new directories are the only ones this candidate proposes.\n"
+                    "Each line is a directory declaration.\n\n"
+                    "| Path | Purpose | content_type | authority_type |\n"
+                    "| --- | --- | --- | --- |\n"
+                    f"| platform/ | Platform source | Source | {authority_type} |\n"
+                )
+                self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_following_positive_context_does_not_authorize_prior_table(self):
+        design = (
+            "This table is non-authorizing and must not authorize directory creation.\n\n"
+            "| Path | Purpose | content_type | authority_type |\n"
+            "| --- | --- | --- | --- |\n"
+            "| platform/ | Platform source | Source | Accepted Design |\n\n"
+            "The following new directories are the only ones this candidate proposes.\n"
+            "Each line is a directory declaration.\n"
+        )
+        self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_distant_positive_context_does_not_authorize_table(self):
+        design = (
+            "The following new directories are the only ones this candidate proposes.\n"
+            "Each line is a directory declaration.\n\n"
+            "An unrelated paragraph intervenes.\n\n"
+            "| Path | Purpose | content_type | authority_type |\n"
+            "| --- | --- | --- | --- |\n"
+            "| platform/ | Platform source | Source | Accepted Design |\n"
+        )
+        self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_negative_local_context_overrides_positive_declaration(self):
+        for warning in (
+            "This table is NON_AUTHORIZING.", "This table is non-authorizing.",
+            "This table is not-authorized.", "This table does not authorize creation.",
+            "This table must not authorize creation.", "This table is illustrative only.",
+            "This is a forbidden example.",
+        ):
+            with self.subTest(warning=warning):
+                design = (
+                    f"{warning}\n\n"
+                    "The following new directories are the only ones this candidate proposes.\n"
+                    "Each line is a directory declaration.\n\n"
+                    "| Path | Purpose | content_type | authority_type |\n"
+                    "| --- | --- | --- | --- |\n"
+                    "| platform/ | Platform source | Source | Accepted Design |\n"
+                )
+                self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_unfenced_example_table_is_rejected(self):
+        design = (
+            "The following table is an example only and must not authorize directory creation.\n\n"
+            "| Path | Purpose | content_type | authority_type |\n"
+            "| --- | --- | --- | --- |\n"
+            "| platform/ | Platform source | Source | Accepted Design |\n"
+        )
+        self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_example_section_cannot_borrow_positive_declaration_words(self):
+        design = (
+            "## Negative example only\n\n"
+            "The following new directories are the only ones this candidate proposes.\n"
+            "Each line is a directory declaration.\n\n"
+            "| Path | Purpose | content_type | authority_type |\n"
+            "| --- | --- | --- | --- |\n"
+            "| platform/ | Platform source | Source | Accepted Design |\n"
+        )
+        self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(design))
+
+    def test_top_level_positive_structured_declaration_authorizes_exact_path(self):
+        for authority_type in ("Accepted Design", "Accepted Design/Decision", "Advisory navigation", "Governed plan",
+                               "Development history"):
+            with self.subTest(authority_type=authority_type):
+                design = (
+                    "The following new directories are the only ones this candidate proposes.\n"
+                    "Each line is a directory declaration.\n\n"
+                    "| Path | Purpose | content_type | authority_type |\n"
+                    "| --- | --- | --- | --- |\n"
+                    f"| platform/ | Platform source | Source | {authority_type} |\n"
+                )
+                self.assertEqual(self.check_top_level_design_document(design), [])
+
+    def test_existing_directory_write_needs_no_declaration(self):
+        from validate_project import classify_tracked_directory_prefixes
+        self.assertEqual(classify_tracked_directory_prefixes(
+            {"src/base.py"}, {"src/base.py", "src/feature/main.py"}), {
+                "EXISTING_DIRECTORY_WRITE": {"src"},
+                "NEW_DIRECTORY_CREATION": {"src/feature"},
+            })
+        self.assertEqual(self.check(["src/base.py", "src/next.py"],
+                                    work={"scope": {"owned_paths": ["src/"]}}), [])
+
+    def test_declared_nested_directory_requires_both_scopes(self):
+        candidate = ["src/base.py", "src/feature/main.py"]
+        self.assertEqual(self.check(candidate), [])
+        self.assertIn("DIRECTORY_CREATION_DENIED", self.check(candidate, instruction={"scope_paths": ["other/"]}))
+
+    def test_undeclared_nested_directory_and_broad_parent_fail_closed(self):
+        candidate = ["src/base.py", "src/feature/main.py"]
+        self.assertIn("DIRECTORY_CREATION_DENIED", self.check(candidate, work={"scope": {"owned_paths": ["src/"]}}))
+
+    def test_declaration_must_be_complete_and_repository_relative(self):
+        candidate = ["src/base.py", "src/feature/main.py"]
+        for field in self.declaration:
+            with self.subTest(field=field):
+                broken = {k: v for k, v in self.declaration.items() if k != field}
+                self.assertIn("DIRECTORY_CREATION_DENIED", self.check(candidate, work={**self.work, "directory_creations": [broken]}))
+        for path in ("/src/feature", "C:/src/feature", "src\\feature", "src/../feature", "src/*"):
+            with self.subTest(path=path):
+                broken = {**self.declaration, "path": path}
+                self.assertIn("DIRECTORY_CREATION_DENIED", self.check(candidate, work={**self.work, "directory_creations": [broken]}))
+
+    def test_top_level_requires_explicit_design_path(self):
+        declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+        work = {"work_unit_id": "WU-1", "scope": {"owned_paths": ["platform/"]},
+                "directory_creations": [declaration]}
+        instruction = {"scope_paths": ["platform/"]}
+        self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check(["platform/main.py"], base=(), work=work, instruction=instruction))
+        self.assertEqual(self.check(["platform/main.py"], base=(), work=work, instruction=instruction,
+                                    design_paths={"platform"}), [])
+
+    def test_rename_destination_is_creation_but_deletion_only_is_not(self):
+        self.assertIn("DIRECTORY_CREATION_DENIED", self.check(["src/renamed/main.py"], base=["src/base.py"],
+            work={"scope": {"owned_paths": ["src/"]}}))
+        self.assertEqual(self.check([], base=["src/base.py"], work={"scope": {"owned_paths": ["src/"]}}), [])
+
+    def test_generic_and_ephemeral_names_are_denied(self):
+        for name in ("new", "final2", "copy", "backup", "tmp", "fix2", "latest-final",
+                     "scratch", "cache", "archive", "review-output", "candidate-workspace"):
+            with self.subTest(name=name):
+                declaration = {**self.declaration, "path": f"src/{name}"}
+                work = {**self.work, "directory_creations": [declaration]}
+                self.assertIn("DIRECTORY_CREATION_DENIED", self.check(
+                    [f"src/{name}/main.py"], work=work))
+        self.assertIn("DIRECTORY_CREATION_DENIED", self.check(["src/base.py", "src/temp-output.zip"]))
+
+    def test_historical_work_unit_schema_remains_valid(self):
+        from validate_project import _derived_schema_errors
+        historical = {"kernel_version": "2.0.0", "schema_version": 1, "project_id": "P",
+            "work_unit_id": "W", "goal": "historical", "scope": {"owned_paths": ["src/"]},
+            "acceptance": [], "selected_extensions": {}, "state": "AUTHORIZED", "basis_state_revision": 1}
+        self.assertEqual(_derived_schema_errors(historical, "work-unit"), [])
+        valid = {**historical, "directory_creations": [self.declaration]}
+        self.assertEqual(_derived_schema_errors(valid, "work-unit"), [])
+        for field in self.declaration:
+            invalid = {**valid, "directory_creations": [{k: v for k, v in self.declaration.items() if k != field}]}
+            self.assertTrue(_derived_schema_errors(invalid, "work-unit"), field)
+
+    def test_git_candidate_add_rename_and_deletion_are_classified_from_tracked_trees(self):
+        from validate_project import validate_candidate_directory_creation
+        with tempfile.TemporaryDirectory(prefix="directory-tree-") as temporary:
+            root = Path(temporary)
+            (root / "src").mkdir()
+            (root / "src/base.py").write_text("base", encoding="utf-8")
+            base = commit_repository(root, "base")
+            (root / "src/feature").mkdir()
+            (root / "src/feature/main.py").write_text("feature", encoding="utf-8")
+            added = commit_repository(root, "added")
+            self.assertEqual(validate_candidate_directory_creation(root, base, added, self.work, self.instruction), [])
+            undeclared = {"scope": {"owned_paths": ["src/"]}}
+            self.assertIn("DIRECTORY_CREATION_DENIED", validate_candidate_directory_creation(root, base, added, undeclared, self.instruction))
+            (root / "src/feature/main.py").rename(root / "src/feature/renamed.py")
+            (root / "src/feature").rename(root / "src/renamed")
+            renamed = commit_repository(root, "renamed")
+            self.assertIn("DIRECTORY_CREATION_DENIED", validate_candidate_directory_creation(root, base, renamed, undeclared, self.instruction))
+            (root / "src/renamed/renamed.py").unlink()
+            deleted = commit_repository(root, "deleted")
+            self.assertEqual(validate_candidate_directory_creation(root, base, deleted, undeclared, self.instruction), [])
+
+    def test_top_level_design_authority_resolves_immutable_ref_and_exact_semantic_path(self):
+        from validate_project import validate_candidate_directory_creation
+        with tempfile.TemporaryDirectory(prefix="directory-design-") as temporary:
+            root = Path(temporary)
+            (root / "base.py").write_text("base", encoding="utf-8")
+            (root / "design.md").write_text(
+                "The following new directories are the only ones this candidate proposes.\n"
+                "Each line is a directory declaration.\n\n"
+                "| Path | Purpose | content_type | authority_type |\n"
+                "| --- | --- | --- | --- |\n"
+                "| platform/ | Platform source | Source | Accepted Design |\n",
+                encoding="utf-8",
+            )
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+            work = {"scope": {"owned_paths": ["platform/"]}, "directory_creations": [declaration],
+                "artifact_refs": {"design": {"path": "design.md", "sha": base},
+                                  "plan": {"path": "plan.md", "sha": base}}}
+            instruction = {"scope_paths": ["platform/"]}
+            (root / "platform").mkdir()
+            (root / "platform/main.py").write_text("main", encoding="utf-8")
+            candidate = commit_repository(root, "candidate")
+            self.assertEqual(validate_candidate_directory_creation(root, base, candidate, work, instruction), [])
+            self.assertIn("STRUCTURE_CHANGE_REQUIRED", validate_candidate_directory_creation(
+                root, base, candidate, {**work, "artifact_refs": {}}, instruction))
+
+    def test_top_level_prohibitive_design_does_not_authorize_path(self):
+        from validate_project import _design_authorized_directory_paths
+        with tempfile.TemporaryDirectory(prefix="directory-design-prohibition-") as temporary:
+            root = Path(temporary)
+            (root / "design.md").write_text(
+                "platform/ must never be created\n\nUnrelated section:\nPlatform source\n",
+                encoding="utf-8",
+            )
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+            work = {"scope": {"owned_paths": ["platform/"]}, "directory_creations": [declaration],
+                    "artifact_refs": {"design": {"path": "design.md", "sha": base},
+                                      "plan": {"path": "plan.md", "sha": base}}}
+            approved = _design_authorized_directory_paths(root, work, {"platform": declaration})
+            self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check(
+                ["platform/main.py"], base=(), work=work,
+                instruction={"scope_paths": ["platform/"]}, design_paths=approved))
+            self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(
+                "platform/ must never be created\n\nUnrelated section:\nPlatform source\n"))
+
+    def test_top_level_unrelated_path_and_purpose_do_not_authorize(self):
+        from validate_project import _design_authorized_directory_paths
+        with tempfile.TemporaryDirectory(prefix="directory-design-unrelated-") as temporary:
+            root = Path(temporary)
+            (root / "design.md").write_text(
+                "The following new directories are the only ones this candidate proposes.\n"
+                "Each line is a directory declaration.\n\n"
+                "| Path | Purpose | content_type | authority_type |\n"
+                "| --- | --- | --- | --- |\n"
+                "| platform/ | Different purpose | Source | Accepted Design |\n\n"
+                "Platform source appears elsewhere.\n",
+                encoding="utf-8",
+            )
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+            work = {"artifact_refs": {"design": {"path": "design.md", "sha": base},
+                                      "plan": {"path": "plan.md", "sha": base}}}
+            approved = _design_authorized_directory_paths(root, work, {"platform": declaration})
+            self.assertEqual(approved, set())
+            self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(
+                "The following new directories are the only ones this candidate proposes.\n"
+                "Each line is a directory declaration.\n\n"
+                "| Path | Purpose | content_type | authority_type |\n"
+                "| --- | --- | --- | --- |\n"
+                "| platform/ | Different purpose | Source | Accepted Design |\n\n"
+                "Platform source appears elsewhere.\n"))
+
+    def test_fenced_directory_example_does_not_authorize(self):
+        from validate_project import _design_authorized_directory_paths
+        with tempfile.TemporaryDirectory(prefix="directory-design-example-") as temporary:
+            root = Path(temporary)
+            (root / "design.md").write_text(
+                "Forbidden example follows:\n"
+                "~~~markdown\n"
+                "The following new directories are the only ones this candidate proposes.\n"
+                "Each line is a directory declaration.\n\n"
+                "| Path | Purpose | content_type | authority_type |\n"
+                "| --- | --- | --- | --- |\n"
+                "| platform/ | Platform source | Source | Accepted Design |\n"
+                "~~~\n",
+                encoding="utf-8",
+            )
+            (root / "plan.md").write_text("plan", encoding="utf-8")
+            base = commit_repository(root, "base")
+            declaration = {**self.declaration, "path": "platform", "purpose": "Platform source"}
+            work = {"artifact_refs": {"design": {"path": "design.md", "sha": base},
+                                      "plan": {"path": "plan.md", "sha": base}}}
+            self.assertEqual(_design_authorized_directory_paths(root, work, {"platform": declaration}), set())
+            self.assertIn("STRUCTURE_CHANGE_REQUIRED", self.check_top_level_design_document(
+                "Forbidden example follows:\n~~~markdown\n"
+                "The following new directories are the only ones this candidate proposes.\n"
+                "Each line is a directory declaration.\n\n"
+                "| Path | Purpose | content_type | authority_type |\n"
+                "| --- | --- | --- | --- |\n"
+                "| platform/ | Platform source | Source | Accepted Design |\n~~~\n"))
+
+    def test_candidate_workspace_and_temporary_zip_directories_are_denied(self):
+        for name in ("candidate_workspace", "temporary.zip"):
+            with self.subTest(name=name):
+                declaration = {**self.declaration, "path": f"src/{name}"}
+                work = {**self.work, "directory_creations": [declaration]}
+                self.assertIn("DIRECTORY_CREATION_DENIED", self.check(
+                    ["src/base.py", f"src/{name}/main.py"], work=work))
+
+    def test_ephemeral_component_tokens_respect_boundaries(self):
+        for name in ("review_copy", "scratch_output", "cache_output", "archive_unpacked",
+                     "backup_store", "temporary_output"):
+            with self.subTest(name=name):
+                declaration = {**self.declaration, "path": f"src/{name}"}
+                work = {**self.work, "directory_creations": [declaration]}
+                self.assertIn("DIRECTORY_CREATION_DENIED", self.check(
+                    ["src/base.py", f"src/{name}/main.py"], work=work))
+
+    def test_legitimate_names_containing_ephemeral_substrings_are_allowed(self):
+        for name in ("preview", "reviewer", "cacheable"):
+            with self.subTest(name=name):
+                declaration = {**self.declaration, "path": f"src/{name}"}
+                work = {**self.work, "directory_creations": [declaration]}
+                self.assertEqual(self.check(["src/base.py", f"src/{name}/main.py"], work=work), [])
+
+    def test_governed_mutation_entry_denies_untracked_prospective_directory(self):
+        from validate_project import validate_governed_mutation_entry
+        control = management_control()
+        state, work, instruction, request, result = governed_envelopes(control)
+        with tempfile.TemporaryDirectory(prefix="directory-gate-") as temporary:
+            root = Path(temporary)
+            (root / "src").mkdir()
+            (root / "src/base.py").write_text("base", encoding="utf-8")
+            gov = root / ".gpt-codex"
+            gov.mkdir()
+            work = {**work, "scope": {"owned_paths": ["src/"]}}
+            (gov / "WU.json").write_text(json.dumps(work), encoding="utf-8")
+            base = commit_repository(root, "base")
+            instruction.update({"expected_base_sha": base, "scope_paths": ["src/"],
+                "target_work_unit_ref": {"path": ".gpt-codex/WU.json", "sha": base}})
+            request["review_target_revision"] = base
+            result["review_target_revision"] = base
+            (root / "src/new-subsystem").mkdir()
+            (root / "src/new-subsystem/main.py").write_text("new", encoding="utf-8")
+            errors = validate_governed_mutation_entry(control, state, work, instruction, request, result,
+                current_state_revision=3, repository_root=root)
+            self.assertIn("DIRECTORY_CREATION_DENIED", errors)
 
 
 if __name__ == "__main__":

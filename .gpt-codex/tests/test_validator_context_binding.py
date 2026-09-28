@@ -27,6 +27,10 @@ from context_binding import (
 
 
 class ValidatorContextBindingTests(unittest.TestCase):
+    def test_directory_contract_framework_consistency_gate(self):
+        from validate_framework import validate_directory_contract_consistency
+        self.assertEqual(validate_directory_contract_consistency(ROOT), [])
+
     def _complete_identity_control(self):
         return {
             "project_id": "PRJ-001",

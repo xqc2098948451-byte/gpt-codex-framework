@@ -104,6 +104,16 @@ Legacy `[CODEX]` compatibility is bounded and fail-closed: only a deterministic 
 
 For Framework-governed work, durable mutation requires the existing project identity/state, authorized Work Unit and Instruction, applicable Guardrails, and a passing PRE-EXECUTION review before Execution Window A. Failure is `ANALYSIS_ONLY / DENY_MUTATION`; `IMPLEMENTER_CONTEXT != REVIEWER_CONTEXT` remains required. The current accepted Framework governs its self-modification, while a proposed rule is non-retroactive until its governed acceptance, validation, and integration lifecycle. Ordinary projects may provide execution, review, and feedback evidence but cannot evolve global Framework policy. The existing POST-EXECUTION `REVIEW_FINDING -> GPT/User decision -> FIX_INSTRUCTION -> re-review` lifecycle remains authoritative.
 
+### Directory creation contract
+
+`CREATE_DIRECTORY_DEFAULT = DENY`. Compare tracked directory prefixes in `BASE_GIT_TREE` and `CANDIDATE_GIT_TREE`. An existing prefix is `EXISTING_DIRECTORY_WRITE`; every candidate-only prefix is `NEW_DIRECTORY_CREATION`, including rename destinations. Deletions alone do not create directories. A broad parent scope never authorizes a new descendant.
+
+Each new durable prefix requires a complete optional Work Unit `directory_creations` declaration and Work Unit plus Instruction scope for its tracked files. The declaration has `path`, `purpose`, `owner`, `content_type`, `authority_type`, `lifetime`, `consumer_visible`, `release_visible`, and `cleanup_policy`; it is not execution authorization. A new top-level prefix additionally requires accepted immutable Architecture/Design authority naming and justifying that semantic path. Missing or malformed authority yields `DIRECTORY_CREATION_DENIED` or `STRUCTURE_CHANGE_REQUIRED`.
+
+Generic names (`new`, `final2`, `copy`, `backup`, `tmp`, `fix2`, `latest-final`) and repo-local candidate workspaces, temporary ZIP or unpacked archives, cache, scratch, and review output are denied as durable structure unless the accepted Design explicitly justifies the exact semantic path. Put ephemeral build and review output outside the repository.
+
+After the later local workspace consolidation gate, the deterministic layout is `<WORKTREE_ROOT>/<repository-slug>/<work-unit-id>/` for implementation and `<WORKTREE_ROOT>/<repository-slug>/review-<work-unit-id>/` for independent review. `CURRENT_PHASE_DOES_NOT_MOVE_LOCAL_WORKSPACES`.
+
 ## Kernel invariants
 
 - Project is authoritative; Framework is advisory.

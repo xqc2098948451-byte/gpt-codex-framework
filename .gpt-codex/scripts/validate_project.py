@@ -99,6 +99,242 @@ def _scope_covers(path: object, owned: set[str], excluded: set[str]) -> bool:
     )
 
 
+_DIRECTORY_DECLARATION_FIELDS = frozenset({
+    "path", "purpose", "owner", "content_type", "authority_type", "lifetime",
+    "consumer_visible", "release_visible", "cleanup_policy",
+})
+_GENERIC_DIRECTORY_NAMES = frozenset({
+    "new", "final2", "copy", "backup", "backups", "tmp", "temp", "fix2",
+    "latest-final", "scratch", "cache", "caches", "archive", "archives",
+    "review", "review-output", "review-copy", "review-copies", "candidate",
+    "candidate-workspace", "candidate-workspaces", "unpacked", "zip", "zip-output",
+    "cache-output", "scratch-output", "temporary-zip", "misc", "miscellaneous",
+})
+_EPHEMERAL_DIRECTORY_TOKENS = frozenset({
+    "candidate", "review", "workspace", "scratch", "cache", "archive",
+    "backup", "temporary", "unpacked",
+})
+
+
+def _is_generic_directory_component(component: str) -> bool:
+    name = component.casefold()
+    return (name in _GENERIC_DIRECTORY_NAMES
+            or bool(_EPHEMERAL_DIRECTORY_TOKENS.intersection(re.split(r"[-_.]+", name))))
+
+
+def _tracked_directory_prefixes(paths: set[str]) -> set[str]:
+    return {"/".join(parts[:depth]) for path in paths for parts in [path.split("/")]
+            for depth in range(1, len(parts))}
+
+
+def classify_tracked_directory_prefixes(base_paths: set[str], candidate_paths: set[str]) -> dict[str, set[str]]:
+    base = _tracked_directory_prefixes(base_paths)
+    candidate = _tracked_directory_prefixes(candidate_paths)
+    return {"EXISTING_DIRECTORY_WRITE": candidate & base,
+            "NEW_DIRECTORY_CREATION": candidate - base}
+
+
+def _is_ephemeral_output_path(path: str) -> bool:
+    name = path.rsplit("/", 1)[-1].casefold()
+    return (name.endswith((".tmp", ".bak"))
+            or (name.endswith(".zip") and re.search(
+                r"(?:^|[-_.])(temp|tmp|temporary|candidate|review|workspace|backup|scratch|cache|archive|unpacked)(?:[-_.]|$)", name,
+            ) is not None))
+
+
+def _directory_declarations(work_unit: Mapping[str, Any]) -> dict[str, Mapping[str, Any]] | None:
+    raw = work_unit.get("directory_creations", [])
+    if not isinstance(raw, list):
+        return None
+    declarations: dict[str, Mapping[str, Any]] = {}
+    for item in raw:
+        if not isinstance(item, Mapping) or set(item) != _DIRECTORY_DECLARATION_FIELDS:
+            return None
+        path = item.get("path")
+        if not _is_safe_scope_selector(path) or not isinstance(path, str):
+            return None
+        path = path.rstrip("/")
+        if (path in declarations or item.get("lifetime") != "DURABLE"
+                or any(not isinstance(item.get(field), str) or not item[field].strip()
+                       for field in ("purpose", "owner", "content_type", "authority_type", "cleanup_policy"))
+                or any(type(item.get(field)) is not bool for field in ("consumer_visible", "release_visible"))):
+            return None
+        declarations[path] = item
+    return declarations
+
+
+def validate_directory_creation_contract(
+    base_paths: set[str], candidate_paths: set[str], work_unit: Mapping[str, Any],
+    instruction: Mapping[str, Any], design_paths: set[str] | None = None,
+) -> list[str]:
+    """Classify tracked tree prefixes; every candidate-only prefix needs its own authority."""
+    if (not isinstance(work_unit, Mapping) or not isinstance(instruction, Mapping)
+            or not isinstance(base_paths, set) or not isinstance(candidate_paths, set)
+            or any(not _is_safe_repository_relative_path(path) for path in base_paths | candidate_paths)):
+        return ["DIRECTORY_CREATION_DENIED"]
+    declarations = _directory_declarations(work_unit)
+    if declarations is None:
+        return ["DIRECTORY_CREATION_DENIED"]
+    if any(_is_ephemeral_output_path(path) for path in candidate_paths - base_paths):
+        return ["DIRECTORY_CREATION_DENIED"]
+    new_prefixes = classify_tracked_directory_prefixes(base_paths, candidate_paths)["NEW_DIRECTORY_CREATION"]
+    if not new_prefixes:
+        return []  # EXISTING_DIRECTORY_WRITE, or deletion only.
+    scope = work_unit.get("scope")
+    owned = scope.get("owned_paths") if isinstance(scope, Mapping) else None
+    excluded = scope.get("excluded_paths", []) if isinstance(scope, Mapping) else None
+    requested = instruction.get("scope_paths")
+    if (not isinstance(owned, list) or not isinstance(excluded, list) or not isinstance(requested, list)
+            or any(not _is_safe_scope_selector(path) for path in owned + excluded + requested)):
+        return ["DIRECTORY_CREATION_DENIED"]
+    errors: list[str] = []
+    approved_design_paths = design_paths if isinstance(design_paths, set) else set()
+    for prefix in sorted(new_prefixes):
+        declaration = declarations.get(prefix)
+        affected = [path for path in candidate_paths if path.startswith(prefix + "/")]
+        if (declaration is None or not affected
+                or any(not _scope_covers(path, set(owned), set(excluded))
+                       or not _scope_covers(path, set(requested), set()) for path in affected)
+                or ((any(_is_generic_directory_component(part) for part in prefix.split("/"))
+                     or declaration["purpose"].strip().casefold() in _GENERIC_DIRECTORY_NAMES)
+                    and prefix not in approved_design_paths)):
+            errors.append("DIRECTORY_CREATION_DENIED")
+        if "/" not in prefix and prefix not in approved_design_paths:
+            errors.append("STRUCTURE_CHANGE_REQUIRED")
+    return list(dict.fromkeys(errors))
+
+
+def _git_tree_paths(root: Path, revision: str, *, runner=subprocess.run) -> set[str] | None:
+    try:
+        result = runner(["git", "-C", str(root), "ls-tree", "-r", "--name-only", "-z", revision], capture_output=True)
+    except OSError:
+        return None
+    if result.returncode:
+        return None
+    paths, errors = _nul_git_paths(result.stdout)
+    return paths if not errors else None
+
+
+def _has_non_authorizing_semantics(value: str) -> bool:
+    tokens = re.findall(r"[a-z0-9]+", value.casefold())
+    if set(tokens).intersection({
+        "unauthorized", "prohibited", "forbidden", "denied", "deny",
+        "disallowed", "rejected", "negative", "example", "illustrative",
+        "illustration",
+    }):
+        return True
+    return any(
+        token in {"non", "not", "no", "never", "cannot"}
+        and index + 1 < len(tokens) and tokens[index + 1].startswith("authoriz")
+        for index, token in enumerate(tokens)
+    ) or "must never be created" in " ".join(tokens)
+
+
+def _design_authorized_directory_paths(root: Path, work_unit: Mapping[str, Any],
+                                       declarations: Mapping[str, Mapping[str, Any]]) -> set[str]:
+    refs = work_unit.get("artifact_refs")
+    if not isinstance(refs, Mapping) or not _immutable_artifact_refs_resolve(root, refs):
+        return set()
+    design = refs.get("design")
+    if not isinstance(design, Mapping):
+        return set()
+    result = subprocess.run(["git", "-C", str(root), "show", f"{design['sha']}:{design['path']}"],
+                            capture_output=True)
+    if result.returncode:
+        return set()
+    content = result.stdout.decode("utf-8", "replace")
+    lines: list[str] = []
+    fence: str | None = None
+    for line in content.splitlines():
+        marker = re.match(r"^\s*(`{3,}|~{3,})", line)
+        if marker is not None:
+            if fence is None:
+                fence = marker.group(1)[0]
+            elif marker.group(1)[0] == fence:
+                fence = None
+            lines.append("")
+        else:
+            lines.append("" if fence is not None else line)
+    headings: list[tuple[int, str]] = []
+    for index, line in enumerate(lines):
+        heading = re.match(r"^\s{0,3}(#{1,6})\s+(.+?)\s*$", line)
+        if heading is not None:
+            level = len(heading.group(1))
+            headings = [(depth, title) for depth, title in headings if depth < level]
+            headings.append((level, heading.group(2)))
+            continue
+        header = [cell.strip().casefold() for cell in line.strip().strip("|").split("|")]
+        if header != ["path", "purpose", "content_type", "authority_type"]:
+            continue
+        previous = index - 1
+        while previous >= 0 and not lines[previous].strip():
+            previous -= 1
+        preamble: list[str] = []
+        while (previous >= 0 and lines[previous].strip()
+               and not lines[previous].lstrip().startswith(("#", "|"))):
+            preamble.append(lines[previous])
+            previous -= 1
+        introduction = " ".join(reversed(preamble))
+        preceding_paragraph: list[str] = []
+        if previous >= 0 and not lines[previous].strip():
+            while previous >= 0 and not lines[previous].strip():
+                previous -= 1
+            while (previous >= 0 and lines[previous].strip()
+                   and not lines[previous].lstrip().startswith(("#", "|"))):
+                preceding_paragraph.append(lines[previous])
+                previous -= 1
+        if ("The following new directories are the only ones this candidate proposes." not in introduction
+                or "Each line is a directory declaration" not in introduction
+                or _has_non_authorizing_semantics(" ".join([
+                    introduction, *preceding_paragraph, *(title for _, title in headings),
+                ]))):
+            continue
+        row_index = index + 1
+        separator = [cell.strip() for cell in lines[row_index].strip().strip("|").split("|")] if row_index < len(lines) else []
+        if len(separator) != 4 or any(re.fullmatch(r":?-{3,}:?", cell) is None for cell in separator):
+            continue
+        approved: set[str] = set()
+        for row in lines[row_index + 1:]:
+            if not row.strip().startswith("|") or not row.strip().endswith("|"):
+                break
+            cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
+            if (len(cells) != 4 or not all(cells) or not _is_safe_scope_selector(cells[0])
+                    or _has_non_authorizing_semantics(cells[3])):
+                continue
+            path = cells[0].rstrip("/")
+            declaration = declarations.get(path)
+            if declaration is not None and cells[1] == declaration.get("purpose", "").strip():
+                approved.add(path)
+        return approved
+    return set()
+
+
+def validate_candidate_directory_creation(
+    repository_root: Path, expected_base_sha: object, candidate_revision: str | None,
+    work_unit: Mapping[str, Any], instruction: Mapping[str, Any], *, runner=subprocess.run,
+) -> list[str]:
+    """Compare BASE_GIT_TREE with committed or prospective CANDIDATE_GIT_TREE paths."""
+    if not isinstance(repository_root, Path) or not _is_sha(expected_base_sha):
+        return ["DIRECTORY_CREATION_DENIED"]
+    base_paths = _git_tree_paths(repository_root, expected_base_sha, runner=runner)
+    if candidate_revision is None:
+        try:
+            tracked = runner(["git", "-C", str(repository_root), "ls-files", "--cached", "-z"], capture_output=True)
+            untracked = runner(["git", "-C", str(repository_root), "ls-files", "--others", "--exclude-standard", "-z"], capture_output=True)
+        except OSError:
+            return ["DIRECTORY_CREATION_DENIED"]
+        candidate_paths, errors = _nul_git_paths(tracked.stdout + untracked.stdout) if not tracked.returncode and not untracked.returncode else (None, ["DIRECTORY_CREATION_DENIED"])
+        if errors:
+            return ["DIRECTORY_CREATION_DENIED"]
+    else:
+        candidate_paths = _git_tree_paths(repository_root, candidate_revision, runner=runner) if _is_sha(candidate_revision) else None
+    if base_paths is None or candidate_paths is None:
+        return ["DIRECTORY_CREATION_DENIED"]
+    declarations = _directory_declarations(work_unit)
+    design_paths = _design_authorized_directory_paths(repository_root, work_unit, declarations or {})
+    return validate_directory_creation_contract(base_paths, candidate_paths, work_unit, instruction, design_paths)
+
+
 def _nul_git_paths(output: bytes) -> tuple[set[str] | None, list[str]]:
     if not isinstance(output, bytes) or (output and not output.endswith(b"\0")):
         return None, ["ACTUAL_GIT_PATH_INVALID"]
@@ -1054,6 +1290,15 @@ def validate_governed_mutation_entry(
             errors.extend(actual_errors)
             if actual_paths is not None and not all(_scope_covers(path, requested, set()) for path in actual_paths):
                 errors.append("SCOPE_EXPANSION_DENIED")
+            if isinstance(mutation_instruction.get("target_work_unit_ref"), Mapping):
+                resolved_work_unit = _resolve_work_unit_at_ref(repository_root, mutation_instruction["target_work_unit_ref"])
+                if not isinstance(resolved_work_unit, Mapping):
+                    errors.append("DIRECTORY_CREATION_DENIED")
+                else:
+                    errors.extend(validate_candidate_directory_creation(
+                        repository_root, mutation_instruction.get("expected_base_sha"),
+                        candidate_revision, resolved_work_unit, mutation_instruction,
+                    ))
     if "PUSH" in actions:
         if candidate_revision is None:
             errors.append("ACTUAL_GIT_CANDIDATE_REQUIRED")

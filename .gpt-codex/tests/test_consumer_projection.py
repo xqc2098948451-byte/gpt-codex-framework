@@ -105,6 +105,25 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_directory_contract_sources_project_without_management_tests(self):
+        manifest = load_projection_manifest(ROOT)
+        required = (".gpt-codex/schemas/work-unit.schema.json",
+                    ".gpt-codex/project-template/WORK_UNIT.template.json",
+                    ".gpt-codex/BOOTSTRAP_PROMPT.md", "AGENTS.md")
+        for path in required:
+            self.assertEqual(manifest["paths"].get(path), "CONSUMER_REQUIRED", path)
+        with tempfile.TemporaryDirectory() as temporary:
+            staging = Path(temporary) / "stage"
+            included = stage_consumer_projection(ROOT, staging, manifest)
+            for path in required:
+                self.assertIn(path, included)
+                self.assertTrue((staging / path).is_file())
+            for path in (".gpt-codex/tests/test_self_hosting_validator.py",
+                         ".gpt-codex/tests/test_validator_context_binding.py",
+                         ".gpt-codex/tests/test_consumer_projection.py"):
+                self.assertNotIn(path, included)
+                self.assertFalse((staging / path).exists())
+
     def test_harness_templates_are_consumer_required(self):
         manifest = load_projection_manifest(ROOT)
         expected = {

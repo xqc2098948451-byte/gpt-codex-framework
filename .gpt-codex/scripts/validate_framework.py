@@ -61,6 +61,33 @@ def validate_module_registry(root: Path, *, full_validation: bool = True) -> lis
     return errors
 
 
+def validate_directory_contract_consistency(root: Path) -> list[str]:
+    """Keep the consumer schema, example, and both operating contracts aligned."""
+    fields = {"path", "purpose", "owner", "content_type", "authority_type", "lifetime",
+              "consumer_visible", "release_visible", "cleanup_policy"}
+    try:
+        schema = load(root / '.gpt-codex/schemas/work-unit.schema.json')
+        template = load(root / '.gpt-codex/project-template/WORK_UNIT.template.json')
+        agents = (root / 'AGENTS.md').read_text(encoding='utf-8')
+        bootstrap = (root / '.gpt-codex/BOOTSTRAP_PROMPT.md').read_text(encoding='utf-8')
+    except (OSError, ValueError, json.JSONDecodeError):
+        return ['DIRECTORY_CONTRACT: REQUIRED_SOURCE_UNAVAILABLE']
+    declaration = ((schema.get('properties') or {}).get('directory_creations') or {}).get('items') or {}
+    if ('directory_creations' in schema.get('required', []) or set(declaration.get('required', [])) != fields
+            or set((declaration.get('properties') or {})) != fields):
+        return ['DIRECTORY_CONTRACT: SCHEMA_INCONSISTENT']
+    examples = template.get('directory_creations')
+    if not isinstance(examples, list) or not examples or any(not isinstance(item, dict) or set(item) != fields for item in examples):
+        return ['DIRECTORY_CONTRACT: TEMPLATE_INCONSISTENT']
+    required_phrases = ('CREATE_DIRECTORY_DEFAULT = DENY', 'DIRECTORY_CREATION_DENIED',
+                        'STRUCTURE_CHANGE_REQUIRED', 'CURRENT_PHASE_DOES_NOT_MOVE_LOCAL_WORKSPACES',
+                        '<WORKTREE_ROOT>/<repository-slug>/<work-unit-id>/',
+                        '<WORKTREE_ROOT>/<repository-slug>/review-<work-unit-id>/')
+    if any(phrase not in agents or phrase not in bootstrap for phrase in required_phrases):
+        return ['DIRECTORY_CONTRACT: OPERATING_CONTRACT_INCONSISTENT']
+    return []
+
+
 def validate_optional_framework_evolution_source(root: Path) -> list[str]:
     """Read and report the optional Framework-owned source; never create or repair it."""
     source_path = Path(root) / '.gpt-codex' / 'FRAMEWORK_EVOLUTION_SOURCE.json'
@@ -83,6 +110,7 @@ def main():
     errors = []
     errors.extend(validate_optional_framework_evolution_source(ROOT))
     errors.extend(validate_evolution_management_orchestration())
+    errors.extend(validate_directory_contract_consistency(ROOT))
     required_files = [
         ROOT/'AGENTS.md', ROOT/'.gpt-codex/KERNEL.md', ROOT/'.gpt-codex/README.md',
         ROOT/'.gpt-codex/builtins/INDEX.json', ROOT/'.gpt-codex/project-template/CONTROL.template.json',

@@ -109,6 +109,10 @@ Validate state revision before writing. If your expected revision is stale, do n
 
 Before durable business mutation, bind project identity/context, validate CONTROL and current state, validate Work Unit/Instruction authority and applicable Guardrails, then require a passing PRE-EXECUTION review. Failure is `ANALYSIS_ONLY / DENY_MUTATION`; read-only analysis remains allowed where current authority permits it.
 
+`CREATE_DIRECTORY_DEFAULT = DENY`. Derive `EXISTING_DIRECTORY_WRITE` and `NEW_DIRECTORY_CREATION` by comparing tracked directory prefixes in `BASE_GIT_TREE` and `CANDIDATE_GIT_TREE`; added files and rename destinations count, deletion alone does not. Parent scope does not grant new descendants. A new durable prefix requires a complete optional Work Unit `directory_creations` declaration with `path`, `purpose`, `owner`, `content_type`, `authority_type`, `lifetime`, `consumer_visible`, `release_visible`, and `cleanup_policy`, plus Work Unit and Instruction scope authority. A declaration alone never authorizes execution. A new top-level prefix additionally requires accepted immutable Architecture/Design authority that names and justifies its exact semantic path. Deny missing or malformed authority with `DIRECTORY_CREATION_DENIED` or `STRUCTURE_CHANGE_REQUIRED`.
+
+Generic names (`new`, `final2`, `copy`, `backup`, `tmp`, `fix2`, `latest-final`) and repo-local candidate workspaces, temporary ZIP or unpacked archives, cache, scratch, and review output are denied durable structure unless accepted Design explicitly justifies the exact semantic path. Use an outside-repository ephemeral workspace for build and review artifacts. A future deterministic layout, after its separate local consolidation gate, is `<WORKTREE_ROOT>/<repository-slug>/<work-unit-id>/` for implementation and `<WORKTREE_ROOT>/<repository-slug>/review-<work-unit-id>/` for review. `CURRENT_PHASE_DOES_NOT_MOVE_LOCAL_WORKSPACES`.
+
 ## Framework upgrade flow
 
 If `FRAMEWORK_ROOT` version is newer than `CONTROL.framework.last_evaluated_version`, run the `framework-compatibility` Built-in read-only.

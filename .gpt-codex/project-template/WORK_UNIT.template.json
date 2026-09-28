@@ -10,6 +10,19 @@
     ],
     "excluded_paths": []
   },
+  "directory_creations": [
+    {
+      "path": "src/feature",
+      "purpose": "Feature implementation",
+      "owner": "WORK-001",
+      "content_type": "Source files",
+      "authority_type": "ACCEPTED_DESIGN",
+      "lifetime": "DURABLE",
+      "consumer_visible": true,
+      "release_visible": true,
+      "cleanup_policy": "Remove only through governed review"
+    }
+  ],
   "acceptance": [],
   "selected_extensions": {
     "skills": [],
