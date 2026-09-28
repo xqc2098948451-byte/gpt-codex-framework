@@ -1,0 +1,109 @@
+{
+  "acceptance": {
+    "ledger_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+    "ledger_required_identity_fields": [
+      "project_id",
+      "project_context_id",
+      "repository_id",
+      "repository_full_name",
+      "observed_main_sha",
+      "observed_state_revision",
+      "observation_timestamp",
+      "observation_source_classification"
+    ],
+    "phase": "A",
+    "reachability_invariant": "NO_REF_DELETION_MAY_CAUSE_A_CURRENT_DURABLE_AUTHORITY_COMMIT_TO_BECOME_UNREACHABLE_FROM_ALL_RETAINED_REMOTE_REFS",
+    "requirements": [
+      "Execution requires a separate exact Instruction for this Work Unit and an independent native PRE_EXECUTION PASS. This candidate alone grants no execution authority.",
+      "Freshly observe repository identity, main SHA, STATE revision, all open PRs, all remote branches, all tags, branch protection, active Work Units, Instructions, Evidence, current immutable authority locators, and active review/bootstrap contexts. Record observation timestamp, source classification, and exact remote identities; stop on authority drift.",
+      "Read and obey the current .gpt-codex/schemas/evidence.schema.json and existing Evidence provenance conventions. The ledger is the sole durable output and includes kernel_version, schema_version, evidence_id, project_id, source, subject, state_revision, and result.",
+      "Classify every open PR as MERGE, CLOSE_SUPERSEDED, or KEEP_OPEN. Record number, base and base SHA, head and head SHA, draft/state, decision, decision reason, active review dependency, and review status. Fetch and inspect PR #15 current discussion, refs, draft/state, and review activity; CLOSE_SUPERSEDED / DO_NOT_MERGE is conditional on fresh proof. If PR #15 is no longer open and draft, or its identity, base/head refs, or relevant review state has drifted from the freshly observed execution baseline, record authority drift and stop; do not reopen, close, merge, or otherwise mutate the PR in this Work Unit.",
+      "Classify every remote branch as KEEP, DELETE_SAFE, or REVIEW_REQUIRED. Record name, head SHA, decision, ancestor_of_main, protected, open_pr_dependency, active_work_dependency, current_authority_reference_dependency, active_review_dependency, bootstrap_dependency, retained_remote_reachability, decision_reason, and review_status.",
+      "DELETE_SAFE requires per-branch proof: not main; not protected; no active work, open PR, active review, bootstrap continuity, or current Evidence/Instruction/Work Unit dependency; not the sole retained ref for durable authority; integrated/superseded or explicitly historical. Ancestor-of-main alone is insufficient. Unknown predicates require REVIEW_REQUIRED or KEEP.",
+      "For every proposed DELETE_SAFE branch, enumerate affected current durable-authority commits and prove each remains reachable from main, a retained tag, or another retained remote authority ref after deletion. If retained reachability cannot be proven, DELETE_SAFE is DENY.",
+      "Record every tag/ref identity and classification; retain all authority, release, and bootstrap tags. TAG_DELETE=FORBIDDEN.",
+      "Record counts for KEEP, DELETE_SAFE, REVIEW_REQUIRED, and all PR decisions. Set THIS_EVIDENCE_DOES_NOT_AUTHORIZE_PR_CLOSE=true, THIS_EVIDENCE_DOES_NOT_AUTHORIZE_BRANCH_DELETE=true, and THIS_EVIDENCE_DOES_NOT_AUTHORIZE_TAG_MUTATION=true, or schema-compatible equivalents.",
+      "Submit the exact ledger candidate to independent POST_EXECUTION review. Later metadata action requires GPT adjudication, user acceptance if required, ledger integration, immutable commit:path+blob locator, separate USER_LOCAL authority, and fresh per-ref revalidation.",
+      "Do not close or merge PRs; create, delete, or force-update branches; create or delete tags; modify main, STATE, CONTROL, consumer projection, source, documentation, VERSION, or release artifacts; implement Directory Creation Contract or Foundation; or release 2.8.0.",
+      "CODEX_IMPLEMENTER has no COMMIT or PUSH authority. This Work Unit authorizes no external GitHub metadata mutation."
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "GITHUB_CONSOLIDATION_REF_LEDGER_NATIVE_PRE",
+    "status": "AUTHORIZED"
+  },
+  "basis_state_revision": 18,
+  "goal": "Produce one exact durable Phase A GitHub PR, branch, tag, and authority-reachability classification ledger from fresh observations; perform no GitHub metadata cleanup.",
+  "kernel_version": "2.0.0",
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "schema_version": 1,
+  "scope": {
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/extensions/",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md"
+    ],
+    "owned_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+      ".gpt-codex/evidence/instructions/"
+    ]
+  },
+  "selected_extensions": {
+    "fitness": [],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "skills": [
+      "github-project-continuity"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "work_unit_id": "github-repository-consolidation-ref-cleanup-ledger-001"
+}
