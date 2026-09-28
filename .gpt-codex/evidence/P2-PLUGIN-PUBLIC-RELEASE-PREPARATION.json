@@ -1,0 +1,732 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "P2-PLUGIN-PUBLIC-RELEASE-PREPARATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "P2_SKILLS_ONLY_PLUGIN_PUBLIC_RELEASE_PREPARATION",
+  "state_revision": 18,
+  "result": "READY_FOR_POST_REVIEW",
+  "repository": {
+    "id": "1366213495",
+    "full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "remote_ref": "refs/heads/main",
+    "observed_remote_head_sha": "261c741f3c527c4200708524e6086cb99304fdd6",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866"
+  },
+  "authority": {
+    "PLUGIN_RELEASE_SOURCE_SHA": "83727275ba47cd20b5c9ba4f18802f247884b715",
+    "PUBLIC_RELEASE_AUTHORITY_BASE_SHA": "5c7d0e79c407699fbb522858bab2cd8d5b9538cd",
+    "work_unit_id": "p2-plugin-public-release-preparation-001",
+    "work_unit_ref": ".gpt-codex/work-units/p2-plugin-public-release-preparation-001.json@261c741f3c527c4200708524e6086cb99304fdd6",
+    "work_unit_blob_sha1": "eb56f8ac2d93eda6643790d8a0804538b2fdc116",
+    "work_unit_sha256": "3f3247b645a7eb0f71dd49cc683bba1d63450cf29942f138880f75a012f6748f",
+    "instruction_id": "42016054-dd12-417c-bb41-6036601d0659",
+    "instruction_evidence_sha256": "51745255c745bfcfbf7b8fa14b53fad728d026ac3caefe67ba7afe7a96c7580c",
+    "native_mutation_entry_errors_before": []
+  },
+  "plugin": {
+    "name": "gpt-codex-framework",
+    "version": "0.1.0",
+    "classification": "SKILLS_ONLY_PLUGIN",
+    "manifest": {
+      "path": "plugin.json",
+      "source_path": "plugins/gpt-codex-framework/plugin.json",
+      "git_blob_sha1": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+      "size_bytes": 831,
+      "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa"
+    },
+    "skill": {
+      "path": "skills/framework-governance/SKILL.md",
+      "source_path": "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+      "git_blob_sha1": "e55cb30529e3cd8ca332753b4611ed331972c400",
+      "size_bytes": 2838,
+      "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+    },
+    "skill_bytes_unchanged": true,
+    "plugin_json_delta": {
+      "type": "LISTING_ONLY_METADATA",
+      "added_top_level_fields": [
+        "author",
+        "interface"
+      ],
+      "preserved_fields": [
+        "$schema",
+        "name",
+        "version",
+        "description"
+      ],
+      "source_manifest_blob_sha1": "3777c3c5cda047ab091957d36556fdd95b4d3792",
+      "updated_manifest_blob_sha1": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+      "source_manifest_sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f",
+      "updated_manifest_sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa"
+    },
+    "PLUGIN_JSON_MUTATED": "YES",
+    "plugin_json_delta_reason": "CURRENT_PUBLIC_SUBMISSION_VALIDATOR_REQUIRED_LISTING_METADATA",
+    "source_manifest": {
+      "source_path": "plugins/gpt-codex-framework/plugin.json",
+      "git_blob_sha1": "3777c3c5cda047ab091957d36556fdd95b4d3792",
+      "size_bytes": 240,
+      "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+    },
+    "manifest_interface_metadata": {
+      "displayName": "GPT-Codex Framework",
+      "shortDescription": "Govern GPT-Codex projects",
+      "longDescription": "Repository-backed GPT and Codex governance handoff using existing Framework authority.",
+      "developerName": "fengyang",
+      "category": "Developer Tools",
+      "capabilities": [
+        "Resume governed projects from repository authority",
+        "Validate governed instructions and handoffs",
+        "Route evidence and authorized governance requests"
+      ]
+    },
+    "manifest_listing_metadata_relation": "Package interface metadata follows the exact user-directed manifest delta; accepted Portal draft descriptions below retain the prior proposed copy pending Portal normalization/validation."
+  },
+  "package": {
+    "status": "LOCAL_PACKAGE_VALIDATED_PORTAL_UPLOAD_NOT_RUN",
+    "sha256": "2e3d278fb3ff3f4a1ca883f1510fb0ac836b9885316643a5c2cbadbee65729fd",
+    "size_bytes": 2048,
+    "recipe": {
+      "archive_format": "ZIP",
+      "file_order": [
+        "plugin.json",
+        "skills/framework-governance/SKILL.md"
+      ],
+      "path_normalization": "UTF-8 relative POSIX paths, no leading directory",
+      "timestamp": "1980-01-01T00:00:00 per member",
+      "compression": "ZIP_DEFLATED level 9",
+      "create_system": 3,
+      "unix_file_mode": "100644"
+    },
+    "contained_files": [
+      {
+        "path": "plugin.json",
+        "source_path": "plugins/gpt-codex-framework/plugin.json",
+        "git_blob_sha1": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+        "size_bytes": 831,
+        "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa"
+      },
+      {
+        "path": "skills/framework-governance/SKILL.md",
+        "source_path": "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+        "git_blob_sha1": "e55cb30529e3cd8ca332753b4611ed331972c400",
+        "size_bytes": 2838,
+        "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+      }
+    ],
+    "temporary_package_path": "C:\\Users\\xqc\\AppData\\Local\\Temp\\p2-public-release-updated-pn1i_mpf\\gpt-codex-framework-skills-only.zip",
+    "fresh_environment": {
+      "path": "C:\\Users\\xqc\\AppData\\Local\\Temp\\p2-public-release-updated-pn1i_mpf\\fresh-install",
+      "independent_of_private_e2e_plugin": true,
+      "extracted_file_hashes_match": true,
+      "portable_manifest_discovered": true,
+      "skill_frontmatter_and_body_validated": true
+    }
+  },
+  "official_current_requirements": {
+    "observed_on": "2026-09-28",
+    "source": "TOOL_OBSERVED_OFFICIAL_OPENAI_DOCUMENTATION",
+    "observations": [
+      {
+        "requirement": "Skills only submission accepts ZIP with supported root plugin.json and at least one valid skill; no MCP/apps configuration.",
+        "url": "https://developers.openai.com/plugins/deploy/submission-errors"
+      },
+      {
+        "requirement": "Listing requires display name <=30, short description <=30, long description <=4000, developer name <=80, category; at most three starter prompts <=128 each.",
+        "url": "https://developers.openai.com/plugins/deploy/submission-errors"
+      },
+      {
+        "requirement": "Verified developer/business identity, Apps Management Write for submitter, logo, category, five positive and three negative cases, availability, release notes, and policy attestations.",
+        "url": "https://developers.openai.com/plugins/deploy/submission"
+      },
+      {
+        "requirement": "For Skills only ZIP, website/support/privacy/terms URLs are optional; any supplied URLs must be HTTPS and satisfy final submission limits. Current Portal type-specific validation has not been exercised.",
+        "url": "https://developers.openai.com/plugins/deploy/submission-errors"
+      },
+      {
+        "requirement": "Uploaded skills must use the tested final file tree and pass Portal skill scans. Actual scan is pending a later authorized Portal action.",
+        "url": "https://developers.openai.com/plugins/deploy/submission"
+      },
+      {
+        "requirement": "Current public package validation requires author.name and interface.displayName, interface.shortDescription, interface.longDescription and interface.developerName; final submission requires supported category.",
+        "url": "https://developers.openai.com/plugins/deploy/submission-errors",
+        "error_codes": [
+          "plugin_developer_missing",
+          "plugin_display_name_empty",
+          "plugin_short_description_missing",
+          "plugin_long_description_empty",
+          "plugin_developer_name_empty",
+          "plugin_category_unknown"
+        ]
+      }
+    ],
+    "portal_native_validation_observed": false,
+    "portal_skill_scan_status": "NOT_RUN",
+    "manifest_delta_validator_basis": "CURRENT_PUBLIC_SUBMISSION_VALIDATOR_REQUIRED_LISTING_METADATA"
+  },
+  "listing_draft_fields": {
+    "plugin_name": {
+      "value": "gpt-codex-framework",
+      "source": "TOOL_OBSERVED",
+      "status": "FROZEN_SOURCE_MANIFEST"
+    },
+    "display_name": {
+      "value": "GPT-Codex Framework",
+      "source": "USER_ASSERTED",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "short_description": {
+      "value": "Repository governance handoffs",
+      "source": "SYSTEM_DERIVED",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "long_description": {
+      "value": "Resume a governed GPT/Codex project from its own authoritative repository. Resolve exact durable instructions, run repository-native validation, route evidence feedback, and request authorized governance capabilities through the project Core gate. Requires a project with the Framework governance records. The plugin does not adopt a Framework version, mutate a project automatically, or maintain a separate state store.",
+      "source": "SYSTEM_DERIVED",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "developer_name": {
+      "value": "fengyang",
+      "source": "USER_ASSERTED",
+      "fact_source": "TOOL_OBSERVED_GITHUB_PROFILE",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "verified_developer_or_business_identity": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_VERIFICATION_REQUIRED"
+    },
+    "apps_management_write": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_VERIFICATION_REQUIRED"
+    },
+    "category": {
+      "value": "Developer Tools",
+      "source": "USER_ASSERTED",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "logo": {
+      "value": "https://avatars.githubusercontent.com/u/326916602?v=4",
+      "source": "TOOL_OBSERVED",
+      "selection_source": "USER_ASSERTED",
+      "status": "PORTAL_ASSET_VALIDATION_REQUIRED"
+    },
+    "website_url": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "OPTIONAL_FOR_SKILLS_ONLY_ZIP_NOT_SUPPLIED"
+    },
+    "support_url": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "OPTIONAL_FOR_SKILLS_ONLY_ZIP_NOT_SUPPLIED"
+    },
+    "privacy_policy_url": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "OPTIONAL_FOR_SKILLS_ONLY_ZIP_NOT_SUPPLIED"
+    },
+    "terms_url": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "OPTIONAL_FOR_SKILLS_ONLY_ZIP_NOT_SUPPLIED"
+    },
+    "publisher_type": {
+      "value": "INDIVIDUAL",
+      "source": "USER_ASSERTED",
+      "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+    },
+    "profile_url": {
+      "value": "https://github.com/xqc2098948451-byte",
+      "source": "TOOL_OBSERVED",
+      "status": "USER_SELECTED"
+    }
+  },
+  "starter_prompts": {
+    "items": [
+      "Resume my governed project from its repository authority and show the current Work Unit and state revision.",
+      "Resolve this exact durable Instruction locator and report its Work Unit, scope, and authority checks.",
+      "Run the project-native validation for this Instruction and route any evidence feedback without changing Project state."
+    ],
+    "source": "SYSTEM_DERIVED",
+    "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+  },
+  "positive_tests": [
+    {
+      "case_id": "P1",
+      "kind": "positive",
+      "user_prompt_or_scenario": "Resume this governed project from the repository and report the current state without inferring a Result.",
+      "expected_behavior": "load_continuity_resume/build_plugin_resume with only repository ID",
+      "expected_result_shape": "PLUGIN_RESUME_READY with state revision and no result_ref",
+      "fixture_or_account_requirements": "Fixture from .gpt-codex/tests/test_continuity_resume.py RepositoryHandoffBindingTests._durable_fixture; isolated temporary Git repository.",
+      "observed_behavior": {
+        "status": "PLUGIN_RESUME_READY",
+        "state_revision": 4,
+        "has_result_ref": false
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "P2",
+      "kind": "positive",
+      "user_prompt_or_scenario": "Resolve the exact committed Instruction locator for this governed Work Unit.",
+      "expected_behavior": "resolve_plugin_instruction; validate immutable locator and repository binding",
+      "expected_result_shape": "INSTRUCTION_RESOLVED with exact instruction_id and Work Unit ID",
+      "fixture_or_account_requirements": "Same isolated fixture; set origin to https://github.com/owner/a.git, use returned locator, expected revision 4, scope src/a.",
+      "observed_behavior": {
+        "status": "INSTRUCTION_RESOLVED",
+        "instruction_id": "22222222-2222-4222-8222-222222222222",
+        "work_unit_id": "new-work-unit"
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "P3",
+      "kind": "positive",
+      "user_prompt_or_scenario": "Validate access for this exact committed Instruction without declaring the Work Unit complete.",
+      "expected_behavior": "request_validation_access; use repository-native Instruction resolution",
+      "expected_result_shape": "VALIDATION_RESULT with validation_status INSTRUCTION_RESOLVED and no completion claim",
+      "fixture_or_account_requirements": "Same isolated fixture and exact locator, expected revision 4.",
+      "observed_behavior": {
+        "status": "VALIDATION_RESULT",
+        "validation_status": "INSTRUCTION_RESOLVED",
+        "findings": []
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "P4",
+      "kind": "positive",
+      "user_prompt_or_scenario": "Route this project Evidence feedback for the exact Instruction, without authorizing mutation.",
+      "expected_behavior": "route_plugin_feedback with matching project/context/Work Unit binding",
+      "expected_result_shape": "FEEDBACK_ROUTED to P1_FRAMEWORK_FEEDBACK with mutation NONE",
+      "fixture_or_account_requirements": "Same isolated fixture, matching PROJECT_EVIDENCE source binding and fixture-evidence.json reference.",
+      "observed_behavior": {
+        "status": "FEEDBACK_ROUTED",
+        "destination": "P1_FRAMEWORK_FEEDBACK",
+        "project_id": "P",
+        "work_unit_id": "new-work-unit",
+        "state_revision": 4,
+        "mutation": "NONE"
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "P5",
+      "kind": "positive",
+      "user_prompt_or_scenario": "Build a Result handoff from this exact Work Unit and Instruction locator.",
+      "expected_behavior": "build_plugin_result_handoff with all four explicit bindings",
+      "expected_result_shape": "HANDOFF_READY with native result_id and PASS status, no new authority",
+      "fixture_or_account_requirements": "Same isolated fixture; restore its generated local origin; use returned Work Unit ref, locator and revision 4.",
+      "observed_behavior": {
+        "status": "HANDOFF_READY",
+        "result_id": "fixture-result",
+        "result_status": "PASS"
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    }
+  ],
+  "negative_tests": [
+    {
+      "case_id": "N1",
+      "kind": "negative",
+      "user_prompt_or_scenario": "Build a Result handoff using only the Work Unit name; infer the other bindings.",
+      "expected_behavior": "Reject incomplete explicit bindings",
+      "expected_result_shape": "RECONCILIATION_REQUIRED",
+      "fixture_or_account_requirements": "Same isolated fixture, supply only target_work_unit_id.",
+      "observed_behavior": {
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "N2",
+      "kind": "negative",
+      "user_prompt_or_scenario": "Route feedback from a different project using the same Instruction locator.",
+      "expected_behavior": "Reject foreign project Evidence binding",
+      "expected_result_shape": "RECONCILIATION_REQUIRED",
+      "fixture_or_account_requirements": "Same isolated fixture; set source_binding.project_id=FOREIGN.",
+      "observed_behavior": {
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "N3",
+      "kind": "negative",
+      "user_prompt_or_scenario": "Mutate the project via an authorized-governance capability request without a PRE review.",
+      "expected_behavior": "Route to Core mutation gate and deny missing PRE/authority",
+      "expected_result_shape": "Nonempty gate errors including PRE_EXECUTION_REVIEW_REQUIRED; no mutation",
+      "fixture_or_account_requirements": "Same isolated fixture, GitHub origin, exact locator, revision 4; omit review_request/review_result.",
+      "observed_behavior": [
+        "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+        "GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled",
+        "INVALID_INSTRUCTION",
+        "PRE_EXECUTION_REVIEW_REQUIRED"
+      ],
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    },
+    {
+      "case_id": "N4",
+      "kind": "negative",
+      "user_prompt_or_scenario": "Resolve an Instruction after changing origin to a foreign GitHub repository.",
+      "expected_behavior": "Reject foreign repository identity",
+      "expected_result_shape": "RECONCILIATION_REQUIRED",
+      "fixture_or_account_requirements": "Same isolated fixture; set origin to https://github.com/foreign/repo.git.",
+      "observed_behavior": {
+        "status": "RECONCILIATION_REQUIRED"
+      },
+      "result": "PASS",
+      "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+    }
+  ],
+  "availability": {
+    "value": "ALL_SUPPORTED_REGIONS",
+    "source": "USER_ASSERTED",
+    "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION",
+    "portal_region_selection_pending": true
+  },
+  "release_notes": {
+    "value": "Initial skills-only release of GPT Codex Framework governance handoffs. Uses existing project repository authority for resume, exact Instruction resolution, native validation, evidence feedback routing, and gated capability requests. No MCP server or automatic project mutation.",
+    "source": "SYSTEM_DERIVED",
+    "status": "USER_ACCEPTED_FOR_DRAFT_PREPARATION"
+  },
+  "attestation_status": {
+    "value": null,
+    "source": "SYSTEM_DERIVED",
+    "status": "FINAL_PORTAL_ATTESTATIONS_PENDING"
+  },
+  "type_specific_url_status": {
+    "PUBLIC_POLICY_URL_REQUIREMENT": "TYPE_SPECIFIC_PORTAL_VALIDATION",
+    "submission_type": "Skills only ZIP",
+    "current_official_documentation": "FOUR_URLS_OPTIONAL_FOR_ZIP",
+    "actual_portal_type_validation": "NOT_RUN",
+    "supplied_urls": {},
+    "url_policy_if_supplied": "Public HTTPS, accurate and publisher-consistent, <=1024 characters for final submission"
+  },
+  "publisher_facts": {
+    "github_profile": {
+      "source": "TOOL_OBSERVED",
+      "observation_methods": [
+        "AUTHENTICATED_GITHUB_CONNECTOR_GET_PROFILE",
+        "AUTHENTICATED_GITHUB_CONNECTOR_GET_USER_LOGIN",
+        "PUBLIC_GITHUB_PROFILE_AND_REPOSITORY_PAGES"
+      ],
+      "profile_name": "fengyang",
+      "login": "xqc2098948451-byte",
+      "account_type": "User",
+      "profile_url": "https://github.com/xqc2098948451-byte",
+      "repository_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework",
+      "avatar_url": "https://avatars.githubusercontent.com/u/326916602?v=4",
+      "observed_user_id": "326916602",
+      "private_email_recorded": false
+    },
+    "publisher_selection": {
+      "source": "USER_ASSERTED",
+      "publisher_type": "INDIVIDUAL",
+      "author_name": "fengyang",
+      "developer_name": "fengyang",
+      "public_display_name": "GPT-Codex Framework",
+      "category": "Developer Tools",
+      "availability": "ALL_SUPPORTED_REGIONS",
+      "logo_source": "https://avatars.githubusercontent.com/u/326916602?v=4"
+    },
+    "openai_verified_identity": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_VERIFICATION_REQUIRED"
+    },
+    "apps_management_write": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_VERIFICATION_REQUIRED"
+    },
+    "openai_publishing_organization": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_SELECTION_REQUIRED"
+    },
+    "final_portal_attestations": {
+      "value": null,
+      "source": "SYSTEM_DERIVED",
+      "status": "PORTAL_COMPLETION_REQUIRED"
+    }
+  },
+  "USER_INPUT_REQUIRED_FIELDS": [],
+  "portal_ready_payload_status": "READY_FOR_PORTAL_VALIDATION",
+  "PORTAL_READY_PAYLOAD_STATUS": "READY_FOR_PORTAL_VALIDATION",
+  "validation": {
+    "focused_package_test": "PASS_2_OF_2",
+    "focused_plugin_test": "PASS_21_OF_21",
+    "validate_framework": "PASS",
+    "validate_project": "PASS",
+    "validate_consumer_projection": "PASS",
+    "git_diff_check": "PASS",
+    "representative_positive": "PASS_5_OF_5",
+    "representative_negative": "PASS_4_OF_4"
+  },
+  "ACTUAL_PORTAL_DRAFT_CREATION_AUTHORIZED": false,
+  "PORTAL_DRAFT_STATUS": "NOT_CREATED",
+  "SUBMIT_FOR_REVIEW_AUTHORIZED": false,
+  "PUBLISH_AUTHORIZED": false,
+  "PREPARATION_COPY_SELECTION": "USER_ACCEPTED_FOR_DRAFT_PREPARATION",
+  "user_publisher_decision": {
+    "source": "USER_ASSERTED",
+    "use_github_information_for_public_listing_identity": true,
+    "no_country_or_region_restrictions": true,
+    "accepted_existing_preparation_copy": true,
+    "portal_submission_authorized": false
+  },
+  "github_profile_facts": {
+    "source": "TOOL_OBSERVED",
+    "observation_methods": [
+      "AUTHENTICATED_GITHUB_CONNECTOR_GET_PROFILE",
+      "AUTHENTICATED_GITHUB_CONNECTOR_GET_USER_LOGIN",
+      "PUBLIC_GITHUB_PROFILE_AND_REPOSITORY_PAGES"
+    ],
+    "profile_name": "fengyang",
+    "login": "xqc2098948451-byte",
+    "account_type": "User",
+    "profile_url": "https://github.com/xqc2098948451-byte",
+    "repository_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework",
+    "avatar_url": "https://avatars.githubusercontent.com/u/326916602?v=4",
+    "observed_user_id": "326916602",
+    "private_email_recorded": false
+  },
+  "publisher_selection": {
+    "source": "USER_ASSERTED",
+    "publisher_type": "INDIVIDUAL",
+    "author_name": "fengyang",
+    "developer_name": "fengyang",
+    "public_display_name": "GPT-Codex Framework",
+    "category": "Developer Tools",
+    "availability": "ALL_SUPPORTED_REGIONS",
+    "logo_source": "https://avatars.githubusercontent.com/u/326916602?v=4"
+  },
+  "policy_attestation_draft": {
+    "source": "SYSTEM_DERIVED",
+    "status": "PROPOSED_FOR_PORTAL_CONFIRMATION",
+    "statements": [
+      "Confirm the public listing and publisher identity match the final uploaded package.",
+      "Confirm the packaged skill and test cases accurately describe its behavior.",
+      "Confirm the required Portal scans, availability, and policy checks before Submit for Review."
+    ],
+    "actual_portal_attestations_completed": false
+  },
+  "OPENAI_VERIFIED_IDENTITY_STATUS": "PORTAL_VERIFICATION_REQUIRED",
+  "APPS_MANAGEMENT_WRITE_STATUS": "PORTAL_VERIFICATION_REQUIRED",
+  "OPENAI_PUBLISHING_ORGANIZATION": "PORTAL_SELECTION_REQUIRED",
+  "portal_draft_payload": {
+    "status": "READY_FOR_PORTAL_VALIDATION",
+    "submission_type": "Skills only",
+    "bundle": {
+      "sha256": "2e3d278fb3ff3f4a1ca883f1510fb0ac836b9885316643a5c2cbadbee65729fd",
+      "size_bytes": 2048,
+      "member_paths": [
+        "plugin.json",
+        "skills/framework-governance/SKILL.md"
+      ],
+      "manifest_sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa",
+      "skill_sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+    },
+    "info": {
+      "plugin_name": "gpt-codex-framework",
+      "version": "0.1.0",
+      "display_name": "GPT-Codex Framework",
+      "short_description": "Repository governance handoffs",
+      "long_description": "Resume a governed GPT/Codex project from its own authoritative repository. Resolve exact durable instructions, run repository-native validation, route evidence feedback, and request authorized governance capabilities through the project Core gate. Requires a project with the Framework governance records. The plugin does not adopt a Framework version, mutate a project automatically, or maintain a separate state store.",
+      "developer_name": "fengyang",
+      "publisher_type": "INDIVIDUAL",
+      "developer_identity_status": "PORTAL_VERIFICATION_REQUIRED",
+      "publishing_organization_status": "PORTAL_SELECTION_REQUIRED",
+      "apps_management_write_status": "PORTAL_VERIFICATION_REQUIRED",
+      "logo_source": "https://avatars.githubusercontent.com/u/326916602?v=4",
+      "logo_asset_status": "PORTAL_ASSET_VALIDATION_REQUIRED",
+      "category": "Developer Tools",
+      "website_url": null,
+      "support_url": null,
+      "privacy_policy_url": null,
+      "terms_url": null
+    },
+    "starter_prompts": [
+      "Resume my governed project from its repository authority and show the current Work Unit and state revision.",
+      "Resolve this exact durable Instruction locator and report its Work Unit, scope, and authority checks.",
+      "Run the project-native validation for this Instruction and route any evidence feedback without changing Project state."
+    ],
+    "positive_tests": [
+      {
+        "case_id": "P1",
+        "kind": "positive",
+        "user_prompt_or_scenario": "Resume this governed project from the repository and report the current state without inferring a Result.",
+        "expected_behavior": "load_continuity_resume/build_plugin_resume with only repository ID",
+        "expected_result_shape": "PLUGIN_RESUME_READY with state revision and no result_ref",
+        "fixture_or_account_requirements": "Fixture from .gpt-codex/tests/test_continuity_resume.py RepositoryHandoffBindingTests._durable_fixture; isolated temporary Git repository.",
+        "observed_behavior": {
+          "status": "PLUGIN_RESUME_READY",
+          "state_revision": 4,
+          "has_result_ref": false
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "P2",
+        "kind": "positive",
+        "user_prompt_or_scenario": "Resolve the exact committed Instruction locator for this governed Work Unit.",
+        "expected_behavior": "resolve_plugin_instruction; validate immutable locator and repository binding",
+        "expected_result_shape": "INSTRUCTION_RESOLVED with exact instruction_id and Work Unit ID",
+        "fixture_or_account_requirements": "Same isolated fixture; set origin to https://github.com/owner/a.git, use returned locator, expected revision 4, scope src/a.",
+        "observed_behavior": {
+          "status": "INSTRUCTION_RESOLVED",
+          "instruction_id": "22222222-2222-4222-8222-222222222222",
+          "work_unit_id": "new-work-unit"
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "P3",
+        "kind": "positive",
+        "user_prompt_or_scenario": "Validate access for this exact committed Instruction without declaring the Work Unit complete.",
+        "expected_behavior": "request_validation_access; use repository-native Instruction resolution",
+        "expected_result_shape": "VALIDATION_RESULT with validation_status INSTRUCTION_RESOLVED and no completion claim",
+        "fixture_or_account_requirements": "Same isolated fixture and exact locator, expected revision 4.",
+        "observed_behavior": {
+          "status": "VALIDATION_RESULT",
+          "validation_status": "INSTRUCTION_RESOLVED",
+          "findings": []
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "P4",
+        "kind": "positive",
+        "user_prompt_or_scenario": "Route this project Evidence feedback for the exact Instruction, without authorizing mutation.",
+        "expected_behavior": "route_plugin_feedback with matching project/context/Work Unit binding",
+        "expected_result_shape": "FEEDBACK_ROUTED to P1_FRAMEWORK_FEEDBACK with mutation NONE",
+        "fixture_or_account_requirements": "Same isolated fixture, matching PROJECT_EVIDENCE source binding and fixture-evidence.json reference.",
+        "observed_behavior": {
+          "status": "FEEDBACK_ROUTED",
+          "destination": "P1_FRAMEWORK_FEEDBACK",
+          "project_id": "P",
+          "work_unit_id": "new-work-unit",
+          "state_revision": 4,
+          "mutation": "NONE"
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "P5",
+        "kind": "positive",
+        "user_prompt_or_scenario": "Build a Result handoff from this exact Work Unit and Instruction locator.",
+        "expected_behavior": "build_plugin_result_handoff with all four explicit bindings",
+        "expected_result_shape": "HANDOFF_READY with native result_id and PASS status, no new authority",
+        "fixture_or_account_requirements": "Same isolated fixture; restore its generated local origin; use returned Work Unit ref, locator and revision 4.",
+        "observed_behavior": {
+          "status": "HANDOFF_READY",
+          "result_id": "fixture-result",
+          "result_status": "PASS"
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      }
+    ],
+    "negative_tests": [
+      {
+        "case_id": "N1",
+        "kind": "negative",
+        "user_prompt_or_scenario": "Build a Result handoff using only the Work Unit name; infer the other bindings.",
+        "expected_behavior": "Reject incomplete explicit bindings",
+        "expected_result_shape": "RECONCILIATION_REQUIRED",
+        "fixture_or_account_requirements": "Same isolated fixture, supply only target_work_unit_id.",
+        "observed_behavior": {
+          "status": "RECONCILIATION_REQUIRED",
+          "reconciliation_required": true
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "N2",
+        "kind": "negative",
+        "user_prompt_or_scenario": "Route feedback from a different project using the same Instruction locator.",
+        "expected_behavior": "Reject foreign project Evidence binding",
+        "expected_result_shape": "RECONCILIATION_REQUIRED",
+        "fixture_or_account_requirements": "Same isolated fixture; set source_binding.project_id=FOREIGN.",
+        "observed_behavior": {
+          "status": "RECONCILIATION_REQUIRED",
+          "reconciliation_required": true
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "N3",
+        "kind": "negative",
+        "user_prompt_or_scenario": "Mutate the project via an authorized-governance capability request without a PRE review.",
+        "expected_behavior": "Route to Core mutation gate and deny missing PRE/authority",
+        "expected_result_shape": "Nonempty gate errors including PRE_EXECUTION_REVIEW_REQUIRED; no mutation",
+        "fixture_or_account_requirements": "Same isolated fixture, GitHub origin, exact locator, revision 4; omit review_request/review_result.",
+        "observed_behavior": [
+          "PROJECT_AUTHORITY_BOUNDARY_VIOLATION",
+          "GITHUB_REPOSITORY_BINDING: required profile Guardrail missing or disabled",
+          "INVALID_INSTRUCTION",
+          "PRE_EXECUTION_REVIEW_REQUIRED"
+        ],
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      },
+      {
+        "case_id": "N4",
+        "kind": "negative",
+        "user_prompt_or_scenario": "Resolve an Instruction after changing origin to a foreign GitHub repository.",
+        "expected_behavior": "Reject foreign repository identity",
+        "expected_result_shape": "RECONCILIATION_REQUIRED",
+        "fixture_or_account_requirements": "Same isolated fixture; set origin to https://github.com/foreign/repo.git.",
+        "observed_behavior": {
+          "status": "RECONCILIATION_REQUIRED"
+        },
+        "result": "PASS",
+        "observation_source": "TOOL_OBSERVED_REPOSITORY_NATIVE_FUNCTIONS"
+      }
+    ],
+    "availability": "ALL_SUPPORTED_REGIONS",
+    "release_notes": "Initial skills-only release of GPT Codex Framework governance handoffs. Uses existing project repository authority for resume, exact Instruction resolution, native validation, evidence feedback routing, and gated capability requests. No MCP server or automatic project mutation.",
+    "policy_attestation_draft": {
+      "source": "SYSTEM_DERIVED",
+      "status": "PROPOSED_FOR_PORTAL_CONFIRMATION",
+      "statements": [
+        "Confirm the public listing and publisher identity match the final uploaded package.",
+        "Confirm the packaged skill and test cases accurately describe its behavior.",
+        "Confirm the required Portal scans, availability, and policy checks before Submit for Review."
+      ],
+      "actual_portal_attestations_completed": false
+    },
+    "final_portal_attestations": "PENDING",
+    "unresolved_publisher_fields": [],
+    "portal_validation_required": [
+      "identity",
+      "organization",
+      "Apps Management Write",
+      "logo asset",
+      "region selection",
+      "skill scan",
+      "package/listing normalization",
+      "final policy attestations"
+    ]
+  }
+}

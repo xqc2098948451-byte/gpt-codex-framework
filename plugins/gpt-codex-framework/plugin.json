@@ -2,5 +2,21 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "gpt-codex-framework",
   "version": "0.1.0",
-  "description": "Repository-backed GPT and Codex governance handoff using existing Framework authority."
+  "description": "Repository-backed GPT and Codex governance handoff using existing Framework authority.",
+  "author": {
+    "name": "fengyang",
+    "url": "https://github.com/xqc2098948451-byte"
+  },
+  "interface": {
+    "displayName": "GPT-Codex Framework",
+    "shortDescription": "Govern GPT-Codex projects",
+    "longDescription": "Repository-backed GPT and Codex governance handoff using existing Framework authority.",
+    "developerName": "fengyang",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Resume governed projects from repository authority",
+      "Validate governed instructions and handoffs",
+      "Route evidence and authorized governance requests"
+    ]
+  }
 }
