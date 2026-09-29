@@ -1,0 +1,96 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "PHASE_D_DOCUMENTATION_HISTORY_VERIFIED_REMOTE_INTEGRATION",
+  "state_revision": 20,
+  "result": "VERIFIED",
+  "framework_version": "2.7.4",
+  "pre_closure_state_revision": 20,
+  "work_unit_id": "github-repository-consolidation-phase-d-durable-closure-001",
+  "work_unit_git_blob": "04ab5f2031bea7e34ea0e1e36ff893f3629b5aee",
+  "closure_execution_instruction_id": "b6418752-aded-4bb8-8838-eb327d06f87f",
+  "closure_execution_instruction_git_blob": "926c2ca3a1bdc0c2d56f60ee4469e2f59034d22a",
+  "final_aggregate_review_result_id": "cd36aa12-3a5b-48ba-80a9-9e8756b27332",
+  "final_aggregate_review_result_git_blob": "6e57e2810dea5f82f2c0f7e57dcb344322e65493",
+  "verified_work_w": "c7f548a3149c9fd07e0551c7228324f3c50abaff",
+  "verified_work_parent_sha": "86bebab256be4e59b21f694ddca0e435c197c9f5",
+  "execution_base_sha": "f5a5f342321bbcceac60e4b9e3930837a6ea56fe",
+  "execution_base_parent_sha": "c7f548a3149c9fd07e0551c7228324f3c50abaff",
+  "execution_base_relation": "W plus closure Work Unit materialization",
+  "current_remote_ref": "refs/heads/main",
+  "current_remote_main_sha_at_candidate_construction": "f5a5f342321bbcceac60e4b9e3930837a6ea56fe",
+  "verified_work_is_execution_base_ancestor": true,
+  "future_publication_p": "UNKNOWN",
+  "future_publication_p_predicted": false,
+  "open_pr_count": 0,
+  "accepted_design_locator": {
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+    "git_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+  },
+  "accepted_plan_locator": {
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+    "git_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+  },
+  "prerequisite_evidence": {
+    "d1_reference_inventory": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+      "git_blob": "1e7a2343ac71d3e1cf200ab4b680201672da674a"
+    },
+    "batch_1_migration": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+      "git_blob": "c993a9e9020bdcbc28f7576f125d3fa6981f94fa"
+    },
+    "batch_2_migration": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION.json",
+      "git_blob": "2da05df158e5545db127ec26f6c282031fcdf838"
+    },
+    "current_documentation_surface": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-CURRENT-DOCUMENTATION-SURFACE.json",
+      "git_blob": "9076043516c013b5154da49613736c97e291a688"
+    }
+  },
+  "destination_git_blobs": {
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md": "38344bad217a035e257433bf5af53a2d99f34024",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md": "43548009628e95cde209fac793cb9bc8cc8dfe94"
+  },
+  "navigation_git_blobs": {
+    "docs/architecture/README.md": "6b95e7c7bbcedb22d7cefce20ca89204b843e8f8",
+    "docs/decisions/README.md": "baaf1f4ff7f97337c4360316a2cb9e346a604c53",
+    "docs/plans/README.md": "db9fff8732031ae6efccd7d516c01cc17ecc74a6"
+  },
+  "consumer_projection_manifest": {
+    "path": ".gpt-codex/release/consumer-projection-manifest.json",
+    "git_blob": "3fe61820066fbb0ddbf858ec4758235aae08636e"
+  },
+  "pre_validation": {
+    "phase_d_exit_review": "PASS",
+    "source_paths_absent": true,
+    "destination_blobs_verified": true,
+    "broken_live_links": [],
+    "authority_path_break": false,
+    "authority_duplication_check": "PASS",
+    "directory_contract_phase_d": "PASS",
+    "consumer_projection_validation": "PASS",
+    "open_pr_count": 0
+  },
+  "candidate_status": {
+    "management_only": true,
+    "candidate_committed": false,
+    "candidate_pushed": false,
+    "post_execution_started": false,
+    "phase_d_durably_closed": false,
+    "phase_e_started": false
+  }
+}
