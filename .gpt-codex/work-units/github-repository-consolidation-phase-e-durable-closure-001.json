@@ -1,0 +1,146 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-e-durable-closure-001",
+  "goal": "Close the fully integrated and remote-verified Phase E proven-duplicate semantics work by independently re-verifying the aggregate E1/E2 exit, persisting final review and remote-integration evidence, advancing STATE continuity from revision 21 to 22 against verified work W = f3bcc14f5652d0af944685704c8d47d92a80a197, and stopping before Phase F.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "E_DURABLE_CLOSURE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "git-continuity"
+    ],
+    "authoring_main_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+    "state_revision": 21,
+    "framework_version": "2.7.4",
+    "verified_work_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+    "verified_work_parent_sha": "248436c0142be538be6b394ea9fae445af6b9370",
+    "accepted_design_plan_commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "accepted_design_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+    "accepted_plan_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+    "e1_prerequisite": {
+      "integration_commit": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+      "evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+      "evidence_blob": "b0760f00f85f8b153eb124a834897847ed247520",
+      "instruction_path": ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json",
+      "instruction_blob": "ad169af46fa07d4c179b98b611e6f76ba284c41f",
+      "release_version_policy_primary_owner": ".gpt-codex/scripts/release_archive.py",
+      "true_duplicate_removed": true,
+      "observable_behavior_changed": false
+    },
+    "e2_prerequisite": {
+      "integration_commit": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+      "evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json",
+      "evidence_blob": "e3feef018c2bed4f49512f63d7696813fb3a4475",
+      "instruction_path": ".gpt-codex/evidence/instructions/edf344bf-b9e8-43ae-96a8-ae2d0699f1d6.json",
+      "instruction_blob": "3ff048f50696e47840b24c1d66fa1b44ce89b1a1",
+      "test_framework_plugin_blob": "2bc1fe13f963e16334487cf2001ca2c7e5bd7efc",
+      "framework_plugin_entry_blob": "48615612f42ea7c45d663bd5277d0e59094d79ab",
+      "inventory_site_count": 35,
+      "true_duplicate_site_count": 0,
+      "valid_defensive_validation_site_count": 27,
+      "presentation_duplication_site_count": 8,
+      "unresolved_site_count": 0,
+      "source_change_performed": false,
+      "observable_behavior_changed": false
+    },
+    "requirements": [
+      "This management-only Work Unit grants no closure implementation authority. After its durable materialization, a separate exact closure EXECUTION_INSTRUCTION and an independent native PRE_EXECUTION PASS at PHASE_E_DURABLE_CLOSURE_NATIVE_PRE are required before implementation; independent POST_EXECUTION review and exact USER_LOCAL integration remain separate gates.",
+      "At authoring, refs/heads/main=W=f3bcc14f5652d0af944685704c8d47d92a80a197 with parent 248436c0142be538be6b394ea9fae445af6b9370, repository identity is 1366213495/xqc2098948451-byte/gpt-codex-framework, open PR count is zero, Framework VERSION is 2.7.4, and STATE is revision 21 AUTHORIZED with continuity SYNCED. Future PRE must freshly reobserve these facts and prove that this Work Unit materialization was the only governance change after W; material drift requires RECONCILIATION_REQUIRED.",
+      "Reuse the accepted Repository Consolidation Design and Plan at immutable commit 6663e46ed210ec33354e5c1c5462d34205d77ae1. Their respective Git blobs are 42210b3d2b86a6b4e28fc737fed92d312355ec5f and 10029f27762815efbc24c4f3d6ada1b00fecfd3c. Phase E Exit requires release-version TRUE_DUPLICATE consolidation, complete Plugin classification, consolidation only for proven equivalent semantics, intact defensive and presentation behavior, affected release/Plugin/result-handoff tests, and no Foundation capability or Plugin surface expansion.",
+      "Future PRE must independently reverify the complete E1 exit: strict current VERSION behavior, legacy two-component archive acceptance, ordering and build-metadata behavior, release_archive.py as sole RELEASE_VERSION_POLICY owner, no independent duplicate version policy in release_framework.py, and exact E1 integration/Evidence/Instruction identities specified in e1_prerequisite.",
+      "Future PRE must independently reverify the complete E2 exit: all 35 sites inventoried, TRUE_DUPLICATE=0, VALID_DEFENSIVE_VALIDATION=27, PRESENTATION_DUPLICATION=8, UNRESOLVED=0, framework_plugin_entry.py Git blob unchanged at 48615612f42ea7c45d663bd5277d0e59094d79ab, Plugin surface unchanged, and exact E2 integration/Evidence/Instruction/test identities specified in e2_prerequisite.",
+      "Aggregate Phase E review must prove E1 is an ancestor of W, E2 integration is W, W was remote main before this Work Unit materialization, no out-of-scope source mutation occurred, deferred semantic changes remain deferred, and Phase F has not started. E1/E2 original POST Results cannot substitute for this independent aggregate final review.",
+      "Future PRE, implementation and POST must each run python -m unittest discover -s .gpt-codex/tests -p test_release_archive.py; python -m unittest discover -s .gpt-codex/tests -p test_release_packaging.py; python -m unittest discover -s .gpt-codex/tests -p test_framework_plugin.py; python -m unittest discover -s .gpt-codex/tests -p test_framework_plugin_package.py; python -m unittest discover -s .gpt-codex/tests -p test_continuity_resume.py; python .gpt-codex/scripts/validate_project.py .; python .gpt-codex/scripts/validate_framework.py; python .gpt-codex/scripts/validate_consumer_projection.py --root .; python -m unittest discover -s .gpt-codex/tests -p test_*.py; and git diff --check. The current full-suite baseline is 713 tests with 2 skipped.",
+      "Persist an independent schema-valid REVIEW_RESULT at .gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json. It must bind reviewed_revision=W, this Work Unit, the exact closure Execution Instruction, STATE revision 21, accepted Design/Plan, E1/E2 prerequisite Evidence and aggregate Phase E Exit. Do not portray earlier E1/E2 POST Results as this review.",
+      "Persist TOOL_OBSERVED remote integration Evidence at .gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json. Bind project/context/repository identity, Framework version, pre-closure STATE revision 21, W and its parent, current remote ref and main, open PR count, immutable Design/Plan locators, exact E1/E2 integration/Evidence/Instruction path and blobs, E1 semantic conclusions, E2 test and unchanged Plugin source blobs, E2 classification counts, and every mandatory validator/test result. Do not predict the future publication commit P.",
+      "Persist .gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json as closure Result. It may state only PHASE_E=COMPLETE, remote_verification=VERIFIED, verified_baseline_sha=W, STATE continuity target SYNCED and next governed program phase PHASE_F. It must not state Repository Consolidation complete, Phase F implementation complete, Phase G authorized, Framework 2.8.0 release authorized, or Issue #17 optimization authorized.",
+      "The sole future STATE transition is revision 21 to 22 with state remaining AUTHORIZED. Set continuity.current_remote_ref=refs/heads/main, latest_verified_remote_sha=W, latest_synced_state_revision=22, last_verified_result_ref=.gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json and sync_status=SYNCED. Append the remote integration Evidence and both Results to evidence_refs without deleting historical refs; add the closure Instruction path only if the existing STATE/evidence convention requires it. Set next_action=PHASE_F_FULL_VALIDATION_CLEAN_CLONE_REQUIRED as a presentation hint, not Phase F execution authority.",
+      "W is the fully integrated E1/E2 work; this Work Unit is a later management authority commit. Future closure candidate/publication P may refer to W but must not contain or predict P's own SHA. Result PASS alone is not durable closure; only implementation candidate, independent POST, exact USER_LOCAL integration and live remote verification together allow GPT to accept PHASE_E_DURABLY_CLOSED=YES.",
+      "Keep validation-access baseline freshness behavior, malformed baseline failure-shape consistency, release suffix semantic tightening, and Issue #17 optimization candidates deferred observations. Do not implement them, reimplement E1/E2, change source/tests, add Foundation capability, expand Plugin surface, or start Phase F.",
+      "No new durable directory prefix is authorized: directory_creations is empty. Only the separately authorized exact closure Execution Instruction may be created under the owned instructions/ selector. No other Evidence, Result or Instruction may be created or changed. CODEX_IMPLEMENTER has no COMMIT, PUSH, PUBLISH, AUTHORIZE, SCOPE_EXPANSION, ref mutation or unrelated cleanup permission. Stop after Phase E closure."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 21,
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_E_DURABLE_CLOSURE_NATIVE_PRE"
+  }
+}
