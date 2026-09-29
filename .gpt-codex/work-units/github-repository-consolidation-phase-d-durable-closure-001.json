@@ -1,0 +1,120 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-d-durable-closure-001",
+  "goal": "Close the fully integrated and remote-verified Phase D documentation/history work through an independent final review, durable remote-integration Evidence and closure Results, and the single governed STATE continuity transition from revision 20 to 21, then stop before Phase E implementation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      ".superpowers/sdd/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "acceptance": {
+    "phase": "D_DURABLE_CLOSURE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "git-continuity"
+    ],
+    "authoring_main_sha": "c7f548a3149c9fd07e0551c7228324f3c50abaff",
+    "state_revision": 20,
+    "verified_work_sha": "c7f548a3149c9fd07e0551c7228324f3c50abaff",
+    "verified_work_parent_sha": "86bebab256be4e59b21f694ddca0e435c197c9f5",
+    "requirements": [
+      "This Work Unit alone grants no closure mutation authority. A separate exact closure EXECUTION_INSTRUCTION and independent native PRE_EXECUTION PASS at PHASE_D_DURABLE_CLOSURE_NATIVE_PRE are required after durable Work Unit materialization. Independent POST_EXECUTION review and USER_LOCAL_PROXY integration are required before GPT may accept durable closure.",
+      "At authoring, refs/heads/main=W=c7f548a3149c9fd07e0551c7228324f3c50abaff, repository identity is 1366213495/xqc2098948451-byte/gpt-codex-framework, open PR count is zero, Framework version is 2.7.4, and STATE is revision 20 AUTHORIZED. Future PRE must freshly re-observe these facts and prove this Work Unit materialization is the only allowed governance change after W; non-governance drift requires RECONCILIATION_REQUIRED.",
+      "W is already integrated on refs/heads/main and includes the final Current Documentation Surface. Phase D Reference Inventory, Batch 1 migration, and Batch 2 migration are ancestors of W. W is the verified work to which closure binds. The management-only closure publication P does not yet exist; no candidate artifact may contain or predict P's own commit SHA.",
+      "Reuse the accepted Repository Consolidation Design and Plan at immutable commit 6663e46ed210ec33354e5c1c5462d34205d77ae1. Their respective Git blobs are 42210b3d2b86a6b4e28fc737fed92d312355ec5f and 10029f27762815efbc24c4f3d6ada1b00fecfd3c. Do not redesign Phase D or modify the Design, Plan, docs/history, docs/superpowers, or .superpowers/sdd.",
+      "Future PRE must independently re-review the complete Phase D Exit: Reference Inventory, all six report migrations and their source/destination blob identities, KEEP/DELETE boundaries, immutable locator preservation, current architecture/decision/active-plan navigation, Consumer Projection, Directory Creation Contract, live links, and machine-authority boundaries. It must run mandatory validators/tests, produce an independent REVIEW_RESULT, and pass the native PRE gate before implementation starts.",
+      "The six old .superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-{1,3,4,6,11,12}-report.md source paths must remain absent. The six docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/ destinations must retain respective Git blobs e47a5242882b89f23bd0fe31b208fbcb18f5c0e9, 418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32, 2877ed56bfb7f4049c19b0fb19418089a3b068c2, 8298419cfb3c02a3aa91c10719d94ed3d11d48b2, 38344bad217a035e257433bf5af53a2d99f34024, and 43548009628e95cde209fac793cb9bc8cc8dfe94. No new .superpowers/sdd task report may be created.",
+      "Current navigation files docs/architecture/README.md, docs/decisions/README.md, and docs/plans/README.md must retain Git blobs 6b95e7c7bbcedb22d7cefce20ca89204b843e8f8, baaf1f4ff7f97337c4360316a2cb9e346a604c53, and db9fff8732031ae6efccd7d516c01cc17ecc74a6. Architecture, accepted decisions/freeze navigation, and the active Plan must remain directly findable; broken live links, authority-path breaks, a second machine-authority store, and bulk migration of legacy docs/superpowers are forbidden.",
+      "The prerequisite Phase D Evidence Git blobs must remain: Reference Inventory 1e7a2343ac71d3e1cf200ab4b680201672da674a, Batch 1 c993a9e9020bdcbc28f7576f125d3fa6981f94fa, Batch 2 2da05df158e5545db127ec26f6c282031fcdf838, and Current Documentation Surface 9076043516c013b5154da49613736c97e291a688. Consumer Projection manifest Git blob must remain 3fe61820066fbb0ddbf858ec4758235aae08636e.",
+      "Persist the exact schema-valid independent closure PRE/final aggregate REVIEW_RESULT at .gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json. It must bind reviewed_revision=W, project/context/repository, this Work Unit, the closure Execution Instruction, STATE revision 20, and the Phase D prerequisite Evidence. Do not weaken or invent review findings.",
+      "Persist TOOL_OBSERVED remote integration facts at .gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json: repository identity, W and its parent, refs/heads/main, prerequisite Phase D Evidence locators, six destination Git blobs, three navigation Git blobs, Consumer Projection manifest blob, open PR count, validator/test facts, and pre-closure STATE revision 20 facts.",
+      "Persist .gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json as the durable closure Result. It may declare only PHASE_D=COMPLETE, remote verification VERIFIED, verified baseline W, STATE continuity synchronized, and Phase E as the next governed program phase. It must not declare Repository Consolidation complete, Phase E implementation authorized, or Framework release authorized.",
+      "The sole future STATE transition is revision 20 to 21 while state remains AUTHORIZED. Set continuity.current_remote_ref=refs/heads/main, latest_verified_remote_sha=W, latest_synced_state_revision=21, last_verified_result_ref=.gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json, and sync_status=SYNCED. Append the Phase D remote-integration Evidence and both Results to evidence_refs without deleting historical refs. Set next_action=PHASE_E_PROVEN_DUPLICATE_SEMANTICS_REQUIRED as a presentation hint, not Phase E execution authority.",
+      "The closure implementation candidate is management-only publication P. STATE, Result, and Evidence may reference W but must not contain or predict P. Only after implementation, independent POST_EXECUTION review, USER_LOCAL_PROXY integration and push, and live remote verification may GPT accept Phase D durable closure.",
+      "Validate instruction-envelope authority, native PRE review, Result schema/protocol, STATE schema and authority, W/P attestation, project and framework governance, Consumer Projection, the full unittest suite, git diff --check, and Phase D Exit. No path outside the five owned selectors may change relative to the closure execution base.",
+      "Only the separately authorized exact closure Execution Instruction may be materialized under the owned instructions/ selector. No other Evidence, Result, or Instruction may be added or changed. CODEX_IMPLEMENTER has no COMMIT, PUSH, PUBLISH, AUTHORIZE, SCOPE_EXPANSION, branch/tag/ref mutation, Phase E implementation, or unrelated cleanup permission. Stop after Phase D closure; Issue #17 optimization and Framework release work remain out of scope."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-CURRENT-DOCUMENTATION-SURFACE.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 20,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_D_DURABLE_CLOSURE_NATIVE_PRE"
+  }
+}
