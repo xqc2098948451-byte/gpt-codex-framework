@@ -25,9 +25,8 @@ from consumer_projection import (
     scan_consumer_boundary,
     stage_consumer_projection,
 )
-from release_archive import _version_key, ensure_release_record, load_release_index
+from release_archive import _valid_current_version, _version_key, ensure_release_record, load_release_index
 
-SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 EXCLUDED_PARTS = {".git", "dist", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".idea", ".vscode"}
 EXCLUDED_NAMES = {".DS_Store"}
 EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".zip", ".sha256"}
@@ -46,13 +45,13 @@ _REQUIRED_PUBLICATION_CAPABILITIES = ("TAG_WRITE", "RELEASE_WRITE", "ASSET_UPLOA
 
 def read_version(root: Path) -> str:
     value = (Path(root) / "VERSION").read_text(encoding="utf-8").strip()
-    if not SEMVER.fullmatch(value):
+    if not _valid_current_version(value):
         raise ValueError(f"VERSION must be SemVer, got: {value!r}")
     return value
 
 
 def artifact_basename(version: str) -> str:
-    if not SEMVER.fullmatch(version):
+    if not _valid_current_version(version):
         raise ValueError(f"invalid SemVer: {version!r}")
     return f"gpt-codex-framework-v{version}-bootstrap"
 
@@ -64,7 +63,7 @@ def _valid_canonical_artifact_ref(value: object, source_version: str | None = No
     if not _IMMUTABLE_SHA.fullmatch(revision) or not _valid_git_relative_path(relative):
         return False
     match = re.fullmatch(r"dist/gpt-codex-framework-v(.+)-bootstrap\.zip", relative)
-    return bool(match and SEMVER.fullmatch(match.group(1)) and (source_version is None or match.group(1) == source_version))
+    return bool(match and _valid_current_version(match.group(1)) and (source_version is None or match.group(1) == source_version))
 
 
 def _valid_git_relative_path(value: object) -> bool:
@@ -81,7 +80,7 @@ def evaluate_publication_preflight(
     facts = facts if isinstance(facts, Mapping) else {}
     errors: list[str] = []
     source_version = facts.get("source_version")
-    if not isinstance(source_version, str) or not SEMVER.fullmatch(source_version) or facts.get("source_version_closed") is not True:
+    if not _valid_current_version(source_version) or facts.get("source_version_closed") is not True:
         errors.append("SOURCE_VERSION_NOT_CLOSED")
     for key, code in (
         ("projection_closed", "PROJECTION_NOT_CLOSED"),
@@ -98,7 +97,7 @@ def evaluate_publication_preflight(
         errors.append("RELEASE_CONFLICT")
     if facts.get("publication_mechanism_available") is not True:
         errors.append("PUBLICATION_MECHANISM_UNAVAILABLE")
-    if not _valid_canonical_artifact_ref(facts.get("canonical_artifact_ref"), source_version if isinstance(source_version, str) and SEMVER.fullmatch(source_version) else None):
+    if not _valid_canonical_artifact_ref(facts.get("canonical_artifact_ref"), source_version if _valid_current_version(source_version) else None):
         errors.append("CANONICAL_ARTIFACT_REF_INVALID")
     if not isinstance(facts.get("artifact_sha256"), str) or not _SHA256.fullmatch(facts["artifact_sha256"]):
         errors.append("ARTIFACT_SHA256_INVALID")

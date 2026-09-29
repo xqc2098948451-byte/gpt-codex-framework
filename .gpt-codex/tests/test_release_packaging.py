@@ -13,6 +13,7 @@ sys.path.insert(0, str(SCRIPTS))
 
 from release_framework import (
     _previous_recorded_version,
+    _valid_canonical_artifact_ref,
     artifact_basename,
     clean_output_dir,
     evaluate_publication_preflight,
@@ -77,6 +78,56 @@ def _current_sha_fields(root: Path) -> tuple[str, str, str, str, str]:
 
 
 class ReleasePackagingTests(unittest.TestCase):
+    def test_current_version_and_artifact_name_keep_strict_syntax(self):
+        accepted = (
+            "2.7.4", "2.7.4-local.1", "2.7.4+build.1",
+            "2.7.4-local.1+build.1", "2.7.4-01", "2.7.4-a..b", "2.7.4+..",
+        )
+        rejected = (
+            "1.7", "2.7", "02.7.4", "2.07.4", "2.7.04", "2..4",
+            "2.7.", "2.7.4.1", "2.7.4-", "2.7.4+", "2.7.4-foo_1",
+            "non-semver", "",
+        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for version in accepted:
+                with self.subTest(version=version):
+                    (root / "VERSION").write_text(version + "\n", encoding="utf-8")
+                    self.assertEqual(read_version(root), version)
+                    self.assertEqual(artifact_basename(version), f"gpt-codex-framework-v{version}-bootstrap")
+            for version in rejected:
+                with self.subTest(version=version):
+                    (root / "VERSION").write_text(version + "\n", encoding="utf-8")
+                    with self.assertRaises(ValueError):
+                        read_version(root)
+                    with self.assertRaises(ValueError):
+                        artifact_basename(version)
+
+    def test_canonical_artifact_and_publication_preflight_keep_strict_syntax(self):
+        prefix = "a" * 40 + ":dist/gpt-codex-framework-v"
+        suffix = "-bootstrap.zip"
+        facts = {
+            "source_version_closed": True, "projection_closed": True,
+            "release_record_ready": True, "canonical_lf_verified": True,
+            "repository_identity_verified": True, "work_main_ancestry_verified": True,
+            "tag_conflict": False, "release_conflict": False,
+            "publication_mechanism_available": True, "artifact_sha256": "b" * 64,
+            "artifact_size_bytes": 1,
+            "available_capabilities": {"TAG_WRITE", "RELEASE_WRITE", "ASSET_UPLOAD"},
+        }
+        for version in ("2.7.4", "2.7.4-local.1+build.1", "2.7.4-01", "2.7.4-a..b", "2.7.4+.."):
+            with self.subTest(version=version):
+                artifact_ref = prefix + version + suffix
+                self.assertTrue(_valid_canonical_artifact_ref(artifact_ref, version))
+                self.assertEqual(evaluate_publication_preflight({**facts, "source_version": version, "canonical_artifact_ref": artifact_ref}), [])
+        for version in ("1.7", "2.7", "02.7.4", "2.7.04", "2.7.4-", "2.7.4+", "non-semver"):
+            with self.subTest(version=version):
+                artifact_ref = prefix + version + suffix
+                self.assertFalse(_valid_canonical_artifact_ref(artifact_ref, version))
+                errors = evaluate_publication_preflight({**facts, "source_version": version, "canonical_artifact_ref": artifact_ref})
+                self.assertIn("SOURCE_VERSION_NOT_CLOSED", errors)
+                self.assertIn("CANONICAL_ARTIFACT_REF_INVALID", errors)
+
     def test_release_fact_consistency_requires_exact_candidate_metadata(self):
         facts = {
             "target_version": "2.7.2", "release_record_version": "2.7.2",

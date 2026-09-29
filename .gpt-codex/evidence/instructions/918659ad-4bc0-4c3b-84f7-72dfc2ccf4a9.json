@@ -1,0 +1,86 @@
+{
+  "instruction_id": "918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9",
+  "instruction_type": "EXECUTION_INSTRUCTION",
+  "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "target_project_name": "通用开发框架管理",
+  "expected_state_revision": 21,
+  "framework_version": "2.7.4",
+  "issuer_role": "GPT_ORCHESTRATOR",
+  "executor_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "target_work_unit": "github-repository-consolidation-phase-e1-release-version-policy-001",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/github-repository-consolidation-phase-e1-release-version-policy-001.json",
+    "sha": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124"
+  },
+  "scope_paths": [
+    ".gpt-codex/scripts/release_archive.py",
+    ".gpt-codex/scripts/release_framework.py",
+    ".gpt-codex/tests/test_release_archive.py",
+    ".gpt-codex/tests/test_release_packaging.py",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+    ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json"
+  ],
+  "expected_base_sha": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+  "permission_scope": "PHASE_E1_RELEASE_VERSION_POLICY_ONLY",
+  "target_github_repository_id": "1366213495",
+  "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "expected_remote_ref": "refs/heads/main",
+  "expected_remote_head_sha": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+  "expected_remote_name": "origin",
+  "authorized_actions": [
+    "READ",
+    "TEST",
+    "VALIDATE",
+    "REPORT",
+    "MUTATE_APPROVED_SCOPE"
+  ],
+  "forbidden_actions": [
+    "COMMIT",
+    "PUSH",
+    "PUBLISH",
+    "AUTHORIZE",
+    "SCOPE_EXPANSION"
+  ],
+  "evidence_requirements": {
+    "files_read": [
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md@6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md@6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json"
+    ],
+    "files_changed": [
+      ".gpt-codex/scripts/release_archive.py",
+      ".gpt-codex/scripts/release_framework.py",
+      ".gpt-codex/tests/test_release_archive.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+      ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json"
+    ],
+    "tests": [
+      "python -m unittest discover -s .gpt-codex/tests -p test_release_archive.py",
+      "python -m unittest discover -s .gpt-codex/tests -p test_release_packaging.py",
+      "python -m unittest discover -s .gpt-codex/tests -p test_*.py"
+    ],
+    "validation": [
+      "python .gpt-codex/scripts/validate_project.py .",
+      "python .gpt-codex/scripts/validate_framework.py",
+      "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "git diff --check",
+      "TEST FIRST: add focused regression tests only in the two owned test files for all observed version behavior; confirm focused tests PASS before refactoring.",
+      "release_archive.py is the sole RELEASE_VERSION_POLICY primary owner; release_framework.py imports/calls it and deletes its independent SEMVER definition.",
+      "Strict current VERSION requires three components; 1.7 and 2.7 remain rejected. Legacy two-component archive names including v1.7 remain accepted.",
+      "Preserve missing archive patch as zero; prerelease/stable and numeric/string ordering; build metadata ignored by ordering but retained in visible names and records.",
+      "Preserve currently accepted suffix forms including numeric prerelease leading zeros and empty dot tokens. Do not replace current behavior with standard SemVer.",
+      "Currently rejected leading-zero core, empty/missing/extra core, empty entire suffix, invalid characters, and non-SemVer remain rejected.",
+      "Do not modify VERSION, release records, or paths outside exact scope_paths; do not create a new directory, version service, registry, database, subsystem, or second policy owner.",
+      "Do not begin E2 or Phase F; do not claim Phase E complete or Framework release authority.",
+      "Write only specified E1 implementation Evidence with before/after matrix and source blobs; candidate requires independent POST review."
+    ],
+    "revision": true,
+    "result_references": [
+      "github-repository-consolidation-phase-e1-release-version-policy-001"
+    ]
+  },
+  "completion_gate": "GPT_DECISION",
+  "artifact_stage": "IMPLEMENTATION"
+}

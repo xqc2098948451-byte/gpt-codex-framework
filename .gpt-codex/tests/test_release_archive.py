@@ -9,6 +9,7 @@ SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from release_archive import (
+    _version_key,
     archive_release_artifact,
     ensure_release_record,
     load_release_index,
@@ -16,6 +17,56 @@ from release_archive import (
 
 
 class ReleaseArchiveTests(unittest.TestCase):
+    def test_archive_accepts_legacy_current_suffix_and_build_names(self):
+        versions = (
+            "1.7", "1.7.0", "2.7.4-local.1", "2.7.4+build.1",
+            "2.7.4-local.1+build.1", "2.7.4-01", "2.7.4-a..b", "2.7.4+..",
+        )
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            for version in versions:
+                with self.subTest(version=version):
+                    artifact = Path(td) / f"gpt-codex-framework-v{version}-bootstrap.zip"
+                    with zipfile.ZipFile(artifact, "w") as zf:
+                        zf.writestr("AGENTS.md", "x")
+                    record = archive_release_artifact(artifact, releases)
+                    self.assertEqual(record["version"], version)
+                    self.assertEqual(record["artifact"], artifact.name)
+
+    def test_archive_rejects_currently_invalid_version_names(self):
+        invalid = (
+            "02.7.4", "2.07.4", "2.7.04", "2..4", "2.7.", "2.7.4.1",
+            "2.7.4-", "2.7.4+", "2.7.4-foo_1", "non-semver", "2", "",
+        )
+        with tempfile.TemporaryDirectory() as td:
+            releases = Path(td) / "releases"
+            for version in invalid:
+                with self.subTest(version=version):
+                    artifact = Path(td) / f"gpt-codex-framework-v{version}-bootstrap.zip"
+                    with self.assertRaises(ValueError):
+                        archive_release_artifact(artifact, releases)
+
+    def test_version_key_preserves_legacy_patch_prerelease_and_build_order(self):
+        ordered = (
+            "1.7", "1.7.0", "2.2.1", "2.2.2-local.1", "2.2.2", "2.3.0",
+        )
+        keys = [_version_key(version) for version in ordered]
+        self.assertEqual(keys[0], keys[1])
+        self.assertEqual(keys, sorted(keys))
+        self.assertLess(_version_key("2.7.4-local.2"), _version_key("2.7.4-local.10"))
+        self.assertLess(_version_key("2.7.4-alpha"), _version_key("2.7.4-beta"))
+        self.assertLess(_version_key("2.7.4-01"), _version_key("2.7.4"))
+        self.assertEqual(_version_key("2.7.4+build.1"), _version_key("2.7.4+build.2"))
+        self.assertEqual(_version_key("2.7.4-a..b"), _version_key("2.7.4-a..b+.."))
+
+    def test_version_key_rejects_currently_invalid_forms(self):
+        for version in (
+            "02.7.4", "2.07.4", "2.7.04", "2..4", "2.7.", "2.7.4.1",
+            "2.7.4-", "2.7.4+", "2.7.4-foo_1", "non-semver", "2", "",
+        ):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                _version_key(version)
+
     def test_archive_records_zip_metadata_without_copying_zip(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td) / "framework"

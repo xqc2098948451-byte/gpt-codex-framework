@@ -9,13 +9,11 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-SEMVER_PATTERN = (
-    r"(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:\.(?:0|[1-9]\d*))?"
-    r"(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?"
+_VERSION_PATTERN = re.compile(
+    r"(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(?:\.(?P<patch>0|[1-9]\d*))?"
+    r"(?:-(?P<pre>[0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?"
 )
-ARCHIVE_NAME = re.compile(
-    rf"^gpt-codex-framework-v(?P<version>{SEMVER_PATTERN})-bootstrap\.zip$"
-)
+ARCHIVE_NAME = re.compile(r"^gpt-codex-framework-v(?P<version>.+)-bootstrap\.zip$")
 INDEX_SCHEMA_VERSION = 1
 
 
@@ -23,12 +21,21 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def _parse_version(value: object, *, allow_legacy_two_component: bool) -> re.Match[str] | None:
+    if not isinstance(value, str):
+        return None
+    match = _VERSION_PATTERN.fullmatch(value)
+    if match is None or (not allow_legacy_two_component and match.group("patch") is None):
+        return None
+    return match
+
+
+def _valid_current_version(value: object) -> bool:
+    return _parse_version(value, allow_legacy_two_component=False) is not None
+
+
 def _version_key(value: str) -> tuple[tuple[int, int, int], int, tuple[tuple[int, int | str], ...]]:
-    match = re.fullmatch(
-        rf"(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(?:\.(?P<patch>0|[1-9]\d*))?"
-        rf"(?:-(?P<pre>[0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?",
-        value,
-    )
+    match = _parse_version(value, allow_legacy_two_component=True)
     if not match:
         raise ValueError(f"invalid SemVer: {value!r}")
     prerelease = match.group("pre")
@@ -111,7 +118,7 @@ def upsert_release_record(releases_dir: Path, record: dict) -> dict:
 def archive_release_artifact(artifact_path: Path, releases_dir: Path) -> dict:
     artifact_path = Path(artifact_path).resolve()
     match = ARCHIVE_NAME.fullmatch(artifact_path.name)
-    if not match:
+    if not match or not _parse_version(match.group("version"), allow_legacy_two_component=True):
         raise ValueError(f"unsupported release artifact name: {artifact_path.name}")
     if not artifact_path.is_file():
         raise FileNotFoundError(artifact_path)

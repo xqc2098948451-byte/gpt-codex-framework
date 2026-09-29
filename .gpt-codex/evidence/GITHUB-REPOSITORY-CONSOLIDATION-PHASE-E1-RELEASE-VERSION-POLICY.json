@@ -1,0 +1,153 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY",
+  "source": "SYSTEM_DERIVED",
+  "subject": "PHASE_E1_RELEASE_VERSION_POLICY_IMPLEMENTATION",
+  "result": "PASS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 21,
+  "state_sync_status": "SYNCED",
+  "execution_base": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+  "remote_main": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+  "work_unit_id": "github-repository-consolidation-phase-e1-release-version-policy-001",
+  "work_unit_commit": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+  "work_unit_blob": "ecfe8855f8787ebd2f4256ab47b9da5699b4ca0e",
+  "execution_instruction_id": "918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9",
+  "execution_instruction_path": ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json",
+  "execution_instruction_utf8_bytes": 4647,
+  "execution_instruction_sha256": "e8ae98b34a5c93a02a2cd3a59afc6585b7dab07183297823acaf18f4c8a72992",
+  "execution_instruction_git_blob": "ad169af46fa07d4c179b98b611e6f76ba284c41f",
+  "pre_execution": {
+    "result": "PASS",
+    "review_request_id": "ac0aa7c2-5eaa-4ea3-bf1e-109d401487d4",
+    "review_result_id": "73302c44-6eb3-4884-a9cf-c72429a0dffb",
+    "native_pre_gate": []
+  },
+  "accepted_design_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+    "blob_sha": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+  },
+  "accepted_plan_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+    "blob_sha": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+  },
+  "phase_d_closure_prerequisite": {
+    "path": ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+    "blob_sha": "99fdbd4761dda96722c1073b19377834ed543e2d"
+  },
+  "source_blobs_before": {
+    ".gpt-codex/scripts/release_archive.py": "269c88979d712ca2f18fb094847871b7e3752095",
+    ".gpt-codex/scripts/release_framework.py": "919e02039f565c330b9d9bddb5d5e19011677f63",
+    ".gpt-codex/tests/test_release_archive.py": "df1e3f909e224d3c83735c20c880e8203e86be1a",
+    ".gpt-codex/tests/test_release_packaging.py": "003d6076ab5dd1084a6d167ddec0cba5c3c4dc9f"
+  },
+  "source_blobs_after": {
+    ".gpt-codex/scripts/release_archive.py": "a994fd6af6f0a1e48e3e82e6a9ddee74108986fe",
+    ".gpt-codex/scripts/release_framework.py": "d001bcb7eab4c3608024a89b3aa166eddb638cc9",
+    ".gpt-codex/tests/test_release_archive.py": "ac848d4d183f8fc71d415d87454e6e648e8d4a1f",
+    ".gpt-codex/tests/test_release_packaging.py": "cc9c4ef796c45b045421d4cad157ef5deb866502"
+  },
+  "tests_added": {
+    "test_release_archive.py": [
+      "test_archive_accepts_legacy_current_suffix_and_build_names",
+      "test_archive_rejects_currently_invalid_version_names",
+      "test_version_key_preserves_legacy_patch_prerelease_and_build_order",
+      "test_version_key_rejects_currently_invalid_forms"
+    ],
+    "test_release_packaging.py": [
+      "test_current_version_and_artifact_name_keep_strict_syntax",
+      "test_canonical_artifact_and_publication_preflight_keep_strict_syntax"
+    ]
+  },
+  "tests_before_refactor": {
+    "production_blobs_unchanged": true,
+    "release_archive": "PASS: 10 tests",
+    "release_packaging": "PASS: 25 tests, 1 skipped"
+  },
+  "tests_after_refactor": {
+    "release_archive": "PASS: 10 tests",
+    "release_packaging": "PASS: 25 tests, 1 skipped"
+  },
+  "behavior_matrix": {
+    "strict_current_policy": {
+      "before": {"accept": ["2.7.4", "2.7.4-local.1", "2.7.4+build.1", "2.7.4-local.1+build.1"], "reject": ["1.7", "2.7", "02.7.4", "2.07.4", "2.7.04", "non-semver"]},
+      "after": {"accept": ["2.7.4", "2.7.4-local.1", "2.7.4+build.1", "2.7.4-local.1+build.1"], "reject": ["1.7", "2.7", "02.7.4", "2.07.4", "2.7.04", "non-semver"]},
+      "boundaries": ["read_version", "artifact_basename", "_valid_canonical_artifact_ref", "evaluate_publication_preflight"]
+    },
+    "archive_compatible_policy": {
+      "before": {"accept": ["gpt-codex-framework-v1.7-bootstrap.zip", "gpt-codex-framework-v1.7.0-bootstrap.zip", "gpt-codex-framework-v2.7.4-local.1-bootstrap.zip", "gpt-codex-framework-v2.7.4+build.1-bootstrap.zip"], "reject": ["gpt-codex-framework-v02.7.4-bootstrap.zip", "gpt-codex-framework-v2..4-bootstrap.zip", "gpt-codex-framework-v2.7.4--bootstrap.zip"]},
+      "after": {"accept": ["gpt-codex-framework-v1.7-bootstrap.zip", "gpt-codex-framework-v1.7.0-bootstrap.zip", "gpt-codex-framework-v2.7.4-local.1-bootstrap.zip", "gpt-codex-framework-v2.7.4+build.1-bootstrap.zip"], "reject": ["gpt-codex-framework-v02.7.4-bootstrap.zip", "gpt-codex-framework-v2..4-bootstrap.zip", "gpt-codex-framework-v2.7.4--bootstrap.zip"]},
+      "legacy_two_component_behavior": "ACCEPT; missing patch orders as zero"
+    },
+    "ordering": {
+      "before": ["1.7 = 1.7.0", "1.7.0 < 2.2.1", "2.2.1 < 2.2.2-local.1", "2.2.2-local.1 < 2.2.2", "2.2.2 < 2.3.0", "local.2 < local.10", "alpha < beta"],
+      "after": ["1.7 = 1.7.0", "1.7.0 < 2.2.1", "2.2.1 < 2.2.2-local.1", "2.2.2-local.1 < 2.2.2", "2.2.2 < 2.3.0", "local.2 < local.10", "alpha < beta"],
+      "prerelease_vs_stable": "prerelease < stable",
+      "numeric_token": "integer order",
+      "string_token": "lexicographic order"
+    },
+    "build_metadata": {
+      "before": "retained in accepted VERSION, artifact and archive names and records; ignored by _version_key",
+      "after": "retained in accepted VERSION, artifact and archive names and records; ignored by _version_key"
+    },
+    "invalid_forms": {
+      "before": ["leading-zero core rejected", "empty core rejected", "trailing dot rejected", "extra core rejected", "empty whole - or + suffix rejected", "invalid suffix characters rejected", "non-SemVer rejected"],
+      "after": ["leading-zero core rejected", "empty core rejected", "trailing dot rejected", "extra core rejected", "empty whole - or + suffix rejected", "invalid suffix characters rejected", "non-SemVer rejected"]
+    },
+    "compatibility_quirks": {
+      "before": ["-01 accepted", "-a..b accepted", "+.. accepted"],
+      "after": ["-01 accepted", "-a..b accepted", "+.. accepted"]
+    }
+  },
+  "behavior_matrix_before_equals_after": true,
+  "single_owner_proof": {
+    "true_duplicate_removed": true,
+    "release_version_policy_primary_owner": ".gpt-codex/scripts/release_archive.py",
+    "duplicate_policy_remaining": false,
+    "shared_implementation": ["_VERSION_PATTERN", "_parse_version", "_valid_current_version", "_version_key"],
+    "release_framework_consumers": ["read_version", "artifact_basename", "_valid_canonical_artifact_ref", "evaluate_publication_preflight", "_previous_recorded_version"],
+    "standalone_semver_rule_in_release_framework": false,
+    "versioned_folder_exclusion_regex": "Packaging hygiene path matcher; unchanged and not a release version validation or ordering policy"
+  },
+  "semantic_conclusions": {
+    "strict_current_policy_preserved": true,
+    "legacy_archive_compatibility_preserved": true,
+    "ordering_policy_preserved": true,
+    "build_metadata_behavior_preserved": true,
+    "compatibility_quirks_preserved": true,
+    "observable_behavior_changed": false
+  },
+  "validation": {
+    "focused_release_archive_tests": "PASS: 10 tests",
+    "focused_release_packaging_tests": "PASS: 25 tests, 1 skipped",
+    "project_validation": "PASS",
+    "framework_validation": "PASS",
+    "consumer_projection_validation": "PASS",
+    "full_unittest": "PASS: 701 tests, 2 skipped",
+    "git_diff_check": "PASS"
+  },
+  "candidate_path_count": 6,
+  "new_directory_prefix_count": 0,
+  "out_of_scope_changes": [],
+  "findings": [],
+  "deferred_optimization_candidates": ["Any future tightening of accepted suffix quirks requires a separate governed behavior decision"],
+  "candidate_only": true,
+  "durably_integrated": false,
+  "post_execution_review_required": true,
+  "post_execution_started": false,
+  "phase_e1_complete": false,
+  "phase_e_complete": false,
+  "phase_e2_started": false,
+  "phase_f_started": false,
+  "commit": false,
+  "push": false,
+  "remote_mutation": false
+}
