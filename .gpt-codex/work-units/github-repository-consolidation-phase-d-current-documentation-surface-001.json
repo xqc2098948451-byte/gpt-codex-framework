@@ -1,0 +1,151 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-d-current-documentation-surface-001",
+  "goal": "Complete the remaining Repository Consolidation Phase D current-documentation surface with minimal current architecture, decision, and active-plan navigation, without bulk migration of legacy docs/superpowers history, while preserving Consumer Projection, Directory Creation Contract, and existing execution-authority boundaries.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-CURRENT-DOCUMENTATION-SURFACE.json",
+      ".gpt-codex/evidence/instructions/",
+      "docs/architecture/README.md",
+      "docs/decisions/README.md",
+      "docs/plans/README.md"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/history/",
+      "docs/superpowers/",
+      ".superpowers/sdd/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [
+    {
+      "path": "docs/architecture/",
+      "purpose": "Current architecture entry point",
+      "owner": "github-repository-consolidation-phase-d-current-documentation-surface-001",
+      "content_type": "Markdown architecture/index",
+      "authority_type": "Advisory navigation",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "reviewed historical retention"
+    },
+    {
+      "path": "docs/decisions/",
+      "purpose": "Accepted decisions and freezes",
+      "owner": "github-repository-consolidation-phase-d-current-documentation-surface-001",
+      "content_type": "Markdown decision/evidence pointer",
+      "authority_type": "Accepted Design/Decision",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "reviewed historical retention"
+    },
+    {
+      "path": "docs/plans/",
+      "purpose": "Active near-term plan navigation",
+      "owner": "github-repository-consolidation-phase-d-current-documentation-surface-001",
+      "content_type": "Markdown plan/index",
+      "authority_type": "Governed plan",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "reviewed historical retention"
+    }
+  ],
+  "acceptance": {
+    "phase": "D3_CURRENT_DOCUMENTATION_SURFACE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "release-projection"
+    ],
+    "authoring_main_sha": "d4e78a16bfce4ac37ae7829f032610651dff855f",
+    "state_revision": 20,
+    "requirements": [
+      "This Work Unit alone grants no implementation authority. A separate exact Execution Instruction and independent native PRE_EXECUTION PASS at PHASE_D_CURRENT_DOCUMENTATION_SURFACE_NATIVE_PRE are required after durable Work Unit materialization. Independent POST_EXECUTION review is required before implementation integration.",
+      "At authoring time refs/heads/main=d4e78a16bfce4ac37ae7829f032610651dff855f, STATE revision=20 AUTHORIZED, project context=cb1e0450-df32-4ff6-8a33-35187b69a866, repository binding=1366213495/xqc2098948451-byte/gpt-codex-framework, and open PR count=0. Fresh PRE must re-observe remote facts and accept only the governed Work Unit materialization between this snapshot and its execution base; non-governance drift requires RECONCILIATION_REQUIRED.",
+      "Reuse the Repository Consolidation Design and Plan at accepted commit 6663e46ed210ec33354e5c1c5462d34205d77ae1; do not redesign Phase D. Batch 2 was durably integrated at d4e78a16bfce4ac37ae7829f032610651dff855f. Consume the Phase D reference inventory, Batch 1 and Batch 2 migration evidence, and Phase C Directory Creation Contract closure as prerequisites.",
+      "Create exactly docs/architecture/, docs/decisions/, and docs/plans/ as new durable tracked directory prefixes through the Directory Creation Contract. Their declarations here are exhaustive; docs/history/ and docs/history/reviews/ already exist and must not be redeclared. Do not create docs/history/designs/, docs/history/plans/, docs/history/amendments/, or another prefix merely for structural completeness.",
+      "Create only docs/architecture/README.md, docs/decisions/README.md, and docs/plans/README.md as bounded current-navigation files. Do not establish a second documentation system, copy long architecture or plan content, or bulk-move legacy docs/superpowers files.",
+      "docs/architecture/README.md must provide the current architecture entry point and direct links to .gpt-codex/framework-modules/REGISTRY.json, .gpt-codex/KERNEL.md, AGENTS.md, and the accepted current Repository Consolidation Design. It must let maintainers find every Framework primary owner. The current Module Registry blob at authoring is 312f53caaaae85991818b13f917b1fd5c9127d9c.",
+      "docs/decisions/README.md must provide human-readable decision/freeze navigation, with pointers as useful to the accepted Repository Consolidation Design, Directory Creation Contract closure, ref-cleanup durable evidence, public-release deferral decision, and a future Repository Structure Freeze. It must explicitly state that CONTROL, STATE, Work Unit, Instruction, Result, Evidence, and immutable Git locators remain machine execution authority; Markdown navigation creates no duplicate execution authority.",
+      "docs/plans/README.md must point directly to docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md as the current active plan. It must explain that docs/superpowers/ remains the legacy history/governed source surface and Phase D requires no bulk migration of historical Designs, Plans, or Reviews. Do not duplicate Plan content or create a competing Plan authority.",
+      "Add exactly three prefix defaults to the existing .gpt-codex/release/consumer-projection-manifest.json: docs/architecture/=MANAGEMENT_ONLY, docs/decisions/=MANAGEMENT_ONLY, docs/plans/=MANAGEMENT_ONLY. Preserve docs/history/=DEVELOPMENT_HISTORY, docs/superpowers/=DEVELOPMENT_HISTORY, .superpowers/sdd/=DEVELOPMENT_HISTORY, and every other classification. The current manifest blob is 3093870c07831b0e76213b9e4b748c2bb7842bb6.",
+      "Modify .gpt-codex/tests/test_consumer_projection.py only as needed to lock the three new MANAGEMENT_ONLY prefixes in the existing projection mechanism. Its authoring blob is fbc978bc0989b57a0cd23e587ce58a82be9c0cca. Require unknown_paths=0, missing_required_paths=0, contamination=0, and management_leakage=0; do not add another projection mechanism.",
+      "Produce bounded non-self-authorizing evidence at .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-CURRENT-DOCUMENTATION-SURFACE.json, binding the exact Instruction/Work Unit, immutable Design/Plan and prerequisite Evidence, three new prefixes, three navigation files, projection delta, live-link checks, validator/test results, and no out-of-scope changes.",
+      "Run focused Consumer Projection and Directory Creation Contract tests, validate_project.py, validate_framework.py, validate_consumer_projection.py, the full unittest suite, and git diff --check. Verify the new tracked directory prefix set equals exactly this Work Unit's three directory_creations and that current architecture, decision/freeze authority, and active Plan are directly findable without traversing historical Plans.",
+      "Do not modify STATE, CONTROL, VERSION, AGENTS, Work Units, Results, Framework modules, scripts, schemas, plugins, releases, dist, or the six migrated task reports. Do not start Phase D closure, Phase E, Issue #17 optimization, or public release work. Implementation has no COMMIT, PUSH, PUBLISH, AUTHORIZE, or SCOPE_EXPANSION permission."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity",
+      "repository-discovery"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 20,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_D_CURRENT_DOCUMENTATION_SURFACE_NATIVE_PRE"
+  }
+}
