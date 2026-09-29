@@ -1,0 +1,127 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-e1-release-version-policy-001",
+  "goal": "Prove and preserve the current Framework release-version behavior with focused regression tests, then consolidate the duplicated release version syntax/order policy so release_archive.py is the single primary owner and release_framework.py consumes that shared pure policy, without broadening current VERSION semantics or breaking legacy archive compatibility.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/release_archive.py",
+      ".gpt-codex/scripts/release_framework.py",
+      ".gpt-codex/tests/test_release_archive.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      ".gpt-codex/tests/test_framework_plugin_package.py",
+      "VERSION",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "E1_RELEASE_VERSION_POLICY_CONSOLIDATION",
+    "module_route": [
+      "release-projection"
+    ],
+    "authoring_main_sha": "210184f2f0cd127b4e78dc8d263eb695be416b25",
+    "state_revision": 21,
+    "framework_version": "2.7.4",
+    "phase_d_closure_result": {
+      "path": ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+      "blob_sha": "99fdbd4761dda96722c1073b19377834ed543e2d"
+    },
+    "accepted_design_plan_commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "accepted_design_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+    "accepted_plan_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+    "source_blobs_before": {
+      ".gpt-codex/scripts/release_archive.py": "269c88979d712ca2f18fb094847871b7e3752095",
+      ".gpt-codex/scripts/release_framework.py": "919e02039f565c330b9d9bddb5d5e19011677f63",
+      ".gpt-codex/tests/test_release_archive.py": "df1e3f909e224d3c83735c20c880e8203e86be1a",
+      ".gpt-codex/tests/test_release_packaging.py": "003d6076ab5dd1084a6d167ddec0cba5c3c4dc9f"
+    },
+    "requirements": [
+      "This Work Unit alone grants no implementation authority. After its durable materialization, a separate exact Execution Instruction and independent native PRE_EXECUTION PASS at PHASE_E1_RELEASE_VERSION_POLICY_NATIVE_PRE are required before implementation. Independent POST_EXECUTION review remains required.",
+      "At authoring, origin/main=210184f2f0cd127b4e78dc8d263eb695be416b25, STATE revision 21 is AUTHORIZED and SYNCED, open PR count is zero, and the Phase D closure Result is the last verified Result. Future PRE must freshly reobserve durable authority and source identities; drift requires RECONCILIATION_REQUIRED rather than implicit rebasing of this scope.",
+      "Phase D is durably closed. STATE next_action=PHASE_E_PROVEN_DUPLICATE_SEMANTICS_REQUIRED is a presentation hint, not implementation authority. Reuse the accepted Repository Consolidation Design and Plan at commit 6663e46ed210ec33354e5c1c5462d34205d77ae1 without redesigning Phase E.",
+      "The accepted Design assigns RELEASE_VERSION_POLICY primary ownership to release_archive.py and RELEASE_BUILD_AND_PACKAGE primary ownership to release_framework.py. The proven TRUE_DUPLICATE is release_framework.py's independent SEMVER rule versus release_archive.py's SEMVER_PATTERN and _version_key. Consolidate the syntax and ordering rule into one pure primary implementation owned by release_archive.py; release_framework.py must consume it and remove its independent policy definition.",
+      "TEST FIRST: add focused regression tests in the two owned test files to capture current observable behavior before changing release policy implementation. Keep the tests passing during consolidation. Do not alter semantics merely to make tests pass.",
+      "Current Framework VERSION, read_version, and normal current release build must retain strict major.minor.patch semantics: 2.7.4 is valid and 1.7 is invalid. Archive import must continue accepting the legacy two-component filename gpt-codex-framework-v1.7-bootstrap.zip; standard three-component archive versions remain valid. Explicitly separate strict current VERSION policy from archive-compatible acceptance rather than applying one relaxed regex to both contexts.",
+      "Preserve existing release-index SemVer ordering, including 2.2.2-local.1 and stable versus prerelease behavior. Capture and preserve any existing +build metadata parser and ordering behavior. Preserve observable archive names, release metadata, and invalid-form behavior.",
+      "Focused tests must cover fail-closed leading-zero violations, empty components, extra or missing components where forbidden, malformed prerelease, and non-SemVer input. Supplement this matrix from current observable behavior, including any tolerated historical archive form, before refactoring.",
+      "Private helper names remain an implementation choice: a parser or validation helper, policy/mode parameter, strict-current wrapper, or archive-compatible wrapper is acceptable if there is one primary implementation owner, no duplicated syntax/order rule, strict current VERSION is preserved, and legacy archive import remains compatible. Do not create a public subsystem, version service, version registry, database, new module subsystem, or second policy store.",
+      "Implementation Evidence must be written only to .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json. Bind project/context/repository, STATE revision, execution base, Work Unit, Execution Instruction, accepted Design/Plan, source blobs before and after, tests added, and a before/after behavior matrix. Record strict current VERSION, legacy archive, prerelease ordering, invalid forms, and single-owner proof, plus focused release tests, project/framework/consumer projection validation, full unittest, git diff --check, candidate_only, and post_review_required.",
+      "Future PRE, implementation, and POST must run python -m unittest discover -s .gpt-codex/tests -p test_release_archive.py; python -m unittest discover -s .gpt-codex/tests -p test_release_packaging.py; python .gpt-codex/scripts/validate_project.py .; python .gpt-codex/scripts/validate_framework.py; python .gpt-codex/scripts/validate_consumer_projection.py --root .; python -m unittest discover -s .gpt-codex/tests -p test_*.py; and git diff --check. The current full-suite baseline is 695 tests with 2 skipped; future tests may increase the count.",
+      "No new durable directory prefix is authorized: directory_creations is empty. If implementation needs one, stop with STRUCTURE_CHANGE_REQUIRED and return to GPT. Do not modify the Consumer Projection manifest or any path outside the six owned selectors.",
+      "Do not start E2 Plugin duplicate work, Phase F, Issue #17 optimization, Framework release, or any unrelated task. A passing E1 candidate does not declare Phase E complete, authorize Phase F, or authorize a Framework release."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 21,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_E1_RELEASE_VERSION_POLICY_NATIVE_PRE"
+  }
+}
