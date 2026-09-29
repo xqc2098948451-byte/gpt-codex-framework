@@ -1,0 +1,167 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-d-batch-1-migration-001",
+  "goal": "Execute Phase D Batch 1 as a bounded, review-gated documentation-history migration: classify docs/history/ as DEVELOPMENT_HISTORY, move exactly task-1/task-3/task-4 historical reports byte-for-byte into the accepted docs/history/reviews hierarchy, lock the projection behavior with a focused test, and produce migration evidence without starting Batch 2 or any other documentation normalization.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+      ".gpt-codex/evidence/instructions/",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CHANGELOG.md",
+      "AGENTS.md",
+      "docs/architecture/",
+      "docs/decisions/",
+      "docs/plans/",
+      "docs/superpowers/",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION"
+    ]
+  },
+  "directory_creations": [
+    {
+      "path": "docs/history/",
+      "purpose": "Completed process parent",
+      "owner": "github-repository-consolidation-phase-d-batch-1-migration-001",
+      "content_type": "Markdown history",
+      "authority_type": "Development history",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "Reviewed historical retention"
+    },
+    {
+      "path": "docs/history/reviews/",
+      "purpose": "Completed reviews and reports",
+      "owner": "github-repository-consolidation-phase-d-batch-1-migration-001",
+      "content_type": "Markdown review/report",
+      "authority_type": "Development history",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "Reviewed historical retention"
+    },
+    {
+      "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/",
+      "purpose": "Historical v2.3.0 Project Map, Context, and Resume task reports",
+      "owner": "github-repository-consolidation-phase-d-batch-1-migration-001",
+      "content_type": "Markdown review/report",
+      "authority_type": "Development history",
+      "lifetime": "DURABLE",
+      "consumer_visible": false,
+      "release_visible": false,
+      "cleanup_policy": "Reviewed historical retention"
+    }
+  ],
+  "acceptance": {
+    "phase": "D2_BATCH_1_MIGRATION",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "release-projection"
+    ],
+    "authoring_main_sha": "829f55f720471f450f4798dd1f243c87e210bafb",
+    "state_revision": 20,
+    "requirements": [
+      "Execution requires a separate exact Execution Instruction and independent native PRE_EXECUTION PASS after this Work Unit is durably materialized. This Work Unit alone grants no implementation authority.",
+      "At authoring time refs/heads/main=829f55f720471f450f4798dd1f243c87e210bafb, STATE revision 20 is AUTHORIZED with continuity.sync_status=SYNCED/latest_synced_state_revision=20, Framework version is 2.7.4, and the accepted Phase D1 reference inventory is immutably located at 829f55f720471f450f4798dd1f243c87e210bafb:.gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json with blob 1e7a2343ac71d3e1cf200ab4b680201672da674a. Fresh PRE must re-observe the actual execution base after Work Unit materialization and prove any movement from the authoring snapshot is only the governed management-only Work Unit materialization; arbitrary drift requires RECONCILIATION_REQUIRED.",
+      "Consume the accepted D1 reference inventory through its immutable locator only. It independently classifies all six bounded reports MOVE_ELIGIBLE, with survival_dependency_count=0, unresolved_dependency_count=0, reconstruction proof PASS, docs/history projection gap YES, and D2 move before projection classification DENY.",
+      "Batch 1 is exactly task-1-report.md, task-3-report.md, and task-4-report.md. Batch 2 task-6-report.md, task-11-report.md, and task-12-report.md is explicitly excluded and must remain at its current source paths during this Work Unit.",
+      "Move .superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md blob e47a5242882b89f23bd0fe31b208fbcb18f5c0e9 to docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md; move .superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md blob 418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32 to docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md; move .superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md blob 2877ed56bfb7f4049c19b0fb19418089a3b068c2 to docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md. Each destination must contain byte-identical content and therefore the same Git blob as its source; each Batch 1 source path must be absent in the candidate tree.",
+      "Before or with the first moved file, update .gpt-codex/release/consumer-projection-manifest.json prefix_defaults by adding exactly docs/history/=DEVELOPMENT_HISTORY. Preserve all existing prefix defaults, explicit path classifications, manifest framework version 2.7.4, projection identity, contamination rules, and all unrelated values. Do not remove .superpowers/sdd/=DEVELOPMENT_HISTORY because Batch 2 reports and other historical content still remain there.",
+      "Update .gpt-codex/tests/test_consumer_projection.py minimally to lock docs/history/ as DEVELOPMENT_HISTORY and to verify a representative Batch 1 destination under docs/history/reviews/ resolves to DEVELOPMENT_HISTORY while projection audit unknown_paths and missing_required_paths remain empty. Do not broaden consumer runtime behavior or add a second projection mechanism.",
+      "Exercise the Phase C Directory Creation Contract on exactly three new tracked directory prefixes: docs/history/, docs/history/reviews/, and docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/. Every prefix must be covered by the exact directory_creations declarations in this Work Unit and by the later exact Instruction scope. No other new durable directory prefix is authorized.",
+      "Do not create docs/architecture/, docs/decisions/, docs/plans/, docs/history/designs/, docs/history/plans/, docs/history/amendments/, or any other documentation prefix in Batch 1.",
+      "Create .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json as bounded non-self-authorizing evidence. It must bind project/repository/context identity, execution base, D1 immutable Evidence locator, Work Unit/Instruction identity, exact three-source/three-destination blob equivalence, manifest prefix delta, directory-prefix creation set, focused/full validation results, Batch 2 not started, no live-link breakage, and the user finding-severity routing policy.",
+      "No current-tree external live link was identified by D1 for any Batch 1 report. Re-scan exact source paths and basenames at the execution base before mutation. If a new live runtime/authority/test/release/consumer/recovery dependency is observed, stop with FINDING rather than moving that report.",
+      "After constructing the uncommitted Batch 1 candidate, run focused Consumer Projection tests, Directory Creation Contract tests, project validation, framework validation, consumer projection validation, the full unittest suite, and git diff --check. The candidate must have zero unknown projection paths, zero missing required paths, zero contamination, zero management leakage to staged consumer output, and no out-of-scope mutation.",
+      "The Batch 1 candidate must undergo a fresh independent POST_EXECUTION review before any durable integration. Reviewer must verify source/destination blob equivalence, projection classification, directory-contract compliance, repository-only reconstruction, current links, validators/tests, and that Batch 2 remained untouched.",
+      "Finding severity follows the user-approved rule. MUST_FIX_NOW applies to issues that can cause irreversible Git/authority/Evidence loss, corrupt a later Work Unit baseline, break repository-only recovery, break Consumer/Framework boundaries, fail a mandatory validator/test, or become unsafe to roll back after continued development. Such findings block Batch 1 acceptance and must be fixed or the batch rolled back before continuing.",
+      "A finding may be DEFER_TO_OPTIMIZATION only when it does not affect current authority, the next correct baseline, mandatory validation, irreversible history/data, or safety, and can be independently addressed after the current release. Such items must be returned to GPT for Issue #17 recording and must not expand this Work Unit.",
+      "Do not modify STATE, CONTROL, VERSION, Work Units, Results, Framework source/runtime scripts, schemas, project templates, AGENTS/bootstrap, plugins, releases, dist, tags, PRs, or remote refs. Do not start Batch 2. CODEX_IMPLEMENTER has no COMMIT/PUSH/PUBLISH/ref-mutation authority.",
+      "A PASS Batch 1 review does not authorize Batch 2 automatically. Batch 2 requires its own separately accepted Work Unit/Instruction based on the durably integrated and remotely verified Batch 1 result."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+    ".gpt-codex/evidence/instructions/e5aaf934-d712-4714-b337-89ef7fa4d692.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity",
+      "repository-discovery"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 20,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_D_BATCH_1_NATIVE_PRE"
+  }
+}
