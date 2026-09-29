@@ -1,0 +1,2358 @@
+{
+  "result": "PHASE_E2_PLUGIN_DUPLICATION_IMPLEMENTATION",
+  "status": "PASS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 21,
+  "execution_base": "248436c0142be538be6b394ea9fae445af6b9370",
+  "remote_main_at_execution": "248436c0142be538be6b394ea9fae445af6b9370",
+  "work_unit_id": "github-repository-consolidation-phase-e2-plugin-duplication-classification-001",
+  "work_unit_path": ".gpt-codex/work-units/github-repository-consolidation-phase-e2-plugin-duplication-classification-001.json",
+  "work_unit_commit": "248436c0142be538be6b394ea9fae445af6b9370",
+  "work_unit_blob": "d7fa3a856803d90d7e804ff666c88d619acea358",
+  "execution_instruction": {
+    "id": "edf344bf-b9e8-43ae-96a8-ae2d0699f1d6",
+    "path": ".gpt-codex/evidence/instructions/edf344bf-b9e8-43ae-96a8-ae2d0699f1d6.json",
+    "utf8_bytes": 4241,
+    "sha256": "38db4c16fa9548146065d4f24c18f1265a440d1b60b83059a54adbac00482546",
+    "git_blob": "3ff048f50696e47840b24c1d66fa1b44ce89b1a1"
+  },
+  "pre_review_request_id": "29b4db95-18fd-49b6-9dcc-944e0ed4ded2",
+  "pre_review_result_id": "d5059969-fea6-4edd-8946-a8ec393438bc",
+  "pre_execution": "PASS",
+  "native_pre_gate": [],
+  "accepted_design": {
+    "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+    "blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+  },
+  "accepted_plan": {
+    "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+    "blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+  },
+  "e1_prerequisite": {
+    "integration_commit": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+    "evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+    "evidence_blob": "b0760f00f85f8b153eb124a834897847ed247520",
+    "verified": true
+  },
+  "source_blobs": {
+    ".gpt-codex/scripts/framework_plugin_entry.py": {
+      "before": "48615612f42ea7c45d663bd5277d0e59094d79ab",
+      "after": "48615612f42ea7c45d663bd5277d0e59094d79ab"
+    },
+    ".gpt-codex/tests/test_framework_plugin.py": {
+      "before": "7ac3f1053d0a19130a7d20e06bbe09255b4d5466",
+      "after": "2bc1fe13f963e16334487cf2001ca2c7e5bd7efc"
+    },
+    ".gpt-codex/tests/test_framework_plugin_package.py": {
+      "before": "b5f556d0d40a920d522abd265a8e66dd94737fc1",
+      "after": "b5f556d0d40a920d522abd265a8e66dd94737fc1"
+    },
+    ".gpt-codex/tests/test_continuity_resume.py": {
+      "before": "b0bee996be02d8c17a1c2198008e752098d92446",
+      "after": "b0bee996be02d8c17a1c2198008e752098d92446"
+    }
+  },
+  "classification": {
+    "inventory_complete": true,
+    "inventory_site_count": 35,
+    "true_duplicate": 0,
+    "valid_defensive_validation": 27,
+    "presentation_duplication": 8,
+    "unresolved": 0,
+    "matrix": [
+      {
+        "SITE_ID": "S01",
+        "CALLER": "_reconcile",
+        "CODE_LOCATION": "framework_plugin_entry.py:24-25",
+        "INPUT_BOUNDARY": "internal callers",
+        "TRUST_BOUNDARY": "adapter failure projection",
+        "NATIVE_OWNER": "framework_plugin_entry._reconcile",
+        "PRECONDITIONS": "caller already selected failure",
+        "SUCCESS_STATUS": "RECONCILIATION_REQUIRED",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Shared failure-shape projector already exists; it does not grant or check authority.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Shared failure-shape projector already exists; it does not grant or check authority."
+      },
+      {
+        "SITE_ID": "R01",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:47-50",
+        "INPUT_BOUNDARY": "root and repository ID to native loader",
+        "TRUST_BOUNDARY": "untrusted loader exception to adapter",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "loader returns normally",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY or RECONCILIATION_REQUIRED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Exception boundary differs from capability list returns and validation/feedback control extraction.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            [
+              "status",
+              "reconciliation_required",
+              "project_id",
+              "project_context_id",
+              "repository_id",
+              "repository",
+              "state_revision",
+              "state",
+              "active_work_unit",
+              "verified_baseline_sha",
+              "next_action_hint",
+              "remote_reverification_required"
+            ],
+            [
+              "status",
+              "reconciliation_required",
+              "project_id",
+              "project_context_id",
+              "repository_id",
+              "repository",
+              "state_revision",
+              "state",
+              "current_work",
+              "instruction_id",
+              "instruction_locator",
+              "result_id",
+              "result_ref",
+              "evidence_refs",
+              "git",
+              "result_status",
+              "blockers",
+              "next_action_hint"
+            ],
+            [
+              "status",
+              "reconciliation_required"
+            ]
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Exception boundary differs from capability list returns and validation/feedback control extraction."
+      },
+      {
+        "SITE_ID": "R02",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:51-52",
+        "INPUT_BOUNDARY": "baseline status",
+        "TRUST_BOUNDARY": "native continuity status to Plugin resume",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "LATEST_SYNCED_REMOTE_STATE",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Synchronized baseline is required for resume; validation-access intentionally has no parallel status guard.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            [
+              "status",
+              "reconciliation_required",
+              "project_id",
+              "project_context_id",
+              "repository_id",
+              "repository",
+              "state_revision",
+              "state",
+              "active_work_unit",
+              "verified_baseline_sha",
+              "next_action_hint",
+              "remote_reverification_required"
+            ],
+            [
+              "status",
+              "reconciliation_required",
+              "project_id",
+              "project_context_id",
+              "repository_id",
+              "repository",
+              "state_revision",
+              "state",
+              "current_work",
+              "instruction_id",
+              "instruction_locator",
+              "result_id",
+              "result_ref",
+              "evidence_refs",
+              "git",
+              "result_status",
+              "blockers",
+              "next_action_hint"
+            ]
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Synchronized baseline is required for resume; validation-access intentionally has no parallel status guard."
+      },
+      {
+        "SITE_ID": "R03",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:53-57",
+        "INPUT_BOUNDARY": "four bindings and optional slot",
+        "TRUST_BOUNDARY": "baseline context versus explicit result handoff",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "all four absent and slot absent",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Slot-only input cannot authorize or infer four missing bindings.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "active_work_unit",
+            "verified_baseline_sha",
+            "next_action_hint",
+            "remote_reverification_required"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Slot-only input cannot authorize or infer four missing bindings."
+      },
+      {
+        "SITE_ID": "R04",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:58-70",
+        "INPUT_BOUNDARY": "control/state and verified baseline SHA",
+        "TRUST_BOUNDARY": "native context to Plugin context view",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "synced baseline; no bindings or slot",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "context only; no Result authority",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Twelve-key projection omits Result, current_work and next_authorized_action.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "active_work_unit",
+            "verified_baseline_sha",
+            "next_action_hint",
+            "remote_reverification_required"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Twelve-key projection omits Result, current_work and next_authorized_action."
+      },
+      {
+        "SITE_ID": "R05",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:72-73",
+        "INPUT_BOUNDARY": "partial four-binding tuple",
+        "TRUST_BOUNDARY": "caller hints to required explicit native bindings",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "at least one but fewer than four bindings",
+        "SUCCESS_STATUS": "continue to native handoff",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "All fourteen nonempty proper binding subsets reconcile without inference.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "All fourteen nonempty proper binding subsets reconcile without inference."
+      },
+      {
+        "SITE_ID": "R06",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:74-80",
+        "INPUT_BOUNDARY": "complete ID/ref/locator/revision",
+        "TRUST_BOUNDARY": "explicit bindings to repository-native handoff authority",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "all four bindings present",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "no independent authority",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Native handoff owns exact Work Unit/Instruction/Result verification; cannot replace with baseline projection.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Native handoff owns exact Work Unit/Instruction/Result verification; cannot replace with baseline projection."
+      },
+      {
+        "SITE_ID": "R07",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:81-82",
+        "INPUT_BOUNDARY": "native handoff status",
+        "TRUST_BOUNDARY": "native Result authority to Plugin projection",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "HANDOFF_READY",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Bad locator, wrong revision and native not-ready collapse to adapter reconciliation.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Bad locator, wrong revision and native not-ready collapse to adapter reconciliation."
+      },
+      {
+        "SITE_ID": "R08",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:83-84",
+        "INPUT_BOUNDARY": "optional requested execution slot and native current_work",
+        "TRUST_BOUNDARY": "caller slot to verified slot authority",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "slot absent or exact match",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Mismatch reconciles, including a slot supplied to a slotless handoff.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Mismatch reconciles, including a slot supplied to a slotless handoff."
+      },
+      {
+        "SITE_ID": "R09",
+        "CALLER": "build_plugin_resume",
+        "CODE_LOCATION": "framework_plugin_entry.py:85-103",
+        "INPUT_BOUNDARY": "native handoff fields",
+        "TRUST_BOUNDARY": "verified handoff to Plugin resume presentation",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "HANDOFF_READY and slot agreement",
+        "SUCCESS_STATUS": "PLUGIN_RESUME_READY",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "presentation only",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Eighteen-key result-bearing view differs from twelve-key slotless baseline.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Eighteen-key result-bearing view differs from twelve-key slotless baseline."
+      },
+      {
+        "SITE_ID": "H01",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:113-118",
+        "INPUT_BOUNDARY": "four required bindings",
+        "TRUST_BOUNDARY": "caller input to Result handoff",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "all four non-None",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Result handoff never accepts slotless context-only resume.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Result handoff never accepts slotless context-only resume."
+      },
+      {
+        "SITE_ID": "H02",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:119-125",
+        "INPUT_BOUNDARY": "complete bindings plus slot",
+        "TRUST_BOUNDARY": "Result adapter to resume/native authority",
+        "NATIVE_OWNER": "build_plugin_resume and continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "resume ready",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "no independent authority",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Must use native-derived Result; no direct Result discovery.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Must use native-derived Result; no direct Result discovery."
+      },
+      {
+        "SITE_ID": "H03",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:126-127",
+        "INPUT_BOUNDARY": "resume status",
+        "TRUST_BOUNDARY": "resume presentation to Result requirement",
+        "NATIVE_OWNER": "build_plugin_resume",
+        "PRECONDITIONS": "PLUGIN_RESUME_READY",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Non-ready resume fails closed.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Non-ready resume fails closed."
+      },
+      {
+        "SITE_ID": "H04",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:126-127",
+        "INPUT_BOUNDARY": "result_id presence",
+        "TRUST_BOUNDARY": "context-only resume versus Result-bearing resume",
+        "NATIVE_OWNER": "build_plugin_resume",
+        "PRECONDITIONS": "result_id present",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Ready status alone does not prove Result authority; patched ready-without-ID reconciles.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Ready status alone does not prove Result authority; patched ready-without-ID reconciles."
+      },
+      {
+        "SITE_ID": "H05",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:128-138",
+        "INPUT_BOUNDARY": "native Result fields",
+        "TRUST_BOUNDARY": "verified result to compact GPT text",
+        "NATIVE_OWNER": "result_return.render_compact_gpt_return",
+        "PRECONDITIONS": "resume ready with result ID",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Compact text projects native fields and next_action_hint; no completion authority.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Compact text projects native fields and next_action_hint; no completion authority."
+      },
+      {
+        "SITE_ID": "H06",
+        "CALLER": "build_plugin_result_handoff",
+        "CODE_LOCATION": "framework_plugin_entry.py:139",
+        "INPUT_BOUNDARY": "resume map plus compact text",
+        "TRUST_BOUNDARY": "native resume to Plugin Result view",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "compact render succeeds",
+        "SUCCESS_STATUS": "HANDOFF_READY",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "presentation only",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Adds compact_return and changes status; shape differs from resume.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "reconciliation_required",
+            "project_id",
+            "project_context_id",
+            "repository_id",
+            "repository",
+            "state_revision",
+            "state",
+            "current_work",
+            "instruction_id",
+            "instruction_locator",
+            "result_id",
+            "result_ref",
+            "evidence_refs",
+            "git",
+            "result_status",
+            "blockers",
+            "next_action_hint",
+            "compact_return"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Adds compact_return and changes status; shape differs from resume."
+      },
+      {
+        "SITE_ID": "V01",
+        "CALLER": "request_validation_access",
+        "CODE_LOCATION": "framework_plugin_entry.py:146-150",
+        "INPUT_BOUNDARY": "baseline control GitHub name",
+        "TRUST_BOUNDARY": "native baseline to instruction resolution identity",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "load and repository extraction succeed",
+        "SUCCESS_STATUS": "VALIDATION_RESULT",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Catches load and identity extraction failures; does not require LATEST_SYNCED_REMOTE_STATE.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "validation_status",
+            "findings"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Catches load and identity extraction failures; does not require LATEST_SYNCED_REMOTE_STATE."
+      },
+      {
+        "SITE_ID": "V02",
+        "CALLER": "request_validation_access",
+        "CODE_LOCATION": "framework_plugin_entry.py:151-155",
+        "INPUT_BOUNDARY": "locator and repository from control",
+        "TRUST_BOUNDARY": "caller locator to native durable instruction",
+        "NATIVE_OWNER": "instruction_envelope.resolve_durable_instruction",
+        "PRECONDITIONS": "native resolution returns status",
+        "SUCCESS_STATUS": "VALIDATION_RESULT",
+        "FAILURE_STATUS": "VALIDATION_RESULT",
+        "AUTHORITY_EFFECT": "native resolver decides validity",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Validation access asks native resolver and reports outcome; stale baseline status alone does not block it.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "validation_status",
+            "findings"
+          ],
+          "failure_keys": [
+            "status",
+            "validation_status",
+            "findings"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Validation access asks native resolver and reports outcome; stale baseline status alone does not block it."
+      },
+      {
+        "SITE_ID": "V03",
+        "CALLER": "request_validation_access",
+        "CODE_LOCATION": "framework_plugin_entry.py:156-158",
+        "INPUT_BOUNDARY": "native resolution status",
+        "TRUST_BOUNDARY": "instruction resolution to validation view",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "INSTRUCTION_RESOLVED or other",
+        "SUCCESS_STATUS": "VALIDATION_RESULT",
+        "FAILURE_STATUS": "VALIDATION_RESULT",
+        "AUTHORITY_EFFECT": "presentation only",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Three-key validation result is distinct from resume/reconciliation and list capability shape.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "validation_status",
+            "findings"
+          ],
+          "failure_keys": [
+            "status",
+            "validation_status",
+            "findings"
+          ]
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Three-key validation result is distinct from resume/reconciliation and list capability shape."
+      },
+      {
+        "SITE_ID": "C01",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:169-170",
+        "INPUT_BOUNDARY": "capability string",
+        "TRUST_BOUNDARY": "public Plugin capability allowlist",
+        "NATIVE_OWNER": "framework_plugin_entry.P2_CAPABILITIES",
+        "PRECONDITIONS": "supported capability",
+        "SUCCESS_STATUS": "[] or native validation errors",
+        "FAILURE_STATUS": "UNSUPPORTED_CAPABILITY",
+        "AUTHORITY_EFFECT": "denies unsupported surface",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Early capability denial occurs before baseline load.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Early capability denial occurs before baseline load."
+      },
+      {
+        "SITE_ID": "C02",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:171-174",
+        "INPUT_BOUNDARY": "root and repository ID",
+        "TRUST_BOUNDARY": "native loader failure to capability list",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "load succeeds",
+        "SUCCESS_STATUS": "[] or native validation errors",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Same loader family as R01 but list return shape and capability trust boundary differ.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Same loader family as R01 but list return shape and capability trust boundary differ."
+      },
+      {
+        "SITE_ID": "C03",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:175-176",
+        "INPUT_BOUNDARY": "baseline status",
+        "TRUST_BOUNDARY": "native sync status to capability gate",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "LATEST_SYNCED_REMOTE_STATE",
+        "SUCCESS_STATUS": "[] or native validation errors",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "denies stale capability",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "All supported capabilities require synced baseline, unlike validation access.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "All supported capabilities require synced baseline, unlike validation access."
+      },
+      {
+        "SITE_ID": "C04",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:177-178",
+        "INPUT_BOUNDARY": "supported non-governance capability",
+        "TRUST_BOUNDARY": "capability selection after native sync",
+        "NATIVE_OWNER": "framework_plugin_entry.P2_CAPABILITIES",
+        "PRECONDITIONS": "synced baseline and passive capability",
+        "SUCCESS_STATUS": "[]",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "no execution authority",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Passive capability success is an empty error list.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Passive capability success is an empty error list."
+      },
+      {
+        "SITE_ID": "C05",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:179-184",
+        "INPUT_BOUNDARY": "locator/revision/action",
+        "TRUST_BOUNDARY": "executable capability request binding",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "complete typed request",
+        "SUCCESS_STATUS": "native validation errors or []",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "prevents unbound execution request",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Type and required-action checks precede Core validation.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Type and required-action checks precede Core validation."
+      },
+      {
+        "SITE_ID": "C06",
+        "CALLER": "validate_plugin_capability_request",
+        "CODE_LOCATION": "framework_plugin_entry.py:185-190",
+        "INPUT_BOUNDARY": "review inputs and repository authority",
+        "TRUST_BOUNDARY": "Plugin request to Core executable authority",
+        "NATIVE_OWNER": "instruction_envelope.validate_durable_capability_request",
+        "PRECONDITIONS": "native Core accepts",
+        "SUCCESS_STATUS": "[]",
+        "FAILURE_STATUS": "native error list",
+        "AUTHORITY_EFFECT": "Core alone decides execution authority",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Distinct authority owner; cannot merge with presentation validation access.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Distinct authority owner; cannot merge with presentation validation access."
+      },
+      {
+        "SITE_ID": "F01",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:197-201",
+        "INPUT_BOUNDARY": "baseline control/state",
+        "TRUST_BOUNDARY": "native baseline to feedback provenance",
+        "NATIVE_OWNER": "continuity_resume.load_continuity_resume",
+        "PRECONDITIONS": "load and extraction succeed",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Needs both control and state; differs from V01.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Needs both control and state; differs from V01."
+      },
+      {
+        "SITE_ID": "F02",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:202-211",
+        "INPUT_BOUNDARY": "sync status, source binding, feedback",
+        "TRUST_BOUNDARY": "project evidence provenance and evolution boundary",
+        "NATIVE_OWNER": "framework_feedback.validate_framework_evolution_boundary",
+        "PRECONDITIONS": "all provenance predicates pass",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "denies foreign/unsafe feedback",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Combines project/context/revision/provenance and native framework-boundary checks.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Combines project/context/revision/provenance and native framework-boundary checks."
+      },
+      {
+        "SITE_ID": "F03",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:212-215",
+        "INPUT_BOUNDARY": "locator and control repository",
+        "TRUST_BOUNDARY": "feedback to native Instruction identity",
+        "NATIVE_OWNER": "instruction_envelope.resolve_durable_instruction",
+        "PRECONDITIONS": "resolution succeeds",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Native resolution reused but feedback requires source correlation.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Native resolution reused but feedback requires source correlation."
+      },
+      {
+        "SITE_ID": "F04",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:216-221",
+        "INPUT_BOUNDARY": "resolved instruction and source binding",
+        "TRUST_BOUNDARY": "source evidence to exact Work Unit/Instruction",
+        "NATIVE_OWNER": "instruction_envelope.resolve_durable_instruction",
+        "PRECONDITIONS": "ID and Work Unit match",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "denies foreign source",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Feedback source correlation is absent from validation-access.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Feedback source correlation is absent from validation-access."
+      },
+      {
+        "SITE_ID": "F05",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:222-229",
+        "INPUT_BOUNDARY": "optional source result_id",
+        "TRUST_BOUNDARY": "source Result claim to native Result",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "result_id absent or native handoff called",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "native read/Git observation",
+        "CLASSIFICATION_BASIS": "Optional Result claim triggers separate native handoff verification.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Optional Result claim triggers separate native handoff verification."
+      },
+      {
+        "SITE_ID": "F06",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:230-231",
+        "INPUT_BOUNDARY": "native handoff status and result_id",
+        "TRUST_BOUNDARY": "native Result to source feedback claim",
+        "NATIVE_OWNER": "continuity_resume.build_repository_handoff",
+        "PRECONDITIONS": "HANDOFF_READY and exact ID match",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "RECONCILIATION_REQUIRED",
+        "AUTHORITY_EFFECT": "denies unverified Result claim",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Exact Result ID matching has no equivalent in resume projection.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": [
+            "status",
+            "reconciliation_required"
+          ]
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Exact Result ID matching has no equivalent in resume projection."
+      },
+      {
+        "SITE_ID": "F07",
+        "CALLER": "route_plugin_feedback",
+        "CODE_LOCATION": "framework_plugin_entry.py:232-235",
+        "INPUT_BOUNDARY": "validated source identity",
+        "TRUST_BOUNDARY": "feedback routing presentation",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "all feedback checks pass",
+        "SUCCESS_STATUS": "FEEDBACK_ROUTED",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "mutation NONE",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Six-key routing view is non-authoritative.",
+        "RETURN_SHAPE": {
+          "success_keys": [
+            "status",
+            "destination",
+            "project_id",
+            "work_unit_id",
+            "state_revision",
+            "mutation"
+          ],
+          "failure_keys": []
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Six-key routing view is non-authoritative."
+      },
+      {
+        "SITE_ID": "M01",
+        "CALLER": "durable_authority_marker",
+        "CODE_LOCATION": "framework_plugin_entry.py:238-240",
+        "INPUT_BOUNDARY": "resume status",
+        "TRUST_BOUNDARY": "verified Plugin view to marker",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "PLUGIN_RESUME_READY or HANDOFF_READY",
+        "SUCCESS_STATUS": "tuple marker",
+        "FAILURE_STATUS": "ValueError VERIFIED_RESUME_REQUIRED",
+        "AUTHORITY_EFFECT": "none",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Rejects unrelated status before marker extraction.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Rejects unrelated status before marker extraction."
+      },
+      {
+        "SITE_ID": "M02",
+        "CALLER": "durable_authority_marker",
+        "CODE_LOCATION": "framework_plugin_entry.py:241-244",
+        "INPUT_BOUNDARY": "git/current_head_sha or verified_baseline_sha",
+        "TRUST_BOUNDARY": "verified resume to durable marker tuple",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "accepted status",
+        "SUCCESS_STATUS": "tuple marker",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "observation only",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Uses different SHA source for handoff and slotless context; no authority grant.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "PRESENTATION_DUPLICATION",
+        "KEEP_REASON": "Uses different SHA source for handoff and slotless context; no authority grant."
+      },
+      {
+        "SITE_ID": "M03",
+        "CALLER": "detect_durable_authority_change",
+        "CODE_LOCATION": "framework_plugin_entry.py:247-250",
+        "INPUT_BOUNDARY": "previous/current marker tuple",
+        "TRUST_BOUNDARY": "marker comparison to notification hint",
+        "NATIVE_OWNER": "framework_plugin_entry",
+        "PRECONDITIONS": "two markers",
+        "SUCCESS_STATUS": "bool",
+        "FAILURE_STATUS": "N/A",
+        "AUTHORITY_EFFECT": "change hint only; fresh resume required",
+        "SIDE_EFFECTS": "none",
+        "CLASSIFICATION_BASIS": "Boolean inequality does not authorize work and cannot replace native resume.",
+        "RETURN_SHAPE": {
+          "success_keys": "N/A (list or tuple return)",
+          "failure_keys": "N/A (list or tuple return)"
+        },
+        "CLASSIFICATION": "VALID_DEFENSIVE_VALIDATION",
+        "KEEP_REASON": "Boolean inequality does not authorize work and cannot replace native resume."
+      }
+    ],
+    "pre_report_sha256": "d9b3405f1a4fb981f133e619f3ca9008f1862806d17f29bd85f50bd7239a88ae"
+  },
+  "observable_status_return_shape_matrix": {
+    "before_classification": [
+      {
+        "case": "native_baseline",
+        "type": "dict",
+        "keys": [
+          "active_work_unit",
+          "candidate_modules",
+          "continuity",
+          "control",
+          "current_attestation_head",
+          "hot_files",
+          "hot_modules",
+          "invalidated_context",
+          "map_route",
+          "module_map_reads",
+          "project_context_id",
+          "reconciliation_required",
+          "remote_reverification_required",
+          "repository_id",
+          "required_reads",
+          "resume_mode",
+          "stale_modules",
+          "state",
+          "status",
+          "verified_baseline_sha"
+        ],
+        "status": "LATEST_SYNCED_REMOTE_STATE",
+        "reconciliation_required": false
+      },
+      {
+        "case": "slotless_synced_baseline",
+        "type": "dict",
+        "keys": [
+          "active_work_unit",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "remote_reverification_required",
+          "repository",
+          "repository_id",
+          "state",
+          "state_revision",
+          "status",
+          "verified_baseline_sha"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false
+      },
+      {
+        "case": "slotless_with_execution_slot_only",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_success",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "complete_wrong_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_foreign_repository",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_invalid_repository",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_failure_bad_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_slotless_unexpected_slot",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_missing_required_binding",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_valid_native",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "compact_return",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "HANDOFF_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "result_native_resume_not_ready",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_resume_ready_missing_result_id",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_handoff_status_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_slot_match",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "execution_slot_id",
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "complete_slot_mismatch",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_load_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_load_failure",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_load_failure",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_load_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_malformed_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_malformed_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_malformed_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_malformed_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_non_latest_baseline",
+        "type": "dict",
+        "keys": [
+          "findings",
+          "status",
+          "validation_status"
+        ],
+        "status": "VALIDATION_RESULT",
+        "validation_status": "INSTRUCTION_RESOLVED",
+        "findings": []
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_non_latest_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_non_latest_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_non_latest_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_unsupported_early",
+        "type": "list",
+        "value": [
+          "UNSUPPORTED_CAPABILITY"
+        ]
+      },
+      {
+        "case": "validation_access_nonlatest_resolution_failure",
+        "type": "dict",
+        "keys": [
+          "findings",
+          "status",
+          "validation_status"
+        ],
+        "status": "VALIDATION_RESULT",
+        "validation_status": "RECONCILIATION_REQUIRED",
+        "findings": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      }
+    ],
+    "after_classification": [
+      {
+        "case": "native_baseline",
+        "type": "dict",
+        "keys": [
+          "active_work_unit",
+          "candidate_modules",
+          "continuity",
+          "control",
+          "current_attestation_head",
+          "hot_files",
+          "hot_modules",
+          "invalidated_context",
+          "map_route",
+          "module_map_reads",
+          "project_context_id",
+          "reconciliation_required",
+          "remote_reverification_required",
+          "repository_id",
+          "required_reads",
+          "resume_mode",
+          "stale_modules",
+          "state",
+          "status",
+          "verified_baseline_sha"
+        ],
+        "status": "LATEST_SYNCED_REMOTE_STATE",
+        "reconciliation_required": false
+      },
+      {
+        "case": "slotless_synced_baseline",
+        "type": "dict",
+        "keys": [
+          "active_work_unit",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "remote_reverification_required",
+          "repository",
+          "repository_id",
+          "state",
+          "state_revision",
+          "status",
+          "verified_baseline_sha"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false
+      },
+      {
+        "case": "slotless_with_execution_slot_only",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref_instruction_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_target_work_unit_ref_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_id_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "partial_target_work_unit_ref_instruction_locator_expected_state_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_success",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "complete_wrong_revision",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_foreign_repository",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_invalid_repository",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_failure_bad_locator",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_slotless_unexpected_slot",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_missing_required_binding",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_valid_native",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "compact_return",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "HANDOFF_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "result_native_resume_not_ready",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "result_resume_ready_missing_result_id",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_native_handoff_status_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "complete_slot_match",
+        "type": "dict",
+        "keys": [
+          "blockers",
+          "current_work",
+          "evidence_refs",
+          "git",
+          "instruction_id",
+          "instruction_locator",
+          "next_action_hint",
+          "project_context_id",
+          "project_id",
+          "reconciliation_required",
+          "repository",
+          "repository_id",
+          "result_id",
+          "result_ref",
+          "result_status",
+          "state",
+          "state_revision",
+          "status"
+        ],
+        "status": "PLUGIN_RESUME_READY",
+        "reconciliation_required": false,
+        "current_work_keys": [
+          "execution_slot_id",
+          "status",
+          "work_unit_id"
+        ],
+        "git_keys": [
+          "current_head_sha",
+          "implementation_sha"
+        ]
+      },
+      {
+        "case": "complete_slot_mismatch",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_load_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_load_failure",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_load_failure",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_load_failure",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_malformed_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_malformed_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_malformed_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_malformed_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "validation_access_non_latest_baseline",
+        "type": "dict",
+        "keys": [
+          "findings",
+          "status",
+          "validation_status"
+        ],
+        "status": "VALIDATION_RESULT",
+        "validation_status": "INSTRUCTION_RESOLVED",
+        "findings": []
+      },
+      {
+        "case": "capability_CONTEXT_ACCESS_non_latest_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "capability_AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST_non_latest_baseline",
+        "type": "list",
+        "value": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      },
+      {
+        "case": "feedback_non_latest_baseline",
+        "type": "dict",
+        "keys": [
+          "reconciliation_required",
+          "status"
+        ],
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      {
+        "case": "capability_unsupported_early",
+        "type": "list",
+        "value": [
+          "UNSUPPORTED_CAPABILITY"
+        ]
+      },
+      {
+        "case": "validation_access_nonlatest_resolution_failure",
+        "type": "dict",
+        "keys": [
+          "findings",
+          "status",
+          "validation_status"
+        ],
+        "status": "VALIDATION_RESULT",
+        "validation_status": "RECONCILIATION_REQUIRED",
+        "findings": [
+          "RECONCILIATION_REQUIRED"
+        ]
+      }
+    ],
+    "after_basis": "Production source is byte-identical and focused behavior tests passed; no source refactor occurred."
+  },
+  "architectural_conclusion": {
+    "no_proven_true_duplicate": true,
+    "source_change_required": false,
+    "source_change_performed": false,
+    "source_refactor_performed": false,
+    "private_helper_consolidation": "NOT_NEEDED",
+    "plugin_surface_changed": false,
+    "observable_behavior_changed": false,
+    "new_public_api": false,
+    "new_status": false,
+    "new_authority": false,
+    "new_fallback": false,
+    "new_reconciliation_trigger": false,
+    "framework_plugin_entry_before_blob": "48615612f42ea7c45d663bd5277d0e59094d79ab",
+    "framework_plugin_entry_after_blob": "48615612f42ea7c45d663bd5277d0e59094d79ab"
+  },
+  "desired_semantic_changes": [
+    {
+      "subject": "validation-access baseline freshness behavior",
+      "observation": "some non-LATEST_SYNCED_REMOTE_STATE baseline paths continue to instruction resolution",
+      "current_action": "PRESERVE_CURRENT_BEHAVIOR",
+      "e2_authority": "NO_SEMANTIC_CHANGE"
+    },
+    {
+      "subject": "malformed baseline failure-shape consistency",
+      "observation": "some malformed baseline cases raise while other entrypoints normalize to RECONCILIATION_REQUIRED",
+      "current_action": "PRESERVE_CURRENT_BEHAVIOR",
+      "e2_authority": "NO_SEMANTIC_CHANGE"
+    }
+  ],
+  "test_facts": {
+    "focused_plugin_before_test_additions": {
+      "status": "PASS",
+      "tests": 21
+    },
+    "new_regression_test_count": 12,
+    "focused_plugin_after_classification": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "tests_before_source_change": "PASS",
+    "tests_after_classification": "PASS",
+    "plugin_package_regression": {
+      "status": "PASS",
+      "tests": 2
+    },
+    "continuity_regression": {
+      "status": "PASS",
+      "tests": 39
+    },
+    "project_validation": "PASS",
+    "framework_validation": "PASS",
+    "consumer_projection_validation": "PASS",
+    "full_unittest": {
+      "status": "PASS",
+      "tests": 713,
+      "skipped": 2
+    },
+    "git_diff_check": "PASS",
+    "pre_full_baseline": {
+      "tests": 701,
+      "skipped": 2
+    }
+  },
+  "stage_semantics": {
+    "candidate_only": true,
+    "durably_integrated": false,
+    "post_execution_review_required": true,
+    "phase_e2_complete": false,
+    "phase_e_complete": false,
+    "phase_f_started": false,
+    "commit": false,
+    "push": false,
+    "remote_mutation": false,
+    "post_execution_started": false
+  },
+  "candidate_paths": [
+    ".gpt-codex/tests/test_framework_plugin.py",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json",
+    ".gpt-codex/evidence/instructions/edf344bf-b9e8-43ae-96a8-ae2d0699f1d6.json"
+  ],
+  "candidate_path_count": 3,
+  "new_directory_prefix_count": 0,
+  "out_of_scope_changes": [],
+  "findings": []
+}
