@@ -106,6 +106,29 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_current_documentation_navigation_is_management_only(self):
+        manifest = load_projection_manifest(ROOT)
+        inventory = build_consumer_inventory(ROOT, manifest)
+        for relative in (
+            "docs/architecture/README.md",
+            "docs/decisions/README.md",
+            "docs/plans/README.md",
+        ):
+            self.assertEqual(
+                consumer_projection._resolve_projection_classification(
+                    relative, manifest["paths"], manifest["prefix_defaults"]
+                ),
+                "MANAGEMENT_ONLY",
+            )
+            self.assertNotIn(relative, inventory)
+        self.assertEqual(
+            consumer_projection._resolve_projection_classification(
+                "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+                manifest["paths"], manifest["prefix_defaults"],
+            ),
+            "DEVELOPMENT_HISTORY",
+        )
+
     def test_batch_1_history_report_is_development_history(self):
         manifest = load_projection_manifest(ROOT)
         report = (
