@@ -1,0 +1,243 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "SYSTEM_DERIVED",
+  "subject": "GITHUB_REPOSITORY_CONSOLIDATION_PHASE_D_BATCH_2_MIGRATION",
+  "state_revision": 20,
+  "result": "PHASE_D_BATCH_2_MIGRATION_CANDIDATE",
+  "execution_base": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+  "remote_main": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+  "work_unit_id": "github-repository-consolidation-phase-d-batch-2-migration-001",
+  "work_unit_commit": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+  "work_unit_blob": "78e8857b55b6fcfd79493f3b27bcaf0eba3667fa",
+  "execution_instruction_id": "593eba35-4ec6-4788-a245-a93731d46618",
+  "execution_instruction_path": ".gpt-codex/evidence/instructions/593eba35-4ec6-4788-a245-a93731d46618.json",
+  "execution_instruction_utf8_bytes": 9900,
+  "execution_instruction_sha256": "f20042e4701b325063a6999e89d2e201a633894d3c06035cf0d427146b90f64f",
+  "execution_instruction_git_blob": "bfdca20c4dd75779b1269cb079a1168ff1a569ec",
+  "pre_execution": {
+    "result": "PASS",
+    "review_target_revision": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+    "state_revision": 20
+  },
+  "d1_immutable_evidence_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "829f55f720471f450f4798dd1f243c87e210bafb",
+    "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+    "blob_sha": "1e7a2343ac71d3e1cf200ab4b680201672da674a"
+  },
+  "batch_1_completion_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "bb49921094cd56251b9fe39d843d38b7c6cc586b",
+    "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+    "blob_sha": "c993a9e9020bdcbc28f7576f125d3fa6981f94fa"
+  },
+  "batch_id": 2,
+  "source_reports": [
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md"
+  ],
+  "destination_reports": [
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md"
+  ],
+  "source_destination_blob_equivalence": [
+    {
+      "source": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      "destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      "source_blob": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+      "destination_blob": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+      "byte_identical": true,
+      "source_path_present": false,
+      "destination_path_present": true
+    },
+    {
+      "source": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      "destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      "source_blob": "38344bad217a035e257433bf5af53a2d99f34024",
+      "destination_blob": "38344bad217a035e257433bf5af53a2d99f34024",
+      "byte_identical": true,
+      "source_path_present": false,
+      "destination_path_present": true
+    },
+    {
+      "source": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "destination": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+      "source_blob": "43548009628e95cde209fac793cb9bc8cc8dfe94",
+      "destination_blob": "43548009628e95cde209fac793cb9bc8cc8dfe94",
+      "byte_identical": true,
+      "source_path_present": false,
+      "destination_path_present": true
+    }
+  ],
+  "reports_moved": 3,
+  "batch_1_preservation": {
+    "result": "PASS",
+    "reports": [
+      {
+        "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+        "base_blob": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+        "candidate_blob": "e47a5242882b89f23bd0fe31b208fbcb18f5c0e9",
+        "diff": false
+      },
+      {
+        "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+        "base_blob": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+        "candidate_blob": "418e42982ffa9a7e5bbc6795ba8eaf8c5c267b32",
+        "diff": false
+      },
+      {
+        "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+        "base_blob": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+        "candidate_blob": "2877ed56bfb7f4049c19b0fb19418089a3b068c2",
+        "diff": false
+      }
+    ]
+  },
+  "consumer_projection": {
+    "manifest_path": ".gpt-codex/release/consumer-projection-manifest.json",
+    "manifest_blob": "3093870c07831b0e76213b9e4b748c2bb7842bb6",
+    "manifest_unchanged": true,
+    "destination_classifications": {
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md": "DEVELOPMENT_HISTORY",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md": "DEVELOPMENT_HISTORY",
+      "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md": "DEVELOPMENT_HISTORY"
+    },
+    "audit": {
+      "unknown_paths": [],
+      "missing_required_paths": [],
+      "invalid_classifications": []
+    },
+    "unknown_paths": 0,
+    "missing_required_paths": 0,
+    "contamination": 0,
+    "management_leakage": 0
+  },
+  "directory_creation_contract_validation": {
+    "new_directory_prefix_count": 0,
+    "new_directory_prefixes": [],
+    "result": "PASS"
+  },
+  "live_dependency_rescan": {
+    "baseline": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+    "exact_source_paths_scanned": [
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md"
+    ],
+    "basenames_scanned": [
+      "task-6-report.md",
+      "task-11-report.md",
+      "task-12-report.md"
+    ],
+    "matched_tracked_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+      ".gpt-codex/evidence/instructions/d1477c2c-2b28-45b0-9a5d-4ddc98b12e61.json",
+      ".gpt-codex/evidence/instructions/e5aaf934-d712-4714-b337-89ef7fa4d692.json",
+      ".gpt-codex/work-units/github-repository-consolidation-phase-d-batch-1-migration-001.json",
+      ".gpt-codex/work-units/github-repository-consolidation-phase-d-batch-2-migration-001.json",
+      ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md"
+    ],
+    "interpretation": "Matches are D1/Batch 1 management evidence, Work Unit or prior Instruction scope declarations, and task-12 historical self-text. No external current live documentation link or report-specific runtime, schema, test, release, consumer, or recovery dependency was found.",
+    "new_survival_dependencies": [],
+    "broken_live_links": [],
+    "result": "PASS"
+  },
+  "repository_only_recovery": {
+    "result": "PASS",
+    "historical_commit": "a57a0a6c6bc2231a047f6b182af4ea5d083fb58c",
+    "source_blobs_reachable": {
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md": "8298419cfb3c02a3aa91c10719d94ed3d11d48b2",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md": "38344bad217a035e257433bf5af53a2d99f34024",
+      ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md": "43548009628e95cde209fac793cb9bc8cc8dfe94"
+    },
+    "immutable_d1_locator_verified": true,
+    "immutable_batch_1_locator_verified": true,
+    "candidate_destination_blobs_verified": true
+  },
+  "focused_tests": {
+    "consumer_projection": {
+      "command": "python -m unittest discover -s .gpt-codex/tests -p test_consumer_projection.py",
+      "result": "PASS",
+      "tests_run": 29
+    },
+    "directory_contract": {
+      "command": "python -m unittest discover -s .gpt-codex/tests -p test_self_hosting_validator.py",
+      "result": "PASS",
+      "tests_run": 59
+    }
+  },
+  "full_validation": {
+    "project": {
+      "command": "python .gpt-codex/scripts/validate_project.py .",
+      "result": "PASS"
+    },
+    "framework": {
+      "command": "python .gpt-codex/scripts/validate_framework.py",
+      "result": "PASS"
+    },
+    "consumer_projection": {
+      "command": "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "result": "PASS",
+      "unknown_paths": 0,
+      "missing_required_paths": 0,
+      "contamination": 0,
+      "management_leakage": 0,
+      "consumer_required_count": 86
+    },
+    "unittest_suite": {
+      "command": "python -m unittest discover -s .gpt-codex/tests -p \"test_*.py\"",
+      "result": "PASS",
+      "tests_run": 694,
+      "skipped": 2,
+      "failures": 0,
+      "errors": 0,
+      "test_discovery_matches_baseline": true
+    },
+    "diff_check": {
+      "command": "git diff --check",
+      "result": "PASS"
+    }
+  },
+  "candidate_scope_paths": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION.json",
+    ".gpt-codex/evidence/instructions/593eba35-4ec6-4788-a245-a93731d46618.json",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+    ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+    "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md"
+  ],
+  "out_of_scope_changes": [],
+  "finding_routing": {
+    "must_fix_now": "Blob or source/destination mismatch, broken live or recovery dependency, Consumer/Framework boundary error, failed mandatory validation, changed Batch 1, unauthorized directory, out-of-scope mutation, or Instruction identity mismatch blocks the candidate.",
+    "defer_to_optimization": "Record only independent nonblocking improvements and return to GPT without expanding this Work Unit."
+  },
+  "blocking_findings": [],
+  "deferred_optimization_candidates": [],
+  "candidate_only": true,
+  "durably_integrated": false,
+  "post_execution_review_required": true,
+  "commit": false,
+  "push": false,
+  "remote_mutation": false,
+  "non_authority_flags": {
+    "candidate_only": true,
+    "durably_integrated": false,
+    "post_execution_review_required": true,
+    "state_mutated": false,
+    "commit": false,
+    "push": false,
+    "remote_mutation": false
+  }
+}
