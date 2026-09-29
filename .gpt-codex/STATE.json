@@ -2,7 +2,7 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 21,
+  "revision": 22,
   "state": "AUTHORIZED",
   "active_work_unit": "framework-staged-closure-group-a-001",
   "blockers": [],
@@ -47,14 +47,17 @@
     ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
     ".gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json",
-    ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json"
+    ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+    ".gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "c7f548a3149c9fd07e0551c7228324f3c50abaff",
-    "latest_synced_state_revision": 21,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+    "latest_verified_remote_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+    "latest_synced_state_revision": 22,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
     "sync_status": "SYNCED"
   },
-  "next_action": "PHASE_E_PROVEN_DUPLICATE_SEMANTICS_REQUIRED"
+  "next_action": "PHASE_F_FULL_VALIDATION_CLEAN_CLONE_REQUIRED"
 }

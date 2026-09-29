@@ -1,0 +1,149 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "PHASE_E_PROVEN_DUPLICATE_SEMANTICS_VERIFIED_REMOTE_INTEGRATION",
+  "state_revision": 21,
+  "result": "VERIFIED",
+  "framework_version": "2.7.4",
+  "pre_closure_state_revision": 21,
+  "verified_work_w": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+  "verified_work_parent_sha": "248436c0142be538be6b394ea9fae445af6b9370",
+  "execution_base_sha": "c7b0cc3e2d48d11c2f5d653ace19a60030b3d5d4",
+  "execution_base_parent_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+  "verified_work_is_execution_base_ancestor": true,
+  "execution_base_relation": "W plus closure Work Unit materialization",
+  "current_remote_ref": "refs/heads/main",
+  "current_remote_main_sha_at_candidate_construction": "c7b0cc3e2d48d11c2f5d653ace19a60030b3d5d4",
+  "work_unit_id": "github-repository-consolidation-phase-e-durable-closure-001",
+  "work_unit_git_blob": "a3e338493cbc2aa59a69e9ccb1c82b667d46881f",
+  "closure_execution_instruction_id": "499ebff9-b4fd-4f3b-8625-82fdf4910e1b",
+  "closure_execution_instruction_git_blob": "bbcc7700cfd8de38ac9b3ebf7b906d20d4a53a54",
+  "final_aggregate_review_result_id": "60b5ccd8-9bad-451e-80ea-d5762729cd85",
+  "final_aggregate_review_result_git_blob": "39c9fb139eb9d4a6ac0daa2bbf57879797daff4e",
+  "open_pr_count": 0,
+  "future_publication_p": "UNKNOWN",
+  "future_publication_p_predicted": false,
+  "accepted_design_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+    "blob_sha": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+  },
+  "accepted_plan_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+    "blob_sha": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+  },
+  "e1": {
+    "integration_commit": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+    "evidence": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+      "blob_sha": "b0760f00f85f8b153eb124a834897847ed247520"
+    },
+    "instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+      "path": ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json",
+      "blob_sha": "ad169af46fa07d4c179b98b611e6f76ba284c41f"
+    },
+    "release_archive_blob": "a994fd6af6f0a1e48e3e82e6a9ddee74108986fe",
+    "release_framework_blob": "d001bcb7eab4c3608024a89b3aa166eddb638cc9",
+    "release_version_policy_primary_owner": ".gpt-codex/scripts/release_archive.py",
+    "true_duplicate_removed": true,
+    "strict_current_policy_preserved": true,
+    "legacy_archive_acceptance_preserved": true,
+    "ordering_policy_preserved": true,
+    "build_metadata_behavior_preserved": true,
+    "compatibility_quirks_preserved": true,
+    "observable_behavior_changed": false
+  },
+  "e2": {
+    "integration_commit": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+    "evidence": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json",
+      "blob_sha": "e3feef018c2bed4f49512f63d7696813fb3a4475"
+    },
+    "instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+      "path": ".gpt-codex/evidence/instructions/edf344bf-b9e8-43ae-96a8-ae2d0699f1d6.json",
+      "blob_sha": "3ff048f50696e47840b24c1d66fa1b44ce89b1a1"
+    },
+    "test_framework_plugin_blob": "2bc1fe13f963e16334487cf2001ca2c7e5bd7efc",
+    "framework_plugin_entry_blob": "48615612f42ea7c45d663bd5277d0e59094d79ab",
+    "inventory_complete": true,
+    "inventory_site_count": 35,
+    "true_duplicate_site_count": 0,
+    "valid_defensive_validation_site_count": 27,
+    "presentation_duplication_site_count": 8,
+    "unresolved_site_count": 0,
+    "no_proven_true_duplicate": true,
+    "source_change_performed": false,
+    "plugin_surface_changed": false,
+    "observable_behavior_changed": false
+  },
+  "deferred_semantics": [
+    "validation-access baseline freshness behavior",
+    "malformed baseline failure-shape consistency",
+    "release suffix semantic tightening",
+    "Issue #17 optimization candidates"
+  ],
+  "deferred_semantics_remain_deferred": true,
+  "validation": {
+    "focused_release_archive_tests": {
+      "status": "PASS",
+      "tests": 10,
+      "skipped": 0
+    },
+    "focused_release_packaging_tests": {
+      "status": "PASS",
+      "tests": 25,
+      "skipped": 1
+    },
+    "focused_plugin_tests": {
+      "status": "PASS",
+      "tests": 33,
+      "skipped": 0
+    },
+    "plugin_package_regression": {
+      "status": "PASS",
+      "tests": 2,
+      "skipped": 0
+    },
+    "continuity_regression": {
+      "status": "PASS",
+      "tests": 39,
+      "skipped": 0
+    },
+    "project_validation": "PASS",
+    "framework_validation": "PASS",
+    "consumer_projection_validation": "PASS",
+    "full_unittest": {
+      "status": "PASS",
+      "tests": 713,
+      "skipped": 2,
+      "failures": 0,
+      "errors": 0
+    },
+    "git_diff_check": "PASS"
+  },
+  "candidate_status": {
+    "management_only": true,
+    "candidate_committed": false,
+    "candidate_pushed": false,
+    "post_execution_started": false,
+    "phase_e_durably_closed": false,
+    "phase_f_started": false
+  }
+}
