@@ -6,6 +6,7 @@
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
     ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
     "docs/superpowers/": "DEVELOPMENT_HISTORY",
+    "docs/history/": "DEVELOPMENT_HISTORY",
     ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
     "releases/records/": "RELEASE_METADATA"
   },

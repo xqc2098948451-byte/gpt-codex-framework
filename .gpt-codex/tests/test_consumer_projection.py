@@ -56,6 +56,7 @@ def prefix_manifest() -> dict[str, object]:
         ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
         ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
         "docs/superpowers/": "DEVELOPMENT_HISTORY",
+        "docs/history/": "DEVELOPMENT_HISTORY",
         ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
         "releases/records/": "RELEASE_METADATA",
     }
@@ -105,6 +106,22 @@ def git_show_bytes(revision: str, relative: str) -> bytes:
 
 
 class ConsumerProjectionTests(unittest.TestCase):
+    def test_batch_1_history_report_is_development_history(self):
+        manifest = load_projection_manifest(ROOT)
+        report = (
+            "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/"
+            "task-1-report.md"
+        )
+        self.assertEqual(
+            consumer_projection._resolve_projection_classification(
+                report, manifest["paths"], manifest["prefix_defaults"]
+            ),
+            "DEVELOPMENT_HISTORY",
+        )
+        audit = audit_projection_paths(ROOT, manifest)
+        self.assertEqual(audit["unknown_paths"], [])
+        self.assertEqual(audit["missing_required_paths"], [])
+
     def test_directory_contract_sources_project_without_management_tests(self):
         manifest = load_projection_manifest(ROOT)
         required = (".gpt-codex/schemas/work-unit.schema.json",
