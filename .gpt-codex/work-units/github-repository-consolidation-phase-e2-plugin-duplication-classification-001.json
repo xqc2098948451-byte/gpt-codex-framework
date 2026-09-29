@@ -1,0 +1,136 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-e2-plugin-duplication-classification-001",
+  "goal": "Prove and classify the repeated baseline/resume/reconciliation handling in framework_plugin_entry.py by observable P2 semantics and trust boundary; consolidate only behaviorally identical TRUE_DUPLICATE boilerplate into a private helper, while retaining VALID_DEFENSIVE_VALIDATION and PRESENTATION_DUPLICATION behavior unchanged and without expanding the Plugin surface.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/scripts/release_archive.py",
+      ".gpt-codex/scripts/release_framework.py",
+      ".gpt-codex/tests/test_release_archive.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/tests/test_framework_plugin_package.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/release/",
+      "VERSION",
+      "AGENTS.md",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "E2_PLUGIN_DUPLICATION_CLASSIFICATION",
+    "design_responsibility": "PLUGIN_ADAPTER",
+    "authoring_main_sha": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+    "state_revision": 21,
+    "framework_version": "2.7.4",
+    "accepted_design_plan_commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "accepted_design_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+    "accepted_plan_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+    "e1_prerequisite": {
+      "integration_commit": "e065e6e563d42563f716d5e4d5b45ff2e55ca181",
+      "parent_commit": "9b6f575bbed6ecb87b163f6cd7338f3f500dc124",
+      "evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+      "evidence_blob": "b0760f00f85f8b153eb124a834897847ed247520",
+      "release_version_policy_owner": ".gpt-codex/scripts/release_archive.py"
+    },
+    "source_blobs_before": {
+      ".gpt-codex/scripts/framework_plugin_entry.py": "48615612f42ea7c45d663bd5277d0e59094d79ab",
+      ".gpt-codex/tests/test_framework_plugin.py": "7ac3f1053d0a19130a7d20e06bbe09255b4d5466",
+      ".gpt-codex/tests/test_framework_plugin_package.py": "b5f556d0d40a920d522abd265a8e66dd94737fc1"
+    },
+    "source_change_required": false,
+    "requirements": [
+      "This Work Unit alone grants no implementation authority. After durable materialization, a separate exact Execution Instruction and independent native PRE_EXECUTION PASS at PHASE_E2_PLUGIN_DUPLICATION_NATIVE_PRE are required before E2 implementation; independent POST_EXECUTION review remains required.",
+      "At authoring, origin/main=e065e6e563d42563f716d5e4d5b45ff2e55ca181, STATE revision 21 is AUTHORIZED and SYNCED, Framework VERSION=2.7.4, and open PR count is zero. Future PRE must freshly reobserve durable authority and all owned-source identities; drift requires RECONCILIATION_REQUIRED rather than implicit rebasing.",
+      "E1 is durably integrated at e065e6e563d42563f716d5e4d5b45ff2e55ca181 with parent 9b6f575bbed6ecb87b163f6cd7338f3f500dc124 and the specified E1 Evidence blob. release_archive.py remains the single RELEASE_VERSION_POLICY owner. E1 completion does not make Phase E complete. Reuse the accepted Repository Consolidation Design and Plan without redesigning Phase E.",
+      "Inventory every framework_plugin_entry.py branch involving load_continuity_resume(...), build_repository_handoff(...), _reconcile(), baseline status checks, resume projection, binding completeness, execution slot validation, or result handoff. For each candidate site record SITE_ID, CALLER, INPUT_BOUNDARY, TRUST_BOUNDARY, SUCCESS_STATUS, FAILURE_STATUS, RETURN_SHAPE, AUTHORITY_EFFECT, NATIVE_OWNER, and CLASSIFICATION_CANDIDATE; textual similarity alone is insufficient.",
+      "Classify each site as TRUE_DUPLICATE, VALID_DEFENSIVE_VALIDATION, or PRESENTATION_DUPLICATION. TRUE_DUPLICATE requires affirmative proof of the same input meaning, trust boundary, authority meaning, failure behavior, status, externally observable key shape, native owner, and no side effects. If any dimension differs or remains unproven, do not consolidate that site.",
+      "TEST FIRST: extend only test_framework_plugin.py with a baseline/resume equivalence matrix and run it to PASS against the unchanged production implementation before any refactor or classification-based consolidation. Assert both status and externally observable key presence/absence; do not write tests that merely restate implementation details.",
+      "Regression matrix must cover slotless synced baseline success; slotless baseline with unexpected execution_slot_id; partial target_work_unit_id/target_work_unit_ref/instruction_locator/expected_state_revision bindings; complete explicit bindings; wrong expected_state_revision; foreign or invalid repository identity; native handoff not ready; execution slot match and mismatch; result handoff missing bindings and valid native Result; missing result_id; malformed baseline or load failure; baseline status other than LATEST_SYNCED_REMOTE_STATE; and all existing status names and return-shape differences.",
+      "On synced baseline, build_plugin_resume(root, selected_repository_id) without slot or handoff bindings returns PLUGIN_RESUME_READY with baseline projection and no invented Result/Handoff fields. Partial explicit handoff bindings return RECONCILIATION_REQUIRED without inferring missing bindings.",
+      "With complete explicit bindings, build_repository_handoff(...) remains the native handoff authority; successful resume returns PLUGIN_RESUME_READY with the existing key shape. An execution_slot_id must match native current_work execution slot, and mismatch returns RECONCILIATION_REQUIRED.",
+      "build_plugin_result_handoff(...) with any missing required binding returns RECONCILIATION_REQUIRED; a complete valid native Result returns HANDOFF_READY with existing field shape and compact_return from the current result_return responsibility. Plugin code must not produce completion authority.",
+      "load_continuity_resume exceptions and baseline status other than LATEST_SYNCED_REMOTE_STATE continue to fail closed. Preserve distinct legitimate statuses and error shapes, including PLUGIN_RESUME_READY, HANDOFF_READY, RECONCILIATION_REQUIRED, VALIDATION_RESULT, and FEEDBACK_ROUTED; do not unify different meanings for coding convenience.",
+      "Plugin transport, resume, handoff, and presentation helpers remain thin adapters and gain no execution authority or capability surface. Do not change native owners, fallbacks, reconciliation triggers, or externally observable fields.",
+      "SOURCE_CHANGE_REQUIRED=NO. If classification yields NO_PROVEN_TRUE_DUPLICATE, a valid E2 candidate may contain only test_framework_plugin.py, E2 Evidence, and the exact Execution Instruction, leaving framework_plugin_entry.py byte-identical. Do not force source changes to create an optimization outcome.",
+      "Only for proven TRUE_DUPLICATE sites may framework_plugin_entry.py receive a minimal private helper. It must add no public API, status, field, execution authority, fallback, reconciliation trigger, or Plugin capability; create no new file, module, resume subsystem, or second handoff implementation.",
+      "For non-equivalent defensive or presentation sites, record a KEEP reason and leave behavior intact. Any desired future behavior change must be reported as DESIRED_SEMANTIC_CHANGE in a separate finding or future candidate, never implemented under E2.",
+      "E2 implementation Evidence must be written only to .gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json. Bind project/context/repository, STATE revision, execution base, Work Unit, exact Instruction, accepted Design/Plan, E1 prerequisite, source/test blobs before and after, complete branch inventory, classification matrix, equivalence proof for every TRUE_DUPLICATE, and KEEP reason for every defensive or presentation site.",
+      "Evidence must record tests-before-refactor and tests-after-refactor; observable status and return-shape matrices before/after; unchanged Plugin surface proof; focused Plugin tests, Plugin package regression, continuity regression, project/framework validation, consumer projection, full unittest, and git diff --check. Set phase_e2_complete=false, phase_e_complete=false, phase_f_started=false, candidate_only=true, and post_execution_review_required=true.",
+      "Future PRE, implementation, and POST must run python -m unittest discover -s .gpt-codex/tests -p test_framework_plugin.py; python -m unittest discover -s .gpt-codex/tests -p test_framework_plugin_package.py; python -m unittest discover -s .gpt-codex/tests -p test_continuity_resume.py; python .gpt-codex/scripts/validate_project.py .; python .gpt-codex/scripts/validate_framework.py; python .gpt-codex/scripts/validate_consumer_projection.py --root .; python -m unittest discover -s .gpt-codex/tests -p test_*.py; and git diff --check. The current full-suite baseline is 701 tests with 2 skipped; future test count may increase.",
+      "No new durable directory prefix is authorized: directory_creations is empty. If E2 needs one, stop with STRUCTURE_CHANGE_REQUIRED and return to GPT. Do not modify the read-only Plugin package or continuity regression dependencies, STATE, CONTROL, Work Units, Results, release policy, Framework modules, schemas, project template, built-ins, release projection, VERSION, AGENTS.md, docs, plugins, releases, or dist.",
+      "Do not start Phase F, Issue #17 optimization, Framework release, or unrelated work. A passing E2 candidate does not complete Phase E or authorize Phase F."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 21,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_E2_PLUGIN_DUPLICATION_NATIVE_PRE"
+  }
+}
