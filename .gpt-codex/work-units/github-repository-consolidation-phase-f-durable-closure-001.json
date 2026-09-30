@@ -1,0 +1,225 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-f-durable-closure-001",
+  "goal": "Close the fully integrated and remote-verified Phase F Full Validation / Clean Clone work through an independent aggregate final review, durable remote-integration Evidence, closure Result, and the single governed STATE continuity transition from revision 23 to 24; then stop before Phase G.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      ".superpowers/sdd/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "F_DURABLE_CLOSURE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "git-continuity"
+    ],
+    "basis_state_revision": 23,
+    "state_revision": 23,
+    "framework_version": "2.7.4",
+    "authoring_main_sha": "94782d0ed9c01594f2318c008571c0faff513f8c",
+    "verified_work_sha": "94782d0ed9c01594f2318c008571c0faff513f8c",
+    "verified_work_parent_sha": "b89bbf98c4b0a8470bbdd3f3b10d4729272dc56f",
+    "materialization_base": {
+      "remote_ref": "refs/heads/main",
+      "remote_main": "94782d0ed9c01594f2318c008571c0faff513f8c",
+      "open_pr_count": 0,
+      "state_blob": "b0a17e84e2f941b264503fcec23a804b9c1b0c99",
+      "state_revision": 23,
+      "state": "AUTHORIZED",
+      "continuity_sync_status": "SYNC_PENDING"
+    },
+    "accepted_design_plan": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "design_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+      "plan_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+    },
+    "phase_f_prerequisites": {
+      "correction_work_unit": {
+        "id": "github-repository-consolidation-phase-f-fix-round-1-authority-correction-001",
+        "commit": "b89bbf98c4b0a8470bbdd3f3b10d4729272dc56f",
+        "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-fix-round-1-authority-correction-001.json",
+        "blob": "b5461f0fbe6773e375da0d997ceae54766dc8912"
+      },
+      "original_work_unit": {
+        "id": "github-repository-consolidation-phase-f-full-validation-clean-clone-001",
+        "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-full-validation-clean-clone-001.json",
+        "blob": "0595ba9ea53df3c527799280b6e003ce0eea1fb3"
+      },
+      "fix_instruction": {
+        "id": "c0257063-3afd-4e53-82c9-b6908ebf3126",
+        "path": ".gpt-codex/evidence/instructions/c0257063-3afd-4e53-82c9-b6908ebf3126.json",
+        "blob": "1619a24ed694b76d4933f1fe61d342b004a49738"
+      },
+      "final_validation_evidence": {
+        "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+        "blob": "dd111b81e39406e7624bbf241c41fba4cd5bc749"
+      },
+      "finding_result": {
+        "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+        "blob": "32e90bef2590ea9006b1985c73c19116b77d33c6",
+        "result_id": "d7159a93-b59b-4990-b7a1-328d465b60ba",
+        "historical_review_target": "a8708b56b110cad40849c8bc8b2c0815a9804b5a"
+      },
+      "remediation_adjudication": {
+        "evidence_id": "PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION",
+        "path": ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION.json",
+        "blob": "5b9d36b07aa40db1c7e3c286f9d133b3a0abe4b0"
+      },
+      "authority_basis": {
+        "path": ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json",
+        "blob": "d788e04d2867c80cf5c901fd9ee80f24bf09c374"
+      },
+      "independent_post": {
+        "result_id": "4e4d0d3b-6965-43f5-a9f9-8eec68686a32",
+        "status": "PASS",
+        "native_post_gate": []
+      },
+      "integration": {
+        "commit": "94782d0ed9c01594f2318c008571c0faff513f8c",
+        "parent": "b89bbf98c4b0a8470bbdd3f3b10d4729272dc56f",
+        "exact_path_blob_tuple": [
+          {
+            "path": ".gpt-codex/evidence/instructions/c0257063-3afd-4e53-82c9-b6908ebf3126.json",
+            "blob": "1619a24ed694b76d4933f1fe61d342b004a49738"
+          },
+          {
+            "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+            "blob": "dd111b81e39406e7624bbf241c41fba4cd5bc749"
+          }
+        ]
+      },
+      "preserved_locator_set": {
+        "rule": "PHASE_F_PRESERVED_LOCATOR_SET_V1",
+        "count": 9,
+        "digest_sha256": "48cac26976fb31fe87da2e5333f4f67c75caedd9a86805d83daa1beafb831b12",
+        "excluded_transient_commit": "7f50439df6988111ae1544798d153e6c802a9a10"
+      },
+      "validation": {
+        "baseline": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+        "phase_f_gates_passed": 24,
+        "phase_f_gate_count": 24,
+        "unit_tests": 713,
+        "expected_skips": 2,
+        "failures": 0,
+        "errors": 0,
+        "final_checkout_clean": true,
+        "source_mutated": false,
+        "test_mutated": false,
+        "ref_mutated": false,
+        "phase_g_started": false
+      }
+    },
+    "future_artifacts": {
+      "final_review_result": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json",
+      "remote_integration_evidence": ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+      "closure_result": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json"
+    },
+    "future_state_transition": {
+      "from_revision": 23,
+      "to_revision": 24,
+      "state": "AUTHORIZED",
+      "current_remote_ref": "refs/heads/main",
+      "latest_verified_remote_sha": "94782d0ed9c01594f2318c008571c0faff513f8c",
+      "latest_synced_state_revision": 24,
+      "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+      "sync_status": "SYNCED",
+      "next_action": "PHASE_G_REPOSITORY_STRUCTURE_FREEZE_REQUIRED"
+    },
+    "requirements": [
+      "This management-only Work Unit grants no closure implementation authority. After durable materialization, require a separately bound closure EXECUTION_INSTRUCTION and independent PHASE_F_DURABLE_CLOSURE_NATIVE_PRE PASS before implementation; then require independent POST, exact USER_LOCAL integration and live remote verification before GPT may accept PHASE_F_DURABLY_CLOSED=YES.",
+      "W is 94782d0ed9c01594f2318c008571c0faff513f8c, the fully integrated Phase F Fix Round 1 work. This Work Unit materialization creates a later execution-authority commit. Future closure publication P does not yet exist, and no closure candidate may predict or contain P's own SHA. Native PRE may review the later execution base for native correlation, but the independent aggregate FINAL-REVIEW Result must review W.",
+      "Future PRE and final aggregate review must independently verify the exact immutable Phase F Evidence, Fix Instruction, Correction and original Work Units, Finding Result, Remediation Adjudication, Authority Basis, accepted Design and Plan, independent POST PASS, and exact two-path integration at W. W was current remote main before this Work Unit materialization; stale or conflicting authority requires RECONCILIATION_REQUIRED.",
+      "Independently verify the PHASE_F_PRESERVED_LOCATOR_SET_V1 nine-entry digest, the exclusion of transient 7f50439df6988111ae1544798d153e6c802a9a10, and the retained-ref reachability conclusion from durable artifacts and live remote facts. Do not substitute the historical Finding review target a8708b56b110cad40849c8bc8b2c0815a9804b5a or final validation baseline 0c222d65540218eeb3c7e229d1d9bf38e008efb5 for W.",
+      "Independently verify 24 of 24 Phase F gates PASS; 713 unit tests with two expected skips, zero failures and zero errors; final validation checkout clean; no source, test or ref mutation; and Phase G not started. Earlier Phase F POST cannot substitute for the independent aggregate closure review.",
+      "Do not automatically rerun the 713-test full suite for this management-only closure. Revalidate immutable identities, remote freshness, authority correlation, STATE, W lineage, Result and Evidence schemas, native PRE/POST lifecycle, project and framework validators, and git diff --check. Run focused checks to resolve inconsistencies. Rerun heavy validation only if a required durable result cannot be resolved, identity or non-drift cannot be proven, evidence conflicts, or the native Framework contract explicitly requires it. Unresolved facts fail closed.",
+      "Create an independent schema-valid REVIEW_RESULT at the exact final_review_result path, with reviewed_revision=W, bound to this Work Unit, the future closure EXECUTION_INSTRUCTION, STATE revision 23, accepted Design and Plan, and complete Phase F durable evidence. PASS is allowed only after aggregate Phase F exit is independently verified.",
+      "Create remote_integration_evidence recording project and repository identity, Framework 2.7.4, pre-closure STATE revision 23, W and parent, current remote ref, W remote verification, open PR count, Correction and original Work Unit identities, Fix Instruction and Phase F Evidence identities, Finding, Adjudication and Authority Basis identities, POST Result ID and status, exact W path/blob tuple, preserved locator and retained-ref reachability results, and Phase F validation/test facts. Do not predict publication P.",
+      "Create the closure_result only for a valid candidate. It may declare PHASE_F=COMPLETE, remote_verification=VERIFIED, verified_baseline_sha=W, STATE continuity target SYNCED, and next governed phase PHASE_G. It must not declare Repository Consolidation complete, Phase G implementation complete, Local Workspace Consolidation started, Framework 2.8.0 release authorized, or Issue #17 implementation authorized.",
+      "The sole future STATE mutation is revision 23 to 24 while state remains AUTHORIZED. Set the exact future_state_transition continuity fields, append the remote integration Evidence and both Results without deleting historical evidence_refs, and add the closure Instruction path only if the repository convention requires it. next_action is a continuation hint, not Phase G execution authority.",
+      "No new durable directory prefix is authorized. Only a separately authorized exact closure Instruction may be created under the owned instructions/ selector. No source, test, schema, release, Plugin, documentation, ref, history, CONTROL, existing Work Unit, or unrelated Evidence mutation is authorized. Closure implementation has no COMMIT, PUSH, PUBLISH, AUTHORIZE, SCOPE_EXPANSION, or unrelated cleanup permission. Stop before Phase G."
+    ]
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+    ".gpt-codex/evidence/instructions/c0257063-3afd-4e53-82c9-b6908ebf3126.json",
+    ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+    ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 23,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_F_DURABLE_CLOSURE_NATIVE_PRE"
+  }
+}
