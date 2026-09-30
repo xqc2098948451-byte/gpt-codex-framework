@@ -1,0 +1,183 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-f-full-validation-clean-clone-001",
+  "goal": "Independently validate the exact integrated Repository Consolidation candidate commit a8708b56b110cad40849c8bc8b2c0815a9804b5a both in the management checkout and in a fresh clean clone, including consumer projection, bootstrap/static structure, Plugin fallback, release dry-run/package integrity, immutable authority locators, current-tree links and retained-ref reachability, without changing Framework behavior or repository source.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "F_FULL_VALIDATION_CLEAN_CLONE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "release-projection",
+      "git-continuity"
+    ],
+    "validation_only": true,
+    "source_change_required": false,
+    "repair_authorized": false,
+    "state_change_required": false,
+    "authoring_main_sha": "a8708b56b110cad40849c8bc8b2c0815a9804b5a",
+    "phase_f_target_commit": "a8708b56b110cad40849c8bc8b2c0815a9804b5a",
+    "state_revision": 22,
+    "framework_version": "2.7.4",
+    "open_pr_count_at_authoring": 0,
+    "phase_e_prerequisite": {
+      "durable_closure_commit": "a8708b56b110cad40849c8bc8b2c0815a9804b5a",
+      "verified_work_sha": "f3bcc14f5652d0af944685704c8d47d92a80a197",
+      "closure_result_path": ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+      "closure_result_blob": "d1a10233b5264d50534833704ecb3982d1ed3e79"
+    },
+    "accepted_design_plan_commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+    "accepted_design_blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+    "accepted_plan_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+    "ref_cleanup_evidence": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+      "blob": "7b1dea2dde95806e86482b5e9d6cd0212a5a556f"
+    },
+    "consumer_projection_manifest": {
+      "path": ".gpt-codex/release/consumer-projection-manifest.json",
+      "blob": "3fe61820066fbb0ddbf858ec4758235aae08636e"
+    },
+    "management_checkout_commands": [
+      "python .gpt-codex/scripts/validate_framework.py",
+      "python .gpt-codex/scripts/validate_project.py .",
+      "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "python -m unittest discover -s .gpt-codex/tests -p test_*.py",
+      "git diff --check"
+    ],
+    "clean_clone_commands": [
+      "python .gpt-codex/scripts/validate_framework.py",
+      "python .gpt-codex/scripts/validate_project.py .",
+      "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "python -m unittest discover -s .gpt-codex/tests -p test_*.py",
+      "git diff --check"
+    ],
+    "bootstrap_static_test_files": [
+      "test_self_hosting_validator.py",
+      "test_consumer_workspace.py",
+      "test_consumer_runtime_closure.py"
+    ],
+    "plugin_fallback_test_files": [
+      "test_framework_plugin.py",
+      "test_framework_plugin_package.py"
+    ],
+    "release_package_functions": [
+      "validate_release_source",
+      "package_release",
+      "validate_release_artifact",
+      "finalize_release_manifest"
+    ],
+    "phase_f_evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+    "phase_f_evidence_candidate_semantics": {
+      "candidate_only": true,
+      "durably_integrated": false,
+      "post_execution_review_required": true,
+      "phase_f_validation": "PASS",
+      "phase_f_complete": false,
+      "phase_g_started": false,
+      "source_change_performed": false,
+      "state_change_performed": false,
+      "commit": false,
+      "push": false,
+      "remote_mutation": false
+    },
+    "requirements": [
+      "This Work Unit only materializes Phase F authority: VALIDATION_ONLY=true, SOURCE_CHANGE_REQUIRED=false, REPAIR_AUTHORIZED=false, STATE_CHANGE_REQUIRED=false. It does not authorize validation execution. After durable materialization, a separate exact Execution Instruction and independent Native PRE PASS at PHASE_F_FULL_VALIDATION_CLEAN_CLONE_NATIVE_PRE are required. Do not start Phase G.",
+      "Future PRE must freshly reverify project/context/repository identity, remote main and open PR count, STATE revision 22 AUTHORIZED with continuity SYNCED, Framework VERSION 2.7.4, the Phase E closure Result blob, the accepted Design/Plan commit and blobs, the ref-cleanup Evidence blob, and the consumer-projection manifest blob. At authoring origin/main is a8708b56b110cad40849c8bc8b2c0815a9804b5a; future PRE must account for only this Work Unit's management-only materialization after that commit. Material authority drift is STALE or RECONCILIATION_REQUIRED, with no commit or push.",
+      "PHASE_E_DURABLE_CLOSURE_PREREQUISITE must PASS. The Phase F validation target is the exact complete integrated repository commit a8708b56b110cad40849c8bc8b2c0815a9804b5a, not the older Phase E verified-work W=f3bcc14f5652d0af944685704c8d47d92a80a197. The accepted Phase F gate covers full project/framework/consumer validation, full unittest, git diff --check, exact clean clone, consumer staging, bootstrap/static structure, Plugin fallback, release dry-run/package validation, current-tree links, immutable authority locators, projection/package inventory and retained-ref reachability.",
+      "Run every management_checkout_commands entry against the exact target checkout. Confirm HEAD is a8708b56b110cad40849c8bc8b2c0815a9804b5a, index and working tree are clean, and untracked contamination is absent. The current full-suite reference is 713 tests with 2 skipped; record the actual execution count.",
+      "Create a fresh clone outside the repository using git clone --no-checkout <origin> <ephemeral-clone>, then git -C <ephemeral-clone> checkout --detach a8708b56b110cad40849c8bc8b2c0815a9804b5a. Confirm exact HEAD and empty git status --porcelain=v1 --untracked-files=all before and after validation. Do not substitute the current checkout or checkout a later main. Run every clean_clone_commands entry and record framework, project, consumer projection, full unittest and diff-check results.",
+      "From the exact clean clone, run the repository-native consumer projection capability with an initially empty staging root outside the clone, using validate_consumer_projection.py --root <clean-clone> --staging-root <external-empty-staging> or its existing API. Record required inventory count, unknown_paths, missing_required_paths, management_identity_hits, management_file_hits, secret_hits and unsafe_path_hits. Every error/hit collection must be empty and unknown/missing counts zero.",
+      "Run the existing bootstrap/static structural regression in the clean clone, including bootstrap_static_test_files and any other tests Native PRE identifies as belonging to this acceptance gate. Record exact test files, counts and results. Do not add tests to make Phase F pass.",
+      "Run existing Plugin regression in the clean clone, including plugin_fallback_test_files. Verify plugins/gpt-codex-framework/ remains the accepted skills-only portable surface, with no unexpected MCP, second Plugin authority, automatic activation or management-state dependency. Do not modify Plugin.",
+      "For release dry-run, do not invoke release_framework.py main() or ensure_release_record(...), because they may write releases/ records in the clone. Use repository-native validate_release_source(...), package_release(...), validate_release_artifact(...) and finalize_release_manifest(...), with kernel_rules.KERNEL_VERSION and kernel_rules.SCHEMA_VERSION. Write ZIP, SHA256 and manifest only to an external ephemeral output directory; never write clone/releases/ or clone/dist/.",
+      "Prove package integrity by validating the release source, packaging to external output, validating the artifact and finalizing the external manifest. Compare the external consumer staging tree file by file with the external generated bootstrap ZIP using validate_consumer_projection.py or existing compare_projection_to_zip(...). Record ZIP integrity, projection-to-ZIP match, release manifest validation, artifact SHA256, artifact size and file count. Then confirm exact clone HEAD, empty status and unchanged tracked tree. Any clone mutation is FINDING; do not clean it away and report success.",
+      "Audit current active architecture, decisions, plans and repository-relative documentation links; record actual checked count and BROKEN_CURRENT_TREE_LINKS=[]. Historical immutable links need not be rewritten, but must still resolve. Enumerate required immutable Repository Consolidation authority/evidence locators; for each verify repository identity, bound commit and path, specified blob and no silent redirect. Record actual locator count and IMMUTABLE_LOCATOR_FAILURES=[]. Never substitute mutable main content for locator resolution.",
+      "Read the exact ref-cleanup Evidence and freshly enumerate retained remote refs. For every current durable-authority commit affected by ref cleanup, prove reachability from main, a retained tag, retained authority ref or another ledger-accepted retained ref. Record actual checked count and UNREACHABLE_DURABLE_AUTHORITY_COMMITS=[]. Do not delete or change any ref.",
+      "Read the exact consumer-projection manifest and validate classification, all required consumer files, zero unknown or missing current-tree projection paths, zero management leakage or contamination, and ZIP inventory with no unexpected, missing or byte-mismatched package members. Record exact inventory counts.",
+      "Only after every Phase F validation check passes may the separately authorized execution produce the exact phase_f_evidence_path. Bind project/context/repository identity, Framework version, target commit, STATE revision 22, Phase E closure Result path/blob, accepted Design/Plan locators, ref-cleanup Evidence path/blob, manifest path/blob, management-checkout results, clean-clone source/HEAD/results, staging boundary results, structural and Plugin tests, external package SHA256/size/manifest/file count/integrity/match, link/locator/reachability audits, final clone status and no-mutation proof. Apply phase_f_evidence_candidate_semantics truthfully; PASS candidate is not durable Phase F completion.",
+      "Any validator/test failure, projection or package mismatch, contamination, Plugin failure, clone mutation, broken current link, immutable locator failure, unreachable durable-authority commit, unexpected inventory or scope drift yields PHASE_F_VALIDATION=FINDING. Stop and return FINDINGS, evidence, exact failing command/check, affected owner and suggested remediation route to GPT. Never repair inside this Work Unit; use separate finding -> adjudication -> remediation authority -> fix -> re-review.",
+      "Future execution may mutate only the exact Phase F Evidence path and exact Execution Instruction under the owned instruction selector. It must not modify source, tests, schemas, docs, projection manifest, release records, Plugin, STATE, existing Evidence or Work Units. Read/test/validate excluded paths without mutation. All clone, staging, package, extraction and test scratch outputs belong outside the repository. No new durable directory prefix is authorized; directory_creations is empty. Any proposed new repository prefix is STRUCTURE_CHANGE_REQUIRED and returns to GPT."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 22,
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_F_FULL_VALIDATION_CLEAN_CLONE_NATIVE_PRE"
+  }
+}
