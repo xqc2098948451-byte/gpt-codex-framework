@@ -1,0 +1,64 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "github-repository-consolidation-phase-f-full-validation-clean-clone-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "d7159a93-b59b-4990-b7a1-328d465b60ba",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "8a2e5a2e-0071-4fe7-adda-45bcec3303dc",
+  "review_target_revision": "a8708b56b110cad40849c8bc8b2c0815a9804b5a",
+  "finding_ids": [
+    "PHASE-F-IMMUTABLE-LOCATOR-001"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 22,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/work-units/github-repository-consolidation-phase-f-full-validation-clean-clone-001.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json"
+  ],
+  "finding_summary": "IMMUTABLE_AUTHORITY_LOCATOR_AUDIT misclassified a transient reviewed P2 candidate locator as preserved remote authority.",
+  "finding_detail": [
+    {
+      "finding_id": "PHASE-F-IMMUTABLE-LOCATOR-001",
+      "failed_gate": "IMMUTABLE_AUTHORITY_LOCATOR_AUDIT",
+      "diagnosis": "TRANSIENT_LOCATOR_MISCLASSIFIED_AS_PRESERVED",
+      "bad_locator": {
+        "commit": "7f50439df6988111ae1544798d153e6c802a9a10",
+        "path": ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+        "blob": "f4794a6a23a48e25582a17399db896bdbcaa3100"
+      },
+      "observed_remote_resolution": "UNRESOLVABLE",
+      "bad_commit_is_transient_candidate": true,
+      "root_cause_proven": true,
+      "source_defect": false,
+      "test_defect": false,
+      "remote_ref_repair_required": false
+    }
+  ],
+  "historical_correlation": {
+    "phase_f_work_unit": {
+      "commit": "40f014b0108a4b3befe011928d8bb2eb165d0e34",
+      "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-full-validation-clean-clone-001.json",
+      "blob": "0595ba9ea53df3c527799280b6e003ce0eea1fb3"
+    },
+    "phase_f_target_commit": "a8708b56b110cad40849c8bc8b2c0815a9804b5a",
+    "phase_f_retry_execution_instruction_id": "8a2e5a2e-0071-4fe7-adda-45bcec3303dc",
+    "phase_f_retry_execution_instruction_path": ".gpt-codex/evidence/instructions/8a2e5a2e-0071-4fe7-adda-45bcec3303dc.json",
+    "phase_f_retry_execution_instruction_blob": "412aff044212f35881b3bb3ffd98d325c153b3b8",
+    "retry_instruction_materialized_in_repository": false,
+    "finding_id": "PHASE-F-IMMUTABLE-LOCATOR-001"
+  }
+}

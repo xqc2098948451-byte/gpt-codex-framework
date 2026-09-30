@@ -1,0 +1,23 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "SYSTEM_DERIVED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 23,
+  "result": "ACCEPTED",
+  "decision": "ACCEPT",
+  "finding_ids": [
+    "PHASE-F-IMMUTABLE-LOCATOR-001"
+  ],
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "basis_refs": [
+    "PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS"
+  ],
+  "adjudicated_at_revision": 23,
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+  "review_finding_result_id": "d7159a93-b59b-4990-b7a1-328d465b60ba",
+  "authority_basis_ref": ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json",
+  "historical_locator_interpretation": "The historical locator remains a truthful historical candidate identity but is not a member of the current preserved remote-authority locator set."
+}
