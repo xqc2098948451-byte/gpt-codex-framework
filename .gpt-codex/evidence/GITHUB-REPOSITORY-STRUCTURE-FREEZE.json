@@ -1,0 +1,1320 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "GITHUB-REPOSITORY-STRUCTURE-FREEZE",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source": "TOOL_OBSERVED",
+  "subject": "PHASE_G_REPOSITORY_STRUCTURE_FREEZE",
+  "state_revision": 24,
+  "result": "FREEZE_CANDIDATE_READY_FOR_INDEPENDENT_POST",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "frozen_repository_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+  "frozen_state_revision": 24,
+  "current_execution_base": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+  "phase_lineage": {
+    "phase_f_closure": {
+      "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+      "blob": "dee5eaf25bd42f56ed707ae026917a077dc938d9"
+    },
+    "phase_f_remote_integration": {
+      "path": ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+      "blob": "6470ce2ff4451d4d455cece97a944b1974276f7a"
+    },
+    "phase_g_work_unit": {
+      "path": ".gpt-codex/work-units/github-repository-consolidation-phase-g-repository-structure-freeze-001.json",
+      "blob": "48f732b21d6c67c8799f6cd55daa527bbf5e1bfd",
+      "commit": "a87046920d31838bec3fe757c4395d8cde5af3b9"
+    },
+    "accepted_design": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+    },
+    "accepted_plan": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+    }
+  },
+  "execution_instruction": {
+    "instruction_id": "b015af20-d08e-4dde-91ef-b82bda9427ff",
+    "path": ".gpt-codex/evidence/instructions/b015af20-d08e-4dde-91ef-b82bda9427ff.json",
+    "utf8_bytes": 5585,
+    "sha256": "e83e771addd5d1decabb80ffa4498752a3ddb53216bcd553cc3814bebda7fe80",
+    "git_blob": "49b4103fef14913ba19fd6c467a49f1bfd5bf7c0",
+    "byte_identical_to_reviewed_external_instruction": true
+  },
+  "capability_responsibility_freeze": {
+    "source": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+    },
+    "rows": [
+      {
+        "capability": "PROJECT_IDENTITY",
+        "primary_owner": "context_binding.py",
+        "boundary": "Project and context IDs"
+      },
+      {
+        "capability": "GITHUB_REPOSITORY_IDENTITY",
+        "primary_owner": "github_repository_binding.py",
+        "boundary": "Stable repository binding"
+      },
+      {
+        "capability": "IMMUTABLE_GIT_CONTINUITY",
+        "primary_owner": "git_continuity.py",
+        "boundary": "Git object and remote continuity"
+      },
+      {
+        "capability": "PROJECT_NAVIGATION",
+        "primary_owner": "project_navigation.py",
+        "boundary": "Derived map and location"
+      },
+      {
+        "capability": "RESUME_AND_RECOVERY",
+        "primary_owner": "continuity_resume.py",
+        "boundary": "Resume from current authority"
+      },
+      {
+        "capability": "PLUGIN_ADAPTER",
+        "primary_owner": "framework_plugin_entry.py",
+        "boundary": "Thin presentation and access adapter"
+      },
+      {
+        "capability": "INSTRUCTION_CONTRACT",
+        "primary_owner": "instruction_envelope.py",
+        "boundary": "Durable instruction syntax and resolution"
+      },
+      {
+        "capability": "ROLE_AND_ACTION_AUTHORITY",
+        "primary_owner": "role_communication.py",
+        "boundary": "Role taxonomy and action routing"
+      },
+      {
+        "capability": "RESULT_AUTHORITY_AND_PUBLICATION",
+        "primary_owner": "publication_contract.py",
+        "boundary": "Publication eligibility and Result/Evidence authority binding"
+      },
+      {
+        "capability": "RESULT_RETURN_RENDERING",
+        "primary_owner": "result_return.py",
+        "boundary": "Validated Result rendering and return transport only"
+      },
+      {
+        "capability": "PROJECT_GOVERNANCE_GATE",
+        "primary_owner": "validate_project.py",
+        "boundary": "Project mutation gates, scope and candidate tree"
+      },
+      {
+        "capability": "FRAMEWORK_CONFORMANCE",
+        "primary_owner": "validate_framework.py",
+        "boundary": "Framework structure and contract checks"
+      },
+      {
+        "capability": "CONSUMER_PROJECTION",
+        "primary_owner": "consumer_projection.py",
+        "boundary": "Manifest classification, inventory and boundary"
+      },
+      {
+        "capability": "RELEASE_BUILD_AND_PACKAGE",
+        "primary_owner": "release_framework.py",
+        "boundary": "Build and deterministic package orchestration"
+      },
+      {
+        "capability": "RELEASE_ARCHIVE_AND_RECORDS",
+        "primary_owner": "release_archive.py",
+        "boundary": "Release archive/record operations"
+      },
+      {
+        "capability": "RELEASE_VERSION_POLICY",
+        "primary_owner": "release_archive.py",
+        "boundary": "One pure Framework release-version parser/order policy shared by release consumers"
+      }
+    ],
+    "row_count": 16,
+    "canonicalization_rule": "UTF-8 JSON array; keys capability,primary_owner,boundary in source order; ensure_ascii=false; separators=(',',':'); no trailing newline",
+    "sha256": "de89dd3ec5f56e43a602924d42ff24e9cc8db6a6a5643135080a749802df51f5"
+  },
+  "directory_creation_contract_freeze": {
+    "contract_version": "FRAMEWORK_2.7.4_PHASE_C_ACCEPTED_DIRECTORY_CONTRACT",
+    "sources": [
+      {
+        "path": ".gpt-codex/schemas/work-unit.schema.json",
+        "blob": "31aa47a32a4528d1d61c8fc29aca20fb81da3217"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "blob": "1c5675f49bcb38c39d4114c748ada66b2e2fd1ce"
+      },
+      {
+        "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        "blob": "11e71c4eab82a72afb309c83847afa7aaf8a5272"
+      },
+      {
+        "path": "AGENTS.md",
+        "blob": "ff89d9465a4b87aca00bebaf2ee82fde262babee"
+      },
+      {
+        "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+        "blob": "a455a48a069ad3e83ce4c7a17b23e3254bfe8d17"
+      }
+    ],
+    "authority_basis": {
+      "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+      "blob": "a455a48a069ad3e83ce4c7a17b23e3254bfe8d17"
+    },
+    "canonicalization_rule": "UTF-8 JSON array of five ordered {path,blob} objects; ensure_ascii=false; separators=(',',':'); no trailing newline",
+    "sha256": "dcfb70acf67fa1147b10a17508fb5578cf31c17e56aa945c33245f07fcaf9214"
+  },
+  "repository_tree_freeze": {
+    "command": "git ls-tree -r -z --full-tree bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+    "algorithm": "SHA256 over exact raw command stdout bytes; no normalization",
+    "tracked_entry_count": 436,
+    "sha256": "3d3c1d69d1ab23a5f249b618a5b006aefaeab243c2c06b4f294d9721a687cd55"
+  },
+  "consumer_projection_freeze": {
+    "manifest": {
+      "path": ".gpt-codex/release/consumer-projection-manifest.json",
+      "blob": "3fe61820066fbb0ddbf858ec4758235aae08636e",
+      "manifest_version": 1,
+      "framework_version": "2.7.4"
+    },
+    "required_consumer_inventory_count": 86,
+    "required_consumer_inventory": [
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/MIGRATION_v2.0_to_v2.1.md",
+      ".gpt-codex/MIGRATION_v2.1_to_v2.2.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/builtins/README.md",
+      ".gpt-codex/builtins/fitness/build-pass/FITNESS.md",
+      ".gpt-codex/builtins/fitness/build-pass/manifest.json",
+      ".gpt-codex/builtins/fitness/test-suite-pass/FITNESS.md",
+      ".gpt-codex/builtins/fitness/test-suite-pass/manifest.json",
+      ".gpt-codex/builtins/guardrails/cross-project-context-binding/GUARDRAIL.md",
+      ".gpt-codex/builtins/guardrails/cross-project-context-binding/manifest.json",
+      ".gpt-codex/builtins/guardrails/github-repository-binding/GUARDRAIL.md",
+      ".gpt-codex/builtins/guardrails/github-repository-binding/manifest.json",
+      ".gpt-codex/builtins/guardrails/universal-safety/GUARDRAIL.md",
+      ".gpt-codex/builtins/guardrails/universal-safety/manifest.json",
+      ".gpt-codex/builtins/skills/framework-compatibility/SKILL.md",
+      ".gpt-codex/builtins/skills/framework-compatibility/manifest.json",
+      ".gpt-codex/builtins/skills/git-basic/SKILL.md",
+      ".gpt-codex/builtins/skills/git-basic/manifest.json",
+      ".gpt-codex/builtins/skills/github-project-continuity/SKILL.md",
+      ".gpt-codex/builtins/skills/github-project-continuity/manifest.json",
+      ".gpt-codex/builtins/skills/handoff/SKILL.md",
+      ".gpt-codex/builtins/skills/handoff/manifest.json",
+      ".gpt-codex/builtins/skills/harvest-export/SKILL.md",
+      ".gpt-codex/builtins/skills/harvest-export/manifest.json",
+      ".gpt-codex/builtins/skills/repository-discovery/SKILL.md",
+      ".gpt-codex/builtins/skills/repository-discovery/manifest.json",
+      ".gpt-codex/builtins/skills/verification/SKILL.md",
+      ".gpt-codex/builtins/skills/verification/manifest.json",
+      ".gpt-codex/project-template/.harness/FEEDBACK.template.md",
+      ".gpt-codex/project-template/.harness/REASONING.template.md",
+      ".gpt-codex/project-template/.harness/RULES.template.md",
+      ".gpt-codex/project-template/.harness/STATE.template.md",
+      ".gpt-codex/project-template/CONTROL.template.json",
+      ".gpt-codex/project-template/EVIDENCE.template.json",
+      ".gpt-codex/project-template/EXTENSION.template.json",
+      ".gpt-codex/project-template/FRAMEWORK_COMPATIBILITY_REPORT.template.md",
+      ".gpt-codex/project-template/GOVERNANCE_COMPILE_REPORT.template.md",
+      ".gpt-codex/project-template/HARVEST_CANDIDATE.template.json",
+      ".gpt-codex/project-template/INSTRUCTION_ENVELOPE.template.json",
+      ".gpt-codex/project-template/MIGRATION_REPORT.template.md",
+      ".gpt-codex/project-template/PROJECT.template.md",
+      ".gpt-codex/project-template/README.md",
+      ".gpt-codex/project-template/RESULT_ENVELOPE.template.json",
+      ".gpt-codex/project-template/REUSE_REPORT.template.md",
+      ".gpt-codex/project-template/STATE.template.json",
+      ".gpt-codex/project-template/WORK_UNIT.template.json",
+      ".gpt-codex/project-template/continuity/RESUME.template.json",
+      ".gpt-codex/project-template/evidence/.gitkeep",
+      ".gpt-codex/project-template/evidence/results/.gitkeep",
+      ".gpt-codex/project-template/extensions/fitness/.gitkeep",
+      ".gpt-codex/project-template/extensions/guardrails/.gitkeep",
+      ".gpt-codex/project-template/extensions/skills/.gitkeep",
+      ".gpt-codex/project-template/harvest-pending/.gitkeep",
+      ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json",
+      ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json",
+      ".gpt-codex/project-template/work/.gitkeep",
+      ".gpt-codex/schemas/control.schema.json",
+      ".gpt-codex/schemas/evidence.schema.json",
+      ".gpt-codex/schemas/extension.schema.json",
+      ".gpt-codex/schemas/harvest-candidate.schema.json",
+      ".gpt-codex/schemas/instruction-envelope.schema.json",
+      ".gpt-codex/schemas/module-map.schema.json",
+      ".gpt-codex/schemas/project-map.schema.json",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/resume.schema.json",
+      ".gpt-codex/schemas/state.schema.json",
+      ".gpt-codex/schemas/work-unit.schema.json",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/framework_feedback.py",
+      ".gpt-codex/scripts/git_continuity.py",
+      ".gpt-codex/scripts/github_repository_binding.py",
+      ".gpt-codex/scripts/instruction_envelope.py",
+      ".gpt-codex/scripts/kernel_rules.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/result_return.py",
+      ".gpt-codex/scripts/role_communication.py",
+      ".gpt-codex/scripts/validate_framework.py",
+      ".gpt-codex/scripts/validate_project.py",
+      "AGENTS.md",
+      "VERSION"
+    ],
+    "prefix_defaults": {
+      ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
+      ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
+      "docs/architecture/": "MANAGEMENT_ONLY",
+      "docs/decisions/": "MANAGEMENT_ONLY",
+      "docs/plans/": "MANAGEMENT_ONLY",
+      "docs/superpowers/": "DEVELOPMENT_HISTORY",
+      "docs/history/": "DEVELOPMENT_HISTORY",
+      ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
+      "releases/records/": "RELEASE_METADATA"
+    },
+    "management_only_exclusions": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/MAINTENANCE.md",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/extensions/guardrails/github-repository-binding/GUARDRAIL.md",
+      ".gpt-codex/extensions/guardrails/github-repository-binding/manifest.json",
+      ".gpt-codex/extensions/skills/framework-release/SKILL.md",
+      ".gpt-codex/extensions/skills/framework-release/manifest.json",
+      ".gpt-codex/extensions/skills/github-project-continuity/SKILL.md",
+      ".gpt-codex/extensions/skills/github-project-continuity/manifest.json",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      ".gpt-codex/framework-modules/modules/framework-core.json",
+      ".gpt-codex/framework-modules/modules/framework-validation.json",
+      ".gpt-codex/framework-modules/modules/git-continuity.json",
+      ".gpt-codex/framework-modules/modules/identity-context.json",
+      ".gpt-codex/framework-modules/modules/navigation-continuity.json",
+      ".gpt-codex/framework-modules/modules/release-projection.json",
+      ".gpt-codex/framework-modules/modules/role-communication.json",
+      ".gpt-codex/harvest/README.md",
+      ".gpt-codex/harvest/inbox/.gitkeep",
+      ".gpt-codex/harvest/shared-candidates/.gitkeep",
+      ".gpt-codex/history/V2_ROADMAP.v1.7.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/schemas/framework-module-registry.schema.json",
+      ".gpt-codex/schemas/framework-module.schema.json",
+      ".gpt-codex/scripts/consumer_projection.py",
+      ".gpt-codex/scripts/execution_telemetry.py",
+      ".gpt-codex/scripts/framework_module_routing.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/release_archive.py",
+      ".gpt-codex/scripts/release_framework.py",
+      ".gpt-codex/scripts/validate_consumer_projection.py",
+      ".gpt-codex/tests/fixtures/frozen_v220_validate_project.py",
+      ".gpt-codex/tests/test_bounded_attestation.py",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_consumer_runtime_closure.py",
+      ".gpt-codex/tests/test_consumer_workspace.py",
+      ".gpt-codex/tests/test_contamination_recovery.py",
+      ".gpt-codex/tests/test_context_binding.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_contract_schema.py",
+      ".gpt-codex/tests/test_continuity_envelopes.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_execution_telemetry.py",
+      ".gpt-codex/tests/test_framework_feedback.py",
+      ".gpt-codex/tests/test_framework_module_routing.py",
+      ".gpt-codex/tests/test_framework_module_schemas.py",
+      ".gpt-codex/tests/test_framework_module_validation.py",
+      ".gpt-codex/tests/test_framework_plugin.py",
+      ".gpt-codex/tests/test_framework_plugin_package.py",
+      ".gpt-codex/tests/test_framework_project_separation.py",
+      ".gpt-codex/tests/test_git_continuity.py",
+      ".gpt-codex/tests/test_github_continuity_validator.py",
+      ".gpt-codex/tests/test_github_repository_binding.py",
+      ".gpt-codex/tests/test_handoff_navigation_contract.py",
+      ".gpt-codex/tests/test_harness_handoff.py",
+      ".gpt-codex/tests/test_harness_project_layering.py",
+      ".gpt-codex/tests/test_harness_reduction_gate.py",
+      ".gpt-codex/tests/test_instruction_envelope.py",
+      ".gpt-codex/tests/test_instruction_role_contract.py",
+      ".gpt-codex/tests/test_kernel_conformance.py",
+      ".gpt-codex/tests/test_local_corrective_state.py",
+      ".gpt-codex/tests/test_maintenance_navigation_contract.py",
+      ".gpt-codex/tests/test_maintenance_navigation_flow.py",
+      ".gpt-codex/tests/test_minimal_task_protocol.py",
+      ".gpt-codex/tests/test_multi_project_github_isolation.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_navigation_schema.py",
+      ".gpt-codex/tests/test_project_context_migration.py",
+      ".gpt-codex/tests/test_project_navigation.py",
+      ".gpt-codex/tests/test_publication_authority.py",
+      ".gpt-codex/tests/test_release_archive.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/tests/test_remote_verification.py",
+      ".gpt-codex/tests/test_result_contract_schema.py",
+      ".gpt-codex/tests/test_result_return.py",
+      ".gpt-codex/tests/test_return_context_binding.py",
+      ".gpt-codex/tests/test_review_history.py",
+      ".gpt-codex/tests/test_review_lifecycle.py",
+      ".gpt-codex/tests/test_role_authority.py",
+      ".gpt-codex/tests/test_role_communication_taxonomy.py",
+      ".gpt-codex/tests/test_role_consumer_projection.py",
+      ".gpt-codex/tests/test_role_routing_docs.py",
+      ".gpt-codex/tests/test_self_hosting_validator.py",
+      ".gpt-codex/tests/test_stage_review_routing.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/tests/test_version_consistency.py",
+      ".gpt-codex/tests/test_windows_clean_room_e2e.py",
+      "plugins/gpt-codex-framework/plugin.json",
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md"
+    ],
+    "contamination_rules": {
+      "forbidden_values": [
+        "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "1366213495",
+        "xqc2098948451-byte/gpt-codex-framework",
+        "PRJ-FRAMEWORK-MANAGEMENT",
+        "通用开发框架管理"
+      ]
+    },
+    "audit": {
+      "unknown_paths": [],
+      "missing_required_paths": [],
+      "invalid_classifications": []
+    },
+    "boundary": {
+      "management_identity_hits": [],
+      "management_file_hits": [],
+      "secret_hits": [],
+      "unsafe_path_hits": []
+    },
+    "unknown_paths": [],
+    "missing_required_paths": [],
+    "contamination": [],
+    "management_leakage": [],
+    "validation": "PASS",
+    "command": "python .gpt-codex/scripts/validate_consumer_projection.py --root ."
+  },
+  "remote_ref_snapshot": {
+    "observed_at_utc": "2026-10-01T03:10:36.964707+00:00",
+    "source": "git ls-remote --heads --tags origin; GitHub REST branches and pulls",
+    "branches": [
+      {
+        "ref": "refs/heads/artifact/bridge-004-approval-payload-001",
+        "name": "artifact/bridge-004-approval-payload-001",
+        "sha": "301df44b00aa5a9832f0499ee4899b7d37b91793"
+      },
+      {
+        "ref": "refs/heads/baseline-stabilization-bootstrap-001",
+        "name": "baseline-stabilization-bootstrap-001",
+        "sha": "a112efcc24c969369224804a6fc1e5961626c05b"
+      },
+      {
+        "ref": "refs/heads/bootstrap/p2-finding-004-provenance-fix-001",
+        "name": "bootstrap/p2-finding-004-provenance-fix-001",
+        "sha": "0dc1c5ac55edad9d08c82b17c3ea6dd8499c529a"
+      },
+      {
+        "ref": "refs/heads/bootstrap/p2-finding-004-remediation-authority-001",
+        "name": "bootstrap/p2-finding-004-remediation-authority-001",
+        "sha": "ab90b220a8842224585ada2d3e6cf3d79167d251"
+      },
+      {
+        "ref": "refs/heads/candidates/p2-plugin-public-release-preparation-001",
+        "name": "candidates/p2-plugin-public-release-preparation-001",
+        "sha": "261c741f3c527c4200708524e6086cb99304fdd6"
+      },
+      {
+        "ref": "refs/heads/design/global-framework-plugin-governance-evidence",
+        "name": "design/global-framework-plugin-governance-evidence",
+        "sha": "52e64cee79b6d7bec87d14f58977dd2eeb77696b"
+      },
+      {
+        "ref": "refs/heads/design/group-b-prerequisite-bootstrap-amendment-001",
+        "name": "design/group-b-prerequisite-bootstrap-amendment-001",
+        "sha": "97afda5e716dea7b53724e3d2dbede977d4a669c"
+      },
+      {
+        "ref": "refs/heads/design/group-b-prerequisite-bootstrap-finalization-correction-001",
+        "name": "design/group-b-prerequisite-bootstrap-finalization-correction-001",
+        "sha": "95ea0e794c4c2cec2dc6702466e2981d10fd1c74"
+      },
+      {
+        "ref": "refs/heads/design/group-b-prerequisite-contract-reconciliation-001",
+        "name": "design/group-b-prerequisite-contract-reconciliation-001",
+        "sha": "15263527e985cb285dcc0354de09d507a5bd86dd"
+      },
+      {
+        "ref": "refs/heads/design/group-b-prerequisite-finalization-work-unit-amendment-001",
+        "name": "design/group-b-prerequisite-finalization-work-unit-amendment-001",
+        "sha": "7e14c42fc731e0f63e2dcc35f87f8b14b3eb7023"
+      },
+      {
+        "ref": "refs/heads/framework-contract-repair-design-001",
+        "name": "framework-contract-repair-design-001",
+        "sha": "135f1c06b205894f0e603b0fdbf34cc10ba6e3f6"
+      },
+      {
+        "ref": "refs/heads/framework-contract-repair-plan-001",
+        "name": "framework-contract-repair-plan-001",
+        "sha": "7f9c0cf46aee2b6bfdbadc36eb8d6373592d4a55"
+      },
+      {
+        "ref": "refs/heads/framework-evidence/prj-framework-management/1682c2984f185114",
+        "name": "framework-evidence/prj-framework-management/1682c2984f185114",
+        "sha": "7b016e56dfb08355840af464737087a796d71ed9"
+      },
+      {
+        "ref": "refs/heads/framework-evidence/prj-framework-management/5439535fffca9227",
+        "name": "framework-evidence/prj-framework-management/5439535fffca9227",
+        "sha": "dccd46a12726fba82eb031b36f1061305324b483"
+      },
+      {
+        "ref": "refs/heads/framework-evidence/prj-framework-management/806a00166c852950",
+        "name": "framework-evidence/prj-framework-management/806a00166c852950",
+        "sha": "9477a6fdedac64a7389dfe4e24fda2989810f37c"
+      },
+      {
+        "ref": "refs/heads/framework-evidence/prj-framework-management/c86c2d5217b966b8",
+        "name": "framework-evidence/prj-framework-management/c86c2d5217b966b8",
+        "sha": "3d22000439ae235f9cbc0bcfb099308e3fefb3a6"
+      },
+      {
+        "ref": "refs/heads/framework-evidence/prj-framework-management/d00d7f11cfc80c63",
+        "name": "framework-evidence/prj-framework-management/d00d7f11cfc80c63",
+        "sha": "ffd654dabdefb3f8c9019cee5e992c48b70d454d"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-bootstrap-amendment-accepted-001",
+        "name": "framework-group-b-prerequisite-bootstrap-amendment-accepted-001",
+        "sha": "97afda5e716dea7b53724e3d2dbede977d4a669c"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-bootstrap-design-accepted-001",
+        "name": "framework-group-b-prerequisite-bootstrap-design-accepted-001",
+        "sha": "97afda5e716dea7b53724e3d2dbede977d4a669c"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-contract-reconciliation-design-accepted-001",
+        "name": "framework-group-b-prerequisite-contract-reconciliation-design-accepted-001",
+        "sha": "15263527e985cb285dcc0354de09d507a5bd86dd"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-contract-reconciliation-plan-001",
+        "name": "framework-group-b-prerequisite-contract-reconciliation-plan-001",
+        "sha": "36695832aa17198b217252077bcf70c6ba77c67a"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-contract-reconciliation-plan-accepted-001",
+        "name": "framework-group-b-prerequisite-contract-reconciliation-plan-accepted-001",
+        "sha": "36695832aa17198b217252077bcf70c6ba77c67a"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-finalization-work-unit-design-accepted-001",
+        "name": "framework-group-b-prerequisite-finalization-work-unit-design-accepted-001",
+        "sha": "7e14c42fc731e0f63e2dcc35f87f8b14b3eb7023"
+      },
+      {
+        "ref": "refs/heads/framework-group-b-prerequisite-minimal-closure-plan-accepted-001",
+        "name": "framework-group-b-prerequisite-minimal-closure-plan-accepted-001",
+        "sha": "e13db71242db456789bc66bff46ef884e73a0fc1"
+      },
+      {
+        "ref": "refs/heads/framework-staged-closure-design-001",
+        "name": "framework-staged-closure-design-001",
+        "sha": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546"
+      },
+      {
+        "ref": "refs/heads/framework-staged-closure-master-plan-001",
+        "name": "framework-staged-closure-master-plan-001",
+        "sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b"
+      },
+      {
+        "ref": "refs/heads/governance/b7-publication-packaging-authority-design-correction",
+        "name": "governance/b7-publication-packaging-authority-design-correction",
+        "sha": "7984c2ee0c6d137bce4e6d27b8816ab59cdf5d09"
+      },
+      {
+        "ref": "refs/heads/governance/b7-publication-packaging-authority-plan-correction",
+        "name": "governance/b7-publication-packaging-authority-plan-correction",
+        "sha": "7437a392544b7888e32fd1f0d4d56d4744f5096a"
+      },
+      {
+        "ref": "refs/heads/governance/b7-publication-packaging-work-unit-candidate-001",
+        "name": "governance/b7-publication-packaging-work-unit-candidate-001",
+        "sha": "c5e21ce72771a0cde389d0828ac4c00052e31e85"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-authority-design",
+        "name": "governance/b7-release-authority-design",
+        "sha": "3d2cab9bb9eb5fea4b362a65654d1e5690e5730b"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-authority-design-base-correction",
+        "name": "governance/b7-release-authority-design-base-correction",
+        "sha": "096d326949883eccb42a047f85170ecb7ed97131"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-authority-plan",
+        "name": "governance/b7-release-authority-plan",
+        "sha": "a06b8d5e061b305ef84bc0c7162ce106c33f1bca"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-authority-plan-r2",
+        "name": "governance/b7-release-authority-plan-r2",
+        "sha": "4f8f5abf4d0b8ab422af43cb87d5e6a222e16818"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-authority-plan-r3",
+        "name": "governance/b7-release-authority-plan-r3",
+        "sha": "47ac3fd81890e48af94ba3423fb859522605e636"
+      },
+      {
+        "ref": "refs/heads/governance/b7-release-work-unit-candidate-001",
+        "name": "governance/b7-release-work-unit-candidate-001",
+        "sha": "1e0da424622f504ee832e823a198a06c4261a239"
+      },
+      {
+        "ref": "refs/heads/governance/b7-v2.7.3-publication-finalization-authority-design",
+        "name": "governance/b7-v2.7.3-publication-finalization-authority-design",
+        "sha": "ebe14209d7990bcab177079ad2cba9fee97abb0b"
+      },
+      {
+        "ref": "refs/heads/governance/b7-v2.7.3-publication-finalization-authority-plan",
+        "name": "governance/b7-v2.7.3-publication-finalization-authority-plan",
+        "sha": "2ed6254ddf5f4dce7fef27dbd2f04180b55bcf40"
+      },
+      {
+        "ref": "refs/heads/governance/b7-v2.7.3-publication-finalization-candidate-001",
+        "name": "governance/b7-v2.7.3-publication-finalization-candidate-001",
+        "sha": "e9be8754eced8bcce136515d85a8dfb7a8488ee5"
+      },
+      {
+        "ref": "refs/heads/governance/b7-v2.7.3-publication-finalization-wu-candidate-001",
+        "name": "governance/b7-v2.7.3-publication-finalization-wu-candidate-001",
+        "sha": "ee199e7c77a7057a357e05d0dccb35fa9434dad3"
+      },
+      {
+        "ref": "refs/heads/governance/github-repository-consolidation-rev002-candidate-001",
+        "name": "governance/github-repository-consolidation-rev002-candidate-001",
+        "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c1-c7-work-unit-authority-design-amendment",
+        "name": "governance/group-c-c1-c7-work-unit-authority-design-amendment",
+        "sha": "48e359de303135c24a551f1a3e87cfb685b0d1a9"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c1-c7-work-unit-authority-plan-amendment",
+        "name": "governance/group-c-c1-c7-work-unit-authority-plan-amendment",
+        "sha": "9cc4875fb997d1c5b57eb58ea3e5e895329ce7e8"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c8-implementation-candidate-001",
+        "name": "governance/group-c-c8-implementation-candidate-001",
+        "sha": "6dfdc8d29ac5de8ca21e4d8c6addde5f3d3a85ac"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c8-work-unit-authority-design-candidate-001",
+        "name": "governance/group-c-c8-work-unit-authority-design-candidate-001",
+        "sha": "bce6633c5bc8fca797efbf036303a92f7d5418d7"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c8-work-unit-authority-plan-candidate-001",
+        "name": "governance/group-c-c8-work-unit-authority-plan-candidate-001",
+        "sha": "b1172cec5b4b299260398c45c9e46f91bb859bd1"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c8-work-unit-candidate-001",
+        "name": "governance/group-c-c8-work-unit-candidate-001",
+        "sha": "a60c2049fe4616aa918267b3abbc6e87d227a13a"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-authority-design-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-authority-design-candidate-001",
+        "sha": "66ed13b29f24ee65c40ac07755de04f74951779a"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-authority-plan-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-authority-plan-candidate-001",
+        "sha": "dd00872ca28a534e2e5100e8e5a36cbbb60194b2"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-authority-plan-fix1-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-authority-plan-fix1-candidate-001",
+        "sha": "9402db8eef58f1b4728280ac7ed22d8df257a54f"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-authority-plan-fix2-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-authority-plan-fix2-candidate-001",
+        "sha": "763b6be1dab863381ad5eab3a971ecb35df03132"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-fix2-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-fix2-candidate-001",
+        "sha": "da19ccffdcb5afa3a738d084356b902d91fa7473"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-finalization-authority-amendment-001",
+        "name": "governance/group-c-c9-v2.7.4-finalization-authority-amendment-001",
+        "sha": "d149fc2ee01b55db272aa6531961fd2482deb3c1"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-finalization-history-001",
+        "name": "governance/group-c-c9-v2.7.4-finalization-history-001",
+        "sha": "f6a0cdcadcabf81dd313fad77a30a952eb99ece6"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-finalization-history-002",
+        "name": "governance/group-c-c9-v2.7.4-finalization-history-002",
+        "sha": "fd23a8820a2d88ba0ce580ff9b70e0fa9155fa34"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-finalization-work-unit-candidate-003",
+        "name": "governance/group-c-c9-v2.7.4-finalization-work-unit-candidate-003",
+        "sha": "6cf11e7ce40847ba099a803a2b1bd904776bb0dc"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-design-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-design-candidate-001",
+        "sha": "ccfc655d1b4baeec3d1cd79bae4b5abb6366d03f"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-001",
+        "sha": "99563414824349ef93d2dd54c27a8785b53ddc45"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-002",
+        "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-002",
+        "sha": "e2667b5f3c487900949cb69014abd7afc1ee040e"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-003",
+        "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-003",
+        "sha": "c6d10dd3bbfdf4ddf94dd1a870c3e3dfabc8e84a"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-candidate-003",
+        "name": "governance/group-c-c9-v2.7.4-packaging-candidate-003",
+        "sha": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-001",
+        "sha": "83a707545dc807da4859530ec54b10c11a0a3b66"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-002",
+        "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-002",
+        "sha": "cdebaf2f0a3aac9c4414ac2e529a9c0367132f4e"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-003",
+        "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-003",
+        "sha": "7074d198247f3d5b6a95d42bbaae3bfb1a7ba23b"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-phase-a-source-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-phase-a-source-candidate-001",
+        "sha": "283beaa286348da8913374f7908538bf303d28bf"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-phase-a-source-candidate-002",
+        "name": "governance/group-c-c9-v2.7.4-phase-a-source-candidate-002",
+        "sha": "5fd9cb4735d2c21fcefd2e9ce90e280e7e1a2de6"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-phase-a-validation-order-amendment-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-phase-a-validation-order-amendment-candidate-001",
+        "sha": "87fe1788d69bff5366a48993df5403f2aa56fcfc"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-release-work-unit-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-release-work-unit-candidate-001",
+        "sha": "d57aaac67a4340374a9480308e60ba0e1f068157"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-release-work-unit-candidate-002",
+        "name": "governance/group-c-c9-v2.7.4-release-work-unit-candidate-002",
+        "sha": "50b4b029c631cc320fb75463e23e9e50d06a9b3d"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-runtime-scope-correction-design-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-runtime-scope-correction-design-candidate-001",
+        "sha": "f3cefd8c8d9c3d0c0cd2e9e16a74288ebe62c7a1"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-c9-v2.7.4-runtime-scope-correction-plan-candidate-001",
+        "name": "governance/group-c-c9-v2.7.4-runtime-scope-correction-plan-candidate-001",
+        "sha": "b8730483a0126534ddd67a2ab555e87d47a2b4da"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-v2.7.4-c1-c7-candidate-001",
+        "name": "governance/group-c-v2.7.4-c1-c7-candidate-001",
+        "sha": "b281c427345ece6caf165189c89e1ff97fcab73a"
+      },
+      {
+        "ref": "refs/heads/governance/group-c-v2.7.4-work-unit-candidate-001",
+        "name": "governance/group-c-v2.7.4-work-unit-candidate-001",
+        "sha": "cdb913fd95e65be07ab359921279b66a6cd3c9fd"
+      },
+      {
+        "ref": "refs/heads/governance/p2-minimum-capability-design-revision-002-candidate-001",
+        "name": "governance/p2-minimum-capability-design-revision-002-candidate-001",
+        "sha": "91b485c6c93584ef2f89c459c10e488750f5801f"
+      },
+      {
+        "ref": "refs/heads/governance/p2-minimum-capability-plan-revision-002-candidate-001",
+        "name": "governance/p2-minimum-capability-plan-revision-002-candidate-001",
+        "sha": "7ac219d15269bdc68d66f07cfe85b044fef35279"
+      },
+      {
+        "ref": "refs/heads/governance/p2-minimum-capability-plan-revision-003-candidate-001",
+        "name": "governance/p2-minimum-capability-plan-revision-003-candidate-001",
+        "sha": "40b704e343762c1c1acbef8c243adb8b0d25b1f6"
+      },
+      {
+        "ref": "refs/heads/governance/p2-rev002-implementation-work-unit-candidate-001",
+        "name": "governance/p2-rev002-implementation-work-unit-candidate-001",
+        "sha": "d54f99078e4569fa65cb5af96b16a287d677fe65"
+      },
+      {
+        "ref": "refs/heads/governance/p2-rev002-work-unit-authority-design-candidate-001",
+        "name": "governance/p2-rev002-work-unit-authority-design-candidate-001",
+        "sha": "edbc92d7834874c34fe70a6cacc7ab74091a19e7"
+      },
+      {
+        "ref": "refs/heads/governance/p2-rev002-work-unit-authority-design-candidate-002",
+        "name": "governance/p2-rev002-work-unit-authority-design-candidate-002",
+        "sha": "cbf69259698a4eb0518ce9442d729e9804ad9f74"
+      },
+      {
+        "ref": "refs/heads/governance/p2-rev002-work-unit-authority-plan-candidate-001",
+        "name": "governance/p2-rev002-work-unit-authority-plan-candidate-001",
+        "sha": "b412f2c2992357813fcf2ab23d5e0d47c704c49f"
+      },
+      {
+        "ref": "refs/heads/group-b/b1-task5",
+        "name": "group-b/b1-task5",
+        "sha": "6e67d8ffe51845b0588857de8b5c91cd27df7c0a"
+      },
+      {
+        "ref": "refs/heads/group-b/b2-task6",
+        "name": "group-b/b2-task6",
+        "sha": "026798892bfe11858add7fb2b068f1ce75cba7c6"
+      },
+      {
+        "ref": "refs/heads/group-b/b3-task7",
+        "name": "group-b/b3-task7",
+        "sha": "32f19ad6be12b252ddfc77b30e1375755e06b1d6"
+      },
+      {
+        "ref": "refs/heads/group-b/b4-task8",
+        "name": "group-b/b4-task8",
+        "sha": "7316871af407f2733e72a26c5eef6b10fb655ab5"
+      },
+      {
+        "ref": "refs/heads/group-b/b5-task9",
+        "name": "group-b/b5-task9",
+        "sha": "d571b398f5a8ce69be34d750e224ab9f6c157739"
+      },
+      {
+        "ref": "refs/heads/integration/github-consolidation-phase-c-temp-ref-cleanup-wu-001",
+        "name": "integration/github-consolidation-phase-c-temp-ref-cleanup-wu-001",
+        "sha": "5564f155fe80f6feb081a4418bedcc7a199977d3"
+      },
+      {
+        "ref": "refs/heads/integration/github-consolidation-phase-d-batch-1-migration-wu-001",
+        "name": "integration/github-consolidation-phase-d-batch-1-migration-wu-001",
+        "sha": "bb49921094cd56251b9fe39d843d38b7c6cc586b"
+      },
+      {
+        "ref": "refs/heads/integration/github-consolidation-phase-d-reference-inventory-wu-001",
+        "name": "integration/github-consolidation-phase-d-reference-inventory-wu-001",
+        "sha": "829f55f720471f450f4798dd1f243c87e210bafb"
+      },
+      {
+        "ref": "refs/heads/main",
+        "name": "main",
+        "sha": "a87046920d31838bec3fe757c4395d8cde5af3b9"
+      },
+      {
+        "ref": "refs/heads/migration/framework-contract-repair-bridge-005",
+        "name": "migration/framework-contract-repair-bridge-005",
+        "sha": "1e9c429feb8bb8aca41c1b1dd102f362024700c5"
+      },
+      {
+        "ref": "refs/heads/plan/group-b-prerequisite-bootstrap-corrective-activation-001",
+        "name": "plan/group-b-prerequisite-bootstrap-corrective-activation-001",
+        "sha": "d636243b9ffa0ba2cdc1ace5f04b2e11827d092a"
+      },
+      {
+        "ref": "refs/heads/plan/group-b-prerequisite-minimal-closure-001",
+        "name": "plan/group-b-prerequisite-minimal-closure-001",
+        "sha": "e13db71242db456789bc66bff46ef884e73a0fc1"
+      },
+      {
+        "ref": "refs/heads/release/v2.7.3-group-b-candidate-001",
+        "name": "release/v2.7.3-group-b-candidate-001",
+        "sha": "d9dd439a6d6ca944a6f07ed1aa0b386b0ac0a0b7"
+      },
+      {
+        "ref": "refs/heads/release/v2.7.3-publication-packaging-w-candidate-001",
+        "name": "release/v2.7.3-publication-packaging-w-candidate-001",
+        "sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2"
+      },
+      {
+        "ref": "refs/heads/task3-global-plugin-core-001",
+        "name": "task3-global-plugin-core-001",
+        "sha": "7963e29268cf9d2c48b684c2b7dcbabd4a2efa86"
+      }
+    ],
+    "branch_count": 94,
+    "main_ref": "refs/heads/main",
+    "main_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+    "tags": [
+      {
+        "ref": "refs/tags/archive/legacy/efficiency-design-c62c8a6",
+        "object_sha": "1f91916d8076cfc57dcba98ecdb5a3f594fccb0e",
+        "target_commit_sha": "c62c8a61635de5abf9af7422a333dd641a88fcdd",
+        "purpose": "HISTORICAL_ARCHIVE"
+      },
+      {
+        "ref": "refs/tags/archive/legacy/execution-telemetry-design-054cddc",
+        "object_sha": "89e660302a437e1ea9d986e783803bd921ca0b04",
+        "target_commit_sha": "054cddc3846817ef0020b5b019347c34017a084b",
+        "purpose": "HISTORICAL_ARCHIVE"
+      },
+      {
+        "ref": "refs/tags/archive/legacy/execution-telemetry-implementation-a27eeeb",
+        "object_sha": "02a2bdf2e3e5f6bff9a6e330d043ef4bb1a1aaad",
+        "target_commit_sha": "a27eeebd6b127e5d2638c89ebda54bc2fce8c981",
+        "purpose": "HISTORICAL_ARCHIVE"
+      },
+      {
+        "ref": "refs/tags/archive/legacy/task2-review-reconciliation-900aec4",
+        "object_sha": "24ad2121f8f77c1c7a8843c92282291806c0aade",
+        "target_commit_sha": "900aec483f66e1f350f1224003a1975c48ce00c1",
+        "purpose": "HISTORICAL_ARCHIVE"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-group-b-prerequisite-bootstrap-001",
+        "object_sha": "8d7d6ba83bbc759fa5de609599d786cda692890c",
+        "target_commit_sha": "e13db71242db456789bc66bff46ef884e73a0fc1",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-group-c-c1-c7-work-unit-001",
+        "object_sha": "2ccfa1cf15a911c0722990ab508b23bbf7c506e4",
+        "target_commit_sha": "9cc4875fb997d1c5b57eb58ea3e5e895329ce7e8",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-group-c-c8-work-unit-001",
+        "object_sha": "c7ff987a7bef92231d693418c17421bea18be6a2",
+        "target_commit_sha": "b1172cec5b4b299260398c45c9e46f91bb859bd1",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.3-publication-finalization-work-unit-001",
+        "object_sha": "e10f97a3cfa9b36f0ee8a11a9ff3b3cf3cf198e8",
+        "target_commit_sha": "2ed6254ddf5f4dce7fef27dbd2f04180b55bcf40",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.3-publication-packaging-work-unit-001",
+        "object_sha": "bebaaa615358eaa9d6eafc35bbac1d15fd62c4c2",
+        "target_commit_sha": "7437a392544b7888e32fd1f0d4d56d4744f5096a",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.3-release-work-unit-001",
+        "object_sha": "5b9b567ec8086754ea252cf77f46ac45cff931b3",
+        "target_commit_sha": "47ac3fd81890e48af94ba3423fb859522605e636",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-publication-finalization-work-unit-003",
+        "object_sha": "fda8581574fa44bfc7b21dbe16669c661d4bfbbc",
+        "target_commit_sha": "6cf11e7ce40847ba099a803a2b1bd904776bb0dc",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-publication-packaging-work-unit-001",
+        "object_sha": "bb8c7df799105db8862194d6c212ccf662c74a39",
+        "target_commit_sha": "283beaa286348da8913374f7908538bf303d28bf",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-publication-packaging-work-unit-002",
+        "object_sha": "070cedebe54b3a4d9c59bcc4d61839ff9e0c4ff2",
+        "target_commit_sha": "5fd9cb4735d2c21fcefd2e9ce90e280e7e1a2de6",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-publication-packaging-work-unit-003",
+        "object_sha": "e31fcc3198e768a30a588fcc3862921025a186c8",
+        "target_commit_sha": "c6d10dd3bbfdf4ddf94dd1a870c3e3dfabc8e84a",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-release-work-unit-001",
+        "object_sha": "86fcfb46909e69aed60906aea775a1ed752e9d51",
+        "target_commit_sha": "5723068caa02a92925e248f4abed4e8d01b9512e",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/framework-v2.7.4-release-work-unit-002",
+        "object_sha": "c4ff32a7cc93a5b7daa05397b973a30a25950756",
+        "target_commit_sha": "da19ccffdcb5afa3a738d084356b902d91fa7473",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/p2-finding-004-provenance-fix-001",
+        "object_sha": "07a9cbba5f3bda11d9fd72bbb8509018b4d2f2c4",
+        "target_commit_sha": "339271a49cd0dffa7c59330bf9e02beb22fd2060",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/p2-finding-004-remediation-authority-001",
+        "object_sha": "eafa671323c6d2d62f83a48e943bea734562ad8e",
+        "target_commit_sha": "ef6173a3766c2792824c4519504f36a9e397d2ab",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/p2-plugin-public-release-preparation-001",
+        "object_sha": "9b90bc97af7f035dae57c02413c1b076df1cc456",
+        "target_commit_sha": "5c7d0e79c407699fbb522858bab2cd8d5b9538cd",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bootstrap/p2-rev002-implementation-work-unit-001",
+        "object_sha": "6558cd80802f6433832aeca24615f185d7350373",
+        "target_commit_sha": "b412f2c2992357813fcf2ab23d5e0d47c704c49f",
+        "purpose": "BOOTSTRAP_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-001",
+        "object_sha": "52b3ae8f13ad143035776717d6f692fef02100e0",
+        "target_commit_sha": "5d2829dec4d2690169cd39379c094f5f69547b3c",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-002",
+        "object_sha": "ef2823e67451ad808fba2acdc2bdca2ef7e228f6",
+        "target_commit_sha": "e11061f45ddd12fd0dd7a84a46f74263f183bad8",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-003",
+        "object_sha": "06bb154b1c25dba73d01594a9e96c4180cc5f62a",
+        "target_commit_sha": "5aed290c8f45fe53a5c32452b17749cdf9d2a5aa",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-004",
+        "object_sha": "2061acabf6f09f804edacabc602b66058640c59e",
+        "target_commit_sha": "7f9c0cf46aee2b6bfdbadc36eb8d6373592d4a55",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-004-reconciliation-001",
+        "object_sha": "9146cfa20ad093b1e07f161ea498c77e48b685ce",
+        "target_commit_sha": "7f9c0cf46aee2b6bfdbadc36eb8d6373592d4a55",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/bridge/framework-contract-repair-005",
+        "object_sha": "9e83c0c44b3290533c721298f3f9588dd3995413",
+        "target_commit_sha": "8b080403c4d039129f07decce75ea7580a51c207",
+        "purpose": "BRIDGE_AUTHORITY"
+      },
+      {
+        "ref": "refs/tags/v2.3.0",
+        "object_sha": "5dcc7463bb1729be2ddd5749105df980ec42f5cf",
+        "target_commit_sha": "1c190e4cdbadf992247a188da174b116c373028d",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.4.0",
+        "object_sha": "b68259de72c8d10d028d3e8330c24dce79cfc6e4",
+        "target_commit_sha": "454f47deaf69bd99fcdcccff487343e182955bb7",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.5.0",
+        "object_sha": "febf10c7c57f8f0ad2bb87c38db3fd4f3a61cdae",
+        "target_commit_sha": "b5b2898ca8f67df9ad42d5032c0b94aa71e89885",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.6.0",
+        "object_sha": "ffc95fcf14f33b14c09d5e770659fcc45e0fc14e",
+        "target_commit_sha": "a2f950138895df1a56564880977ed8530653b89f",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.0",
+        "object_sha": "7e094ff234f624e7c1614774e67cf55abb978d76",
+        "target_commit_sha": "3608cd4ae82f4b8f41b844f9df3b27eb50d2833d",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.1",
+        "object_sha": "fca7ad14685c981be222d3a457ddddfb51de8054",
+        "target_commit_sha": "6600a55ace1faf160309c82a1e5e2663c22d3dc6",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.2",
+        "object_sha": "cdf50b1b95211885e5b69f02161353984d6f2ae2",
+        "target_commit_sha": "3ff7c2b67a7ecacfe04d8776dc380299bb9d0f3b",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.2+fix.1",
+        "object_sha": "ad0a9a0fd203ad6b2e7e353f6308e27901cd3350",
+        "target_commit_sha": "b4bc96bcfebad941edf5a5c2ee5368e9e94045a6",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.2+fix.2",
+        "object_sha": "89be9dceaa1ca5a8d2f50888e951ea59476ff35a",
+        "target_commit_sha": "084b1a080786b1554732ba3000a0b26e52c1d3c9",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.3",
+        "object_sha": "66dcf92e418bf402183ab33ad545e632cff12e62",
+        "target_commit_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+        "purpose": "RELEASE"
+      },
+      {
+        "ref": "refs/tags/v2.7.4",
+        "object_sha": "ab0c2c6e52b6b76fc931dc068eee1de52e8a00de",
+        "target_commit_sha": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c",
+        "purpose": "RELEASE"
+      }
+    ],
+    "tag_count": 37,
+    "protected_refs": [],
+    "protected_ref_count": 0,
+    "open_pr_count": 0,
+    "open_pr_decisions": [],
+    "authority_tag_preservation": "PASS",
+    "ref_mutated": false
+  },
+  "immutable_locator_validation": {
+    "ref_cleanup_locator": {
+      "commit": "5564f155fe80f6feb081a4418bedcc7a199977d3",
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+      "blob": "7b1dea2dde95806e86482b5e9d6cd0212a5a556f"
+    },
+    "ref_cleanup_locator_list_semantics": "OBSERVED_INPUT_INVENTORY",
+    "preserved_locator_rule": "PHASE_F_PRESERVED_LOCATOR_SET_V1",
+    "preserved_locator_digest_sha256": "48cac26976fb31fe87da2e5333f4f67c75caedd9a86805d83daa1beafb831b12",
+    "preserved_locator_count": 9,
+    "preserved_locator_checks": [
+      {
+        "locator": "1a8538f26d2f66ebf344fa469b48031bf13cd348:.gpt-codex/work-units/github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001.json+1f10be488e13f5732c036b1ab0786f3479a674e4",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "40f014b0108a4b3befe011928d8bb2eb165d0e34:.gpt-codex/work-units/github-repository-consolidation-phase-f-full-validation-clean-clone-001.json+0595ba9ea53df3c527799280b6e003ce0eea1fb3",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "5564f155fe80f6feb081a4418bedcc7a199977d3:.gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json+7b1dea2dde95806e86482b5e9d6cd0212a5a556f",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "6663e46ed210ec33354e5c1c5462d34205d77ae1:docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md+10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "6663e46ed210ec33354e5c1c5462d34205d77ae1:docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md+42210b3d2b86a6b4e28fc737fed92d312355ec5f",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "83727275ba47cd20b5c9ba4f18802f247884b715:.gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json+62f34c5ba7371cafb4fba482ac0e21e40bec6746",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "94eb80869f43800c1c6b1a53d7393b90b4e7433b:docs/superpowers/plans/2026-09-18-framework-staged-closure-v2.7.2-v2.7.4-master-plan.md+a0677f224bf2d92014ef5c95218ca6a470027a0b",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "a8708b56b110cad40849c8bc8b2c0815a9804b5a:.gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json+d1a10233b5264d50534833704ecb3982d1ed3e79",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      },
+      {
+        "locator": "c7f548a3149c9fd07e0551c7228324f3c50abaff:.gpt-codex/release/consumer-projection-manifest.json+3fe61820066fbb0ddbf858ec4758235aae08636e",
+        "blob_match": true,
+        "preservation_rule": "EXACT_COMMIT_PATH_BLOB"
+      }
+    ],
+    "retained_ref_reachability": [
+      {
+        "commit": "e7fb81a441cba95f16fd33fa39814ff13e77c3d1",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "05e1bfb3e48dd4bf9610f17b036f515e9d3f3ff3",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "eb03f74902a3906f48a04fdeadbc83a40c092558",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "922780fd9561ce8790f52063a9a6ffc322c124cd",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "ff523437765cece6e026f15484573742d38eed57",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "54354f7be2759f82b5799862eae55cfa48e67c6b",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "2c269e493dfdffd988e77dd36a02d51bea62f6cc",
+        "retained_remote_ref": "refs/heads/main",
+        "current_head_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+        "method": "GitHub Compare merge_base_commit equals audited commit"
+      },
+      {
+        "commit": "94eb80869f43800c1c6b1a53d7393b90b4e7433b",
+        "retained_remote_ref": "refs/heads/framework-staged-closure-master-plan-001",
+        "current_head_sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b",
+        "method": "exact remote ref head equality"
+      }
+    ],
+    "historical_observed_input_inventory_is_mandatory_preserved_set": false,
+    "status": "PASS"
+  },
+  "phase_f_validation_reuse": {
+    "source_evidence": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+      "blob": "dd111b81e39406e7624bbf241c41fba4cd5bc749"
+    },
+    "original_baseline": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+    "frozen_repository_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+    "tests": 713,
+    "expected_skips": 2,
+    "failures": 0,
+    "errors": 0,
+    "clean_clone": "PASS",
+    "non_drift_proof": {
+      "command": "git diff --name-status 0c222d65540218eeb3c7e229d1d9bf38e008efb5 bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+      "changed_paths": [
+        {
+          "status": "M",
+          "path": ".gpt-codex/STATE.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/26425c12-41be-40ed-853d-73857aab83ff.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c0257063-3afd-4e53-82c9-b6908ebf3126.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-durable-closure-001.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-fix-round-1-001.json"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-fix-round-1-authority-correction-001.json"
+        }
+      ],
+      "source_test_projection_release_plugin_inputs_unchanged": true,
+      "changed_only_state_and_governance_records": true
+    },
+    "reuse_status": "PASS"
+  },
+  "fresh_validation": {
+    "validate_project": "PASS",
+    "validate_framework": "PASS",
+    "validate_consumer_projection": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "public_release_deferral": {
+    "source": {
+      "path": ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json",
+      "blob": "d7644afd9908f21d74cbcaa9ef6e9c35d90f77c8"
+    },
+    "PUBLIC_RELEASE": "DEFERRED_BY_USER",
+    "PRIVATE_PLUGIN_USE": "CONTINUE",
+    "RESUME_PUBLIC_RELEASE_REQUIRES_NEW_USER_AUTHORIZATION": true
+  },
+  "candidate_paths": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+    ".gpt-codex/evidence/instructions/b015af20-d08e-4dde-91ef-b82bda9427ff.json"
+  ],
+  "candidate_path_count": 2,
+  "directory_creations": [],
+  "state_mutated": false,
+  "source_mutated": false,
+  "test_mutated": false,
+  "ref_mutated": false,
+  "commit": false,
+  "push": false,
+  "independent_post_required": true,
+  "phase_g_complete": false,
+  "local_workspace_consolidation_started": false,
+  "next_gate": "LOCAL_WORKSPACE_CONSOLIDATION",
+  "findings": [],
+  "blockers": [],
+  "deviations": []
+}
