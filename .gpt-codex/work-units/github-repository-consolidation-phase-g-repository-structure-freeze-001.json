@@ -1,0 +1,189 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "github-repository-consolidation-phase-g-repository-structure-freeze-001",
+  "goal": "Create, independently review, and later integrate the exact durable Repository Structure Freeze artifact for the fully consolidated repository state at bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee, without changing repository structure, source, tests, STATE, refs, documentation, release artifacts, Plugin surfaces, or local workspace layout.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/evidence/results/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "AGENTS.md",
+      "VERSION"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "G_REPOSITORY_STRUCTURE_FREEZE",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "release-projection",
+      "git-continuity"
+    ],
+    "framework_version": "2.7.4",
+    "frozen_repository_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+    "frozen_state_revision": 24,
+    "frozen_state": "AUTHORIZED",
+    "frozen_sync_status": "SYNCED",
+    "validation_only": true,
+    "source_change_required": false,
+    "test_change_required": false,
+    "state_change_required": false,
+    "ref_change_required": false,
+    "directory_change_required": false,
+    "local_workspace_change_required": false,
+    "scope_expansion_authorized": false,
+    "freeze_artifact_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+    "accepted_design": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "blob": "42210b3d2b86a6b4e28fc737fed92d312355ec5f"
+    },
+    "accepted_plan": {
+      "commit": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c"
+    },
+    "phase_f_closure_result": {
+      "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+      "blob": "dee5eaf25bd42f56ed707ae026917a077dc938d9"
+    },
+    "phase_f_remote_integration_evidence": {
+      "path": ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+      "blob": "6470ce2ff4451d4d455cece97a944b1974276f7a"
+    },
+    "phase_f_validation_evidence": {
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+      "blob": "dd111b81e39406e7624bbf241c41fba4cd5bc749",
+      "original_baseline": "0c222d65540218eeb3c7e229d1d9bf38e008efb5"
+    },
+    "ref_cleanup_evidence": {
+      "commit": "5564f155fe80f6feb081a4418bedcc7a199977d3",
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+      "blob": "7b1dea2dde95806e86482b5e9d6cd0212a5a556f"
+    },
+    "consumer_projection_manifest": {
+      "path": ".gpt-codex/release/consumer-projection-manifest.json",
+      "blob": "3fe61820066fbb0ddbf858ec4758235aae08636e",
+      "manifest_version": 1,
+      "framework_version": "2.7.4"
+    },
+    "public_release_deferral_evidence": {
+      "path": ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json",
+      "blob": "d7644afd9908f21d74cbcaa9ef6e9c35d90f77c8"
+    },
+    "directory_contract_sources": [
+      {
+        "path": ".gpt-codex/schemas/work-unit.schema.json",
+        "blob": "31aa47a32a4528d1d61c8fc29aca20fb81da3217"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "blob": "1c5675f49bcb38c39d4114c748ada66b2e2fd1ce"
+      },
+      {
+        "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        "blob": "11e71c4eab82a72afb309c83847afa7aaf8a5272"
+      },
+      {
+        "path": "AGENTS.md",
+        "blob": "ff89d9465a4b87aca00bebaf2ee82fde262babee"
+      },
+      {
+        "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+        "blob": "a455a48a069ad3e83ce4c7a17b23e3254bfe8d17"
+      }
+    ],
+    "directory_contract_version_identity_if_no_standalone_version": "FRAMEWORK_2.7.4_PHASE_C_ACCEPTED_DIRECTORY_CONTRACT",
+    "next_gate_after_verified_freeze": "LOCAL_WORKSPACE_CONSOLIDATION",
+    "requirements": [
+      "This Work Unit materializes future Phase G authority only. It grants no implementation authority. Require PHASE_G_REPOSITORY_STRUCTURE_FREEZE_NATIVE_PRE, an exact Execution Instruction, an exact Freeze candidate, independent POST review, exact USER_LOCAL integration, and live remote verification before PHASE_G_REPOSITORY_STRUCTURE_FREEZE_COMPLETE may be accepted. Do not start Native PRE from this materialization task.",
+      "At future PRE, freshly verify project_id, project_context_id, repository_id, repository_full_name, Framework version 2.7.4, origin/main, open PR count, STATE revision 24 AUTHORIZED/SYNCED, accepted Design and Plan immutable commit/path/blob identities, Phase F Closure Result and Remote Integration Evidence identities, Ref Cleanup immutable locator, Consumer Projection manifest, and public-release deferral Evidence. Drift requires RECONCILIATION_REQUIRED, no commit or push, and return to GPT.",
+      "The Freeze baseline is always FROZEN_REPOSITORY_SHA=bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee and FROZEN_STATE_REVISION=24. Later Work Unit materialization and Instruction commits are governance-only authority and must not replace this baseline. Future Freeze publication P is unknown until integration; do not predict or self-reference it.",
+      "From the accepted Design section 'Responsibility boundaries', extract the exact capability, primary owner, and boundary rows in Design order. Canonicalize a compact UTF-8 JSON array with keys capability, primary_owner, boundary, ensure_ascii=false, comma/colon separators, and no trailing newline. SHA256 those bytes. Record source immutable locator, row_count, exact canonicalization rule, and digest. Do not add, remove, or reinterpret rows.",
+      "Derive one deterministic Directory Creation Contract fingerprint from the exact five contract-bearing source/path/blob identities in directory_contract_sources. Record the tuple and canonical digest method. Use the explicit standalone contract version only if one exists; otherwise use FRAMEWORK_2.7.4_PHASE_C_ACCEPTED_DIRECTORY_CONTRACT. Do not invent a numeric protocol version.",
+      "Compute the canonical repository-tree digest as SHA256 over raw bytes of git ls-tree -r -z --full-tree bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee. Record algorithm, exact command and normalization, tracked entry count, and digest. Do not compute from the later Work Unit or Freeze publication tree.",
+      "Freshly run consumer projection validation against manifest_version=1, framework_version=2.7.4 and the manifest blob above. Record the manifest path/hash/version, required consumer inventory count and results, zero unknown required paths, zero missing required paths, zero contamination, and preserved management exclusions. Any projection error blocks Freeze.",
+      "At execution time freshly observe remote state. Record every remaining remote branch as full ref/name plus exact 40-character SHA, lexicographically sorted by UTF-8 branch name, with branch_count and main exact head. Freshly record open PR count and PR decisions/list. Resolve Ref Cleanup Evidence authority semantics, identify preservation-required authority tags/refs, verify their required object identities, and record AUTHORITY_TAG_PRESERVATION=PASS or FAIL. Do not mutate any ref, tag, or branch.",
+      "Bind immutable Ref Cleanup locator 5564f155fe80f6feb081a4418bedcc7a199977d3:.gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json at blob 7b1dea2dde95806e86482b5e9d6cd0212a5a556f. Reverify durable-authority reachability using its accepted semantics and Phase F preserved-locator semantics. Historical observed-input inventory is not a mandatory preserved set. Any required immutable locator or reachability failure blocks Freeze.",
+      "Freshly run python .gpt-codex/scripts/validate_project.py ., python .gpt-codex/scripts/validate_framework.py, python .gpt-codex/scripts/validate_consumer_projection.py --root ., and git diff --check; all must PASS. Reuse the exact Phase F full-suite/clean-clone Evidence only after proving non-drift of every relevant source, test, projection, release, and Plugin input through the frozen baseline; record source Evidence locator, original baseline, 713 tests, 2 expected skips, 0 failures, 0 errors, clean-clone PASS, and non-drift proof. Do not rerun the 713-test suite merely for duplication. If non-drift cannot be proven, fail closed or rerun the required heavy gate under later execution authority.",
+      "Bind public-release deferral Evidence exactly. Record PUBLIC_RELEASE=DEFERRED_BY_USER, PRIVATE_PLUGIN_USE=CONTINUE, and RESUME_PUBLIC_RELEASE_REQUIRES_NEW_USER_AUTHORIZATION=true. No publication action is authorized.",
+      "Only the exact Freeze Evidence path and exact Execution Instruction under the owned instruction selector may be created by later governed execution. Read, test, and validate excluded paths without mutation. No source, test, STATE, ref, directory, local workspace, documentation, release artifact, or Plugin change is authorized. Freeze does not authorize local cleanup, local workspace move/delete, Phase G+1 execution, Post-P2 Foundation, Framework 2.8.0 release, or Issue #17 implementation.",
+      "The Freeze artifact must set next_gate=LOCAL_WORKSPACE_CONSOLIDATION. Only after exact reviewed integration and live remote verification may it become the sole cross-context Repository Structure Freeze authority for that later gate. Do not start Local Workspace Consolidation automatically."
+    ]
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 24,
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+    ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+    ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1"
+    }
+  },
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "PHASE_G_REPOSITORY_STRUCTURE_FREEZE_NATIVE_PRE"
+  }
+}
