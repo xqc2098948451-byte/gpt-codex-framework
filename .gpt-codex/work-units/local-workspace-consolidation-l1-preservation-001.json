@@ -1,0 +1,1161 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "local-workspace-consolidation-l1-preservation-001",
+  "goal": "Freshly lock L0 authority and ownership, then preserve every exact local-only or otherwise preservation-required Local Workspace source selected from the reviewed Inventory v2 before any cleanup, relocation, root binding, remote mutation, or source mutation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/builtins/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "LOCAL_WORKSPACE_CONSOLIDATION_L1_PRESERVATION",
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "git-continuity"
+    ],
+    "basis_state_revision": 25,
+    "state_revision": 25,
+    "framework_version": "2.7.4",
+    "validation_only": false,
+    "source_change_required": false,
+    "test_change_required": false,
+    "state_change_required": false,
+    "directory_change_required": false,
+    "local_workspace_change_required": true,
+    "scope_expansion_authorized": false,
+    "future_local_mutation_class": "LOCAL_PRESERVATION_ONLY",
+    "materialization_authority": {
+      "remote_ref": "refs/heads/main",
+      "remote_main": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+      "open_pr_count": 0,
+      "state_path": ".gpt-codex/STATE.json",
+      "state_blob": "a4759f123b1d7ed6ed6fccee1c9d2b4e8f44f705",
+      "state_revision": 25,
+      "state": "AUTHORIZED",
+      "sync_status": "SYNCED",
+      "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_REQUIRED",
+      "phase_g_freeze": {
+        "commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+        "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+        "blob": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae"
+      },
+      "design_blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a",
+      "plan_blob": "86789eb1ece50326e3d0142816e32c0f32f940c4"
+    },
+    "reviewed_external_inputs": {
+      "inventory_v2": {
+        "path": "D:/通用开发框架管理/LOCAL-WORKSPACE-INVENTORY-v2.json",
+        "utf8_bytes": 692862,
+        "sha256": "d9a7ad677e50c40a6fe7814ecf7f55587560c7ed5519c703ec7e1cbde2a94d8c",
+        "git_blob": "419211bf9a8b4bbd517fa745ee7a282648dd13da"
+      },
+      "blocker_resolution": {
+        "path": "D:/通用开发框架管理/LOCAL-WORKSPACE-BLOCKER-RESOLUTION.json",
+        "utf8_bytes": 17710,
+        "sha256": "d0de2ef8f0328fccac1fe7e9a5f57a43c3e70afca11d89420c712dde6865a244",
+        "git_blob": "b118107f7935b2d50326e63cf363ae65a4b840dd"
+      },
+      "independent_design_review": {
+        "path": "D:/通用开发框架管理/LOCAL-WORKSPACE-CONSOLIDATION-V2-DESIGN-REVIEW.json",
+        "DESIGN_REVIEW": "PASS",
+        "PLAN_REVIEW": "PASS",
+        "INVENTORY_REVIEW": "PASS",
+        "BLOCKER_RESOLUTION_REVIEW": "PASS",
+        "COUNT_CONSISTENCY": "PASS",
+        "EXECUTION_AUTHORIZED": "NO",
+        "NEXT_GATE": "LOCAL_WORKSPACE_CONSOLIDATION_DESIGN_MATERIALIZATION"
+      }
+    },
+    "reviewed_inventory_facts": {
+      "total_inventory": 156,
+      "project_owned": 103,
+      "project_artifact": 48,
+      "unrelated_proven": 2,
+      "ownership_unresolved": 3,
+      "registered_worktree_count": 57,
+      "worktree_role_unresolved_count": 56,
+      "main_dirty_path_count": 7,
+      "main_local_content_requiring_preservation": 4,
+      "target_repository_local_only_head_count": 2,
+      "bare_repository_count": 4,
+      "bare_repository_disposition": "PRESERVE_SYNTHETIC_TEST_EVIDENCE",
+      "delete_safe_count": 0
+    },
+    "preservation_selector": {
+      "source_artifact": "D:/通用开发框架管理/LOCAL-WORKSPACE-INVENTORY-v2.json",
+      "source_sha256": "d9a7ad677e50c40a6fe7814ecf7f55587560c7ed5519c703ec7e1cbde2a94d8c",
+      "rule": "Select each workspace_entries row only when requires_preservation is true and ownership_status is PROJECT_OWNED or PROJECT_ARTIFACT. Include all 98 reviewed source boundaries, including nested external artifacts, dirty workspaces, the main checkout, two local-only HEAD workspaces, and four synthetic bare repositories. Add the four exact main-checkout tracked modifications from main_checkout.tracked_modifications, cross-checked against the reviewed Blocker Resolution. The source boundaries retain potentially staged, untracked, or ignored content for exact byte resolution during Native PRE. A role marked ROLE_UNRESOLVED never qualifies by role alone. Exclude unrelated and ownership-unresolved rows. No source boundary is authority to copy unreviewed bytes or mutate a source.",
+      "ordering": "Ascending case-folded normalized Windows source path with forward slashes, then ref identity, then item classification.",
+      "source_row_count": 98,
+      "additional_main_file_item_count": 4,
+      "preservation_item_count": 102,
+      "main_preservation_item_count": 4,
+      "local_only_head_count": 2,
+      "synthetic_bare_repository_count": 4,
+      "other_preservation_item_count": 92,
+      "other_count_includes_main_workspace_boundary": true,
+      "items": [
+        {
+          "source_path": "C:/f1t930a",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "C:/Users/xqc/AppData/Local/Temp/b3-task7-execution-0267988",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pf-tmp",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pf-tmp/tmpnkn2inli-crlf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pf-tmp/tmpnkn2inli-lf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pf-tmp/tmpowphb5qv-crlf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pf-tmp/tmpowphb5qv-lf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-c",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-log",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-out",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-s",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-s2",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/task9-control-bh4yhqeu-approval-evidence.git",
+          "item_classification": "SYNTHETIC_BARE_REPOSITORY",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "GENERATED_REPRODUCIBLE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository_relation": "SYNTHETIC_TEST_FIXTURE_NOT_TARGET_REPOSITORY",
+            "ref": "refs/heads/main",
+            "head_sha": "dfcea105685b6b5cf2dfbecdae02e09ed6447be7"
+          }
+        },
+        {
+          "source_path": "D:/pfr-tmp/task9-control-p73gn5lh-approval-evidence.git",
+          "item_classification": "SYNTHETIC_BARE_REPOSITORY",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "GENERATED_REPRODUCIBLE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository_relation": "SYNTHETIC_TEST_FIXTURE_NOT_TARGET_REPOSITORY",
+            "ref": "refs/heads/main",
+            "head_sha": "f9deecd787ad6851895111f6c50955bc214f5242"
+          }
+        },
+        {
+          "source_path": "D:/pfr-tmp/task9-control-pipzxjbd-approval-evidence.git",
+          "item_classification": "SYNTHETIC_BARE_REPOSITORY",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "GENERATED_REPRODUCIBLE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository_relation": "SYNTHETIC_TEST_FIXTURE_NOT_TARGET_REPOSITORY",
+            "ref": "refs/heads/main",
+            "head_sha": "157dd1747f65a925919447990f1b67c75d34b823"
+          }
+        },
+        {
+          "source_path": "D:/pfr-tmp/task9-control-wi7ota8j-approval-evidence.git",
+          "item_classification": "SYNTHETIC_BARE_REPOSITORY",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "GENERATED_REPRODUCIBLE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository_relation": "SYNTHETIC_TEST_FIXTURE_NOT_TARGET_REPOSITORY",
+            "ref": "refs/heads/main",
+            "head_sha": "f21ca6a12a02e69eb3d7f1f1983d1c3f2c260793"
+          }
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmp9r56371h-crlf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmp9r56371h-lf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmpnwudw3hd-crlf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmpnwudw3hd-lf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmpz2ezvyr2-crlf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/pfr-tmp/tmpz2ezvyr2-lf",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-bootstrap-review-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-execution-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-execution-review-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-freeze-preparation-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-instruction-preparation-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-plan-review-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c8-post-execution-review-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c9-finalization-authority-materialization-20260924",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c9-packaging-authority-remote-verification-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c9-packaging-bootstrap-remote-verification-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.c9-release-materialization-20260923",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.gpt-codex-transport",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.gpt-codex-transport/p2-execution-pre",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.gpt-codex-transport/p2-freeze",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-e-durable-closure-native-pre-20260929",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-durable-closure-native-post-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-durable-closure-native-pre-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-fix-r1-exec-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-fix-round-1-native-pre-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-fix-round-1-native-pre-retry-artifacts-01b151e20efd44afb48e17bd6d5ed85b",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-immutable-locator-remediation-native-pre-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-f-immutable-locator-remediation-stage-a-post-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-g-durable-closure-native-post-artifacts-20261001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-g-durable-closure-native-pre-20261001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.phase-g-durable-closure-native-pre-artifacts-20261001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/.plugin-public-release-candidate-20260927",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/_local-cleanup-archive-20260920-20260920-190711431",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/_local-cleanup-archive-20260922-group-c-authority-plan-clean-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-r3-durable-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-packaging-authority-freeze",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-projection-diagnostic-c5e21ce7",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-projection-diagnostic-c5e21ce7/boundary-stage",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-projection-diagnostic-c5e21ce7/clean-reconstruction",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-projection-diagnostic-c5e21ce7/clean-reconstruction-seven-path",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-release-candidate",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-testlogs-dbc1de0b7c4847588488a9d6c1906045",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/b7-v2.7.3-validation-artifacts-8f9c379591ec422bb1b6790e07b5345c",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/docs",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/fix2-release-output-c893c728ac4d42b7ae719f423ea10fd2",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-b-wu-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-c-durable-closure-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-c-fix-round-1-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-c-remediation-wu-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-c-wu-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-d-docs-wu-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-phase-e1-version-policy-wu-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/github-consolidation-plan-baseline-correction-authoring",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework",
+          "item_classification": "MAIN_WORKSPACE_CONTENT_BOUNDARY",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "MAIN_INTEGRATION_CHECKOUT",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.gpt-codex/scripts/validate_project.py",
+          "item_classification": "MAIN_MODIFIED_TRACKED_FILE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "MAIN_CHECKOUT_TRACKED_MODIFICATION",
+          "reviewed_unique_content_status": "UNIQUE_LOCAL_CONTENT",
+          "reviewed_disposition": "PRESERVE_BEFORE_NORMALIZATION",
+          "source_kind": "FILE",
+          "reviewed_sha256": "6e61b7710f44f4848c138401629744edefdeb82bf3d0afd2cffc4e417d953486",
+          "reviewed_git_blob": "10dc93eeaea89f060f915aa82ec34beb50d12dcb"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.gpt-codex/tests/test_review_lifecycle.py",
+          "item_classification": "MAIN_MODIFIED_TRACKED_FILE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "MAIN_CHECKOUT_TRACKED_MODIFICATION",
+          "reviewed_unique_content_status": "UNIQUE_LOCAL_CONTENT",
+          "reviewed_disposition": "PRESERVE_BEFORE_NORMALIZATION",
+          "source_kind": "FILE",
+          "reviewed_sha256": "b251914265052f85ab1880f4af7788a60eb9e046676b5c79ce113b247dc498cb",
+          "reviewed_git_blob": "ef227badc4585184f48cc5d1a1a6e1db1effe2e9"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.gpt-codex/tests/test_self_hosting_validator.py",
+          "item_classification": "MAIN_MODIFIED_TRACKED_FILE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "MAIN_CHECKOUT_TRACKED_MODIFICATION",
+          "reviewed_unique_content_status": "UNIQUE_LOCAL_CONTENT",
+          "reviewed_disposition": "PRESERVE_BEFORE_NORMALIZATION",
+          "source_kind": "FILE",
+          "reviewed_sha256": "8375871e62df7b75d264ba8f2e56ed35ae24f911cea75d5cbac9f3dcb02c031d",
+          "reviewed_git_blob": "9bed9a33d0259aafa72ba510824c8ca8c63a6cbd"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.gpt-codex/tests/test_validator_context_binding.py",
+          "item_classification": "MAIN_MODIFIED_TRACKED_FILE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "MAIN_CHECKOUT_TRACKED_MODIFICATION",
+          "reviewed_unique_content_status": "UNIQUE_LOCAL_CONTENT",
+          "reviewed_disposition": "PRESERVE_BEFORE_NORMALIZATION",
+          "source_kind": "FILE",
+          "reviewed_sha256": "56c999555beddf70e10a91ff3d3d9322b3aa7fc4f97695243e3cb45b80422158",
+          "reviewed_git_blob": "531055dd060e35a662ebcb85048f46d63e61ff38"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/b7-v2-7-3-publication-finalization-wu-candidate-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/b7-v2-7-3-publication-packaging-native-execution",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-finalization-authority-amendment-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-packaging-bootstrap-reconciliation-design",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-packaging-execution",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-phase-a-replacement-execution",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-phase-b-packaging-execution",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-replacement-phase-a-execution-002",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-runtime-scope-correction-plan-authoring",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-runtime-scope-correction-plan-simulation",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/c9-scope-correction-design-authoring",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/github-ref-ledger-phase-a",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/group-c-c1-c7-work-unit-authority-plan-amendment",
+          "item_classification": "TARGET_LOCAL_ONLY_HEAD_AND_WORKSPACE_CONTENT",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "LOCAL_ONLY_COMMIT",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "head_sha": "f6d319f2926cb6768be45a63fdf8c7eea36d5c4c",
+            "branch_ref": "refs/heads/governance/group-c-c1-c7-work-unit-authority-plan-amendment"
+          }
+        },
+        {
+          "source_path": "D:/通用开发框架管理/gpt-codex-framework/.worktrees/group-c-c1-c7-work-unit-authority-plan-clean-001",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-corrective-authority-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-final-exact-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-minimum-capability-implementation",
+          "item_classification": "TARGET_LOCAL_ONLY_HEAD_AND_WORKSPACE_CONTENT",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "LOCAL_ONLY_COMMIT",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY",
+          "source_ref_identity": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "head_sha": "a48d87cebf3c0d054a7a888a61d271463f7ae7d3",
+            "branch_ref": "DETACHED"
+          }
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-public-release-authority-integration-20260927",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-stage-a-bootstrap-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-stage-a-final-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/p2-stage-b-bootstrap-integration",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNCOMMITTED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-c-final-review-independent",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-c-temp-ref-ledger-candidate",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "UNKNOWN",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-e2-post-review-20260929",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_REVIEW_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-f-fix-round-1-post-review-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_REVIEW_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-f-fix-round-1-wu-materialization",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_OWNED",
+          "inventory_classification": "LOCAL_CLONE",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "ARCHIVE_REVIEW_REQUIRED",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        },
+        {
+          "source_path": "D:/通用开发框架管理/phase-f-retry-native-pre-20260930",
+          "item_classification": "OTHER_REVIEWED_PRESERVATION_SOURCE",
+          "ownership_status": "PROJECT_ARTIFACT",
+          "inventory_classification": "REPOSITORY_EXTERNAL_EXECUTION_ARTIFACTS",
+          "reviewed_unique_content_status": "UNRESOLVED_UNIQUE",
+          "reviewed_disposition": "KEEP",
+          "source_kind": "DIRECTORY_OR_WORKSPACE_BOUNDARY"
+        }
+      ]
+    },
+    "l0_authority_and_ownership_lock": [
+      "Future Native PRE must freshly verify repository, project, context, current remote main, STATE 25/AUTHORIZED/SYNCED and next_action, immutable Phase G Freeze, exact materialized Design and Plan blobs, reviewed Inventory v2 and Blocker Resolution identities, and applicable Guardrails.",
+      "Future Native PRE must map the local topology and registered worktrees relevant to every selected source and prove positive ownership of each source before any preservation copy. Any authority drift affecting a selected item stops that item for reconciliation.",
+      "The three ownership-unresolved entries and two proven unrelated repository entries remain outside mutation scope. Fifty-six unresolved worktree roles confer no movement, recreation, deletion, or independent preservation authority."
+    ],
+    "l1_preservation_boundary": [
+      "A separately bound EXECUTION_INSTRUCTION and independent LOCAL_WORKSPACE_CONSOLIDATION_L1_NATIVE_PRE PASS are required before any L1 preservation write. This Work Unit grants scope authority only; implementation has not started.",
+      "Future execution may create only reviewed preservation copies, Git bundles, and manifests outside the repository under a separately PRE-approved exact destination. Sources remain intact throughout L1. Preserve before any later cleanup.",
+      "For each selected source boundary, Native PRE resolves exact required bytes, object identities, dependencies, overlaps and secret indicators. Nested source boundaries must not cause blind recursive copying or double-counting. In particular, the main checkout boundary retains ignored/untracked review coverage while its four unique tracked files are separately identified.",
+      "For two local-only target HEADs, Native PRE selects an exact independently restorable repository-external Git bundle or equivalent non-remote artifact; object presence in a worktree alone is insufficient. Preserve associated uncommitted, untracked, staged, or ignored content where reviewed as required.",
+      "Four synthetic bare repositories retain exact refs and necessary objects as test evidence, without treating their commits as target-repository remote history.",
+      "No L2-L8 execution, D:/w binding, permanent WORKTREE_ROOT creation, worktree move/recreation/prune/repair, dirty main checkout switch/reset/clean/stash, deletion, remote ref mutation, push, source/test/schema/docs/release/Plugin change, STATE change, Local Workspace Freeze, Post-P2 Foundation, or Framework 2.8.0 release is authorized."
+    ],
+    "preservation_integrity": [
+      "For every preservation item record exact source identity, positive ownership, reviewed classification, source bytes or Git object identity, exact PRE-approved destination, preservation artifact identity, SHA-256 and/or Git object identity, independent readability or restoration verification, unchanged source verification, and rollback/source-retention statement.",
+      "For a Git commit or ref record exact SHA, all required objects, independent commit resolution and readability from the preservation artifact, and unchanged source ref/worktree.",
+      "For files verify byte-level identity. For directories and bare repositories use a deterministic content/ref inventory with integrity evidence appropriate to every required byte and object.",
+      "If credential or secret indicators are detected, do not copy that item into an unsafe or general archive; return SECRET_HANDLING_REVIEW_REQUIRED and stop that item fail-closed."
+    ],
+    "completion_boundary": {
+      "l1_pass_meaning": "Only independently reviewed preservation of the selected exact content; Local Workspace Consolidation remains incomplete.",
+      "next_design_phase_after_review": "L2_PATH_LAYOUT_AUTHORITY_RESOLUTION",
+      "automatic_transition": false,
+      "provisional_root": "D:/w",
+      "root_bound": false,
+      "local_deletion_authorized": false
+    }
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 25,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "LOCAL_WORKSPACE_CONSOLIDATION_L1_NATIVE_PRE"
+  }
+}
