@@ -1,0 +1,119 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "PHASE-G-REPOSITORY-STRUCTURE-FREEZE-REMOTE-INTEGRATION-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_name": "通用开发框架管理",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "source": "TOOL_OBSERVED",
+  "subject": "PHASE_G_VERIFIED_REMOTE_INTEGRATION",
+  "state_revision": 24,
+  "result": "VERIFIED",
+  "pre_closure_state_revision": 24,
+  "verified_work_w": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+  "verified_work_parent_sha": "a87046920d31838bec3fe757c4395d8cde5af3b9",
+  "execution_base_sha": "739825c2c07d451aa526126379b732aaf1105713",
+  "execution_base_parent_sha": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+  "current_remote_ref": "refs/heads/main",
+  "current_remote_main_sha_at_candidate_construction": "739825c2c07d451aa526126379b732aaf1105713",
+  "w_ancestor_of_execution_base": true,
+  "w_direct_parent_of_execution_base": true,
+  "post_w_changed_paths": [
+    ".gpt-codex/work-units/github-repository-consolidation-phase-g-durable-closure-001.json"
+  ],
+  "post_w_only_closure_work_unit": true,
+  "open_pr_count": 0,
+  "closure_work_unit": {
+    "id": "github-repository-consolidation-phase-g-durable-closure-001",
+    "path": ".gpt-codex/work-units/github-repository-consolidation-phase-g-durable-closure-001.json",
+    "commit": "739825c2c07d451aa526126379b732aaf1105713",
+    "blob": "2f98d05e62c4baf91eb71b62b2849d66f0de9567"
+  },
+  "closure_instruction": {
+    "id": "2362c78b-66e3-4852-b29a-3e580e8f7582",
+    "path": ".gpt-codex/evidence/instructions/2362c78b-66e3-4852-b29a-3e580e8f7582.json",
+    "utf8_bytes": 4409,
+    "sha256": "ef739bacb967f25ff209c36fd45908ab767ce868fa8822a4a436d787f0576004",
+    "git_blob": "9d4db00fed781824859ad5a73057631716efa519"
+  },
+  "closure_native_pre": {
+    "request_id": "fb5a374a-1427-43ae-b609-753c050373e5",
+    "result_id": "0d292a10-a6d5-4724-b80e-e49efb81a0f5",
+    "status": "PASS",
+    "native_pre_gate_errors": [],
+    "review_target": "739825c2c07d451aa526126379b732aaf1105713"
+  },
+  "aggregate_final_review": {
+    "id": "d43ece3c-4adc-4fef-87e8-9cead1911260",
+    "path": ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-FINAL-REVIEW.json",
+    "utf8_bytes": 7531,
+    "sha256": "af35b9c8c1b47c8b09184dfe61762be536569ed9c69711124ff618e6eca13514",
+    "git_blob": "2740e3f6c4439dbcc6643feaa38bfa1a31eb5f1a",
+    "target": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+    "status": "PASS"
+  },
+  "freeze_evidence": {
+    "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+    "commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+    "blob": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae"
+  },
+  "freeze_instruction": {
+    "id": "b015af20-d08e-4dde-91ef-b82bda9427ff",
+    "path": ".gpt-codex/evidence/instructions/b015af20-d08e-4dde-91ef-b82bda9427ff.json",
+    "commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+    "blob": "49b4103fef14913ba19fd6c467a49f1bfd5bf7c0"
+  },
+  "frozen_repository_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+  "capability_matrix_digest_sha256": "de89dd3ec5f56e43a602924d42ff24e9cc8db6a6a5643135080a749802df51f5",
+  "directory_contract_digest_sha256": "dcfb70acf67fa1147b10a17508fb5578cf31c17e56aa945c33245f07fcaf9214",
+  "repository_tree_digest_sha256": "3d3c1d69d1ab23a5f249b618a5b006aefaeab243c2c06b4f294d9721a687cd55",
+  "consumer_projection_freeze": {
+    "result": "PASS",
+    "required_count": 86,
+    "unknown_count": 0,
+    "missing_count": 0,
+    "contamination_count": 0
+  },
+  "historical_remote_ref_snapshot": {
+    "source_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+    "source_commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+    "source_blob": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae",
+    "observed_at_utc": "2026-10-01T03:10:36.964707+00:00",
+    "branch_count": 94,
+    "tag_count": 37,
+    "non_main_branch_and_tag_drift": false
+  },
+  "immutable_locator_reachability": {
+    "status": "PASS",
+    "preserved_locator_rule": "PHASE_F_PRESERVED_LOCATOR_SET_V1",
+    "preserved_locator_count": 9,
+    "preserved_locator_digest_sha256": "48cac26976fb31fe87da2e5333f4f67c75caedd9a86805d83daa1beafb831b12",
+    "retained_ref_reachability_count": 8
+  },
+  "public_release": "DEFERRED_BY_USER",
+  "private_plugin_use": "CONTINUE",
+  "candidate_committed": false,
+  "candidate_pushed": false,
+  "phase_g_durably_closed": false,
+  "local_workspace_consolidation_started": false,
+  "future_publication_p": "UNKNOWN",
+  "phase_f_validation_reuse": {
+    "source_evidence_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+    "source_evidence_blob": "dd111b81e39406e7624bbf241c41fba4cd5bc749",
+    "original_baseline": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+    "frozen_repository_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+    "tests": 713,
+    "expected_skips": 2,
+    "failures": 0,
+    "errors": 0,
+    "source_test_projection_release_plugin_inputs_unchanged_through_execution_base": true,
+    "full_unittest_rerun": false
+  },
+  "full_unittest_rerun": false,
+  "source_mutated": false,
+  "test_mutated": false,
+  "ref_mutated": false
+}
