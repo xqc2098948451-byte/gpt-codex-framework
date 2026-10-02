@@ -1,0 +1,270 @@
+{
+  "D_w_bound": false,
+  "L1_preservation_durably_integrated": false,
+  "L2_started": false,
+  "PU043_approved_output_path_count": 2,
+  "PU043_authority": "EXACT_SHALLOW_STATE_IS_AUTHORITY",
+  "PU043_create_path_count": 0,
+  "PU043_remediation": "CORRECT_GIT_BUNDLE_PREREQUISITE_MODEL",
+  "PU043_replace_path_count": 0,
+  "PU043_restoration": "EXACT_SHALLOW_STATE_RESTORATION_PASS",
+  "approved_output_path_count": 167,
+  "approved_output_present": "167_OF_167",
+  "completed_reused_unit_count": 42,
+  "completed_rewritten_unit_count": 0,
+  "correction_work_unit": {
+    "blob_sha": "3c0166c519290ecb3f847894d84d35290be2730c",
+    "commit_sha": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-authority-correction-001.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "evidence_id": "LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION",
+  "execution_instruction": {
+    "byte_identical_to_pre": true,
+    "git_blob": "9567c816c4fb083b1e4f1f738a3f740cabce63ae",
+    "instruction_id": "557227fc-f875-458e-bb37-f8132813acba",
+    "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\557227fc-f875-458e-bb37-f8132813acba.json",
+    "sha256": "68b6c732b12ee3618d8d7c2b08248e10e7ec4576f74545d22071af054e67f078",
+    "utf8_bytes": 7359,
+    "historical_candidate_repository_path": ".gpt-codex/evidence/instructions/557227fc-f875-458e-bb37-f8132813acba.json",
+    "materialized_in_repository": false,
+    "classification": "HISTORICAL_EXTERNAL_EXECUTION_AUTHORITY",
+    "normalization_allowed": false,
+    "substitution_allowed": false,
+    "crlf_count": 92,
+    "future_repository_materialization_required": false
+  },
+  "final_verification_scratch_remains": 0,
+  "framework_version": "2.7.4",
+  "fresh_pre_artifacts": {
+    "557227fc-f875-458e-bb37-f8132813acba.json": {
+      "git_blob": "9567c816c4fb083b1e4f1f738a3f740cabce63ae",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\557227fc-f875-458e-bb37-f8132813acba.json",
+      "sha256": "68b6c732b12ee3618d8d7c2b08248e10e7ec4576f74545d22071af054e67f078",
+      "utf8_bytes": 7359
+    },
+    "L1-PARTIAL-RESUME-PLAN.json": {
+      "git_blob": "7b64f5cf90de60160598a41bcb8d527c42873a0f",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\L1-PARTIAL-RESUME-PLAN.json",
+      "sha256": "e6c4e129766ad7fd48d118c4e254a2499de894f5e2e377efb533c99151b3ab0c",
+      "utf8_bytes": 8262
+    },
+    "L1-PRESERVATION-UNIT-MAP-v3.json": {
+      "git_blob": "cb89a4e90e650cda071d459bf790ef0ceb8ad34e",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\L1-PRESERVATION-UNIT-MAP-v3.json",
+      "sha256": "ed44cc13207b89651eae899af906f810c2e54dad0493aa1eef459b459287d0e3",
+      "utf8_bytes": 563720
+    },
+    "L1-PU043-OUTPUT-REPLACEMENT.json": {
+      "git_blob": "7920da642751c81a14cde9d420a76337d8d9aa61",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\L1-PU043-OUTPUT-REPLACEMENT.json",
+      "sha256": "a9edaf5cc4fdea99cc895ab973ff0d40345d096757785b3f865c9ad7df4ffae3",
+      "utf8_bytes": 2156
+    },
+    "L1-REMAINING-SOURCE-STABILITY.json": {
+      "git_blob": "de611eb360e05f87664ba738533116337beab6f8",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\L1-REMAINING-SOURCE-STABILITY.json",
+      "sha256": "a1cb2b49420ac5781dbd193167dc44a858b8765cccbdead41fa7854d328b3616",
+      "utf8_bytes": 46391
+    },
+    "L1-SCRATCH-CLEANUP-AUTHORITY.json": {
+      "git_blob": "3d1ff3da7fc20b730a0377f069c5b6cf63094a6f",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\L1-SCRATCH-CLEANUP-AUTHORITY.json",
+      "sha256": "37f5d56d6ba801d59480f121c913286fb3a4988140c13215098becf72a93de78",
+      "utf8_bytes": 16466
+    },
+    "NATIVE-PRE-REVIEW-RESULT-b9bee06b-1424-455d-8680-dfd3855347a0.json": {
+      "git_blob": "e5263706b4ee7ba576f28f459f30a30652cd87b6",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\NATIVE-PRE-REVIEW-RESULT-b9bee06b-1424-455d-8680-dfd3855347a0.json",
+      "sha256": "b85ecd910b20994aed7e1f2e30a7dc3a4b43f663c6e8dffc82c0a7bd34063ac4",
+      "utf8_bytes": 4322
+    },
+    "OUTPUT-LAYOUT-CONSISTENCY-v3.json": {
+      "git_blob": "dd50bd4e4d5dde170bd1911d2763112908cee919",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\OUTPUT-LAYOUT-CONSISTENCY-v3.json",
+      "sha256": "736483fdf9d49a7539a0881b51b4601e5b3c1f86038aeb112e9a9cf5974991c6",
+      "utf8_bytes": 32514
+    },
+    "PRE-REVIEW-REQUEST-1b016d2e-3b38-4521-a205-2e8439545e39.json": {
+      "git_blob": "00eaee7a48ea686835d5fbcebdda97e8b179914d",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\PRE-REVIEW-REQUEST-1b016d2e-3b38-4521-a205-2e8439545e39.json",
+      "sha256": "99e3a58fcc82908a7bae5ca37b448fbdb4baf98c9e4b697ade4a2bebde984294",
+      "utf8_bytes": 4339
+    }
+  },
+  "global_integrity_summary": {
+    "git_blob": "968e06f1db82419528033627922076620d694300",
+    "path": "D:\\lwp\\l1-preservation-001\\integrity\\l1-verification.json",
+    "sha256": "d3c2d053f835d32a7a50303e69a5df5514e76b578eb7ee479924ae3c07af164c",
+    "utf8_bytes": 81755
+  },
+  "global_preservation_manifest": {
+    "git_blob": "46c172306c4e60d07a979c2c2e7bf6b556b7640d",
+    "path": "D:\\lwp\\l1-preservation-001\\manifest\\l1-preservation.json",
+    "sha256": "47c224a88074ac73f28feef1dc3067691e1021864fdd807a8bf7cdba7cd252fc",
+    "utf8_bytes": 183265
+  },
+  "kernel_version": "2.0.0",
+  "local_only_head_bundles": "PASS_2_OF_2",
+  "local_workspace_freeze_started": false,
+  "logical_item_count": 104,
+  "main_file_preservation": "PASS_4_OF_4",
+  "newly_completed_unit_count": 62,
+  "old_scratch_cleanup": "PASS_20_OF_20",
+  "partial_reconciliation_artifacts": {
+    "L1-PARTIAL-EXECUTION-RECONCILIATION.json": {
+      "git_blob": "55694565d30c07792de9059ded74933dd9a710ef",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-reconciliation-20261001\\L1-PARTIAL-EXECUTION-RECONCILIATION.json",
+      "sha256": "b40e3db8746161862305af1d21caf539cb2fd0abe5fb4e5d80f9b3f03d5a637c",
+      "utf8_bytes": 42137
+    },
+    "PARTIAL-OUTPUT-REUSE-AUDIT.json": {
+      "git_blob": "00e34f9abeee5e744488aa02ee0809624bf4e7cd",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-reconciliation-20261001\\PARTIAL-OUTPUT-REUSE-AUDIT.json",
+      "sha256": "038c52b55477187836d7625a3ed5316930ab4e48440528b69735369d90a14c9d",
+      "utf8_bytes": 85641
+    },
+    "PU-043-SHALLOW-REMEDIATION.json": {
+      "git_blob": "102b5468b4477b44b8d1f11aa850144b56f14694",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-reconciliation-20261001\\PU-043-SHALLOW-REMEDIATION.json",
+      "sha256": "c62dc4f146469c310ef048ea4746e33c6e1d1d14cfbb8d9ead0103695c7d6cf5",
+      "utf8_bytes": 6035
+    },
+    "VERIFICATION-SCRATCH-AUDIT.json": {
+      "git_blob": "078f9fce814a81c7a7353dfbc698f143c1225321",
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-reconciliation-20261001\\VERIFICATION-SCRATCH-AUDIT.json",
+      "sha256": "2b39405348361b0e750039940e805f92c32229f880896753b17c02d439914953",
+      "utf8_bytes": 349967
+    }
+  },
+  "pf_tmp_parent": "METADATA_ONLY_PASS",
+  "pf_tmp_selected_children": "PASS_4_OF_4",
+  "physical_unit_count": 104,
+  "pre_review_request_id": "1b016d2e-3b38-4521-a205-2e8439545e39",
+  "pre_review_result_id": "b9bee06b-1424-455d-8680-dfd3855347a0",
+  "preservation_bytes_total": 404399336,
+  "preservation_root": "D:\\lwp\\l1-preservation-001",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "ref_mutation": false,
+  "remote_mutation": false,
+  "restoration_verification": "PASS_104_OF_104",
+  "result": "L1_PRESERVATION_FIX_CANDIDATE_READY_FOR_INDEPENDENT_POST",
+  "resumed_execution_end_unit": "PU-104",
+  "resumed_execution_start_unit": "PU-043",
+  "runtime_layout": "PASS_167_OF_167",
+  "schema_version": 1,
+  "selected_worktree_mutation": false,
+  "source": "TOOL_OBSERVED",
+  "source_after_verification": "PASS_104_OF_104",
+  "source_cleanup": false,
+  "source_mutation": false,
+  "state_revision": 26,
+  "subject": "LOCAL_WORKSPACE_CONSOLIDATION_L1_PRESERVATION",
+  "synthetic_bare_repositories": "PASS_4_OF_4",
+  "tracked_deletion_preservation": "PASS_930_OF_930",
+  "tracked_deletion_record_count": 930,
+  "tracked_deletion_worktree_count": 7,
+  "unapproved_preservation_output_count": 0,
+  "unauthorized_top_level_directory_count": 0,
+  "verification_scratch_externalized": true,
+  "verification_scratch_root": "D:/lwp-verify/l1-preservation-001/",
+  "verified_remote_main": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+  "historical_preservation_state_revision": 25,
+  "candidate_stage": "REPOSITORY_EXTERNAL_PRE_PROTOTYPE",
+  "future_fix_execution_occurred": false,
+  "historical_finding_base": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+  "current_execution_remote_base": "abc83c54761474fd48c500cbb17b733be217569d",
+  "historical_review_target_revision": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+  "current_durable_remote_head": "abc83c54761474fd48c500cbb17b733be217569d",
+  "verified_remote_main_observation_scope": "HISTORICAL_PRESERVATION_BASELINE_ONLY",
+  "formal_finding_result": {
+    "result_id": "ce2964bc-550e-41eb-a423-a305367f61bc",
+    "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+    "blob": "868ab9a1feec65aa9954e02069c6e06ee164433f",
+    "finding_ids": [
+      "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+      "L1-EVIDENCE-PU103-DISPOSITION-MISSING"
+    ],
+    "review_target_revision": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+    "fix_round": 0
+  },
+  "remediation_authority": {
+    "integration_commit": "2d1af30b903d5849f5196a21739074523531f575",
+    "remediation_decision_ref": "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION",
+    "remediation_decision_blob": "4fc40d24ee95d1d9f88beb6982e4dc9f0d901c91",
+    "authority_basis_ref": "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS",
+    "authority_basis_blob": "8f6180889890d80bcc9e33690140caab7158d0cc",
+    "adjudicated_at_revision": 26,
+    "durably_integrated": true
+  },
+  "historical_execution_instruction": {
+    "instruction_id": "557227fc-f875-458e-bb37-f8132813acba",
+    "utf8_bytes": 7359,
+    "sha256": "68b6c732b12ee3618d8d7c2b08248e10e7ec4576f74545d22071af054e67f078",
+    "git_blob": "9567c816c4fb083b1e4f1f738a3f740cabce63ae",
+    "crlf_count": 92,
+    "execution_occurred": true,
+    "materialized_in_repository": false,
+    "durable_locator": null,
+    "classification": "HISTORICAL_EXTERNAL_EXECUTION_AUTHORITY",
+    "normalization_allowed": false,
+    "substitution_allowed": false,
+    "future_repository_materialization_required": false
+  },
+  "historical_candidate_result": {
+    "result_id": "fc67564c-9da2-4851-94bd-dafbe1e54730",
+    "classification": "SUPERSEDED_UNINTEGRATED_CANDIDATE_RESULT",
+    "durably_integrated": false,
+    "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+    "utf8_bytes": 4573,
+    "sha256": "6987e34c33f915ac4869b5f7beffc82c45f1c7baa0641fb6cfdf84efd0e4cdbd",
+    "git_blob": "932034736cb093b74a6f40ced533b0abea529c33"
+  },
+  "PU103_disposition": {
+    "source": "D:/通用开发框架管理/phase-f-fix-round-1-wu-materialization",
+    "HEAD": "739825c2c07d451aa526126379b732aaf1105713",
+    "is_shallow": true,
+    "shallow_boundary": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+    "authority": "EXACT_SHALLOW_STATE_IS_AUTHORITY",
+    "original_execution_explicitly_pre_authorized": false,
+    "retroactive_authorization_claimed": false,
+    "scope_expansion": false,
+    "output_path_expansion": false,
+    "restoration": "PASS",
+    "preservation_reexecution": false
+  },
+  "all_git_backed_unit_review": "PASS",
+  "git_backed_unit_count": 56,
+  "shallow_git_unit_count": 2,
+  "all_shallow_unit_semantics_explicit_after_adjudication": true,
+  "implementation_aware_review_overall": "FINDING",
+  "implementation_aware_classification": "GOVERNANCE_AUTHORITY_PREREQUISITE",
+  "post_proof_scratch_classification": "NONBLOCKING_EPHEMERAL_RESIDUE",
+  "scratch_cleanup": "DEFERRED_NONBLOCKING",
+  "linked_worktree_remote_tracking_movement": "EXPECTED_CONTROL_PLANE_OBSERVATION",
+  "linked_worktree_remote_tracking_movement_source_mutation": false,
+  "fix_work_unit": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "abc83c54761474fd48c500cbb17b733be217569d",
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-finding-fix-001.json",
+    "blob_sha": "115e64dbe513026eb9cb8d88e5023fdf91c6f093"
+  },
+  "fix_instruction": {
+    "instruction_id": "5d9a433a-5c88-4478-b9c2-e031f762552c",
+    "path": ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+    "utf8_bytes": 3935,
+    "sha256": "8131b338d76ea53125df8567d499996b4ecb0d8e1df7bd422241ee27da187cdd",
+    "git_blob": "e63830a88ab975d61a3a44cf9f19832ad05b7b2a"
+  },
+  "finding_ids": [
+    "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+    "L1-EVIDENCE-PU103-DISPOSITION-MISSING"
+  ],
+  "fix_round": 1,
+  "remediation_decision_ref": "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION",
+  "preservation_reexecution": false,
+  "preservation_output_mutation": false,
+  "L1_PRESERVATION_DURABLY_INTEGRATED": false,
+  "L2_STARTED": false
+}
