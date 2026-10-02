@@ -1,0 +1,551 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "local-workspace-consolidation-l1-preservation-durable-closure-001",
+  "goal": "Close the fully integrated and remote-verified Local Workspace Consolidation L1 Preservation work through an independent aggregate final review, durable remote-integration Evidence, closure Result, and one governed STATE continuity transition from revision 26 to 27; then stop before L2 Path-layout Authority Resolution.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/work-units/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/release/",
+      ".gpt-codex/extensions/",
+      "AGENTS.md",
+      "VERSION",
+      "docs/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+      ".gpt-codex/evidence/instructions/557227fc-f875-458e-bb37-f8132813acba.json"
+    ]
+  },
+  "directory_creations": [],
+  "acceptance": {
+    "phase": "LOCAL_WORKSPACE_CONSOLIDATION_L1_PRESERVATION_DURABLE_CLOSURE",
+    "framework_version": "2.7.4",
+    "basis_state_revision": 26,
+    "state_revision": 26,
+    "module_route": [
+      "framework-core",
+      "framework-validation",
+      "git-continuity"
+    ],
+    "materialization_base": {
+      "remote_ref": "refs/heads/main",
+      "remote_main": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "open_pr_count": 0,
+      "state_path": ".gpt-codex/STATE.json",
+      "state_blob": "20be832b41fd9d7d35027a1007320e5109478741",
+      "state_revision": 26,
+      "state": "AUTHORIZED",
+      "continuity_sync_status": "SYNC_PENDING",
+      "latest_synced_state_revision": 25,
+      "state_next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L1_POST_FINDING_FIX_REQUIRED",
+      "verified_work_w": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "verified_work_parent": "abc83c54761474fd48c500cbb17b733be217569d",
+      "stale_next_action_classification": "EXPECTED_PRE_CLOSURE_PRESENTATION"
+    },
+    "accepted_design_plan_freeze": {
+      "design": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+        "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+        "blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a"
+      },
+      "plan": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+        "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+        "blob": "86789eb1ece50326e3d0142816e32c0f32f940c4"
+      },
+      "phase_g_freeze": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+        "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+        "blob": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae"
+      }
+    },
+    "l1_authority_lineage": {
+      "original_authority_correction_work_unit": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+        "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-authority-correction-001.json",
+        "blob": "3c0166c519290ecb3f847894d84d35290be2730c",
+        "work_unit_id": "local-workspace-consolidation-l1-preservation-authority-correction-001"
+      },
+      "remediation_authority_work_unit": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "0b3a5e6a55538174589d67a610e2adac22624a9a",
+        "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-remediation-authority-001.json",
+        "blob": "6ef69064dc40a99f3995d416120a17a5f3183b32",
+        "work_unit_id": "local-workspace-consolidation-l1-post-remediation-authority-001"
+      },
+      "state_26_fix_work_unit": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "abc83c54761474fd48c500cbb17b733be217569d",
+        "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-finding-fix-001.json",
+        "blob": "115e64dbe513026eb9cb8d88e5023fdf91c6f093",
+        "work_unit_id": "local-workspace-consolidation-l1-post-finding-fix-001"
+      },
+      "formal_finding": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+        "blob": "868ab9a1feec65aa9954e02069c6e06ee164433f",
+        "result_id": "ce2964bc-550e-41eb-a423-a305367f61bc"
+      },
+      "remediation_adjudication": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+        "blob": "4fc40d24ee95d1d9f88beb6982e4dc9f0d901c91"
+      },
+      "authority_basis": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+        "blob": "8f6180889890d80bcc9e33690140caab7158d0cc"
+      },
+      "final_l1_evidence": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+        "blob": "51f77543cafa336d624a6cacf279027553957138"
+      },
+      "final_l1_result": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+        "blob": "c0863339caa15698b6bcfc1cdea9d556bfb23729",
+        "result_id": "3f308019-a07f-41a3-bf39-c318694eb7f0"
+      },
+      "final_fix_instruction": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "path": ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+        "blob": "e63830a88ab975d61a3a44cf9f19832ad05b7b2a",
+        "instruction_id": "5d9a433a-5c88-4478-b9c2-e031f762552c"
+      }
+    },
+    "l1_durable_integration_adjudication": "PASS",
+    "durable_closure_precedent": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-durable-closure-001.json",
+      "blob": "0b31f58dc59baa593030927041e22ec149f364b0",
+      "review": "PASS",
+      "preserved_semantics": [
+        "W is already durably integrated before closure",
+        "Closure Work Unit materialization is separate from closure execution",
+        "Separate EXECUTION_INSTRUCTION and independent Native PRE before execution",
+        "Aggregate FINAL REVIEW reviews W rather than the later Work Unit materialization commit",
+        "Closure creates remote-integration Evidence, final Review Result, closure Result, STATE transition and closure Instruction",
+        "SYNC_PENDING to SYNCED occurs only in the future closure transaction",
+        "latest_verified_remote_sha binds W and latest_synced_state_revision advances to the closure revision",
+        "Future publication P is never predicted or embedded in candidate artifacts",
+        "next_action is only a continuation hint and grants no L2 execution authority"
+      ]
+    },
+    "independent_post": {
+      "review_request_id": "712c9bf3-9c76-4f7c-aa87-4396808a713b",
+      "review_result_id": "9a676460-ee28-48b5-ab1c-032c8c03c029",
+      "status": "PASS",
+      "ready_for_durable_integration": "YES",
+      "candidate_blob_correlation": "PASS_3_OF_3",
+      "report": {
+        "path": "D:/通用开发框架管理/.local-workspace-consolidation-l1-post-finding-fix-post-20261002/POST-REVIEW-RESULT-9a676460-ee28-48b5-ab1c-032c8c03c029.json",
+        "utf8_bytes": 9121,
+        "sha256": "f8bd018a807d1e8dcdcf4011a7b962504bcf89696267c9ded9d78fe5cb955c07",
+        "git_blob": "923085cf54413f0017ad4478c5f860c4ed9e8300"
+      },
+      "earlier_post_substitutes_for_aggregate_final_review": false
+    },
+    "w_integration": {
+      "commit": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "parent": "abc83c54761474fd48c500cbb17b733be217569d",
+      "message": "chore: integrate l1 preservation fix",
+      "changed_path_count": 3,
+      "exact_path_blob_tuple": [
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "blob": "51f77543cafa336d624a6cacf279027553957138"
+        },
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "blob": "c0863339caa15698b6bcfc1cdea9d556bfb23729"
+        },
+        {
+          "path": ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+          "blob": "e63830a88ab975d61a3a44cf9f19832ad05b7b2a"
+        }
+      ],
+      "remote_ref": "refs/heads/main",
+      "remote_verification": "PASS",
+      "remote_validate_project": "PASS",
+      "remote_validate_framework": "PASS",
+      "remote_transition_diff": "PASS"
+    },
+    "required_closure_review_facts": {
+      "logical_items": 104,
+      "physical_units": 104,
+      "approved_outputs": 167,
+      "restoration": "PASS_104_OF_104",
+      "runtime_output_layout": "PASS_167_OF_167",
+      "tracked_deletion_records": "PASS_930_OF_930",
+      "tracked_deletion_record_count": 930,
+      "tracked_deletion_worktrees": 7,
+      "main_files": "PASS_4_OF_4",
+      "local_only_heads": "PASS_2_OF_2",
+      "synthetic_bare_repositories": "PASS_4_OF_4",
+      "PF_TMP": "PASS",
+      "PU043": "PASS",
+      "PU103": "PASS",
+      "git_backed_physical_units": 56,
+      "shallow_git_units": 2,
+      "all_shallow_semantics_explicit_after_adjudication": "YES",
+      "preservation_reexecution_after_finding": "NO",
+      "source_mutation": "NO",
+      "worktree_mutation": "NO",
+      "head_mutation": "NO",
+      "local_unique_authority_ref_mutation": "NO",
+      "linked_worktree_remote_tracking_change": "EXPECTED_CONTROL_PLANE_OBSERVATION",
+      "historical_557_instruction": "HISTORICAL_EXTERNAL_EXECUTION_AUTHORITY",
+      "historical_557_durable_materialization": "NO",
+      "historical_557_normalization_or_substitution": "NO",
+      "L2_started": "NO",
+      "preservation_output_unchanged": "PASS_167_OF_167_SHA256"
+    },
+    "pu043_disposition": {
+      "authority": "EXACT_SHALLOW_STATE_IS_AUTHORITY",
+      "remediation": "CORRECT_GIT_BUNDLE_PREREQUISITE_MODEL",
+      "restoration": "EXACT_SHALLOW_STATE_RESTORATION_PASS"
+    },
+    "pu103_disposition": {
+      "source": "D:/通用开发框架管理/phase-f-fix-round-1-wu-materialization",
+      "HEAD": "739825c2c07d451aa526126379b732aaf1105713",
+      "is_shallow": true,
+      "shallow_boundary": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+      "authority": "EXACT_SHALLOW_STATE_IS_AUTHORITY",
+      "original_execution_explicitly_pre_authorized": false,
+      "retroactive_authorization_claimed": false,
+      "scope_expansion": false,
+      "output_path_expansion": false,
+      "restoration": "PASS",
+      "preservation_reexecution": false
+    },
+    "historical_557": {
+      "instruction_id": "557227fc-f875-458e-bb37-f8132813acba",
+      "utf8_bytes": 7359,
+      "sha256": "68b6c732b12ee3618d8d7c2b08248e10e7ec4576f74545d22071af054e67f078",
+      "git_blob": "9567c816c4fb083b1e4f1f738a3f740cabce63ae",
+      "crlf_count": 92,
+      "execution_occurred": true,
+      "materialized_in_repository": false,
+      "durable_locator": null,
+      "classification": "HISTORICAL_EXTERNAL_EXECUTION_AUTHORITY",
+      "normalization_allowed": false,
+      "substitution_allowed": false,
+      "future_repository_materialization_required": false,
+      "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l1-partial-resume-pre-20261001\\557227fc-f875-458e-bb37-f8132813acba.json",
+      "state_evidence_ref_append_allowed": false
+    },
+    "retained_scratch": {
+      "classification": "NONBLOCKING_EPHEMERAL_RESIDUE",
+      "non_authoritative": true,
+      "contains_unique_authority": false,
+      "cleanup_authorized": false,
+      "proof_commit_substitutes_for_w": false
+    },
+    "external_preservation_artifacts": {
+      "preservation_manifest": {
+        "path": "D:/lwp/l1-preservation-001/manifest/l1-preservation.json",
+        "utf8_bytes": 183265,
+        "sha256": "47c224a88074ac73f28feef1dc3067691e1021864fdd807a8bf7cdba7cd252fc",
+        "git_blob": "46c172306c4e60d07a979c2c2e7bf6b556b7640d"
+      },
+      "integrity_summary": {
+        "path": "D:/lwp/l1-preservation-001/integrity/l1-verification.json",
+        "utf8_bytes": 81755,
+        "sha256": "d3c2d053f835d32a7a50303e69a5df5514e76b578eb7ee479924ae3c07af164c",
+        "git_blob": "968e06f1db82419528033627922076620d694300"
+      },
+      "future_required_preservation_recheck": "PASS_167_OF_167_SHA256",
+      "archive_or_ref_cleanup_authorized": false
+    },
+    "future_artifacts": {
+      "remote_integration_evidence": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+      "final_review_result": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+      "closure_result": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      "closure_instruction_selector": ".gpt-codex/evidence/instructions/"
+    },
+    "future_aggregate_final_review": {
+      "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+      "result_message_type": "REVIEW_RESULT",
+      "schema_valid_required": true,
+      "independent_reviewer_required": true,
+      "review_target_revision": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "work_unit_materialization_commit_is_review_target": false,
+      "pass_only_after_independent_verification_of": [
+        "All immutable project, repository, context, state and artifact authority identities",
+        "Accepted Design, accepted Plan and Phase G Freeze immutable locators",
+        "All three L1 Work Units and formal Finding, Adjudication and Authority Basis",
+        "Final L1 Evidence, Result and FIX Instruction at W",
+        "Independent POST PASS with exact request/result and candidate byte correlation",
+        "Exact three-path W integration, parent and remote verification",
+        "104 logical items, 104 physical units, 167 approved outputs and 930 tracked deletion records",
+        "Exact preservation manifest and integrity summary identities and all 167 output SHA256 hashes",
+        "PU043 exact shallow restoration and PU103 accepted after-fact disposition without retroactive authorization",
+        "All 56 Git-backed physical units and two shallow units with explicit semantics after adjudication",
+        "Historical 557 external-authority semantics without repository materialization, normalization or substitution",
+        "No source, worktree, HEAD or local unique authority ref mutation",
+        "Control-plane remote-tracking movement as EXPECTED_CONTROL_PLANE_OBSERVATION",
+        "Retained proof and remote-verification scratch are non-authoritative and contain no unique authority",
+        "L2 has not started"
+      ],
+      "earlier_post_substitution_allowed": false
+    },
+    "future_remote_integration_evidence": {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+      "framework_version": "2.7.4",
+      "pre_closure_state_revision": 26,
+      "verified_work_w": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "verified_work_parent": "abc83c54761474fd48c500cbb17b733be217569d",
+      "current_remote_ref": "refs/heads/main",
+      "w_remote_verification": "PASS",
+      "open_pr_count": 0,
+      "exact_w_path_blob_tuple": [
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "blob": "51f77543cafa336d624a6cacf279027553957138"
+        },
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "blob": "c0863339caa15698b6bcfc1cdea9d556bfb23729"
+        },
+        {
+          "path": ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+          "blob": "e63830a88ab975d61a3a44cf9f19832ad05b7b2a"
+        }
+      ],
+      "post_review_result_id": "9a676460-ee28-48b5-ab1c-032c8c03c029",
+      "required_record_bindings": [
+        "project/repository/context identity",
+        "accepted Design/Plan/Freeze locators",
+        "all L1 Work Unit identities",
+        "Finding/Adjudication/Basis identities",
+        "final L1 Evidence/Result/FIX Instruction identities",
+        "preservation counts and verification facts",
+        "preservation manifest/integrity identities",
+        "source/worktree/HEAD/local unique authority ref mutation results",
+        "historical 557 external authority classification",
+        "control-plane remote-tracking classification"
+      ],
+      "future_publication_sha_prediction_allowed": false
+    },
+    "future_closure_result": {
+      "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      "envelope_semantics": "CURRENT_FRAMEWORK_RESULT_ENVELOPE",
+      "candidate_time_semantics": {
+        "L1_PRESERVATION": "COMPLETE",
+        "verified_baseline_sha": "dcb8d02563f4125598288e66652664abdf6caaa3",
+        "remote_verification": "VERIFIED",
+        "state_continuity_target": "SYNCED",
+        "next_governed_phase": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION"
+      },
+      "candidate_time_true_claims_denied": [
+        "L1_PRESERVATION_DURABLY_CLOSED",
+        "LOCAL_WORKSPACE_CONSOLIDATION_COMPLETE",
+        "L2_STARTED",
+        "LOCAL_WORKSPACE_FREEZE_STARTED",
+        "Framework 2.8.0 release authorized",
+        "Issue #17 implementation authorized"
+      ],
+      "future_publication_sha_prediction_allowed": false
+    },
+    "future_state_transition": {
+      "from_revision": 26,
+      "to_revision": 27,
+      "state": "AUTHORIZED",
+      "current_remote_ref": "refs/heads/main",
+      "latest_verified_remote_sha": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "latest_synced_state_revision": 27,
+      "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      "sync_status": "SYNCED",
+      "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION_REQUIRED",
+      "preserve_unrelated_state_fields": true,
+      "preserve_historical_evidence_refs": true,
+      "append_exactly_once": [
+        ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+        ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+        ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json"
+      ],
+      "closure_instruction_evidence_ref_append": "ONLY_IF_EXACT_CURRENT_REPOSITORY_CONVENTION_OR_NATIVE_VALIDATION_REQUIRES",
+      "historical_external_557_evidence_ref_append_allowed": false,
+      "derive_authority_from_stale_active_work_unit": false,
+      "next_action_is_execution_authority": false,
+      "future_publication_sha_prediction_allowed": false
+    },
+    "w_p_semantics": {
+      "W": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "W_denotes": "VERIFIED_INTEGRATED_L1_PRESERVATION_WORK",
+      "P": "UNKNOWN_UNTIL_FUTURE_CLOSURE_DURABLE_INTEGRATION",
+      "P_equals_W_assertion_allowed": false,
+      "embed_P_before_commit_allowed": false,
+      "state_latest_verified_remote_sha_targets": "W",
+      "W_P_SELF_REFERENCE": "DENIED"
+    },
+    "heavy_validation_reuse_policy": {
+      "automatic_full_unittest_rerun": false,
+      "durable_preservation_proof_reuse": "REQUIRED_WHEN_IMMUTABLE_IDENTITY_AND_NON_DRIFT_ARE_PROVEN",
+      "focused_validation_required": [
+        "validate_project.py",
+        "validate_framework.py",
+        "git diff --check",
+        "Result/Evidence schemas",
+        "Instruction schema/authority",
+        "STATE schema/authority",
+        "aggregate review correlation",
+        "remote integration evidence correlation",
+        "W/P semantics",
+        "exact scope",
+        "preservation hash recheck",
+        "native PRE/POST lifecycle"
+      ],
+      "heavier_validation_only_if": [
+        "required durable evidence cannot be resolved",
+        "immutable identity drift exists",
+        "preservation hashes conflict",
+        "native Framework explicitly requires it",
+        "aggregate reviewer finds an unresolved inconsistency"
+      ]
+    },
+    "future_execution_order": [
+      "This Durable Closure Work Unit materialization",
+      "Live remote verification",
+      "Separate closure EXECUTION_INSTRUCTION",
+      "LOCAL_WORKSPACE_CONSOLIDATION_L1_PRESERVATION_DURABLE_CLOSURE_NATIVE_PRE",
+      "Closure candidate creation: STATE 27, remote integration Evidence, independent aggregate FINAL REVIEW Result, closure Result and closure Instruction",
+      "Independent closure POST",
+      "Exact durable closure integration",
+      "Live remote verification",
+      "Only then GPT may accept L1_PRESERVATION_DURABLY_CLOSED=YES",
+      "Only after L1 closure may L2 authority be prepared"
+    ],
+    "requirements": [
+      "This Work Unit materialization and future closure execution are separate transactions. This document grants no implementation start authority; a separately bound EXECUTION_INSTRUCTION and independent Native PRE PASS are required before the closure candidate.",
+      "The scope.owned_paths are exclusively the future closure owned scope. This materialization changes only this Work Unit; STATE stays byte-identical at revision 26 and SYNC_PENDING, and no closure Evidence, Result or Instruction is created.",
+      "Future Native PRE may correlate with the then-current execution base; the aggregate FINAL REVIEW must review W, not this Work Unit materialization commit or a retained ephemeral proof commit.",
+      "Reverify immutable authority, live remote freshness, all lineage and accepted Design/Plan/Freeze, independent POST exact candidate identities, preservation facts and all 167 SHA256 hashes. Unresolved drift fails closed with RECONCILIATION_REQUIRED.",
+      "Preserve historical 557 as external execution authority. It is not repository-materialized and must not be normalized, substituted, added to STATE.evidence_refs, or reexecuted.",
+      "PU103 original execution was not explicitly pre-authorized; the accepted adjudication resolves shallow semantics without retroactive authorization, source/output expansion or preservation reexecution.",
+      "Retained proof/remote-verification scratch is non-authoritative, nonblocking ephemeral residue. No cleanup, archive change or ref cleanup is part of closure; control-plane remote-tracking movement is an expected observation.",
+      "The closure Instruction must bind this exact Work Unit, current project/repository/context, STATE 26, approved actions, exact scope and selected Guardrails. Native PRE/POST, Result schema/authority and aggregate/evidence correlation must pass.",
+      "The only closure STATE mutation is 26 to 27 with AUTHORIZED retained and exact future_state_transition fields. Append the three closure references once, preserve all historical refs and unrelated fields, and append the new closure Instruction only if current repository convention/native validation requires it.",
+      "W denotes verified integrated work. P remains unknown until actual closure durable integration; no candidate may set P=W or embed future P. STATE.latest_verified_remote_sha binds W rather than self-referencing P.",
+      "Candidate closure semantics do not declare durable closure. Only exact integration and subsequent live verification allow GPT to accept L1_PRESERVATION_DURABLY_CLOSED=YES. next_action is a continuation hint and never L2 execution authority.",
+      "No new durable directory prefix is authorized. No preservation-root path is owned. Do not combine Work Unit materialization with closure execution, and stop before L2, L3, Local Workspace Freeze, Framework 2.8.0 release or Issue #17 implementation."
+    ],
+    "denials": [
+      "preservation reexecution",
+      "preservation output modification",
+      "source mutation",
+      "worktree mutation",
+      "local branch/ref mutation",
+      "deletion or cleanup",
+      "proof scratch cleanup",
+      "historical 557 materialization, normalization or substitution",
+      "rewrite of existing L1 Evidence",
+      "rewrite of existing L1 Result",
+      "rewrite of existing FIX Instruction",
+      "Work Unit mutation after materialization",
+      "D:/w binding",
+      "L2 execution",
+      "L3 execution",
+      "main checkout normalization",
+      "worktree consolidation",
+      "Local Workspace Freeze",
+      "Framework 2.8.0 release",
+      "Issue #17 implementation"
+    ],
+    "materialization_changes_only_this_work_unit": true,
+    "state_currently_unchanged": true,
+    "closure_execution_started": false,
+    "l2_started": false
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+    ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    }
+  },
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 26,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "LOCAL_WORKSPACE_CONSOLIDATION_L1_PRESERVATION_DURABLE_CLOSURE_NATIVE_PRE"
+  }
+}
