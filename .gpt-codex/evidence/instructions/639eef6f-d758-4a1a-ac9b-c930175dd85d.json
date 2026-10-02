@@ -1,0 +1,86 @@
+{
+  "instruction_id": "639eef6f-d758-4a1a-ac9b-c930175dd85d",
+  "instruction_type": "EXECUTION_INSTRUCTION",
+  "issuer_role": "GPT_ORCHESTRATOR",
+  "executor_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "target_project_name": "通用开发框架管理",
+  "target_github_repository_id": "1366213495",
+  "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "target_work_unit": "local-workspace-consolidation-l1-post-remediation-authority-001",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-remediation-authority-001.json",
+    "sha": "0b3a5e6a55538174589d67a610e2adac22624a9a"
+  },
+  "expected_state_revision": 25,
+  "expected_base_sha": "0b3a5e6a55538174589d67a610e2adac22624a9a",
+  "expected_remote_name": "origin",
+  "expected_remote_ref": "refs/heads/main",
+  "expected_remote_head_sha": "0b3a5e6a55538174589d67a610e2adac22624a9a",
+  "framework_version": "2.7.4",
+  "permission_scope": "LOCAL_WORKSPACE_CONSOLIDATION_L1_REMEDIATION_AUTHORITY_LINE_END_CORRECTION_ONLY",
+  "artifact_stage": "IMPLEMENTATION",
+  "completion_gate": "GPT_DECISION",
+  "authorized_actions": [
+    "READ",
+    "TEST",
+    "VALIDATE",
+    "REPORT",
+    "MUTATE_APPROVED_SCOPE"
+  ],
+  "forbidden_actions": [
+    "COMMIT",
+    "PUSH",
+    "PUBLISH",
+    "AUTHORIZE",
+    "SCOPE_EXPANSION"
+  ],
+  "scope_paths": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+    ".gpt-codex/evidence/instructions/4287b8f8-d8e7-48cf-b4c5-5db08af2220a.json",
+    ".gpt-codex/evidence/instructions/639eef6f-d758-4a1a-ac9b-c930175dd85d.json"
+  ],
+  "evidence_requirements": {
+    "files_read": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/work-units/local-workspace-consolidation-l1-post-remediation-authority-001.json",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/evidence.schema.json",
+      ".gpt-codex/schemas/state.schema.json",
+      ".gpt-codex/schemas/instruction-envelope.schema.json",
+      ".gpt-codex/scripts/role_communication.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "files_changed": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+      ".gpt-codex/evidence/instructions/4287b8f8-d8e7-48cf-b4c5-5db08af2220a.json",
+      ".gpt-codex/evidence/instructions/639eef6f-d758-4a1a-ac9b-c930175dd85d.json"
+    ],
+    "validation": [
+      "This is a PRE_INTEGRATION_CANDIDATE_RETRY of the same durable Work Unit at STATE revision 25 and base 0b3a5e6a55538174589d67a610e2adac22624a9a. The failed candidate was never committed or pushed; STATE 26 and remediation authority were never durable.",
+      "The uncommitted candidate Instruction 4287b8f8-d8e7-48cf-b4c5-5db08af2220a is superseded before durable integration. Remove only .gpt-codex/evidence/instructions/4287b8f8-d8e7-48cf-b4c5-5db08af2220a.json; no historical durable artifact is deleted. Create only .gpt-codex/evidence/instructions/639eef6f-d758-4a1a-ac9b-c930175dd85d.json as the replacement Instruction.",
+      "Change the four existing candidate JSON artifacts only by CRLF-to-LF newline conversion using exact bytes supplied in this PRE. Keep JSON structures, IDs, values, evidence refs, paths, ordering, indentation and STATE 25-to-26 content unchanged; preserve whitespace inside JSON strings.",
+      "The six local actions are four byte corrections, removal of the old uncommitted Instruction, and creation of the new Instruction. The final candidate diff against durable base must contain exactly the four governance artifact paths plus this new Instruction path; the old Instruction must be absent.",
+      "Do not reexecute preservation, repair L1 Preservation Evidence or Result, fix the L1 candidate, change sources or selected worktrees, alter Git config or .gitattributes, create refs, commit, push, publish, or start L2.",
+      "Verify final five raw UTF-8 blobs against the PRE identity manifest; require no BOM, LF-only, one final LF, zero lone CR and zero semantic trailing whitespace. Validate schema, authority, remediation resolution, project/framework and exact scope. Stop for a fresh Independent POST review before any durable integration."
+    ],
+    "findings": [
+      "Any authority, byte identity, structure, scope, resolver, or native gate mismatch requires RECONCILIATION_REQUIRED; do not mutate beyond the exact six local paths."
+    ],
+    "result_references": [
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json"
+    ],
+    "revision": true
+  }
+}

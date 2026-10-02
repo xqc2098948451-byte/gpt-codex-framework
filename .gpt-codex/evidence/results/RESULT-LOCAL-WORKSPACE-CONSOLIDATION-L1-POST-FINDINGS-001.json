@@ -1,0 +1,53 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "local-workspace-consolidation-l1-preservation-authority-correction-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "ce2964bc-550e-41eb-a423-a305367f61bc",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "b57278ea-5d5e-4cc8-be4d-42a2a2aad843",
+  "review_target_revision": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+  "finding_ids": [
+    "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+    "L1-EVIDENCE-PU103-DISPOSITION-MISSING"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 25,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-authority-correction-001.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json"
+  ],
+  "source_post_review_request_id": "b57278ea-5d5e-4cc8-be4d-42a2a2aad843",
+  "source_post_review_result_id": "ff79061c-b085-4189-8652-71bf486aa630",
+  "source_post_report_sha256": "a2d098797f81a9f3da678ab38e89085040e05f8f845b5e4a9f85a606e25ac754",
+  "finding_summary": "Independent POST accepted two PU-103 governance findings; preservation independently restored and no preservation reexecution is required.",
+  "finding_detail": [
+    {
+      "finding_id": "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+      "adjudication": "ACCEPTED_VALID_FINDING",
+      "disposition": "PU103_SHALLOW_SEMANTICS_NOT_EXPLICITLY_PRE_AUTHORIZED",
+      "preservation_restoration": "PASS",
+      "preservation_reexecution_required": false
+    },
+    {
+      "finding_id": "L1-EVIDENCE-PU103-DISPOSITION-MISSING",
+      "adjudication": "ACCEPTED_VALID_FINDING",
+      "disposition": "PU103_GOVERNANCE_EVIDENCE_DISPOSITION_MISSING",
+      "preservation_restoration": "PASS",
+      "preservation_reexecution_required": false
+    }
+  ]
+}

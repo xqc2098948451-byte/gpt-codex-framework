@@ -1,0 +1,32 @@
+{
+  "evidence_id": "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION",
+  "source": "SYSTEM_DERIVED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "decision": "ACCEPT",
+  "result": "ACCEPTED",
+  "finding_ids": [
+    "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+    "L1-EVIDENCE-PU103-DISPOSITION-MISSING"
+  ],
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "basis_refs": [
+    "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS"
+  ],
+  "adjudicated_at_revision": 26,
+  "state_revision": 26,
+  "review_finding_result_id": "ce2964bc-550e-41eb-a423-a305367f61bc",
+  "source_post_review_result_id": "ff79061c-b085-4189-8652-71bf486aa630",
+  "pu103_original_shallow_execution_explicitly_pre_authorized": false,
+  "retroactive_authorization_claimed": false,
+  "pu103_preservation_restoration": "PASS",
+  "preservation_reexecution_required": false,
+  "scope_expansion": false,
+  "output_path_expansion": false,
+  "later_governance_candidate_repair_requires_fresh_fix_lifecycle": true,
+  "l2_started": false,
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+  "authority_basis_ref": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json"
+}

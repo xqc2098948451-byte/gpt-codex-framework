@@ -1,0 +1,135 @@
+{
+  "evidence_id": "LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS",
+  "source": "SYSTEM_DERIVED",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "accepted": true,
+  "finding_ids": [
+    "L1-PU103-UNREVIEWED-SHALLOW-SEMANTICS",
+    "L1-EVIDENCE-PU103-DISPOSITION-MISSING"
+  ],
+  "state_revision": 26,
+  "review_finding_result_id": "ce2964bc-550e-41eb-a423-a305367f61bc",
+  "basis_source_locators": {
+    "accepted_design": {
+      "commit": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+      "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+      "blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a"
+    },
+    "accepted_plan": {
+      "commit": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+      "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+      "blob": "86789eb1ece50326e3d0142816e32c0f32f940c4"
+    },
+    "phase_g_freeze": {
+      "commit": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+      "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+      "blob": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae"
+    },
+    "preservation_manifest": {
+      "path": "D:/lwp/l1-preservation-001/manifest/l1-preservation.json",
+      "utf8_bytes": 183265,
+      "sha256": "47c224a88074ac73f28feef1dc3067691e1021864fdd807a8bf7cdba7cd252fc",
+      "git_blob": "46c172306c4e60d07a979c2c2e7bf6b556b7640d"
+    },
+    "integrity_summary": {
+      "path": "D:/lwp/l1-preservation-001/integrity/l1-verification.json",
+      "utf8_bytes": 81755,
+      "sha256": "d3c2d053f835d32a7a50303e69a5df5514e76b578eb7ee479924ae3c07af164c",
+      "git_blob": "968e06f1db82419528033627922076620d694300"
+    }
+  },
+  "authority_limit": "Later L1 governance candidate repair requires a fresh FIX lifecycle after durable integration and live verification; no L1 fix or L2 now.",
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "subject": "LOCAL_WORKSPACE_CONSOLIDATION_L1_POST_ACCEPTED_AUTHORITY_BASIS",
+  "result": "VERIFIED",
+  "formal_finding_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+  "correction_work_unit": {
+    "commit": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-authority-correction-001.json",
+    "blob": "3c0166c519290ecb3f847894d84d35290be2730c"
+  },
+  "remediation_authority_work_unit": {
+    "commit": "0b3a5e6a55538174589d67a610e2adac22624a9a",
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-remediation-authority-001.json",
+    "blob": "6ef69064dc40a99f3995d416120a17a5f3183b32"
+  },
+  "raw_post_report": {
+    "path": "D:/通用开发框架管理/.local-workspace-consolidation-l1-independent-post-20261002/POST-REVIEW-RESULT-ff79061c-b085-4189-8652-71bf486aa630.json",
+    "utf8_bytes": 6475,
+    "sha256": "a2d098797f81a9f3da678ab38e89085040e05f8f845b5e4a9f85a606e25ac754",
+    "git_blob": "a59efcb38ddbb990977fb29378be221ca73aa65c",
+    "source_post_review_result_id": "ff79061c-b085-4189-8652-71bf486aa630"
+  },
+  "post_review_request_id": "b57278ea-5d5e-4cc8-be4d-42a2a2aad843",
+  "post_review_target_revision": "1caa0e9499ff6d8dd3b1615120539cbbbe8f58f1",
+  "post_reviewed_work_unit_id": "local-workspace-consolidation-l1-preservation-authority-correction-001",
+  "post_adjudication_source": {
+    "path": "D:/通用开发框架管理/.local-workspace-consolidation-l1-post-fix-pre-20261002/L1-POST-FINDING-ADJUDICATION.json",
+    "utf8_bytes": 9714,
+    "sha256": "09ec2f7f06d16d8057f8d6dde1a0658a5705dabc2253e09f2a4cbeae6ebbe60d",
+    "git_blob": "ba48cdd17145f57c79fd63ac956f653a7f19a79a"
+  },
+  "all_git_unit_deep_review": {
+    "path": "D:/通用开发框架管理/.local-workspace-consolidation-l1-post-fix-pre-20261002/L1-ALL-GIT-UNIT-DEEP-REVIEW.json",
+    "utf8_bytes": 179020,
+    "sha256": "86f721e40d207caf4cb1619f543729008cc1780f71975ae49711e6228125f9d7",
+    "git_blob": "131a13834b3deda81e53aca11d89b8b5a3013865"
+  },
+  "implementation_aware_review": {
+    "path": "D:/通用开发框架管理/.local-workspace-consolidation-l1-post-fix-pre-20261002/L1-IMPLEMENTATION-AWARE-REVIEW.json",
+    "utf8_bytes": 3608,
+    "sha256": "f7e657a4b4f2264d6d84e73683b699290b66b2c94633f64373c28809eb508f89",
+    "git_blob": "b1a8da6f5a1411f951f9f31bae08d6c4d8f6da13"
+  },
+  "preservation_execution_evidence": {
+    "logical_items": 104,
+    "physical_units": 104,
+    "approved_outputs": 167,
+    "independent_restoration": "PASS_104_OF_104",
+    "runtime_output_layout": "PASS_167_OF_167",
+    "tracked_deletion_records": "PASS_930_OF_930",
+    "main_files": "PASS_4_OF_4",
+    "local_only_heads": "PASS_2_OF_2",
+    "synthetic_bare_repositories": "PASS_4_OF_4",
+    "pu043": "PASS",
+    "pu103_restoration": "PASS",
+    "all_git_backed_unit_review": "PASS",
+    "git_backed_unit_count": 56,
+    "shallow_git_unit_count": 2,
+    "all_shallow_unit_semantics_explicit_after_adjudication": true,
+    "executor_source_mutation": false,
+    "selected_worktree_mutation": false,
+    "state_mutation": false,
+    "ref_mutation": false,
+    "remote_mutation": false
+  },
+  "pu103_disposition": {
+    "pu103_original_shallow_execution_explicitly_pre_authorized": false,
+    "retroactive_authorization_claimed": false,
+    "pu103_source": "D:/通用开发框架管理/phase-f-fix-round-1-wu-materialization",
+    "pu103_head": "739825c2c07d451aa526126379b732aaf1105713",
+    "pu103_is_shallow": true,
+    "pu103_shallow_boundary": "0c222d65540218eeb3c7e229d1d9bf38e008efb5",
+    "pu103_restoration": "PASS",
+    "pu103_scope_expansion": false,
+    "pu103_output_path_expansion": false,
+    "preservation_reexecution_required": false,
+    "work_unit_scope_correction_required": false
+  },
+  "implementation_aware_finding_classification": {
+    "overall_status": "FINDING",
+    "finding_id": "L1-FIX-NATIVE-DURABLE-REMEDIATION-BASIS-UNRESOLVED",
+    "native_error": "REMEDIATION_BASIS_UNRESOLVED",
+    "finding_class": "GOVERNANCE_AUTHORITY_PREREQUISITE",
+    "preservation_implementation_defect": false,
+    "other_implementation_defect": false,
+    "post_review_scratch_class": "EPHEMERAL_REVIEW_SCRATCH",
+    "post_review_scratch_blocking": false,
+    "post_review_scratch_cleanup": "DEFERRED_NONBLOCKING",
+    "native_remediation_resolver_review": "PASS_CONFIRMED_DURABLE_AUTHORITY_PREREQUISITE",
+    "native_resolver_rule": "FIX_INSTRUCTION remediation_decision_ref is an Evidence.evidence_id. Native validation resolves the adjudication and every basis Evidence only from current repository HEAD STATE.evidence_refs; adjudicated_at_revision and basis.state_revision must match current STATE revision, ACCEPTED_AUTHORITY_BASIS requires accepted=true, and finding_ids must correlate with the formal REVIEW_FINDING Result. Repository-external adjudication alone does not satisfy the resolver."
+  },
+  "post_scratch_cleanup": "DEFERRED_NONBLOCKING"
+}
