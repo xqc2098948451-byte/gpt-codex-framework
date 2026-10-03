@@ -2,7 +2,7 @@
   "kernel_version": "2.0.0",
   "schema_version": 1,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "revision": 26,
+  "revision": 27,
   "state": "AUTHORIZED",
   "active_work_unit": "framework-staged-closure-group-a-001",
   "blockers": [],
@@ -62,14 +62,17 @@
     ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
     ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
     ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
-    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json"
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json"
   ],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "latest_verified_remote_sha": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
-    "latest_synced_state_revision": 25,
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
-    "sync_status": "SYNC_PENDING"
+    "latest_verified_remote_sha": "dcb8d02563f4125598288e66652664abdf6caaa3",
+    "latest_synced_state_revision": 27,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+    "sync_status": "SYNCED"
   },
-  "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L1_POST_FINDING_FIX_REQUIRED"
+  "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION_REQUIRED"
 }
