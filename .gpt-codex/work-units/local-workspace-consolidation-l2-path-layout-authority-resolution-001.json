@@ -1,0 +1,551 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "local-workspace-consolidation-l2-path-layout-authority-resolution-001",
+  "goal": "Independently resolve whether the accepted full Work Unit ID implementation and review path layout remains feasible on the current machine and current repository under the conservative 240-character Windows path budget, using fresh current path, Work Unit ID, tooling and machine-policy evidence; produce a durable L2 path-layout authority decision without binding WORKTREE_ROOT or performing any local workspace mutation.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+      ".gpt-codex/evidence/instructions/"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+      ".gpt-codex/evidence/instructions/639eef6f-d758-4a1a-ac9b-c930175dd85d.json",
+      ".gpt-codex/evidence/instructions/a5058f74-133a-4e07-a7ed-a042a8bdc67c.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+      ".gpt-codex/extensions/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/project-template/",
+      ".gpt-codex/release/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/work-units/",
+      "AGENTS.md",
+      "VERSION",
+      "dist/",
+      "docs/",
+      "plugins/",
+      "releases/"
+    ]
+  },
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+      "sha": "7fce94ba0eb1da1acf6d46040465590f0b160927"
+    }
+  },
+  "acceptance": {
+    "phase": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION",
+    "plan_phase": "L2_PATH_LAYOUT_AUTHORITY_RESOLUTION",
+    "framework_version": "2.7.4",
+    "basis_state_revision": 27,
+    "exact_local_mutation_class": "NO_MUTATION",
+    "materialization_authority": {
+      "remote_ref": "refs/heads/main",
+      "remote_main": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+      "state_revision": 27,
+      "state": "AUTHORIZED",
+      "sync_status": "SYNCED",
+      "latest_synced_state_revision": 27,
+      "latest_verified_remote_sha": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION_REQUIRED",
+      "open_pr_count": 0,
+      "state_blob": "018defcf3787c205502d843f957b5359d9b8485f",
+      "state_sha256": "bc742cc4fece9f537aa7788215b21178d487d56a4da08306e83ce60ff57c236a"
+    },
+    "accepted_design_plan_authority": {
+      "design": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+        "path": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+        "blob_sha": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a"
+      },
+      "plan": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+        "path": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+        "blob_sha": "86789eb1ece50326e3d0142816e32c0f32f940c4"
+      }
+    },
+    "l1_durable_closure": {
+      "integration_commit": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+      "integration_parent": "c6bc94358635f7721733feba4502972315738be1",
+      "integration_message": "chore: close l1 preservation",
+      "integration_changed_path_count": 5,
+      "verified_work_w": "dcb8d02563f4125598288e66652664abdf6caaa3",
+      "closure_result_path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+      "L1_PRESERVATION_DURABLY_CLOSED": "YES",
+      "L2_STARTED": "NO",
+      "artifacts": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+          "blob_sha": "0e8c10bffcf92ddae287c92c61df84a16db24933"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+          "blob_sha": "c064d108f3789f899bb78841fe33f25cf0e33af4"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+          "blob_sha": "78af7ec2d97462ce8f0d75db8b361c2498fe7e08"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+          "path": ".gpt-codex/evidence/instructions/a5058f74-133a-4e07-a7ed-a042a8bdc67c.json",
+          "blob_sha": "1ecbb9558c2f31498558d11d370ae2b4d79d6585"
+        }
+      ],
+      "candidate_vs_integration_semantics": "Closure Result verify flags describe pre-integration candidate generation. Durable L1 closure is derived from exact live integration P, reviewed PASS artifacts and STATE 27; candidate flags are preserved unchanged."
+    },
+    "future_native_pre_requirements": [
+      "Reverify exact live repository/project/context, remote main, STATE revision/state/continuity/next_action, zero open PRs, immutable accepted Design/Plan and L1 durable closure; reconcile material authority drift. Materialization baseline is a locator, not a future assumed current remote head.",
+      "Remeasure the current tracked-file inventory, exact longest repository-relative path and every actual durable work_unit_id at the exact fresh remote main. Include this newly durable L2 Work Unit; do not assume materialization count 462 or max ID length 83 remains current.",
+      "Recompute the ordinary implementation and review path formulas from exact path strings, not copied arithmetic. Evaluate at minimum D:\\, D:\\w and D:\\wt. Record exact worst-case strings, their character lengths and margin to the conservative 240-character budget.",
+      "Use the CURRENT longest durable Work Unit ID, even if longer than historical 83, and CURRENT applicable ordinary in-worktree generated-path expansion, not historical 122 when invalidated by code, tests, tooling or other generated content.",
+      "Independently inspect current Git worktree path construction, review- prefix construction, exact Work Unit ID leaf naming, validation checkout/temp-root handling, Windows path-length checks, normalization/canonicalization and test fixtures creating additional nested content.",
+      "Keep Phase F external TEMP/TMP/TMPDIR fixture expansion separate from ordinary worktree layout unless direct current evidence proves it occurs inside an ordinary worktree. Record separation proof and do not add historical 171 automatically.",
+      "Read-only verify current Windows LongPathsEnabled and Git/Python/validator/tool compatibility. Never change registry/policy or create a filesystem probe; bounded probe authority belongs to L3.",
+      "Verify implementation layout <WORKTREE_ROOT>/gpt-codex-framework/<exact-work-unit-id>/ and review layout <WORKTREE_ROOT>/gpt-codex-framework/review-<exact-work-unit-id>/. No automatic Work Unit ID shortening or hashing.",
+      "Reject final, fix2, latest, copy, date-based names and similar ad hoc suffixes as attempts to evade the accepted exact layout.",
+      "Require no evaluated candidate target exceed 240 characters before FULL_ID_LAYOUT_ACCEPTED is possible; above-budget full-ID layout requires a separately governed Design amendment, not silent root/ID adaptation.",
+      "Classify and explicitly adjudicate all current baseline drift. Changed relevant logic requires rederiving generated-path expansion from current behavior; unchanged logic still requires independent applicability proof.",
+      "Answer with evidence: \"Did current repository evolution after the accepted Design change the effective path formula?\" A PRE that merely repeats 122, 83 or 238 without current proof must fail.",
+      "Require IMPLEMENTATION_AWARE_PATH_REVIEW=PASS from first-pass inspection of actual code/test/tool behavior before FULL_ID_LAYOUT_ACCEPTED is permitted. Materialization observations do not satisfy that review.",
+      "Distinguish PATH_LAYOUT_FEASIBLE from WORKTREE_ROOT_BOUND. L2 may establish only feasibility. D:\\w remains PROVISIONAL_L3_ROOT_CANDIDATE and cannot be described as BOUND_WORKTREE_ROOT.",
+      "Determine exact current Framework Result Envelope schema-valid status semantics for each allowed disposition, correlate the later Result to a fresh L2 EXECUTION_INSTRUCTION, and preserve the independent POST gate."
+    ],
+    "allowed_primary_dispositions": [
+      {
+        "disposition": "FULL_ID_LAYOUT_ACCEPTED",
+        "meaning": "Current independently reviewed evidence proves accepted full-ID layout feasible within the conservative 240-character budget.",
+        "required_review": "IMPLEMENTATION_AWARE_PATH_REVIEW=PASS",
+        "root_semantics": "D:\\w = PROVISIONAL_L3_ROOT_CANDIDATE; WORKTREE_ROOT_BOUND=false"
+      },
+      {
+        "disposition": "DESIGN_AMENDMENT_REQUIRED",
+        "meaning": "Current path/tooling evidence invalidates the accepted full-ID layout.",
+        "required_response": "Return to GPT for separately governed Design amendment; no hash-leaf invention, D:\\w binding or L3."
+      },
+      {
+        "disposition": "RECONCILIATION_REQUIRED",
+        "meaning": "Authority/current observations conflict or cannot be resolved.",
+        "required_response": "Return to GPT; no filesystem mutation or automatic phase advancement."
+      }
+    ],
+    "primary_disposition_cardinality": 1,
+    "implicit_fourth_disposition_allowed": false,
+    "future_evidence_requirements": {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+      "required_fields": [
+        "project/repository/context identity",
+        "framework_version",
+        "accepted Design/Plan immutable locators",
+        "L1 durable closure locator",
+        "exact current remote/STATE identity",
+        "historical accepted path inputs",
+        "fresh current path inputs",
+        "exact current longest tracked relative path and length",
+        "exact current longest durable Work Unit ID/path/length/blob",
+        "current path-generator drift analysis",
+        "current LongPathsEnabled observation",
+        "D:\\ / D:\\w / D:\\wt exact formulas and strings",
+        "implementation worst-case path and length",
+        "review worst-case path and length",
+        "margin to 240",
+        "external temp-root separation proof",
+        "root collision/ownership/reparse observations",
+        "exactly one allowed primary decision disposition",
+        "Design amendment required yes/no",
+        "IMPLEMENTATION_AWARE_PATH_REVIEW=PASS before full-ID acceptance"
+      ],
+      "required_false_fields": {
+        "D_w_bound": false,
+        "L3_started": false,
+        "local_filesystem_mutation": false
+      }
+    },
+    "future_result_requirements": {
+      "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+      "envelope": "CURRENT_FRAMEWORK_RESULT_ENVELOPE",
+      "status_semantics": "Fresh Native PRE must determine exact schema-valid status semantics; materialization assigns no future Result status.",
+      "instruction_correlation": "Fresh L2 EXECUTION_INSTRUCTION with exact Work Unit ref, identity, current STATE and scoped authority.",
+      "truthful_fields": {
+        "local_workspace_mutation": false,
+        "repository_source_mutation": false,
+        "state_mutation": false,
+        "worktree_root_created": false,
+        "worktree_root_bound": false,
+        "worktree_moved": false,
+        "main_checkout_normalized": false,
+        "L3_STARTED": false,
+        "independent_post_required": true
+      },
+      "decision_encoding": "Encode exactly the selected allowed disposition without converting an analysis decision into local filesystem execution authority."
+    },
+    "future_review_depth": {
+      "first_pass": "Implementation-aware source/test/tool review, not metadata-only inspection.",
+      "required_inspection": [
+        "Git worktree path construction",
+        "review prefix construction",
+        "Work Unit ID directory naming",
+        "validation checkout/temp root handling",
+        "Windows path-length checks",
+        "path normalization/canonicalization",
+        "generated ordinary paths longer than tracked-path proxy",
+        "fixtures creating nested content"
+      ],
+      "full_id_acceptance_gate": "IMPLEMENTATION_AWARE_PATH_REVIEW=PASS"
+    },
+    "heavy_validation_policy": {
+      "materialization": [
+        "python .gpt-codex/scripts/validate_project.py .",
+        "python .gpt-codex/scripts/validate_framework.py",
+        "git diff --check"
+      ],
+      "future_l2": "Focused static/path validation.",
+      "full_unittest_default": "DO_NOT_RUN",
+      "full_unittest_exception": "Only if native Framework requires it or implementation-aware path inconsistency cannot otherwise be resolved."
+    },
+    "future_execution_order": [
+      "Durable materialization of this L2 Work Unit",
+      "Live remote Work Unit verification",
+      "Fresh L2 EXECUTION_INSTRUCTION",
+      "L2 Native PRE with fresh current path remeasurement",
+      "Exact L2 decision candidate",
+      "Independent POST",
+      "Exact durable L2 decision integration",
+      "GPT adjudication of actual L2 result",
+      "Only then determine separately adjudicated L2 durable closure / STATE-to-L3 shape",
+      "No L3 execution before L2 durable closure and separate L3 authorization"
+    ],
+    "completion_boundary": {
+      "owned_local_filesystem_paths": [],
+      "state_in_owned_scope": false,
+      "later_state_transition": "Separate adjudication from actual L2 integration and then-current Framework semantics.",
+      "D_w_semantics": "PROVISIONAL_L3_ROOT_CANDIDATE",
+      "root_bound": false,
+      "L3_started": false,
+      "automatic_transition": false,
+      "independent_post_required": true,
+      "return_to_gpt_required": true
+    },
+    "explicit_denials": [
+      "STATE mutation",
+      "CONTROL mutation",
+      "accepted Design/Plan mutation",
+      "Framework source/test/schema/module/template/builtin/release/extension mutation",
+      "existing L1 Evidence/Results/Instructions mutation",
+      "D:\\w creation/modification/deletion or probe directories",
+      "D:\\wt creation/modification/deletion or probe directories",
+      "WORKTREE_ROOT binding",
+      "Git worktree add/move/remove/recreate/prune/repair",
+      "main checkout normalization",
+      "local branch/ref mutation",
+      "workspace deletion",
+      "preservation modification or reexecution",
+      "scratch cleanup",
+      "L3",
+      "L4",
+      "L5",
+      "L6",
+      "L7",
+      "L8",
+      "Local Workspace Freeze",
+      "Framework 2.8.0 release",
+      "Issue #17 implementation",
+      "COMMIT/PUSH/PUBLISH by this future L2 decision Work Unit",
+      "authority/scope expansion"
+    ]
+  },
+  "accepted_historical_path_evidence": {
+    "max_tracked_relative_path": 122,
+    "max_durable_work_unit_id_length": 83,
+    "review_prefix": "review-",
+    "review_prefix_length": 7,
+    "repository_slug": "gpt-codex-framework",
+    "repository_slug_length": 19,
+    "budget": 240,
+    "historical_calculations": {
+      "D:\\": 236,
+      "D:\\w": 238,
+      "D:\\wt": 239
+    },
+    "historical_provisional_root_candidate": "D:\\w",
+    "phase_f_external_temp_expansion": 171,
+    "phase_f_expansion_added_to_ordinary_formula": false,
+    "windows_long_paths_enabled": 0,
+    "automatic_hash_leaf_authorized": false
+  },
+  "current_materialization_observations": {
+    "observed_at_utc": "2026-10-03T04:10:47.151873+00:00",
+    "measurement_commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+    "current_tracked_path_count": 462,
+    "current_tracked_blob_manifest_sha256": "8601295d834de005de00c9837d197ace5473b4de623095557d155bec4920b3a5",
+    "current_max_tracked_relative_path": "docs/superpowers/specs/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+    "current_max_tracked_relative_path_length": 122,
+    "current_max_tracked_relative_path_blob": "665255b68fad8986d0646efcdf7490c588eecfa5",
+    "phase_g_frozen_max_tracked_relative_path": "docs/superpowers/specs/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+    "phase_g_frozen_max_tracked_relative_path_length": 122,
+    "phase_g_frozen_measurement": {
+      "commit_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+      "tracked_file_count": 436,
+      "longest_path": "docs/superpowers/specs/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+      "length": 122,
+      "blob_sha": "665255b68fad8986d0646efcdf7490c588eecfa5",
+      "freeze_authority": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "2ee02c659ed4922ffe6ac28646d0ca498ca39004",
+        "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+        "blob_sha": "653506a44eefb949d4e6f26dec0d1e3f8a55c9ae"
+      },
+      "accepted_122_claim_reproduced": true
+    },
+    "current_durable_work_unit_count": 48,
+    "current_max_durable_work_unit_id": "github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001",
+    "current_max_durable_work_unit_id_length": 83,
+    "current_max_durable_work_unit_path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001.json",
+    "current_max_durable_work_unit_identity": {
+      "work_unit_id": "github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001",
+      "length": 83,
+      "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001.json",
+      "commit_sha": "c373bec3bc962d8fbef9a8445f65ae93983d791d",
+      "blob_sha": "1f10be488e13f5732c036b1ab0786f3479a674e4"
+    },
+    "current_durable_work_unit_manifest_sha256": "213fd16654e2341a116124e197047a07910f7281392437e047ed7c6214a9beb1",
+    "current_l2_work_unit_id": "local-workspace-consolidation-l2-path-layout-authority-resolution-001",
+    "current_l2_work_unit_id_length": 69,
+    "current_path_generator_drift": "UNCHANGED_RELEVANT_PATH_LOGIC",
+    "path_generator_drift_analysis": {
+      "inspected_prefixes": [
+        ".gpt-codex/scripts/",
+        ".gpt-codex/tests/",
+        ".gpt-codex/schemas/",
+        "plugins/"
+      ],
+      "inspected_exact_paths": [
+        "AGENTS.md",
+        ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        ".gitignore"
+      ],
+      "current_inspected_blob_count": 94,
+      "comparisons": [
+        {
+          "baseline": "accepted_design",
+          "commit_sha": "7fce94ba0eb1da1acf6d46040465590f0b160927",
+          "changed_files": [],
+          "changed_file_count": 0,
+          "baseline_blob_manifest_sha256": "4c6cdff1420a9da24062bd2dc03e4b5497f86b28f5663f3a3e1dc5b31a80d630",
+          "current_blob_manifest_sha256": "4c6cdff1420a9da24062bd2dc03e4b5497f86b28f5663f3a3e1dc5b31a80d630"
+        },
+        {
+          "baseline": "phase_g_frozen",
+          "commit_sha": "bc18d6e842fb919c7f90ff5a6835f8f71b3af5ee",
+          "changed_files": [],
+          "changed_file_count": 0,
+          "baseline_blob_manifest_sha256": "4c6cdff1420a9da24062bd2dc03e4b5497f86b28f5663f3a3e1dc5b31a80d630",
+          "current_blob_manifest_sha256": "4c6cdff1420a9da24062bd2dc03e4b5497f86b28f5663f3a3e1dc5b31a80d630"
+        }
+      ],
+      "focused_static_observations": [
+        {
+          "path": ".gpt-codex/scripts/continuity_resume.py",
+          "blob_sha": "e7dd2c5b12c71761227513ea6ce7b666b82713a6",
+          "finding": "_canonical_worktree_identity and _derive_pairwise_review_facts use Git --show-toplevel and Path.resolve; no ordinary full-ID root generator is implemented here."
+        },
+        {
+          "path": ".gpt-codex/scripts/validate_project.py",
+          "blob_sha": "1c5675f49bcb38c39d4114c748ada66b2e2fd1ce",
+          "finding": "candidate path union, directory creation and canonical role facts are validators; no candidate-root probe was executed."
+        },
+        {
+          "path": ".gpt-codex/scripts/validate_framework.py",
+          "blob_sha": "65e9afe887a26de6ab01c70344267428c626787a",
+          "finding": "operating-contract consistency checks both exact implementation and review layout strings."
+        },
+        {
+          "path": ".gpt-codex/scripts/git_continuity.py",
+          "blob_sha": "81e655df32d87786f946a904062f8296ac60e064",
+          "finding": "evidence-gated worktree cleanup evaluation; no cleanup is executed by this preflight."
+        },
+        {
+          "path": ".gpt-codex/scripts/validate_consumer_projection.py",
+          "blob_sha": "364d1b884821e3a7e5b956fc0ac82c46ddb11660",
+          "finding": "default staging uses tempfile.TemporaryDirectory without dir=root, outside ordinary worktree; explicit staging remains caller controlled."
+        },
+        {
+          "path": ".gpt-codex/scripts/release_framework.py",
+          "blob_sha": "d001bcb7eab4c3608024a89b3aa166eddb638cc9",
+          "finding": "consumer projection staging uses a tempfile root."
+        },
+        {
+          "path": ".gpt-codex/scripts/result_return.py",
+          "blob_sha": "a47e86d9bf15b577e1c74e151a7209cee9cc2569",
+          "finding": "240-character validation concerns a metadata-relative path; it is not proof of ordinary filesystem path feasibility."
+        },
+        {
+          "path": ".gpt-codex/tests/test_continuity_resume.py",
+          "blob_sha": "b0bee996be02d8c17a1c2198008e752098d92446",
+          "finding": "real test worktrees and junction/symlink aliases are nested within a TemporaryDirectory."
+        },
+        {
+          "path": ".gpt-codex/tests/test_self_hosting_validator.py",
+          "blob_sha": "d2e6711cb1e7c82ec74a5c7adf8165ffc2005e67",
+          "finding": "nested fixture projects and synthetic Git repositories are test-generated; focused later PRE must independently inspect fixture locations."
+        },
+        {
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "blob_sha": "ea313acac2f5d77899d42037bf500d9cc9e22584",
+          "finding": "worktree and contamination fixtures use TemporaryDirectory."
+        },
+        {
+          "path": "AGENTS.md",
+          "blob_sha": "ff89d9465a4b87aca00bebaf2ee82fde262babee",
+          "finding": "declares full Work Unit ID implementation leaf and review- prefix; CURRENT_PHASE_DOES_NOT_MOVE_LOCAL_WORKSPACES."
+        },
+        {
+          "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+          "blob_sha": "11e71c4eab82a72afb309c83847afa7aaf8a5272",
+          "finding": "same exact full-ID layout contract."
+        }
+      ],
+      "scope_limit": "Materialization drift analysis only; not IMPLEMENTATION_AWARE_PATH_REVIEW=PASS or a path-layout disposition. Fresh L2 PRE must inspect all actual generated paths and tooling behavior."
+    },
+    "windows_long_paths_enabled": 0,
+    "windows_long_path_policy": {
+      "key": "HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem",
+      "value_name": "LongPathsEnabled",
+      "value": 0,
+      "registry_type": 4,
+      "historical_value": 0,
+      "changed": false,
+      "read_only": true
+    },
+    "current_root_collision_observation": [
+      {
+        "path": "D:\\",
+        "exists": true,
+        "type": "DIRECTORY",
+        "attributes": "Hidden, System, Directory, Compressed",
+        "reparse_point": false,
+        "link_type": null,
+        "target": null,
+        "acl_owner": "NT AUTHORITY\\SYSTEM",
+        "project_ownership": "NOT_ESTABLISHED_BY_ACL"
+      },
+      {
+        "path": "D:\\w",
+        "exists": false,
+        "type": "ABSENT",
+        "reparse_point": false,
+        "link_type": null,
+        "target": null,
+        "project_ownership": "NOT_APPLICABLE_ABSENT"
+      },
+      {
+        "path": "D:\\wt",
+        "exists": false,
+        "type": "ABSENT",
+        "reparse_point": false,
+        "link_type": null,
+        "target": null,
+        "project_ownership": "NOT_APPLICABLE_ABSENT"
+      }
+    ],
+    "root_collision_drift_analysis": {
+      "D_w_historical": "ABSENT_UNCREATED_UNBOUND",
+      "D_w_material_change_detected": false,
+      "D_wt_historical": "EXISTENCE_NOT_EXPLICITLY_RECORDED_IN_ACCEPTED_DESIGN",
+      "D_wt_current": "ABSENT",
+      "historical_comparison_limit": "No historical D:/wt existence fact is invented; current absence establishes no current namespace collision. Candidate selection/binding remains a later gate.",
+      "material_change_detected": false
+    },
+    "current_baseline_drift": "NO",
+    "baseline_drift_reasons": [],
+    "future_native_pre_must_remeasure": true,
+    "path_layout_disposition": "NOT_EVALUATED",
+    "worktree_root_bound": false,
+    "l2_decision_executed": false,
+    "l3_started": false
+  },
+  "materialization_preflight_analysis": {
+    "repository_external_path": "D:/通用开发框架管理/LOCAL-WORKSPACE-L2-PATH-BASELINE-PREFLIGHT-20261003.json",
+    "utf8_bytes": 120682,
+    "sha256": "7f9b7d38648f6a5deb2b229e98884b53164ae5f9403c71b6f7769fb7f14d661f",
+    "source": "TOOL_OBSERVED",
+    "not_execution_authority": true,
+    "authorized_checkout_not_WORKTREE_ROOT": "D:/lwc-l2-wu-20261003",
+    "measurement_baseline_excludes_this_not_yet_durable_work_unit": true
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+    ".gpt-codex/evidence/instructions/a5058f74-133a-4e07-a7ed-a042a8bdc67c.json",
+    ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json"
+  ],
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "COMMIT",
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "state": "AUTHORIZED",
+  "basis_state_revision": 27,
+  "authorization": {
+    "authority_type": "USER_APPROVAL",
+    "status": "AUTHORIZED",
+    "implementation_authorized": false,
+    "implementation_start_allowed": false,
+    "next_gate": "LOCAL_WORKSPACE_CONSOLIDATION_L2_PATH_LAYOUT_AUTHORITY_RESOLUTION_NATIVE_PRE"
+  }
+}
