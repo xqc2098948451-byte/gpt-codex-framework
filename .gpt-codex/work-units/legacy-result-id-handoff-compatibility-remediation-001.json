@@ -1,0 +1,63 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "legacy-result-id-handoff-compatibility-remediation-001",
+  "goal": "Remediate inventory-wide legacy Result ID rejection without lowering current target contracts",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 28,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_harness_handoff.py",
+      ".gpt-codex/tests/test_result_return.py",
+      ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-VALIDATION.json",
+      ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-POST.json",
+      ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-REMEDIATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "sha": "c9186fcdc3a36ad0423b3c475cce9c101e05d657"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "sha": "c9186fcdc3a36ad0423b3c475cce9c101e05d657"
+    }
+  },
+  "directory_creations": [],
+  "acceptance": [
+    "Regression A-F PASS",
+    "All validation PASS",
+    "Independent PRE/POST PASS",
+    "Historical Results unchanged=13",
+    "Remote main verified and exact R3 handoff PASS without physical replay"
+  ],
+  "authority_source": "Direct user supplied remediation; authority registration is separate from bounded source execution"
+}
