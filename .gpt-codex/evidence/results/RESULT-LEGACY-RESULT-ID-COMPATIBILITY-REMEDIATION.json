@@ -1,0 +1,88 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.2.1",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 28,
+  "result_id": "1d4c3c3f-d524-4b7b-a640-e45426d305ec",
+  "work_unit_id": "legacy-result-id-handoff-compatibility-remediation-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "IMPLEMENTATION_RESULT",
+  "response_to_instruction_id": "e5b8e8be-ae9c-4567-9cde-6533af34681a",
+  "responder_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "artifact_stage": "IMPLEMENTATION",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "execution": "Exact legacy inventory compatibility remediation completed and independently reviewed; remote main verified; exact R3 handoff ready without physical replay",
+  "changed": [
+    ".gpt-codex/scripts/continuity_resume.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/tests/test_harness_handoff.py",
+    ".gpt-codex/tests/test_result_return.py"
+  ],
+  "verify": [
+    "Regression A-F PASS",
+    "Focused112 PASS",
+    "Full validation PASS",
+    "Independent PRE/POST PASS",
+    "Remote integration and exact R3 native/plugin handoff PASS"
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-VALIDATION.json",
+    ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-POST.json"
+  ],
+  "git": {
+    "base_sha": "b28c28d1cabc9862cfc973c9292633c77774ba4f",
+    "implementation_sha": "4315357e26d6907600fe63976a47a7adb3289d70"
+  },
+  "local_head_sha": "e1a988a17301005adb85f206dbff6b6889ee4ba6",
+  "remote_head_sha": "e1a988a17301005adb85f206dbff6b6889ee4ba6",
+  "verified_baseline_sha": "e1a988a17301005adb85f206dbff6b6889ee4ba6",
+  "current_remote_ref": "refs/heads/main",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "push_status": "SUCCEEDED",
+  "sync_status": "SYNCED",
+  "remote_verification": "VERIFIED",
+  "completion_evidence": {
+    "process_completed": true,
+    "exit_code": 0,
+    "execution_state": "COMPLETED",
+    "intended_scope": [
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_harness_handoff.py",
+      ".gpt-codex/tests/test_result_return.py"
+    ],
+    "executed_scope": [
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_harness_handoff.py",
+      ".gpt-codex/tests/test_result_return.py"
+    ],
+    "test_count": 112,
+    "test_files_expected": 4,
+    "test_files_executed": 4,
+    "failure_count": 0,
+    "error_count": 0,
+    "blocker_evidence_refs": [],
+    "validators_expected": [
+      "framework",
+      "project"
+    ],
+    "validators_completed": [
+      "framework",
+      "project"
+    ]
+  },
+  "blockers": [],
+  "deviations": [],
+  "next_gpt_action": "Proceed under user-authorized conditional L6A durable closure and STATE transition; L7 not started."
+}
