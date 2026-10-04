@@ -1,0 +1,84 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "L6A-DURABLE-CLOSURE",
+  "source": "SYSTEM_DERIVED",
+  "subject": "L6A_ACCEPTED_DURABLE_CLOSURE_AND_STATE_TRANSITION",
+  "result": "PASS",
+  "state_revision": 29,
+  "state_revision_before": 28,
+  "state_revision_after": 29,
+  "instruction_id": "1216e0c8-f31f-42de-a8e5-4f484923b645",
+  "authority_source": "Direct user conditional closure request after verified exact R3 native handoff PASS",
+  "r3_verified_at_state_revision": 28,
+  "r3_handoff": {
+    "status": "HANDOFF_READY",
+    "reconciliation_required": false,
+    "project": {
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "repository_id": "1366213495"
+    },
+    "state": {
+      "revision": 28,
+      "state": "AUTHORIZED"
+    },
+    "current_work": {
+      "work_unit_id": "local-workspace-consolidation-l6a-e015-e027-e029-external-worktree-retirement-001",
+      "status": "AUTHORIZED"
+    },
+    "instruction_id": "7ab4cfb6-9c18-4f55-bb7e-ae72763c848e",
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "59c46835c6ab27be3baede2cc3984be7e528fce2",
+      "path": ".gpt-codex/evidence/instructions/7ab4cfb6-9c18-4f55-bb7e-ae72763c848e.json",
+      "blob_sha": "00f7849725e4cd32b785992c2ecc472026d2ac1e"
+    },
+    "result_id": "6638420d-75f2-41aa-a538-df87a6b51016",
+    "result_ref": ".gpt-codex/evidence/results/RESULT-L6A-EXTERNAL-WORKTREE-RETIREMENT-001-CORRECTED.json",
+    "evidence_refs": [
+      ".gpt-codex/evidence/L6A-R3-SOURCE-EVIDENCE-INVENTORY.json",
+      ".gpt-codex/evidence/L6A-R3-RETIREMENT-PRE-EVIDENCE.json",
+      ".gpt-codex/evidence/L6A-R3-RETIREMENT-EXECUTION-EVIDENCE.json",
+      ".gpt-codex/evidence/L6A-R3-RETIREMENT-INTEGRITY-EVIDENCE.json",
+      ".gpt-codex/evidence/L6A-R3-RETIREMENT-FRESHNESS-EVIDENCE.json",
+      ".gpt-codex/evidence/L6A-R3-EXECUTION-FACTS-EQUIVALENCE.json"
+    ],
+    "git": {
+      "implementation_sha": "59c46835c6ab27be3baede2cc3984be7e528fce2",
+      "current_head_sha": "67d4e207e8cd4dd2fefa4b5e751afa3520dd8602"
+    },
+    "result_status": "LOCAL_COMPLETE",
+    "next_action_hint": "Adjudicate exact R3 evidence and L6A closure readiness. L7 has not started; a separate authorized transition is required.",
+    "blockers": []
+  },
+  "r3_handoff_remote_head": "67d4e207e8cd4dd2fefa4b5e751afa3520dd8602",
+  "r3_verified_current_records_at": "4ae83cb1f9dab5ced543525ed029626783d72358",
+  "R3_NATIVE_HANDOFF": "PASS",
+  "R3_REMOTE_INTEGRATION": "PASS",
+  "R3_PHYSICAL_EXECUTION_REPLAYED": "NO",
+  "L6A_DURABLE_CLOSURE": "PASS",
+  "READY_FOR_L7": "YES",
+  "L7_STARTED": "NO",
+  "UNKNOWN_EXTERNAL_COUNT": 83,
+  "UNKNOWN_ACTION": "KEEP",
+  "native_PRE_gate": {
+    "resolution_status": "INSTRUCTION_RESOLVED",
+    "errors": [],
+    "review_result_id": "88ab2906-85e4-4bae-a652-79db87cddf36"
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/L6A-R3-RETIREMENT-INTEGRITY-EVIDENCE.json",
+    ".gpt-codex/evidence/L6A-R3-RETIREMENT-FRESHNESS-EVIDENCE.json",
+    ".gpt-codex/evidence/L6A-R3-EXECUTION-FACTS-EQUIVALENCE.json",
+    ".gpt-codex/evidence/results/RESULT-L6A-EXTERNAL-WORKTREE-RETIREMENT-001-CORRECTED.json"
+  ],
+  "scope_limit": "Durable closure of accepted L6A only. This does not declare whole workspace consolidation complete or execute L7. Physical facts remain the previously independently verified R3 outcome.",
+  "HISTORICAL_RESULTS_MODIFIED": 0,
+  "LEGACY_RESULT_WITHOUT_ID_COUNT": 13,
+  "findings": [],
+  "blockers": []
+}

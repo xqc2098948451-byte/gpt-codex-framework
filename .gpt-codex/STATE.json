@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
     "latest_synced_state_revision": 28,
     "latest_verified_remote_sha": "cd39a99d7c3ba03c52aff76e479216a3a7c3379f",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -75,13 +75,15 @@
     ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json",
     ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
     ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
-    ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json"
+    ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json",
+    ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L3_WORKTREE_ROOT_BINDING_REQUIRED",
+  "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L7_INDEPENDENT_VERIFICATION_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 28,
+  "revision": 29,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }
