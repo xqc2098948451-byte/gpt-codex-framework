@@ -1182,10 +1182,14 @@ def build_repository_handoff(
         if record is None or git("status", "--porcelain", "--", relative) != "":
             return _recovery_result()
         result_id = record.get("result_id")
-        if not _is_nonempty_string(result_id) or result_id in seen_ids:
-            return _recovery_result()
-        seen_ids.add(result_id)
+        if _is_nonempty_string(result_id):
+            if result_id in seen_ids:
+                return _recovery_result()
+            seen_ids.add(result_id)
         if record.get("response_to_instruction_id") == instruction.get("instruction_id"):
+            # Legacy IDs are optional only outside the exact current target.
+            if not _is_nonempty_string(result_id):
+                return _recovery_result()
             matches.append((relative, record))
     if len(matches) != 1:
         return _recovery_result()

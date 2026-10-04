@@ -142,6 +142,14 @@ class ResultReturnTests(unittest.TestCase):
             self.assertNotIn(repository, rendered)
             self.assertNotIn(path, rendered)
 
+    def test_current_compact_return_cannot_substitute_a_legacy_path_for_missing_id(self):
+        value = envelope("PASS")
+        value["result_ref"] = ".gpt-codex/evidence/results/current-result.json"
+        value["artifact_path"] = value["result_ref"]
+        value.pop("result_id", None)
+        with self.assertRaisesRegex(ValueError, "^DURABLE_RESULT_REF_REQUIRED$"):
+            render_compact_gpt_return(value)
+
     def test_compact_return_requires_nonempty_durable_result_ref(self):
         for result_id in (None, "", "   ", 7):
             with self.subTest(result_id=result_id):

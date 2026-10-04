@@ -834,6 +834,115 @@ class RepositoryHandoffBindingTests(unittest.TestCase):
             })
         return local, work_ref, locator
 
+    def _commit_result_records(self, root, records):
+        import subprocess
+
+        for name, record in records.items():
+            (root / ".gpt-codex/evidence/results" / name).write_text(
+                json.dumps(record) + "\n", encoding="utf-8")
+        for args in (("add", ".gpt-codex/evidence/results"),
+                     ("commit", "-m", "result inventory regression"),
+                     ("push", "origin", "main")):
+            subprocess.run(["git", "-C", str(root), *args],
+                           check=True, capture_output=True)
+
+    def _inventory_handoff(self, root, work_ref, locator):
+        from continuity_resume import build_repository_handoff
+
+        return build_repository_handoff(
+            root, "repo-a", target_work_unit_id="new-work-unit",
+            target_work_unit_ref=work_ref, instruction_locator=locator,
+            expected_state_revision=4,
+        )
+
+    def test_unrelated_legacy_results_without_ids_allow_exact_target_handoff(self):
+        import subprocess
+
+        for count in (1, 13, 25):
+            with self.subTest(count=count), tempfile.TemporaryDirectory() as td:
+                root, work_ref, locator = self._durable_fixture(Path(td))
+                records = {f"legacy-{i:02d}.json": {
+                    "response_to_instruction_id": f"historical-instruction-{i}",
+                    "evidence_refs": [],
+                } for i in range(count)}
+                self._commit_result_records(root, records)
+                paths = [root / ".gpt-codex/evidence/results" / name for name in records]
+                before = {path: path.read_bytes() for path in paths}
+                result = self._inventory_handoff(root, work_ref, locator)
+                self.assertEqual(result["status"], "HANDOFF_READY")
+                self.assertEqual(result["result_id"], "fixture-result")
+                self.assertEqual(result["result_ref"],
+                                 ".gpt-codex/evidence/results/fixture-result.json")
+                self.assertEqual(result["instruction_id"],
+                                 "22222222-2222-4222-8222-222222222222")
+                for path in paths:
+                    self.assertEqual(path.read_bytes(), before[path])
+                    self.assertNotIn("result_id", json.loads(path.read_bytes()))
+                self.assertEqual(subprocess.run(
+                    ["git", "-C", str(root), "status", "--porcelain"],
+                    check=True, capture_output=True, text=True).stdout, "")
+
+    def test_current_target_result_requires_nonempty_string_id_with_legacy_inventory(self):
+        for value in (None, "", "   ", 7, []):
+            with self.subTest(result_id=value), tempfile.TemporaryDirectory() as td:
+                root, work_ref, locator = self._durable_fixture(Path(td))
+                target = json.loads((root / ".gpt-codex/evidence/results/fixture-result.json").read_bytes())
+                if value is None:
+                    target.pop("result_id")
+                else:
+                    target["result_id"] = value
+                self._commit_result_records(root, {
+                    "fixture-result.json": target,
+                    "legacy.json": {"response_to_instruction_id": "old-instruction"},
+                })
+                self.assertEqual(self._inventory_handoff(root, work_ref, locator)["status"],
+                                 "RECONCILIATION_REQUIRED")
+
+    def test_duplicate_nonempty_result_ids_reconcile_including_unrelated_history(self):
+        for duplicate_id in ("fixture-result", "historical-result"):
+            with self.subTest(duplicate_id=duplicate_id), tempfile.TemporaryDirectory() as td:
+                root, work_ref, locator = self._durable_fixture(Path(td))
+                records = {"legacy.json": {"response_to_instruction_id": "old-instruction"},
+                           "historical-a.json": {"result_id": duplicate_id}}
+                if duplicate_id != "fixture-result":
+                    records["historical-b.json"] = {"result_id": duplicate_id}
+                self._commit_result_records(root, records)
+                self.assertEqual(self._inventory_handoff(root, work_ref, locator)["status"],
+                                 "RECONCILIATION_REQUIRED")
+
+    def test_two_results_matching_current_instruction_still_reconcile(self):
+        for second_id in (None, "another-current-result"):
+            with self.subTest(second_id=second_id), tempfile.TemporaryDirectory() as td:
+                root, work_ref, locator = self._durable_fixture(Path(td))
+                second = json.loads((root / ".gpt-codex/evidence/results/fixture-result.json").read_bytes())
+                if second_id is None:
+                    second.pop("result_id")
+                else:
+                    second["result_id"] = second_id
+                self._commit_result_records(root, {"second-current.json": second})
+                self.assertEqual(self._inventory_handoff(root, work_ref, locator)["status"],
+                                 "RECONCILIATION_REQUIRED")
+
+    def test_legacy_result_still_requires_committed_clean_parseable_json(self):
+        for invalid in ("uncommitted", "dirty", "unparseable"):
+            with self.subTest(invalid=invalid), tempfile.TemporaryDirectory() as td:
+                root, work_ref, locator = self._durable_fixture(Path(td))
+                legacy_path = root / ".gpt-codex/evidence/results/legacy.json"
+                if invalid == "uncommitted":
+                    legacy_path.write_text("{}\n", encoding="utf-8")
+                elif invalid == "dirty":
+                    self._commit_result_records(root, {"legacy.json": {}})
+                    legacy_path.write_text('{"dirty": true}\n', encoding="utf-8")
+                else:
+                    import subprocess
+                    legacy_path.write_text("{invalid JSON\n", encoding="utf-8")
+                    for args in (("add", "."), ("commit", "-m", "invalid JSON"),
+                                 ("push", "origin", "main")):
+                        subprocess.run(["git", "-C", str(root), *args],
+                                       check=True, capture_output=True)
+                self.assertEqual(self._inventory_handoff(root, work_ref, locator)["status"],
+                                 "RECONCILIATION_REQUIRED")
+
     def test_slotless_handoff_uses_exact_instruction_and_result(self):
         from continuity_resume import build_repository_handoff
 

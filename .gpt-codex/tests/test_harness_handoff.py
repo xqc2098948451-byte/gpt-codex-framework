@@ -167,6 +167,23 @@ class HarnessHandoffTests(unittest.TestCase):
             self.write_json(root, ".gpt-codex/STATE.json", state)
             self.assertEqual(build_project_handoff(root, execution_slot_id="slot-1")["status"], "RECONCILIATION_REQUIRED")
 
+    def test_legacy_state_result_path_continuity_does_not_inject_an_id(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.write_fixture(root)
+            reference = ".gpt-codex/evidence/results/historical.json"
+            self.write_json(root, reference, {"evidence_refs": []})
+            before = (root / reference).read_bytes()
+            state = json.loads((root / ".gpt-codex/STATE.json").read_bytes())
+            state["continuity"]["last_verified_result_ref"] = reference
+            self.write_json(root, ".gpt-codex/STATE.json", state)
+            result = build_project_handoff(root, execution_slot_id="slot-1")
+            self.assertEqual(result["status"], "HANDOFF_READY")
+            self.assertEqual((root / reference).read_bytes(), before)
+            self.assertNotIn("result_id", json.loads((root / reference).read_bytes()))
+            self.assertEqual(json.loads((root / ".gpt-codex/STATE.json").read_bytes())
+                             ["continuity"]["last_verified_result_ref"], reference)
+
     def test_execution_slot_contradiction_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

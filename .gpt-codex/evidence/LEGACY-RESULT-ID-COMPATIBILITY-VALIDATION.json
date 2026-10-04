@@ -1,0 +1,167 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "LEGACY-RESULT-ID-COMPATIBILITY-VALIDATION",
+  "source": "SYSTEM_DERIVED",
+  "subject": "COMPATIBILITY_REGRESSION_AND_FULL_VALIDATION",
+  "result": "PASS",
+  "state_revision": 28,
+  "fix_instruction_id": "e5b8e8be-ae9c-4567-9cde-6533af34681a",
+  "native_gate": {
+    "resolution_status": "INSTRUCTION_RESOLVED",
+    "errors": [],
+    "pre_result_id": "dedb0f94-bca5-46dd-adc8-95232eb96d7f",
+    "fix_instruction_id": "e5b8e8be-ae9c-4567-9cde-6533af34681a"
+  },
+  "red_regression": {
+    "test_count": 44,
+    "failure_count": 3,
+    "cases": [
+      1,
+      13,
+      25
+    ],
+    "log_sha256": "f9dde2b7e052f89a84cb47fac3163187e5057fbb466287bc9b0b95b2ad60e34b"
+  },
+  "checks": {
+    "LEGACY_RESULT_ID_COMPATIBILITY": "PASS",
+    "TARGET_RESULT_ID_REQUIRED": "PASS",
+    "NONEMPTY_RESULT_ID_UNIQUENESS": "PASS",
+    "LEGACY_PATH_CONTINUITY": "PASS",
+    "COMPACT_RESULT_ID_REQUIRED": "PASS",
+    "FOCUSED_TESTS": "PASS",
+    "FULL_VALIDATION": "PASS",
+    "HISTORICAL_RESULTS_MODIFIED": 0,
+    "LEGACY_RESULT_WITHOUT_ID_COUNT": 13
+  },
+  "validation_runs": [
+    {
+      "group": "focused",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-p",
+        "test_continuity_resume.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "test_count": 44,
+      "log_sha256": "200a1d882c2d5e4f65c73f29a53bc503952c24f00e9128193fea357d2c553056",
+      "summary": "----------------------------------------------------------------------\nRan 44 tests in 50.496s\n\nOK\n"
+    },
+    {
+      "group": "focused",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-p",
+        "test_harness_handoff.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "test_count": 13,
+      "log_sha256": "e26af59c11f98671c997fee757e012be348161c1305ce20edeaa9d364e28f646",
+      "summary": "----------------------------------------------------------------------\nRan 13 tests in 12.350s\n\nOK\n"
+    },
+    {
+      "group": "focused",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-p",
+        "test_result_return.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "test_count": 17,
+      "log_sha256": "99a89817a9a5e0fede9f98aed99402574bd3268001dc2a7180c8eb71f269543d",
+      "summary": "----------------------------------------------------------------------\nRan 17 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "group": "focused",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-p",
+        "test_framework_plugin.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "test_count": 38,
+      "log_sha256": "2aa4e20f9fe5a510dfbdeb64dc7b68b1e8ed769eaaef68d9805ee82571ad6e83",
+      "summary": "----------------------------------------------------------------------\nRan 38 tests in 82.869s\n\nOK\n"
+    },
+    {
+      "group": "full",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "test_count": 725,
+      "log_sha256": "11551364d087cb54783b61141d3752b0aae8ae8f29d25ba4cb9ca84d8d8ca0e7",
+      "summary": "----------------------------------------------------------------------\nRan 725 tests in 459.852s\n\nOK (skipped=2)\n"
+    },
+    {
+      "group": "full",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        ".gpt-codex/scripts/validate_framework.py"
+      ],
+      "exit_code": 0,
+      "test_count": null,
+      "log_sha256": "f520e5bf284fec4aa52a69cf07f7ef99d43ec625565391912b0d9b1cf39fb70e",
+      "summary": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n"
+    },
+    {
+      "group": "full",
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        ".gpt-codex/scripts/validate_project.py",
+        "."
+      ],
+      "exit_code": 0,
+      "test_count": null,
+      "log_sha256": "1c6a503e84f1e245a5942c1e212f2def835d0ebc353da8e9d21d2b8098c31a9e",
+      "summary": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-28\nPROJECT_CONTEXT_BINDING: PASS\n"
+    }
+  ],
+  "r3_physical_execution_replayed": "NO",
+  "l7_started": "NO"
+}
