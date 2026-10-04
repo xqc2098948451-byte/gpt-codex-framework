@@ -3,10 +3,10 @@
   "blockers": [],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
-    "latest_synced_state_revision": 28,
-    "latest_verified_remote_sha": "cd39a99d7c3ba03c52aff76e479216a3a7c3379f",
-    "sync_status": "SYNC_PENDING"
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+    "latest_synced_state_revision": 29,
+    "latest_verified_remote_sha": "9693d07b5ff121a796eb02ed4083495815ad12f2",
+    "sync_status": "SYNCED"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -77,7 +77,10 @@
     ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
     ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json",
     ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
-    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json"
+    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json",
+    ".gpt-codex/evidence/L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-POST.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L7_INDEPENDENT_VERIFICATION_REQUIRED",

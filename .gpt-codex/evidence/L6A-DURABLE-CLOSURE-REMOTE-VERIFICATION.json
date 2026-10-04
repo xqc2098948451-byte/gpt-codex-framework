@@ -1,0 +1,23 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION",
+  "source": "SYSTEM_DERIVED",
+  "subject": "ACTUAL_REMOTE_L6A_WORK_AND_INDEPENDENT_POST",
+  "result": "PASS",
+  "state_revision": 29,
+  "verified_work_sha": "260577f7d1e85281c6d186b509050b973e04f43b",
+  "verified_remote_head_sha": "9693d07b5ff121a796eb02ed4083495815ad12f2",
+  "independent_POST_result_id": "143f30bf-ae30-4997-9fff-6c02f7254931",
+  "publication_subject": "Already-integrated closure work and POST; later management confirmation commit is not preclaimed",
+  "STATE_REVISION_BEFORE": 28,
+  "STATE_REVISION_AFTER": 29,
+  "L6A_DURABLE_CLOSURE": "PASS",
+  "R3_NATIVE_HANDOFF": "PASS_AT_REVISION_28_BEFORE_TRANSITION",
+  "R3_PHYSICAL_EXECUTION_REPLAYED": "NO",
+  "READY_FOR_L7": "YES",
+  "L7_STARTED": "NO",
+  "HISTORICAL_RESULTS_MODIFIED": 0,
+  "LEGACY_RESULT_WITHOUT_ID_COUNT": 13
+}
