@@ -69,5 +69,16 @@
     "L7_STARTED=NO; no physical retirement replay",
     "Historical Results and R3 evidence unchanged",
     "Independent PRE/POST and remote verification PASS"
-  ]
+  ],
+  "selected_extensions": {
+    "skills": [
+      "github-project-continuity"
+    ],
+    "guardrails": [
+      "universal-safety",
+      "cross-project-context-binding",
+      "github-repository-binding"
+    ],
+    "fitness": []
+  }
 }
