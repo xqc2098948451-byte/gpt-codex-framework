@@ -1,0 +1,73 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "work_unit_id": "local-workspace-consolidation-l6a-durable-closure-001",
+  "goal": "Durably close accepted L6A after verified R3 native handoff; transition STATE28 to29 with L7 ready but unstarted",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 28,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-POST.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "sha": "c9186fcdc3a36ad0423b3c475cce9c101e05d657"
+    },
+    "plan": {
+      "path": "docs/superpowers/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "sha": "c9186fcdc3a36ad0423b3c475cce9c101e05d657"
+    }
+  },
+  "directory_creations": [],
+  "authority_source": "Direct user conditional request, now satisfied by exact R3 native/plugin handoff PASS at current STATE28",
+  "r3_instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "59c46835c6ab27be3baede2cc3984be7e528fce2",
+    "path": ".gpt-codex/evidence/instructions/7ab4cfb6-9c18-4f55-bb7e-ae72763c848e.json",
+    "blob_sha": "00f7849725e4cd32b785992c2ecc472026d2ac1e"
+  },
+  "r3_work_unit_ref": {
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-e015-e027-e029-external-worktree-retirement-001.json",
+    "sha": "db28d7d8d33610d25c0991e4c39fd3e89faa89a7"
+  },
+  "r3_result_id": "6638420d-75f2-41aa-a538-df87a6b51016",
+  "acceptance": [
+    "R3 verified native handoff at28",
+    "STATE29 AUTHORIZED/SYNCED with next L7 independent verification required",
+    "All new Results have native IDs",
+    "L7_STARTED=NO; no physical retirement replay",
+    "Historical Results and R3 evidence unchanged",
+    "Independent PRE/POST and remote verification PASS"
+  ]
+}
