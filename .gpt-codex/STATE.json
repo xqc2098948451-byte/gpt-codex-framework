@@ -72,7 +72,10 @@
     ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
     ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-FINDING.json",
     ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS.json",
-    ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json"
+    ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json",
+    ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
+    ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
+    ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L3_WORKTREE_ROOT_BINDING_REQUIRED",

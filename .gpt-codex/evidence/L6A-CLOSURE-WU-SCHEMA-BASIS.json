@@ -1,0 +1,24 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "L6A-CLOSURE-WU-SCHEMA-BASIS",
+  "source": "SYSTEM_DERIVED",
+  "subject": "CONCRETE_SCHEMA_REGRESSION",
+  "result": "PROVEN",
+  "state_revision": 28,
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "failing": true,
+  "finding_ids": [
+    "L6A-CLOSURE-WU-SCHEMA-001"
+  ],
+  "schema_ref": ".gpt-codex/schemas/work-unit.schema.json",
+  "old_work_unit_ref": {
+    "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-durable-closure-001.json",
+    "sha": "79d00f4f30aa359696526c9350127bf64d1af7c6"
+  },
+  "schema_errors": [
+    "$.selected_extensions is required"
+  ],
+  "bounded_correction": "Add the existing required selected_extensions declaration only; no execution scope expansion or physical action"
+}

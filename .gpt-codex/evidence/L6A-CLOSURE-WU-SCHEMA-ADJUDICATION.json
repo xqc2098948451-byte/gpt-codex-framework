@@ -1,0 +1,22 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "L6A-CLOSURE-WU-SCHEMA-ADJUDICATION",
+  "source": "SYSTEM_DERIVED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "result": "ACCEPTED",
+  "state_revision": 28,
+  "decision": "ACCEPT",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "basis_refs": [
+    "L6A-CLOSURE-WU-SCHEMA-BASIS"
+  ],
+  "adjudicated_at_revision": 28,
+  "finding_ids": [
+    "L6A-CLOSURE-WU-SCHEMA-001"
+  ],
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
+  "review_finding_result_id": "a9dc44ad-4262-42cb-b444-d0a25fa0c243",
+  "authority_source": "GPT_ORCHESTRATOR routine correction within the current user explicit authorization to materialize an exact valid closure Work Unit; no new human approval claimed"
+}
