@@ -1,0 +1,21 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "source": "USER",
+  "state_revision": 28,
+  "result": "ACCEPTED",
+  "decision": "ACCEPT",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "basis_refs": [
+    "LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS"
+  ],
+  "adjudicated_at_revision": 28,
+  "finding_ids": [
+    "LEGACY-RESULT-ID-HANDOFF-COMPATIBILITY-001"
+  ],
+  "review_finding_result_id": "578f9494-9b84-45c8-95f4-5a2cc3c571eb",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-FINDING.json"
+}

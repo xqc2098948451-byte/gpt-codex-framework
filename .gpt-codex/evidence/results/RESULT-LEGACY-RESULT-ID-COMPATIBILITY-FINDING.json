@@ -1,0 +1,65 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "legacy-result-id-handoff-compatibility-remediation-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "578f9494-9b84-45c8-95f4-5a2cc3c571eb",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "b28c28d1cabc9862cfc973c9292633c77774ba4f",
+  "finding_ids": [
+    "LEGACY-RESULT-ID-HANDOFF-COMPATIBILITY-001"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 28,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/L6A-R3-REMOTE-INTEGRATION-VERIFICATION.json"
+  ],
+  "remote_verification": "NOT_ATTEMPTED",
+  "finding_summary": "Global Result inventory rejects unrelated committed legacy Result records without result_id before exact response_to_instruction_id target selection, preventing the otherwise uniquely bound R3 handoff.",
+  "finding_detail": [
+    {
+      "finding_id": "LEGACY-RESULT-ID-HANDOFF-COMPATIBILITY-001",
+      "severity": "P1",
+      "path": ".gpt-codex/scripts/continuity_resume.py",
+      "lines": [
+        1184,
+        1189
+      ],
+      "observed_handoff": {
+        "status": "RECONCILIATION_REQUIRED",
+        "reconciliation_required": true
+      },
+      "native_trace": [
+        {
+          "return_line": 1186,
+          "relative": ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json",
+          "result_id": null,
+          "matches_count": 0,
+          "seen_ids_count": 0
+        }
+      ],
+      "legacy_missing_result_id_count": 13,
+      "current_target_result_id": "6638420d-75f2-41aa-a538-df87a6b51016",
+      "current_target_path": ".gpt-codex/evidence/results/RESULT-L6A-EXTERNAL-WORKTREE-RETIREMENT-001-CORRECTED.json",
+      "current_target_envelope_errors": [],
+      "current_target_authority_errors": [],
+      "required_behavior": "Tolerate unrelated committed clean parseable legacy Results lacking IDs; retain global duplicate nonempty Result ID reconciliation; exact current target must have a nonempty string ID and exactly one instruction-response match, with every existing target, identity, STATE, Git, scope, evidence and remote validation retained.",
+      "bounds": "No synthetic IDs or historical Result changes; preserve STATE legacy repo-relative result reference and compact renderer DURABLE_RESULT_REF_REQUIRED; no Kernel/version/registry change; no physical retirement replay; L7 stays denied."
+    }
+  ],
+  "review_context": "Independent repository read-only reviewer; implementation context withheld. Native reproduction used python -X utf8 -B to prevent Windows locale decoding interference.",
+  "files_changed": []
+}

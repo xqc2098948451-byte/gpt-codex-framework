@@ -1,0 +1,75 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS",
+  "basis_type": "ACCEPTED_AUTHORITY_BASIS",
+  "accepted": true,
+  "state_revision": 28,
+  "finding_ids": [
+    "LEGACY-RESULT-ID-HANDOFF-COMPATIBILITY-001"
+  ],
+  "source": "USER",
+  "subject": "USER_ACCEPTED_COMPATIBILITY_REMEDIATION",
+  "result": "ACCEPTED",
+  "authority_source": "Direct user GPT_ADJUDICATION and execution request on 2026-10-04",
+  "requirements_ref": "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+  "historical_result_blobs": {
+    ".gpt-codex/evidence/results/RESULT-INITIAL-GITHUB-MIGRATION.json": {
+      "blob": "b3dab96b9025289495904eebe65e8a318d174a69",
+      "sha256": "d3a109d9d79e422fcd04fc669aeed9f839accd4fc46a651c47ec1e8069938dd6"
+    },
+    ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json": {
+      "blob": "d9809a865584eae126e5f4eb6a3a3fb6046d8f9f",
+      "sha256": "b3b74859371f47aca31e2c4d387fecc79b849b1644fc15ba815d7a95ee97efc9"
+    },
+    ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json": {
+      "blob": "651c06ed9b7f39cea285bce43d61e927b5ef2048",
+      "sha256": "dd1f99d5034ca3a687ef886b35c5475d98ad502ea760ab956a56004ec4ab4efc"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json": {
+      "blob": "e4e030bce7370386c288a5da487e33286ef6e2f3",
+      "sha256": "1ac76cce2a65fc1ff4bed6cf199347baee214b02c12a17b532eb515881932efd"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json": {
+      "blob": "f745c415923c1947b92aaad2a0b67ff980eed87d",
+      "sha256": "a2c60ebea71c056ef03e65df5d07d95b5d274b9185213c43567655b5faae651e"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json": {
+      "blob": "d2dc8ab56c8caf6b057e97519e8726600c0e3b0c",
+      "sha256": "b1f70a4910f36a4b00eb4cbe2cf01a43cef3209044e2a1d69b5e5132dbaedccd"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json": {
+      "blob": "23f03480aeb6a7510bc9fa0f3497b38ef4378094",
+      "sha256": "985b17fb98a595400def56b4175c29ae5fdde401b4244227a517529ec1e84ef8"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json": {
+      "blob": "1ec4c97642822c68e717e0f090225a5bbbb05338",
+      "sha256": "a7bc450ea3060343b3dce6b7b344f1dfa0b872271f9784dbf187312ce10a3498"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.7.0-PUBLICATION.json": {
+      "blob": "16b53d77c3f03163a8d25e11b971a3112ae40a9c",
+      "sha256": "7aa069e41debcb1109abdf5f9f1ee83f5bec11ee80089a7a033f93c976379a92"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json": {
+      "blob": "f8d02f2e7a92c3d94bcf973fdff0731a5f18e759",
+      "sha256": "ef95fa228374373123ed2e24ce5292c36e039433a317fb3ecb0bdaae9c6368f1"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json": {
+      "blob": "bf0110c11806784b087b3afae7f5cd9a2f4392c5",
+      "sha256": "42349aeb14506f2f666c3143506055a6256058a3d1de75c422c61d089bdc053d"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.7.2-PUBLICATION.json": {
+      "blob": "b3855d64ef8366d69fa9e15b5a532b938b1a54d4",
+      "sha256": "575970a3e1b5076f62b665f708482b7f7ff188d6e17d278bf435009d38ae5465"
+    },
+    ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json": {
+      "blob": "9c409e59090cb9e732dd91ef9ef8f40c6b47ea52",
+      "sha256": "458e975331aefbe4473d74523aae6902effb21ee1ce9e8cd72f0da7984d28c4d"
+    }
+  },
+  "historical_results_modified": 0,
+  "legacy_result_without_id_count": 13,
+  "r3_physical_execution_replayed": "NO",
+  "l7_started": "NO"
+}
