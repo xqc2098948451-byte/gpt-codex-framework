@@ -9,7 +9,7 @@
   "work_unit_id": "project-validator-remediation-authority-state32-gate-001",
   "goal": "Register STATE32 remediation authority without phase transition or implementation",
   "state": "AUTHORIZED",
-  "basis_state_revision": 31,
+  "basis_state_revision": 32,
   "scope": {
     "owned_paths": [
       ".gpt-codex/STATE.json",
