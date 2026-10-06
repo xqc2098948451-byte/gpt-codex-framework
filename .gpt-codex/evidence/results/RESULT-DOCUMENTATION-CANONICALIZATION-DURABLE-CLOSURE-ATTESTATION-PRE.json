@@ -1,0 +1,269 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-durable-closure-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "08422af0-9f85-43e6-b2bd-dd627a61e706",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "eff8d0a2-b707-479d-ad5b-68dd26fe9cc8",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 33,
+  "expected_state_revision": 33,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "e11f052e8b25a5e722d89d00b538742f0f2c5337",
+  "remote_head_sha": "1ea9ad3c0b4e1a007c432db03c1beb9484677b4c",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "git": {
+    "base_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+    "head_sha": "e11f052e8b25a5e722d89d00b538742f0f2c5337",
+    "implementation_sha": null
+  },
+  "review_target_revision": "00f2a60bf267f55e34539c7f9989a8b458ab6061",
+  "finding_ids": [],
+  "fix_round": 0,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "execution": "Independent final metadata/Attestation PRE PASS. Published work was independently exact-read through GitHub commit to actual tree SHA, recursive tree, and five blobs. Candidate Final Result is truthful as an attestation of published work; its metadata-containing commit is separate and remains pending publication. Native handoff must be executed after metadata synchronization.",
+  "changed": [],
+  "deviations": [],
+  "blockers": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+    ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+    ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json"
+  ],
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "e11f052e8b25a5e722d89d00b538742f0f2c5337",
+    "path": ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+    "blob_sha": "1cfa4e196c7a3f8bbf30b3f36505365a7e29a0c8"
+  },
+  "target_work_unit_id": "documentation-canonicalization-durable-closure-001",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+    "sha": "0ec6d005bff928290167403adcae2cdcd897be6b"
+  },
+  "work_unit_locator": {
+    "blob_sha": "ae6f40f8369ecbb795d5e267ed96505289fff436",
+    "commit_sha": "0ec6d005bff928290167403adcae2cdcd897be6b",
+    "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "execution_instruction_locator": {
+    "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+    "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+    "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "reviewed_final_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "00f2a60bf267f55e34539c7f9989a8b458ab6061",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d"
+  },
+  "reviewed_remote_verification_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "00f2a60bf267f55e34539c7f9989a8b458ab6061",
+    "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+    "blob_sha": "a9aa8b7c3c64f1dcd01501c739a3542b8615f253"
+  },
+  "reviewed_final_result_id": "a67c93f1-53c6-4f8a-a48d-59946bf3451c",
+  "metadata_publication_pending": true,
+  "published_work_commit_sha": "1ea9ad3c0b4e1a007c432db03c1beb9484677b4c",
+  "published_work_tree_sha": "9e3f30ec748428fe71196186e2c0d6d4ee4e8e1d",
+  "published_work_file_count": 693,
+  "public_blob_readbacks": [
+    {
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+      "sha256": "d3d765373f27e1d757fb10085290d908fd64583f61035bac099d73f914694cd9",
+      "size": 995159,
+      "public_exact": true
+    },
+    {
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+      "sha256": "aaa62bfa92c5e7ca8ea7163eab65ce17741d42be22b7af4a3c7ff593373f0fa2",
+      "size": 307466,
+      "public_exact": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      "blob_sha": "2c8c6c179c11390923391630161349ee4b3bf2eb",
+      "sha256": "8878fdc721d6bd0e157dd7501b04acd0b0b3d1286cc9bc3be2772f5bc6076fb9",
+      "size": 578132,
+      "public_exact": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      "blob_sha": "5fad53d7fb4459760cc409d2a6067a10dfcbd641",
+      "sha256": "db17dab089b3eb926ae8690e0c498f168c62de00e82c4ec8b833192dbfbbd755",
+      "size": 12306,
+      "public_exact": true
+    },
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+      "sha256": "2db90a141d3b091045bb51cc76872219888272b0ca94221ac639b6c94ed57224",
+      "size": 10732,
+      "public_exact": true
+    }
+  ],
+  "baseline_preservation": {
+    "baseline_blob_mode_count": 683,
+    "blob_or_mode_drift_count": 0,
+    "state_revision": 33,
+    "state_mutation_count": 0,
+    "state_blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+    "state_sha256": "2db90a141d3b091045bb51cc76872219888272b0ca94221ac639b6c94ed57224",
+    "authorized_scope_count": 15,
+    "candidate_added_governance_count": 13,
+    "added_paths": [
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+      ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+      ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json"
+    ],
+    "new_tracked_prefix_count": 0,
+    "reviewer_tracked_file_mutation_count": 0
+  },
+  "final_result_native_validation": {
+    "schema": [],
+    "protocol": [],
+    "authority": [],
+    "completion_evidence": [],
+    "committed_candidate_scope": [],
+    "candidate_directory_creation": []
+  },
+  "attestation_plan": {
+    "metadata_publication": "Normal origin HEAD:refs/heads/main fast-forward after rechecking published remote head.",
+    "metadata_containing_commit_exact_remote_readback_required": true,
+    "native_handoff_field_semantics": "Proposed HANDOFF_READY output bound to the exact final Result; observed native handoff verification is required after metadata sync.",
+    "native_handoff_verification": "PENDING_METADATA_SYNC",
+    "native_handoff_snapshot_path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-NATIVE-HANDOFF.json",
+    "native_handoff_snapshot_publication_within_exact_scope_only": true,
+    "fresh_native_and_plugin_handoff_recheck_after_snapshot_sync_required": true,
+    "self_containing_commit_claim": false,
+    "state_transition_authorized": false,
+    "stop_after_exact_durable_closure_remote_readback": true
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "eff8d0a2-b707-479d-ad5b-68dd26fe9cc8",
+    "work_unit": "documentation-canonicalization-durable-closure-001",
+    "reviewed_revision": "00f2a60bf267f55e34539c7f9989a8b458ab6061",
+    "executed_revision": null,
+    "files_read": [
+      ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json"
+    ],
+    "files_changed": [],
+    "tests_run": [],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "INDEPENDENT_GOVERNANCE_CLOSURE_ATTESTATION_PRE"
+    ],
+    "executed_scope": [
+      "INDEPENDENT_GOVERNANCE_CLOSURE_ATTESTATION_PRE"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "NATIVE_ATTESTATION_REQUEST",
+      "FINAL_RESULT_NATIVE_CONTRACT_AND_UNIQUE_ID",
+      "EXPLICIT_RESULT_EXECUTION_WORK_UNIT_BINDINGS",
+      "GITHUB_COMMIT_TO_TREE_READBACK",
+      "ALL_693_PUBLISHED_WORK_TREE_ENTRIES",
+      "FIVE_EXACT_PUBLIC_BLOB_READBACKS",
+      "ALL_683_BASELINE_BLOBS_AND_MODES_PRESERVED",
+      "STATE33_EXACT_BYTES",
+      "EXACT_15_PATH_GOVERNANCE_SCOPE",
+      "NO_NEW_TRACKED_DIRECTORY",
+      "PRE_POST_PUBLICATION_REVIEW_IMMUTABILITY",
+      "NORMAL_FAST_FORWARD_ANCESTRY",
+      "NON_SELF_CONTAINING_METADATA_SEMANTICS",
+      "POST_SYNC_NATIVE_HANDOFF_PLAN",
+      "NATIVE_REVIEW_RESULT_CONTRACT",
+      "READ_ONLY_REVIEW_BOUNDARY"
+    ],
+    "validators_completed": [
+      "NATIVE_ATTESTATION_REQUEST",
+      "FINAL_RESULT_NATIVE_CONTRACT_AND_UNIQUE_ID",
+      "EXPLICIT_RESULT_EXECUTION_WORK_UNIT_BINDINGS",
+      "GITHUB_COMMIT_TO_TREE_READBACK",
+      "ALL_693_PUBLISHED_WORK_TREE_ENTRIES",
+      "FIVE_EXACT_PUBLIC_BLOB_READBACKS",
+      "ALL_683_BASELINE_BLOBS_AND_MODES_PRESERVED",
+      "STATE33_EXACT_BYTES",
+      "EXACT_15_PATH_GOVERNANCE_SCOPE",
+      "NO_NEW_TRACKED_DIRECTORY",
+      "PRE_POST_PUBLICATION_REVIEW_IMMUTABILITY",
+      "NORMAL_FAST_FORWARD_ANCESTRY",
+      "NON_SELF_CONTAINING_METADATA_SEMANTICS",
+      "POST_SYNC_NATIVE_HANDOFF_PLAN",
+      "NATIVE_REVIEW_RESULT_CONTRACT",
+      "READ_ONLY_REVIEW_BOUNDARY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "observed_utc": "2026-10-06T10:18:09.275913+00:00",
+  "next_gpt_action": "Record this Attestation PRE Result within the exact authorized scope and publish final metadata by normal fast-forward. Verify the metadata-containing commit and exact blobs. Execute native handoff after metadata sync, materialize only its authorized snapshot, publish and exact-read it, then freshly recheck native and plugin handoff. Preserve STATE33 and stop.",
+  "native_validation": {
+    "request_schema": [],
+    "request_authority": [],
+    "result_schema": [],
+    "result_protocol": [],
+    "review_result": [],
+    "result_authority": [],
+    "completion_evidence": [],
+    "review_target_ancestry": []
+  }
+}
