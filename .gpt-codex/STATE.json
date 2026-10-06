@@ -114,7 +114,12 @@
     ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
     ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
     ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
-    ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json"
+    ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+    ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+    ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",

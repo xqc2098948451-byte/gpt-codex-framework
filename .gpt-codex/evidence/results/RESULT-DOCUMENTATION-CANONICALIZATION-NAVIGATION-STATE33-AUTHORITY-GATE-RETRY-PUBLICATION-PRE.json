@@ -1,0 +1,522 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
+  "extension": null,
+  "result_id": "41ccfc57-e439-4669-816c-72378264797e",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 33,
+  "status": "PASS",
+  "response_to_instruction_id": "70595f70-c509-438d-8375-609c7e7edf0e",
+  "review_target_revision": "bae47ee2d74b4ab39789bbd2d74f1b29b330b02a",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "observed_utc": "2026-10-06T08:44:09.446132+00:00",
+  "mutation_claim": false,
+  "current_remote_ref": "refs/heads/main",
+  "remote_head_sha": "8fb5261689f0782b06d5778cec694a51c62a519f",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "local_head_sha": "130684aafda85794247dc59501b77cdf55b89dcb",
+  "reviewer_context_identity": "/root/state33_retry_independent_review",
+  "implementer_context_identity": "/root",
+  "reviewer_worktree": "D:\\w\\gpt-codex-framework\\review-documentation-canonicalization-navigation-state33-authority-gate-001",
+  "candidate_revision": "130684aafda85794247dc59501b77cdf55b89dcb",
+  "implementation_candidate_revision": "bae47ee2d74b4ab39789bbd2d74f1b29b330b02a",
+  "review_kind": "PUBLICATION_PRE",
+  "evidence_refs": [
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+    ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+    ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json"
+  ],
+  "findings": [],
+  "blockers": [],
+  "native_observations": {
+    "reviewer_snapshot_before": {
+      "head": "130684aafda85794247dc59501b77cdf55b89dcb",
+      "status": "",
+      "index_sha256": "47adac567170c71c72ac7a3c2a1df4ec030bb26acb54c84e7db9368b0cb711d4"
+    },
+    "fresh_remote_readback": {
+      "command": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exit_code": 0,
+      "stdout": "8fb5261689f0782b06d5778cec694a51c62a519f\trefs/heads/main\n",
+      "stderr": ""
+    },
+    "project_validator": {
+      "chunk_id": "245a12",
+      "wall_time_seconds": 0.7062258,
+      "exit_code": 0,
+      "original_token_count": 28,
+      "output": "RESULT: PASS\r\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\r\nSTATE: AUTHORIZED@revision-33\r\nPROJECT_CONTEXT_BINDING: PASS\r\n"
+    },
+    "framework_validator": {
+      "chunk_id": "9836d6",
+      "wall_time_seconds": 0.6376353,
+      "exit_code": 0,
+      "original_token_count": 19,
+      "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
+    },
+    "publication_tests": {
+      "chunk_id": "4a2e6a",
+      "wall_time_seconds": 0.5550152,
+      "exit_code": 0,
+      "original_token_count": 411,
+      "output": "test_candidate_authority_cannot_pass_or_sync (test_publication_authority.PublicationAuthorityTests.test_candidate_authority_cannot_pass_or_sync) ... ok\r\ntest_candidate_state_cannot_be_complete (test_publication_authority.PublicationAuthorityTests.test_candidate_state_cannot_be_complete) ... ok\r\ntest_complete_requires_durable_verified_result (test_publication_authority.PublicationAuthorityTests.test_complete_requires_durable_verified_result) ... ok\r\ntest_pass_requires_verified_remote_for_each_nonverified_status (test_publication_authority.PublicationAuthorityTests.test_pass_requires_verified_remote_for_each_nonverified_status) ... ok\r\ntest_pass_with_verified_formal_publication_is_allowed (test_publication_authority.PublicationAuthorityTests.test_pass_with_verified_formal_publication_is_allowed) ... ok\r\ntest_release_phase_derivation_requires_progressively_bound_facts (test_publication_authority.PublicationAuthorityTests.test_release_phase_derivation_requires_progressively_bound_facts) ... ok\r\ntest_synced_requires_verified_publication_evidence (test_publication_authority.PublicationAuthorityTests.test_synced_requires_verified_publication_evidence) ... ok\r\ntest_synced_state_requires_current_revision_and_durable_result (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_current_revision_and_durable_result) ... ok\r\ntest_synced_state_requires_nonempty_verified_baseline_sha (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_nonempty_verified_baseline_sha) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 9 tests in 0.012s\r\n\r\nOK\r\n"
+    },
+    "native_remediation_resolver": {
+      "resolver": {
+        "decision": {
+          "kernel_version": "2.0.0",
+          "schema_version": 1,
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "repository_id": "1366213495",
+          "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION",
+          "subject": "REMEDIATION_ADJUDICATION",
+          "decision": "ACCEPT",
+          "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+          "basis_refs": [
+            "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS"
+          ],
+          "finding_ids": [
+            "DOC-CLOSURE-NAVIGATION-001"
+          ],
+          "state_revision": 33,
+          "adjudicated_at_revision": 33,
+          "remediation_scope": [
+            "docs/architecture/README.md",
+            "docs/decisions/README.md"
+          ],
+          "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+          "phase_transition": false,
+          "remediation_execution_authorized_this_round": false
+        },
+        "bases": {
+          "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS": {
+            "kernel_version": "2.0.0",
+            "schema_version": 1,
+            "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+            "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+            "repository_id": "1366213495",
+            "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS",
+            "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+            "state_revision": 33,
+            "failing": true,
+            "finding_ids": [
+              "DOC-CLOSURE-NAVIGATION-001"
+            ],
+            "baseline_remote_main": "8fb5261689f0782b06d5778cec694a51c62a519f",
+            "facts": {
+              "history/designs": {
+                "direct_navigation_present": false,
+                "source": "docs/architecture/README.md"
+              },
+              "history/amendments": {
+                "direct_navigation_present": false,
+                "source": "docs/decisions/README.md"
+              },
+              "history/reviews": {
+                "direct_navigation_present": false,
+                "source": "docs/decisions/README.md"
+              },
+              "history/plans": {
+                "direct_navigation_present": true,
+                "source": "docs/plans/README.md"
+              }
+            },
+            "readme_observations": {
+              "docs/architecture/README.md": {
+                "baseline_blob": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4",
+                "head_blob": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4"
+              },
+              "docs/decisions/README.md": {
+                "baseline_blob": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8",
+                "head_blob": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8"
+              },
+              "docs/plans/README.md": {
+                "baseline_blob": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+                "head_blob": "afc252d50b92ef9737dce9a76e79cd518d34c02f"
+              }
+            },
+            "finding_scope": "navigation only",
+            "observed_utc": "2026-10-06T08:40:28.058913+00:00"
+          }
+        },
+        "errors": []
+      },
+      "adjudication_errors": [],
+      "resume": "LOCAL_UNSYNCED_STATE"
+    },
+    "baseline_to_implementation_diff": [
+      "M\t.gpt-codex/STATE.json",
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+      "A\t.gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+      "A\t.gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+      "A\t.gpt-codex/evidence/instructions/98efcf7b-9b69-442f-af5f-8c93efdebba3.json",
+      "A\t.gpt-codex/evidence/instructions/a91821f8-2748-4e0f-8bca-67703ecdef2c.json",
+      "A\t.gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+      "A\t.gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-TRANSITION-PRE.json",
+      "A\t.gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json"
+    ],
+    "reviewed_pre_packet_to_implementation_diff": [
+      "M\t.gpt-codex/STATE.json",
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+      "A\t.gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+      "M\t.gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json"
+    ],
+    "implementation_to_review_packet_diff": [
+      "A\t.gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+      "A\t.gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+      "A\t.gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json"
+    ],
+    "implementation_scope_errors": [],
+    "publication_packet_scope_errors": [],
+    "protected_paths_delta": [],
+    "historical_preservation": {
+      "failed_pre_result_id": "0d7124a4-4ed7-40da-8a16-c91f0c3a53e4",
+      "failed_pre_original_blob": "7ab51fa2443563d6381db10fc6c9e370012e4aea",
+      "failed_pre_packet_blob": "7ab51fa2443563d6381db10fc6c9e370012e4aea",
+      "old_instruction_count": 87,
+      "changed_old_instructions": [],
+      "old_result_count": 90,
+      "changed_old_results": [],
+      "old_finding_commit": "e836f58bef46cdb2fe5f11dd8902a665e2d59292",
+      "old_finding_path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-FINAL-CLOSURE-NAVIGATION-FINDING.json",
+      "old_finding_blob": "c8219e19c1218d8b8d6a2a19a1081297955dd0ea",
+      "old_finding_result_id": "581f9d22-6791-457a-8fe9-52ebf35af6a9",
+      "old_finding_state_revision": 32,
+      "old_finding_rewritten": false,
+      "old_finding_present_in_packet": false
+    },
+    "state_registration": {
+      "revision_before": 32,
+      "revision_after": 33,
+      "state": "AUTHORIZED",
+      "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
+      "continuity_sync_status": "SYNC_PENDING",
+      "retained_all_old_evidence_refs": true,
+      "new_evidence_refs": [
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+        ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+        ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json"
+      ],
+      "state_same_as_implementation": true,
+      "unchanged_nontransition_fields": [
+        "active_work_unit",
+        "blockers",
+        "kernel_version",
+        "next_action",
+        "project_id",
+        "reconciliation",
+        "schema_version",
+        "state"
+      ],
+      "phase_transition": false
+    },
+    "regression_basis": {
+      "kernel_version": "2.0.0",
+      "schema_version": 1,
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository_id": "1366213495",
+      "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+      "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS",
+      "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+      "state_revision": 33,
+      "failing": true,
+      "finding_ids": [
+        "DOC-CLOSURE-NAVIGATION-001"
+      ],
+      "baseline_remote_main": "8fb5261689f0782b06d5778cec694a51c62a519f",
+      "facts": {
+        "history/designs": {
+          "direct_navigation_present": false,
+          "source": "docs/architecture/README.md"
+        },
+        "history/amendments": {
+          "direct_navigation_present": false,
+          "source": "docs/decisions/README.md"
+        },
+        "history/reviews": {
+          "direct_navigation_present": false,
+          "source": "docs/decisions/README.md"
+        },
+        "history/plans": {
+          "direct_navigation_present": true,
+          "source": "docs/plans/README.md"
+        }
+      },
+      "readme_observations": {
+        "docs/architecture/README.md": {
+          "baseline_blob": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4",
+          "head_blob": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4"
+        },
+        "docs/decisions/README.md": {
+          "baseline_blob": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8",
+          "head_blob": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8"
+        },
+        "docs/plans/README.md": {
+          "baseline_blob": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+          "head_blob": "afc252d50b92ef9737dce9a76e79cd518d34c02f"
+        }
+      },
+      "finding_scope": "navigation only",
+      "observed_utc": "2026-10-06T08:40:28.058913+00:00"
+    },
+    "remediation_adjudication": {
+      "kernel_version": "2.0.0",
+      "schema_version": 1,
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository_id": "1366213495",
+      "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+      "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION",
+      "subject": "REMEDIATION_ADJUDICATION",
+      "decision": "ACCEPT",
+      "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+      "basis_refs": [
+        "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS"
+      ],
+      "finding_ids": [
+        "DOC-CLOSURE-NAVIGATION-001"
+      ],
+      "state_revision": 33,
+      "adjudicated_at_revision": 33,
+      "remediation_scope": [
+        "docs/architecture/README.md",
+        "docs/decisions/README.md"
+      ],
+      "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+      "phase_transition": false,
+      "remediation_execution_authorized_this_round": false
+    },
+    "work_unit": {
+      "immutable_ref": {
+        "path": ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+        "sha": "bae47ee2d74b4ab39789bbd2d74f1b29b330b02a"
+      },
+      "immutable_blob": "9fc080c8b77dd534c0cc1a3c11521aea519af088",
+      "basis_state_revision": 33,
+      "permissions": {
+        "authorized_actions": [
+          "READ",
+          "TEST",
+          "VALIDATE",
+          "REPORT",
+          "MUTATE_APPROVED_SCOPE"
+        ],
+        "forbidden_actions": [
+          "AUTHORIZE",
+          "SCOPE_EXPANSION"
+        ]
+      },
+      "checkout_matches_immutable_ref": true,
+      "scope_owned_paths": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+        ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+        ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+        ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+        ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+        ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+        ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+        ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json"
+      ],
+      "scope_excluded_paths": [
+        "docs/",
+        "Documentation/",
+        ".gpt-codex/scripts/",
+        ".gpt-codex/tests/",
+        ".gpt-codex/schemas/",
+        ".gpt-codex/kernel/",
+        ".gpt-codex/builtins/",
+        "scripts/",
+        "tests/",
+        "schemas/",
+        "kernel/"
+      ],
+      "directory_creations": []
+    },
+    "post_request_schema_errors": [],
+    "post_request_authority_errors": [],
+    "publication_instruction_schema_errors": [],
+    "publication_instruction_authority_errors": [],
+    "publication_pre_request_schema_errors": [],
+    "publication_pre_request_authority_errors": [],
+    "publication_instruction_actions_subset_of_work_unit": true,
+    "native_allowed_implementer_actions": [
+      "MUTATE_APPROVED_SCOPE",
+      "READ",
+      "REPORT",
+      "TEST",
+      "VALIDATE"
+    ],
+    "publication_role_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "publication_forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ],
+    "resolve_plugin_instruction_applicability": {
+      "native_resume_status": "LOCAL_UNSYNCED_STATE",
+      "candidate_sync_status": "SYNC_PENDING",
+      "synced_resolution_required_for_this_pre": false,
+      "replacement_native_checks": [
+        "immutable artifact locator",
+        "instruction schema and authority",
+        "immutable WU binding",
+        "validate_pre_execution_review",
+        "validate_governed_mutation_entry"
+      ],
+      "candidate_publication_confirmed": false
+    },
+    "immutable_577e4ea5-9773-41d8-ad51-dd113696f5c2": {
+      "status": "ALLOW",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "130684aafda85794247dc59501b77cdf55b89dcb",
+        "path": ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+        "blob_sha": "a4cc509e0f2eea56eafafaa4b2f2429a68acaa82"
+      }
+    },
+    "canonical_577e4ea5-9773-41d8-ad51-dd113696f5c2": true,
+    "immutable_c4480444-b6e2-4de1-a66d-730319663b9e": {
+      "status": "ALLOW",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "130684aafda85794247dc59501b77cdf55b89dcb",
+        "path": ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+        "blob_sha": "28a24c2015687b498fbc4a3e6f1ee6bfa967318b"
+      }
+    },
+    "canonical_c4480444-b6e2-4de1-a66d-730319663b9e": true,
+    "immutable_70595f70-c509-438d-8375-609c7e7edf0e": {
+      "status": "ALLOW",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "130684aafda85794247dc59501b77cdf55b89dcb",
+        "path": ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+        "blob_sha": "055f8ba01a225d68d1ffffa135573c341af66df2"
+      }
+    },
+    "canonical_70595f70-c509-438d-8375-609c7e7edf0e": true,
+    "reviewer_snapshot_after": {
+      "head": "130684aafda85794247dc59501b77cdf55b89dcb",
+      "status": "",
+      "index_sha256": "47adac567170c71c72ac7a3c2a1df4ec030bb26acb54c84e7db9368b0cb711d4"
+    },
+    "validate_pre_execution_review_errors": [],
+    "validate_governed_mutation_entry_errors": [],
+    "result_validation_errors": {
+      "schema": [],
+      "protocol": [],
+      "authority": [],
+      "review_result": []
+    }
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "PUBLICATION_PRE"
+    ],
+    "executed_scope": [
+      "PUBLICATION_PRE"
+    ],
+    "test_files_expected": 1,
+    "test_files_executed": 1,
+    "test_count": 9,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "DURABLE_REMEDIATION_RESOLUTION",
+      "REMEDIATION_ADJUDICATION",
+      "STATE33_REGISTRATION",
+      "SCOPE",
+      "HISTORICAL_PRESERVATION",
+      "INSTRUCTION_SCHEMA",
+      "INSTRUCTION_AUTHORITY",
+      "IMMUTABLE_LOCATORS",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "RESULT_AUTHORITY",
+      "PRE_EXECUTION_REVIEW",
+      "GOVERNED_MUTATION_ENTRY"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "DURABLE_REMEDIATION_RESOLUTION",
+      "REMEDIATION_ADJUDICATION",
+      "STATE33_REGISTRATION",
+      "SCOPE",
+      "HISTORICAL_PRESERVATION",
+      "INSTRUCTION_SCHEMA",
+      "INSTRUCTION_AUTHORITY",
+      "IMMUTABLE_LOCATORS",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "RESULT_AUTHORITY",
+      "PRE_EXECUTION_REVIEW",
+      "GOVERNED_MUTATION_ENTRY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "git": {
+    "base_sha": "bae47ee2d74b4ab39789bbd2d74f1b29b330b02a",
+    "head_sha": "130684aafda85794247dc59501b77cdf55b89dcb",
+    "branch": null
+  },
+  "review_boundary": {
+    "documentation_mutation_count": 0,
+    "readme_mutation_count": 0,
+    "phase_transition": false,
+    "candidate_continuity": "SYNC_PENDING",
+    "candidate_publication_confirmed": false,
+    "verified_remote_subject": "baseline main only",
+    "fix_instruction_created": false,
+    "transport_authority_encoded_as_role_actions": false
+  }
+}
