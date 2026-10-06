@@ -1,0 +1,608 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
+  "extension": null,
+  "result_id": "ba020b2f-9643-40f4-b152-6608bc694d2b",
+  "result_message_type": "REVIEW_FINDING",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": null,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 33,
+  "review_target_revision": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+  "fix_round": 0,
+  "finding_id": "DOC-CLOSURE-NAVIGATION-001",
+  "finding_ids": [
+    "DOC-CLOSURE-NAVIGATION-001"
+  ],
+  "status": "FAIL",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "observed_utc": "2026-10-06T08:55:45.603313+00:00",
+  "mutation_claim": false,
+  "current_remote_ref": "refs/heads/main",
+  "remote_head_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "reviewer_context_identity": "/root/state33_retry_independent_review",
+  "implementer_context_identity": "/root",
+  "reviewer_worktree": "D:\\w\\gpt-codex-framework\\review-documentation-canonicalization-navigation-state33-authority-gate-001",
+  "candidate_revision": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+  "report_creation_status": "PASS",
+  "evidence_refs": [
+    "docs/architecture/README.md",
+    "docs/decisions/README.md",
+    "docs/plans/README.md"
+  ],
+  "finding_scope": "navigation only",
+  "remediation_scope": [
+    "docs/architecture/README.md",
+    "docs/decisions/README.md"
+  ],
+  "source_readme_evidence": {
+    "docs/architecture/README.md": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+      "path": "docs/architecture/README.md",
+      "blob_sha": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4",
+      "sha256": "422d2f050fb7cbf3d27b6286bfaa35450941b6b44a295973226118502f6519ca",
+      "inspected_lines": {
+        "start": 1,
+        "end": 30
+      },
+      "navigation_link_lines": [
+        5,
+        6,
+        7,
+        8,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "observed_markdown_links": [
+        {
+          "line": 5,
+          "label": "Framework Module Registry",
+          "href": "../../.gpt-codex/framework-modules/REGISTRY.json",
+          "resolved_repository_path": ".gpt-codex/framework-modules/REGISTRY.json"
+        },
+        {
+          "line": 6,
+          "label": "Framework Kernel",
+          "href": "../../.gpt-codex/KERNEL.md",
+          "resolved_repository_path": ".gpt-codex/KERNEL.md"
+        },
+        {
+          "line": 7,
+          "label": "AGENTS.md",
+          "href": "../../AGENTS.md",
+          "resolved_repository_path": "AGENTS.md"
+        },
+        {
+          "line": 8,
+          "label": "Repository Consolidation Design",
+          "href": "./2026-09-28-github-repository-consolidation-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md"
+        },
+        {
+          "line": 14,
+          "label": "S08 — 2026-09-11-v2.0-minimal-kernel-design.md",
+          "href": "./2026-09-11-v2.0-minimal-kernel-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md"
+        },
+        {
+          "line": 15,
+          "label": "S10 — 2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+          "href": "./2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md"
+        },
+        {
+          "line": 16,
+          "label": "S11 — 2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+          "href": "./2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md"
+        },
+        {
+          "line": 17,
+          "label": "S12 — 2026-09-11-v2.2.0-github-project-continuity-design.md",
+          "href": "./2026-09-11-v2.2.0-github-project-continuity-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md"
+        },
+        {
+          "line": 18,
+          "label": "S13 — 2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+          "href": "./2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md"
+        },
+        {
+          "line": 19,
+          "label": "S15 — 2026-09-12-v2.3.0-project-map-context-resume-design.md",
+          "href": "./2026-09-12-v2.3.0-project-map-context-resume-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md"
+        },
+        {
+          "line": 20,
+          "label": "S16 — 2026-09-13-execution-telemetry-design.md",
+          "href": "./2026-09-13-execution-telemetry-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-13-execution-telemetry-design.md"
+        },
+        {
+          "line": 21,
+          "label": "S17 — 2026-09-13-framework-design-continuity-sufficiency-design.md",
+          "href": "./2026-09-13-framework-design-continuity-sufficiency-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md"
+        },
+        {
+          "line": 22,
+          "label": "S18 — 2026-09-13-framework-modular-architecture-routing-design.md",
+          "href": "./2026-09-13-framework-modular-architecture-routing-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md"
+        },
+        {
+          "line": 23,
+          "label": "S19 — 2026-09-13-framework-project-separation-design.md",
+          "href": "./2026-09-13-framework-project-separation-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-13-framework-project-separation-design.md"
+        },
+        {
+          "line": 24,
+          "label": "S20 — 2026-09-13-role-communication-protocol-design.md",
+          "href": "./2026-09-13-role-communication-protocol-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-13-role-communication-protocol-design.md"
+        },
+        {
+          "line": 25,
+          "label": "S21 — 2026-09-14-project-isolation-centralized-evolution-design.md",
+          "href": "./2026-09-14-project-isolation-centralized-evolution-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md"
+        },
+        {
+          "line": 26,
+          "label": "S22 — 2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+          "href": "./2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md"
+        },
+        {
+          "line": 27,
+          "label": "S23 — 2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+          "href": "./2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md"
+        },
+        {
+          "line": 28,
+          "label": "S25 — 2026-09-16-framework-evolution-foundation-design.md",
+          "href": "./2026-09-16-framework-evolution-foundation-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-16-framework-evolution-foundation-design.md"
+        },
+        {
+          "line": 29,
+          "label": "S36 — 2026-09-26-p2-minimum-capability-design-revision-002.md",
+          "href": "./2026-09-26-p2-minimum-capability-design-revision-002.md",
+          "resolved_repository_path": "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md"
+        },
+        {
+          "line": 30,
+          "label": "S40 — 2026-09-28-github-repository-consolidation-design.md",
+          "href": "./2026-09-28-github-repository-consolidation-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md"
+        }
+      ],
+      "line_content": {
+        "1": "# Current architecture",
+        "5": "- [Framework Module Registry](../../.gpt-codex/framework-modules/REGISTRY.json) is the structured entry point for module responsibility, ownership, and dependencies.",
+        "6": "- [Framework Kernel](../../.gpt-codex/KERNEL.md) defines the core governance boundary.",
+        "7": "- [AGENTS.md](../../AGENTS.md) is this repository's current operating contract.",
+        "8": "- [Repository Consolidation Design](./2026-09-28-github-repository-consolidation-design.md) is the source for the current repository structure design.",
+        "12": "## Current architecture documents",
+        "14": "- [S08 — 2026-09-11-v2.0-minimal-kernel-design.md](./2026-09-11-v2.0-minimal-kernel-design.md)",
+        "15": "- [S10 — 2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md](./2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md)",
+        "16": "- [S11 — 2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md](./2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md)",
+        "17": "- [S12 — 2026-09-11-v2.2.0-github-project-continuity-design.md](./2026-09-11-v2.2.0-github-project-continuity-design.md)",
+        "18": "- [S13 — 2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md](./2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md)",
+        "19": "- [S15 — 2026-09-12-v2.3.0-project-map-context-resume-design.md](./2026-09-12-v2.3.0-project-map-context-resume-design.md)",
+        "20": "- [S16 — 2026-09-13-execution-telemetry-design.md](./2026-09-13-execution-telemetry-design.md)",
+        "21": "- [S17 — 2026-09-13-framework-design-continuity-sufficiency-design.md](./2026-09-13-framework-design-continuity-sufficiency-design.md)",
+        "22": "- [S18 — 2026-09-13-framework-modular-architecture-routing-design.md](./2026-09-13-framework-modular-architecture-routing-design.md)",
+        "23": "- [S19 — 2026-09-13-framework-project-separation-design.md](./2026-09-13-framework-project-separation-design.md)",
+        "24": "- [S20 — 2026-09-13-role-communication-protocol-design.md](./2026-09-13-role-communication-protocol-design.md)",
+        "25": "- [S21 — 2026-09-14-project-isolation-centralized-evolution-design.md](./2026-09-14-project-isolation-centralized-evolution-design.md)",
+        "26": "- [S22 — 2026-09-15-minimal-closed-loop-harness-upgrade-design.md](./2026-09-15-minimal-closed-loop-harness-upgrade-design.md)",
+        "27": "- [S23 — 2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md](./2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md)",
+        "28": "- [S25 — 2026-09-16-framework-evolution-foundation-design.md](./2026-09-16-framework-evolution-foundation-design.md)",
+        "29": "- [S36 — 2026-09-26-p2-minimum-capability-design-revision-002.md](./2026-09-26-p2-minimum-capability-design-revision-002.md)",
+        "30": "- [S40 — 2026-09-28-github-repository-consolidation-design.md](./2026-09-28-github-repository-consolidation-design.md)"
+      }
+    },
+    "docs/decisions/README.md": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+      "path": "docs/decisions/README.md",
+      "blob_sha": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8",
+      "sha256": "e39cdb600999ef59927c1008a4372cf5fc6d4c2e5413344bedf20b72d10918b9",
+      "inspected_lines": {
+        "start": 1,
+        "end": 21
+      },
+      "navigation_link_lines": [
+        5,
+        6,
+        7,
+        8,
+        10,
+        10,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "observed_markdown_links": [
+        {
+          "line": 5,
+          "label": "Repository Consolidation Design",
+          "href": "../architecture/2026-09-28-github-repository-consolidation-design.md",
+          "resolved_repository_path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md"
+        },
+        {
+          "line": 6,
+          "label": "Phase C Directory Creation Contract closure",
+          "href": "../../.gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+          "resolved_repository_path": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
+        },
+        {
+          "line": 7,
+          "label": "Repository Consolidation ref-cleanup Evidence",
+          "href": "../../.gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+          "resolved_repository_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json"
+        },
+        {
+          "line": 8,
+          "label": "Public Release deferral decision",
+          "href": "../../.gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json",
+          "resolved_repository_path": ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json"
+        },
+        {
+          "line": 10,
+          "label": "Phase G Repository Structure Freeze",
+          "href": "../../.gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+          "resolved_repository_path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json"
+        },
+        {
+          "line": 10,
+          "label": "Phase G closure Result",
+          "href": "../../.gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
+          "resolved_repository_path": ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json"
+        },
+        {
+          "line": 16,
+          "label": "S09 — 2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+          "href": "./2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+          "resolved_repository_path": "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md"
+        },
+        {
+          "line": 17,
+          "label": "S14 — 2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+          "href": "./2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+          "resolved_repository_path": "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md"
+        },
+        {
+          "line": 18,
+          "label": "S39 — 2026-09-27-p2-plugin-public-release-design.md",
+          "href": "./2026-09-27-p2-plugin-public-release-design.md",
+          "resolved_repository_path": "docs/decisions/2026-09-27-p2-plugin-public-release-design.md"
+        },
+        {
+          "line": 19,
+          "label": "S42 — 2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+          "href": "./2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+          "resolved_repository_path": "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md"
+        },
+        {
+          "line": 20,
+          "label": "S44 — 2026-10-04-legacy-result-id-handoff-compatibility.md",
+          "href": "./2026-10-04-legacy-result-id-handoff-compatibility.md",
+          "resolved_repository_path": "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md"
+        },
+        {
+          "line": 21,
+          "label": "S45 — 2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+          "href": "./2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+          "resolved_repository_path": "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md"
+        }
+      ],
+      "line_content": {
+        "1": "# Accepted decisions and freezes",
+        "5": "- [Repository Consolidation Design](../architecture/2026-09-28-github-repository-consolidation-design.md) records the accepted repository structure design.",
+        "6": "- [Phase C Directory Creation Contract closure](../../.gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json) records the contract closure.",
+        "7": "- [Repository Consolidation ref-cleanup Evidence](../../.gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json) records the durable ref decisions.",
+        "8": "- [Public Release deferral decision](../../.gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json) records the existing deferral.",
+        "14": "## Current decision documents",
+        "16": "- [S09 — 2026-09-11-v2.0.2-lightweight-release-archive-design.md](./2026-09-11-v2.0.2-lightweight-release-archive-design.md)",
+        "17": "- [S14 — 2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md](./2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md)",
+        "18": "- [S39 — 2026-09-27-p2-plugin-public-release-design.md](./2026-09-27-p2-plugin-public-release-design.md)",
+        "19": "- [S42 — 2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md](./2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md)",
+        "20": "- [S44 — 2026-10-04-legacy-result-id-handoff-compatibility.md](./2026-10-04-legacy-result-id-handoff-compatibility.md)",
+        "21": "- [S45 — 2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md](./2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md)"
+      }
+    },
+    "docs/plans/README.md": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+      "path": "docs/plans/README.md",
+      "blob_sha": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+      "sha256": "b609d1efc6b34970adfcebc9053083aa4cec461860b4e378cabdcc7b1f8440ef",
+      "inspected_lines": {
+        "start": 1,
+        "end": 12
+      },
+      "navigation_link_lines": [
+        3,
+        10,
+        10,
+        10
+      ],
+      "observed_markdown_links": [
+        {
+          "line": 3,
+          "label": "P41 — P2 Plugin Public Release Plan",
+          "href": "./2026-09-27-p2-plugin-public-release-plan.md",
+          "resolved_repository_path": "docs/plans/2026-09-27-p2-plugin-public-release-plan.md"
+        },
+        {
+          "line": 10,
+          "label": "historical plans directory",
+          "href": "../history/plans/",
+          "resolved_repository_path": "docs/history/plans"
+        },
+        {
+          "line": 10,
+          "label": "Repository Consolidation Plan",
+          "href": "../history/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "resolved_repository_path": "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md"
+        },
+        {
+          "line": 10,
+          "label": "Local Workspace Consolidation Plan",
+          "href": "../history/plans/2026-10-01-local-workspace-consolidation-plan.md",
+          "resolved_repository_path": "docs/history/plans/2026-10-01-local-workspace-consolidation-plan.md"
+        }
+      ],
+      "line_content": {
+        "1": "# Future plan",
+        "3": "The only future plan is [P41 — P2 Plugin Public Release Plan](./2026-09-27-p2-plugin-public-release-plan.md).",
+        "5": "`DEFERRED_BY_USER = YES`  ",
+        "6": "`EXECUTION_AUTHORITY = NO`",
+        "10": "The [historical plans directory](../history/plans/) preserves completed and historical plans, including the [Repository Consolidation Plan](../history/plans/2026-09-28-github-repository-consolidation-plan.md) and [Local Workspace Consolidation Plan](../history/plans/2026-10-01-local-workspace-consolidation-plan.md)."
+      }
+    }
+  },
+  "navigation_facts": [
+    {
+      "source": "docs/architecture/README.md",
+      "target": "docs/history/designs",
+      "direct_navigation_present": false,
+      "target_directory_tree_entry": "040000 tree 15f95329a4b184f909773337cb4020e1549c5c14\tdocs/history/designs"
+    },
+    {
+      "source": "docs/decisions/README.md",
+      "target": "docs/history/amendments",
+      "direct_navigation_present": false,
+      "target_directory_tree_entry": "040000 tree 84fdab81c7a746de3e2994a2e3529359dca2b47c\tdocs/history/amendments"
+    },
+    {
+      "source": "docs/decisions/README.md",
+      "target": "docs/history/reviews",
+      "direct_navigation_present": false,
+      "target_directory_tree_entry": "040000 tree 512544c94f1776c9582e1c0b22bdb476fd1fdff9\tdocs/history/reviews"
+    },
+    {
+      "source": "docs/plans/README.md",
+      "target": "docs/history/plans",
+      "direct_navigation_present": true,
+      "direct_link_lines": [
+        10
+      ],
+      "target_directory_tree_entry": "040000 tree 103076689e0eb55d41170fa24b057c4f6478bebb\tdocs/history/plans"
+    }
+  ],
+  "findings": [
+    {
+      "finding_id": "DOC-CLOSURE-NAVIGATION-001",
+      "priority": "P2",
+      "subject": "Missing direct navigation from current README entry points to historical directories",
+      "scope": "navigation only",
+      "affected_paths": [
+        "docs/architecture/README.md",
+        "docs/decisions/README.md"
+      ],
+      "cause": "The current architecture README has no direct link to docs/history/designs. The current decisions README has no direct links to docs/history/amendments or docs/history/reviews. docs/plans/README.md provides the corresponding direct history/plans link.",
+      "source_locations": [
+        {
+          "path": "docs/architecture/README.md",
+          "blob_sha": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4",
+          "inspected_lines": {
+            "start": 1,
+            "end": 30
+          },
+          "navigation_link_lines": [
+            5,
+            6,
+            7,
+            8,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ]
+        },
+        {
+          "path": "docs/decisions/README.md",
+          "blob_sha": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8",
+          "inspected_lines": {
+            "start": 1,
+            "end": 21
+          },
+          "navigation_link_lines": [
+            5,
+            6,
+            7,
+            8,
+            10,
+            10,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ]
+        }
+      ],
+      "required_remediation": "Provide direct history/designs navigation in the architecture README and direct history/amendments and history/reviews navigation in the decisions README, through a separately authorized remediation lifecycle.",
+      "mutation_authorization_granted": false,
+      "execution_authority_granted": false,
+      "fix_instruction_created": false
+    }
+  ],
+  "p41_deferral": {
+    "source_path": "docs/plans/README.md",
+    "source_blob_sha": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+    "P41_line": 3,
+    "deferred_line": 5,
+    "execution_authority_line": 6,
+    "DEFERRED_BY_USER": "YES",
+    "EXECUTION_AUTHORITY": "NO",
+    "execution_started": false
+  },
+  "historical_finding_preservation": {
+    "old_commit": "e836f58bef46cdb2fe5f11dd8902a665e2d59292",
+    "old_path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-FINAL-CLOSURE-NAVIGATION-FINDING.json",
+    "old_blob_sha": "c8219e19c1218d8b8d6a2a19a1081297955dd0ea",
+    "rewritten": false,
+    "used_as_navigation_fact_source": false
+  },
+  "native_observations": {
+    "fresh_remote_readback": {
+      "command": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exit_code": 0,
+      "stdout": "43497196c2c922f09e30d3d54a4dab7deef9792a\trefs/heads/main\n",
+      "stderr": ""
+    },
+    "reviewer_snapshot_before": {
+      "head": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+      "status": "",
+      "index_sha256": "b7d9f97ab1264019aa54d47a6a9e79d4ae074ca487473cac69b8e08a461db4d6"
+    },
+    "reviewer_snapshot_after": {
+      "head": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+      "status": "",
+      "index_sha256": "b7d9f97ab1264019aa54d47a6a9e79d4ae074ca487473cac69b8e08a461db4d6"
+    },
+    "tests_run": 0,
+    "broader_suites_run": false,
+    "result_validation_errors": {
+      "schema": [],
+      "protocol": [],
+      "review_result": [],
+      "authority": []
+    }
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "FRESH_STATE33_NAVIGATION_FINDING_REPORT"
+    ],
+    "executed_scope": [
+      "FRESH_STATE33_NAVIGATION_FINDING_REPORT"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "FRESH_FINAL_REMOTE_MAIN",
+      "PROJECT_STATE_BINDING",
+      "EXACT_README_BLOB_BYTES",
+      "FRESH_README_NAVIGATION_FACTS",
+      "P41_DEFERRAL_PRESERVED",
+      "READ_ONLY_BOUNDARY",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "REVIEW_RESULT",
+      "RESULT_AUTHORITY"
+    ],
+    "validators_completed": [
+      "FRESH_FINAL_REMOTE_MAIN",
+      "PROJECT_STATE_BINDING",
+      "EXACT_README_BLOB_BYTES",
+      "FRESH_README_NAVIGATION_FACTS",
+      "P41_DEFERRAL_PRESERVED",
+      "READ_ONLY_BOUNDARY",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "REVIEW_RESULT",
+      "RESULT_AUTHORITY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "git": {
+    "base_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+    "head_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+    "branch": null
+  },
+  "stop_boundary": {
+    "report_only": true,
+    "mutation_authority": false,
+    "fix_instruction_created": false,
+    "readme_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "final_closure_executed": false,
+    "new_work_unit_created": false,
+    "new_instruction_created": false,
+    "next_action": "RETURN_TO_GPT_AND_STOP"
+  }
+}
