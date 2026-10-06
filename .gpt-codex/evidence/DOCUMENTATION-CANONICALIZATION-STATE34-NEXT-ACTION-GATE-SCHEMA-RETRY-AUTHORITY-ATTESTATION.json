@@ -1,0 +1,211 @@
+{
+  "aggregation_contract": {
+    "detail_hash": "SHA256 of canonical detail_payload; stage observations retained separately",
+    "detailed_check_count": 68,
+    "group_membership": "EXACTLY_ONCE",
+    "phase_semantics": "At PRE, INDEPENDENT_POST and PUBLICATION_PRE groups validate independent-role and mandatory-gate protocol readiness; execution statuses remain NOT_STARTED. Later Results attest their actual phase observations.",
+    "preserve_full_coverage": true,
+    "result_validator_group_count": 16,
+    "schema_max_items": 50
+  },
+  "approved_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+    ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+    ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+    ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+    ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+    ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+    ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+    ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+    ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+    ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+  ],
+  "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+  "basis_remote_main": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+  "basis_state_revision": 33,
+  "closure_locators": [
+    {
+      "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    }
+  ],
+  "detailed_validation_evidence_path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+  "directory_creations": [],
+  "documentation_canonicalization": "COMPLETE",
+  "encoding_preflight": {
+    "NATIVE_HANDOFF_ENCODING_PREFLIGHT": "PASS",
+    "UNICODE_ROUNDTRIP": "PASS",
+    "UTF8_MODE": "PASS",
+    "chinese_project_context_roundtrip": "PASS",
+    "continuity_resume_status": "LATEST_SYNCED_REMOTE_STATE",
+    "environment": {
+      "PYTHONIOENCODING": "utf-8",
+      "PYTHONUTF8": "1"
+    },
+    "native_handoff": {
+      "blockers": [],
+      "current_work": {
+        "status": "AUTHORIZED",
+        "work_unit_id": "documentation-canonicalization-durable-closure-001"
+      },
+      "evidence_refs": [
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+        ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+        ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+        ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+        ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json"
+      ],
+      "git": {
+        "current_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "implementation_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b"
+      },
+      "instruction_id": "4f6f9b6d-ac4c-420a-9a53-673eccaac4e9",
+      "instruction_locator": {
+        "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+        "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+        "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+        "repository": "xqc2098948451-byte/gpt-codex-framework"
+      },
+      "next_action_hint": "RETURN_TO_GPT_AND_STOP. Documentation closure is durable; any STATE transition remains a separate gate. Do not change STATE33, infer the next token, start Structure Freeze,2.8.0,P41 or plugin publication.",
+      "project": {
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495"
+      },
+      "reconciliation_required": false,
+      "result_id": "a67c93f1-53c6-4f8a-a48d-59946bf3451c",
+      "result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "result_status": "PASS",
+      "state": {
+        "revision": 33,
+        "state": "AUTHORIZED"
+      },
+      "status": "HANDOFF_READY"
+    },
+    "non_ascii_repository_path_roundtrip": "PASS",
+    "python_utf8_mode": 1,
+    "stderr_encoding": "utf-8",
+    "stdout_encoding": "utf-8"
+  },
+  "framework_2_8_0_release": "NOT_STARTED",
+  "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+  "mode": "GOVERNANCE_ONLY_STATE_TRANSITION",
+  "p41_public_release": "DEFERRED_BY_USER",
+  "plugin_post_release_sync": "NOT_STARTED",
+  "previous_failure_provenance": {
+    "classification": "RESULT_SCHEMA_AGGREGATION_FAILURE_BEFORE_MUTATION",
+    "external_report_path": "D:/v/state34-gate-utf8-retry/independent-pre.json",
+    "external_report_sha256": "7f42102e9cec15a3d8f91b171fcf2e518bcffa555ce9140ec02b36441f14cadc",
+    "interpretation": "Rejected 68-entry Result envelope; no accepted STATE34 authority or publication. New records regenerate from exact remote baseline, not the prior six candidates.",
+    "previous_failed_report_published": "NO",
+    "previous_failed_report_rewritten": "NO",
+    "previous_failed_report_used_as_pass": "NO",
+    "purpose": [
+      "NEGATIVE_CONTROL",
+      "RESULT_SERIALIZATION_FAILURE_PROVENANCE"
+    ]
+  },
+  "primary_work_unit_basis_revision": 33,
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_continuity_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+    ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+    ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+  ],
+  "publication_work_unit_basis_revision": 34,
+  "publication_work_unit_purpose": "Native W/P metadata-only continuity and Result attestation; primary transition Work Unit remains basis33 immutable.",
+  "record_kind": "UTF8_PREFLIGHT_AND_NATIVE_GOVERNANCE_AUTHORITY_ATTESTATION",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_structure_freeze": "NOT_STARTED",
+  "result_validator_groups": [
+    "UTF8_EXECUTION_PREFLIGHT",
+    "REMOTE_BASELINE_IDENTITY",
+    "DOCUMENTATION_CLOSURE_AUTHORITY",
+    "REFERENCE_RECOVERY_AUTHORITY",
+    "NEXT_ACTION_TOKEN_ADJUDICATION",
+    "WORK_UNIT_AUTHORITY",
+    "INSTRUCTION_ROLE_AUTHORITY",
+    "SCOPE_AUTHORITY",
+    "STATE34_CANDIDATE_CONSISTENCY",
+    "PROJECT_VALIDATOR",
+    "FRAMEWORK_VALIDATOR",
+    "PUBLICATION_AUTHORITY_TESTS",
+    "DETAILED_VALIDATION_EVIDENCE",
+    "INDEPENDENT_POST",
+    "PUBLICATION_PRE",
+    "EXACT_REMOTE_READBACK"
+  ],
+  "retry_name": "DOCUMENTATION_CANONICALIZATION_STATE34_NEXT_ACTION_GATE_SCHEMA_RETRY",
+  "semantic_constraints": [
+    "Documentation durable closure is PASS",
+    "Legacy documentation transition is COMPLETE",
+    "Next governance target is a new post-canonicalization Repository Structure Freeze",
+    "Historical Phase G freeze is not being re-executed",
+    "This token grants no physical/source/documentation mutation",
+    "Separate Freeze Work Unit / Instruction / PRE required",
+    "No 2.8.0 release authority",
+    "No P41 authority"
+  ],
+  "sequence": [
+    "EXACT_CLOSURE_RESOLUTION",
+    "NATIVE_PRE",
+    "STATE33_TO_STATE34",
+    "INDEPENDENT_POST",
+    "PUBLICATION_PRE",
+    "PUBLISH_W",
+    "EXACT_W_READBACK",
+    "CURRENT34_ATTESTATION_PRE",
+    "METADATA_ONLY_P",
+    "EXACT_P_READBACK",
+    "NATIVE_HANDOFF",
+    "STOP"
+  ],
+  "state_fields_allowed": [
+    "revision",
+    "next_action",
+    "blockers",
+    "reconciliation",
+    "evidence_refs",
+    "continuity"
+  ],
+  "state_fields_preserved": [
+    "state",
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "active_work_unit"
+  ]
+}

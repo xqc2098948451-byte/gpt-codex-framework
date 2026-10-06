@@ -1,0 +1,47 @@
+{
+  "basis_remote_main": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+  "basis_state_revision": 33,
+  "closure_locators": [
+    {
+      "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+      "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    }
+  ],
+  "documentation_canonicalization_complete": "YES",
+  "exact_next_action": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE_REQUIRED",
+  "execution_authority": "NO",
+  "historical_phase_g_semantics": "HISTORICAL_BASELINE_ONLY",
+  "interpretation": "NEXT GOVERNANCE GATE REQUIRED",
+  "next_phase_requires_separate_work_unit": "YES",
+  "previous_token": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "record_kind": "POST_DOCUMENTATION_CANONICALIZATION_NEXT_ACTION_TOKEN_ADJUDICATION",
+  "repository_structure_freeze_started": "NO",
+  "resolution": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "semantic_constraints": [
+    "Documentation durable closure is PASS",
+    "Legacy documentation transition is COMPLETE",
+    "Next governance target is a new post-canonicalization Repository Structure Freeze",
+    "Historical Phase G freeze is not being re-executed",
+    "This token grants no physical/source/documentation mutation",
+    "Separate Freeze Work Unit / Instruction / PRE required",
+    "No 2.8.0 release authority",
+    "No P41 authority"
+  ],
+  "semantic_target": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE",
+  "token_authority": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION"
+}
