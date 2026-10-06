@@ -1,0 +1,1299 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-history-designs-plans-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PUBLICATION-PRE",
+  "result_message_type": "REVIEW_RESULT",
+  "response_to_instruction_id": "ac765e6a-c30c-58e0-8d32-48feabfd03cd",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "30fb586c730fad67585aae5b566f136dda8bb11c",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.7.4",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+  "remote_head_sha": "30fb586c730fad67585aae5b566f136dda8bb11c",
+  "state_revision": 32,
+  "return_to_gpt_required": true,
+  "completion_gate": "GPT_DECISION",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": null,
+  "publication_authority": null,
+  "git_base_sha": "30fb586c730fad67585aae5b566f136dda8bb11c",
+  "implementation_sha": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+  "evidence_refs": [
+    ".gpt-codex/work-units/documentation-canonicalization-history-designs-plans-001.json",
+    ".gpt-codex/evidence/instructions/bf0910ba-424d-553f-bcd1-19c48a7ff612.json",
+    ".gpt-codex/evidence/instructions/9de11ad2-9cd4-52a4-be38-786f6636db60.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PRE.json",
+    ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST.json",
+    ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/release/consumer-projection-manifest.json"
+  ],
+  "finding_ids": [],
+  "fix_round": 0,
+  "blockers": [],
+  "changed": [],
+  "execution": {
+    "review_phase": "PUBLICATION_PRE",
+    "actual_inspected_publication_candidate_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+    "native_review_target_revision": "30fb586c730fad67585aae5b566f136dda8bb11c",
+    "reviewed_implementation_sha": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+    "mutations_performed": 0,
+    "implementer_context": "/root",
+    "reviewer_context": "/root/batch2_independent_review",
+    "context_separation": true,
+    "canonical_reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001",
+    "private_implementer_logs_accessed": false,
+    "publication_performed": false
+  },
+  "verify": {
+    "observed_at_utc": "2026-10-06T04:47:14.636345+00:00",
+    "checks": {
+      "reviewer_exact_candidate_clean_and_separate": {
+        "status": "PASS",
+        "evidence": {
+          "implementer_context": "/root",
+          "reviewer_context": "/root/batch2_independent_review",
+          "context_separation": true,
+          "reviewer_checkout": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001",
+          "inspected_publication_candidate_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+          "native_review_target_revision": "30fb586c730fad67585aae5b566f136dda8bb11c",
+          "private_implementer_context_read": false
+        }
+      },
+      "immutable_WU_unchanged": {
+        "status": "PASS",
+        "evidence": {
+          "status": "ALLOW",
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "ced3e01da90b73e8fe42e3461c286041f94b8138",
+            "path": ".gpt-codex/work-units/documentation-canonicalization-history-designs-plans-001.json",
+            "blob_sha": "1635cfb72f72bbd359ed2594fdfded50f98f1c85"
+          }
+        }
+      },
+      "execution_immutable_resolution": {
+        "status": "PASS",
+        "evidence": {
+          "status": "INSTRUCTION_RESOLVED",
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "71c2f199904a50941849f473a2c1c9be55d16feb",
+            "path": ".gpt-codex/evidence/instructions/bf0910ba-424d-553f-bcd1-19c48a7ff612.json",
+            "blob_sha": "fd597ea168780998ae1e93b999a7a15f495beb64"
+          },
+          "errors": null
+        }
+      },
+      "execution_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "execution_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "PRE_request_immutable_resolution": {
+        "status": "PASS",
+        "evidence": {
+          "status": "INSTRUCTION_RESOLVED",
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "71c2f199904a50941849f473a2c1c9be55d16feb",
+            "path": ".gpt-codex/evidence/instructions/9de11ad2-9cd4-52a4-be38-786f6636db60.json",
+            "blob_sha": "09c9117f40ab74012786a635df58dc4f8110da70"
+          },
+          "errors": null
+        }
+      },
+      "PRE_request_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "PRE_request_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "POST_request_immutable_resolution": {
+        "status": "PASS",
+        "evidence": {
+          "status": "INSTRUCTION_RESOLVED",
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "0da1c72dbfed03802515073449b413985b1a9049",
+            "path": ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+            "blob_sha": "108132e16113dd421c3190fa4d6f4cc26199745b"
+          },
+          "errors": null
+        }
+      },
+      "POST_request_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "POST_request_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "PUBLICATION_PRE_request_immutable_resolution": {
+        "status": "PASS",
+        "evidence": {
+          "status": "INSTRUCTION_RESOLVED",
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+            "path": ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+            "blob_sha": "303e04241d3b4a6cab06369da382dd8e66378f50"
+          },
+          "errors": null
+        }
+      },
+      "PUBLICATION_PRE_request_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "PUBLICATION_PRE_request_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_PRE_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_PRE_protocol": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_PRE_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_PRE_completion": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_PRE_correlation_PASS_and_reviewer_origin": {
+        "status": "PASS",
+        "evidence": {
+          "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PRE",
+          "response_to_instruction_id": "9de11ad2-9cd4-52a4-be38-786f6636db60",
+          "review_target_revision": "30fb586c730fad67585aae5b566f136dda8bb11c",
+          "reviewer_context": "/root/batch2_independent_review",
+          "native_result_errors": {
+            "schema": [],
+            "protocol": [],
+            "authority": [],
+            "completion": [],
+            "governed_mutation_entry": [],
+            "prospective_governed_mutation_entry": []
+          }
+        }
+      },
+      "durable_POST_schema": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_POST_protocol": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_POST_authority": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_POST_completion": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "durable_POST_correlation_PASS_and_reviewer_origin": {
+        "status": "PASS",
+        "evidence": {
+          "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST",
+          "response_to_instruction_id": "e13f95a2-7ad9-5aca-93e0-a290e1a99e8e",
+          "review_target_revision": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+          "reviewer_context": "/root/batch2_independent_review",
+          "native_result_errors": {
+            "schema": [],
+            "protocol": [],
+            "authority": [],
+            "completion": [],
+            "review_result": []
+          }
+        }
+      },
+      "publication_PRE_request_correlation": {
+        "status": "PASS",
+        "evidence": {
+          "instruction_id": "ac765e6a-c30c-58e0-8d32-48feabfd03cd",
+          "expected_base": "30fb586c730fad67585aae5b566f136dda8bb11c",
+          "actual_inspected_candidate": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+          "scope_path_count": 96
+        }
+      },
+      "implementation_blobs_unchanged_except3_approved_additions": {
+        "status": "PASS",
+        "evidence": {
+          "implementation_sha": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+          "actual_candidate": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+          "delta_paths": [
+            ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+            ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST.json"
+          ],
+          "delta_kind": "THREE_APPROVED_ADDITIVE_GOVERNANCE_FILES",
+          "implementation_file_count": 631
+        }
+      },
+      "all42_moves_and_raw_bytes_still_hold": {
+        "status": "PASS",
+        "evidence": {
+          "count": 42,
+          "mapping_proof": [
+            {
+              "id": "S01",
+              "source": "docs/superpowers/specs/2026-09-11-controlled-git-lifecycle-design.md",
+              "target": "docs/history/designs/2026-09-11-controlled-git-lifecycle-design.md",
+              "expected_blob": "655153afce2dd7847f78a1c465b3d53c904a3395",
+              "base_source_blob": "655153afce2dd7847f78a1c465b3d53c904a3395",
+              "candidate_target_blob": "655153afce2dd7847f78a1c465b3d53c904a3395",
+              "raw_target_blob": "655153afce2dd7847f78a1c465b3d53c904a3395",
+              "source_absent": true
+            },
+            {
+              "id": "S02",
+              "source": "docs/superpowers/specs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+              "expected_blob": "57df0dd20e477a001ed36329ce4a0d3460a2d549",
+              "base_source_blob": "57df0dd20e477a001ed36329ce4a0d3460a2d549",
+              "candidate_target_blob": "57df0dd20e477a001ed36329ce4a0d3460a2d549",
+              "raw_target_blob": "57df0dd20e477a001ed36329ce4a0d3460a2d549",
+              "source_absent": true
+            },
+            {
+              "id": "S03",
+              "source": "docs/superpowers/specs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+              "expected_blob": "47091ce9a829ffc78f83eb25d5bbe2ae15ca7f6f",
+              "base_source_blob": "47091ce9a829ffc78f83eb25d5bbe2ae15ca7f6f",
+              "candidate_target_blob": "47091ce9a829ffc78f83eb25d5bbe2ae15ca7f6f",
+              "raw_target_blob": "47091ce9a829ffc78f83eb25d5bbe2ae15ca7f6f",
+              "source_absent": true
+            },
+            {
+              "id": "S04",
+              "source": "docs/superpowers/specs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+              "expected_blob": "e4a14d72e359bdb199a9ac0ef2c497742dcdce2c",
+              "base_source_blob": "e4a14d72e359bdb199a9ac0ef2c497742dcdce2c",
+              "candidate_target_blob": "e4a14d72e359bdb199a9ac0ef2c497742dcdce2c",
+              "raw_target_blob": "e4a14d72e359bdb199a9ac0ef2c497742dcdce2c",
+              "source_absent": true
+            },
+            {
+              "id": "S05",
+              "source": "docs/superpowers/specs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+              "expected_blob": "c2a6b0ec05145e992b8f9c370ead13eb353cbece",
+              "base_source_blob": "c2a6b0ec05145e992b8f9c370ead13eb353cbece",
+              "candidate_target_blob": "c2a6b0ec05145e992b8f9c370ead13eb353cbece",
+              "raw_target_blob": "c2a6b0ec05145e992b8f9c370ead13eb353cbece",
+              "source_absent": true
+            },
+            {
+              "id": "S06",
+              "source": "docs/superpowers/specs/2026-09-11-v1.6-ephemeral-observability-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.6-ephemeral-observability-design.md",
+              "expected_blob": "103141e5317e55e294c996cb85aee3c4e7214177",
+              "base_source_blob": "103141e5317e55e294c996cb85aee3c4e7214177",
+              "candidate_target_blob": "103141e5317e55e294c996cb85aee3c4e7214177",
+              "raw_target_blob": "103141e5317e55e294c996cb85aee3c4e7214177",
+              "source_absent": true
+            },
+            {
+              "id": "S07",
+              "source": "docs/superpowers/specs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+              "target": "docs/history/designs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+              "expected_blob": "fa4b12a8362cbcff32b4c10c604b8eea0f15f833",
+              "base_source_blob": "fa4b12a8362cbcff32b4c10c604b8eea0f15f833",
+              "candidate_target_blob": "fa4b12a8362cbcff32b4c10c604b8eea0f15f833",
+              "raw_target_blob": "fa4b12a8362cbcff32b4c10c604b8eea0f15f833",
+              "source_absent": true
+            },
+            {
+              "id": "S24",
+              "source": "docs/superpowers/specs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+              "target": "docs/history/designs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+              "expected_blob": "82b04c688145aa6b8d76bbb02df00192b0cb0883",
+              "base_source_blob": "82b04c688145aa6b8d76bbb02df00192b0cb0883",
+              "candidate_target_blob": "82b04c688145aa6b8d76bbb02df00192b0cb0883",
+              "raw_target_blob": "82b04c688145aa6b8d76bbb02df00192b0cb0883",
+              "source_absent": true
+            },
+            {
+              "id": "S26",
+              "source": "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+              "target": "docs/history/designs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+              "expected_blob": "3f1732d11aec8a1478c42c06cf72672e000d6b89",
+              "base_source_blob": "3f1732d11aec8a1478c42c06cf72672e000d6b89",
+              "candidate_target_blob": "3f1732d11aec8a1478c42c06cf72672e000d6b89",
+              "raw_target_blob": "3f1732d11aec8a1478c42c06cf72672e000d6b89",
+              "source_absent": true
+            },
+            {
+              "id": "S41",
+              "source": "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md",
+              "target": "docs/history/designs/2026-10-01-local-workspace-consolidation-design.md",
+              "expected_blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a",
+              "base_source_blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a",
+              "candidate_target_blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a",
+              "raw_target_blob": "23dd95e7201cd71f66bcbefbdd2ba0160a5b0d3a",
+              "source_absent": true
+            },
+            {
+              "id": "P01",
+              "source": "docs/superpowers/plans/2026-09-11-controlled-git-lifecycle.md",
+              "target": "docs/history/plans/2026-09-11-controlled-git-lifecycle.md",
+              "expected_blob": "e4512577c06c5ee41ee9dfc2c665268ebc4c78d1",
+              "base_source_blob": "e4512577c06c5ee41ee9dfc2c665268ebc4c78d1",
+              "candidate_target_blob": "e4512577c06c5ee41ee9dfc2c665268ebc4c78d1",
+              "raw_target_blob": "e4512577c06c5ee41ee9dfc2c665268ebc4c78d1",
+              "source_absent": true
+            },
+            {
+              "id": "P02",
+              "source": "docs/superpowers/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+              "target": "docs/history/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+              "expected_blob": "fa5cbe8ccc403bc8b98e318385d70c706982ea5a",
+              "base_source_blob": "fa5cbe8ccc403bc8b98e318385d70c706982ea5a",
+              "candidate_target_blob": "fa5cbe8ccc403bc8b98e318385d70c706982ea5a",
+              "raw_target_blob": "fa5cbe8ccc403bc8b98e318385d70c706982ea5a",
+              "source_absent": true
+            },
+            {
+              "id": "P03",
+              "source": "docs/superpowers/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+              "target": "docs/history/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+              "expected_blob": "cbe4cda3878b603224a7e433ef96ff50d5eb1314",
+              "base_source_blob": "cbe4cda3878b603224a7e433ef96ff50d5eb1314",
+              "candidate_target_blob": "cbe4cda3878b603224a7e433ef96ff50d5eb1314",
+              "raw_target_blob": "cbe4cda3878b603224a7e433ef96ff50d5eb1314",
+              "source_absent": true
+            },
+            {
+              "id": "P04",
+              "source": "docs/superpowers/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+              "target": "docs/history/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+              "expected_blob": "2d40a25e8bdf541aa2af3fbcf9831dc060800e7c",
+              "base_source_blob": "2d40a25e8bdf541aa2af3fbcf9831dc060800e7c",
+              "candidate_target_blob": "2d40a25e8bdf541aa2af3fbcf9831dc060800e7c",
+              "raw_target_blob": "2d40a25e8bdf541aa2af3fbcf9831dc060800e7c",
+              "source_absent": true
+            },
+            {
+              "id": "P05",
+              "source": "docs/superpowers/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+              "target": "docs/history/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+              "expected_blob": "7029c7175e51b80944c613256cd88fc6d9c8011f",
+              "base_source_blob": "7029c7175e51b80944c613256cd88fc6d9c8011f",
+              "candidate_target_blob": "7029c7175e51b80944c613256cd88fc6d9c8011f",
+              "raw_target_blob": "7029c7175e51b80944c613256cd88fc6d9c8011f",
+              "source_absent": true
+            },
+            {
+              "id": "P06",
+              "source": "docs/superpowers/plans/2026-09-11-v1.6-ephemeral-observability.md",
+              "target": "docs/history/plans/2026-09-11-v1.6-ephemeral-observability.md",
+              "expected_blob": "b7df4b4feb70aae8a8395dbabba80d16a59e77d2",
+              "base_source_blob": "b7df4b4feb70aae8a8395dbabba80d16a59e77d2",
+              "candidate_target_blob": "b7df4b4feb70aae8a8395dbabba80d16a59e77d2",
+              "raw_target_blob": "b7df4b4feb70aae8a8395dbabba80d16a59e77d2",
+              "source_absent": true
+            },
+            {
+              "id": "P07",
+              "source": "docs/superpowers/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+              "target": "docs/history/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+              "expected_blob": "5f5ee0d1ad4635dcb7eab3c26b2976b33d3e7c11",
+              "base_source_blob": "5f5ee0d1ad4635dcb7eab3c26b2976b33d3e7c11",
+              "candidate_target_blob": "5f5ee0d1ad4635dcb7eab3c26b2976b33d3e7c11",
+              "raw_target_blob": "5f5ee0d1ad4635dcb7eab3c26b2976b33d3e7c11",
+              "source_absent": true
+            },
+            {
+              "id": "P08",
+              "source": "docs/superpowers/plans/2026-09-11-v2.0-minimal-kernel.md",
+              "target": "docs/history/plans/2026-09-11-v2.0-minimal-kernel.md",
+              "expected_blob": "adc381f5d33790cf6cff54863921fe77860c85b5",
+              "base_source_blob": "adc381f5d33790cf6cff54863921fe77860c85b5",
+              "candidate_target_blob": "adc381f5d33790cf6cff54863921fe77860c85b5",
+              "raw_target_blob": "adc381f5d33790cf6cff54863921fe77860c85b5",
+              "source_absent": true
+            },
+            {
+              "id": "P09",
+              "source": "docs/superpowers/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+              "target": "docs/history/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+              "expected_blob": "81c745cc7a574d4702366d0736ca2c1844cc81f9",
+              "base_source_blob": "81c745cc7a574d4702366d0736ca2c1844cc81f9",
+              "candidate_target_blob": "81c745cc7a574d4702366d0736ca2c1844cc81f9",
+              "raw_target_blob": "81c745cc7a574d4702366d0736ca2c1844cc81f9",
+              "source_absent": true
+            },
+            {
+              "id": "P10",
+              "source": "docs/superpowers/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+              "target": "docs/history/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+              "expected_blob": "01629a31634ad62a504ed4ffeb77ace49698f11c",
+              "base_source_blob": "01629a31634ad62a504ed4ffeb77ace49698f11c",
+              "candidate_target_blob": "01629a31634ad62a504ed4ffeb77ace49698f11c",
+              "raw_target_blob": "01629a31634ad62a504ed4ffeb77ace49698f11c",
+              "source_absent": true
+            },
+            {
+              "id": "P11",
+              "source": "docs/superpowers/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+              "target": "docs/history/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+              "expected_blob": "4a7f29c0c74b5e65ccdba330aee44e81ef80a661",
+              "base_source_blob": "4a7f29c0c74b5e65ccdba330aee44e81ef80a661",
+              "candidate_target_blob": "4a7f29c0c74b5e65ccdba330aee44e81ef80a661",
+              "raw_target_blob": "4a7f29c0c74b5e65ccdba330aee44e81ef80a661",
+              "source_absent": true
+            },
+            {
+              "id": "P12",
+              "source": "docs/superpowers/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+              "target": "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+              "expected_blob": "787dcde28015b69f6d2c0ee2b72fdff5dc28f01c",
+              "base_source_blob": "787dcde28015b69f6d2c0ee2b72fdff5dc28f01c",
+              "candidate_target_blob": "787dcde28015b69f6d2c0ee2b72fdff5dc28f01c",
+              "raw_target_blob": "787dcde28015b69f6d2c0ee2b72fdff5dc28f01c",
+              "source_absent": true
+            },
+            {
+              "id": "P13",
+              "source": "docs/superpowers/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+              "target": "docs/history/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+              "expected_blob": "89aca52dec69f810c633f083560dc422fcabb71b",
+              "base_source_blob": "89aca52dec69f810c633f083560dc422fcabb71b",
+              "candidate_target_blob": "89aca52dec69f810c633f083560dc422fcabb71b",
+              "raw_target_blob": "89aca52dec69f810c633f083560dc422fcabb71b",
+              "source_absent": true
+            },
+            {
+              "id": "P14",
+              "source": "docs/superpowers/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+              "target": "docs/history/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+              "expected_blob": "17de9b687427f5090d12b3b9277182c202ed2f7e",
+              "base_source_blob": "17de9b687427f5090d12b3b9277182c202ed2f7e",
+              "candidate_target_blob": "17de9b687427f5090d12b3b9277182c202ed2f7e",
+              "raw_target_blob": "17de9b687427f5090d12b3b9277182c202ed2f7e",
+              "source_absent": true
+            },
+            {
+              "id": "P15",
+              "source": "docs/superpowers/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+              "target": "docs/history/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+              "expected_blob": "688db8f95e46568b198f9514b78742806472b299",
+              "base_source_blob": "688db8f95e46568b198f9514b78742806472b299",
+              "candidate_target_blob": "688db8f95e46568b198f9514b78742806472b299",
+              "raw_target_blob": "688db8f95e46568b198f9514b78742806472b299",
+              "source_absent": true
+            },
+            {
+              "id": "P16",
+              "source": "docs/superpowers/plans/2026-09-13-framework-modular-architecture-routing.md",
+              "target": "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md",
+              "expected_blob": "3815db2cd76dc4433fed4df6aef54b06d23a7cfe",
+              "base_source_blob": "3815db2cd76dc4433fed4df6aef54b06d23a7cfe",
+              "candidate_target_blob": "3815db2cd76dc4433fed4df6aef54b06d23a7cfe",
+              "raw_target_blob": "3815db2cd76dc4433fed4df6aef54b06d23a7cfe",
+              "source_absent": true
+            },
+            {
+              "id": "P17",
+              "source": "docs/superpowers/plans/2026-09-13-framework-project-separation.md",
+              "target": "docs/history/plans/2026-09-13-framework-project-separation.md",
+              "expected_blob": "9712e77f6008bf3868127c9d60e8ede9b2ade607",
+              "base_source_blob": "9712e77f6008bf3868127c9d60e8ede9b2ade607",
+              "candidate_target_blob": "9712e77f6008bf3868127c9d60e8ede9b2ade607",
+              "raw_target_blob": "9712e77f6008bf3868127c9d60e8ede9b2ade607",
+              "source_absent": true
+            },
+            {
+              "id": "P18",
+              "source": "docs/superpowers/plans/2026-09-13-role-communication-protocol.md",
+              "target": "docs/history/plans/2026-09-13-role-communication-protocol.md",
+              "expected_blob": "391611b95705743f21c06470455bcb2594adbeab",
+              "base_source_blob": "391611b95705743f21c06470455bcb2594adbeab",
+              "candidate_target_blob": "391611b95705743f21c06470455bcb2594adbeab",
+              "raw_target_blob": "391611b95705743f21c06470455bcb2594adbeab",
+              "source_absent": true
+            },
+            {
+              "id": "P19",
+              "source": "docs/superpowers/plans/2026-09-14-execution-telemetry.md",
+              "target": "docs/history/plans/2026-09-14-execution-telemetry.md",
+              "expected_blob": "fb836e987565b4a3a3ed3b57b8b7814f646af568",
+              "base_source_blob": "fb836e987565b4a3a3ed3b57b8b7814f646af568",
+              "candidate_target_blob": "fb836e987565b4a3a3ed3b57b8b7814f646af568",
+              "raw_target_blob": "fb836e987565b4a3a3ed3b57b8b7814f646af568",
+              "source_absent": true
+            },
+            {
+              "id": "P20",
+              "source": "docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+              "target": "docs/history/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+              "expected_blob": "1b5f1c70ca68fb63a9e484b184eee119ea831779",
+              "base_source_blob": "1b5f1c70ca68fb63a9e484b184eee119ea831779",
+              "candidate_target_blob": "1b5f1c70ca68fb63a9e484b184eee119ea831779",
+              "raw_target_blob": "1b5f1c70ca68fb63a9e484b184eee119ea831779",
+              "source_absent": true
+            },
+            {
+              "id": "P21",
+              "source": "docs/superpowers/plans/2026-09-14-project-isolation-centralized-evolution.md",
+              "target": "docs/history/plans/2026-09-14-project-isolation-centralized-evolution.md",
+              "expected_blob": "3bfcee5dcf7e1e2639d798b6d67b076cca3e798f",
+              "base_source_blob": "3bfcee5dcf7e1e2639d798b6d67b076cca3e798f",
+              "candidate_target_blob": "3bfcee5dcf7e1e2639d798b6d67b076cca3e798f",
+              "raw_target_blob": "3bfcee5dcf7e1e2639d798b6d67b076cca3e798f",
+              "source_absent": true
+            },
+            {
+              "id": "P22",
+              "source": "docs/superpowers/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+              "target": "docs/history/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+              "expected_blob": "8aaeb92b06f698bdde76074c275fbf82489e55e1",
+              "base_source_blob": "8aaeb92b06f698bdde76074c275fbf82489e55e1",
+              "candidate_target_blob": "8aaeb92b06f698bdde76074c275fbf82489e55e1",
+              "raw_target_blob": "8aaeb92b06f698bdde76074c275fbf82489e55e1",
+              "source_absent": true
+            },
+            {
+              "id": "P23",
+              "source": "docs/superpowers/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+              "target": "docs/history/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+              "expected_blob": "20d75ade06325abe1bac658c10d852dcda87c0af",
+              "base_source_blob": "20d75ade06325abe1bac658c10d852dcda87c0af",
+              "candidate_target_blob": "20d75ade06325abe1bac658c10d852dcda87c0af",
+              "raw_target_blob": "20d75ade06325abe1bac658c10d852dcda87c0af",
+              "source_absent": true
+            },
+            {
+              "id": "P24",
+              "source": "docs/superpowers/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+              "target": "docs/history/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+              "expected_blob": "a731326ea73adf9b82a9e01f948b6848c74da228",
+              "base_source_blob": "a731326ea73adf9b82a9e01f948b6848c74da228",
+              "candidate_target_blob": "a731326ea73adf9b82a9e01f948b6848c74da228",
+              "raw_target_blob": "a731326ea73adf9b82a9e01f948b6848c74da228",
+              "source_absent": true
+            },
+            {
+              "id": "P25",
+              "source": "docs/superpowers/plans/2026-09-16-framework-evolution-foundation-plan.md",
+              "target": "docs/history/plans/2026-09-16-framework-evolution-foundation-plan.md",
+              "expected_blob": "ab81ebd5ab66c7bcfe8a342bc33341a18627f597",
+              "base_source_blob": "ab81ebd5ab66c7bcfe8a342bc33341a18627f597",
+              "candidate_target_blob": "ab81ebd5ab66c7bcfe8a342bc33341a18627f597",
+              "raw_target_blob": "ab81ebd5ab66c7bcfe8a342bc33341a18627f597",
+              "source_absent": true
+            },
+            {
+              "id": "P26",
+              "source": "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+              "target": "docs/history/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+              "expected_blob": "33ffd998f05ea5ea41a71c554d43334dea7e80f6",
+              "base_source_blob": "33ffd998f05ea5ea41a71c554d43334dea7e80f6",
+              "candidate_target_blob": "33ffd998f05ea5ea41a71c554d43334dea7e80f6",
+              "raw_target_blob": "33ffd998f05ea5ea41a71c554d43334dea7e80f6",
+              "source_absent": true
+            },
+            {
+              "id": "P28",
+              "source": "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+              "target": "docs/history/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+              "expected_blob": "8c2a359c7366ae29e3bf49ac985e8a2c3d6deb1f",
+              "base_source_blob": "8c2a359c7366ae29e3bf49ac985e8a2c3d6deb1f",
+              "candidate_target_blob": "8c2a359c7366ae29e3bf49ac985e8a2c3d6deb1f",
+              "raw_target_blob": "8c2a359c7366ae29e3bf49ac985e8a2c3d6deb1f",
+              "source_absent": true
+            },
+            {
+              "id": "P37",
+              "source": "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+              "target": "docs/history/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+              "expected_blob": "fdaf03cdadf2b25ce91b7b9eabdcad80d18f6ef9",
+              "base_source_blob": "fdaf03cdadf2b25ce91b7b9eabdcad80d18f6ef9",
+              "candidate_target_blob": "fdaf03cdadf2b25ce91b7b9eabdcad80d18f6ef9",
+              "raw_target_blob": "fdaf03cdadf2b25ce91b7b9eabdcad80d18f6ef9",
+              "source_absent": true
+            },
+            {
+              "id": "P40",
+              "source": "docs/superpowers/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+              "target": "docs/history/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+              "expected_blob": "d8dff0c4eeb69964592f58d0212046e2e82f934b",
+              "base_source_blob": "d8dff0c4eeb69964592f58d0212046e2e82f934b",
+              "candidate_target_blob": "d8dff0c4eeb69964592f58d0212046e2e82f934b",
+              "raw_target_blob": "d8dff0c4eeb69964592f58d0212046e2e82f934b",
+              "source_absent": true
+            },
+            {
+              "id": "P43",
+              "source": "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+              "target": "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md",
+              "expected_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+              "base_source_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+              "candidate_target_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+              "raw_target_blob": "10029f27762815efbc24c4f3d6ada1b00fecfd3c",
+              "source_absent": true
+            },
+            {
+              "id": "P44",
+              "source": "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+              "target": "docs/history/plans/2026-10-01-local-workspace-consolidation-plan.md",
+              "expected_blob": "86789eb1ece50326e3d0142816e32c0f32f940c4",
+              "base_source_blob": "86789eb1ece50326e3d0142816e32c0f32f940c4",
+              "candidate_target_blob": "86789eb1ece50326e3d0142816e32c0f32f940c4",
+              "raw_target_blob": "86789eb1ece50326e3d0142816e32c0f32f940c4",
+              "source_absent": true
+            },
+            {
+              "id": "P46",
+              "source": "docs/superpowers/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+              "target": "docs/history/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+              "expected_blob": "27df7b73f5a654d6225a2c7667e419166bae39a2",
+              "base_source_blob": "27df7b73f5a654d6225a2c7667e419166bae39a2",
+              "candidate_target_blob": "27df7b73f5a654d6225a2c7667e419166bae39a2",
+              "raw_target_blob": "27df7b73f5a654d6225a2c7667e419166bae39a2",
+              "source_absent": true
+            }
+          ]
+        }
+      },
+      "six_refs_and_exact_two_mutable_transforms_still_hold": {
+        "status": "PASS",
+        "evidence": {
+          "count": 6,
+          "updates": [
+            {
+              "id": "P12",
+              "old_count": 0,
+              "new_count": 1
+            },
+            {
+              "id": "P19",
+              "old_count": 0,
+              "new_count": 1
+            },
+            {
+              "id": "P16",
+              "old_count": 0,
+              "new_count": 1
+            },
+            {
+              "id": "P43_HISTORICAL_NAVIGATION",
+              "old_count": 0,
+              "new_count": 1
+            },
+            {
+              "id": "PHASE_D_ACTIVE_STATEMENT",
+              "old_count": 0,
+              "new_count": 1
+            },
+            {
+              "id": "LEGACY_HISTORY_PLAN_SURFACE",
+              "old_count": 0,
+              "new_count": 1
+            }
+          ],
+          "projection_tests_constant_only": true,
+          "README_exact_expected_bytes": true
+        }
+      },
+      "exact96_scope_and_whole_baseline_preservation": {
+        "status": "PASS",
+        "evidence": {
+          "base_scope_count": 86,
+          "governance_artifact_path_count": 10,
+          "durable_scope_count": 96,
+          "max_allowed": 100,
+          "changed_path_count": 93,
+          "unexpected_changed_path_count": 0,
+          "unexpected_paths": [],
+          "frozen_baseline_mismatches": [],
+          "changed_paths": [
+            ".gpt-codex/evidence/instructions/9de11ad2-9cd4-52a4-be38-786f6636db60.json",
+            ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+            ".gpt-codex/evidence/instructions/bf0910ba-424d-553f-bcd1-19c48a7ff612.json",
+            ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PRE.json",
+            ".gpt-codex/tests/test_consumer_projection.py",
+            ".gpt-codex/work-units/documentation-canonicalization-history-designs-plans-001.json",
+            "docs/history/designs/2026-09-11-controlled-git-lifecycle-design.md",
+            "docs/history/designs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+            "docs/history/designs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+            "docs/history/designs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+            "docs/history/designs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+            "docs/history/designs/2026-09-11-v1.6-ephemeral-observability-design.md",
+            "docs/history/designs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+            "docs/history/designs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+            "docs/history/designs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+            "docs/history/designs/2026-10-01-local-workspace-consolidation-design.md",
+            "docs/history/plans/2026-09-11-controlled-git-lifecycle.md",
+            "docs/history/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+            "docs/history/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+            "docs/history/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+            "docs/history/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+            "docs/history/plans/2026-09-11-v1.6-ephemeral-observability.md",
+            "docs/history/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+            "docs/history/plans/2026-09-11-v2.0-minimal-kernel.md",
+            "docs/history/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+            "docs/history/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+            "docs/history/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+            "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+            "docs/history/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+            "docs/history/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+            "docs/history/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+            "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md",
+            "docs/history/plans/2026-09-13-framework-project-separation.md",
+            "docs/history/plans/2026-09-13-role-communication-protocol.md",
+            "docs/history/plans/2026-09-14-execution-telemetry.md",
+            "docs/history/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+            "docs/history/plans/2026-09-14-project-isolation-centralized-evolution.md",
+            "docs/history/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+            "docs/history/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+            "docs/history/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+            "docs/history/plans/2026-09-16-framework-evolution-foundation-plan.md",
+            "docs/history/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+            "docs/history/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+            "docs/history/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+            "docs/history/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+            "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md",
+            "docs/history/plans/2026-10-01-local-workspace-consolidation-plan.md",
+            "docs/history/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+            "docs/plans/README.md",
+            "docs/superpowers/plans/2026-09-11-controlled-git-lifecycle.md",
+            "docs/superpowers/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+            "docs/superpowers/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+            "docs/superpowers/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+            "docs/superpowers/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+            "docs/superpowers/plans/2026-09-11-v1.6-ephemeral-observability.md",
+            "docs/superpowers/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+            "docs/superpowers/plans/2026-09-11-v2.0-minimal-kernel.md",
+            "docs/superpowers/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+            "docs/superpowers/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+            "docs/superpowers/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+            "docs/superpowers/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+            "docs/superpowers/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+            "docs/superpowers/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+            "docs/superpowers/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+            "docs/superpowers/plans/2026-09-13-framework-modular-architecture-routing.md",
+            "docs/superpowers/plans/2026-09-13-framework-project-separation.md",
+            "docs/superpowers/plans/2026-09-13-role-communication-protocol.md",
+            "docs/superpowers/plans/2026-09-14-execution-telemetry.md",
+            "docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+            "docs/superpowers/plans/2026-09-14-project-isolation-centralized-evolution.md",
+            "docs/superpowers/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+            "docs/superpowers/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+            "docs/superpowers/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+            "docs/superpowers/plans/2026-09-16-framework-evolution-foundation-plan.md",
+            "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+            "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+            "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+            "docs/superpowers/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+            "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan.md",
+            "docs/superpowers/plans/2026-10-01-local-workspace-consolidation-plan.md",
+            "docs/superpowers/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+            "docs/superpowers/specs/2026-09-11-controlled-git-lifecycle-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.6-ephemeral-observability-design.md",
+            "docs/superpowers/specs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+            "docs/superpowers/specs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+            "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+            "docs/superpowers/specs/2026-10-01-local-workspace-consolidation-design.md"
+          ]
+        }
+      },
+      "STATE32_exact_unchanged": {
+        "status": "PASS",
+        "evidence": {
+          "revision": 32,
+          "state_mutation_count": 0,
+          "base_blob": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+          "candidate_blob": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+          "raw_blob": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7"
+        }
+      },
+      "candidate_raw_bytes_match_Git_tree": {
+        "status": "PASS",
+        "evidence": {
+          "tracked_blob_count": 634,
+          "mismatches": []
+        }
+      },
+      "consumer_inventory86_and_DEVELOPMENT_HISTORY": {
+        "status": "PASS",
+        "evidence": {
+          "consumer_inventory_count": 86,
+          "consumer_visible": false,
+          "history_classifications": [
+            {
+              "path": "docs/history/designs/2026-09-11-controlled-git-lifecycle-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.6-ephemeral-observability-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/designs/2026-10-01-local-workspace-consolidation-design.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-controlled-git-lifecycle.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.6-ephemeral-observability.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.0-minimal-kernel.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-13-framework-project-separation.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-13-role-communication-protocol.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-14-execution-telemetry.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-14-project-isolation-centralized-evolution.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-16-framework-evolution-foundation-plan.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-10-01-local-workspace-consolidation-plan.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            },
+            {
+              "path": "docs/history/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+              "classification": "DEVELOPMENT_HISTORY"
+            }
+          ]
+        }
+      },
+      "remote_main_originalbase_and_identity": {
+        "status": "PASS",
+        "evidence": {
+          "ls_remote": "30fb586c730fad67585aae5b566f136dda8bb11c\trefs/heads/main",
+          "repository_identity": {
+            "id": 1366213495,
+            "full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "default_branch": "main"
+          },
+          "publication_performed": false
+        }
+      },
+      "fresh_native_resume": {
+        "status": "PASS",
+        "evidence": {
+          "status": "LATEST_SYNCED_REMOTE_STATE",
+          "repository_id": "1366213495",
+          "reconciliation_required": false,
+          "state_revision": 32
+        }
+      },
+      "durable_original_PRE_actual_mutation_gate": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "actual_candidate_directory_contract": {
+        "status": "PASS",
+        "evidence": {
+          "errors": []
+        }
+      },
+      "independent_POST_test_evidence_applicable_without_repeat": {
+        "status": "PASS",
+        "evidence": {
+          "test_result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST",
+          "test_result_durable_path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST.json",
+          "test_result_candidate_blob": "7a7f47d2c6ac62ff5d563a25cbb3ef9cb480999b",
+          "tested_implementation_sha": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+          "prior_independent_reviewer_head": "0da1c72dbfed03802515073449b413985b1a9049",
+          "current_candidate_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+          "all_implementation_blobs_identical": true,
+          "test_evidence": {
+            "test_consumer_projection.py": {
+              "status": "PASS",
+              "evidence": {
+                "command": [
+                  "C:\\Python313\\python.exe",
+                  "-B",
+                  "-m",
+                  "unittest",
+                  "discover",
+                  "-s",
+                  "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\tests",
+                  "-p",
+                  "test_consumer_projection.py"
+                ],
+                "exit_code": 0,
+                "stdout": "",
+                "stderr": "..............................\n----------------------------------------------------------------------\nRan 30 tests in 7.503s\n\nOK\n"
+              }
+            },
+            "test_consumer_runtime_closure.py": {
+              "status": "PASS",
+              "evidence": {
+                "command": [
+                  "C:\\Python313\\python.exe",
+                  "-B",
+                  "-m",
+                  "unittest",
+                  "discover",
+                  "-s",
+                  "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\tests",
+                  "-p",
+                  "test_consumer_runtime_closure.py"
+                ],
+                "exit_code": 0,
+                "stdout": "",
+                "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 1.730s\n\nOK\n"
+              }
+            },
+            "test_release_packaging.py": {
+              "status": "PASS",
+              "evidence": {
+                "command": [
+                  "C:\\Python313\\python.exe",
+                  "-B",
+                  "-m",
+                  "unittest",
+                  "discover",
+                  "-s",
+                  "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\tests",
+                  "-p",
+                  "test_release_packaging.py"
+                ],
+                "exit_code": 0,
+                "stdout": "",
+                "stderr": ".........s...............\n----------------------------------------------------------------------\nRan 25 tests in 12.156s\n\nOK (skipped=1)\n"
+              }
+            },
+            "test_publication_authority.py": {
+              "status": "PASS",
+              "evidence": {
+                "command": [
+                  "C:\\Python313\\python.exe",
+                  "-B",
+                  "-m",
+                  "unittest",
+                  "discover",
+                  "-s",
+                  "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\tests",
+                  "-p",
+                  "test_publication_authority.py"
+                ],
+                "exit_code": 0,
+                "stdout": "",
+                "stderr": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.007s\n\nOK\n"
+              }
+            },
+            "affected_tests_counts_and_known_skip": {
+              "status": "PASS",
+              "evidence": {
+                "suite_counts": {
+                  "test_consumer_projection.py": 30,
+                  "test_consumer_runtime_closure.py": 6,
+                  "test_release_packaging.py": 25,
+                  "test_publication_authority.py": 9
+                },
+                "test_count": 70,
+                "skip_count": 1
+              }
+            }
+          },
+          "tests_repeated_now": false,
+          "reason": "Only three additive approved governance artifacts differ; tested implementation, scripts, and test blobs identical."
+        }
+      },
+      "PROJECT_VALIDATOR": {
+        "status": "PASS",
+        "evidence": {
+          "command": [
+            "C:\\Python313\\python.exe",
+            "-B",
+            "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\scripts\\validate_project.py",
+            "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001"
+          ],
+          "exit_code": 0,
+          "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-32\nPROJECT_CONTEXT_BINDING: PASS\n",
+          "stderr": ""
+        }
+      },
+      "FRAMEWORK_VALIDATOR": {
+        "status": "PASS",
+        "evidence": {
+          "command": [
+            "C:\\Python313\\python.exe",
+            "-B",
+            "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-documentation-canonicalization-history-designs-plans-001\\.gpt-codex\\scripts\\validate_framework.py"
+          ],
+          "exit_code": 0,
+          "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n",
+          "stderr": ""
+        }
+      },
+      "reviewer_final_clean": {
+        "status": "PASS",
+        "evidence": {
+          "git_status": ""
+        }
+      }
+    },
+    "immutable_locators": {
+      "work_unit": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "ced3e01da90b73e8fe42e3461c286041f94b8138",
+        "path": ".gpt-codex/work-units/documentation-canonicalization-history-designs-plans-001.json",
+        "blob_sha": "1635cfb72f72bbd359ed2594fdfded50f98f1c85"
+      },
+      "execution": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "71c2f199904a50941849f473a2c1c9be55d16feb",
+        "path": ".gpt-codex/evidence/instructions/bf0910ba-424d-553f-bcd1-19c48a7ff612.json",
+        "blob_sha": "fd597ea168780998ae1e93b999a7a15f495beb64"
+      },
+      "PRE_request": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "71c2f199904a50941849f473a2c1c9be55d16feb",
+        "path": ".gpt-codex/evidence/instructions/9de11ad2-9cd4-52a4-be38-786f6636db60.json",
+        "blob_sha": "09c9117f40ab74012786a635df58dc4f8110da70"
+      },
+      "POST_request": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "0da1c72dbfed03802515073449b413985b1a9049",
+        "path": ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+        "blob_sha": "108132e16113dd421c3190fa4d6f4cc26199745b"
+      },
+      "PUBLICATION_PRE_request": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9ec30e45c5046710a30a87b8405ecb4bb8bfaf1f",
+        "path": ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+        "blob_sha": "303e04241d3b4a6cab06369da382dd8e66378f50"
+      }
+    },
+    "native_result_validation": {
+      "schema": [],
+      "protocol": [],
+      "authority": [],
+      "completion": [],
+      "review_result": [],
+      "actual_governed_mutation_entry": []
+    }
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "BATCH2_PUBLICATION_PRE"
+    ],
+    "executed_scope": [
+      "BATCH2_PUBLICATION_PRE"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "next_gpt_action": "Return exact correlated publication PRE evidence; conditionally published work must receive fresh exact remote readback and subsequent final additive-attestation review."
+}
