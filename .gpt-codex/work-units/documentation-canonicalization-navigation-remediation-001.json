@@ -1,0 +1,63 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "documentation-canonicalization-navigation-remediation-001",
+  "goal": "Resolve DOC-CLOSURE-NAVIGATION-001 through the minimum canonical README navigation change",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 33,
+  "scope": {
+    "owned_paths": [
+      "docs/architecture/README.md",
+      "docs/decisions/README.md",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json",
+      ".gpt-codex/work-units/documentation-canonicalization-navigation-remediation-001.json",
+      ".gpt-codex/evidence/instructions/6073cd9f-4d34-4b7c-b300-840d61bcc345.json",
+      ".gpt-codex/evidence/instructions/430b8512-28ce-4454-96bb-f5d48e5d8d6c.json",
+      ".gpt-codex/evidence/instructions/93c7fcb7-adfe-45e9-b353-7ce5fa75f771.json",
+      ".gpt-codex/evidence/instructions/9b7477a0-4c02-42c5-ac17-60062cf3f139.json",
+      ".gpt-codex/evidence/instructions/00e1c7b7-2c0a-4544-acb9-902979490cea.json",
+      ".gpt-codex/evidence/instructions/17968a9d-e2aa-4f12-b9df-6b29bdf7e078.json",
+      ".gpt-codex/evidence/instructions/3fadab4f-e818-4e6c-b5f6-10e12bc5558a.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-VALIDATION.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      "docs/plans/README.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "Native FIX PRE PASS before README mutation",
+    "Exactly two README append-only changes and three direct history links",
+    "All four canonical history directory targets resolve; zero broken canonical README links",
+    "STATE33, P41 deferral, all immutable historical and consumer surfaces preserved",
+    "Focused tests and project/framework validators PASS",
+    "Independent POST PASS, verified publication and native HANDOFF_READY; stop before final closure"
+  ]
+}
