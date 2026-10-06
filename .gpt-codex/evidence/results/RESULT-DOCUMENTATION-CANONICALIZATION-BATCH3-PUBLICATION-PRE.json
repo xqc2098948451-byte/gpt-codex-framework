@@ -1,0 +1,440 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-current-reference-activation-001",
+  "extension": null,
+  "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE",
+  "result_message_type": "REVIEW_RESULT",
+  "status": "PASS",
+  "response_to_instruction_id": "5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "b5983fabe315c65af0e94177c63c7732947fd1a1",
+  "implementation_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+  "finding_ids": [],
+  "fix_round": 0,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "888f6ee4733c158b9188abae3e8ff4a36f55a1e8",
+  "remote_head_sha": "b5983fabe315c65af0e94177c63c7732947fd1a1",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "return_to_gpt_required": true,
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    "D:\\通用开发框架管理\\.gpt-codex-transport\\documentation-batch3-20261006\\independent-review\\publication-pre-report.json"
+  ],
+  "reviewer_context": {
+    "context_id": "independent-batch3-publication-pre-4b2fc663-4303-4466-b1fe-109360d46569",
+    "fresh_context_verified": true,
+    "role": "CODEX_REVIEWER",
+    "input_source_kinds": [
+      "DIRECT_USER_REQUEST",
+      "IMMUTABLE_REPOSITORY_CONTENT",
+      "INDEPENDENT_VERIFICATION"
+    ],
+    "implementer_private_transport_read": false,
+    "repository_mutations": 0,
+    "review_workspace": "D:\\w\\gpt-codex-framework\\review-documentation-canonicalization-current-reference-activation-001"
+  },
+  "verify": {
+    "candidate_sha": "888f6ee4733c158b9188abae3e8ff4a36f55a1e8",
+    "implementation_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+    "post_review_target_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+    "publication_review_target_sha": "b5983fabe315c65af0e94177c63c7732947fd1a1",
+    "remote_main_sha": "b5983fabe315c65af0e94177c63c7732947fd1a1",
+    "repository_identity": {
+      "default_branch": "main",
+      "full_name": "xqc2098948451-byte/gpt-codex-framework",
+      "id": 1366213495
+    },
+    "scope_path_count": 66,
+    "new_directory_count": 0,
+    "test_evidence_reused_from_independent_post": true,
+    "test_rerun_count": 0
+  },
+  "checks": [
+    {
+      "check": "IMMUTABLE_CANDIDATE_CHECKOUT_CLEAN",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "NEW_DELTA_ONLY_POST_RESULT_AND_PUBLICATION_PRE_INSTRUCTION",
+      "status": "PASS",
+      "detail": [
+        ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json"
+      ]
+    },
+    {
+      "check": "PRESERVED_IMPLEMENTATION_DOC_STATE_TREE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "IMMUTABLE_WORK_UNIT_SAME_BLOB",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "IMMUTABLE_PRIOR_INSTRUCTIONS",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "EXACT_POST_RESULT_REVIEWER_JSON_VALUES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PRE_RESULT_REVIEWER_JSON_VALUES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PRE_POST_NATIVE_RESULT_VALID",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PUBLICATION_PRE_EXACT_LOCATOR",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PUBLICATION_REVIEW_BOUND_TO_BASE_AND_EXECUTION",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "EXACT_SCOPE_66",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "UNEXPECTED_CHANGED_PATHS_0",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "NATIVE_COMMITTED_SCOPE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "NO_NEW_DIRECTORY_NATIVE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "STATE32_RAW_IDENTICAL",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BASE_FAST_FORWARD_ANCESTOR",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "IMPLEMENTATION_ANCESTOR",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "LIVE_REPOSITORY_IDENTITY_1366213495",
+      "status": "PASS",
+      "detail": {
+        "default_branch": "main",
+        "full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "id": 1366213495
+      }
+    },
+    {
+      "check": "FRESH_REMOTE_MAIN_EQUALS_EXPECTED_BASE",
+      "status": "PASS",
+      "detail": "b5983fabe315c65af0e94177c63c7732947fd1a1"
+    },
+    {
+      "check": "NATIVE_CONTINUITY_RESUME",
+      "status": "PASS",
+      "detail": "LATEST_SYNCED_REMOTE_STATE"
+    },
+    {
+      "check": "NATIVE_RESOLVE_8ef09eec-4f63-52d5-af2e-813ba9177c39",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_RESOLVE_1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_RESOLVE_b800f27b-c149-5930-afce-e94406909799",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_RESOLVE_5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "EXISTING_EXECUTION_PRE_POSITIVE_GATE",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "RETAINED_INDEPENDENT_POST_AFFECTED_SUITES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PROJECT_VALIDATOR",
+      "status": "PASS",
+      "detail": "Retained independently completed validator logs on this exact immutable candidate; envelope metadata placement correction only."
+    },
+    {
+      "check": "FRAMEWORK_VALIDATOR",
+      "status": "PASS",
+      "detail": "Retained independently completed validator logs on this exact immutable candidate; envelope metadata placement correction only."
+    },
+    {
+      "check": "CONSUMER_PROJECTION_VALIDATOR",
+      "status": "PASS",
+      "detail": "Retained independently completed validator logs on this exact immutable candidate; envelope metadata placement correction only."
+    },
+    {
+      "check": "PUBLICATION_PRE_POSITIVE_GUARDED_ENTRY",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "NATIVE_REVIEW_RESULT_VALID",
+      "status": "PASS",
+      "detail": []
+    }
+  ],
+  "tests": [
+    {
+      "file": "test_consumer_projection.py",
+      "tests_run": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    },
+    {
+      "file": "test_release_packaging.py",
+      "tests_run": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [
+        [
+          "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target)",
+          "symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\outside-target.zip' -> 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\materialized\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'"
+        ]
+      ],
+      "successful": true
+    },
+    {
+      "file": "test_consumer_runtime_closure.py",
+      "tests_run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    },
+    {
+      "file": "test_publication_authority.py",
+      "tests_run": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    }
+  ],
+  "validators": [
+    {
+      "name": "PROJECT_VALIDATOR",
+      "exit_code": 0
+    },
+    {
+      "name": "FRAMEWORK_VALIDATOR",
+      "exit_code": 0
+    },
+    {
+      "name": "CONSUMER_PROJECTION_VALIDATOR",
+      "exit_code": 0
+    }
+  ],
+  "blockers": [],
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/decisions/README.md",
+      "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/plans/README.md",
+      "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+      "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+      "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "docs/superpowers/specs/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH3-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json"
+    ],
+    "executed_scope": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/decisions/README.md",
+      "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/plans/README.md",
+      "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+      "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+      "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "docs/superpowers/specs/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH3-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json"
+    ],
+    "test_files_expected": 4,
+    "test_files_executed": 4,
+    "test_count": 70,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_PROJECTION_VALIDATOR"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_PROJECTION_VALIDATOR"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "review_limit": "PASS is publication pre-review of this exact candidate under direct user section18 authorization. No push, published completion or canonicalization closure is claimed."
+}
