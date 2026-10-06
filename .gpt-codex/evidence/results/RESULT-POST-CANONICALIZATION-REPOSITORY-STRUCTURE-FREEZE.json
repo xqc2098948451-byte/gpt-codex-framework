@@ -36,6 +36,7 @@
   "IMMUTABLE_LOCATOR_PRESERVATION": "PASS_317",
   "LEGACY_SUPERPOWERS_FILE_COUNT": 0,
   "MIGRATION_COMPLETED_TOTAL": "94/94",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
   "OLD_PHASE_G_FREEZE_REWRITTEN": "NO",
   "OPEN_PR_COUNT": 0,
   "P41_DEFERRED_BY_USER": "YES",
@@ -193,6 +194,14 @@
       "path": ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
       "sha": "1d853855518a19c7de461aa83a908edd30ebee4c"
     }
+  },
+  "native_handoff_observation": {
+    "native_status": "HANDOFF_READY",
+    "observed_remote_sha": "51322e69af10a1531bccdbce75f26d5e3d58931c",
+    "observed_utc": "2026-10-06T13:15:03.325786+00:00",
+    "plugin_status": "HANDOFF_READY",
+    "result_id": "222ed7d3-6415-49f7-a751-65ec2bf9afb4",
+    "self_containing_commit_claim": false
   },
   "next_gpt_action": "RETURN_TO_GPT_AND_STOP. Separate post-freeze STATE gate required; exact next_action UNADJUDICATED. No STATE35,release,P41 or plugin sync authority.",
   "observed_utc": "2026-10-06T13:14:04.513584+00:00",
