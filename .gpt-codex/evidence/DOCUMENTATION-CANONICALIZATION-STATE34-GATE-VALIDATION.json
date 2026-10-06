@@ -1,0 +1,3983 @@
+{
+  "DETAILED_CHECK_COUNT": 68,
+  "DETAILED_VALIDATION_EVIDENCE": "PASS",
+  "DUPLICATE_DETAILED_CHECK_ASSIGNMENT_COUNT": 0,
+  "FAILED_DETAILED_CHECK_COUNT": 0,
+  "NATIVE_HANDOFF_ENCODING_PREFLIGHT": "PASS",
+  "RESULT_VALIDATOR_GROUP_COUNT": 16,
+  "UNICODE_ROUNDTRIP": "PASS",
+  "UNMAPPED_DETAILED_CHECK_COUNT": 0,
+  "UTF8_MODE": "PASS",
+  "basis_remote_main": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+  "basis_state_revision": 33,
+  "detail_payload": {
+    "detailed_checks": [
+      {
+        "check_id": "UTF8_ENVIRONMENT",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXACT_PACKET_CHECKOUT",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXACT_REMOTE_BASELINE",
+        "observation": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "status": "PASS"
+      },
+      {
+        "check_id": "STATE33_BASELINE",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXECUTE_INSTRUCTION_RESOLUTION",
+        "observation": {
+          "envelope": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT",
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "completion_gate": "GPT_DECISION",
+            "executor_role": "CODEX_IMPLEMENTER",
+            "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "expected_remote_ref": "refs/heads/main",
+            "expected_state_revision": 33,
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ],
+            "framework_version": "2.7.4",
+            "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+            "instruction_type": "EXECUTION_INSTRUCTION",
+            "issuer_role": "GPT_ORCHESTRATOR",
+            "return_role": "GPT_ORCHESTRATOR",
+            "scope_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ],
+            "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "target_github_repository_id": "1366213495",
+            "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+            "target_project_name": "通用开发框架管理",
+            "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+            "target_work_unit_ref": {
+              "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+            }
+          },
+          "expected_state_revision": 33,
+          "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+          "instruction_locator": {
+            "blob_sha": "b40a6e49d544bc974cdc2d9285621d401c846554",
+            "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+            "path": ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "status": "INSTRUCTION_RESOLVED",
+          "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          },
+          "work_unit": {
+            "acceptance": [
+              "Exact native PRE and independent POST PASS",
+              "No documentation/source/test/release/plugin/P41 mutation",
+              "Exact remote readback and native handoff",
+              "Stop at STATE34 gate; next Freeze requires separate authorization"
+            ],
+            "artifact_refs": {
+              "design": {
+                "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+              },
+              "plan": {
+                "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+              }
+            },
+            "basis_state_revision": 33,
+            "default_branch": "main",
+            "directory_creations": [],
+            "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+            "kernel_version": "2.0.0",
+            "permissions": {
+              "authorized_actions": [
+                "READ",
+                "TEST",
+                "VALIDATE",
+                "REPORT",
+                "MUTATE_APPROVED_SCOPE"
+              ],
+              "forbidden_actions": [
+                "AUTHORIZE",
+                "SCOPE_EXPANSION"
+              ]
+            },
+            "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+            "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+            "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "repository_id": "1366213495",
+            "schema_version": 1,
+            "scope": {
+              "excluded_paths": [
+                "docs/",
+                "Documentation/",
+                "source/",
+                "tests/",
+                "scripts/",
+                "plugin/",
+                "plugins/",
+                "release/",
+                "release package/",
+                ".gpt-codex/scripts/",
+                ".gpt-codex/tests/",
+                ".gpt-codex/schemas/",
+                ".gpt-codex/builtins/",
+                ".gpt-codex/kernel/",
+                "P41/"
+              ],
+              "owned_paths": [
+                ".gpt-codex/STATE.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+                ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+                ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+                ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+                ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+                ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+                ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+                ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+                ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+              ]
+            },
+            "selected_extensions": {},
+            "state": "AUTHORIZED",
+            "target_state_revision": 34,
+            "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+          }
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRE_INSTRUCTION_RESOLUTION",
+        "observation": {
+          "envelope": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT"
+            ],
+            "completion_gate": "GPT_DECISION",
+            "executor_role": "CODEX_REVIEWER",
+            "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "expected_remote_ref": "refs/heads/main",
+            "expected_state_revision": 33,
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ],
+            "framework_version": "2.7.4",
+            "in_response_to_instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+            "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+            "instruction_type": "REVIEW_REQUEST",
+            "issuer_role": "GPT_ORCHESTRATOR",
+            "return_role": "GPT_ORCHESTRATOR",
+            "review_target_revision": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "scope_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ],
+            "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "target_github_repository_id": "1366213495",
+            "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+            "target_project_name": "通用开发框架管理",
+            "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+            "target_work_unit_ref": {
+              "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+            }
+          },
+          "expected_state_revision": 33,
+          "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+          "instruction_locator": {
+            "blob_sha": "0f0415d114cea00885168089eca51f152036d1a0",
+            "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+            "path": ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "status": "INSTRUCTION_RESOLVED",
+          "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          },
+          "work_unit": {
+            "acceptance": [
+              "Exact native PRE and independent POST PASS",
+              "No documentation/source/test/release/plugin/P41 mutation",
+              "Exact remote readback and native handoff",
+              "Stop at STATE34 gate; next Freeze requires separate authorization"
+            ],
+            "artifact_refs": {
+              "design": {
+                "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+              },
+              "plan": {
+                "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+              }
+            },
+            "basis_state_revision": 33,
+            "default_branch": "main",
+            "directory_creations": [],
+            "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+            "kernel_version": "2.0.0",
+            "permissions": {
+              "authorized_actions": [
+                "READ",
+                "TEST",
+                "VALIDATE",
+                "REPORT",
+                "MUTATE_APPROVED_SCOPE"
+              ],
+              "forbidden_actions": [
+                "AUTHORIZE",
+                "SCOPE_EXPANSION"
+              ]
+            },
+            "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+            "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+            "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "repository_id": "1366213495",
+            "schema_version": 1,
+            "scope": {
+              "excluded_paths": [
+                "docs/",
+                "Documentation/",
+                "source/",
+                "tests/",
+                "scripts/",
+                "plugin/",
+                "plugins/",
+                "release/",
+                "release package/",
+                ".gpt-codex/scripts/",
+                ".gpt-codex/tests/",
+                ".gpt-codex/schemas/",
+                ".gpt-codex/builtins/",
+                ".gpt-codex/kernel/",
+                "P41/"
+              ],
+              "owned_paths": [
+                ".gpt-codex/STATE.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+                ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+                ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+                ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+                ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+                ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+                ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+                ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+                ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+                ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+                ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+                ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+              ]
+            },
+            "selected_extensions": {},
+            "state": "AUTHORIZED",
+            "target_state_revision": 34,
+            "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+          }
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "locator": {
+            "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "status": "ALLOW"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "exact_readback": "PASS",
+          "locator": {
+            "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "remote_blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "locator": {
+            "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "status": "ALLOW"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_BLOB_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "REMOTE_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "observation": {
+          "exact_readback": "PASS",
+          "locator": {
+            "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "remote_blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+        "observation": {
+          "locator": {
+            "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "status": "ALLOW"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+        "observation": {
+          "exact_readback": "PASS",
+          "locator": {
+            "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+            "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+            "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+            "repository": "xqc2098948451-byte/gpt-codex-framework"
+          },
+          "remote_blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "DOCUMENTATION_CLOSURE_AUTHORITY",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "TOKEN_ADJUDICATION",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PREVIOUS_FAILURE_NEGATIVE_CONTROL_ONLY",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PREVIOUS_FAILURE_BYTES_UNCHANGED",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXECUTION_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXECUTION_AUTHORITY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "REVIEW_REQUEST_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "REVIEW_REQUEST_AUTHORITY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXACT_IMPLEMENTER_ROLE",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "EXACT_SCOPE_AUTHORITY",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "WORK_UNIT_BINDING",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "COMPANION_METADATA_SCOPE",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRIMARY_WORK_UNIT_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "COMPANION_WORK_UNIT_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "PACKET_CHANGED_PATHS_EXACT_SCOPE",
+        "observation": [
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+          ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+          ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+          ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json"
+        ],
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRESERVED_STATE_active_work_unit",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRESERVED_STATE_kernel_version",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRESERVED_STATE_project_id",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRESERVED_STATE_schema_version",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PRESERVED_STATE_state",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "HISTORICAL_REFS_PRESERVED",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "CANDIDATE_CONTINUITY_PENDING_ONLY",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "STATE34_CANDIDATE_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "STATE33_AUTHORITY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "STATE34_CANDIDATE_AUTHORITY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "MODULE_ROUTE",
+        "observation": {
+          "affected_modules": [
+            "framework-core"
+          ],
+          "contracts_affected": [],
+          "invariants_affected": [],
+          "outcome": "MODULE_ROUTE",
+          "primary_module": "framework-core",
+          "required_tests": [
+            ".gpt-codex/tests/test_execution_telemetry.py",
+            ".gpt-codex/tests/test_framework_feedback.py",
+            ".gpt-codex/tests/test_framework_module_routing.py",
+            ".gpt-codex/tests/test_framework_module_schemas.py",
+            ".gpt-codex/tests/test_kernel_conformance.py"
+          ],
+          "why_cross_module": null
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PROJECT_VALIDATOR",
+        "observation": {
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-33\nPROJECT_CONTEXT_BINDING: PASS\n"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "FRAMEWORK_VALIDATOR",
+        "observation": {
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n"
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_execution_telemetry",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_framework_feedback",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_framework_module_routing",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_framework_module_schemas",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_kernel_conformance",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_publication_authority",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_instruction_envelope",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_instruction_role_contract",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_role_authority",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_review_lifecycle",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_framework_plugin",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_handoff_navigation_contract",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_continuity_resume",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_bounded_attestation",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_result_contract_schema",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_result_return",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "LOAD_test_role_communication_taxonomy",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "PUBLICATION_AUTHORITY_AND_REQUIRED_TESTS",
+        "observation": {
+          "errors": 0,
+          "failures": 0,
+          "skips": [],
+          "test_count": 284,
+          "test_files": [
+            ".gpt-codex/tests/test_execution_telemetry.py",
+            ".gpt-codex/tests/test_framework_feedback.py",
+            ".gpt-codex/tests/test_framework_module_routing.py",
+            ".gpt-codex/tests/test_framework_module_schemas.py",
+            ".gpt-codex/tests/test_kernel_conformance.py",
+            ".gpt-codex/tests/test_publication_authority.py",
+            ".gpt-codex/tests/test_instruction_envelope.py",
+            ".gpt-codex/tests/test_instruction_role_contract.py",
+            ".gpt-codex/tests/test_role_authority.py",
+            ".gpt-codex/tests/test_review_lifecycle.py",
+            ".gpt-codex/tests/test_framework_plugin.py",
+            ".gpt-codex/tests/test_handoff_navigation_contract.py",
+            ".gpt-codex/tests/test_continuity_resume.py",
+            ".gpt-codex/tests/test_bounded_attestation.py",
+            ".gpt-codex/tests/test_result_contract_schema.py",
+            ".gpt-codex/tests/test_result_return.py",
+            ".gpt-codex/tests/test_role_communication_taxonomy.py"
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "check_id": "RESULT_SCHEMA",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "RESULT_AUTHORITY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "RESULT_COMPLETION_EVIDENCE",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "REVIEW_RESULT_ROLE",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "NATIVE_PRE_EXECUTION_REVIEW",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "NATIVE_GOVERNED_MUTATION_ENTRY",
+        "observation": [],
+        "status": "PASS"
+      },
+      {
+        "check_id": "FINAL_CLEAN_CHECKOUT",
+        "observation": {
+          "verified": true
+        },
+        "status": "PASS"
+      }
+    ],
+    "encoding_preflight": {
+      "NATIVE_HANDOFF_ENCODING_PREFLIGHT": "PASS",
+      "NON_ASCII_PATH_ROUNDTRIP": "PASS",
+      "UNICODE_ROUNDTRIP": "PASS",
+      "UTF8_MODE": "PASS",
+      "baseline_facts": {
+        "expected": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "head": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "remote_main": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "state_revision": 33,
+        "status_porcelain": ""
+      },
+      "encoding_facts": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "python_utf8_mode": 1,
+        "stderr_encoding": "utf-8",
+        "stdout_encoding": "utf-8",
+        "subprocess_encoding": "utf-8",
+        "subprocess_errors": "strict"
+      },
+      "native_handoff": {
+        "blockers": [],
+        "current_work": {
+          "status": "AUTHORIZED",
+          "work_unit_id": "documentation-canonicalization-durable-closure-001"
+        },
+        "evidence_refs": [
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+          ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+          ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+          ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "git": {
+          "current_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "implementation_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b"
+        },
+        "instruction_id": "4f6f9b6d-ac4c-420a-9a53-673eccaac4e9",
+        "instruction_locator": {
+          "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+          "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+          "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "next_action_hint": "RETURN_TO_GPT_AND_STOP. Documentation closure is durable; any STATE transition remains a separate gate. Do not change STATE33, infer the next token, start Structure Freeze,2.8.0,P41 or plugin publication.",
+        "project": {
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495"
+        },
+        "reconciliation_required": false,
+        "result_id": "a67c93f1-53c6-4f8a-a48d-59946bf3451c",
+        "result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+        "result_status": "PASS",
+        "state": {
+          "revision": 33,
+          "state": "AUTHORIZED"
+        },
+        "status": "HANDOFF_READY"
+      },
+      "native_handoff_bindings": {
+        "expected_state_revision": 33,
+        "instruction_locator": {
+          "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+          "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+          "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "target_work_unit_id": "documentation-canonicalization-durable-closure-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+          "sha": "0ec6d005bff928290167403adcae2cdcd897be6b"
+        }
+      },
+      "native_resume": {
+        "active_work_unit": "framework-staged-closure-group-a-001",
+        "candidate_modules": [],
+        "continuity": {
+          "current_remote_ref": "refs/heads/main",
+          "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+          "latest_synced_state_revision": 33,
+          "latest_verified_remote_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+          "sync_status": "SYNCED"
+        },
+        "control": {
+          "extensions": {
+            "fitness": [],
+            "guardrails": [
+              {
+                "enabled": true,
+                "id": "universal-safety",
+                "reason": "cross-project safety invariants",
+                "source": "builtin",
+                "version": "1.0.0"
+              },
+              {
+                "enabled": true,
+                "id": "cross-project-context-binding",
+                "reason": "bind management instructions and returns to this project",
+                "source": "builtin",
+                "version": "1.0.0"
+              },
+              {
+                "adoption": "COPIED_SNAPSHOT",
+                "enabled": true,
+                "id": "github-repository-binding",
+                "installed_path": ".gpt-codex/extensions/guardrails/github-repository-binding",
+                "reason": "bind management publication to repository 1366213495",
+                "source": "builtin",
+                "source_checksum": "populate-after-copy",
+                "source_framework_version": "2.2.1",
+                "version": "1.0.0"
+              }
+            ],
+            "skills": [
+              {
+                "adoption": "COPIED_SNAPSHOT",
+                "enabled": true,
+                "id": "github-project-continuity",
+                "installed_path": ".gpt-codex/extensions/skills/github-project-continuity",
+                "reason": "resume and publish the confirmed management baseline",
+                "source": "builtin",
+                "source_checksum": "populate-after-copy",
+                "source_framework_version": "2.2.1",
+                "version": "1.0.0"
+              }
+            ]
+          },
+          "framework": {
+            "adopted_version": "2.2.1",
+            "evaluation_result": "ADOPTED",
+            "last_evaluated_version": "2.2.1"
+          },
+          "framework_management_only": true,
+          "github": {
+            "default_branch": "main",
+            "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+            "repository_id": "1366213495"
+          },
+          "governance_profile": "FRAMEWORK_MANAGEMENT",
+          "kernel_version": "2.0.0",
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "project_name": "通用开发框架管理",
+          "roots": {
+            "framework_builtins_access": "READ_ONLY",
+            "framework_kernel_access": "READ_ONLY",
+            "framework_role": "SELF_MANAGED",
+            "harvest_namespace": "PRJ-FRAMEWORK-MANAGEMENT",
+            "project_role": "AUTHORITATIVE"
+          },
+          "schema_version": 1
+        },
+        "current_attestation_head": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+        "hot_files": [],
+        "hot_modules": [],
+        "invalidated_context": [],
+        "map_route": "MAP_MISSING",
+        "module_map_reads": [],
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "reconciliation_required": false,
+        "remote_reverification_required": true,
+        "repository_id": "1366213495",
+        "required_reads": [],
+        "resume_mode": "COLD_RESUME",
+        "stale_modules": [],
+        "state": {
+          "active_work_unit": "framework-staged-closure-group-a-001",
+          "blockers": [],
+          "continuity": {
+            "current_remote_ref": "refs/heads/main",
+            "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+            "latest_synced_state_revision": 33,
+            "latest_verified_remote_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+            "sync_status": "SYNCED"
+          },
+          "evidence_refs": [
+            ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
+            ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.4.0-RELEASE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.5.0-RELEASE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.6.0-RELEASE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+            ".gpt-codex/evidence/results/RESULT-TASK3-PREEXEC-ROLE-AUTHORITY-001.json",
+            ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS.json",
+            ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION.json",
+            ".gpt-codex/evidence/TASK3-USER-DIRECTED-DEFERRAL.json",
+            ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json",
+            ".gpt-codex/evidence/TASK3-DEFERRAL-PUBLICATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
+            ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json",
+            ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
+            ".gpt-codex/evidence/V2.7.2-REMOTE-PUBLICATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.7.2-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.7.2-FIX1-REMOTE-PUBLICATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.7.2-FIX2-REMOTE-PUBLICATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json",
+            ".gpt-codex/evidence/V2.7.3-REMOTE-PUBLICATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json",
+            ".gpt-codex/evidence/results/RESULT-P2-FINDING-004.json",
+            ".gpt-codex/evidence/P2-FINDING-004-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/P2-FINDING-004-AUTHORITY-BASIS.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+            ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+            ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+            ".gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+            ".gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+            ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json",
+            ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+            ".gpt-codex/evidence/PHASE-G-REPOSITORY-STRUCTURE-FREEZE-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-REMOTE-INTEGRATION-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-FINAL-REVIEW.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-FINDING.json",
+            ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS.json",
+            ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json",
+            ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
+            ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
+            ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json",
+            ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json",
+            ".gpt-codex/evidence/L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-POST.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+            ".gpt-codex/evidence/instructions/abab148b-1967-4113-9f13-6f147789058f.json",
+            ".gpt-codex/evidence/instructions/60426adc-39dc-49b7-a031-ba52659f1e49.json",
+            ".gpt-codex/evidence/instructions/eface2a2-80e2-4b5b-b11e-4519cce70d8f.json",
+            ".gpt-codex/evidence/instructions/ba5fdb19-cc71-4fea-9c26-9348da8fe743.json",
+            ".gpt-codex/evidence/instructions/afb22324-8cd0-494f-92b6-93c3149b362e.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-SYNC-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-POST.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+            ".gpt-codex/evidence/POST-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-SYNC-PRE.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-POST.json",
+            ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+            ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+            ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+            ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+            ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+            ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+            ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+            ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+            ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+            ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+            ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json"
+          ],
+          "kernel_version": "2.0.0",
+          "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "reconciliation": null,
+          "revision": 33,
+          "schema_version": 1,
+          "state": "AUTHORIZED"
+        },
+        "status": "LATEST_SYNCED_REMOTE_STATE",
+        "verified_baseline_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa"
+      },
+      "non_ascii_path_facts": {
+        "all_paths_exist": true,
+        "all_utf8_roundtrip": true,
+        "examples": [],
+        "repository_common_dir": "D:/通用开发框架管理/gpt-codex-framework/.git",
+        "repository_root": "D:\\通用开发框架管理\\gpt-codex-framework",
+        "subprocess_common_dir_roundtrip": "D:/通用开发框架管理/gpt-codex-framework/.git",
+        "tracked_path_count": 0
+      },
+      "observed_utc": "2026-10-06T11:35:31.403826+00:00",
+      "status": "PASS",
+      "unicode_facts": {
+        "context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "original": "通用开发框架管理|项目上下文|cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "subprocess_roundtrip": "通用开发框架管理|项目上下文|cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "utf8_hex": "e9809ae794a8e5bc80e58f91e6a186e69eb6e7aea1e790867ce9a1b9e79baee4b88ae4b88be696877c63623165303435302d646633322d346666362d386133332d333531383762363961383636"
+      }
+    },
+    "observations": {
+      "COMPANION_WORK_UNIT_SCHEMA": [],
+      "EXACT_REMOTE_BASELINE": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "EXECUTE_INSTRUCTION_RESOLUTION": {
+        "envelope": {
+          "authorized_actions": [
+            "READ",
+            "TEST",
+            "VALIDATE",
+            "REPORT",
+            "MUTATE_APPROVED_SCOPE"
+          ],
+          "completion_gate": "GPT_DECISION",
+          "executor_role": "CODEX_IMPLEMENTER",
+          "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_ref": "refs/heads/main",
+          "expected_state_revision": 33,
+          "forbidden_actions": [
+            "AUTHORIZE",
+            "SCOPE_EXPANSION"
+          ],
+          "framework_version": "2.7.4",
+          "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+          "instruction_type": "EXECUTION_INSTRUCTION",
+          "issuer_role": "GPT_ORCHESTRATOR",
+          "return_role": "GPT_ORCHESTRATOR",
+          "scope_paths": [
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+            ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+            ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+            ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+            ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+            ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+            ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+            ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+          ],
+          "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "target_github_repository_id": "1366213495",
+          "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "target_project_name": "通用开发框架管理",
+          "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          }
+        },
+        "expected_state_revision": 33,
+        "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+        "instruction_locator": {
+          "blob_sha": "b40a6e49d544bc974cdc2d9285621d401c846554",
+          "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+          "path": ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+        },
+        "work_unit": {
+          "acceptance": [
+            "Exact native PRE and independent POST PASS",
+            "No documentation/source/test/release/plugin/P41 mutation",
+            "Exact remote readback and native handoff",
+            "Stop at STATE34 gate; next Freeze requires separate authorization"
+          ],
+          "artifact_refs": {
+            "design": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            },
+            "plan": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            }
+          },
+          "basis_state_revision": 33,
+          "default_branch": "main",
+          "directory_creations": [],
+          "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+          "kernel_version": "2.0.0",
+          "permissions": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT",
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ]
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "schema_version": 1,
+          "scope": {
+            "excluded_paths": [
+              "docs/",
+              "Documentation/",
+              "source/",
+              "tests/",
+              "scripts/",
+              "plugin/",
+              "plugins/",
+              "release/",
+              "release package/",
+              ".gpt-codex/scripts/",
+              ".gpt-codex/tests/",
+              ".gpt-codex/schemas/",
+              ".gpt-codex/builtins/",
+              ".gpt-codex/kernel/",
+              "P41/"
+            ],
+            "owned_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ]
+          },
+          "selected_extensions": {},
+          "state": "AUTHORIZED",
+          "target_state_revision": 34,
+          "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+        }
+      },
+      "EXECUTION_AUTHORITY": [],
+      "EXECUTION_SCHEMA": [],
+      "FRAMEWORK_VALIDATOR": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n"
+      },
+      "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE": {
+        "locator": {
+          "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY": {
+        "locator": {
+          "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "LOCAL_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE": {
+        "locator": {
+          "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "MODULE_ROUTE": {
+        "affected_modules": [
+          "framework-core"
+        ],
+        "contracts_affected": [],
+        "invariants_affected": [],
+        "outcome": "MODULE_ROUTE",
+        "primary_module": "framework-core",
+        "required_tests": [
+          ".gpt-codex/tests/test_execution_telemetry.py",
+          ".gpt-codex/tests/test_framework_feedback.py",
+          ".gpt-codex/tests/test_framework_module_routing.py",
+          ".gpt-codex/tests/test_framework_module_schemas.py",
+          ".gpt-codex/tests/test_kernel_conformance.py"
+        ],
+        "why_cross_module": null
+      },
+      "NATIVE_GOVERNED_MUTATION_ENTRY": [],
+      "NATIVE_PRE_EXECUTION_REVIEW": [],
+      "PACKET_CHANGED_PATHS_EXACT_SCOPE": [
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+        ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+        ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+        ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+        ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+        ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json"
+      ],
+      "PRE_INSTRUCTION_RESOLUTION": {
+        "envelope": {
+          "authorized_actions": [
+            "READ",
+            "TEST",
+            "VALIDATE",
+            "REPORT"
+          ],
+          "completion_gate": "GPT_DECISION",
+          "executor_role": "CODEX_REVIEWER",
+          "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_ref": "refs/heads/main",
+          "expected_state_revision": 33,
+          "forbidden_actions": [
+            "AUTHORIZE",
+            "SCOPE_EXPANSION"
+          ],
+          "framework_version": "2.7.4",
+          "in_response_to_instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+          "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+          "instruction_type": "REVIEW_REQUEST",
+          "issuer_role": "GPT_ORCHESTRATOR",
+          "return_role": "GPT_ORCHESTRATOR",
+          "review_target_revision": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "scope_paths": [
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+            ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+            ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+            ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+            ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+            ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+            ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+            ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+          ],
+          "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "target_github_repository_id": "1366213495",
+          "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "target_project_name": "通用开发框架管理",
+          "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          }
+        },
+        "expected_state_revision": 33,
+        "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+        "instruction_locator": {
+          "blob_sha": "0f0415d114cea00885168089eca51f152036d1a0",
+          "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+          "path": ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+        },
+        "work_unit": {
+          "acceptance": [
+            "Exact native PRE and independent POST PASS",
+            "No documentation/source/test/release/plugin/P41 mutation",
+            "Exact remote readback and native handoff",
+            "Stop at STATE34 gate; next Freeze requires separate authorization"
+          ],
+          "artifact_refs": {
+            "design": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            },
+            "plan": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            }
+          },
+          "basis_state_revision": 33,
+          "default_branch": "main",
+          "directory_creations": [],
+          "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+          "kernel_version": "2.0.0",
+          "permissions": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT",
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ]
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "schema_version": 1,
+          "scope": {
+            "excluded_paths": [
+              "docs/",
+              "Documentation/",
+              "source/",
+              "tests/",
+              "scripts/",
+              "plugin/",
+              "plugins/",
+              "release/",
+              "release package/",
+              ".gpt-codex/scripts/",
+              ".gpt-codex/tests/",
+              ".gpt-codex/schemas/",
+              ".gpt-codex/builtins/",
+              ".gpt-codex/kernel/",
+              "P41/"
+            ],
+            "owned_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ]
+          },
+          "selected_extensions": {},
+          "state": "AUTHORIZED",
+          "target_state_revision": 34,
+          "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+        }
+      },
+      "PRIMARY_WORK_UNIT_SCHEMA": [],
+      "PROJECT_VALIDATOR": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-33\nPROJECT_CONTEXT_BINDING: PASS\n"
+      },
+      "PUBLICATION_AUTHORITY_AND_REQUIRED_TESTS": {
+        "errors": 0,
+        "failures": 0,
+        "skips": [],
+        "test_count": 284,
+        "test_files": [
+          ".gpt-codex/tests/test_execution_telemetry.py",
+          ".gpt-codex/tests/test_framework_feedback.py",
+          ".gpt-codex/tests/test_framework_module_routing.py",
+          ".gpt-codex/tests/test_framework_module_schemas.py",
+          ".gpt-codex/tests/test_kernel_conformance.py",
+          ".gpt-codex/tests/test_publication_authority.py",
+          ".gpt-codex/tests/test_instruction_envelope.py",
+          ".gpt-codex/tests/test_instruction_role_contract.py",
+          ".gpt-codex/tests/test_role_authority.py",
+          ".gpt-codex/tests/test_review_lifecycle.py",
+          ".gpt-codex/tests/test_framework_plugin.py",
+          ".gpt-codex/tests/test_handoff_navigation_contract.py",
+          ".gpt-codex/tests/test_continuity_resume.py",
+          ".gpt-codex/tests/test_bounded_attestation.py",
+          ".gpt-codex/tests/test_result_contract_schema.py",
+          ".gpt-codex/tests/test_result_return.py",
+          ".gpt-codex/tests/test_role_communication_taxonomy.py"
+        ]
+      },
+      "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf"
+      },
+      "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95"
+      },
+      "REMOTE_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d"
+      },
+      "RESULT_AUTHORITY": [],
+      "RESULT_COMPLETION_EVIDENCE": [],
+      "RESULT_SCHEMA": [],
+      "REVIEW_REQUEST_AUTHORITY": [],
+      "REVIEW_REQUEST_SCHEMA": [],
+      "REVIEW_RESULT_ROLE": [],
+      "STATE33_AUTHORITY": [],
+      "STATE34_CANDIDATE_AUTHORITY": [],
+      "STATE34_CANDIDATE_SCHEMA": [],
+      "STATE34_candidate": {
+        "active_work_unit": "framework-staged-closure-group-a-001",
+        "blockers": [],
+        "continuity": {
+          "current_remote_ref": "refs/heads/main",
+          "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+          "latest_synced_state_revision": 33,
+          "latest_verified_remote_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+          "sync_status": "SYNC_PENDING"
+        },
+        "evidence_refs": [
+          ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
+          ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.3.0-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.4.0-RELEASE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.4.0-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.5.0-RELEASE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.5.0-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.6.0-RELEASE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.6.0-PUBLICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+          ".gpt-codex/evidence/results/RESULT-TASK3-PREEXEC-ROLE-AUTHORITY-001.json",
+          ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-BASIS.json",
+          ".gpt-codex/evidence/TASK3-PREEXEC-ROLE-AUTHORITY-001-ADJUDICATION.json",
+          ".gpt-codex/evidence/TASK3-USER-DIRECTED-DEFERRAL.json",
+          ".gpt-codex/evidence/results/RESULT-TASK3-USER-DIRECTED-DEFERRAL.json",
+          ".gpt-codex/evidence/TASK3-DEFERRAL-PUBLICATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-TASK3-DEFERRAL-PUBLICATION.json",
+          ".gpt-codex/evidence/BOOTSTRAP-WU-AUTHORITY-001-ADJUDICATION.json",
+          ".gpt-codex/evidence/STAGED-CLOSURE-GROUP-A-BOOTSTRAP-ADJUDICATION.json",
+          ".gpt-codex/evidence/V2.7.2-REMOTE-PUBLICATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.7.2-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.7.2-FIX1-REMOTE-PUBLICATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX1-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.7.2-FIX2-REMOTE-PUBLICATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.7.2-FIX2-PUBLICATION.json",
+          ".gpt-codex/evidence/V2.7.3-REMOTE-PUBLICATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-V2.7.3-PUBLICATION.json",
+          ".gpt-codex/evidence/results/RESULT-P2-FINDING-004.json",
+          ".gpt-codex/evidence/P2-FINDING-004-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/P2-FINDING-004-AUTHORITY-BASIS.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+          ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+          ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+          ".gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+          ".gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+          ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json",
+          ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+          ".gpt-codex/evidence/PHASE-G-REPOSITORY-STRUCTURE-FREEZE-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-REMOTE-INTEGRATION-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-FINAL-REVIEW.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-FINDING.json",
+          ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS.json",
+          ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json",
+          ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
+          ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
+          ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json",
+          ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json",
+          ".gpt-codex/evidence/L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-POST.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+          ".gpt-codex/evidence/instructions/abab148b-1967-4113-9f13-6f147789058f.json",
+          ".gpt-codex/evidence/instructions/60426adc-39dc-49b7-a031-ba52659f1e49.json",
+          ".gpt-codex/evidence/instructions/eface2a2-80e2-4b5b-b11e-4519cce70d8f.json",
+          ".gpt-codex/evidence/instructions/ba5fdb19-cc71-4fea-9c26-9348da8fe743.json",
+          ".gpt-codex/evidence/instructions/afb22324-8cd0-494f-92b6-93c3149b362e.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-SYNC-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-POST.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/POST-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-SYNC-PRE.json",
+          ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-POST.json",
+          ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+          ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+          ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+          ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+          ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+          ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+          ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+          ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+          ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+          ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+          ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+          ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json"
+        ],
+        "kernel_version": "2.0.0",
+        "next_action": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE_REQUIRED",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "reconciliation": null,
+        "revision": 34,
+        "schema_version": 1,
+        "state": "AUTHORIZED"
+      }
+    },
+    "test_observations": [
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_event_classes_do_not_infer_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_low_confidence_sequence_identity_and_repeat_subject_enable_out_of_order"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_observation_only_and_reconstruction_are_reference_only"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_publication_event_remains_valid_and_out_of_order_outranks_late"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_repeat_lineage_uses_earliest_and_chronology_uses_latest"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_result_status_inconsistency_requires_matching_non_null_correlation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_snapshot_has_only_result_status_and_compares_matching_result_status"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_zero_telemetry_is_not_authoritative_fallback_or_p0_5_implementation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_rejects_all_unsafe_raw_content_aliases"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_rejects_nested_provenance_and_detaches_mutable_inputs"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_retention_and_observational_absence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskOneTests.test_framework_core_owns_telemetry_paths_and_vocabulary_is_closed"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskThreeTests.test_collector_deduplicates_retries_and_appends_cross_source_repeat"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskThreeTests.test_ordering_precedence_stale_outranks_out_of_order"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_low_confidence_fallback_requires_complete_producer_identity"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_normalization_creates_immutable_derived_event_and_deterministic_key"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_normalization_rejects_authority_and_sensitive_fields_but_allows_status"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_slot_id_and_source_are_required_non_empty_strings"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c1_normalizes_bounded_complete_evidence_and_rejects_unsafe_or_authority_content"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c1_rejects_nonserializable_or_unbounded_nested_process_usage"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c2_complete_evidence_derives_one_process_review_without_duplicate_counting"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c3_feedback_derivation_retains_review_and_evidence_links_without_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c4_candidate_is_bounded_deterministic_and_non_authorizing"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c5_recurrence_relevance_is_deterministic_and_retains_source_references"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c6_harvest_relation_remains_reference_only"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c7_management_input_is_non_authorizing_with_default_no_decision_no_mutation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_c8_closed_loop_matrix_preserves_evidence_classification_and_candidate_non_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_closed_work_unit_record_is_bounded_and_unknown_usage_is_retained"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_feedback_evidence_refs_are_immutable_and_validated"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_feedback_is_evidence_only_and_rejects_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_feedback_template_is_evidence_only"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_policy_and_counter_negatives_and_validator_reuse"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_policy_key_and_length_boundaries"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_process_review_aggregates_observable_counters_and_unknown_usage"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_process_review_aggregates_reliable_record_usage_without_overriding_explicit_usage"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_process_review_retains_all_observable_counters"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_project_strategy_profile_governs_work_units_and_requires_explicit_change"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_reasoning_template_has_only_bounded_execution_record_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_valid_feedback_is_evidence_but_never_mutation_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_valid_fixed_execution_policy_is_accepted"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_feedback.FrameworkFeedbackTests.test_validate_project_cli_reports_malformed_policy"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_consumed_output_contract_requires_cross_module_change"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_contract_consumer_requires_reciprocal_dependency_metadata"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_declared_output_without_consumers_remains_single_module"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_dependency_and_used_by_edges_must_be_reciprocal"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_each_registered_descriptor_has_exact_identity_and_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_exact_inside_prefix_is_an_ownership_conflict"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_foreign_owned_asset_is_classified_as_cross_module"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_framework_feedback_assets_belong_to_framework_core"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_inactive_or_unregistered_candidate_fails_closed"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_invalid_contract_consumer_dependency_fails_before_routing"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_asset_does_not_use_path_prefix_semantics"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_asset_is_a_resolvable_exact_mutation_owner"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_identifier_duplicates_conflict"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_identifiers_do_not_overlap_physical_paths"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_malformed_selector_is_descriptor_invalid_without_raising"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_descriptor_is_reported_as_module_descriptor_invalid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_or_mismatched_responsibility_is_unresolved"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_registry_raises_module_registry_invalid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_mixed_namespace_different_owners_is_ambiguous_not_conflict"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_overlapping_prefixes_are_an_ownership_conflict"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_ownership_conflict_is_returned_by_validation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_physical_only_value_routes_without_logical_selector"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_prefix_matching_respects_component_boundaries"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_reading_a_dependency_does_not_make_a_change_cross_module"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_reciprocal_contract_consumer_dependency_remains_cross_module"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_registry_core_assets_have_exactly_framework_core_owner"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_registry_has_exact_initial_module_ids"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_required_tests_are_sorted_and_deduplicated"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_same_owner_in_physical_and_logical_namespaces_is_unique"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_selector_paths_reject_absolute_and_parent_traversal"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_single_module_route_is_returned_for_one_verified_owner"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_slash_containing_logical_identifier_routes_without_physical_selector"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_undeclared_contract_does_not_guess_a_consumer"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_unsafe_physical_forms_cannot_use_logical_fallback"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_routing.FrameworkModuleRoutingTests.test_zero_owner_is_unresolved"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_schemas.FrameworkModuleSchemaTests.test_module_schema_has_exact_descriptor_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_schemas.FrameworkModuleSchemaTests.test_owned_asset_schema_is_exact_two_field_object"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_module_schemas.FrameworkModuleSchemaTests.test_registry_schema_freezes_authority_and_status"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_complete_is_terminal"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_complete_requires_authoritative_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_extension_reason_must_be_admissible"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_governed_change_policy_is_present_on_canonical_surfaces"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_harvest_candidate_is_not_builtin"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_invalid_shortcut_to_complete"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_model_inference_not_completion_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_permission_can_narrow"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_permission_cannot_expand"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_project_extension_requires_provenance"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_revision_guard"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_kernel_conformance.KernelConformanceTests.test_valid_lifecycle"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_candidate_authority_cannot_pass_or_sync"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_candidate_state_cannot_be_complete"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_complete_requires_durable_verified_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_pass_requires_verified_remote_for_each_nonverified_status"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_pass_with_verified_formal_publication_is_allowed"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_release_phase_derivation_requires_progressively_bound_facts"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_synced_requires_verified_publication_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_current_revision_and_durable_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_nonempty_verified_baseline_sha"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.ContractRepairTask2Tests.test_mutating_instruction_types_require_scope_paths"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.ContractRepairTask2Tests.test_remediation_ref_and_strict_semver_contract"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.ContractRepairTask2Tests.test_scope_paths_are_required_nonempty_relative_unique_selectors"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_builder_generates_all_required_fields_without_manual_identity"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_challenge_bound_bootstrap_carries_exact_challenge"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_instruction_is_one_copyable_block_with_envelope_first"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_instruction_schema_and_template_exist_with_context_contract"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_legacy_bootstrap_carries_target_project_id"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_minimal_renderer_preserves_canonical_envelope"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_normal_instruction_requires_target_and_challenge_bootstrap_is_identity_only"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_optional_work_unit_locator_has_one_consistent_shape_and_preserves_legacy_building"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_envelope.InstructionEnvelopeTests.test_review_dispatch_requires_independent_freshness_and_allowed_sources"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_action_authority_and_correlation_bounds_fail_closed"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_bounded_legacy_codex_route_maps_to_one_executor"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_builder_serializes_supplied_role_action_evidence_and_correlation_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_legacy_aliases_map_to_one_implementer_without_result_side_reinterpretation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_modern_instructions_require_one_scalar_known_executor"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_new_instructions_require_issuer_and_return_roles"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_reconciliation_approval_evidence_locator_is_closed_and_eligible"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_renderer_emits_instruction_type_and_role_fields_once"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_result_side_types_are_rejected_from_instruction_builder"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_instruction_role_contract.InstructionRoleContractTests.test_schema_and_template_expose_only_instruction_side_contract"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_finding_cannot_be_submitted_as_an_instruction"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_missing_issuer_and_return_roles_are_invalid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_registry_metadata_does_not_authorize_role_actions"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_reviewer_cannot_issue_fix_instruction"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_reviewer_mutation_is_denied_as_role_authority_conflict"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_stale_revision_and_scope_expansion_block_continuation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_unknown_issuer_and_return_roles_are_invalid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_unknown_plural_or_allocation_identity_is_invalid_instruction"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_authority.RoleAuthorityTests.test_valid_implementer_authority_passes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_empty_remediation_decision_is_rejected"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_explicit_decision_and_new_fix_instruction_are_required_for_remediation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_finding_requires_evidence_and_does_not_authorize_a_fix"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_finding_without_evidence_or_reviewed_sha_is_rejected"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_governed_fix_accepts_repository_resolved_adjudication"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_governed_fix_accepts_repository_resolved_regression_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_governed_fix_rejects_fake_memory_adjudication_without_durable_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_governed_mutation_entry_composes_durable_fix_gate"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_legacy_instruction_cannot_bypass_pre_execution_review"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_pairwise_review_policy_rejects_missing_or_ambiguous_slots"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_pre_execution_review_preserves_reviewer_and_identity_failures"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_pre_execution_review_requires_exact_authorization_and_correlation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_re_review_binds_new_revision_and_retains_original_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_re_review_requires_fix_correlation_and_resulting_revision"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_remediation_adjudication_accepts_authority_and_regression_bases"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_remediation_adjudication_fails_closed_for_invalid_or_unrelated_basis"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_repository_authority_requires_correlated_execution_fact_not_artifact_existence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_binds_exact_revision_and_identity"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_rejects_missing_decision_ref"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_requires_decision_evidence_to_resolve_instruction_ref"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_task7_control_plane_paths_remain_exact_files"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_review_lifecycle.ReviewLifecycleTests.test_task9_composed_fix_chain_uses_production_builder_lifecycle_and_git_oracle"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginCapabilityTests.test_capability_names_are_exact_and_unknown_is_denied"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginCapabilityTests.test_executable_request_without_pre_review_is_denied_by_core"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginCapabilityTests.test_validation_access_does_not_claim_completion"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_complete_bindings_project_native_handoff_without_new_authority"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_every_proper_nonempty_binding_subset_reconciles_without_inference"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_execution_slot_requires_native_current_work_match"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_execution_slot_without_handoff_bindings_reconciles"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_load_failure_shapes_across_baseline_consumers"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_malformed_baseline_preserves_distinct_error_shapes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_non_latest_baseline_keeps_each_consumer_status"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_result_handoff_each_missing_binding_reconciles"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_result_handoff_native_result_has_compact_return_and_exact_shape"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_result_handoff_reconciles_native_failure_and_missing_result_id"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_slotless_synced_baseline_has_only_context_projection"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginClassificationRegressionTests.test_stale_foreign_invalid_and_native_failure_bindings_reconcile"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginFeedbackTests.test_feedback_routes_only_from_bound_project_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginFeedbackTests.test_marker_change_is_only_a_resume_signal"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginInstructionTests.test_canonical_instruction_bytes_are_stable"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginInstructionTests.test_exact_locator_resolves_instruction_bindings"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginInstructionTests.test_instruction_path_is_deterministic_and_rejects_invalid_id"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginResultTests.test_result_handoff_is_derived_from_exact_native_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginResultTests.test_result_handoff_requires_all_bindings"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginResumeTests.test_explicit_slotless_bindings_produce_result_handoff"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginResumeTests.test_partial_bindings_reconcile_without_inference"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_framework_plugin.FrameworkPluginResumeTests.test_slotless_baseline_needs_no_handoff_bindings"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_complete_slot_authority_enriches_exact_result_handoff"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_current_target_result_requires_nonempty_string_id_with_legacy_inventory"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_duplicate_nonempty_result_ids_reconcile_including_unrelated_history"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_instruction_resolution_checks_actual_origin_identity"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_instruction_resolution_requires_canonical_committed_bytes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_legacy_result_still_requires_committed_clean_parseable_json"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_missing_explicit_bindings_reconcile_without_using_active_work_unit"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_accepts_exact_verified_head"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_rejects_invalid_continuity_commits"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_uses_exact_instruction_and_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_repository_handoff_requires_unique_durable_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_two_results_matching_current_instruction_still_reconcile"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_unrelated_legacy_results_without_ids_allow_exact_target_handoff"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_handoff_navigation_contract.HandoffNavigationContractTests.test_handoff_preserves_derived_navigation_and_resume_boundaries"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityArtifactReferenceCompatibilityTests.test_legacy_work_unit_without_artifact_refs_remains_valid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_compare_context_sources_invalidates_only_changed_source"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_compare_context_sources_keeps_unchanged_project_map_valid"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_compare_context_sources_queues_missing_declared_source"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_compare_context_sources_rejects_absolute_and_parent_paths"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_execution_progress_projection_derives_safe_and_fail_closed_outcomes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_execution_progress_projection_requires_concrete_failure_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_fingerprint_file_uses_exact_raw_bytes_sha256_format"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_load_resume_checkpoint_rejects_non_file_and_invalid_payloads"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_load_resume_checkpoint_retains_hot_modules"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_load_resume_checkpoint_returns_none_when_checkpoint_is_absent"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_local_unsynced_resume_returns_all_non_optimization_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_derivation_rejects_ambiguous_correlated_reviewers"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_derivation_rejects_identical_implementer_and_reviewer_slot_id"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_derivation_rejects_reviewer_without_unique_implementer_peer"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_derivation_uses_full_recovery_for_each_selected_slot"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_fact_derivation_fails_closed_without_a_unique_role_pair"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_pairwise_worktree_identity_distinguishes_aliases_from_real_worktrees"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_accepts_attestation_head_p_for_verified_baseline_w"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_blocks_wrong_repository"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_ignores_unrelated_changed_paths_for_candidate_modules"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_keeps_fast_mode_for_planned_continuation_reads"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_marks_only_the_changed_shared_fixture_module_stale"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_navigation_fixture_uses_schema_shaped_maps"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_normalizes_changed_hot_file_paths_before_targeting_reads"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_requires_reconciliation_when_attested_work_is_unreachable"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_requires_selected_repository_id_and_reads_canonical_state"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_treats_unknown_candidate_modules_as_a_map_miss"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_uses_cold_route_when_navigation_and_checkpoint_are_missing"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_uses_delta_route_for_a_changed_candidate_module"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.ContinuityResumeTests.test_resume_uses_fast_route_when_navigation_and_checkpoint_are_fresh"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_complete_slot_authority_enriches_exact_result_handoff"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_current_target_result_requires_nonempty_string_id_with_legacy_inventory"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_duplicate_nonempty_result_ids_reconcile_including_unrelated_history"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_instruction_resolution_checks_actual_origin_identity"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_instruction_resolution_requires_canonical_committed_bytes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_legacy_result_still_requires_committed_clean_parseable_json"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_missing_explicit_bindings_reconcile_without_using_active_work_unit"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_accepts_exact_verified_head"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_rejects_invalid_continuity_commits"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_handoff_uses_exact_instruction_and_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_slotless_repository_handoff_requires_unique_durable_result"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_two_results_matching_current_instruction_still_reconcile"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_continuity_resume.RepositoryHandoffBindingTests.test_unrelated_legacy_results_without_ids_allow_exact_target_handoff"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_bounded_attestation.BoundedAttestationTests.test_publication_can_attest_verified_work_without_self_reference"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_bounded_attestation.BoundedAttestationTests.test_publication_cannot_attest_unverified_work"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_bounded_attestation.BoundedAttestationTests.test_publication_generic_drift_requires_reconciliation"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_bounded_attestation.BoundedAttestationTests.test_publication_self_reference_is_rejected"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_bounded_attestation.BoundedAttestationTests.test_work_candidate_is_local_complete_pending"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ContractRepairTask3Tests.test_approval_result_is_intrinsic_and_does_not_correlate_request_scope"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ContractRepairTask3Tests.test_intrinsic_approval_rejects_unknown_outer_locator_and_authority_claim"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ContractRepairTask3Tests.test_intrinsic_approval_result_is_closed_and_only_complete_transaction_bypasses_execution_closure"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_completion_evidence_contract_requires_completed_zero_exit_complete_scope_and_validators"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_completion_evidence_denies_absent_validators_partial_process_and_blocked_without_proof"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_governed_pass_fails_closed_while_legacy_result_remains_compatible"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_handoff_names_envelope_as_source_and_return_as_derived_view"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_partial_scope_and_valid_blocked_are_direct_completion_behaviors"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_public_result_contract_rejects_synced_empty_evidence_refs"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_result_type_is_not_instruction_type_and_generic_message_type_is_rejected"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_role_observation_matches_frozen_minimal_shape"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_accepts_direct_incomplete_completion_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_has_mechanical_publication_conditionals"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_preserves_kernel_and_schema_versions_and_declares_return_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_rejects_governed_pass_with_null_completion_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_rejects_governed_pass_with_partial_completion_evidence"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_schema_rejects_governed_pass_without_completion_evidence_but_keeps_legacy"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_contract_schema.ResultContractSchemaTests.test_template_contains_a_complete_return_contract_example"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_allows_only_safe_repository_relative_locator_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_filters_all_secret_bearing_locator_fields"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_includes_bounded_navigation_without_sensitive_content"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_is_durable_ref_first"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_is_empty_when_return_not_required"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_omits_invalid_sensitive_or_oversized_locator"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_requires_nonempty_durable_result_ref"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_compact_return_uses_top_level_sha_fallback_and_renders_blockers"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_current_compact_return_cannot_substitute_a_legacy_path_for_missing_id"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_empty_fields_are_stable_none_values"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_fail_and_blocked_produce_complete_returns"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_intrinsic_approval_fields_render_only_from_the_envelope"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_large_logs_are_not_part_of_return_contract"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_pass_produces_complete_paste_ready_return"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_return_is_not_emitted_when_not_required"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_return_text_is_derived_from_the_envelope"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_result_return.ResultReturnTests.test_role_and_result_labels_are_derived_without_generic_message_type"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_action_authority_rejects_non_array_shapes"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_action_authority_rejects_unknown_overlap_and_role_violations"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_executor_validation_rejects_missing_plural_compound_and_unknown_values"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_instruction_and_result_types_are_disjoint"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_legacy_codex_route_requires_bounded_structured_context"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_legacy_instruction_aliases_are_explicit_and_fail_closed"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_roles_are_exactly_the_approved_protocol_roles"
+      },
+      {
+        "status": "PASS",
+        "test_id": "test_role_communication_taxonomy.RoleCommunicationTaxonomyTests.test_type_validators_are_side_specific"
+      }
+    ],
+    "validator_group_members": {
+      "DETAILED_VALIDATION_EVIDENCE": [
+        "RESULT_SCHEMA",
+        "RESULT_AUTHORITY",
+        "RESULT_COMPLETION_EVIDENCE"
+      ],
+      "DOCUMENTATION_CLOSURE_AUTHORITY": [
+        "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "LOCAL_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "LOCAL_BLOB_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "DOCUMENTATION_CLOSURE_AUTHORITY"
+      ],
+      "EXACT_REMOTE_READBACK": [
+        "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "REMOTE_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+        "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+        "FINAL_CLEAN_CHECKOUT"
+      ],
+      "FRAMEWORK_VALIDATOR": [
+        "FRAMEWORK_VALIDATOR"
+      ],
+      "INDEPENDENT_POST": [
+        "REVIEW_RESULT_ROLE"
+      ],
+      "INSTRUCTION_ROLE_AUTHORITY": [
+        "EXECUTE_INSTRUCTION_RESOLUTION",
+        "PRE_INSTRUCTION_RESOLUTION",
+        "EXECUTION_SCHEMA",
+        "EXECUTION_AUTHORITY",
+        "REVIEW_REQUEST_SCHEMA",
+        "REVIEW_REQUEST_AUTHORITY",
+        "EXACT_IMPLEMENTER_ROLE"
+      ],
+      "NEXT_ACTION_TOKEN_ADJUDICATION": [
+        "TOKEN_ADJUDICATION"
+      ],
+      "PROJECT_VALIDATOR": [
+        "PROJECT_VALIDATOR"
+      ],
+      "PUBLICATION_AUTHORITY_TESTS": [
+        "LOAD_test_execution_telemetry",
+        "LOAD_test_framework_feedback",
+        "LOAD_test_framework_module_routing",
+        "LOAD_test_framework_module_schemas",
+        "LOAD_test_kernel_conformance",
+        "LOAD_test_publication_authority",
+        "LOAD_test_instruction_envelope",
+        "LOAD_test_instruction_role_contract",
+        "LOAD_test_role_authority",
+        "LOAD_test_review_lifecycle",
+        "LOAD_test_framework_plugin",
+        "LOAD_test_handoff_navigation_contract",
+        "LOAD_test_continuity_resume",
+        "LOAD_test_bounded_attestation",
+        "LOAD_test_result_contract_schema",
+        "LOAD_test_result_return",
+        "LOAD_test_role_communication_taxonomy",
+        "PUBLICATION_AUTHORITY_AND_REQUIRED_TESTS"
+      ],
+      "PUBLICATION_PRE": [
+        "NATIVE_PRE_EXECUTION_REVIEW",
+        "NATIVE_GOVERNED_MUTATION_ENTRY"
+      ],
+      "REFERENCE_RECOVERY_AUTHORITY": [
+        "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+        "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY"
+      ],
+      "REMOTE_BASELINE_IDENTITY": [
+        "EXACT_PACKET_CHECKOUT",
+        "EXACT_REMOTE_BASELINE"
+      ],
+      "SCOPE_AUTHORITY": [
+        "EXACT_SCOPE_AUTHORITY",
+        "PACKET_CHANGED_PATHS_EXACT_SCOPE"
+      ],
+      "STATE34_CANDIDATE_CONSISTENCY": [
+        "STATE33_BASELINE",
+        "PREVIOUS_FAILURE_NEGATIVE_CONTROL_ONLY",
+        "PREVIOUS_FAILURE_BYTES_UNCHANGED",
+        "PRESERVED_STATE_active_work_unit",
+        "PRESERVED_STATE_kernel_version",
+        "PRESERVED_STATE_project_id",
+        "PRESERVED_STATE_schema_version",
+        "PRESERVED_STATE_state",
+        "HISTORICAL_REFS_PRESERVED",
+        "CANDIDATE_CONTINUITY_PENDING_ONLY",
+        "STATE34_CANDIDATE_SCHEMA",
+        "STATE33_AUTHORITY",
+        "STATE34_CANDIDATE_AUTHORITY"
+      ],
+      "UTF8_EXECUTION_PREFLIGHT": [
+        "UTF8_ENVIRONMENT"
+      ],
+      "WORK_UNIT_AUTHORITY": [
+        "WORK_UNIT_BINDING",
+        "COMPANION_METADATA_SCOPE",
+        "PRIMARY_WORK_UNIT_SCHEMA",
+        "COMPANION_WORK_UNIT_SCHEMA",
+        "MODULE_ROUTE"
+      ]
+    }
+  },
+  "detail_sha256": "d0901a2f08184b761200f5f2b0cced80298a5e28d472c807ccfa856d284a4a7e",
+  "detail_sha256_scope": "SHA256 of canonical UTF-8 detail_payload with sort_keys and compact separators; mutable stage observations outside payload",
+  "detailed_check_count": 68,
+  "detailed_checks": [
+    {
+      "check_id": "UTF8_ENVIRONMENT",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXACT_PACKET_CHECKOUT",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXACT_REMOTE_BASELINE",
+      "observation": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+      "status": "PASS"
+    },
+    {
+      "check_id": "STATE33_BASELINE",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXECUTE_INSTRUCTION_RESOLUTION",
+      "observation": {
+        "envelope": {
+          "authorized_actions": [
+            "READ",
+            "TEST",
+            "VALIDATE",
+            "REPORT",
+            "MUTATE_APPROVED_SCOPE"
+          ],
+          "completion_gate": "GPT_DECISION",
+          "executor_role": "CODEX_IMPLEMENTER",
+          "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_ref": "refs/heads/main",
+          "expected_state_revision": 33,
+          "forbidden_actions": [
+            "AUTHORIZE",
+            "SCOPE_EXPANSION"
+          ],
+          "framework_version": "2.7.4",
+          "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+          "instruction_type": "EXECUTION_INSTRUCTION",
+          "issuer_role": "GPT_ORCHESTRATOR",
+          "return_role": "GPT_ORCHESTRATOR",
+          "scope_paths": [
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+            ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+            ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+            ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+            ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+            ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+            ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+            ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+          ],
+          "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "target_github_repository_id": "1366213495",
+          "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "target_project_name": "通用开发框架管理",
+          "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          }
+        },
+        "expected_state_revision": 33,
+        "instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+        "instruction_locator": {
+          "blob_sha": "b40a6e49d544bc974cdc2d9285621d401c846554",
+          "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+          "path": ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+        },
+        "work_unit": {
+          "acceptance": [
+            "Exact native PRE and independent POST PASS",
+            "No documentation/source/test/release/plugin/P41 mutation",
+            "Exact remote readback and native handoff",
+            "Stop at STATE34 gate; next Freeze requires separate authorization"
+          ],
+          "artifact_refs": {
+            "design": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            },
+            "plan": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            }
+          },
+          "basis_state_revision": 33,
+          "default_branch": "main",
+          "directory_creations": [],
+          "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+          "kernel_version": "2.0.0",
+          "permissions": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT",
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ]
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "schema_version": 1,
+          "scope": {
+            "excluded_paths": [
+              "docs/",
+              "Documentation/",
+              "source/",
+              "tests/",
+              "scripts/",
+              "plugin/",
+              "plugins/",
+              "release/",
+              "release package/",
+              ".gpt-codex/scripts/",
+              ".gpt-codex/tests/",
+              ".gpt-codex/schemas/",
+              ".gpt-codex/builtins/",
+              ".gpt-codex/kernel/",
+              "P41/"
+            ],
+            "owned_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ]
+          },
+          "selected_extensions": {},
+          "state": "AUTHORIZED",
+          "target_state_revision": 34,
+          "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRE_INSTRUCTION_RESOLUTION",
+      "observation": {
+        "envelope": {
+          "authorized_actions": [
+            "READ",
+            "TEST",
+            "VALIDATE",
+            "REPORT"
+          ],
+          "completion_gate": "GPT_DECISION",
+          "executor_role": "CODEX_REVIEWER",
+          "expected_base_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_head_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "expected_remote_ref": "refs/heads/main",
+          "expected_state_revision": 33,
+          "forbidden_actions": [
+            "AUTHORIZE",
+            "SCOPE_EXPANSION"
+          ],
+          "framework_version": "2.7.4",
+          "in_response_to_instruction_id": "ea41059d-d0b7-4043-ab05-aca6b0dd6559",
+          "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+          "instruction_type": "REVIEW_REQUEST",
+          "issuer_role": "GPT_ORCHESTRATOR",
+          "return_role": "GPT_ORCHESTRATOR",
+          "review_target_revision": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "scope_paths": [
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+            ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+            ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+            ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+            ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+            ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+            ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+            ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+            ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+            ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+          ],
+          "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "target_github_repository_id": "1366213495",
+          "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "target_project_name": "通用开发框架管理",
+          "target_work_unit": "documentation-canonicalization-state34-next-action-gate-001",
+          "target_work_unit_ref": {
+            "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+            "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+          }
+        },
+        "expected_state_revision": 33,
+        "instruction_id": "812876c3-4ea3-4836-b876-f22fadd1daef",
+        "instruction_locator": {
+          "blob_sha": "0f0415d114cea00885168089eca51f152036d1a0",
+          "commit_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+          "path": ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_id": "documentation-canonicalization-state34-next-action-gate-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+        },
+        "work_unit": {
+          "acceptance": [
+            "Exact native PRE and independent POST PASS",
+            "No documentation/source/test/release/plugin/P41 mutation",
+            "Exact remote readback and native handoff",
+            "Stop at STATE34 gate; next Freeze requires separate authorization"
+          ],
+          "artifact_refs": {
+            "design": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            },
+            "plan": {
+              "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              "sha": "38510bf7ca424bfecd299f7a9aa0b3b90d439503"
+            }
+          },
+          "basis_state_revision": 33,
+          "default_branch": "main",
+          "directory_creations": [],
+          "goal": "Register durable Documentation Canonicalization closure and advance STATE to the separately adjudicated post-canonicalization Repository Structure Freeze gate",
+          "kernel_version": "2.0.0",
+          "permissions": {
+            "authorized_actions": [
+              "READ",
+              "TEST",
+              "VALIDATE",
+              "REPORT",
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "forbidden_actions": [
+              "AUTHORIZE",
+              "SCOPE_EXPANSION"
+            ]
+          },
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+          "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+          "repository_id": "1366213495",
+          "schema_version": 1,
+          "scope": {
+            "excluded_paths": [
+              "docs/",
+              "Documentation/",
+              "source/",
+              "tests/",
+              "scripts/",
+              "plugin/",
+              "plugins/",
+              "release/",
+              "release package/",
+              ".gpt-codex/scripts/",
+              ".gpt-codex/tests/",
+              ".gpt-codex/schemas/",
+              ".gpt-codex/builtins/",
+              ".gpt-codex/kernel/",
+              "P41/"
+            ],
+            "owned_paths": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+              ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+              ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+              ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+              ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+              ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+              ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+              ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+              ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+              ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+            ]
+          },
+          "selected_extensions": {},
+          "state": "AUTHORIZED",
+          "target_state_revision": 34,
+          "work_unit_id": "documentation-canonicalization-state34-next-action-gate-001"
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "locator": {
+          "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "locator": {
+          "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_BLOB_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "REMOTE_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "observation": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+      "observation": {
+        "locator": {
+          "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "status": "ALLOW"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+      "observation": {
+        "exact_readback": "PASS",
+        "locator": {
+          "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+          "commit_sha": "ff74d9d4efba19c398f54bf419423c397995b0ab",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "DOCUMENTATION_CLOSURE_AUTHORITY",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "TOKEN_ADJUDICATION",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PREVIOUS_FAILURE_NEGATIVE_CONTROL_ONLY",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PREVIOUS_FAILURE_BYTES_UNCHANGED",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXECUTION_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXECUTION_AUTHORITY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "REVIEW_REQUEST_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "REVIEW_REQUEST_AUTHORITY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXACT_IMPLEMENTER_ROLE",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "EXACT_SCOPE_AUTHORITY",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "WORK_UNIT_BINDING",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "COMPANION_METADATA_SCOPE",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRIMARY_WORK_UNIT_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "COMPANION_WORK_UNIT_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "PACKET_CHANGED_PATHS_EXACT_SCOPE",
+      "observation": [
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+        ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+        ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+        ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+        ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+        ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json"
+      ],
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRESERVED_STATE_active_work_unit",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRESERVED_STATE_kernel_version",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRESERVED_STATE_project_id",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRESERVED_STATE_schema_version",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PRESERVED_STATE_state",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "HISTORICAL_REFS_PRESERVED",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "CANDIDATE_CONTINUITY_PENDING_ONLY",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "STATE34_CANDIDATE_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "STATE33_AUTHORITY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "STATE34_CANDIDATE_AUTHORITY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "MODULE_ROUTE",
+      "observation": {
+        "affected_modules": [
+          "framework-core"
+        ],
+        "contracts_affected": [],
+        "invariants_affected": [],
+        "outcome": "MODULE_ROUTE",
+        "primary_module": "framework-core",
+        "required_tests": [
+          ".gpt-codex/tests/test_execution_telemetry.py",
+          ".gpt-codex/tests/test_framework_feedback.py",
+          ".gpt-codex/tests/test_framework_module_routing.py",
+          ".gpt-codex/tests/test_framework_module_schemas.py",
+          ".gpt-codex/tests/test_kernel_conformance.py"
+        ],
+        "why_cross_module": null
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PROJECT_VALIDATOR",
+      "observation": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-33\nPROJECT_CONTEXT_BINDING: PASS\n"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "FRAMEWORK_VALIDATOR",
+      "observation": {
+        "exit_code": 0,
+        "stderr": "",
+        "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n"
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_execution_telemetry",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_framework_feedback",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_framework_module_routing",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_framework_module_schemas",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_kernel_conformance",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_publication_authority",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_instruction_envelope",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_instruction_role_contract",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_role_authority",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_review_lifecycle",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_framework_plugin",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_handoff_navigation_contract",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_continuity_resume",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_bounded_attestation",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_result_contract_schema",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_result_return",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "LOAD_test_role_communication_taxonomy",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "PUBLICATION_AUTHORITY_AND_REQUIRED_TESTS",
+      "observation": {
+        "errors": 0,
+        "failures": 0,
+        "skips": [],
+        "test_count": 284,
+        "test_files": [
+          ".gpt-codex/tests/test_execution_telemetry.py",
+          ".gpt-codex/tests/test_framework_feedback.py",
+          ".gpt-codex/tests/test_framework_module_routing.py",
+          ".gpt-codex/tests/test_framework_module_schemas.py",
+          ".gpt-codex/tests/test_kernel_conformance.py",
+          ".gpt-codex/tests/test_publication_authority.py",
+          ".gpt-codex/tests/test_instruction_envelope.py",
+          ".gpt-codex/tests/test_instruction_role_contract.py",
+          ".gpt-codex/tests/test_role_authority.py",
+          ".gpt-codex/tests/test_review_lifecycle.py",
+          ".gpt-codex/tests/test_framework_plugin.py",
+          ".gpt-codex/tests/test_handoff_navigation_contract.py",
+          ".gpt-codex/tests/test_continuity_resume.py",
+          ".gpt-codex/tests/test_bounded_attestation.py",
+          ".gpt-codex/tests/test_result_contract_schema.py",
+          ".gpt-codex/tests/test_result_return.py",
+          ".gpt-codex/tests/test_role_communication_taxonomy.py"
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check_id": "RESULT_SCHEMA",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "RESULT_AUTHORITY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "RESULT_COMPLETION_EVIDENCE",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "REVIEW_RESULT_ROLE",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "NATIVE_PRE_EXECUTION_REVIEW",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "NATIVE_GOVERNED_MUTATION_ENTRY",
+      "observation": [],
+      "status": "PASS"
+    },
+    {
+      "check_id": "FINAL_CLEAN_CHECKOUT",
+      "observation": {
+        "verified": true
+      },
+      "status": "PASS"
+    }
+  ],
+  "group_stage_semantics": "At PRE, INDEPENDENT_POST and PUBLICATION_PRE groups validate independent-role and mandatory-gate protocol readiness; execution statuses remain NOT_STARTED. Later Results attest their actual phase observations.",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "record_kind": "DOCUMENTATION_CANONICALIZATION_STATE34_GATE_DETAILED_VALIDATION",
+  "stage_observations": {
+    "EXACT_GATE_REMOTE_READBACK": "NOT_STARTED",
+    "INDEPENDENT_POST": "NOT_STARTED",
+    "PRE": {
+      "packet_sha": "e3b92f2576c7d1ba660aee9ed289d51648859924",
+      "result_id": "babff77f-fcfa-42cf-b195-01ed208b321f",
+      "status": "PASS"
+    },
+    "PUBLICATION_PRE": "NOT_STARTED"
+  },
+  "test_count": 284,
+  "test_error_count": 0,
+  "test_failure_count": 0,
+  "validator_group_members": {
+    "DETAILED_VALIDATION_EVIDENCE": [
+      "RESULT_SCHEMA",
+      "RESULT_AUTHORITY",
+      "RESULT_COMPLETION_EVIDENCE"
+    ],
+    "DOCUMENTATION_CLOSURE_AUTHORITY": [
+      "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "LOCAL_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "LOCAL_BLOB_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "DOCUMENTATION_CLOSURE_AUTHORITY"
+    ],
+    "EXACT_REMOTE_READBACK": [
+      "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "REMOTE_CLOSURE_RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE",
+      "REMOTE_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+      "FINAL_CLEAN_CHECKOUT"
+    ],
+    "FRAMEWORK_VALIDATOR": [
+      "FRAMEWORK_VALIDATOR"
+    ],
+    "INDEPENDENT_POST": [
+      "REVIEW_RESULT_ROLE"
+    ],
+    "INSTRUCTION_ROLE_AUTHORITY": [
+      "EXECUTE_INSTRUCTION_RESOLUTION",
+      "PRE_INSTRUCTION_RESOLUTION",
+      "EXECUTION_SCHEMA",
+      "EXECUTION_AUTHORITY",
+      "REVIEW_REQUEST_SCHEMA",
+      "REVIEW_REQUEST_AUTHORITY",
+      "EXACT_IMPLEMENTER_ROLE"
+    ],
+    "NEXT_ACTION_TOKEN_ADJUDICATION": [
+      "TOKEN_ADJUDICATION"
+    ],
+    "PROJECT_VALIDATOR": [
+      "PROJECT_VALIDATOR"
+    ],
+    "PUBLICATION_AUTHORITY_TESTS": [
+      "LOAD_test_execution_telemetry",
+      "LOAD_test_framework_feedback",
+      "LOAD_test_framework_module_routing",
+      "LOAD_test_framework_module_schemas",
+      "LOAD_test_kernel_conformance",
+      "LOAD_test_publication_authority",
+      "LOAD_test_instruction_envelope",
+      "LOAD_test_instruction_role_contract",
+      "LOAD_test_role_authority",
+      "LOAD_test_review_lifecycle",
+      "LOAD_test_framework_plugin",
+      "LOAD_test_handoff_navigation_contract",
+      "LOAD_test_continuity_resume",
+      "LOAD_test_bounded_attestation",
+      "LOAD_test_result_contract_schema",
+      "LOAD_test_result_return",
+      "LOAD_test_role_communication_taxonomy",
+      "PUBLICATION_AUTHORITY_AND_REQUIRED_TESTS"
+    ],
+    "PUBLICATION_PRE": [
+      "NATIVE_PRE_EXECUTION_REVIEW",
+      "NATIVE_GOVERNED_MUTATION_ENTRY"
+    ],
+    "REFERENCE_RECOVERY_AUTHORITY": [
+      "LOCAL_CLOSURE_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY",
+      "LOCAL_BLOB_DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY"
+    ],
+    "REMOTE_BASELINE_IDENTITY": [
+      "EXACT_PACKET_CHECKOUT",
+      "EXACT_REMOTE_BASELINE"
+    ],
+    "SCOPE_AUTHORITY": [
+      "EXACT_SCOPE_AUTHORITY",
+      "PACKET_CHANGED_PATHS_EXACT_SCOPE"
+    ],
+    "STATE34_CANDIDATE_CONSISTENCY": [
+      "STATE33_BASELINE",
+      "PREVIOUS_FAILURE_NEGATIVE_CONTROL_ONLY",
+      "PREVIOUS_FAILURE_BYTES_UNCHANGED",
+      "PRESERVED_STATE_active_work_unit",
+      "PRESERVED_STATE_kernel_version",
+      "PRESERVED_STATE_project_id",
+      "PRESERVED_STATE_schema_version",
+      "PRESERVED_STATE_state",
+      "HISTORICAL_REFS_PRESERVED",
+      "CANDIDATE_CONTINUITY_PENDING_ONLY",
+      "STATE34_CANDIDATE_SCHEMA",
+      "STATE33_AUTHORITY",
+      "STATE34_CANDIDATE_AUTHORITY"
+    ],
+    "UTF8_EXECUTION_PREFLIGHT": [
+      "UTF8_ENVIRONMENT"
+    ],
+    "WORK_UNIT_AUTHORITY": [
+      "WORK_UNIT_BINDING",
+      "COMPANION_METADATA_SCOPE",
+      "PRIMARY_WORK_UNIT_SCHEMA",
+      "COMPANION_WORK_UNIT_SCHEMA",
+      "MODULE_ROUTE"
+    ]
+  }
+}
