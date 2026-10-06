@@ -2,12 +2,38 @@
   "DOCUMENTATION_CANONICALIZATION": "COMPLETE",
   "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "NOT_STARTED",
   "FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "NOT_STARTED",
+  "NATIVE_GOVERNED_MUTATION_ENTRY": "PASS",
   "OLD_NEXT_ACTION_SATISFIED": "YES",
   "P41_EXECUTION_AUTHORITY": "NO",
   "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
   "PLUGIN_POST_RELEASE_SYNC": "NOT_STARTED",
   "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE": "COMPLETE",
+  "PRE": "PASS",
+  "ROLE_AUTHORITY": "PASS",
+  "SCHEMA_CARDINALITY": "PASS",
+  "SCOPE_AUTHORITY": "PASS",
+  "STATE35_CANDIDATE": "PASS",
   "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "candidate_validator_runs": [
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\STATE35-CANDIDATE-PROJECT_VALIDATOR.log",
+      "output_sha256": "b00bdf1928f9d0b8285d4676a62b2d705c4c1229df4c89b6f300fe62280e3647",
+      "validator": "PROJECT_VALIDATOR"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\STATE35-CANDIDATE-FRAMEWORK_VALIDATOR.log",
+      "output_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "validator": "FRAMEWORK_VALIDATOR"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\STATE35-CANDIDATE-PUBLICATION_AUTHORITY_TESTS.log",
+      "output_sha256": "13389c1703f24d9d5e7581658cf3b80ecd3cd13df746e8f6f31a05758359a8eb",
+      "validator": "PUBLICATION_AUTHORITY_TESTS"
+    }
+  ],
   "evidence_id": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION",
   "freeze_acceptance_re_resolution": {
     "BOUNDED_CURRENT_DOC_EDITS": "PASS_4_OF_4",
@@ -68,10 +94,17 @@
       "repository": "xqc2098948451-byte/gpt-codex-framework"
     }
   ],
+  "independent_pre_locator": {
+    "blob_sha": "ac25cfdda494d0725ce6acd3569ea7eaa34953a4",
+    "commit_sha": "747169953c8e9961ffa8f83e59d0b9381b373acf",
+    "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
   "kernel_version": "2.0.0",
   "observed_utc": "2026-10-06T13:46:42.038360+00:00",
+  "pre_test_count": 58,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "result": "STATIC_PREFLIGHT_PASS",
+  "result": "STATE35_PRE_VALIDATED",
   "schema_aware_artifact_preflight": {
     "BOUNDED_COLLECTION_OVERFLOW_COUNT": 0,
     "STATIC_ARTIFACT_PREFLIGHT": "PASS",
@@ -199,6 +232,6 @@
   },
   "schema_version": 1,
   "source": "TOOL_OBSERVED",
-  "state_revision": 34,
+  "state_revision": 35,
   "subject": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE"
 }
