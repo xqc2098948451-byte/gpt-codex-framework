@@ -73,8 +73,8 @@
     "NON_EXECUTION_AUTHORITY"
   ],
   "RECOVERY_EVIDENCE_LOCATOR": {
-    "blob_sha": "1da6195b9b0b38a9c8e54a9b8cc9ee30bfe97763",
-    "commit_sha": "67a1f03e363fdb4fdb3babcbb3f7586bfdfb6648",
+    "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+    "commit_sha": "c0d6dc02d6edae8f65e4441e2ebb2453c09775c9",
     "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
     "repository": "xqc2098948451-byte/gpt-codex-framework"
   },
@@ -86,6 +86,7 @@
   "STATE_MUTATION_COUNT": 0,
   "STATE_REVISION": 33,
   "UNCLASSIFIED_DOCUMENT_COUNT": 0,
+  "UNEXPECTED_MATRIX_ROW_COUNT": 0,
   "UNEXPECTED_MIGRATION_ROW_COUNT": 0,
   "UNIQUE_IMMUTABLE_LOCATOR_COUNT": 54,
   "UNKNOWN_PROJECTION_PATH_COUNT": 0,
