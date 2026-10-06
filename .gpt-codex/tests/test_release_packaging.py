@@ -433,7 +433,8 @@ class ReleasePackagingTests(unittest.TestCase):
             with zipfile.ZipFile(result["zip_path"]) as archive:
                 names = set(archive.namelist())
                 payload = b"".join(archive.read(name) for name in names)
-            self.assertFalse(any("docs/superpowers/" in name for name in names))
+            for prefix in ("docs/architecture/", "docs/decisions/", "docs/plans/", "docs/history/"):
+                self.assertFalse(any(prefix in name for name in names))
             self.assertNotIn(b"cb1e0450-df32-4ff6-8a33-35187b69a866", payload)
             self.assertNotIn(b"1366213495", payload)
             self.assertFalse(any(name.endswith("/.gpt-codex/CONTROL.json") for name in names))

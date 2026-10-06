@@ -51,7 +51,6 @@ The minimum target surface keeps current runtime scripts, schemas, authority art
     releases/
     dist/
     docs/{architecture,decisions,plans,history/{designs,plans,amendments,reviews}}/
-    docs/superpowers/    # existing legacy paths retained until reference-safe migration
 
 docs/architecture states the current system; docs/decisions records why and freezes; docs/plans holds active near-term plans; docs/history holds completed development process. A concise current architecture index must link primary owners and current decisions so readers need not traverse dozens of historical plans. Do not create .gpt-codex/core/ or another abstract layer for appearance. docs/decisions/ is human-readable architecture/decision documentation and may point to governed authority; it is not a second machine execution-authority store and never replaces CONTROL, STATE, Work Units, Instructions, Results, Evidence, or immutable Git authority.
 

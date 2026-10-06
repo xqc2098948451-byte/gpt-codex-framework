@@ -36,4 +36,4 @@ Do not copy `FRAMEWORK.md` or every v1.x capability artifact into the new projec
 
 ## History
 
-Framework development history remains in this distribution under `docs/superpowers/`. Business projects may choose separately whether they keep framework-development history locally.
+Framework development history remains in this distribution under `docs/history/`. Business projects may choose separately whether they keep framework-development history locally.

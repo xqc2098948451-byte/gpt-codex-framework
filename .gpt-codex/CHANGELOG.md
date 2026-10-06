@@ -177,4 +177,4 @@
 
 ## v1.7 and earlier
 
-See preserved `docs/superpowers/specs/` and `docs/superpowers/plans/` for the complete framework evolution. v1.7 remains the final v1.x baseline; v2.0 is a structural reset rather than a direct expansion of the monolith.
+See preserved `docs/history/designs/` and `docs/history/plans/` for the complete framework evolution. v1.7 remains the final v1.x baseline; v2.0 is a structural reset rather than a direct expansion of the monolith.

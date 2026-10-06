@@ -1,5 +1,12 @@
-# Historical plans
+# Future plan
 
-[Repository Consolidation Plan](../history/plans/2026-09-28-github-repository-consolidation-plan.md) is a historical repository organization plan. The [historical plans directory](../history/plans/) preserves accepted historical plans.
+The only future plan is [P41 — P2 Plugin Public Release Plan](./2026-09-27-p2-plugin-public-release-plan.md).
 
-`docs/history/` preserves accepted historical Design, Plan, Amendment, and Review sources. Current documentation remains at its existing paths. This README is a navigation pointer, not another Plan or a state record. Actual progress is determined by Git, Work Units, and Evidence.
+`DEFERRED_BY_USER = YES`  
+`EXECUTION_AUTHORITY = NO`
+
+Public release remains deferred. Resuming it requires new user authorization and its existing governed gates.
+
+The [historical plans directory](../history/plans/) preserves completed and historical plans, including the [Repository Consolidation Plan](../history/plans/2026-09-28-github-repository-consolidation-plan.md) and [Local Workspace Consolidation Plan](../history/plans/2026-10-01-local-workspace-consolidation-plan.md).
+
+This README provides navigation only. `CONTROL`, `STATE`, Work Units, Instructions, Results, Evidence, and immutable Git locators determine execution authority and progress.

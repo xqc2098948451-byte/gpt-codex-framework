@@ -8,7 +8,6 @@
     "docs/architecture/": "MANAGEMENT_ONLY",
     "docs/decisions/": "MANAGEMENT_ONLY",
     "docs/plans/": "MANAGEMENT_ONLY",
-    "docs/superpowers/": "DEVELOPMENT_HISTORY",
     "docs/history/": "DEVELOPMENT_HISTORY",
     ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
     "releases/records/": "RELEASE_METADATA"

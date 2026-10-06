@@ -55,7 +55,9 @@ def prefix_manifest() -> dict[str, object]:
     manifest["prefix_defaults"] = {
         ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
         ".gpt-codex/work-units/": "MANAGEMENT_ONLY",
-        "docs/superpowers/": "DEVELOPMENT_HISTORY",
+        "docs/architecture/": "MANAGEMENT_ONLY",
+        "docs/decisions/": "MANAGEMENT_ONLY",
+        "docs/plans/": "MANAGEMENT_ONLY",
         "docs/history/": "DEVELOPMENT_HISTORY",
         ".superpowers/sdd/": "DEVELOPMENT_HISTORY",
         "releases/records/": "RELEASE_METADATA",
@@ -64,7 +66,7 @@ def prefix_manifest() -> dict[str, object]:
 
 
 HISTORICAL_CONTINUITY_DOCS = (
-    "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+    "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
     "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
 )
 
@@ -185,22 +187,22 @@ class ConsumerProjectionTests(unittest.TestCase):
         self.assertEqual(paths.get(".gpt-codex/tests/test_execution_telemetry.py"), "MANAGEMENT_ONLY")
         self.assertEqual(paths.get(".gpt-codex/scripts/framework_feedback.py"), "CONSUMER_REQUIRED")
         self.assertEqual(paths.get(".gpt-codex/tests/test_framework_feedback.py"), "MANAGEMENT_ONLY")
-        for relative in (
-            "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
-            "docs/history/plans/2026-09-14-execution-telemetry.md",
+        for relative, classification in (
+            ("docs/architecture/2026-09-13-execution-telemetry-design.md", "MANAGEMENT_ONLY"),
+            ("docs/history/plans/2026-09-14-execution-telemetry.md", "DEVELOPMENT_HISTORY"),
         ):
             self.assertEqual(
                 consumer_projection._resolve_projection_classification(
                     relative, paths, manifest["prefix_defaults"]
                 ),
-                "DEVELOPMENT_HISTORY",
+                classification,
             )
         self.assertEqual(audit_projection_paths(ROOT, manifest)["unknown_paths"], [])
 
     def test_manifest_classifies_framework_module_management_boundary(self):
         manifest = load_projection_manifest(ROOT)
         expected_management_paths = {
-            "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md": "DEVELOPMENT_HISTORY",
+            "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md": "MANAGEMENT_ONLY",
             "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md": "DEVELOPMENT_HISTORY",
             ".gpt-codex/framework-modules/REGISTRY.json": "MANAGEMENT_ONLY",
             ".gpt-codex/schemas/framework-module-registry.schema.json": "MANAGEMENT_ONLY",
@@ -332,11 +334,11 @@ class ConsumerProjectionTests(unittest.TestCase):
         self.assertEqual(manifest["paths"][".gpt-codex/CONTROL.json"], "MANAGEMENT_ONLY")
         self.assertEqual(
             consumer_projection._resolve_projection_classification(
-                "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+                "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
                 manifest["paths"],
                 manifest["prefix_defaults"],
             ),
-            "DEVELOPMENT_HISTORY",
+            "MANAGEMENT_ONLY",
         )
         self.assertNotIn("**", manifest["paths"])
 
@@ -345,7 +347,7 @@ class ConsumerProjectionTests(unittest.TestCase):
             root = Path(tmp)
             write_minimal_projection_fixture(root)
             evidence = root / ".gpt-codex/evidence/new-result.json"
-            history = root / "docs/superpowers/new-design.md"
+            history = root / "docs/history/new-design.md"
             evidence.parent.mkdir(parents=True)
             history.parent.mkdir(parents=True)
             evidence.write_text("{}", encoding="utf-8")
@@ -357,30 +359,30 @@ class ConsumerProjectionTests(unittest.TestCase):
             self.assertEqual(audit["invalid_classifications"], [])
             inventory = build_consumer_inventory(root, prefix_manifest())
             self.assertNotIn(".gpt-codex/evidence/new-result.json", inventory)
-            self.assertNotIn("docs/superpowers/new-design.md", inventory)
+            self.assertNotIn("docs/history/new-design.md", inventory)
 
     def test_exact_consumer_path_overrides_exclusion_prefix_and_stays_in_inventory(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             write_minimal_projection_fixture(root)
-            consumer_file = root / "docs/superpowers/required.md"
+            consumer_file = root / "docs/history/required.md"
             consumer_file.parent.mkdir(parents=True)
             consumer_file.write_text("required", encoding="utf-8")
             manifest = prefix_manifest()
-            manifest["paths"]["docs/superpowers/required.md"] = "CONSUMER_REQUIRED"
+            manifest["paths"]["docs/history/required.md"] = "CONSUMER_REQUIRED"
 
             self.assertEqual(audit_projection_paths(root, manifest)["unknown_paths"], [])
-            self.assertIn("docs/superpowers/required.md", build_consumer_inventory(root, manifest))
+            self.assertIn("docs/history/required.md", build_consumer_inventory(root, manifest))
 
     def test_longest_matching_prefix_wins(self):
         self.assertTrue(hasattr(consumer_projection, "_resolve_projection_classification"))
         self.assertEqual(
             consumer_projection._resolve_projection_classification(
-                "docs/superpowers/private/note.md",
+                "docs/history/private/note.md",
                 {},
                 {
-                    "docs/superpowers/": "DEVELOPMENT_HISTORY",
-                    "docs/superpowers/private/": "MANAGEMENT_ONLY",
+                    "docs/history/": "DEVELOPMENT_HISTORY",
+                    "docs/history/private/": "MANAGEMENT_ONLY",
                 },
             ),
             "MANAGEMENT_ONLY",
@@ -392,20 +394,20 @@ class ConsumerProjectionTests(unittest.TestCase):
             write_minimal_projection_fixture(root)
             manifest = minimal_manifest()
             manifest["prefix_defaults"] = {
-                "docs/superpowers/": "CONSUMER_REQUIRED",
+                "docs/history/": "CONSUMER_REQUIRED",
                 "docs/*.md/": "DEVELOPMENT_HISTORY",
             }
 
             invalid = audit_projection_paths(root, manifest)["invalid_classifications"]
 
-            self.assertIn("docs/superpowers/", invalid)
+            self.assertIn("docs/history/", invalid)
             self.assertIn("docs/*.md/", invalid)
 
     def test_unmatched_path_stays_unknown_and_prefix_only_never_enters_inventory(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             write_minimal_projection_fixture(root)
-            default_file = root / "docs/superpowers/history.md"
+            default_file = root / "docs/history/history.md"
             unmatched_file = root / "unmatched.md"
             default_file.parent.mkdir(parents=True)
             default_file.write_text("history", encoding="utf-8")

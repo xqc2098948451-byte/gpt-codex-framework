@@ -5,7 +5,7 @@ EXECUTION_AUTHORITY = NONE
 
 **Goal:** Submit and, only after OpenAI approval and a separate user decision, publish the accepted P2 skills-only Plugin in the OpenAI Universal Plugins Directory.
 
-**Design:** `docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md` (candidate in the same local authoring tree).  
+**Design:** `docs/decisions/2026-09-27-p2-plugin-public-release-design.md` (candidate in the same local authoring tree).  
 **Immutable source:** `xqc2098948451-byte/gpt-codex-framework`; `PLUGIN_RELEASE_SOURCE_SHA = 83727275ba47cd20b5c9ba4f18802f247884b715`; accepted 14-path fingerprint `75f087a33fc5e7fad82e0a9cdb4f3088062a91e96f6ef010f9175fe7b33cf54d`.  
 **Runtime authority:** `PUBLIC_RELEASE_AUTHORITY_BASE_SHA = UNFROZEN_UNTIL_POST_INTEGRATION_OBSERVATION`; freeze from a fresh `origin/main` observation only after independent Design/Plan review, GPT adjudication, exact USER acceptance, exact Design/Plan integration, and independent remote verification.  
 **Package:** `plugins/gpt-codex-framework/plugin.json` and `plugins/gpt-codex-framework/skills/framework-governance/SKILL.md`; `gpt-codex-framework@0.1.0`; `SKILLS_ONLY_PLUGIN`.
