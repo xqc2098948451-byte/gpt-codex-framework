@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
     "latest_synced_state_revision": 32,
     "latest_verified_remote_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -109,13 +109,18 @@
     ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
     ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
     ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
-    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json"
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+    ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+    ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 32,
+  "revision": 33,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }

@@ -1,0 +1,27 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "decision": "ACCEPT",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "basis_refs": [
+    "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS"
+  ],
+  "finding_ids": [
+    "DOC-CLOSURE-NAVIGATION-001"
+  ],
+  "state_revision": 33,
+  "adjudicated_at_revision": 33,
+  "remediation_scope": [
+    "docs/architecture/README.md",
+    "docs/decisions/README.md"
+  ],
+  "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "phase_transition": false,
+  "remediation_execution_authorized_this_round": false
+}

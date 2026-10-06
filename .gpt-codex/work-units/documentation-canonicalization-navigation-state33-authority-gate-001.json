@@ -9,7 +9,7 @@
   "work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
   "goal": "Register current durable remediation basis and adjudication required by the native resolver without executing documentation remediation",
   "state": "AUTHORIZED",
-  "basis_state_revision": 32,
+  "basis_state_revision": 33,
   "transition_basis_state_revision": 32,
   "target_state_revision": 33,
   "scope": {
