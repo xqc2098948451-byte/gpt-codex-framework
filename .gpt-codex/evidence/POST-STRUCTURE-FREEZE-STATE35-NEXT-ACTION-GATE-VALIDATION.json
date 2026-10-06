@@ -1,0 +1,204 @@
+{
+  "DOCUMENTATION_CANONICALIZATION": "COMPLETE",
+  "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "NOT_STARTED",
+  "FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "NOT_STARTED",
+  "OLD_NEXT_ACTION_SATISFIED": "YES",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "PLUGIN_POST_RELEASE_SYNC": "NOT_STARTED",
+  "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE": "COMPLETE",
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "evidence_id": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION",
+  "freeze_acceptance_re_resolution": {
+    "BOUNDED_CURRENT_DOC_EDITS": "PASS_4_OF_4",
+    "BRANCH_COUNT": 96,
+    "BRANCH_MUTATION_COUNT": 0,
+    "CAPABILITY_OWNERSHIP_FREEZE": "PASS",
+    "CLEAN_CLONE_VALIDATION": "PASS",
+    "CONSUMER_INVENTORY_COUNT": 86,
+    "CONSUMER_PROJECTION_FREEZE": "PASS",
+    "CONSUMER_VALIDATOR": "PASS",
+    "CURRENT_REFERENCE_CLOSURE": "PASS_37_OF_37",
+    "CURRENT_UNEDITED_DOC_BYTE_IDENTITY": "PASS_20_OF_20",
+    "DIRECTORY_COUNT": 68,
+    "DIRECTORY_TOPOLOGY_FREEZE": "PASS",
+    "DOCUMENTATION_LAYOUT": "CANONICAL",
+    "FINAL_INDEPENDENT_POST": "PASS",
+    "FRAMEWORK_VALIDATOR": "PASS",
+    "FROZEN_REFERENCE_PRESERVATION": "PASS_452",
+    "FULL_TEST_COUNT": 734,
+    "FULL_TEST_ERROR_COUNT": 0,
+    "FULL_TEST_FAILURE_COUNT": 0,
+    "FULL_TEST_SUITE": "PASS",
+    "HISTORICAL_MIGRATED_BYTE_IDENTITY": "PASS_70_OF_70",
+    "IMMUTABLE_LOCATOR_PRESERVATION": "PASS_317",
+    "MIGRATION_COMPLETED_TOTAL": "94/94",
+    "NATIVE_HANDOFF": "HANDOFF_READY",
+    "OPEN_PR_COUNT": 0,
+    "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE": "PASS",
+    "PROJECT_VALIDATOR": "PASS",
+    "PR_MUTATION_COUNT": 0,
+    "READY_FOR_POST_FREEZE_STATE_GATE": "YES",
+    "REFERENCE_INVENTORY_RECOVERY": "PASS_806_OF_806",
+    "REPOSITORY_TREE_FREEZE": "PASS",
+    "TRACKED_FILE_COUNT": 715,
+    "publication_authority": "CONFIRMED_PUBLICATION",
+    "push_status": "SUCCEEDED",
+    "remote_verification": "VERIFIED",
+    "status": "PASS",
+    "sync_status": "SYNCED"
+  },
+  "freeze_authority_locators": [
+    {
+      "blob_sha": "2e64d24560097fe169b7fed1d5726dd917ce75c6",
+      "commit_sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65",
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "74bdc9008828b7329dec7a4f2c742bb7c3e238c0",
+      "commit_sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65",
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    {
+      "blob_sha": "028298984a532818ed5994f0a6813da39e5b8207",
+      "commit_sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65",
+      "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    }
+  ],
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T13:46:42.038360+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "result": "STATIC_PREFLIGHT_PASS",
+  "schema_aware_artifact_preflight": {
+    "BOUNDED_COLLECTION_OVERFLOW_COUNT": 0,
+    "STATIC_ARTIFACT_PREFLIGHT": "PASS",
+    "artifact_checks": [
+      {
+        "errors": [],
+        "path": ".gpt-codex/work-units/post-structure-freeze-state35-next-action-gate-001.json",
+        "schema": "work-unit",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
+        "schema": "work-unit",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+        "schema": "evidence",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/STATE.json",
+        "schema": "state",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/a7f5feba-8e73-4002-8a38-55e075a66cb3.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/ee60dbaa-63a4-4a20-ac0e-6548e325219f.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/952a5b1c-8eae-4b7c-a4f2-f0d95e87e48a.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/ca9ec790-6064-479a-8fc5-e4304dd40b9e.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/instructions/f777b22c-b10d-48bd-a5d3-64aa16bec3ee.json",
+        "schema": "instruction-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+        "schema": "result-envelope",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION.json",
+        "schema": "evidence",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+        "schema": "evidence",
+        "status": "PASS"
+      }
+    ],
+    "expected_base_sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65",
+    "expected_state_revision": 34,
+    "prototype_semantics": "In-memory static schema prototypes only; generated immutable refs and actual completed validators must be rechecked before each use",
+    "scope_count": 19,
+    "validator_group_count": 15
+  },
+  "schema_version": 1,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 34,
+  "subject": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE"
+}

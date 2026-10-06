@@ -1,0 +1,103 @@
+{
+  "acceptance": [
+    "Native PRE and independent POST PASS",
+    "Exact STATE34 to STATE35 governance transition",
+    "Governed metadata publication, exact remote readback and native handoff",
+    "Stop at STATE35; Framework 2.8.0 release preparation NOT_STARTED"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      "sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      "sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65"
+    }
+  },
+  "authority_source": {
+    "expected_base_sha": "55980cba604c0d705e8f5f4fbf3510d34fffdd65",
+    "kind": "DIRECT_USER_GOVERNANCE_REQUEST",
+    "mode": "GOVERNANCE_ONLY_STATE_TRANSITION",
+    "publication_transport_authority": "User section16 governed publication lifecycle; execution actions remain exact; metadata-only commits and main fast-forward push after independent publication PRE",
+    "request_sha256": "3974003d1d56c3a7fbc293fa744dff46dbb70cacde6fb5608c162ab0cd0b19a4",
+    "stop_boundary": "STATE35 durable publication; RETURN_TO_GPT"
+  },
+  "basis_state_revision": 34,
+  "default_branch": "main",
+  "directory_creations": [],
+  "goal": "Register the durable post-canonicalization repository structure freeze and advance STATE to the separately adjudicated Framework 2.8.0 release-preparation gate",
+  "kernel_version": "2.0.0",
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Framework governance state and durable evidence registration"
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "schema_version": 1,
+  "scope": {
+    "excluded_paths": [
+      "VERSION",
+      "CHANGELOG.md",
+      "CHANGELOG",
+      "AGENTS.md",
+      "BOOTSTRAP_PROMPT.md",
+      "BOOTSTRAP_PROMPT",
+      "README.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/release/",
+      "dist/",
+      "releases/",
+      "plugins/",
+      "docs/",
+      "tests/"
+    ],
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+      ".gpt-codex/evidence/instructions/952a5b1c-8eae-4b7c-a4f2-f0d95e87e48a.json",
+      ".gpt-codex/evidence/instructions/a7f5feba-8e73-4002-8a38-55e075a66cb3.json",
+      ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+      ".gpt-codex/evidence/instructions/ca9ec790-6064-479a-8fc5-e4304dd40b9e.json",
+      ".gpt-codex/evidence/instructions/ee60dbaa-63a4-4a20-ac0e-6548e325219f.json",
+      ".gpt-codex/evidence/instructions/f777b22c-b10d-48bd-a5d3-64aa16bec3ee.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+      ".gpt-codex/work-units/post-structure-freeze-state35-next-action-gate-001.json",
+      ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json"
+    ]
+  },
+  "selected_extensions": {},
+  "state": "AUTHORIZED",
+  "target_state_revision": 35,
+  "work_unit_id": "post-structure-freeze-state35-next-action-gate-001"
+}
