@@ -1844,7 +1844,11 @@ def main():
             candidate = load(result_path)
         except (OSError, json.JSONDecodeError):
             continue
-        if isinstance(candidate, dict) and 'status' in candidate:
+        if isinstance(candidate, dict) and (
+            Path(ref).as_posix().startswith('.gpt-codex/evidence/results/')
+            or 'result_message_type' in candidate
+            or 'result_id' in candidate
+        ):
             durable_results[ref] = candidate
             errors += [f'RESULT {ref}: {error}' for error in validate_result_authority(candidate)]
             errors += [f'RESULT_PROTOCOL {ref}: {error}' for error in validate_result_protocol(candidate)]

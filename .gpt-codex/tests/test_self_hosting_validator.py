@@ -1659,3 +1659,76 @@ class FrameworkContractRepairBridgeTests(unittest.TestCase):
         seed = ROOT / ".gpt-codex/work-units/framework-baseline-checkpoint-control-plane-001.json"
         self.assertTrue(repair.is_file())
         self.assertTrue(seed.is_file())
+
+
+class DurableRecordClassificationTests(unittest.TestCase):
+    def validate_records(self, records):
+        with tempfile.TemporaryDirectory(prefix="durable-records-") as temporary:
+            root = Path(temporary)
+            write_project(root, management_control())
+            state_path = root / ".gpt-codex/STATE.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["evidence_refs"] = list(records)
+            state_path.write_text(json.dumps(state), encoding="utf-8")
+            for relative, record in records.items():
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(json.dumps(record), encoding="utf-8")
+            return run_validator(root)
+
+    def test_governance_status_pass_is_not_a_result(self):
+        result = self.validate_records({".gpt-codex/evidence/GOVERNANCE.json": {
+            "record_kind": "GOVERNANCE_OBSERVATION", "status": "PASS",
+        }})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_evidence_with_status_still_validates_project_binding(self):
+        for project_id, expected_code in ((management_control()["project_id"], 0), ("FOREIGN_PROJECT", 1)):
+            with self.subTest(project_id=project_id):
+                result = self.validate_records({".gpt-codex/evidence/EVIDENCE.json": {
+                    "evidence_id": "CLASSIFICATION-EVIDENCE", "project_id": project_id,
+                    "status": "PASS",
+                }})
+                self.assertEqual(result.returncode, expected_code, result.stdout + result.stderr)
+                self.assertNotIn("PASS requires remote_verification=VERIFIED", result.stdout)
+                if expected_code:
+                    self.assertIn("EVIDENCE .gpt-codex/evidence/EVIDENCE.json: PROJECT_IDENTITY_INVALID", result.stdout)
+
+    def test_explicit_result_id_without_status_still_enters_authority_validation(self):
+        result = self.validate_records({".gpt-codex/evidence/EXPLICIT-ID.json": {
+            "result_id": "11111111-1111-4111-8111-111111111111",
+            "sync_status": "SYNCED", "remote_verification": "NOT_ATTEMPTED",
+        }})
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("SYNCED requires remote_verification=VERIFIED", result.stdout)
+
+    def test_explicit_result_message_type_without_status_still_enters_authority_validation(self):
+        result = self.validate_records({".gpt-codex/evidence/EXPLICIT-TYPE.json": {
+            "result_message_type": "IMPLEMENTATION_RESULT", "sync_status": "SYNCED",
+            "remote_verification": "NOT_ATTEMPTED",
+        }})
+        self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("SYNCED requires remote_verification=VERIFIED", result.stdout)
+
+    def test_legacy_result_path_preserves_nonverified_pass_rejection(self):
+        for verification in (None, "NOT_ATTEMPTED", "UNAVAILABLE", "FAILED"):
+            with self.subTest(remote_verification=verification):
+                result = self.validate_records({".gpt-codex/evidence/results/LEGACY.json": {
+                    "status": "PASS", "remote_verification": verification,
+                }})
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("PASS requires remote_verification=VERIFIED", result.stdout)
+
+    def test_verified_result_outside_results_directory_is_accepted(self):
+        record = json.loads((ROOT / ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json").read_text(encoding="utf-8"))
+        result = self.validate_records({".gpt-codex/evidence/EXPLICIT-RESULT.json": record})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_frozen_l7_l8_governance_records_do_not_require_result_verification(self):
+        paths = (
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+            ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+        )
+        records = {path: json.loads((ROOT / path).read_text(encoding="utf-8")) for path in paths}
+        result = self.validate_records(records)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

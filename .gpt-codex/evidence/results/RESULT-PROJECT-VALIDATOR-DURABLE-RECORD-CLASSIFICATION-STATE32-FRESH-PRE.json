@@ -1,0 +1,200 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-durable-record-classification-remediation-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "result_id": "a76fe8f2-9e3b-46c1-b167-d7b264e41413",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "60a53475-2371-4560-a4c7-dc82812a529d",
+  "review_target_revision": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "finding_ids": [],
+  "fix_round": 1,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "f12e0e177747825fa35b8941dd85cfaab90f928b",
+  "remote_head_sha": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "remote_verification": "VERIFIED",
+  "remote_verification_scope": "CURRENT_REMOTE_MAIN_FIX_BASE_ONLY; PRE_RESULT_NOT_PUBLISHED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+    ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+    ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+    ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json"
+  ],
+  "observed_utc": "2026-10-06T01:21:05.264331+00:00",
+  "execution": "Independent read-only native FIX PRE at the real durable non-main packet; no source implementation performed.",
+  "changed": [],
+  "files_changed": [],
+  "deviations": [],
+  "blockers": [],
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "84fa0ac664e4fcd3661fba579bf880c49b367344",
+    "path": ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+    "blob_sha": "037547f497150254e648a412e442440f2164dd7b"
+  },
+  "review_request_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "84fa0ac664e4fcd3661fba579bf880c49b367344",
+    "path": ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+    "blob_sha": "39bfbe9c47bf778b5e26ad27bfa667cc32c9767a"
+  },
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json",
+    "sha": "6cc5e3b8664d3fcad5756d7a3270d4f08ee2af86"
+  },
+  "context_separation": {
+    "implementer_context": "/root",
+    "reviewer_context": "/root/fresh_finding_review",
+    "reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-project-validator-durable-record-classification-remediation-001",
+    "fresh_context": true,
+    "implementer_private_reasoning_used": false,
+    "agent_spawns": 0
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "READ_ONLY_NATIVE_FIX_PRE"
+    ],
+    "executed_scope": [
+      "READ_ONLY_NATIVE_FIX_PRE"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "IMMUTABLE_FIX_AND_REVIEW_RESOLUTION",
+      "STATE32_REMEDIATION_RESOLUTION",
+      "FIX_LIFECYCLE",
+      "SCOPE_AND_DIRECTORY_CONTRACT",
+      "BASE_TREE_PRESERVATION",
+      "EXACT_KNOWN_2_PROJECT_BASELINE",
+      "FRAMEWORK_VALIDATOR",
+      "NATIVE_CORE_FIX_PRE"
+    ],
+    "validators_completed": [
+      "IMMUTABLE_FIX_AND_REVIEW_RESOLUTION",
+      "STATE32_REMEDIATION_RESOLUTION",
+      "FIX_LIFECYCLE",
+      "SCOPE_AND_DIRECTORY_CONTRACT",
+      "BASE_TREE_PRESERVATION",
+      "EXACT_KNOWN_2_PROJECT_BASELINE",
+      "FRAMEWORK_VALIDATOR",
+      "NATIVE_CORE_FIX_PRE"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "independent_audit": {
+    "FIX_AUTHORITY": "PASS",
+    "REMEDIATION_BASIS_RESOLUTION": "PASS",
+    "REMEDIATION_DECISION_RESOLUTION": "PASS",
+    "STALE_REVIEW_REVISION_PRESENT": "NO",
+    "REVIEW_TARGET_REVISION_MISMATCH_PRESENT": "NO",
+    "finding_result_id": "7fc8ebdc-2d26-430f-961c-b41d8e01af2f",
+    "finding_committed_sha256": "7965c23d301023750234b71a873e6d3427affb1e3c20cb84895411057f8a324b",
+    "finding_bytes_match_independent_observation": true,
+    "adjudication_correlation": "EXACT_FINDING_IDS",
+    "fresh_finding_not_rebound_to_old_result_id": true,
+    "instruction_resolution": "INSTRUCTION_RESOLVED",
+    "review_request_resolution": "INSTRUCTION_RESOLVED",
+    "native_checks": {
+      "finding_schema_errors": [],
+      "finding_protocol_errors": [],
+      "finding_authority_errors": [],
+      "finding_side_lifecycle_errors": [],
+      "remediation_resolution_errors": [],
+      "adjudication_errors": [],
+      "fix_lifecycle_errors": [],
+      "directory_errors": [],
+      "scope_errors": [],
+      "core_fix_pre_errors": [],
+      "negative_control_missing_pre_errors": [
+        "PRE_EXECUTION_REVIEW_REQUIRED"
+      ],
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": []
+    },
+    "base_tree_entries_preserved": 604,
+    "added_paths": [
+      ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+      ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+      ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json"
+    ],
+    "new_directories": [],
+    "remote_main_before": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+    "remote_main_after": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "reviewer_repository_mutation_count": 0,
+    "tracked_worktree_clean": true,
+    "all_tracked_before_after_bytes_equal": true,
+    "original_gate_result_rewritten": "NO",
+    "old_finding_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES",
+    "project_validator": "EXPECTED_FAIL_EXACT_KNOWN_2",
+    "false_positive_record_count_before": 2,
+    "unexpected_failure_count": 0,
+    "framework_validator": "PASS",
+    "validation_observations": {
+      "project": {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ],
+        "exit_code": 1,
+        "stdout": "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json: PASS requires remote_verification=VERIFIED\r\nFAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json: PASS requires remote_verification=VERIFIED\r\nRESULT: FAIL (2 errors)\r\n",
+        "stderr": ""
+      },
+      "framework": {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          ".gpt-codex/scripts/validate_framework.py"
+        ],
+        "exit_code": 0,
+        "stdout": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n",
+        "stderr": ""
+      }
+    },
+    "publication_authority_tests": "9/9 PASS from this independent reviewer earlier; tested source bytes preserved"
+  }
+}

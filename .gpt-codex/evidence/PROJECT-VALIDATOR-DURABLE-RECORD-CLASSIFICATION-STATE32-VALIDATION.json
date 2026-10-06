@@ -1,0 +1,271 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-VALIDATION",
+  "subject": "PROJECT_VALIDATOR_CLASSIFICATION_VALIDATION",
+  "result": "PASS",
+  "source": "TOOL_OBSERVED",
+  "state_revision": 32,
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "observed_utc": "2026-10-06T01:33:43.300108+00:00",
+  "finding_ids": [
+    "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001"
+  ],
+  "fresh_finding_result_id": "7fc8ebdc-2d26-430f-961c-b41d8e01af2f",
+  "fix_base": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "root_cause": "STATUS_FIELD_MISCLASSIFIED_AS_RESULT",
+  "FALSE_POSITIVE_RECORD_COUNT_BEFORE": 2,
+  "FALSE_POSITIVE_RECORD_COUNT_AFTER": 0,
+  "PROJECT_VALIDATOR_POST": "PASS",
+  "FRAMEWORK_VALIDATOR": "PASS",
+  "PASS_RESULT_REMOTE_VERIFICATION_RULE": "PRESERVED",
+  "preservation": {
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "frozen_paths_checked": 123,
+    "original_gate_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES"
+  },
+  "validation_observations": {
+    "red": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_self_hosting_validator.py",
+          "-k",
+          "DurableRecordClassificationTests",
+          "-v"
+        ],
+        "exit_code": 1,
+        "test_count": 7,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\red-0.log",
+        "log_sha256": "e1b29e808433000cde19bbe894c4487af7d69ad4608fe79b4e26dee101b2b8a2",
+        "output_tail": "Traceback (most recent call last):\n  File \"D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\project-validator-durable-record-classification-remediation-001\\.gpt-codex\\tests\\test_self_hosting_validator.py\", line 1683, in test_governance_status_pass_is_not_a_result\n    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 0 : FAIL: RESULT .gpt-codex/evidence/GOVERNANCE.json: PASS requires remote_verification=VERIFIED\nRESULT: FAIL (1 errors)\n\n\n----------------------------------------------------------------------\nRan 7 tests in 1.872s\n\nFAILED (failures=6)",
+        "captured_output_sha256": "20db754f66f1debf20bfc80aec34b562dac9b7d2a46dcfe85090dc9514b8cc0f",
+        "log_storage_newlines": "CRLF"
+      }
+    ],
+    "focused": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_self_hosting_validator.py",
+          "-k",
+          "DurableRecordClassificationTests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 7,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\focused-0.log",
+        "log_sha256": "28df7f99ff9069abd600deb8d90ebe372793cbb77225801894c5de6193bd47f3",
+        "output_tail": "test_evidence_with_status_still_validates_project_binding (test_self_hosting_validator.DurableRecordClassificationTests.test_evidence_with_status_still_validates_project_binding) ... ok\ntest_explicit_result_id_without_status_still_enters_authority_validation (test_self_hosting_validator.DurableRecordClassificationTests.test_explicit_result_id_without_status_still_enters_authority_validation) ... ok\ntest_explicit_result_message_type_without_status_still_enters_authority_validation (test_self_hosting_validator.DurableRecordClassificationTests.test_explicit_result_message_type_without_status_still_enters_authority_validation) ... ok\ntest_frozen_l7_l8_governance_records_do_not_require_result_verification (test_self_hosting_validator.DurableRecordClassificationTests.test_frozen_l7_l8_governance_records_do_not_require_result_verification) ... ok\ntest_governance_status_pass_is_not_a_result (test_self_hosting_validator.DurableRecordClassificationTests.test_governance_status_pass_is_not_a_result) ... ok\ntest_legacy_result_path_preserves_nonverified_pass_rejection (test_self_hosting_validator.DurableRecordClassificationTests.test_legacy_result_path_preserves_nonverified_pass_rejection) ... ok\ntest_verified_result_outside_results_directory_is_accepted (test_self_hosting_validator.DurableRecordClassificationTests.test_verified_result_outside_results_directory_is_accepted) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 1.716s\n\nOK",
+        "captured_output_sha256": "994d311d4c522bd644e0490c46b92b9a9fa753b77aa9706457505fa9aadd5b9e",
+        "log_storage_newlines": "CRLF"
+      }
+    ],
+    "publication": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_publication_authority.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 9,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\publication-0.log",
+        "log_sha256": "c993803fc77bdc9aba42d411db7a0ccd9e05c7e2e9c6832fb630c3025d449220",
+        "output_tail": "test_complete_requires_durable_verified_result (test_publication_authority.PublicationAuthorityTests.test_complete_requires_durable_verified_result) ... ok\ntest_pass_requires_verified_remote_for_each_nonverified_status (test_publication_authority.PublicationAuthorityTests.test_pass_requires_verified_remote_for_each_nonverified_status) ... ok\ntest_pass_with_verified_formal_publication_is_allowed (test_publication_authority.PublicationAuthorityTests.test_pass_with_verified_formal_publication_is_allowed) ... ok\ntest_release_phase_derivation_requires_progressively_bound_facts (test_publication_authority.PublicationAuthorityTests.test_release_phase_derivation_requires_progressively_bound_facts) ... ok\ntest_synced_requires_verified_publication_evidence (test_publication_authority.PublicationAuthorityTests.test_synced_requires_verified_publication_evidence) ... ok\ntest_synced_state_requires_current_revision_and_durable_result (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_current_revision_and_durable_result) ... ok\ntest_synced_state_requires_nonempty_verified_baseline_sha (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_nonempty_verified_baseline_sha) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.005s\n\nOK",
+        "captured_output_sha256": "8d8bd509ccb182f7d36b978e0e6679a2a716bf0ef24d27675d04f3f9c22301ac",
+        "log_storage_newlines": "CRLF"
+      }
+    ],
+    "affected": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_self_hosting_validator.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 66,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\affected-0.log",
+        "log_sha256": "e6ad0cd3fe95e6dd6e2251f239f5fdb7ae626a13b5b863a9fa0a16138d668164",
+        "output_tail": "test_task7_reconciliation_mutation_requires_control_plane_approval_chain (test_self_hosting_validator.SelfHostingValidatorTests.test_task7_reconciliation_mutation_requires_control_plane_approval_chain) ... ok\ntest_task8_successor_seed_has_exact_current_four_path_authority (test_self_hosting_validator.SelfHostingValidatorTests.test_task8_successor_seed_has_exact_current_four_path_authority) ... ok\ntest_task9_successor_control_plane_chain_uses_external_git_approval (test_self_hosting_validator.SelfHostingValidatorTests.test_task9_successor_control_plane_chain_uses_external_git_approval)\nTask 9 proves the active four-path authority through the public gate. ... ok\ntest_v221_validator_accepts_framework_management_project (test_self_hosting_validator.SelfHostingValidatorTests.test_v221_validator_accepts_framework_management_project) ... ok\ntest_work_unit_scope_schema_closes_owned_and_excluded_selectors (test_self_hosting_validator.SelfHostingValidatorTests.test_work_unit_scope_schema_closes_owned_and_excluded_selectors) ... ok\ntest_work_unit_selector_schema_matches_runtime_wildcard_grammar (test_self_hosting_validator.SelfHostingValidatorTests.test_work_unit_selector_schema_matches_runtime_wildcard_grammar) ... ok\n\n----------------------------------------------------------------------\nRan 66 tests in 94.556s\n\nOK",
+        "captured_output_sha256": "3c47450b8e377ed75389dc11a282652e68f437ba8e39a43040cbca0725046a47",
+        "log_storage_newlines": "CRLF"
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_validator_context_binding.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 32,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\affected-1.log",
+        "log_sha256": "6b279ebdb69c6609510e52ffef8f0b193f383f058c865675dc7f5f406429ee73",
+        "output_tail": "test_observation_is_minimized_and_non_authoritative (test_validator_context_binding.ValidatorContextBindingTests.test_observation_is_minimized_and_non_authoritative) ... ok\ntest_project_evolution_evaluation_is_read_only (test_validator_context_binding.ValidatorContextBindingTests.test_project_evolution_evaluation_is_read_only) ... ok\ntest_repository_binding_classifies_malformed_configuration_before_conflict (test_validator_context_binding.ValidatorContextBindingTests.test_repository_binding_classifies_malformed_configuration_before_conflict) ... ok\ntest_repository_transfer_requires_both_identity_bound_evidence (test_validator_context_binding.ValidatorContextBindingTests.test_repository_transfer_requires_both_identity_bound_evidence) ... ok\ntest_required_guardrail_manifest_and_catalog_are_present (test_validator_context_binding.ValidatorContextBindingTests.test_required_guardrail_manifest_and_catalog_are_present) ... ok\ntest_resource_boundary_rejects_foreign_or_ambiguous_authority_resources (test_validator_context_binding.ValidatorContextBindingTests.test_resource_boundary_rejects_foreign_or_ambiguous_authority_resources) ... ok\ntest_retired_enrollment_rejects_new_observation_and_preserves_history (test_validator_context_binding.ValidatorContextBindingTests.test_retired_enrollment_rejects_new_observation_and_preserves_history) ... ok\n\n----------------------------------------------------------------------\nRan 32 tests in 4.973s\n\nOK",
+        "captured_output_sha256": "616aa3081f6e578750b0314d077746cef1d1463053663c130e72cbebdd7e35a3",
+        "log_storage_newlines": "CRLF"
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_framework_module_routing.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 35,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\affected-2.log",
+        "log_sha256": "dd5e83139c607c529ac97eec6fec3d2d5959991816b55395d434cd4c088fb116",
+        "output_tail": "test_same_owner_in_physical_and_logical_namespaces_is_unique (test_framework_module_routing.FrameworkModuleRoutingTests.test_same_owner_in_physical_and_logical_namespaces_is_unique) ... ok\ntest_selector_paths_reject_absolute_and_parent_traversal (test_framework_module_routing.FrameworkModuleRoutingTests.test_selector_paths_reject_absolute_and_parent_traversal) ... ok\ntest_single_module_route_is_returned_for_one_verified_owner (test_framework_module_routing.FrameworkModuleRoutingTests.test_single_module_route_is_returned_for_one_verified_owner) ... ok\ntest_slash_containing_logical_identifier_routes_without_physical_selector (test_framework_module_routing.FrameworkModuleRoutingTests.test_slash_containing_logical_identifier_routes_without_physical_selector) ... ok\ntest_undeclared_contract_does_not_guess_a_consumer (test_framework_module_routing.FrameworkModuleRoutingTests.test_undeclared_contract_does_not_guess_a_consumer) ... ok\ntest_unsafe_physical_forms_cannot_use_logical_fallback (test_framework_module_routing.FrameworkModuleRoutingTests.test_unsafe_physical_forms_cannot_use_logical_fallback) ... ok\ntest_zero_owner_is_unresolved (test_framework_module_routing.FrameworkModuleRoutingTests.test_zero_owner_is_unresolved) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 0.411s\n\nOK",
+        "captured_output_sha256": "da8c09171c8d4ab0d7b822e50980918f324817f8e47eec4bea641ff376cd1b1f",
+        "log_storage_newlines": "CRLF"
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_review_lifecycle.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 22,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\affected-3.log",
+        "log_sha256": "ad6e39b5b3d3059974d83dd9f8150e4d61e0dc13f75234a224b111d4c81c5635",
+        "output_tail": "test_repository_authority_requires_correlated_execution_fact_not_artifact_existence (test_review_lifecycle.ReviewLifecycleTests.test_repository_authority_requires_correlated_execution_fact_not_artifact_existence) ... ok\ntest_review_lifecycle_binds_exact_revision_and_identity (test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_binds_exact_revision_and_identity) ... ok\ntest_review_lifecycle_rejects_missing_decision_ref (test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_rejects_missing_decision_ref) ... ok\ntest_review_lifecycle_requires_decision_evidence_to_resolve_instruction_ref (test_review_lifecycle.ReviewLifecycleTests.test_review_lifecycle_requires_decision_evidence_to_resolve_instruction_ref) ... ok\ntest_task7_control_plane_paths_remain_exact_files (test_review_lifecycle.ReviewLifecycleTests.test_task7_control_plane_paths_remain_exact_files) ... ok\ntest_task9_composed_fix_chain_uses_production_builder_lifecycle_and_git_oracle (test_review_lifecycle.ReviewLifecycleTests.test_task9_composed_fix_chain_uses_production_builder_lifecycle_and_git_oracle)\nTask 9: exercise the whole FIX route, not a private helper in isolation. ... ok\n\n----------------------------------------------------------------------\nRan 22 tests in 8.392s\n\nOK",
+        "captured_output_sha256": "cf9dac8ae9f6bb615e867835a52368a40e0115653a0f568c004ba840a4731a19",
+        "log_storage_newlines": "CRLF"
+      }
+    ],
+    "full": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-v"
+        ],
+        "exit_code": 0,
+        "test_count": 732,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\full-0.log",
+        "log_sha256": "6ef78bf7ea87e4e1dd4259881b8e7bab60162cb3bb5de206fad8716d6011b37d",
+        "output_tail": "test_current_release_metadata_is_consistent (test_version_consistency.VersionConsistencyTests.test_current_release_metadata_is_consistent) ... ok\ntest_c8_clean_room_durable_evidence_reaches_non_authorizing_management_input (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_c8_clean_room_durable_evidence_reaches_non_authorizing_management_input) ... ok\ntest_environment_and_diagnostics_matrix (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_environment_and_diagnostics_matrix) ... ok\ntest_git_recovery_handoff_and_filesystem_matrix (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_git_recovery_handoff_and_filesystem_matrix) ... ok\ntest_handoff_and_filesystem_matrix_uses_durable_clean_room_facts (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_handoff_and_filesystem_matrix_uses_durable_clean_room_facts) ... ok\ntest_junction_cleanup_is_rejected_without_mutation (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_junction_cleanup_is_rejected_without_mutation) ... ok\ntest_release_phase_matrix_is_observational (test_windows_clean_room_e2e.WindowsCleanRoomE2ETests.test_release_phase_matrix_is_observational) ... ok\n\n----------------------------------------------------------------------\nRan 732 tests in 312.062s\n\nOK (skipped=2)",
+        "captured_output_sha256": "70dc7477589d5ca476cafa1bae8c075738a4f601ee324cf6892057007661d5ec",
+        "log_storage_newlines": "CRLF"
+      }
+    ],
+    "validators": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ],
+        "exit_code": 0,
+        "test_count": null,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\validators-0.log",
+        "log_sha256": "0f7d6ecb1d75a7a0eeeb9241271a8d618157d1d1cfc8256a61dd8ee1c9700b04",
+        "output_tail": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-32\nPROJECT_CONTEXT_BINDING: PASS",
+        "captured_output_sha256": "376f9555e0d2bc5e0d08ff97edfd62ebda299468a2a54b31b7846ad34ccf39a9",
+        "log_storage_newlines": "CRLF"
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-X",
+          "utf8",
+          "-B",
+          ".gpt-codex/scripts/validate_framework.py"
+        ],
+        "exit_code": 0,
+        "test_count": null,
+        "log_path": "D:\\通用开发框架管理\\.gpt-codex-transport\\state32-fresh-finding-fix-20261006\\validators-1.log",
+        "log_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+        "output_tail": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS",
+        "captured_output_sha256": "f520e5bf284fec4aa52a69cf07f7ef99d43ec625565391912b0d9b1cf39fb70e",
+        "log_storage_newlines": "CRLF"
+      }
+    ]
+  },
+  "source_changes": [
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_self_hosting_validator.py"
+  ]
+}
