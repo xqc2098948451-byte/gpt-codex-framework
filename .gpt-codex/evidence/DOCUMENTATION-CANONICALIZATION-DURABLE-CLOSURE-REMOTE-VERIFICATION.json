@@ -1,0 +1,83 @@
+{
+  "baseline_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+  "boundary": {
+    "protected_baseline_file_count": 683,
+    "protected_blob_or_mode_drift_count": 0,
+    "state_blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+    "unscoped_changed_path_count": 0
+  },
+  "closure_evidence_locator": {
+    "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+    "commit_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b",
+    "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "exact_blob_readbacks": [
+    {
+      "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+      "byte_identity": true,
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      "sha256": "d3d765373f27e1d757fb10085290d908fd64583f61035bac099d73f914694cd9",
+      "size": 995159
+    },
+    {
+      "blob_sha": "4a33c15064b176f6c303bb806eec9249cd78c4cf",
+      "byte_identity": true,
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      "sha256": "aaa62bfa92c5e7ca8ea7163eab65ce17741d42be22b7af4a3c7ff593373f0fa2",
+      "size": 307466
+    },
+    {
+      "blob_sha": "2c8c6c179c11390923391630161349ee4b3bf2eb",
+      "byte_identity": true,
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      "sha256": "8878fdc721d6bd0e157dd7501b04acd0b0b3d1286cc9bc3be2772f5bc6076fb9",
+      "size": 578132
+    },
+    {
+      "blob_sha": "5fad53d7fb4459760cc409d2a6067a10dfcbd641",
+      "byte_identity": true,
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      "sha256": "db17dab089b3eb926ae8690e0c498f168c62de00e82c4ec8b833192dbfbbd755",
+      "size": 12306
+    },
+    {
+      "blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+      "byte_identity": true,
+      "path": ".gpt-codex/STATE.json",
+      "sha256": "2db90a141d3b091045bb51cc76872219888272b0ca94221ac639b6c94ed57224",
+      "size": 10732
+    }
+  ],
+  "implementation_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b",
+  "observed_utc": "2026-10-06T10:13:49.631227+00:00",
+  "post_result_locator": {
+    "blob_sha": "2c8c6c179c11390923391630161349ee4b3bf2eb",
+    "commit_sha": "c1b7842b99eae918b70a3798307e35b18335f4a1",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "publication_pre_result_locator": {
+    "blob_sha": "5fad53d7fb4459760cc409d2a6067a10dfcbd641",
+    "commit_sha": "1ea9ad3c0b4e1a007c432db03c1beb9484677b4c",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "push_status": "SUCCEEDED",
+  "record_kind": "DOCUMENTATION_CLOSURE_REMOTE_VERIFICATION",
+  "recovery_locator": {
+    "blob_sha": "2b7b6d6646b076b8543be46aad9f2e75dbacca95",
+    "commit_sha": "c0d6dc02d6edae8f65e4441e2ebb2453c09775c9",
+    "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "remote_head_sha": "1ea9ad3c0b4e1a007c432db03c1beb9484677b4c",
+  "remote_tracked_file_count": 693,
+  "remote_tree_exact": true,
+  "remote_tree_sha": "9e3f30ec748428fe71196186e2c0d6d4ee4e8e1d",
+  "remote_verification": "VERIFIED",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "self_containing_commit_claim": false,
+  "sync_status": "SYNCED"
+}
