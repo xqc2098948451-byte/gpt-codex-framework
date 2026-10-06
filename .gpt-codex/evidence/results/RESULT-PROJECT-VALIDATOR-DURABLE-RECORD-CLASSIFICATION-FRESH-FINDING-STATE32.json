@@ -1,0 +1,322 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-durable-record-classification-remediation-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "7fc8ebdc-2d26-430f-961c-b41d8e01af2f",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "finding_ids": [
+    "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 32,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json"
+  ],
+  "remote_verification": "VERIFIED",
+  "remote_head_sha": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "local_head_sha": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "remote_verification_scope": "CURRENT_REMOTE_MAIN_AND_EXACT_REVIEWED_BYTES_ONLY",
+  "observed_utc": "2026-10-06T01:13:54.309608+00:00",
+  "finding_summary": "At FIX_BASE, validate_project.py misclassifies the two status=PASS L7/L8 governance records as Results; exact known two false positives and no other failures reproduced.",
+  "finding_detail": [
+    {
+      "finding_id": "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001",
+      "problem_layer": "FRAMEWORK_VALIDATOR_RECORD_CLASSIFICATION",
+      "root_cause": "STATUS_FIELD_MISCLASSIFIED_AS_RESULT",
+      "severity": "P1",
+      "path": ".gpt-codex/scripts/validate_project.py",
+      "line": 1847,
+      "reproduction_command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        ".gpt-codex/scripts/validate_project.py",
+        "."
+      ],
+      "exit_code": 1,
+      "stdout_lines": [
+        "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json: PASS requires remote_verification=VERIFIED",
+        "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json: PASS requires remote_verification=VERIFIED",
+        "RESULT: FAIL (2 errors)"
+      ],
+      "false_positive_record_count_before": 2,
+      "unexpected_failure_count": 0,
+      "classification": [
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+          "record_kind": "LOCAL_WORKSPACE_CONSOLIDATION_L7_FINAL_VERIFICATION",
+          "status": "PASS",
+          "is_result": false,
+          "actual_status_only_classifier_matches": true
+        },
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+          "record_kind": "LOCAL_WORKSPACE_CONSOLIDATION_L8_LOCAL_WORKSPACE_FREEZE",
+          "status": "PASS",
+          "is_result": false,
+          "actual_status_only_classifier_matches": true
+        }
+      ],
+      "not_l7_failure": true,
+      "not_l8_failure": true,
+      "not_remote_publication_failure": true,
+      "not_documentation_migration_failure": true,
+      "corresponding_durable_results": [
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+          "status": "PASS",
+          "remote_verification": "VERIFIED",
+          "publication_authority": "CONFIRMED_PUBLICATION",
+          "sync_status": "SYNCED",
+          "schema_errors": [],
+          "authority_errors": [],
+          "protocol_errors": []
+        },
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+          "status": "PASS",
+          "remote_verification": "VERIFIED",
+          "publication_authority": "CONFIRMED_PUBLICATION",
+          "sync_status": "SYNCED",
+          "schema_errors": [],
+          "authority_errors": [],
+          "protocol_errors": []
+        }
+      ],
+      "publication_negative_control": [
+        "PASS requires remote_verification=VERIFIED"
+      ],
+      "publication_contract_required": "Unchanged validate_result_authority; true non-approval PASS Results continue to require remote_verification=VERIFIED.",
+      "recommended_source_scope": [
+        ".gpt-codex/scripts/validate_project.py",
+        ".gpt-codex/tests/test_self_hosting_validator.py"
+      ],
+      "recommended_classification": "Result iff under .gpt-codex/evidence/results/ OR explicit result_message_type/result_id. Legacy Results in results/ retain classification; evidence_id remains Evidence; record_kind plus status alone is not a Result."
+    }
+  ],
+  "reviewer_observation": {
+    "context": "/root/fresh_finding_review",
+    "implementer_context_separate": true,
+    "repository_read_only": true,
+    "repository_mutation_count": 0,
+    "agent_spawns": 0,
+    "formal_pre_pass_claim": false,
+    "inputs": "REPOSITORY_CONTENT_AND_VERIFICATION_EVIDENCE"
+  },
+  "validation_observations": {
+    "project": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        ".gpt-codex/scripts/validate_project.py",
+        "."
+      ],
+      "exit_code": 1,
+      "stdout": "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json: PASS requires remote_verification=VERIFIED\r\nFAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json: PASS requires remote_verification=VERIFIED\r\nRESULT: FAIL (2 errors)\r\n",
+      "stderr": ""
+    },
+    "framework": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        ".gpt-codex/scripts/validate_framework.py"
+      ],
+      "exit_code": 0,
+      "stdout": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n",
+      "stderr": ""
+    },
+    "publication": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".gpt-codex/tests",
+        "-p",
+        "test_publication_authority.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_candidate_authority_cannot_pass_or_sync (test_publication_authority.PublicationAuthorityTests.test_candidate_authority_cannot_pass_or_sync) ... ok\r\ntest_candidate_state_cannot_be_complete (test_publication_authority.PublicationAuthorityTests.test_candidate_state_cannot_be_complete) ... ok\r\ntest_complete_requires_durable_verified_result (test_publication_authority.PublicationAuthorityTests.test_complete_requires_durable_verified_result) ... ok\r\ntest_pass_requires_verified_remote_for_each_nonverified_status (test_publication_authority.PublicationAuthorityTests.test_pass_requires_verified_remote_for_each_nonverified_status) ... ok\r\ntest_pass_with_verified_formal_publication_is_allowed (test_publication_authority.PublicationAuthorityTests.test_pass_with_verified_formal_publication_is_allowed) ... ok\r\ntest_release_phase_derivation_requires_progressively_bound_facts (test_publication_authority.PublicationAuthorityTests.test_release_phase_derivation_requires_progressively_bound_facts) ... ok\r\ntest_synced_requires_verified_publication_evidence (test_publication_authority.PublicationAuthorityTests.test_synced_requires_verified_publication_evidence) ... ok\r\ntest_synced_state_requires_current_revision_and_durable_result (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_current_revision_and_durable_result) ... ok\r\ntest_synced_state_requires_nonempty_verified_baseline_sha (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_nonempty_verified_baseline_sha) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 9 tests in 0.006s\r\n\r\nOK\r\n"
+    }
+  },
+  "exact_remote_readback": [
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+      "blob_sha": "72304374a958594229edb0efc65468d21650c828",
+      "sha256": "75c5b0db105d646e62e46baf003e100608727a4b59be674bbc1bfcd125c35d60",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+      "blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+      "sha256": "532d62b2b9cf1a6ef52375cc60c6b2becf8e81519d9fa7d01b1d67257e12a9c2",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "sha256": "4ccd90ae364975372fc471e6154967de7dd6477fbcff6487bcd9b9d9474dce41",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+      "blob_sha": "2b68fdf0b5a2dc71c8f2dfe682d73687a1be9ccc",
+      "sha256": "4ccd5a53a1ad8477161dac44452bca97881bfea42382edbe96442417b7fc9ef2",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+      "blob_sha": "af82c7ae059867cde4666e67c96953cead71f622",
+      "sha256": "723887b9266f0f85d9e7027c3d2a095aa6e6d9e0666b3dab306ad4756180d594",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/scripts/publication_contract.py",
+      "blob_sha": "0bcc411ebbf2346e2da128a674eef4915c3d17aa",
+      "sha256": "8e1a1edf13ccb6d94ea7361d3991c10acd660d71c442c650b912f3debf57f4a5",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/schemas/result-envelope.schema.json",
+      "blob_sha": "7c3fd115f33d346f573da549c7c7bf3c481ad672",
+      "sha256": "71d351beb540d4e448c8739fb4c6d10559bc1ccdc955ee8bb7f8ca5f66ace265",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+      "blob_sha": "a3dd9b19bef76ec0f35b28b05fe274ee57c188ac",
+      "sha256": "2e8be64619f196b55a9cf16d56230596dfe697a8a68058da01cc16e23fc712c4",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+      "blob_sha": "924db7f975528d757b58f33c64362a0f1344bcd6",
+      "sha256": "67446b0171543c4c0152933ad8f772d4f9356b8b7b09e53f88172eeb3cbe8215",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+      "blob_sha": "a3721ed9d66029c939ac5a8c45477411b4ddd025",
+      "sha256": "4f66db5888cad7581a99021ab22143510d3102b49bdf4025dc2e7c649e996dc9",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+      "blob_sha": "0a932da3c1e573dfd4b4aa588d0deea209869057",
+      "sha256": "95a4e27ffb1327394be5f84244650aaf548ec8a44fc58dcfa14d03609ad9256e",
+      "exact_worktree_bytes": true,
+      "remote_readback_basis": "Published correction exact-readback evidence plus unchanged live FIX_BASE"
+    }
+  ],
+  "files_changed": [],
+  "formal_pre_pass_claim": false,
+  "native_validation": {
+    "schema_errors": [],
+    "protocol_errors": [],
+    "authority_errors": [],
+    "finding_errors": [],
+    "source_identity_decision": "ALLOW",
+    "remediation_resolution_errors": [],
+    "adjudication_errors": []
+  },
+  "native_materialization": {
+    "status": "SUPPORTED_WITHOUT_MAIN_ADVANCE",
+    "existing_mechanism": "Non-main durable authoring commit for Finding/WU/Instruction; native Core consumes the exact fresh finding_result mapping and STATE32 durable adjudication/basis.",
+    "finding_result_requires_main_membership": false,
+    "adjudication_correlation": "EXACT_FINDING_IDS_NOT_OLD_RESULT_ID",
+    "formal_pre_approval_required_before_mutation": true,
+    "source_evidence": [
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "line": 1194,
+        "observation": "validate_governed_mutation_entry accepts explicit finding_result Mapping"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "line": 1343,
+        "observation": "FIX branch delegates explicit Finding and repository_root to native lifecycle"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "line": 846,
+        "observation": "Durable remediation decision and basis resolve from current HEAD STATE32 evidence_refs"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "line": 803,
+        "observation": "Existing adjudication correlates exact finding_ids; no old-result-id identity binding"
+      },
+      {
+        "path": ".gpt-codex/scripts/instruction_envelope.py",
+        "line": 83,
+        "observation": "Immutable Instruction/Work Unit locators resolve git objects without target-main membership requirement"
+      }
+    ],
+    "full_fix_lifecycle_validation": "DEFERRED_UNTIL_REAL_DURABLE_FIX_PACKET_AND_INDEPENDENT_PRE"
+  },
+  "baseline_preservation": {
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "all_tracked_file_count": 604,
+    "all_tracked_file_bytes_before_after_equal": true,
+    "tracked_worktree_clean": true,
+    "original_gate_result_rewritten": "NO",
+    "old_finding_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES",
+    "publication_contract_bytes_unchanged": "YES",
+    "result_schema_bytes_unchanged": "YES",
+    "remote_main_before": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+    "remote_main_after": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+    "native_core_and_plugin_correction_handoff_observed": "HANDOFF_READY"
+  }
+}

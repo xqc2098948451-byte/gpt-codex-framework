@@ -1,0 +1,77 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "project-validator-durable-record-classification-remediation-001",
+  "goal": "Minimal durable record classification repair through native FIX authority",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 32,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_self_hosting_validator.py",
+      ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+      ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+      ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+      ".gpt-codex/evidence/instructions/1c555f45-2b60-44c5-8b4f-4031919c2e66.json",
+      ".gpt-codex/evidence/instructions/9694f2fa-7071-4f3c-91cc-c518e872a8cd.json",
+      ".gpt-codex/evidence/instructions/6cff6486-926f-4b8a-9afc-3bfa9efe077e.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-FRESH-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-VALIDATION.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      "docs/",
+      "Documentation/",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+      ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "41a7615d5e8850965847836e3d4f45b39e977b76"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "41a7615d5e8850965847836e3d4f45b39e977b76"
+    }
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "Native FIX authority and independent PRE PASS",
+    "Seven classification regressions and affected/full tests PASS",
+    "Project and Framework validators PASS",
+    "True nonapproval PASS Result must be VERIFIED",
+    "STATE32, frozen bytes, historical records and Documentation unchanged",
+    "Independent POST and verified durable publication; return to GPT"
+  ]
+}
