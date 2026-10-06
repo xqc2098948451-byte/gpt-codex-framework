@@ -1,7 +1,11 @@
 {
+  "A": 37,
   "A_RECOMPUTED": 37,
+  "B": 317,
   "B_RECOMPUTED": 317,
+  "C": 452,
   "C_RECOMPUTED": 452,
+  "D": 0,
   "D_RECOMPUTED": 0,
   "HISTORY_REWRITE": false,
   "ORIGINAL_PRE_DURABLE_LOCATOR": null,
