@@ -1,0 +1,342 @@
+{
+  "record_kind": "TOOL_OBSERVED_EXACT_REMOTE_VERIFICATION",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "remote_ref": "refs/heads/main",
+  "remote_main": "9825c06e808a418155279a11c1d0bd94083da3f1",
+  "tree_sha": "812b6b017a9f076d540196a53cc0b0c76283b5c1",
+  "exact_tree_entries": 645,
+  "exact_tree_match": true,
+  "exact_blobs": [
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "sha256": "4ccd90ae364975372fc471e6154967de7dd6477fbcff6487bcd9b9d9474dce41",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "blob_sha": "b6875fc14e8d72c84cbc10622e9bf2aefaa09d95",
+      "sha256": "ad34929c15bb07095a41e6afb839ad15d4cea4bff302479c0f8945303966e5c7",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "blob_sha": "d09fa0fe70be44d9cc4db5e936af366145b71eee",
+      "sha256": "673447a9e350d16be7b569e2f33a99811995b6f63135451f05274821cf389d0f",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "blob_sha": "a02902e8efa1e0fe5f6ea6dc77bba79d56d9b8f8",
+      "sha256": "ceda3225be2f9b0f5bb00db3f6c958d6a2bac7fd04a8e718e6b55cb4b2f5205e",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "blob_sha": "34c712f13b21fcf600ce6c623fa66164d318e000",
+      "sha256": "a559e33ef6f21ee99bb4ee4e56daaa3b2405977978668826f1701b370e22e878",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "blob_sha": "4f8daf19d8792d6417a00e624d11a2c1b27a2493",
+      "sha256": "cb4d3422c9eeeaeb6428a734bd1702ae140376561b28c690888924c2aa680da8",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "blob_sha": "6eb0be90bca8242f808c36effd75ab1bd790ac7c",
+      "sha256": "ebd7b2574ca82b462a9ff69858e51c89656c4dc69cf6b6788a3467658b56a118",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "blob_sha": "495be2a689c6a8f43e609142abb5a2059e1077fd",
+      "sha256": "22d31820719ea49cf168cdffc5624ee33b5149156e4282c35966db3c12cef18d",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "blob_sha": "2d3ca6c8cadd8440ac43ba7efabbaec421b962ce",
+      "sha256": "5b00303485ec42b0b08be8b3defe08d6bb5acce5025f63326d0ff3000afb9497",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "blob_sha": "3fbe7557fdc53f5203f726f377746b0a8f18de3d",
+      "sha256": "eb85c19e8864bca36906e089738377b5e33b2aeeba1dedc9766eaa485e9051e0",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "blob_sha": "772444db2f9ad5197923d4aa8b58450e3ceb1630",
+      "sha256": "f29032b5e30ac6e38165b1995738307a4c4de3f00940953899e6b6b1670afeb3",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "blob_sha": "d14645733a0c952b0b9bd8fc0c65662bd84daaeb",
+      "sha256": "d0c05a12932c6988b737d785aca7b4181b320acc262a0570297208d5ca6121da",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "blob_sha": "263d3063d19734fd6c85080e924cc17e4ea04834",
+      "sha256": "0189a26d8dceb71e8874883f200492a39c238091b9003072c3b530dc099170b2",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "blob_sha": "41983722cee844fbd26b98765c712ef06e338923",
+      "sha256": "3863c6ff54999ecde254d1dd8972d237d89a92c52b14eeaca68992f7e3574782",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "blob_sha": "23edd35407e3d6bcae7f27eb6c67a64f4eddd29c",
+      "sha256": "e007169571fd43480574f63301b9b5f778039939b20c0fd427a2471866109f9f",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "blob_sha": "36d22cab9cb0c72f27c824fbe73c2e2dd199a1e3",
+      "sha256": "dad7b2db77a52e1bf263bea2c983110dbac49e10665b9f1951b39bc38fb8ec1a",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "blob_sha": "091cb5daa501e681a8c0482f5d566ae320827908",
+      "sha256": "717c36657ced984542d660d13a0728aeba10f104fac657335915611b66af3c5a",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "blob_sha": "d735b853d57e6c08c216519da79e0513647c3fa7",
+      "sha256": "192315a4a0488e0947fe4645933c2215a30dc8f02ed2630426d576759824800e",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "blob_sha": "06670c90f861a44037aa919555d21e1a4ffeddcf",
+      "sha256": "d589653e0a9c5ad50fee6c0e9b96aeed4ea20345d9e49683c4e3c9e02219afaf",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "blob_sha": "716f43d17e7a68cca14ffe2908a12521fe61fb76",
+      "sha256": "5e59595c0dab09b591ac9542768a4a81998f244f0b67a4ba4851524904bcf4cc",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "blob_sha": "6b692d1f4c193cee2d986077dac77b45b5a6d83b",
+      "sha256": "8e7777f880db28d5ed5fcc76087e94cda1843d401dbfb3efe596ea4a301b69f1",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "blob_sha": "199166cc339dabb9d348588335615712be0c3d5e",
+      "sha256": "293cb1d842d7dd26a41d9c86ac92d2fd1dd6864a939cd81453698980095d0a99",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "blob_sha": "c6278c6f2ae4a3aed3349de38e3448ab19416b3f",
+      "sha256": "00dc1d7c55d0f9375977657fe2ddaab190f2fea0388f5368801040e0d867ddd0",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0",
+      "sha256": "913cb3c1b9b426f5fa749bab8cf6d22d4f510dd3147c8d057b35b36f3b4df40e",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "blob_sha": "250c685a45065c0514cbf05a32af8560170a64c1",
+      "sha256": "335890c86ca36d341a390f7fb8945bd4c3b2ebcd8e7efaca947d34b4e7a52e8f",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/CHANGELOG.md",
+      "blob_sha": "e811bb2941289a5f1238e27ac2d074d88aa3fe08",
+      "sha256": "6e0404d588a01773c59beb8705110ad14f3750adeec3a1fe3244438695a0abc7",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      "blob_sha": "ee2122c18bca4591706ee72589c1e842ef415a16",
+      "sha256": "72b2ee5f26c42c208230188e8675e1336c13603aebbba6382a838526da7a04f9",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/release/consumer-projection-manifest.json",
+      "blob_sha": "fdfa1db8717aac35322a4490c4d819aaf9b6c014",
+      "sha256": "685c72801b21abbdc300b9f62ec69a67335576147e889ba607616f7437681ce1",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/tests/test_consumer_projection.py",
+      "blob_sha": "d6f8cdff6f19cc5ad85db220ecddd80d8c291be8",
+      "sha256": "8ada09602a4f5f3f8ba2db1d17ec551a49351ddf4869f1ed3f619e30cc2726a8",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/tests/test_release_packaging.py",
+      "blob_sha": "3240539d5ba0c65cef5b670c455d77740c268c44",
+      "sha256": "e03f2e4548bea1560d4e936055700f0b6c12d804623f98108202b69dadb19622",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/architecture/README.md",
+      "blob_sha": "7e9e4a89ca0dada27e7081b16b7aaff0eb0a88c4",
+      "sha256": "422d2f050fb7cbf3d27b6286bfaa35450941b6b44a295973226118502f6519ca",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/decisions/README.md",
+      "blob_sha": "488d7ed45daa5d7b8af1075cde7c4a58ce748ae8",
+      "sha256": "e39cdb600999ef59927c1008a4372cf5fc6d4c2e5413344bedf20b72d10918b9",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/plans/README.md",
+      "blob_sha": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+      "sha256": "b609d1efc6b34970adfcebc9053083aa4cec461860b4e378cabdcc7b1f8440ef",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      "blob_sha": "aa9555d6a82f4e0738517a58a6d56ed338cad78a",
+      "sha256": "11bbdd5e77722e8239760e2749309bd4ba665adc1b38ce8937d2a17f6519efac",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      "blob_sha": "418f2c5036bf4bcb16cc2f952245b26f37af088e",
+      "sha256": "d1bc7a62dd8a29f86363b18db97034b9a29460d8f2aff1a3016f04da7e7d8e9e",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      "blob_sha": "9226f05f472bfc4657f09c443ff634519de94245",
+      "sha256": "d9e2c1c5f9731063418ea38e9946660f87df4dfd129b6ff8f4bd6e19701dcae5",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      "blob_sha": "77d1470e3741a0401e2b2889dcb4de0133336b58",
+      "sha256": "07319b3aaedc28d76e5c3ea10dbfc9db9afe0840d3cc30802ac00a6ad1b97684",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      "blob_sha": "2e348f45c39fdd12d84b8eed39e66216370ecc6d",
+      "sha256": "29a6834fa933e21599cce4facfa627457c51695b0350d59fd088570fb3721214",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      "blob_sha": "3e09a3c05026e3f9087b5339db3b22b6e9850a96",
+      "sha256": "e52d6c15bdd167d5f44972833b2ba28e4bf0fc7dc70ea654c2a5d7a3bd1bff3e",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      "blob_sha": "72683e7916947de2895e524747e3ef837a58b21e",
+      "sha256": "bb6f73e40781822fed14f8483961946ab577cdfadb65ee2a2540680e6857f5cd",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      "blob_sha": "4ffd9485c873ef7bbd39a9100db88e64820c0137",
+      "sha256": "8121432b183eac4dfa29df8a1e620b450625db2165264439bc81a838b11c64cc",
+      "exact_bytes": true
+    }
+  ],
+  "implementation_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+  "observed_utc": "2026-10-06T05:51:28.996501+00:00",
+  "preservation": {
+    "changed_paths": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/decisions/README.md",
+      "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/plans/README.md",
+      "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+      "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+      "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "docs/superpowers/specs/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md"
+    ],
+    "unexpected_changed_path_count": 0,
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "unedited_byte_identity_count": 20,
+    "bounded_edited_doc_count": 4,
+    "migration_count": 24,
+    "consumer_inventory_count": 86,
+    "batch1_history_unchanged": 28,
+    "batch2_history_unchanged": 42,
+    "immutable_locator_count_preserved": 317,
+    "frozen_reference_count_preserved": 452,
+    "broken_current_reference_count": 0,
+    "legacy_superpowers_file_count": 0
+  },
+  "self_containing_commit_claim": false
+}
