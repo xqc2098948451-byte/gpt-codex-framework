@@ -1,0 +1,74 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "project-validator-remediation-authority-state32-gate-001",
+  "goal": "Register STATE32 remediation authority without phase transition or implementation",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 31,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+      ".gpt-codex/work-units/project-validator-remediation-authority-state32-gate-001.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/instructions/f079c523-7f0e-43fd-9636-98c7915fb6d2.json",
+      ".gpt-codex/evidence/instructions/9ee2123c-0a4b-4162-b2e1-ea02e414a9b4.json",
+      ".gpt-codex/evidence/instructions/253a0548-faaa-4676-97a5-588d587cf1b5.json",
+      ".gpt-codex/evidence/instructions/6b779f25-bdbb-46a2-9a2c-ddfb6168f30a.json",
+      ".gpt-codex/evidence/instructions/68631dd8-478d-411b-84be-b74ebdd292db.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      "docs/",
+      "Documentation/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "d24791a899691b003dae70394f93ff5ddace5bc7"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "d24791a899691b003dae70394f93ff5ddace5bc7"
+    }
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "Exact two known Project validator failures, zero unexpected failures",
+    "Framework validator and publication authority tests PASS",
+    "STATE31 -> STATE32 only; AUTHORIZED; next_action and reconciliation preserved",
+    "Append authority and PRE/POST/verification/Result refs without deleting existing refs",
+    "W SYNC_PENDING -> exact remote readback -> P SYNCED verified Result",
+    "Original Finding, all frozen records and Documentation preserved"
+  ]
+}
