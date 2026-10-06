@@ -1,0 +1,288 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-state32-handoff-correction-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "0c6422f6-7b11-4e5b-ad99-01cdb5469ba9",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "review_target_revision": "41a7615d5e8850965847836e3d4f45b39e977b76",
+  "finding_ids": [],
+  "fix_round": 0,
+  "local_head_sha": "45fece633626eb18f369bcdc4ffde2a30e18de74",
+  "remote_head_sha": "41a7615d5e8850965847836e3d4f45b39e977b76",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json"
+  ],
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "observed_utc": "2026-10-06T00:59:59.842187+00:00",
+  "execution": "Independent read-only PRE for additive STATE32 native handoff metadata correction",
+  "changed": [],
+  "files_changed": [],
+  "deviations": [],
+  "blockers": [],
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/project-validator-state32-handoff-correction-001.json",
+    "sha": "f0e80a23f2257777d9d4e2b2c8a1e6fecfcf2ee5"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "45fece633626eb18f369bcdc4ffde2a30e18de74",
+    "path": ".gpt-codex/evidence/instructions/beefbd2a-3d5f-4e2e-b1a6-964dce376e11.json",
+    "blob_sha": "47b9970282b6009d4fcb8b4137c46f8bc239652a"
+  },
+  "review_request_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "45fece633626eb18f369bcdc4ffde2a30e18de74",
+    "path": ".gpt-codex/evidence/instructions/cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0.json",
+    "blob_sha": "17f6bc790306dc45a535a5d318827384c56e25b8"
+  },
+  "context_separation": {
+    "implementer_context": "/root",
+    "reviewer_context": "/root/native_review",
+    "implementer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\project-validator-durable-record-classification-remediation-001",
+    "reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-project-validator-durable-record-classification-remediation-001",
+    "fresh_context": true,
+    "implementer_private_reasoning_used": false,
+    "input_source_kinds": [
+      "DURABLE_PROJECT_AUTHORITY",
+      "GOVERNED_INSTRUCTION",
+      "REPOSITORY_CONTENT",
+      "VERIFICATION_EVIDENCE",
+      "USER_REQUEST"
+    ]
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "READ_ONLY_CORRECTION_PRE"
+    ],
+    "executed_scope": [
+      "READ_ONLY_CORRECTION_PRE"
+    ],
+    "test_files_expected": 1,
+    "test_files_executed": 1,
+    "test_count": 9,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "ORIGINAL_STATE32_GATE_NATIVE_REVALIDATION",
+      "EXACT_REMOTE_MAIN_READBACK",
+      "EXACT_KNOWN_2_PROJECT_BASELINE",
+      "FRAMEWORK_VALIDATOR",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "IMMUTABLE_INSTRUCTION_RESOLUTION",
+      "PRESERVATION_AND_SCOPE",
+      "NATIVE_CORE_PRE"
+    ],
+    "validators_completed": [
+      "ORIGINAL_STATE32_GATE_NATIVE_REVALIDATION",
+      "EXACT_REMOTE_MAIN_READBACK",
+      "EXACT_KNOWN_2_PROJECT_BASELINE",
+      "FRAMEWORK_VALIDATOR",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "IMMUTABLE_INSTRUCTION_RESOLUTION",
+      "PRESERVATION_AND_SCOPE",
+      "NATIVE_CORE_PRE"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "independent_audit": {
+    "STATE32_AUTHORITY_GATE_VALID": "YES",
+    "original_gate_result_id": "1356390e-a2ee-4cba-aea9-abd38db459dc",
+    "original_gate_result_authority_errors": [],
+    "original_gate_result_schema_errors": [],
+    "original_gate_result_protocol_errors": [],
+    "state_authority_errors": [],
+    "original_state31_to32_core_errors": [],
+    "original_STATE32_sync_core_errors": [],
+    "original_result_has_implementation_sha": false,
+    "handoff_correction_implementation_subject": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+    "native_resume_status": "LATEST_SYNCED_REMOTE_STATE",
+    "map_route": "MAP_MISSING",
+    "execution_instruction_resolution": "INSTRUCTION_RESOLVED",
+    "review_instruction_resolution": "INSTRUCTION_RESOLVED",
+    "native_core_without_PRE_errors": [
+      "PRE_EXECUTION_REVIEW_REQUIRED"
+    ],
+    "remote_main": "41a7615d5e8850965847836e3d4f45b39e977b76",
+    "remote_tree_sha": "1c495602e4fc29608c182898c9dc08bb8764db86",
+    "remote_tree_exact": true,
+    "exact_readback": [
+      {
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+        "sha256": "4ccd90ae364975372fc471e6154967de7dd6477fbcff6487bcd9b9d9474dce41",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+        "blob_sha": "2b68fdf0b5a2dc71c8f2dfe682d73687a1be9ccc",
+        "sha256": "4ccd5a53a1ad8477161dac44452bca97881bfea42382edbe96442417b7fc9ef2",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+        "blob_sha": "72304374a958594229edb0efc65468d21650c828",
+        "sha256": "75c5b0db105d646e62e46baf003e100608727a4b59be674bbc1bfcd125c35d60",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+        "blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+        "sha256": "532d62b2b9cf1a6ef52375cc60c6b2becf8e81519d9fa7d01b1d67257e12a9c2",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+        "blob_sha": "a3dd9b19bef76ec0f35b28b05fe274ee57c188ac",
+        "sha256": "2e8be64619f196b55a9cf16d56230596dfe697a8a68058da01cc16e23fc712c4",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+        "blob_sha": "924db7f975528d757b58f33c64362a0f1344bcd6",
+        "sha256": "67446b0171543c4c0152933ad8f772d4f9356b8b7b09e53f88172eeb3cbe8215",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+        "blob_sha": "cf39416ad3c7aa6272270b0446275965796f20d7",
+        "sha256": "a2a2d70dff977351d58c79516ca37fcc84252fb1f40ec56dcde2ec87d706b85f",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+        "blob_sha": "95ef5912fdcecbb93f56859ff22d68e2d03065d0",
+        "sha256": "251a847c5cb2e297dede4bd4f82bacce6523036f1dbee06c631d9bf688a1bd45",
+        "exact_remote_bytes": true,
+        "packet_bytes_unchanged": true
+      }
+    ],
+    "packet_changes": [
+      {
+        "path": ".gpt-codex/evidence/instructions/beefbd2a-3d5f-4e2e-b1a6-964dce376e11.json",
+        "before": null,
+        "after": [
+          "100644",
+          "blob",
+          "47b9970282b6009d4fcb8b4137c46f8bc239652a"
+        ]
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0.json",
+        "before": null,
+        "after": [
+          "100644",
+          "blob",
+          "17f6bc790306dc45a535a5d318827384c56e25b8"
+        ]
+      },
+      {
+        "path": ".gpt-codex/work-units/project-validator-state32-handoff-correction-001.json",
+        "before": null,
+        "after": [
+          "100644",
+          "blob",
+          "8637962110f925fb7f5388582c504dc2203a18d6"
+        ]
+      }
+    ],
+    "new_directories": [],
+    "baseline_tree_entries_preserved": 598,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "frozen_L7_L8_bytes_unchanged": true,
+    "original_gate_result_rewritten": "NO",
+    "original_authority_status_changed": "NO",
+    "project_validator": "EXPECTED_FAIL_EXACT_KNOWN_2",
+    "project_validator_expected_known_failure_count": 2,
+    "project_validator_unexpected_failure_count": 0,
+    "framework_validator": "PASS",
+    "publication_authority_tests": "9/9 PASS",
+    "validation_observations": {
+      "source": "TOOL_OBSERVED_THIS_REVIEW",
+      "project": {
+        "command": [
+          "python",
+          "-B",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ],
+        "exit_code": 1,
+        "expected_errors": [
+          "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json: PASS requires remote_verification=VERIFIED",
+          "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json: PASS requires remote_verification=VERIFIED"
+        ],
+        "error_count": 2
+      },
+      "framework": {
+        "command": [
+          "python",
+          "-B",
+          ".gpt-codex/scripts/validate_framework.py"
+        ],
+        "exit_code": 0,
+        "result": "PASS"
+      },
+      "publication": {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_publication_authority.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "tests_run": 9,
+        "failures": 0,
+        "errors": 0
+      }
+    },
+    "prior_state31_baseline_preserved_except_STATE": true,
+    "native_core_with_PRE_errors": [],
+    "plugin_capability_errors": [],
+    "self_validation": {
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": []
+    }
+  },
+  "next_gpt_action": "Materialize independent PRE, author additive correction Result, publish and perform exact remote readback and native handoff before fresh Finding observation."
+}

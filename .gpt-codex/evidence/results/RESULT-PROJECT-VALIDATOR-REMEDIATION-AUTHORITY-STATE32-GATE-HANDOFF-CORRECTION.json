@@ -1,0 +1,87 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-state32-handoff-correction-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "0f622398-c38e-40d0-ae32-c5f37819aa67",
+  "result_message_type": "IMPLEMENTATION_RESULT",
+  "responder_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "beefbd2a-3d5f-4e2e-b1a6-964dce376e11",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "sync_status": "SYNCED",
+  "remote_head_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "verified_baseline_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "push_status": "SUCCEEDED",
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-PRE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-VERIFICATION.json"
+  ],
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "observed_utc": "2026-10-06T01:01:04.148687+00:00",
+  "execution": "Additive correction of native handoff metadata for the unchanged verified STATE32 gate",
+  "project_validator_expected_known_failure_count": 2,
+  "project_validator_unexpected_failure_count": 0,
+  "project_validator_semantics": "EXPECTED_FAIL_EXACT_KNOWN_2",
+  "framework_validator": "PASS",
+  "publication_authority_tests": "9/9 PASS",
+  "phase_transition": false,
+  "documentation_mutation_count": 0,
+  "L7_evidence_bytes_unchanged": true,
+  "L8_evidence_bytes_unchanged": true,
+  "independent_pre_result_id": "0c6422f6-7b11-4e5b-ad99-01cdb5469ba9",
+  "self_containing_commit_claim": false,
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "NATIVE_HANDOFF_METADATA_ONLY"
+    ],
+    "executed_scope": [
+      "NATIVE_HANDOFF_METADATA_ONLY"
+    ],
+    "test_files_expected": 1,
+    "test_files_executed": 1,
+    "test_count": 9,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "INDEPENDENT_NATIVE_PRE",
+      "VERIFIED_STATE32_SUBJECT",
+      "UNCHANGED_ORIGINAL_RESULT_STATE_L7_L8_DOCUMENTATION",
+      "METADATA_RESULT_CONTRACT"
+    ],
+    "validators_completed": [
+      "INDEPENDENT_NATIVE_PRE",
+      "VERIFIED_STATE32_SUBJECT",
+      "UNCHANGED_ORIGINAL_RESULT_STATE_L7_L8_DOCUMENTATION",
+      "METADATA_RESULT_CONTRACT"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "implementation_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "git": {
+    "base_sha": "41a7615d5e8850965847836e3d4f45b39e977b76",
+    "implementation_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9"
+  },
+  "correction_type": "NATIVE_HANDOFF_METADATA_ONLY",
+  "corrected_result_id": "1356390e-a2ee-4cba-aea9-abd38db459dc",
+  "original_result_rewritten": "NO",
+  "authority_status_changed": "NO",
+  "next_gpt_action": "Fresh independent Finding at the correction publication remote main; preserve STATE32",
+  "state_mutation_count": 0
+}

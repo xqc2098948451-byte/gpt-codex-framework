@@ -1,0 +1,68 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-VERIFICATION",
+  "subject": "NATIVE_HANDOFF_METADATA_VERIFICATION",
+  "result": "VERIFIED",
+  "source": "TOOL_OBSERVED",
+  "state_revision": 32,
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "observed_utc": "2026-10-06T01:01:03.453938+00:00",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "verified_remote_main_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "verified_tree_sha": "d20aba235ba6eab9b79cd59b66ce856508d510d7",
+  "exact_records": [
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "00bdba97deb22c750f373005b89d7123883f26be",
+      "sha256": "808ad8b61483a9153086ccbdb325559e571b822b531ba635e0d6fc6e39b02d7e"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+      "blob_sha": "af82c7ae059867cde4666e67c96953cead71f622",
+      "sha256": "723887b9266f0f85d9e7027c3d2a095aa6e6d9e0666b3dab306ad4756180d594"
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+      "blob_sha": "a3dd9b19bef76ec0f35b28b05fe274ee57c188ac",
+      "sha256": "2e8be64619f196b55a9cf16d56230596dfe697a8a68058da01cc16e23fc712c4"
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+      "blob_sha": "924db7f975528d757b58f33c64362a0f1344bcd6",
+      "sha256": "67446b0171543c4c0152933ad8f772d4f9356b8b7b09e53f88172eeb3cbe8215"
+    },
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+      "blob_sha": "72304374a958594229edb0efc65468d21650c828",
+      "sha256": "75c5b0db105d646e62e46baf003e100608727a4b59be674bbc1bfcd125c35d60"
+    },
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+      "blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+      "sha256": "532d62b2b9cf1a6ef52375cc60c6b2becf8e81519d9fa7d01b1d67257e12a9c2"
+    }
+  ],
+  "remote_verification": "VERIFIED",
+  "self_containing_commit_claim": false,
+  "work_commit": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "final_containing_commit_requires_separate_exact_readback": true,
+  "original_gate_result_id": "1356390e-a2ee-4cba-aea9-abd38db459dc",
+  "original_gate_publication_sha": "41a7615d5e8850965847836e3d4f45b39e977b76",
+  "implementation_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+  "correction_type": "NATIVE_HANDOFF_METADATA_ONLY",
+  "preservation": {
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "frozen_paths_checked": 123,
+    "original_gate_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES"
+  },
+  "independent_pre_result_id": "0c6422f6-7b11-4e5b-ad99-01cdb5469ba9",
+  "target_main_observed_before_correction_publication": "41a7615d5e8850965847836e3d4f45b39e977b76"
+}
