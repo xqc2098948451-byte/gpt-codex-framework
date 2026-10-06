@@ -1,0 +1,30 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION",
+  "evidence_type": "TOOL_OBSERVED",
+  "state_revision": 33,
+  "remote_ref": "refs/heads/main",
+  "remote_verification": "VERIFIED",
+  "remote_head_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+  "verified_baseline_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+  "implementation_sha": "bae47ee2d74b4ab39789bbd2d74f1b29b330b02a",
+  "native_verification": {
+    "status": "VERIFIED",
+    "reason": "REMOTE_PUBLICATION_VERIFIED",
+    "evidence_type": "TOOL_OBSERVED",
+    "remote_ref": "refs/heads/main",
+    "remote_head_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa"
+  },
+  "observed_utc": "2026-10-06T08:44:45.461228+00:00",
+  "exact_state_blob": "aa0969367fb2d4a1230c347b708af54e87086e7b",
+  "basis_blob": "55689256106b39571ee3ce57d91f71f30ff8a684",
+  "adjudication_blob": "50492882a95b82de5885459c27424fe234db967d",
+  "documentation_mutation_count": 0,
+  "readme_mutation_count": 0,
+  "self_containing_commit_claim": false
+}

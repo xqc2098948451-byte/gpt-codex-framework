@@ -3,10 +3,10 @@
   "blockers": [],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
-    "latest_synced_state_revision": 32,
-    "latest_verified_remote_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
-    "sync_status": "SYNC_PENDING"
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+    "latest_synced_state_revision": 33,
+    "latest_verified_remote_sha": "a21b331efe4a5d0f06bf28cca29b58464fd444aa",
+    "sync_status": "SYNCED"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -119,7 +119,12 @@
     ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
     ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
     ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
-    ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json"
+    ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+    ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
