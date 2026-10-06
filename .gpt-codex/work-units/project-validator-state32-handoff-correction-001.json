@@ -1,0 +1,66 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "project-validator-state32-handoff-correction-001",
+  "goal": "Add native handoff metadata for verified STATE32 gate without rewriting the original Result or changing authority",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 32,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/work-units/project-validator-state32-handoff-correction-001.json",
+      ".gpt-codex/evidence/instructions/beefbd2a-3d5f-4e2e-b1a6-964dce376e11.json",
+      ".gpt-codex/evidence/instructions/cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json",
+      ".gpt-codex/evidence/PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-VERIFICATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/schemas/",
+      "docs/",
+      "Documentation/",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "d24791a899691b003dae70394f93ff5ddace5bc7"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+      "sha": "d24791a899691b003dae70394f93ff5ddace5bc7"
+    }
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "NATIVE_HANDOFF_METADATA_ONLY additive successor",
+    "Original gate Result and STATE32 bytes unchanged",
+    "Verified implementation subject 6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+    "Independent verification, exact remote readback, native HANDOFF_READY"
+  ]
+}
