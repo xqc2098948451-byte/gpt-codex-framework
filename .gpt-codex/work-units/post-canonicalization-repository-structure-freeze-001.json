@@ -1,0 +1,117 @@
+{
+  "FREEZE_SUBJECT_SHA": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "FREEZE_SUBJECT_STATE_REVISION": 34,
+  "OLD_PHASE_G_FREEZE_REWRITTEN": "NO",
+  "PREVIOUS_FAILED_ARTIFACT_REWRITTEN": "NO",
+  "PREVIOUS_FAILED_ATTEMPT_USED_AS_PASS": "NO",
+  "STATE_MUTATION_COUNT": 0,
+  "acceptance": [
+    "REMOTE_BASELINE_IDENTITY",
+    "STATE34_AUTHORITY",
+    "DOCUMENTATION_CLOSURE_AUTHORITY",
+    "SCHEMA_ARTIFACT_PREFLIGHT",
+    "REPOSITORY_TREE_FREEZE",
+    "DIRECTORY_TOPOLOGY_FREEZE",
+    "DOCUMENTATION_STRUCTURE",
+    "CONSUMER_PROJECTION_FREEZE",
+    "CAPABILITY_OWNERSHIP_FREEZE",
+    "BRANCH_INVENTORY",
+    "PR_INVENTORY",
+    "IMMUTABLE_HISTORY_PRESERVATION",
+    "PROJECT_VALIDATOR",
+    "FRAMEWORK_VALIDATOR",
+    "CONSUMER_VALIDATOR",
+    "FULL_TEST_SUITE",
+    "CLEAN_CLONE_VALIDATION",
+    "INDEPENDENT_POST",
+    "PUBLICATION_PRE",
+    "EXACT_REMOTE_READBACK"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "sha": "44d06f8793f931e8449c5312fa510f21f898d200"
+    },
+    "plan": {
+      "path": "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md",
+      "sha": "44d06f8793f931e8449c5312fa510f21f898d200"
+    }
+  },
+  "authority_source": {
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+    "kind": "DIRECT_USER_EXECUTION_REQUEST",
+    "mode": "GOVERNANCE_ONLY_STRUCTURE_FREEZE",
+    "publication_condition": "Independent POST and publication PRE PASS; exact scoped governance additions and native W->verified W->management-only P attestation; no branch creation/deletion or PR mutation.",
+    "request_sha256": "1ca79fda6f4e886b3bd76b78783b6b5cd3eda1d1f7604561abe7bfd78771d698"
+  },
+  "basis_state_revision": 34,
+  "default_branch": "main",
+  "directory_creations": [],
+  "exact_post_freeze_next_action": "UNADJUDICATED",
+  "goal": "Freeze and durably attest the exact post-documentation-canonicalization repository structure without changing STATE",
+  "kernel_version": "2.0.0",
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "framework governance"
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "post_freeze_state_transition_required": "YES",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "schema_version": 1,
+  "scope": {
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/release/",
+      "docs/",
+      "source/",
+      "tests/",
+      "plugins/",
+      "releases/",
+      "dist/",
+      "VERSION",
+      "AGENTS.md"
+    ],
+    "owned_paths": [
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+      ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+      ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+      ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+      ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+      ".gpt-codex/evidence/instructions/95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json"
+    ]
+  },
+  "selected_extensions": {},
+  "state": "AUTHORIZED",
+  "state_blob": "92e868d2aed74dae1e836469c8501730b14320e2",
+  "work_unit_id": "post-canonicalization-repository-structure-freeze-001"
+}
