@@ -1,0 +1,83 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
+  "goal": "Register current durable remediation basis and adjudication required by the native resolver without executing documentation remediation",
+  "state": "AUTHORIZED",
+  "basis_state_revision": 32,
+  "transition_basis_state_revision": 32,
+  "target_state_revision": 33,
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-TRANSITION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-POST.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+      ".gpt-codex/evidence/instructions/98efcf7b-9b69-442f-af5f-8c93efdebba3.json",
+      ".gpt-codex/evidence/instructions/a91821f8-2748-4e0f-8bca-67703ecdef2c.json",
+      ".gpt-codex/evidence/instructions/71ef6f6e-5bb3-4cdd-bb70-33ac4b55ac45.json",
+      ".gpt-codex/evidence/instructions/079939ea-cc61-4427-9321-4045c6c0caeb.json",
+      ".gpt-codex/evidence/instructions/067f7ab5-2dac-4952-902b-eb19fbaa1de4.json",
+      ".gpt-codex/evidence/instructions/b85ff106-ea6f-413c-b6db-dc45d319a515.json"
+    ],
+    "excluded_paths": [
+      "docs/",
+      "Documentation/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      "scripts/",
+      "tests/",
+      "schemas/",
+      "kernel/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE",
+      "COMMIT",
+      "PUSH"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "STATE32 -> STATE33; AUTHORIZED and DOCUMENTATION_CANONICALIZATION_REQUIRED preserved",
+    "Register basis/adjudication via evidence_refs; retain all existing refs",
+    "Native Project/Framework/publication authority validation PASS",
+    "Independent PRE and POST; exact remote readback and native handoff",
+    "No README/documentation/source/test mutation; old Finding unchanged",
+    "Durable PASS/VERIFIED/CONFIRMED_PUBLICATION/SYNCED Result includes exact implementation_sha"
+  ],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+      "sha": "703a141cbb44324bea1b826dd89d60eda9bddefe"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+      "sha": "703a141cbb44324bea1b826dd89d60eda9bddefe"
+    }
+  }
+}
