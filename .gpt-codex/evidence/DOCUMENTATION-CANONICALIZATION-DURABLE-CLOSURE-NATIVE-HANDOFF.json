@@ -1,0 +1,145 @@
+{
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "actual_remote_readback": {
+    "exact_blob_readbacks": [
+      {
+        "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+        "sha256": "9a561282838dc79d1ad353a0cc61eb29251266e800855a7904700c0a6ee694f2",
+        "size": 12656
+      },
+      {
+        "blob_sha": "a9aa8b7c3c64f1dcd01501c739a3542b8615f253",
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+        "sha256": "19372aed55fa6d40bef210d30db217b7a35a5b4d9554f92823a2341e90fbeca0",
+        "size": 3711
+      },
+      {
+        "blob_sha": "957771bbd1dc420d910aa1ce9c7f97685e76aef7",
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-ATTESTATION-PRE.json",
+        "sha256": "c2e9e5a65569fd04ed97ccb321b7081467180aaf1e143ee31c4e7d7fd089cfd7",
+        "size": 13584
+      },
+      {
+        "blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+        "byte_identity": true,
+        "path": ".gpt-codex/STATE.json",
+        "sha256": "2db90a141d3b091045bb51cc76872219888272b0ca94221ac639b6c94ed57224",
+        "size": 10732
+      }
+    ],
+    "observed_utc": "2026-10-06T10:18:53.657555+00:00",
+    "remote_head_sha": "c5a7bfc5781c498e273ebd0cba107b6b2d360dff",
+    "remote_tracked_file_count": 697,
+    "remote_tree_exact": true,
+    "remote_tree_sha": "f8e4819363a29c4454f82daf728167d431f56653"
+  },
+  "attestation_pre_result_locator": {
+    "blob_sha": "957771bbd1dc420d910aa1ce9c7f97685e76aef7",
+    "commit_sha": "c5a7bfc5781c498e273ebd0cba107b6b2d360dff",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-ATTESTATION-PRE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "plugin_handoff": {
+    "blockers": [],
+    "compact_return": "RESULT: PASS\nWORK_UNIT: documentation-canonicalization-durable-closure-001\nHEAD_SHA: 3e789cff6c182f9e3c720418b1f8f2d22d44571b\nRESULT_REF: a67c93f1-53c6-4f8a-a48d-59946bf3451c\nSTATE_REVISION: 33\nEVIDENCE_REFS: .gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json, .gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json, .gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json, .gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json, .gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json, .gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json, .gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json, .gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json, .gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json, .gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json\nREVIEW_STATUS: NONE\nARTIFACT_LOCATOR: NONE\nBLOCKERS: NONE\nNEXT_ACTION: RETURN_TO_GPT_AND_STOP. Documentation closure is durable; any STATE transition remains a separate gate. Do not change STATE33, infer the next token, start Structure Freeze,2.8.0,P41 or plugin publication.",
+    "current_work": {
+      "status": "AUTHORIZED",
+      "work_unit_id": "documentation-canonicalization-durable-closure-001"
+    },
+    "evidence_refs": [
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "git": {
+      "current_head_sha": "c5a7bfc5781c498e273ebd0cba107b6b2d360dff",
+      "implementation_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b"
+    },
+    "instruction_id": "4f6f9b6d-ac4c-420a-9a53-673eccaac4e9",
+    "instruction_locator": {
+      "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+      "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+      "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "next_action_hint": "RETURN_TO_GPT_AND_STOP. Documentation closure is durable; any STATE transition remains a separate gate. Do not change STATE33, infer the next token, start Structure Freeze,2.8.0,P41 or plugin publication.",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "reconciliation_required": false,
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "repository_id": "1366213495",
+    "result_id": "a67c93f1-53c6-4f8a-a48d-59946bf3451c",
+    "result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    "result_status": "PASS",
+    "state": "AUTHORIZED",
+    "state_revision": 33,
+    "status": "HANDOFF_READY"
+  },
+  "record_kind": "DOCUMENTATION_CLOSURE_NATIVE_HANDOFF_ATTESTATION",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_handoff": {
+    "blockers": [],
+    "current_work": {
+      "status": "AUTHORIZED",
+      "work_unit_id": "documentation-canonicalization-durable-closure-001"
+    },
+    "evidence_refs": [
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "git": {
+      "current_head_sha": "c5a7bfc5781c498e273ebd0cba107b6b2d360dff",
+      "implementation_sha": "3e789cff6c182f9e3c720418b1f8f2d22d44571b"
+    },
+    "instruction_id": "4f6f9b6d-ac4c-420a-9a53-673eccaac4e9",
+    "instruction_locator": {
+      "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+      "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+      "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "next_action_hint": "RETURN_TO_GPT_AND_STOP. Documentation closure is durable; any STATE transition remains a separate gate. Do not change STATE33, infer the next token, start Structure Freeze,2.8.0,P41 or plugin publication.",
+    "project": {
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "repository_id": "1366213495"
+    },
+    "reconciliation_required": false,
+    "result_id": "a67c93f1-53c6-4f8a-a48d-59946bf3451c",
+    "result_ref": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    "result_status": "PASS",
+    "state": {
+      "revision": 33,
+      "state": "AUTHORIZED"
+    },
+    "status": "HANDOFF_READY"
+  },
+  "self_containing_commit_claim": false,
+  "state_revision": 33,
+  "work_result_locator": {
+    "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d",
+    "commit_sha": "00f2a60bf267f55e34539c7f9989a8b458ab6061",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  }
+}
