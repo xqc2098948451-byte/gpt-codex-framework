@@ -1,0 +1,242 @@
+{
+  "ASSET_UPLOAD_COUNT": 0,
+  "ATTESTATION_PRE": "PASS",
+  "BRANCH_MUTATION_COUNT": 0,
+  "CONTINUITY_BASIS_STATE_REVISION": 35,
+  "CONTINUITY_SCOPE_COUNT": 13,
+  "CURRENT_STATE35_SYNC_STATUS": "SYNC_PENDING",
+  "FRAMEWORK_VALIDATOR": "PASS",
+  "GITHUB_RELEASE_MUTATION_COUNT": 0,
+  "NATIVE_GOVERNED_MUTATION_ENTRY": "PASS",
+  "NATIVE_PRE_EXECUTION_REVIEW": "PASS",
+  "NEW_DIRECTORY_COUNT": 0,
+  "P41_EXECUTION_COUNT": 0,
+  "PACKAGING_MUTATION_COUNT": 0,
+  "PRIMARY_TRANSITION_BASIS_STATE_REVISION": 34,
+  "PROJECT_VALIDATOR": "PASS",
+  "PR_MUTATION_COUNT": 0,
+  "PUBLICATION_AUTHORITY_TESTS": "PASS",
+  "RELEASE_PUBLICATION_COUNT": 0,
+  "RELEASE_SOURCE_MUTATION_COUNT": 0,
+  "STATE_AUTHORITY_VALIDATION": "PASS",
+  "TAG_MUTATION_COUNT": 0,
+  "UNEXPECTED_CHANGED_PATH_COUNT": 0,
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "VERSION_MUTATION_COUNT": 0,
+  "attestation_plan_conditions": [
+    "Only the existing13-path continuity/metadata scope may change; STATE revision/state/next_action/blockers/reconciliation and all evidence refs remain unchanged.",
+    "Generate P metadata only from actually reviewed I and actually verifiedW; self_containing_commit_claim=false. Initial overall gate is LOCAL_COMPLETE_PENDING_NATIVE_HANDOFF and completed validators exclude NATIVE_HANDOFF.",
+    "Update only STATE continuity latest_synced_state_revision=35,last_verified_result_ref=FINAL,latest_verified_remote_sha=W,sync_status=SYNCED while retaining current_remote_ref.",
+    "Publish P only under the already reviewed conditional governance lifecycle; exactP remote readback must precede actual native and plugin HANDOFF_READY observations.",
+    "Record actual HANDOFF_READY only after both builders succeed with all four exact continuity bindings; require a separate independent HANDOFF-PRE before finalT publication.",
+    "Preserve all source/release/version/package/tag/asset/P41/plugin boundaries and non-main branches; stop after exactT validation and RETURN_TO_GPT."
+  ],
+  "blockers": [],
+  "completion_evidence": {
+    "blocker_evidence_refs": [],
+    "error_count": 0,
+    "executed_scope": [
+      "INDEPENDENT_CURRENT35_ATTESTATION_PRE_METADATA_ONLY"
+    ],
+    "execution_state": "COMPLETED",
+    "exit_code": 0,
+    "failure_count": 0,
+    "intended_scope": [
+      "INDEPENDENT_CURRENT35_ATTESTATION_PRE_METADATA_ONLY"
+    ],
+    "process_completed": true,
+    "test_count": 9,
+    "test_files_executed": 1,
+    "test_files_expected": 1,
+    "validators_completed": [
+      "LIVE_VERIFIED_WORK_IDENTITY",
+      "EXACT_FETCHED_WORK_BYTES",
+      "CURRENT35_PENDING_STATE_AUTHORITY",
+      "IMMUTABLE_ATTESTATION_ENVELOPES",
+      "BASIS35_CANONICAL_WORK_UNIT_AND_SCOPE",
+      "ROLE_ACTION_SCHEMA_CARDINALITY",
+      "ORIGINAL_PRIMARY_BASIS34_PRESERVED",
+      "IMMUTABLE_PRIOR_PRE_POST_PUBLICATION_PRE",
+      "BASE_SOURCE_AND_OLD_REF_PRESERVATION",
+      "FREEZE_DURABLE_AUTHORITY_RE_RESOLUTION",
+      "TOKEN_NO_RELEASE_AUTHORITY",
+      "DIRECTORY_AND_AUTHORITY_CANDIDATE_SCOPE",
+      "RELEASE_TAG_ASSET_BRANCH_PR_BOUNDARIES",
+      "BOUNDED_METADATA_ATTESTATION_PLAN",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "NATIVE_PRE_EXECUTION_REVIEW",
+      "NATIVE_GOVERNED_MUTATION_ENTRY",
+      "RESULT_SCHEMA_PROTOCOL_AUTHORITY_COMPLETION"
+    ],
+    "validators_expected": [
+      "LIVE_VERIFIED_WORK_IDENTITY",
+      "EXACT_FETCHED_WORK_BYTES",
+      "CURRENT35_PENDING_STATE_AUTHORITY",
+      "IMMUTABLE_ATTESTATION_ENVELOPES",
+      "BASIS35_CANONICAL_WORK_UNIT_AND_SCOPE",
+      "ROLE_ACTION_SCHEMA_CARDINALITY",
+      "ORIGINAL_PRIMARY_BASIS34_PRESERVED",
+      "IMMUTABLE_PRIOR_PRE_POST_PUBLICATION_PRE",
+      "BASE_SOURCE_AND_OLD_REF_PRESERVATION",
+      "FREEZE_DURABLE_AUTHORITY_RE_RESOLUTION",
+      "TOKEN_NO_RELEASE_AUTHORITY",
+      "DIRECTORY_AND_AUTHORITY_CANDIDATE_SCOPE",
+      "RELEASE_TAG_ASSET_BRANCH_PR_BOUNDARIES",
+      "BOUNDED_METADATA_ATTESTATION_PLAN",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "NATIVE_PRE_EXECUTION_REVIEW",
+      "NATIVE_GOVERNED_MUTATION_ENTRY",
+      "RESULT_SCHEMA_PROTOCOL_AUTHORITY_COMPLETION"
+    ]
+  },
+  "completion_gate": "GPT_DECISION",
+  "current_remote_ref": "refs/heads/main",
+  "deviations": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+    ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+    ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json"
+  ],
+  "execution_instruction_locator": {
+    "blob_sha": "7a494fdaf5a4abe8324c30356cb8d48ebd562e49",
+    "commit_sha": "c5dd24864c51925a4b2bc1eff529501e79e7fecb",
+    "path": ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "extension": null,
+  "findings": [],
+  "framework_version": "2.7.4",
+  "git": {
+    "base_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "implementation_sha": "de6e85a7f31273a76ecbcb17a3860119468dac20"
+  },
+  "implementation_sha": "de6e85a7f31273a76ecbcb17a3860119468dac20",
+  "instruction_locator": {
+    "blob_sha": "444db71eed7f33118e3e447a48060eb15b9f1f45",
+    "commit_sha": "c5dd24864c51925a4b2bc1eff529501e79e7fecb",
+    "path": ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "kernel_version": "2.0.0",
+  "local_head_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+  "native_governed_mutation_entry_basis": {
+    "candidate_revision": "c5dd24864c51925a4b2bc1eff529501e79e7fecb",
+    "canonical_work_unit_ref": {
+      "path": ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
+      "sha": "50b74927ac1a566dffbc16b28fe67188210f370b"
+    },
+    "current_state_revision": 35,
+    "current_state_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "execution_instruction_locator": {
+      "blob_sha": "7a494fdaf5a4abe8324c30356cb8d48ebd562e49",
+      "commit_sha": "c5dd24864c51925a4b2bc1eff529501e79e7fecb",
+      "path": ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "review_request_locator": {
+      "blob_sha": "444db71eed7f33118e3e447a48060eb15b9f1f45",
+      "commit_sha": "c5dd24864c51925a4b2bc1eff529501e79e7fecb",
+      "path": ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    }
+  },
+  "native_governed_mutation_entry_errors": [],
+  "native_pre_execution_review_errors": [],
+  "next_gpt_action": "Execute only the independently reviewed metadata attestation phase under current35 continuity authority after native PRE entry. Require actual exactP readback and both native handoffs before native-ready claims, then a separate independent HANDOFF-PRE before finalT publication. Stop at STATE35.",
+  "observed_utc": "2026-10-06T14:10:52.687679+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_authority": null,
+  "push_status": "NOT_ATTEMPTED",
+  "remote_head_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+  "remote_verification": "VERIFIED",
+  "responder_role": "CODEX_REVIEWER",
+  "response_to_instruction_id": "832f4cd5-03a0-4a56-8d5c-d6bf541eabfd",
+  "result_id": "89a9be75-33af-4cbc-84b2-bd938a1b3b5b",
+  "result_message_type": "REVIEW_RESULT",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "review_semantics": "Read-only current35 attestation PRE. remote_verification binds actual publishedW. This Result grants no release authority and claims no P/T publication or future native handoff.",
+  "review_target_revision": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+  "reviewer_workspace": "D:\\w\\gpt-codex-framework\\review-post-structure-freeze-state35-next-action-gate-001",
+  "role_observation": {
+    "agent_spawns": 0,
+    "executed_revision": null,
+    "files_changed": [],
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+      ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py"
+    ],
+    "findings": [],
+    "fix_round": 0,
+    "instruction_id": "832f4cd5-03a0-4a56-8d5c-d6bf541eabfd",
+    "result": "REVIEW_RESULT",
+    "reviewed_revision": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "role": "CODEX_REVIEWER",
+    "tests_run": [
+      {
+        "count": 9,
+        "file": "test_publication_authority.py"
+      }
+    ],
+    "work_unit": "post-structure-freeze-state35-publication-continuity-001"
+  },
+  "schema_version": 1,
+  "self_containing_commit_claim": false,
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_github_repository_id": "1366213495",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "state_revision": 35,
+  "status": "PASS",
+  "sync_status": null,
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
+    "sha": "50b74927ac1a566dffbc16b28fe67188210f370b"
+  },
+  "validator_runs": [
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\ATTESTATION-PRE-PROJECT_VALIDATOR.log",
+      "output_sha256": "b00bdf1928f9d0b8285d4676a62b2d705c4c1229df4c89b6f300fe62280e3647",
+      "validator": "ATTESTATION-PRE-PROJECT_VALIDATOR.log"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\ATTESTATION-PRE-FRAMEWORK_VALIDATOR.log",
+      "output_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "validator": "ATTESTATION-PRE-FRAMEWORK_VALIDATOR.log"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\ATTESTATION-PRE-PUBLICATION_AUTHORITY_TESTS.log",
+      "output_sha256": "0e1178cfdeaba1e8d8cde4674ebd3b0656d19824a50aee2e958da2e8e8eaf687",
+      "validator": "ATTESTATION-PRE-PUBLICATION_AUTHORITY_TESTS.log"
+    }
+  ],
+  "work_unit_id": "post-structure-freeze-state35-publication-continuity-001"
+}
