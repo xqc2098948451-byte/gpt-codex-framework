@@ -1,0 +1,312 @@
+{
+  "record_kind": "TOOL_OBSERVED_EXACT_REMOTE_VERIFICATION",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "remote_ref": "refs/heads/main",
+  "remote_main": "05214dcce8f47a06fa0635cc4c94bdc56529ca2e",
+  "tree_sha": "da81678f31f94a0e99e2f0ac1f8c6f843608db3e",
+  "exact_tree_entries": 625,
+  "exact_tree_match": true,
+  "exact_blobs": [
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "sha256": "4ccd90ae364975372fc471e6154967de7dd6477fbcff6487bcd9b9d9474dce41",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-amendment.md",
+      "blob_sha": "5c37dc836de2839252b2d146aef480b8365d2c39",
+      "sha256": "91676669aa91b49bc0681d429648f17f7ae5d79bdc078e08c1d141273c02f9db",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+      "blob_sha": "794a176cfb400390de687efd7b81478074100da3",
+      "sha256": "4961e4d7c13126403d99683b574bfa9b9433fc8cfa0e60677d6ce9ccb1ecacba",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+      "blob_sha": "651534f703b61058e3bd06bbeda127e593d6385c",
+      "sha256": "26f159e45392cc6c874158761ff9af7e45515efcedba7d3edf16e9ec2b8b7619",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+      "blob_sha": "a332e02967a513c1049055e9df6dfa09f8ae1738",
+      "sha256": "e655a8f6b7d38544b93dd6edc3f24704a090847951f9710306233b85cb049719",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+      "blob_sha": "2bc3627ac263e61ea719c34911106839b4b9c361",
+      "sha256": "b1c09c5da8a873376d8aab427346838b27b5c3422933c8f3209f6175440cc0ce",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-design-amendment.md",
+      "blob_sha": "2affec3ea4c2be502295b9b8b85588ee2c7851ed",
+      "sha256": "efa00287106dee38c1ef1ddc92f87950a247e06f1b970c59329d90dc217d2675",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+      "blob_sha": "4ae8646c4cb047c0edb6e2c3ecc3378bb005ee80",
+      "sha256": "652811ee7e51b5cd070e3c948ab9d97f82bf49e8f223f64e3d36f09462d7d6cc",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+      "blob_sha": "b3fb962c3b2ab1291ef48174d20a1495e5ff9c28",
+      "sha256": "59cccac1eec86ac63fff518d43dd9b432be84ac0b41d73caad6f435a8b85726b",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+      "blob_sha": "665255b68fad8986d0646efcdf7490c588eecfa5",
+      "sha256": "434b5f3d713205f83b52d5bb4a9adaab80bec2046fd545689f5f6f6d2e7f29de",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-design-amendment.md",
+      "blob_sha": "cd47b6d622124f096270667afa5bcfa697a1bc81",
+      "sha256": "37e41ef8696e16eaf2743f9d91fa97471be6d89a60460b8c3a0a126c72488527",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-27-p2-finding-004-remediation-reconciliation-design.md",
+      "blob_sha": "e2b91db9998f51bd1f61ce6a6261016ec0115425",
+      "sha256": "e384774b36a8929c6a4a404574a076eeb6d919a16c02a6f0c653316ce4be3434",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment-design.md",
+      "blob_sha": "106e78fe7c239197939282d88d5b30a3e9e0acb3",
+      "sha256": "c5d6e5b56a19b24619511c0557639e5e4e6a7caf224cf2e238642a3b2c8c1590",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+      "blob_sha": "debbbe2de877b34cb34b66273387243621da478b",
+      "sha256": "e868bd17be53cda92fda426a26511aec596786a9a1f40c36a46b81589db41c3f",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+      "blob_sha": "7dad2526eba08bac38418be5c94f5549880d33cb",
+      "sha256": "79ed75acfe4dc57e287d767d031f59c8f495b9997577cdcc83cc38b2ca3fad66",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+      "blob_sha": "f224051a59c8d4e0d3c4b4618c9e8453aa25d0ef",
+      "sha256": "40c200d9e85cb27bea5f9351098e801cb5aa88477c0d8a7253a56ccdd8c3d679",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-plan-amendment.md",
+      "blob_sha": "b96adf8012a56f32ae29546eb9fb66c0702cce93",
+      "sha256": "8c3b116877293acbb37fa1a35ee85cb3409d65668195847050a843b656bd0cae",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "blob_sha": "b7c8f4cc6ff05e21e3aef3a4ae554c13f56f1797",
+      "sha256": "f352c50ccf2a5c159ee4d61f6d9a3f4190da53f051e13f74d345458248cbec96",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-amendment.md",
+      "blob_sha": "4afbd8fb66629c2e784da0499807fb0cccf26696",
+      "sha256": "aff4cf9bdb7cad822a1c1c07fc6a0048844160f7cfdf659c8fe990d443de3ea2",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+      "blob_sha": "9c5d87d5aa4bc1c4a523f4d89d214da2bda1364e",
+      "sha256": "bcf1ae9c58d9eca6edf100ce47132c6885b55128ec77c0bd4defd67d6b715fb6",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+      "blob_sha": "e8a1ffedb2acda3106e12aff49658a4e61d0173e",
+      "sha256": "16c9d2fb9aacde0f2ec17985d33a649fd2b58fe813a8b31eef9eaa6789905408",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-plan-amendment.md",
+      "blob_sha": "f20adb2f1e9fe43e51f5ef7ba5d409da10396071",
+      "sha256": "c9dcd99927bbef1d2c2ebabb758805301b5d7a578eb247d5c7ed7a3c88b67379",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+      "blob_sha": "39dbb40a32916bd3ec08c8012331df93c1fe7bef",
+      "sha256": "594c878245ccd0f9a0d542c001d8215a23e44f65679b50f250d67047901c9be4",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-plan-amendment.md",
+      "blob_sha": "3d4990ec830946c7920a8c8a444bbc5cdf43be60",
+      "sha256": "fc74e0abb78a7f9f52d793b3e765622e5dee55434a3dbf3adae79a3d8e28ed8f",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "blob_sha": "210982c9bd67449fbfad7c04540ec53865f36b2e",
+      "sha256": "7454b7865c639338e1469ec0b85625a75ade744e81edcd01dba76c65f7daac71",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment.md",
+      "blob_sha": "cdd451c4f763f4239f2cd6c576bb32d303803a5c",
+      "sha256": "33977e585d217815d5d4ea13e4105de46667e5ace176fd1be92fcc616854efd6",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/amendments/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "blob_sha": "2c3a9179872bd493516799eaa52583d8d02a31d3",
+      "sha256": "1f620fe1159d36ceeb99b87ceff0deed31bb522c8913dd155dfb1a6f1d13c720",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/reviews/2026-09-15-minimal-harness-reduction-review.md",
+      "blob_sha": "65864e792520866201072f7e9e183314add870fc",
+      "sha256": "72f6176dc10e9bf59f94984c58794cc780ac4c3c71562042e8cb75725eb9f4ee",
+      "exact_bytes": true
+    },
+    {
+      "path": "docs/history/reviews/2026-09-15-post-v2.7-efficiency-reduction-review.md",
+      "blob_sha": "45f023e757a29457d2225371197dcede50a223d5",
+      "sha256": "4b8e1a75273cf44d69f9357c2134e2d9bd0fb5984d0cc859ab176b342d17aa14",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/work-units/documentation-canonicalization-history-amendments-reviews-001.json",
+      "blob_sha": "6391b688ee758028e0394e73ee87ca3dcb60e447",
+      "sha256": "8b89037eadf63a916757dbd4c596bcd97083d2bb3b53a0362239aecf23189b7a",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/f297ca7e-023c-4f83-9fb1-4a08bcaeacbb.json",
+      "blob_sha": "f6d90efa50564d3f244fbbde4f00e1120c25509b",
+      "sha256": "c97587b662ff622ec6ea8b16c2e837d2fc93f858d24059991798457f8bf2fd21",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/7a124075-0783-4ee3-8a3f-a40f34e63755.json",
+      "blob_sha": "80950f4fc52401ff061998c5d9abb84c0bf8472a",
+      "sha256": "561ede17ef2171458cc12eae42df7170194242ac2374e5be9fa061e1e3c34a3b",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/169f3ec2-37a1-40f2-ae77-2b06b2575e5e.json",
+      "blob_sha": "054d5206e130efade1d13e9e407c247e06c0f414",
+      "sha256": "ad884c295ed163b69ec94cf8fba6c5d2eebe3678f076c878fcc8770664a711de",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/d825947b-5328-4de7-b9b3-ed6670b845e2.json",
+      "blob_sha": "a51e6208e5ad9578eb2d695dd92d0598da123f00",
+      "sha256": "6ab93b555223afeb0e2ad6b22d860bb1a4d40b0aa925ec0c7f928f81cd157212",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PRE.json",
+      "blob_sha": "e9fda86474ddb2138c757d09c3e72762d0ecc0d5",
+      "sha256": "be246ae692927981025657a4a7078b428304669d5321ce792d28974cfa3a6ece",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-POST.json",
+      "blob_sha": "ee8d74f806c5f529578c03775f73d1ee84613a5f",
+      "sha256": "5fdb1da319167f986dc5f1a4ed3f9a2b825e00b364764e01f77baf51bde26736",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PUBLICATION-PRE.json",
+      "blob_sha": "36c3719786eb13d90c794387aa4e1aa90f049f33",
+      "sha256": "fae95352db614878c7c61f19b66b40f3b7521d98475fa6096bf4fe634cd97602",
+      "exact_bytes": true
+    }
+  ],
+  "implementation_sha": "21b57966f77450c78a2a6fb1f4d49217bf7afb1c",
+  "observed_utc": "2026-10-06T03:09:21.685601+00:00",
+  "preservation": {
+    "changed_paths": [
+      ".gpt-codex/evidence/instructions/169f3ec2-37a1-40f2-ae77-2b06b2575e5e.json",
+      ".gpt-codex/evidence/instructions/7a124075-0783-4ee3-8a3f-a40f34e63755.json",
+      ".gpt-codex/evidence/instructions/d825947b-5328-4de7-b9b3-ed6670b845e2.json",
+      ".gpt-codex/evidence/instructions/f297ca7e-023c-4f83-9fb1-4a08bcaeacbb.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PUBLICATION-PRE.json",
+      ".gpt-codex/work-units/documentation-canonicalization-history-amendments-reviews-001.json",
+      "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-amendment.md",
+      "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+      "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+      "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+      "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+      "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+      "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+      "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-design-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-plan-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+      "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+      "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+      "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-plan-amendment.md",
+      "docs/history/amendments/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+      "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-design-amendment.md",
+      "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-plan-amendment.md",
+      "docs/history/amendments/2026-09-27-p2-finding-004-remediation-reconciliation-design.md",
+      "docs/history/amendments/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment-design.md",
+      "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment.md",
+      "docs/history/amendments/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/history/reviews/2026-09-15-minimal-harness-reduction-review.md",
+      "docs/history/reviews/2026-09-15-post-v2.7-efficiency-reduction-review.md",
+      "docs/superpowers/plans/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+      "docs/superpowers/plans/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-23-group-c-c8-work-unit-authority-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+      "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+      "docs/superpowers/plans/2026-09-26-p2-rev002-work-unit-authority-plan-amendment.md",
+      "docs/superpowers/plans/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+      "docs/superpowers/plans/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment.md",
+      "docs/superpowers/plans/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md",
+      "docs/superpowers/reviews/2026-09-15-post-v2.7-efficiency-reduction-review.md",
+      "docs/superpowers/specs/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-amendment.md",
+      "docs/superpowers/specs/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+      "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+      "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+      "docs/superpowers/specs/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+      "docs/superpowers/specs/2026-09-23-group-c-c8-work-unit-authority-design-amendment.md",
+      "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+      "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+      "docs/superpowers/specs/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+      "docs/superpowers/specs/2026-09-26-p2-rev002-work-unit-authority-design-amendment.md",
+      "docs/superpowers/specs/2026-09-27-p2-finding-004-remediation-reconciliation-design.md",
+      "docs/superpowers/specs/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment.md"
+    ],
+    "unexpected_changed_path_count": 0,
+    "state_mutation_count": 0,
+    "state_revision": 32,
+    "preserved_baseline_paths": 589,
+    "byte_identity_count": 28,
+    "source_remaining_count": 0,
+    "target_present_count": 28
+  },
+  "self_containing_commit_claim": false
+}
