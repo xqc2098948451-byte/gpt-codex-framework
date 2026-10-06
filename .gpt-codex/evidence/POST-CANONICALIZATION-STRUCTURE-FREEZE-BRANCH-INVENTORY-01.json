@@ -1,0 +1,220 @@
+{
+  "BRANCH_MUTATION_COUNT": 0,
+  "branch_count": 50,
+  "branches": [
+    {
+      "head_sha": "301df44b00aa5a9832f0499ee4899b7d37b91793",
+      "name": "artifact/bridge-004-approval-payload-001"
+    },
+    {
+      "head_sha": "a112efcc24c969369224804a6fc1e5961626c05b",
+      "name": "baseline-stabilization-bootstrap-001"
+    },
+    {
+      "head_sha": "0dc1c5ac55edad9d08c82b17c3ea6dd8499c529a",
+      "name": "bootstrap/p2-finding-004-provenance-fix-001"
+    },
+    {
+      "head_sha": "ab90b220a8842224585ada2d3e6cf3d79167d251",
+      "name": "bootstrap/p2-finding-004-remediation-authority-001"
+    },
+    {
+      "head_sha": "261c741f3c527c4200708524e6086cb99304fdd6",
+      "name": "candidates/p2-plugin-public-release-preparation-001"
+    },
+    {
+      "head_sha": "52e64cee79b6d7bec87d14f58977dd2eeb77696b",
+      "name": "design/global-framework-plugin-governance-evidence"
+    },
+    {
+      "head_sha": "97afda5e716dea7b53724e3d2dbede977d4a669c",
+      "name": "design/group-b-prerequisite-bootstrap-amendment-001"
+    },
+    {
+      "head_sha": "95ea0e794c4c2cec2dc6702466e2981d10fd1c74",
+      "name": "design/group-b-prerequisite-bootstrap-finalization-correction-001"
+    },
+    {
+      "head_sha": "15263527e985cb285dcc0354de09d507a5bd86dd",
+      "name": "design/group-b-prerequisite-contract-reconciliation-001"
+    },
+    {
+      "head_sha": "7e14c42fc731e0f63e2dcc35f87f8b14b3eb7023",
+      "name": "design/group-b-prerequisite-finalization-work-unit-amendment-001"
+    },
+    {
+      "head_sha": "135f1c06b205894f0e603b0fdbf34cc10ba6e3f6",
+      "name": "framework-contract-repair-design-001"
+    },
+    {
+      "head_sha": "7f9c0cf46aee2b6bfdbadc36eb8d6373592d4a55",
+      "name": "framework-contract-repair-plan-001"
+    },
+    {
+      "head_sha": "7b016e56dfb08355840af464737087a796d71ed9",
+      "name": "framework-evidence/prj-framework-management/1682c2984f185114"
+    },
+    {
+      "head_sha": "dccd46a12726fba82eb031b36f1061305324b483",
+      "name": "framework-evidence/prj-framework-management/5439535fffca9227"
+    },
+    {
+      "head_sha": "9477a6fdedac64a7389dfe4e24fda2989810f37c",
+      "name": "framework-evidence/prj-framework-management/806a00166c852950"
+    },
+    {
+      "head_sha": "3d22000439ae235f9cbc0bcfb099308e3fefb3a6",
+      "name": "framework-evidence/prj-framework-management/c86c2d5217b966b8"
+    },
+    {
+      "head_sha": "ffd654dabdefb3f8c9019cee5e992c48b70d454d",
+      "name": "framework-evidence/prj-framework-management/d00d7f11cfc80c63"
+    },
+    {
+      "head_sha": "97afda5e716dea7b53724e3d2dbede977d4a669c",
+      "name": "framework-group-b-prerequisite-bootstrap-amendment-accepted-001"
+    },
+    {
+      "head_sha": "97afda5e716dea7b53724e3d2dbede977d4a669c",
+      "name": "framework-group-b-prerequisite-bootstrap-design-accepted-001"
+    },
+    {
+      "head_sha": "15263527e985cb285dcc0354de09d507a5bd86dd",
+      "name": "framework-group-b-prerequisite-contract-reconciliation-design-accepted-001"
+    },
+    {
+      "head_sha": "36695832aa17198b217252077bcf70c6ba77c67a",
+      "name": "framework-group-b-prerequisite-contract-reconciliation-plan-001"
+    },
+    {
+      "head_sha": "36695832aa17198b217252077bcf70c6ba77c67a",
+      "name": "framework-group-b-prerequisite-contract-reconciliation-plan-accepted-001"
+    },
+    {
+      "head_sha": "7e14c42fc731e0f63e2dcc35f87f8b14b3eb7023",
+      "name": "framework-group-b-prerequisite-finalization-work-unit-design-accepted-001"
+    },
+    {
+      "head_sha": "e13db71242db456789bc66bff46ef884e73a0fc1",
+      "name": "framework-group-b-prerequisite-minimal-closure-plan-accepted-001"
+    },
+    {
+      "head_sha": "e5fe291c243d0e2bc18e3e5a3cd905e6aa223546",
+      "name": "framework-staged-closure-design-001"
+    },
+    {
+      "head_sha": "94eb80869f43800c1c6b1a53d7393b90b4e7433b",
+      "name": "framework-staged-closure-master-plan-001"
+    },
+    {
+      "head_sha": "7984c2ee0c6d137bce4e6d27b8816ab59cdf5d09",
+      "name": "governance/b7-publication-packaging-authority-design-correction"
+    },
+    {
+      "head_sha": "7437a392544b7888e32fd1f0d4d56d4744f5096a",
+      "name": "governance/b7-publication-packaging-authority-plan-correction"
+    },
+    {
+      "head_sha": "c5e21ce72771a0cde389d0828ac4c00052e31e85",
+      "name": "governance/b7-publication-packaging-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "3d2cab9bb9eb5fea4b362a65654d1e5690e5730b",
+      "name": "governance/b7-release-authority-design"
+    },
+    {
+      "head_sha": "096d326949883eccb42a047f85170ecb7ed97131",
+      "name": "governance/b7-release-authority-design-base-correction"
+    },
+    {
+      "head_sha": "a06b8d5e061b305ef84bc0c7162ce106c33f1bca",
+      "name": "governance/b7-release-authority-plan"
+    },
+    {
+      "head_sha": "4f8f5abf4d0b8ab422af43cb87d5e6a222e16818",
+      "name": "governance/b7-release-authority-plan-r2"
+    },
+    {
+      "head_sha": "47ac3fd81890e48af94ba3423fb859522605e636",
+      "name": "governance/b7-release-authority-plan-r3"
+    },
+    {
+      "head_sha": "1e0da424622f504ee832e823a198a06c4261a239",
+      "name": "governance/b7-release-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "ebe14209d7990bcab177079ad2cba9fee97abb0b",
+      "name": "governance/b7-v2.7.3-publication-finalization-authority-design"
+    },
+    {
+      "head_sha": "2ed6254ddf5f4dce7fef27dbd2f04180b55bcf40",
+      "name": "governance/b7-v2.7.3-publication-finalization-authority-plan"
+    },
+    {
+      "head_sha": "e9be8754eced8bcce136515d85a8dfb7a8488ee5",
+      "name": "governance/b7-v2.7.3-publication-finalization-candidate-001"
+    },
+    {
+      "head_sha": "ee199e7c77a7057a357e05d0dccb35fa9434dad3",
+      "name": "governance/b7-v2.7.3-publication-finalization-wu-candidate-001"
+    },
+    {
+      "head_sha": "6663e46ed210ec33354e5c1c5462d34205d77ae1",
+      "name": "governance/github-repository-consolidation-rev002-candidate-001"
+    },
+    {
+      "head_sha": "48e359de303135c24a551f1a3e87cfb685b0d1a9",
+      "name": "governance/group-c-c1-c7-work-unit-authority-design-amendment"
+    },
+    {
+      "head_sha": "9cc4875fb997d1c5b57eb58ea3e5e895329ce7e8",
+      "name": "governance/group-c-c1-c7-work-unit-authority-plan-amendment"
+    },
+    {
+      "head_sha": "6dfdc8d29ac5de8ca21e4d8c6addde5f3d3a85ac",
+      "name": "governance/group-c-c8-implementation-candidate-001"
+    },
+    {
+      "head_sha": "bce6633c5bc8fca797efbf036303a92f7d5418d7",
+      "name": "governance/group-c-c8-work-unit-authority-design-candidate-001"
+    },
+    {
+      "head_sha": "b1172cec5b4b299260398c45c9e46f91bb859bd1",
+      "name": "governance/group-c-c8-work-unit-authority-plan-candidate-001"
+    },
+    {
+      "head_sha": "a60c2049fe4616aa918267b3abbc6e87d227a13a",
+      "name": "governance/group-c-c8-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "66ed13b29f24ee65c40ac07755de04f74951779a",
+      "name": "governance/group-c-c9-v2.7.4-authority-design-candidate-001"
+    },
+    {
+      "head_sha": "dd00872ca28a534e2e5100e8e5a36cbbb60194b2",
+      "name": "governance/group-c-c9-v2.7.4-authority-plan-candidate-001"
+    },
+    {
+      "head_sha": "9402db8eef58f1b4728280ac7ed22d8df257a54f",
+      "name": "governance/group-c-c9-v2.7.4-authority-plan-fix1-candidate-001"
+    },
+    {
+      "head_sha": "763b6be1dab863381ad5eab3a971ecb35df03132",
+      "name": "governance/group-c-c9-v2.7.4-authority-plan-fix2-candidate-001"
+    }
+  ],
+  "evidence_id": "POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01",
+  "freeze_subject_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T13:03:01.066200+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "result": "BRANCH_INVENTORY_VERIFIED",
+  "schema_version": 1,
+  "serialization": "UTF-8 canonical JSON sorted keys compact separators",
+  "sha256": "505f25abf1b8aef25a5b3f59ef8119c545bdfee62a86687df45fbed2539b5deb",
+  "shard_count": 2,
+  "shard_index": 1,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 34,
+  "subject": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE"
+}

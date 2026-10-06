@@ -1,0 +1,204 @@
+{
+  "BRANCH_MUTATION_COUNT": 0,
+  "branch_count": 46,
+  "branches": [
+    {
+      "head_sha": "da19ccffdcb5afa3a738d084356b902d91fa7473",
+      "name": "governance/group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-fix2-candidate-001"
+    },
+    {
+      "head_sha": "d149fc2ee01b55db272aa6531961fd2482deb3c1",
+      "name": "governance/group-c-c9-v2.7.4-finalization-authority-amendment-001"
+    },
+    {
+      "head_sha": "f6a0cdcadcabf81dd313fad77a30a952eb99ece6",
+      "name": "governance/group-c-c9-v2.7.4-finalization-history-001"
+    },
+    {
+      "head_sha": "fd23a8820a2d88ba0ce580ff9b70e0fa9155fa34",
+      "name": "governance/group-c-c9-v2.7.4-finalization-history-002"
+    },
+    {
+      "head_sha": "6cf11e7ce40847ba099a803a2b1bd904776bb0dc",
+      "name": "governance/group-c-c9-v2.7.4-finalization-work-unit-candidate-003"
+    },
+    {
+      "head_sha": "ccfc655d1b4baeec3d1cd79bae4b5abb6366d03f",
+      "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-design-candidate-001"
+    },
+    {
+      "head_sha": "99563414824349ef93d2dd54c27a8785b53ddc45",
+      "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-001"
+    },
+    {
+      "head_sha": "e2667b5f3c487900949cb69014abd7afc1ee040e",
+      "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-002"
+    },
+    {
+      "head_sha": "c6d10dd3bbfdf4ddf94dd1a870c3e3dfabc8e84a",
+      "name": "governance/group-c-c9-v2.7.4-packaging-bootstrap-reconciliation-plan-candidate-003"
+    },
+    {
+      "head_sha": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c",
+      "name": "governance/group-c-c9-v2.7.4-packaging-candidate-003"
+    },
+    {
+      "head_sha": "83a707545dc807da4859530ec54b10c11a0a3b66",
+      "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "cdebaf2f0a3aac9c4414ac2e529a9c0367132f4e",
+      "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-002"
+    },
+    {
+      "head_sha": "7074d198247f3d5b6a95d42bbaae3bfb1a7ba23b",
+      "name": "governance/group-c-c9-v2.7.4-packaging-work-unit-candidate-003"
+    },
+    {
+      "head_sha": "283beaa286348da8913374f7908538bf303d28bf",
+      "name": "governance/group-c-c9-v2.7.4-phase-a-source-candidate-001"
+    },
+    {
+      "head_sha": "5fd9cb4735d2c21fcefd2e9ce90e280e7e1a2de6",
+      "name": "governance/group-c-c9-v2.7.4-phase-a-source-candidate-002"
+    },
+    {
+      "head_sha": "87fe1788d69bff5366a48993df5403f2aa56fcfc",
+      "name": "governance/group-c-c9-v2.7.4-phase-a-validation-order-amendment-candidate-001"
+    },
+    {
+      "head_sha": "d57aaac67a4340374a9480308e60ba0e1f068157",
+      "name": "governance/group-c-c9-v2.7.4-release-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "50b4b029c631cc320fb75463e23e9e50d06a9b3d",
+      "name": "governance/group-c-c9-v2.7.4-release-work-unit-candidate-002"
+    },
+    {
+      "head_sha": "f3cefd8c8d9c3d0c0cd2e9e16a74288ebe62c7a1",
+      "name": "governance/group-c-c9-v2.7.4-runtime-scope-correction-design-candidate-001"
+    },
+    {
+      "head_sha": "b8730483a0126534ddd67a2ab555e87d47a2b4da",
+      "name": "governance/group-c-c9-v2.7.4-runtime-scope-correction-plan-candidate-001"
+    },
+    {
+      "head_sha": "b281c427345ece6caf165189c89e1ff97fcab73a",
+      "name": "governance/group-c-v2.7.4-c1-c7-candidate-001"
+    },
+    {
+      "head_sha": "cdb913fd95e65be07ab359921279b66a6cd3c9fd",
+      "name": "governance/group-c-v2.7.4-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "4129cc7dfa755fa2aa63bf119c16e132b030140f",
+      "name": "governance/l6a-r3-result-evidence-remediation-001-approval"
+    },
+    {
+      "head_sha": "91b485c6c93584ef2f89c459c10e488750f5801f",
+      "name": "governance/p2-minimum-capability-design-revision-002-candidate-001"
+    },
+    {
+      "head_sha": "7ac219d15269bdc68d66f07cfe85b044fef35279",
+      "name": "governance/p2-minimum-capability-plan-revision-002-candidate-001"
+    },
+    {
+      "head_sha": "40b704e343762c1c1acbef8c243adb8b0d25b1f6",
+      "name": "governance/p2-minimum-capability-plan-revision-003-candidate-001"
+    },
+    {
+      "head_sha": "d54f99078e4569fa65cb5af96b16a287d677fe65",
+      "name": "governance/p2-rev002-implementation-work-unit-candidate-001"
+    },
+    {
+      "head_sha": "edbc92d7834874c34fe70a6cacc7ab74091a19e7",
+      "name": "governance/p2-rev002-work-unit-authority-design-candidate-001"
+    },
+    {
+      "head_sha": "cbf69259698a4eb0518ce9442d729e9804ad9f74",
+      "name": "governance/p2-rev002-work-unit-authority-design-candidate-002"
+    },
+    {
+      "head_sha": "b412f2c2992357813fcf2ab23d5e0d47c704c49f",
+      "name": "governance/p2-rev002-work-unit-authority-plan-candidate-001"
+    },
+    {
+      "head_sha": "6e67d8ffe51845b0588857de8b5c91cd27df7c0a",
+      "name": "group-b/b1-task5"
+    },
+    {
+      "head_sha": "026798892bfe11858add7fb2b068f1ce75cba7c6",
+      "name": "group-b/b2-task6"
+    },
+    {
+      "head_sha": "32f19ad6be12b252ddfc77b30e1375755e06b1d6",
+      "name": "group-b/b3-task7"
+    },
+    {
+      "head_sha": "7316871af407f2733e72a26c5eef6b10fb655ab5",
+      "name": "group-b/b4-task8"
+    },
+    {
+      "head_sha": "d571b398f5a8ce69be34d750e224ab9f6c157739",
+      "name": "group-b/b5-task9"
+    },
+    {
+      "head_sha": "5564f155fe80f6feb081a4418bedcc7a199977d3",
+      "name": "integration/github-consolidation-phase-c-temp-ref-cleanup-wu-001"
+    },
+    {
+      "head_sha": "bb49921094cd56251b9fe39d843d38b7c6cc586b",
+      "name": "integration/github-consolidation-phase-d-batch-1-migration-wu-001"
+    },
+    {
+      "head_sha": "829f55f720471f450f4798dd1f243c87e210bafb",
+      "name": "integration/github-consolidation-phase-d-reference-inventory-wu-001"
+    },
+    {
+      "head_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+      "name": "main"
+    },
+    {
+      "head_sha": "1e9c429feb8bb8aca41c1b1dd102f362024700c5",
+      "name": "migration/framework-contract-repair-bridge-005"
+    },
+    {
+      "head_sha": "d636243b9ffa0ba2cdc1ace5f04b2e11827d092a",
+      "name": "plan/group-b-prerequisite-bootstrap-corrective-activation-001"
+    },
+    {
+      "head_sha": "e13db71242db456789bc66bff46ef884e73a0fc1",
+      "name": "plan/group-b-prerequisite-minimal-closure-001"
+    },
+    {
+      "head_sha": "d9dd439a6d6ca944a6f07ed1aa0b386b0ac0a0b7",
+      "name": "release/v2.7.3-group-b-candidate-001"
+    },
+    {
+      "head_sha": "fdcda12c6b0b94ac919d507ba8172ccce2f2dea2",
+      "name": "release/v2.7.3-publication-packaging-w-candidate-001"
+    },
+    {
+      "head_sha": "f27c5a2e676dcf9c6436ca408838f28f393fde41",
+      "name": "review/documentation-navigation-state33-finding-ba020b2f"
+    },
+    {
+      "head_sha": "7963e29268cf9d2c48b684c2b7dcbabd4a2efa86",
+      "name": "task3-global-plugin-core-001"
+    }
+  ],
+  "evidence_id": "POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02",
+  "freeze_subject_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T13:03:01.066311+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "result": "BRANCH_INVENTORY_VERIFIED",
+  "schema_version": 1,
+  "serialization": "UTF-8 canonical JSON sorted keys compact separators",
+  "sha256": "ffb242e3c7d86bdcdb0d5406d9fb3f960f6acc820d1e2db91720c11783dd3166",
+  "shard_count": 2,
+  "shard_index": 2,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 34,
+  "subject": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE"
+}

@@ -1,0 +1,87 @@
+{
+  "DOCUMENTATION_CANONICALIZATION": "COMPLETE",
+  "DOCUMENTATION_LAYOUT": "CANONICAL",
+  "FRAMEWORK_2_8_0_RELEASE_STARTED": "NO",
+  "FREEZE_SUBJECT_SHA": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "FREEZE_SUBJECT_STATE_REVISION": 34,
+  "OLD_PHASE_G_FREEZE_REWRITTEN": "NO",
+  "P41_DEFERRED_BY_USER": "YES",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "PLUGIN_POST_RELEASE_SYNC_STARTED": "NO",
+  "PREVIOUS_FAILED_ARTIFACT_REWRITTEN": "NO",
+  "PREVIOUS_FAILED_ATTEMPT_USED_AS_PASS": "NO",
+  "PREVIOUS_UTF8_ORDER_FINDINGS_CLASSIFICATION": "DEFERRED_NON_BLOCKING_PROCEDURAL_FINDINGS",
+  "STATE_MUTATION_COUNT": 0,
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "branch_inventory_freeze": {
+    "aggregate_sha256": "6b2e4ef2023135510870f59283987f3001622095961cc38f404433214f844982",
+    "branch_count": 96,
+    "shard_count": 2,
+    "shard_refs": [
+      {
+        "artifact_sha256": "87f571f329952be92ca99056fb9468c284ee33096f7d21c4fcb388b1da778cb1",
+        "branch_count": 50,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+        "rows_sha256": "505f25abf1b8aef25a5b3f59ef8119c545bdfee62a86687df45fbed2539b5deb"
+      },
+      {
+        "artifact_sha256": "13620acce537828d939bf223de1cba12304a44ca29fa329379052cb7f6e24a00",
+        "branch_count": 46,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+        "rows_sha256": "ffb242e3c7d86bdcdb0d5406d9fb3f960f6acc820d1e2db91720c11783dd3166"
+      }
+    ]
+  },
+  "capability_ownership_freeze": {
+    "digest": "3a1e68f45149a5cad4e25142358ea66817c8fe7deec29c8b1050e5e6a544dc1f",
+    "row_count": 16
+  },
+  "consumer_projection_freeze": {
+    "digest": "b789474a5d58b49b00bb5c930961f5a3fa079cbb9e08f0c34c828edce096c4c7",
+    "inventory_count": 86,
+    "manifest_blob": "fdfa1db8717aac35322a4490c4d819aaf9b6c014",
+    "manifest_sha256": "685c72801b21abbdc300b9f62ec69a67335576147e889ba607616f7437681ce1"
+  },
+  "directory_topology_freeze": {
+    "algorithm": "SHA256_UTF8_SORTED_DIRECTORY_PATHS_LF_WITH_FINAL_LF",
+    "count": 68,
+    "digest": "1489b40e651425e80677ec0174ab83b90f872b8d7e8950311b8a0e8e1e9642eb"
+  },
+  "evidence_id": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE",
+  "exact_post_freeze_next_action": "UNADJUDICATED",
+  "instruction_locator": {
+    "blob_sha": "622b5890220ceb9ae0947daa253d4564f7c044f8",
+    "commit_sha": "416e0634e3fe02beb8a235e672f1b32cb9d730a9",
+    "path": ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T13:03:01.099277+00:00",
+  "open_pr_count": 0,
+  "post_freeze_state_transition_required": "YES",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_semantics": "Exact subject snapshot; candidate requires independent POST and publication PRE, remote verification, final Result and native handoff. No self-containing commit claim or Work Unit completion claim.",
+  "record_kind": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE",
+  "repository_tree_freeze": {
+    "algorithm": "SHA256_RAW_GIT_LS_TREE_STDOUT_BYTES",
+    "count": 715,
+    "digest": "8c47e046f0ab2c494aa7267ad7eb8d3717b0ce11066a93e313eae01a1ff6f897",
+    "raw_byte_count": 87438,
+    "tree_object_identity": "bd29787165617ce70f5b4a21213f6ba231974118",
+    "truncated": false
+  },
+  "result": "FREEZE_VERIFIED",
+  "schema_version": 1,
+  "self_containing_commit_claim": false,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 34,
+  "subject": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE",
+  "validation_detail_sha256": "76e444a9849cb6dfa859842e0e74eb2428b8fda54412158b43e7d5bb292f60a6",
+  "validation_evidence_path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+  "work_unit_locator": {
+    "blob_sha": "a1ba6d6d9cd6f3f44cc90363f066172324b7c486",
+    "commit_sha": "1d853855518a19c7de461aa83a908edd30ebee4c",
+    "path": ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  }
+}
