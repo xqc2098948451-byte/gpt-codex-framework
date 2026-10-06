@@ -1,0 +1,116 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-REMOTE-VERIFICATION",
+  "state_revision": 33,
+  "source": "TOOL_OBSERVED",
+  "observed_utc": "2026-10-06T09:23:15.607369+00:00",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "push_status": "SUCCEEDED",
+  "current_remote_ref": "refs/heads/main",
+  "remote_head_sha": "a718800024c5ed299228bdabb9a6841f1496dddd",
+  "implementation_sha": "3d63bc5303b907dc9cfafbee9b7629e265372d83",
+  "base_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+  "exact_remote_blobs": {
+    "docs/architecture/README.md": "d642f7ad7ae0fcce51a530d057f3ccd185e8916d",
+    "docs/decisions/README.md": "99cc16249fcce375c9bad616a0e1ab86687f9833",
+    "docs/plans/README.md": "afc252d50b92ef9737dce9a76e79cd518d34c02f",
+    ".gpt-codex/STATE.json": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json": "bb8add72eab65700b1158c12253ce71c7168895e",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-POST.json": "ba0810ea4a9cadf30e5de23cf1995e3c1289d5a2",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PUBLICATION-PRE.json": "28a1402ba9e905594deb3919f872b5964726d454"
+  },
+  "navigation": {
+    "direct_history_navigation": [
+      {
+        "source": "docs/architecture/README.md",
+        "target": "docs/history/designs",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/decisions/README.md",
+        "target": "docs/history/amendments",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/decisions/README.md",
+        "target": "docs/history/reviews",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/plans/README.md",
+        "target": "docs/history/plans",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      }
+    ],
+    "broken_canonical_navigation_link_count": 0,
+    "broken": []
+  },
+  "preservation": {
+    "all_protected_baseline_paths": 665,
+    "protected_blob_drift_count": 0,
+    "changed_paths": [
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-VALIDATION.json",
+      ".gpt-codex/evidence/instructions/00e1c7b7-2c0a-4544-acb9-902979490cea.json",
+      ".gpt-codex/evidence/instructions/17968a9d-e2aa-4f12-b9df-6b29bdf7e078.json",
+      ".gpt-codex/evidence/instructions/3fadab4f-e818-4e6c-b5f6-10e12bc5558a.json",
+      ".gpt-codex/evidence/instructions/430b8512-28ce-4454-96bb-f5d48e5d8d6c.json",
+      ".gpt-codex/evidence/instructions/6073cd9f-4d34-4b7c-b300-840d61bcc345.json",
+      ".gpt-codex/evidence/instructions/93c7fcb7-adfe-45e9-b353-7ce5fa75f771.json",
+      ".gpt-codex/evidence/instructions/9b7477a0-4c02-42c5-ac17-60062cf3f139.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json",
+      ".gpt-codex/work-units/documentation-canonicalization-navigation-remediation-001.json",
+      "docs/architecture/README.md",
+      "docs/decisions/README.md"
+    ],
+    "unexpected_changed_path_count": 0,
+    "consumer_inventory_count": 86,
+    "consumer_inventory_sha256": "22fc4f0d74666db8644a214ec58a1f9da8acfe614ff437b75f353bdc04ebaed1",
+    "historical_migrated_byte_identity": "PASS_70_OF_70",
+    "migration_completed_total": "94/94",
+    "batch1_history": "UNCHANGED",
+    "batch2_history": "UNCHANGED",
+    "batch3_migrated_docs": "UNCHANGED",
+    "immutable_locator_set_count": 317,
+    "immutable_locator_set": "UNCHANGED",
+    "frozen_historical_occurrence_count": 452,
+    "frozen_historical_occurrence_bytes": "UNCHANGED",
+    "state_revision": 33,
+    "state_mutation_count": 0,
+    "p41_deferred_by_user": "YES",
+    "p41_execution_authority": "NO",
+    "legacy_superpowers_file_count": 0
+  },
+  "independent_post_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "a718800024c5ed299228bdabb9a6841f1496dddd",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-POST.json",
+    "blob_sha": "ba0810ea4a9cadf30e5de23cf1995e3c1289d5a2"
+  },
+  "publication_pre_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "a718800024c5ed299228bdabb9a6841f1496dddd",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PUBLICATION-PRE.json",
+    "blob_sha": "28a1402ba9e905594deb3919f872b5964726d454"
+  },
+  "finding_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f27c5a2e676dcf9c6436ca408838f28f393fde41",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json",
+    "blob_sha": "bb8add72eab65700b1158c12253ce71c7168895e"
+  },
+  "finding_bytes_rewritten": "NO",
+  "attestation_semantics": "Reports the already pushed and exactly read back candidate. This metadata does not claim its own containing commit. Final remote containing commit and Result blob are verified separately after publication."
+}
