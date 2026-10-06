@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, subprocess, sys, uuid
+import argparse, json, os, subprocess, sys, uuid
 from collections.abc import Mapping
 from pathlib import Path
 import re
@@ -1845,7 +1845,7 @@ def main():
         except (OSError, json.JSONDecodeError):
             continue
         if isinstance(candidate, dict) and (
-            Path(ref).as_posix().startswith('.gpt-codex/evidence/results/')
+            Path(os.path.normcase(os.path.normpath(ref))).as_posix().startswith('.gpt-codex/evidence/results/')
             or 'result_message_type' in candidate
             or 'result_id' in candidate
         ):

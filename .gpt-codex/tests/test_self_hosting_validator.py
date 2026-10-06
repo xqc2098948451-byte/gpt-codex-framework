@@ -1732,3 +1732,25 @@ class DurableRecordClassificationTests(unittest.TestCase):
         records = {path: json.loads((ROOT / path).read_text(encoding="utf-8")) for path in paths}
         result = self.validate_records(records)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+
+    def test_normalized_legacy_result_path_preserves_verification(self):
+        relatives = [
+            "./.gpt-codex/evidence/results/LEGACY.json",
+            ".gpt-codex/evidence/alias/../results/LEGACY.json",
+        ]
+        if sys.platform == "win32":
+            relatives.append(".GPT-CODEX/EVIDENCE/RESULTS/LEGACY.json")
+        for relative in relatives:
+            with self.subTest(relative=relative):
+                result = self.validate_records({relative: {
+                    "status": "PASS", "remote_verification": "NOT_ATTEMPTED",
+                }})
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("PASS requires remote_verification=VERIFIED", result.stdout)
+
+    def test_normalized_path_outside_results_is_governance(self):
+        result = self.validate_records({".gpt-codex/evidence/results/../GOVERNANCE.json": {
+            "record_kind": "GOVERNANCE_OBSERVATION", "status": "PASS",
+        }})
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
