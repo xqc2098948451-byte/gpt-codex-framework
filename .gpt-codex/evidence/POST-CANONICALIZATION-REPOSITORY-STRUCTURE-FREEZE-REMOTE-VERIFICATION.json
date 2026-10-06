@@ -1,0 +1,86 @@
+{
+  "FREEZE_SUBJECT_SHA": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "FREEZE_SUBJECT_STATE_REVISION": 34,
+  "STATE_MUTATION_COUNT": 0,
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "evidence_id": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION",
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T13:14:04.431941+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "readback": {
+    "authorized_main_publication_transport": true,
+    "branch_count": 96,
+    "branch_creation_count": 0,
+    "branch_deletion_count": 0,
+    "exact_artifacts": [
+      {
+        "blob_sha": "2e64d24560097fe169b7fed1d5726dd917ce75c6",
+        "byte_count": 4154,
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+        "sha256": "7d5e59fab3bee53f363dc11d424b8e464fc46851d1c0567e7074467f5c96ac50"
+      },
+      {
+        "blob_sha": "74bdc9008828b7329dec7a4f2c742bb7c3e238c0",
+        "byte_count": 981782,
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+        "sha256": "b9035e074d0259674d318ee78a051e0fb015bbc3d7bcf372247469814c08668d"
+      },
+      {
+        "blob_sha": "bfc0586c0c05e54d6c83cf967971d1d8fb495b25",
+        "byte_count": 8062,
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+        "sha256": "87f571f329952be92ca99056fb9468c284ee33096f7d21c4fcb388b1da778cb1"
+      },
+      {
+        "blob_sha": "834ee7e661748300b03a461c9bd17c42f3f36b18",
+        "byte_count": 7489,
+        "byte_identity": true,
+        "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+        "sha256": "13620acce537828d939bf223de1cba12304a44ca29fa329379052cb7f6e24a00"
+      }
+    ],
+    "native_remote_verification": {
+      "evidence_type": "TOOL_OBSERVED",
+      "reason": "REMOTE_PUBLICATION_VERIFIED",
+      "remote_head_sha": "3ad95ab7b984153a54966f845c438444b77ad77d",
+      "remote_ref": "refs/heads/main",
+      "status": "VERIFIED"
+    },
+    "non_main_branch_head_mutation_count": 0,
+    "observed_utc": "2026-10-06T13:14:04.423367+00:00",
+    "open_pr_count": 0,
+    "pr_mutation_count": 0,
+    "remote_main": "3ad95ab7b984153a54966f845c438444b77ad77d",
+    "repository_id": "1366213495",
+    "scope_added_paths": [
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+      ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+      ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+      ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+      ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PUBLICATION-PRE.json",
+      ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json"
+    ],
+    "state_blob": "92e868d2aed74dae1e836469c8501730b14320e2",
+    "state_next_action": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE_REQUIRED",
+    "state_revision": 34,
+    "state_sha256": "620c3502767d0970849c6de39f220457183ab98e99b36726feee1764b792e91d",
+    "unchanged_baseline_blob_mode_count": 715
+  },
+  "record_kind": "POST_CANONICALIZATION_STRUCTURE_FREEZE_EXACT_REMOTE_READBACK",
+  "result": "VERIFIED",
+  "schema_version": 1,
+  "self_containing_commit_claim": false,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 34,
+  "subject": "POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE",
+  "verified_work_sha": "3ad95ab7b984153a54966f845c438444b77ad77d"
+}
