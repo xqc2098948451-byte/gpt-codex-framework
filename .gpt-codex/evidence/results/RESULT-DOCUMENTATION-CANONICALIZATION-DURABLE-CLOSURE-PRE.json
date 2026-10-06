@@ -1,0 +1,339 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-durable-closure-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "f5b35c2b-a815-4a6f-bebc-aefb56c9ff31",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "71e2471c-addf-40e3-a620-02f459938203",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 33,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+  "remote_head_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "git": {
+    "base_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+    "head_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+    "implementation_sha": null
+  },
+  "review_target_revision": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+  "finding_ids": [],
+  "fix_round": 0,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "execution": "Independent PRE review of bounded governance-only closure materialization completed. Closure execution, inventory reconstruction, POST, and publication remain pending.",
+  "changed": [],
+  "deviations": [],
+  "blockers": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+    ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+    ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION.json"
+  ],
+  "observed_utc": "2026-10-06T09:44:44.215518+00:00",
+  "immutable_bindings": {
+    "execution_instruction_locator": {
+      "blob_sha": "0b1ed033b1d7fc063cf73be8e95ca01313b8d154",
+      "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+      "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "pre_request_locator": {
+      "blob_sha": "a996f9978727ace65eb1ad4d4c782a529c20acdf",
+      "commit_sha": "4ee77cd7247b91892150c1d6e31edd78911deab3",
+      "path": ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "work_unit_locator": {
+      "blob_sha": "ae6f40f8369ecbb795d5e267ed96505289fff436",
+      "commit_sha": "0ec6d005bff928290167403adcae2cdcd897be6b",
+      "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "target_work_unit_id": "documentation-canonicalization-durable-closure-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+      "sha": "0ec6d005bff928290167403adcae2cdcd897be6b"
+    },
+    "expected_state_revision": 33
+  },
+  "scope_review": {
+    "owned_paths": [
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-NATIVE-HANDOFF.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+      ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+      ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json"
+    ],
+    "exact_path_count": 15,
+    "new_tracked_directory_prefix_count": 0,
+    "authority_delta_paths": [
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json"
+    ],
+    "unscoped_delta_count": 0,
+    "repository_mutation_by_reviewer_count": 0,
+    "state_mutation_count": 0,
+    "state_blob_sha": "b5e4049a13d17fc82724fc68bcf49445149719fb",
+    "state_sha256": "2db90a141d3b091045bb51cc76872219888272b0ca94221ac639b6c94ed57224"
+  },
+  "predecessor_results": [
+    {
+      "label": "BATCH1",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1.json",
+        "blob_sha": "1b835c81d0986a10696582a1868ab79fd6c3b2c5"
+      },
+      "result_id": "e536206d-5bd1-4fb7-99bd-86631e762e4f",
+      "status": "PASS",
+      "remote_verification": "VERIFIED",
+      "publication_authority": "CONFIRMED_PUBLICATION",
+      "sync_status": "SYNCED",
+      "content_sha256": "09750f22881778120cafe42e4a92a708f34aeed5703efbc1b3ba7e5d9a194114",
+      "public_readback_exact": true,
+      "native_resolution": "ALLOW",
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": [],
+      "implementation_sha": "21b57966f77450c78a2a6fb1f4d49217bf7afb1c",
+      "published_sha": "05214dcce8f47a06fa0635cc4c94bdc56529ca2e"
+    },
+    {
+      "label": "BATCH2",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2.json",
+        "blob_sha": "6a177309a5f71c0b3abe99473c8b477508ae9207"
+      },
+      "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2",
+      "status": "PASS",
+      "remote_verification": "VERIFIED",
+      "publication_authority": "CONFIRMED_PUBLICATION",
+      "sync_status": "SYNCED",
+      "content_sha256": "2c3e09050319794b4757020aacbbdc2ebac975f991eff2eea48afd89388e9226",
+      "public_readback_exact": true,
+      "native_resolution": "ALLOW",
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": [],
+      "implementation_sha": "162305b443bd9bf90b0dfe82ffafaa754e6e066b",
+      "published_sha": "d07d2e40b5adcf1e283ca0fc25399006e1bfde58"
+    },
+    {
+      "label": "BATCH3",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json",
+        "blob_sha": "381dc3c825bd632f138b84a01bf32f3d9df4b009"
+      },
+      "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3",
+      "status": "PASS",
+      "remote_verification": "VERIFIED",
+      "publication_authority": "CONFIRMED_PUBLICATION",
+      "sync_status": "SYNCED",
+      "content_sha256": "34107d0a7c9f91c9dc8129dbe90b152d32e4d9a80d250b8e8e35d0fe4af33e4e",
+      "public_readback_exact": true,
+      "native_resolution": "ALLOW",
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": [],
+      "implementation_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+      "published_sha": "9825c06e808a418155279a11c1d0bd94083da3f1"
+    },
+    {
+      "label": "NAVIGATION-REMEDIATION",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+        "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION.json",
+        "blob_sha": "12a1d5e12e917b304f49ab77fcaa5a0f5b1cdbc6"
+      },
+      "result_id": "1e1c8bf9-4a45-4b20-8cc8-a004b4c28c46",
+      "status": "PASS",
+      "remote_verification": "VERIFIED",
+      "publication_authority": "CONFIRMED_PUBLICATION",
+      "sync_status": "SYNCED",
+      "content_sha256": "11cfcefd1903c9767f18186368f978ac48d97695881f107fc038a6b549671cf0",
+      "public_readback_exact": true,
+      "native_resolution": "ALLOW",
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": [],
+      "implementation_sha": "3d63bc5303b907dc9cfafbee9b7629e265372d83",
+      "published_sha": "a718800024c5ed299228bdabb9a6841f1496dddd"
+    }
+  ],
+  "fixed_matrix_binding": {
+    "batch1": 28,
+    "batch2": 42,
+    "batch3": 24,
+    "row_count": 94,
+    "unique_row_count": 94,
+    "missing_count": 0,
+    "duplicate_count": 0,
+    "unexpected_count": 0,
+    "material_row_difference_count": 0,
+    "classification_source": "Exact durable Batch1/2/3 accepted matrices; no filename reclassification."
+  },
+  "user_acceptance_binding": {
+    "request_sha256": "9b2175ad2e2c7b340745ffc05c324677264597b0983135357769d713c0a9a456",
+    "mode": "GOVERNANCE_ONLY_FINAL_CLOSURE",
+    "no_docs_source_tests_manifest_or_state_mutation": true,
+    "no_structure_freeze_release_p41_or_plugin_publication": true,
+    "stop_after_durable_closure_exact_remote_readback": true
+  },
+  "recovery_precondition": {
+    "source_type": "CONVERSATION_ATTACHMENT_RECOVERY",
+    "source_attachment": "turn170file0 / file_00000000fc348209a48f496bb390ebc1",
+    "source_recovery_sha256": "2aa61c38f42596011e1f40786dfb7f42b557ccc7fe8f538de8859850868d32ff",
+    "original_pre_durable_locator": null,
+    "original_pre_was_repository_durable": false,
+    "recovery_used": true,
+    "history_rewrite": false,
+    "required_entry_count": 806,
+    "required_classification_counts": {
+      "CURRENT_MUTABLE_REFERENCE": 37,
+      "IMMUTABLE_HISTORICAL_LOCATOR": 317,
+      "FROZEN_HISTORICAL_REFERENCE": 452,
+      "UNKNOWN_REFERENCE_SEMANTICS": 0
+    },
+    "required_referencing_file_count": 185,
+    "required_unique_immutable_locator_count": 54,
+    "entry_level_recovery_verification": "PENDING_EXECUTION_AND_INDEPENDENT_POST",
+    "ambiguous_reconstruction_requires_stop": true
+  },
+  "remaining_gates": [
+    "Materialize and recompute806 occurrence entries with digests and exact counts; stop on ambiguity.",
+    "Fresh verify94 migrations,70 historical byte identities,20 current unedited docs,4 bounded edits,37 current references,317 immutable references and452 frozen references.",
+    "Fresh complete full current suite and validators from exact requested baseline.",
+    "Independent hostile POST on final candidate.",
+    "Publication PRE before publication; attestation PRE when required; exact public remote readback and native final handoff."
+  ],
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "71e2471c-addf-40e3-a620-02f459938203",
+    "work_unit": "documentation-canonicalization-durable-closure-001",
+    "reviewed_revision": "4b356c95ccc1cf1c78063691e2ad51845a3d64fb",
+    "executed_revision": null,
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+      ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+      ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION.json"
+    ],
+    "files_changed": [],
+    "tests_run": [],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "INDEPENDENT_GOVERNANCE_CLOSURE_PRE_REVIEW"
+    ],
+    "executed_scope": [
+      "INDEPENDENT_GOVERNANCE_CLOSURE_PRE_REVIEW"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "LIVE_REMOTE_MAIN_AND_REPOSITORY_ID",
+      "STATE33_EXACT_BYTES",
+      "DIRECT_USER_REQUEST_BINDING",
+      "NATIVE_EXECUTION_AND_PRE_RESOLUTION",
+      "IMMUTABLE_WORK_UNIT_RESOLUTION",
+      "EXACT_15_GOVERNANCE_PATH_SCOPE",
+      "NATIVE_INSTRUCTION_SCHEMA_AND_ACTIONS",
+      "NO_NEW_TRACKED_DIRECTORIES",
+      "FOUR_PUBLIC_DURABLE_PREDECESSOR_RESULTS",
+      "FIXED_94_ROW_MATRIX_BINDING",
+      "PUBLIC_RECOVERY_SOURCE_DIGEST",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "NATIVE_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "NATIVE_PRE_EXECUTION_REVIEW",
+      "NATIVE_GOVERNED_MUTATION_ENTRY",
+      "FAIL_CLOSED_GATE_PROBES",
+      "READ_ONLY_REVIEW_BOUNDARY"
+    ],
+    "validators_completed": [
+      "LIVE_REMOTE_MAIN_AND_REPOSITORY_ID",
+      "STATE33_EXACT_BYTES",
+      "DIRECT_USER_REQUEST_BINDING",
+      "NATIVE_EXECUTION_AND_PRE_RESOLUTION",
+      "IMMUTABLE_WORK_UNIT_RESOLUTION",
+      "EXACT_15_GOVERNANCE_PATH_SCOPE",
+      "NATIVE_INSTRUCTION_SCHEMA_AND_ACTIONS",
+      "NO_NEW_TRACKED_DIRECTORIES",
+      "FOUR_PUBLIC_DURABLE_PREDECESSOR_RESULTS",
+      "FIXED_94_ROW_MATRIX_BINDING",
+      "PUBLIC_RECOVERY_SOURCE_DIGEST",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "NATIVE_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "NATIVE_PRE_EXECUTION_REVIEW",
+      "NATIVE_GOVERNED_MUTATION_ENTRY",
+      "FAIL_CLOSED_GATE_PROBES",
+      "READ_ONLY_REVIEW_BOUNDARY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "next_gpt_action": "Return this PRE Result to implementer. Revalidate native governed mutation entry before only exact15 governance artifacts are materialized. This PRE is not final recovery verification, hostile POST, publication approval, STATE transition, or closure completion.",
+  "native_validation": {
+    "result_schema": [],
+    "result_protocol": [],
+    "result_review": [],
+    "result_authority": [],
+    "pre_execution_review": [],
+    "governed_mutation_entry": [],
+    "execution_instruction_schema": [],
+    "pre_request_schema": [],
+    "execution_instruction_authority": [],
+    "pre_request_authority": []
+  }
+}
