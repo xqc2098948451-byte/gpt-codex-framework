@@ -1,0 +1,147 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMOTE-VERIFICATION",
+  "subject": "REMOTE_PUBLICATION_VERIFICATION",
+  "result": "VERIFIED",
+  "source": "TOOL_OBSERVED",
+  "state_revision": 32,
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "observed_utc": "2026-10-06T01:55:12.850646+00:00",
+  "verified_remote_main_sha": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73",
+  "verified_tree_sha": "557a78ae4f6165ae60cfcc1617b7ec78bb2ff04b",
+  "exact_tree_entries": 611,
+  "exact_records": [
+    {
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "sha256": "4ccd90ae364975372fc471e6154967de7dd6477fbcff6487bcd9b9d9474dce41",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+      "blob_sha": "2b68fdf0b5a2dc71c8f2dfe682d73687a1be9ccc",
+      "sha256": "4ccd5a53a1ad8477161dac44452bca97881bfea42382edbe96442417b7fc9ef2",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+      "blob_sha": "72304374a958594229edb0efc65468d21650c828",
+      "sha256": "75c5b0db105d646e62e46baf003e100608727a4b59be674bbc1bfcd125c35d60",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+      "blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+      "sha256": "532d62b2b9cf1a6ef52375cc60c6b2becf8e81519d9fa7d01b1d67257e12a9c2",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-VALIDATION.json",
+      "blob_sha": "563f442b335828d56e76630c9d10324a27805658",
+      "sha256": "ebd5d55f662f4a20b426bb521bd1ce997b21d2be0d86a3cc25411351adb7dcc6",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-VERIFICATION.json",
+      "blob_sha": "a9c94f7bc83246c71e8d0c8f9810e08473a0fecd",
+      "sha256": "a55ce7c9e3e9c69b15178acc25fea73ff291078314fd1e1d0b81568de676a74a",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/1c555f45-2b60-44c5-8b4f-4031919c2e66.json",
+      "blob_sha": "44f879dc9cde72093d8117b554c8071a2d3a9c1f",
+      "sha256": "5bab9b1a363a36f08007f278272d216e8160faf0262d365731aedb42faa79f80",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+      "blob_sha": "39bfbe9c47bf778b5e26ad27bfa667cc32c9767a",
+      "sha256": "9b0d9ccffbbec4825d1b1403530bb24fbc4afabaa1b3bd6f3aa7e05b7006970b",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+      "blob_sha": "037547f497150254e648a412e442440f2164dd7b",
+      "sha256": "849316b61584deaa0732cd1549d151d7a09f06473bfd93739be454b3eb308ee7",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/beefbd2a-3d5f-4e2e-b1a6-964dce376e11.json",
+      "blob_sha": "47b9970282b6009d4fcb8b4137c46f8bc239652a",
+      "sha256": "62a5bbc3224807a2c8e59285d950b364511495c84a09409fc52f70b05704ab03",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/instructions/cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0.json",
+      "blob_sha": "17f6bc790306dc45a535a5d318827384c56e25b8",
+      "sha256": "5febdadd8de022f9b5008dc1e87f359b1286ce333832e47d1d73a1d66a9f4d04",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+      "blob_sha": "accb0ae16e7dadcd818706f6757452b91d0e4d98",
+      "sha256": "7965c23d301023750234b71a873e6d3427affb1e3c20cb84895411057f8a324b",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-FRESH-PRE.json",
+      "blob_sha": "436e1d403f99244cb63b5ae88a810aaf71a445aa",
+      "sha256": "d701755b1ebb1efd98ae5a69f747d923c935d7827978e9b205199c3c24ec5b6a",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json",
+      "blob_sha": "b5d5d7f787650157e8f618afbcf72ec3b0d7f1fb",
+      "sha256": "c2498e2e75b539c55895f470a5b5048e225907a039818c0f5e89ad44ce399e4d",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-PRE.json",
+      "blob_sha": "3d84d01525f3d9a3685413c398c94e99b260a3cd",
+      "sha256": "3532f2e04c7094c9257e7df2ed53b22003989d97359bfd6e97aa0b4a84d52216",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/scripts/validate_project.py",
+      "blob_sha": "64aaee6acbe9248de807a9cfde390351b3452f30",
+      "sha256": "3458f7ffbc60f7cba4e98adc923ff448d5624bf2eca582c41ad1bb5951fc275e",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/tests/test_self_hosting_validator.py",
+      "blob_sha": "283c9993ea2a82971c753c1d5f67956af85f361b",
+      "sha256": "190660382e25b74cb5cd5c21fbff74b88942456197fc4422a218ac75f817398b",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json",
+      "blob_sha": "3a568a4e81ef255af77233749ecdcdb6582932c2",
+      "sha256": "901e0b0c89fdadb68451456f31468c2f027412e58001e8bc364eb7c40b28e277",
+      "exact_bytes": true
+    },
+    {
+      "path": ".gpt-codex/work-units/project-validator-state32-handoff-correction-001.json",
+      "blob_sha": "8637962110f925fb7f5388582c504dc2203a18d6",
+      "sha256": "e0521c4ef8a4c4a1a83fd853b988a85c58f9bc49d8855154313be6836d9c9741",
+      "exact_bytes": true
+    }
+  ],
+  "implementation_sha": "201920f42e1773df64521330c6d4526864edbe95",
+  "fix_base": "0d0f129e6f3d145f10013f826c60672f2eb61d84",
+  "independent_post_result_id": "7844ab65-0f0c-4654-abf8-ee498f6063db",
+  "self_containing_commit_claim": false,
+  "final_containing_commit_requires_separate_exact_readback": true,
+  "preservation": {
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "frozen_paths_checked": 123,
+    "original_gate_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES"
+  }
+}

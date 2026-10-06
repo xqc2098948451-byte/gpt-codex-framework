@@ -1,0 +1,222 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-durable-record-classification-remediation-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "result_id": "7844ab65-0f0c-4654-abf8-ee498f6063db",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "9029b674-8a48-48aa-89d3-5f6ea6dfb297",
+  "review_target_revision": "201920f42e1773df64521330c6d4526864edbe95",
+  "implementation_sha": "201920f42e1773df64521330c6d4526864edbe95",
+  "reviewed_packet_sha": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73",
+  "finding_ids": [
+    "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001"
+  ],
+  "remediated_finding_ids": [
+    "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001"
+  ],
+  "fix_round": 1,
+  "fixing_round": 1,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73",
+  "remote_head_sha": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73",
+  "remote_verification": "VERIFIED",
+  "remote_verification_scope": "PUBLISHED_IMPLEMENTATION_W_AND_POST_PACKET_WP_EXACT_TREE_AND_BLOBS",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+    ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+    ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-FRESH-PRE.json",
+    ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-VALIDATION.json",
+    ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+    ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+    ".gpt-codex/evidence/instructions/1c555f45-2b60-44c5-8b4f-4031919c2e66.json"
+  ],
+  "observed_utc": "2026-10-06T01:59:20.831524+00:00",
+  "files_changed": [],
+  "deviations": [],
+  "blockers": [],
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "84fa0ac664e4fcd3661fba579bf880c49b367344",
+    "path": ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+    "blob_sha": "037547f497150254e648a412e442440f2164dd7b"
+  },
+  "review_request_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73",
+    "path": ".gpt-codex/evidence/instructions/1c555f45-2b60-44c5-8b4f-4031919c2e66.json",
+    "blob_sha": "44f879dc9cde72093d8117b554c8071a2d3a9c1f"
+  },
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json",
+    "sha": "6cc5e3b8664d3fcad5756d7a3270d4f08ee2af86"
+  },
+  "in_response_to_result_id": "7fc8ebdc-2d26-430f-961c-b41d8e01af2f",
+  "review_scope": "INDEPENDENT_CLASSIFICATION_REMEDIATION_POST_AT_EXACT_PUBLISHED_IMPLEMENTATION",
+  "context_separation": {
+    "implementer_context": "/root",
+    "reviewer_context": "/root/post_review",
+    "reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-project-validator-durable-record-classification-remediation-001",
+    "fresh_context": true,
+    "implementer_private_reasoning_used": false,
+    "input_source_kinds": [
+      "DURABLE_PROJECT_AUTHORITY",
+      "USER_REQUIREMENTS",
+      "EXACT_REPOSITORY_CONTENT",
+      "INDEPENDENT_TOOL_VERIFICATION_EVIDENCE",
+      "COMPLETED_ROOT_RAW_LOG_AND_READBACK_EVIDENCE"
+    ],
+    "agent_spawns": 0
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "READ_ONLY_IMPLEMENTATION_AND_METADATA_REVIEW",
+      "FOCUSED_CLASSIFICATION_TESTS",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "NATIVE_AND_PROJECT_FRAMEWORK_VALIDATION",
+      "ROOT_TEST_LOG_VERIFICATION",
+      "EXACT_PUBLISHED_REMOTE_SUBJECT_REVIEW"
+    ],
+    "executed_scope": [
+      "READ_ONLY_IMPLEMENTATION_AND_METADATA_REVIEW",
+      "FOCUSED_CLASSIFICATION_TESTS",
+      "PUBLICATION_AUTHORITY_TESTS",
+      "NATIVE_AND_PROJECT_FRAMEWORK_VALIDATION",
+      "ROOT_TEST_LOG_VERIFICATION",
+      "EXACT_PUBLISHED_REMOTE_SUBJECT_REVIEW"
+    ],
+    "test_files_expected": 2,
+    "test_files_executed": 2,
+    "test_count": 18,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "NATIVE_FIX_PRE_REVALIDATION",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "ROOT_RAW_LOG_VERIFICATION",
+      "EXACT_REMOTE_SUBJECT_VERIFICATION",
+      "NATIVE_FIX_RE_REVIEW"
+    ],
+    "validators_completed": [
+      "NATIVE_FIX_PRE_REVALIDATION",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "ROOT_RAW_LOG_VERIFICATION",
+      "EXACT_REMOTE_SUBJECT_VERIFICATION",
+      "NATIVE_FIX_RE_REVIEW"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "independent_audit": {
+    "FALSE_POSITIVE_RECORD_COUNT_BEFORE": 2,
+    "FALSE_POSITIVE_RECORD_COUNT_AFTER": 0,
+    "PROJECT_VALIDATOR_POST": "PASS",
+    "FRAMEWORK_VALIDATOR": "PASS",
+    "PASS_RESULT_REMOTE_VERIFICATION_RULE": "PRESERVED",
+    "prior_code_review_P2": "CLOSED",
+    "classification_path_probes": "Relative ./ and parent components, inverse governance path and Windows case aliases independently verified.",
+    "independent_focused_tests": 9,
+    "independent_publication_tests": 9,
+    "root_affected_tests": 157,
+    "root_full_tests": 734,
+    "root_full_failures": 0,
+    "root_full_errors": 0,
+    "root_full_skipped": 2,
+    "all_11_raw_log_hashes_verified": true,
+    "native_fix_pre_checks": {
+      "remediation_resolution_errors": [],
+      "adjudication_errors": [],
+      "finding_schema_errors": [],
+      "finding_protocol_errors": [],
+      "finding_authority_errors": [],
+      "pre_schema_errors": [],
+      "pre_protocol_errors": [],
+      "pre_authority_errors": [],
+      "fix_lifecycle_errors": [],
+      "core_fix_pre_errors": [],
+      "negative_control_missing_pre_errors": [
+        "PRE_EXECUTION_REVIEW_REQUIRED"
+      ]
+    },
+    "root_exact_readback_completed": true,
+    "remote_tree_sha": "557a78ae4f6165ae60cfcc1617b7ec78bb2ff04b",
+    "exact_tree_entries": 611,
+    "independent_exact_blobs": 27,
+    "root_exact_blobs": 19,
+    "W_is_direct_parent_of_published_WP": true,
+    "source_same_between_W_and_WP": true,
+    "all_fresh_finding_evidence_refs_retained": true,
+    "state_revision": 32,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "original_gate_result_rewritten": "NO",
+    "old_finding_result_rewritten": "NO",
+    "L7_evidence_bytes_unchanged": "YES",
+    "L8_evidence_bytes_unchanged": "YES",
+    "publication_contract_bytes_unchanged": "YES",
+    "schemas_bytes_unchanged": "YES",
+    "out_of_scope_mutations": [],
+    "new_directories": [],
+    "reviewer_repository_mutation_count": 0,
+    "issues": {
+      "Critical": [],
+      "Important": [],
+      "Minor": []
+    },
+    "self_validation": {
+      "schema_errors": [],
+      "protocol_errors": [],
+      "authority_errors": [],
+      "native_re_review_lifecycle_errors": [],
+      "identity_decision": "ALLOW"
+    },
+    "remote_main_verified_at_end": "a68d4ebbd3ed5b68a0bfbfe1dfc1d2e3a6c37c73"
+  },
+  "declined_to_judge": [
+    {
+      "behavior": "Final durable remediation metadata publication and native final handoff",
+      "reason": "Required subsequent governed closure, not yet materialized; this POST accepts the published implementation only."
+    },
+    {
+      "behavior": "Documentation Batch1 and STATE33",
+      "reason": "Explicitly excluded by user; existing Documentation and STATE32 are byte-exact."
+    },
+    {
+      "behavior": "Execution of the two full-suite symbolic-link tests",
+      "reason": "Actual raw full log records fixture unavailability on Windows; retained as environment skips with no execution claim."
+    },
+    {
+      "behavior": "General reference admission, absolute/symbolic-link path policy and schema tightening",
+      "reason": "Outside this bounded classification repair per ruling; relative lexical aliases and runtime case aliases are covered."
+    }
+  ]
+}
