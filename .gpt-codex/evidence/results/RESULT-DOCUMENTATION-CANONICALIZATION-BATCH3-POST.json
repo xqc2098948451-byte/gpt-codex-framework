@@ -1,0 +1,679 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-current-reference-activation-001",
+  "extension": null,
+  "result_id": "RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST",
+  "result_message_type": "REVIEW_RESULT",
+  "status": "PASS",
+  "response_to_instruction_id": "b800f27b-c149-5930-afce-e94406909799",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+  "finding_ids": [],
+  "fix_round": 0,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 32,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "59662a5f5ff2d28b7002fd239ec8f49f2808883d",
+  "implementation_sha": "7ef40a82eca494f7dcceabcad4dc6c24b48a732c",
+  "remote_head_sha": "b5983fabe315c65af0e94177c63c7732947fd1a1",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "return_to_gpt_required": true,
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    "D:\\通用开发框架管理\\.gpt-codex-transport\\documentation-batch3-20261006\\independent-review\\post-report.json"
+  ],
+  "reviewer_context": {
+    "context_id": "independent-batch3-post-dfc0e776-cf6d-4930-8855-1303fd7d320b",
+    "fresh_context_verified": true,
+    "role": "CODEX_REVIEWER",
+    "input_source_kinds": [
+      "DIRECT_USER_REQUEST",
+      "IMMUTABLE_REPOSITORY_CONTENT",
+      "INDEPENDENT_VERIFICATION"
+    ],
+    "implementer_private_transport_read": false,
+    "repository_mutations": 0,
+    "review_workspace": "D:\\w\\gpt-codex-framework\\review-documentation-canonicalization-current-reference-activation-001"
+  },
+  "checks": [
+    {
+      "check": "REVIEW_EXACT_IMMUTABLE_CHECKOUT",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "POST_INSTRUCTION_LOCATOR_BLOB",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "POST_TARGET_AND_BINDINGS",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "EXACT_FIXED_ACCEPTED_INPUT",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "IMMUTABLE_WU_AND_EXECUTION_UNCHANGED",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "DURABLE_PRE_RESULT_EXACT_REVIEWER_JSON_VALUES",
+      "status": "PASS",
+      "detail": "All JSON values identical. Only JSON file newline serialization differs; no Result field was changed."
+    },
+    {
+      "check": "STATE32_EXACT_RAW_BYTES_UNCHANGED",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CONTROL_EXACT_RAW_BYTES_UNCHANGED",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "MIGRATION_24_COMPLETE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "UNEDITED_CURRENT_RAW_BYTE_IDENTITY_20_OF_20",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S13_MATCH_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S13_MATCH_1",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S13_MATCH_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S13_ACTUAL_RAW_BYTES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S23_MATCH_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S23_ACTUAL_RAW_BYTES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S40_MATCH_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_S40_ACTUAL_RAW_BYTES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_P41_MATCH_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_P41_ACTUAL_RAW_BYTES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "ALL_12_OUTPUTS_MATCH_PRE_REVIEWED_DECLARED_CONTRACT",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BOUNDED_ONLY_FOUR_CURRENT_DOCS",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "EXACT_DURABLE_SCOPE_56_10_66",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "UNEXPECTED_CHANGED_PATH_COUNT_0",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "POST_AUTHORITY_ADDITION_ONLY_DECLARED_INSTRUCTION",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "NATIVE_COMMITTED_SCOPE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "DIRECTORY_CREATIONS_EMPTY_NO_NEW_PREFIX",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "NATIVE_CANDIDATE_DIRECTORY_CONTRACT",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "LEGACY_TRACKED_FILE_COUNT_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "KEEP_LEGACY_EXCEPTION_COUNT_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CANONICAL_DOCUMENT_COUNTS",
+      "status": "PASS",
+      "detail": {
+        "CURRENT_ARCHITECTURE_COUNT": 17,
+        "CURRENT_DECISION_COUNT": 6,
+        "ACTIVE_PLAN_COUNT": 1,
+        "HISTORY_DESIGN_COUNT": 10,
+        "HISTORY_PLAN_COUNT": 32,
+        "HISTORY_AMENDMENT_COUNT": 26
+      }
+    },
+    {
+      "check": "MIGRATION_COMPLETED_TOTAL_94",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BATCH1_BATCH2_HISTORY_RAW_BYTES_70",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "HISTORY_REVIEW_MIGRATED_COUNT_2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "HISTORY_WHOLE_TREE_UNCHANGED",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "ALL_OUT_OF_SCOPE_BASELINE_BLOBS_UNCHANGED",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "ALL_NONMUTABLE_LEGACY_REFERENCE_LINES_RAW_PRESERVED",
+      "status": "PASS",
+      "detail": {
+        "count": 1,
+        "records": [
+          {
+            "path": ".gpt-codex/CHANGELOG.md",
+            "line_sha256": "a2709d4625fba4930ed0ae3a37a1de292af3c435191913d9c84fb3e4bbefcd48",
+            "preserved": true
+          }
+        ]
+      }
+    },
+    {
+      "check": "FROZEN_CHANGELOG_LINE175_ORIGINAL_BYTES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "317_IMMUTABLE_LOCATORS_AND_452_FROZEN_PRESERVED",
+      "status": "PASS",
+      "detail": {
+        "immutable_locator_count": 317,
+        "frozen_reference_count": 452,
+        "proof": "Fixed accepted categories preserved by full-blob invariance, exact bounded transformations and every remaining legacy-bearing line in changed baseline documents; no reclassification."
+      }
+    },
+    {
+      "check": "CURRENT_MUTABLE_REFERENCE_31_OF_31",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "P41_DEFERRED_NO_EXECUTION",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "NO_NEW_CLOSURE_FREEZE_RELEASE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "BROKEN_CURRENT_MARKDOWN_REFERENCE_COUNT_0",
+      "status": "PASS",
+      "detail": {
+        "links_checked": 37,
+        "broken": []
+      }
+    },
+    {
+      "check": "P41_CURRENT_DESIGN_REFERENCE_RESOLVES",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "DUPLICATE_CURRENT_AUTHORITY_COUNT_0",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "PROJECTION_AUDIT_UNCLASSIFIED_0",
+      "status": "PASS",
+      "detail": {
+        "unknown_paths": [],
+        "missing_required_paths": [],
+        "invalid_classifications": []
+      }
+    },
+    {
+      "check": "CONSUMER_INVENTORY_86_EXACT",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CANONICAL_PROJECTION_docs/architecture/",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CANONICAL_PROJECTION_docs/decisions/",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CANONICAL_PROJECTION_docs/plans/",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "CANONICAL_PROJECTION_docs/history/",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "NO_GIT_HISTORY_REWRITE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "TESTED_CANDIDATE_TREE_EQUALS_IMPLEMENTATION_TREE",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "check": "REMOTE_MAIN_UNTOUCHED_BASE",
+      "status": "PASS",
+      "detail": "b5983fabe315c65af0e94177c63c7732947fd1a1"
+    },
+    {
+      "check": "FRESH_NATIVE_CONTINUITY_RESUME",
+      "status": "PASS",
+      "detail": "LATEST_SYNCED_REMOTE_STATE"
+    },
+    {
+      "check": "NATIVE_INSTRUCTION_RESOLUTION_8ef09eec-4f63-52d5-af2e-813ba9177c39",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_INSTRUCTION_RESOLUTION_1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_INSTRUCTION_RESOLUTION_b800f27b-c149-5930-afce-e94406909799",
+      "status": "PASS",
+      "detail": "INSTRUCTION_RESOLVED"
+    },
+    {
+      "check": "NATIVE_GUARDED_ENTRY_POSITIVE",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "POST_TESTS_test_consumer_projection.py",
+      "status": "PASS",
+      "detail": {
+        "file": "test_consumer_projection.py",
+        "tests_run": 30,
+        "failures": 0,
+        "errors": 0,
+        "skipped": [],
+        "successful": true
+      }
+    },
+    {
+      "check": "POST_TESTS_test_release_packaging.py",
+      "status": "PASS",
+      "detail": {
+        "file": "test_release_packaging.py",
+        "tests_run": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": [
+          [
+            "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target)",
+            "symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\outside-target.zip' -> 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\materialized\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'"
+          ]
+        ],
+        "successful": true
+      }
+    },
+    {
+      "check": "POST_TESTS_test_consumer_runtime_closure.py",
+      "status": "PASS",
+      "detail": {
+        "file": "test_consumer_runtime_closure.py",
+        "tests_run": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": [],
+        "successful": true
+      }
+    },
+    {
+      "check": "POST_TESTS_test_publication_authority.py",
+      "status": "PASS",
+      "detail": {
+        "file": "test_publication_authority.py",
+        "tests_run": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": [],
+        "successful": true
+      }
+    },
+    {
+      "check": "PROJECT_VALIDATOR",
+      "status": "PASS",
+      "detail": "Same immutable authority; retained completed independent execution logs. Only reviewer check corrected from JSON formatting to exact JSON values."
+    },
+    {
+      "check": "FRAMEWORK_VALIDATOR",
+      "status": "PASS",
+      "detail": "Same immutable authority; retained completed independent execution logs. Only reviewer check corrected from JSON formatting to exact JSON values."
+    },
+    {
+      "check": "CONSUMER_PROJECTION_VALIDATOR",
+      "status": "PASS",
+      "detail": "Same immutable authority; retained completed independent execution logs. Only reviewer check corrected from JSON formatting to exact JSON values."
+    },
+    {
+      "check": "REVIEW_CHECKOUT_REMAINS_CLEAN",
+      "status": "PASS",
+      "detail": null
+    }
+  ],
+  "tests": [
+    {
+      "file": "test_consumer_projection.py",
+      "tests_run": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    },
+    {
+      "file": "test_release_packaging.py",
+      "tests_run": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [
+        [
+          "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target)",
+          "symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\outside-target.zip' -> 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpwsvy8xlr\\\\materialized\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'"
+        ]
+      ],
+      "successful": true
+    },
+    {
+      "file": "test_consumer_runtime_closure.py",
+      "tests_run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    },
+    {
+      "file": "test_publication_authority.py",
+      "tests_run": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": [],
+      "successful": true
+    }
+  ],
+  "validators": [
+    {
+      "name": "PROJECT_VALIDATOR",
+      "exit_code": 0
+    },
+    {
+      "name": "FRAMEWORK_VALIDATOR",
+      "exit_code": 0
+    },
+    {
+      "name": "CONSUMER_PROJECTION_VALIDATOR",
+      "exit_code": 0
+    }
+  ],
+  "blockers": [],
+  "acceptance_metrics": {
+    "CURRENT_ARCHITECTURE_COUNT": 17,
+    "CURRENT_DECISION_COUNT": 6,
+    "ACTIVE_PLAN_COUNT": 1,
+    "HISTORY_DESIGN_COUNT": 10,
+    "HISTORY_PLAN_COUNT": 32,
+    "HISTORY_AMENDMENT_COUNT": 26,
+    "MIGRATION_COMPLETED_COUNT": "24/24",
+    "MIGRATION_COMPLETED_TOTAL": "94/94",
+    "CURRENT_UNEDITED_DOC_BYTE_IDENTITY": "PASS_20_OF_20",
+    "BOUNDED_CURRENT_DOC_EDITS": "PASS_4_OF_4",
+    "CURRENT_REFERENCE_UPDATE_COUNT": "31/31",
+    "BROKEN_CURRENT_REFERENCE_COUNT": 0,
+    "DUPLICATE_CURRENT_AUTHORITY_COUNT": 0,
+    "UNCLASSIFIED_DOCUMENT_COUNT": 0,
+    "LEGACY_SUPERPOWERS_FILE_COUNT": 0,
+    "CONSUMER_INVENTORY_COUNT": 86,
+    "UNEXPECTED_CHANGED_PATH_COUNT": 0,
+    "STATE_MUTATION_COUNT": 0,
+    "HISTORY_REVIEW_MIGRATED_COUNT": 2,
+    "DOCUMENTATION_LAYOUT": "CANONICAL"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/decisions/README.md",
+      "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/plans/README.md",
+      "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+      "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+      "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "docs/superpowers/specs/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH3-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json"
+    ],
+    "executed_scope": [
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      ".gpt-codex/tests/test_consumer_projection.py",
+      ".gpt-codex/tests/test_release_packaging.py",
+      "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/architecture/2026-09-13-execution-telemetry-design.md",
+      "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/architecture/2026-09-13-framework-project-separation-design.md",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "docs/decisions/README.md",
+      "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/plans/README.md",
+      "docs/superpowers/plans/2026-09-27-p2-plugin-public-release-plan.md",
+      "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+      "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+      "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+      "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+      "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+      "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+      "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+      "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+      "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+      "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+      "docs/superpowers/specs/2026-09-26-p2-minimum-capability-design-revision-002.md",
+      "docs/superpowers/specs/2026-09-27-p2-plugin-public-release-design.md",
+      "docs/superpowers/specs/2026-09-28-github-repository-consolidation-design.md",
+      "docs/superpowers/specs/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+      "docs/superpowers/specs/2026-10-04-legacy-result-id-handoff-compatibility.md",
+      "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+      ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+      ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+      ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+      ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH3-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json"
+    ],
+    "test_files_expected": 4,
+    "test_files_executed": 4,
+    "test_count": 70,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_PROJECTION_VALIDATOR"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_PROJECTION_VALIDATOR"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "review_limit": "Independent POST of exact implementation. Publication, canonicalization final closure, new Structure Freeze and release are not claimed."
+}
