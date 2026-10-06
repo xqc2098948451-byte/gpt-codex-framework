@@ -1,0 +1,404 @@
+{
+  "ACTUAL_NATIVE_P_HANDOFF": "HANDOFF_READY",
+  "ATTESTATION_CANDIDATE_SHA": "7a4ff80ed42b9899edf046f03764a8842cfc512c",
+  "ATTESTATION_PRE": "PASS",
+  "BOUNDED_CURRENT_DOC_EDITS": "PASS_4_OF_4",
+  "BRANCH_COUNT": 96,
+  "CAPABILITY_OWNERSHIP_FREEZE": "PASS",
+  "CLEAN_CLONE_VALIDATION": "PASS",
+  "CONSUMER_INVENTORY_COUNT": 86,
+  "CONSUMER_PROJECTION_FREEZE": "PASS",
+  "CONSUMER_VALIDATOR": "PASS",
+  "CURRENT_REFERENCE_CLOSURE": "PASS_37_OF_37",
+  "CURRENT_UNEDITED_DOC_BYTE_IDENTITY": "PASS_20_OF_20",
+  "DIRECTORY_COUNT": 68,
+  "DIRECTORY_TOPOLOGY_FREEZE": "PASS",
+  "DIRECTORY_TOPOLOGY_SHA256": "1489b40e651425e80677ec0174ab83b90f872b8d7e8950311b8a0e8e1e9642eb",
+  "DOCUMENTATION_LAYOUT": "CANONICAL",
+  "FINAL_TRANSPORT": "CONDITIONAL_PENDING_EXACT_T_PUBLICATION_AND_READBACK",
+  "FRAMEWORK_2_8_0_RELEASE_STARTED": "NO",
+  "FRAMEWORK_VALIDATOR": "PASS",
+  "FROZEN_REFERENCE_PRESERVATION": "PASS_452",
+  "FULL_TEST_COUNT": 734,
+  "FULL_TEST_ERROR_COUNT": 0,
+  "FULL_TEST_FAILURE_COUNT": 0,
+  "FULL_TEST_SKIP_COUNT": 2,
+  "FULL_TEST_SUITE": "PASS",
+  "HISTORICAL_MIGRATED_BYTE_IDENTITY": "PASS_70_OF_70",
+  "IMMUTABLE_LOCATOR_PRESERVATION": "PASS_317",
+  "MIGRATION_COMPLETED_TOTAL": "94/94",
+  "OLD_PHASE_G_FREEZE_REWRITTEN": "NO",
+  "OPEN_PR_COUNT": 0,
+  "P41_DEFERRED_BY_USER": "YES",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "PLUGIN_POST_RELEASE_SYNC_STARTED": "NO",
+  "PREVIOUS_FAILED_ARTIFACT_REWRITTEN": "NO",
+  "PREVIOUS_FAILED_ATTEMPT_USED_AS_PASS": "NO",
+  "PROJECT_VALIDATOR": "PASS",
+  "PUBLICATION_PRE": "PASS",
+  "REFERENCE_INVENTORY_RECOVERY": "PASS_806_OF_806",
+  "REPOSITORY_TREE_FREEZE": "PASS",
+  "REPOSITORY_TREE_SHA256": "8c47e046f0ab2c494aa7267ad7eb8d3717b0ce11066a93e313eae01a1ff6f897",
+  "STATE_MUTATION_COUNT": 0,
+  "STATE_REVISION": 34,
+  "STATIC_ARTIFACT_PREFLIGHT": "PASS",
+  "TRACKED_FILE_COUNT": 715,
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "actual_environment_skips": [
+    "test_cleanup_manifest_blocks_symlink_escape_without_mutation (test_git_continuity.GitContinuityTests.test_cleanup_manifest_blocks_symlink_escape_without_mutation) ... skipped \"symlink fixture unavailable: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmp7q4vnzsq\\\\\\\\outside' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmp7q4vnzsq\\\\\\\\allowed\\\\\\\\safe\\\\\\\\link'\"\r",
+    "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target) ... skipped \"symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpx54y_d_w\\\\\\\\outside-target.zip' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpx54y_d_w\\\\\\\\materialized\\\\\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'\"\r"
+  ],
+  "actual_native_P_hand_off_proof": {
+    "bindings": {
+      "expected_state_revision": 34,
+      "instruction_locator": {
+        "blob_sha": "622b5890220ceb9ae0947daa253d4564f7c044f8",
+        "commit_sha": "416e0634e3fe02beb8a235e672f1b32cb9d730a9",
+        "path": ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+        "repository": "xqc2098948451-byte/gpt-codex-framework"
+      },
+      "target_work_unit_id": "post-canonicalization-repository-structure-freeze-001",
+      "target_work_unit_ref": {
+        "path": ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
+        "sha": "1d853855518a19c7de461aa83a908edd30ebee4c"
+      }
+    },
+    "clone": "D:\\通用开发框架管理\\history\\operations\\post-canonicalization-freeze-retry-20261006-no-utf8-gate\\reviewer-native-P",
+    "clone_head": "51322e69af10a1531bccdbce75f26d5e3d58931c",
+    "implementation_sha": "e07a523daa3159c7c1656ededeeb576ce70c5b2f",
+    "plugin_native_status": "HANDOFF_READY",
+    "repository_native_status": "HANDOFF_READY",
+    "result_id": "222ed7d3-6415-49f7-a751-65ec2bf9afb4"
+  },
+  "attestation_pre_check_count": 46,
+  "attestation_pre_failed_check_count": 0,
+  "audited_actual_validation_runs": [
+    {
+      "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+      "exit_code": 0,
+      "output_sha256": "ada40387ad612dfc3d20c069f55639a421bf08690d8a5b9001d108557aa52fd9",
+      "validator": "PROJECT_VALIDATOR"
+    },
+    {
+      "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+      "exit_code": 0,
+      "output_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "validator": "FRAMEWORK_VALIDATOR"
+    },
+    {
+      "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+      "exit_code": 0,
+      "output_sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+      "validator": "CONSUMER_VALIDATOR"
+    },
+    {
+      "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+      "exit_code": 0,
+      "output_sha256": "7111ddfb796fdf5a389acc88c22e617753a94c12b815622b66ec0d3c85881f02",
+      "validator": "FULL_TEST_SUITE"
+    }
+  ],
+  "blockers": [],
+  "branch_shard_exact_checks": [
+    {
+      "blob": "bfc0586c0c05e54d6c83cf967971d1d8fb495b25",
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+      "row_count": 50,
+      "rows_sha256": "505f25abf1b8aef25a5b3f59ef8119c545bdfee62a86687df45fbed2539b5deb",
+      "sha256": "87f571f329952be92ca99056fb9468c284ee33096f7d21c4fcb388b1da778cb1"
+    },
+    {
+      "blob": "834ee7e661748300b03a461c9bd17c42f3f36b18",
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+      "row_count": 46,
+      "rows_sha256": "ffb242e3c7d86bdcdb0d5406d9fb3f960f6acc820d1e2db91720c11783dd3166",
+      "sha256": "13620acce537828d939bf223de1cba12304a44ca29fa329379052cb7f6e24a00"
+    }
+  ],
+  "changed": [],
+  "completion_evidence": {
+    "blocker_evidence_refs": [],
+    "error_count": 0,
+    "executed_scope": [
+      "INDEPENDENT_READ_ONLY_STRUCTURE_FREEZE_FINAL_ATTESTATION_PRE_REVIEW"
+    ],
+    "execution_state": "COMPLETED",
+    "exit_code": 0,
+    "failure_count": 0,
+    "intended_scope": [
+      "INDEPENDENT_READ_ONLY_STRUCTURE_FREEZE_FINAL_ATTESTATION_PRE_REVIEW"
+    ],
+    "process_completed": true,
+    "test_count": 734,
+    "test_files_executed": 55,
+    "test_files_expected": 55,
+    "validators_completed": [
+      "REMOTE_BASELINE_IDENTITY",
+      "STATE34_AUTHORITY",
+      "DOCUMENTATION_CLOSURE_AUTHORITY",
+      "SCHEMA_ARTIFACT_PREFLIGHT",
+      "REPOSITORY_TREE_FREEZE",
+      "DIRECTORY_TOPOLOGY_FREEZE",
+      "DOCUMENTATION_STRUCTURE",
+      "CONSUMER_PROJECTION_FREEZE",
+      "CAPABILITY_OWNERSHIP_FREEZE",
+      "BRANCH_INVENTORY",
+      "PR_INVENTORY",
+      "IMMUTABLE_HISTORY_PRESERVATION",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_VALIDATOR",
+      "FULL_TEST_SUITE",
+      "CLEAN_CLONE_VALIDATION",
+      "INDEPENDENT_POST",
+      "PUBLICATION_PRE",
+      "EXACT_REMOTE_READBACK"
+    ],
+    "validators_expected": [
+      "REMOTE_BASELINE_IDENTITY",
+      "STATE34_AUTHORITY",
+      "DOCUMENTATION_CLOSURE_AUTHORITY",
+      "SCHEMA_ARTIFACT_PREFLIGHT",
+      "REPOSITORY_TREE_FREEZE",
+      "DIRECTORY_TOPOLOGY_FREEZE",
+      "DOCUMENTATION_STRUCTURE",
+      "CONSUMER_PROJECTION_FREEZE",
+      "CAPABILITY_OWNERSHIP_FREEZE",
+      "BRANCH_INVENTORY",
+      "PR_INVENTORY",
+      "IMMUTABLE_HISTORY_PRESERVATION",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_VALIDATOR",
+      "FULL_TEST_SUITE",
+      "CLEAN_CLONE_VALIDATION",
+      "INDEPENDENT_POST",
+      "PUBLICATION_PRE",
+      "EXACT_REMOTE_READBACK"
+    ]
+  },
+  "completion_gate": "GPT_DECISION",
+  "current_remote_ref": "refs/heads/main",
+  "evidence_refs": [
+    ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+    ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+    ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+    ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+    ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+    ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+    ".gpt-codex/evidence/instructions/95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be.json",
+    ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+    ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION.json"
+  ],
+  "extension": null,
+  "finding_ids": [],
+  "findings": [],
+  "fix_round": 0,
+  "framework_version": "2.7.4",
+  "freeze_evidence_locator": {
+    "blob_sha": "2e64d24560097fe169b7fed1d5726dd917ce75c6",
+    "commit_sha": "e07a523daa3159c7c1656ededeeb576ce70c5b2f",
+    "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "git_base_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+  "independent_post_baseline_check_count": 1185,
+  "independent_post_baseline_observation_sha256": "8e07a9593c6ffa9d9f67bab1773f0cb7adf54ea40063a7b63c9202e70cad5766",
+  "kernel_version": "2.0.0",
+  "local_head_sha": "d0f5b2d3d0a619a6bb7e4ef59fa3abd85a85eab9",
+  "native_gate_outputs": {
+    "RESULT_AUTHORITY": [],
+    "RESULT_COMPLETION": [],
+    "RESULT_PROTOCOL": [],
+    "RESULT_SCHEMA": [],
+    "REVIEW_RESULT": []
+  },
+  "next_gpt_action": "Publish exact scoped final governance attestation only, then exact all16 remote readback, current native validators and both native T handoffs. Stop and RETURN_TO_GPT; STATE34 remains unchanged.",
+  "observed_utc": "2026-10-06T13:22:47.801419+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_authority": null,
+  "publication_lifecycle_assessment": {
+    "candidate_sha": "e07a523daa3159c7c1656ededeeb576ce70c5b2f",
+    "directory_creation_allowed": false,
+    "future_phase_acceptance": "CONDITIONAL_ONLY_UNTIL_ACTUAL_PROOF; this PRE records no future publication/readback/native readiness facts",
+    "plugin_sync_execution_allowed": false,
+    "post_freeze_next_action": "UNADJUDICATED",
+    "publication_work_target": "b8f15fe35097242620f68f5696ae71520a2ae91d",
+    "release_execution_allowed": false,
+    "reviewed_plan": [
+      {
+        "acceptance": "Exact scoped addition bytes and main transport preconditions; no branch create/delete or PR mutation",
+        "action": "Publish reviewed governance work only after this PRE is durably recorded",
+        "phase": "W"
+      },
+      {
+        "acceptance": "Actual remote W, all715 baseline modes/blobs and scope16, Freeze/Validation/shard bytes, STATE34, stable repository identity",
+        "action": "Fresh exact remote readback before Final Result and remote verification metadata",
+        "phase": "verified W"
+      },
+      {
+        "acceptance": "Schema/native authority/completion checks, implementation SHA binds exact C, remote proof binds W; unchanged baseline and exact P remote readback",
+        "action": "Create bounded management metadata Final Result using real W verification; initial Result does not claim native readiness",
+        "phase": "P"
+      },
+      {
+        "acceptance": "Both native build_repository_handoff and build_plugin_result_handoff actually return HANDOFF_READY; exact immutable candidate reviewed independently before publication",
+        "action": "Derive actual native HANDOFF_READY from P readback, then update Final field and request independent attestation PRE",
+        "phase": "native ready candidate"
+      },
+      {
+        "acceptance": "Exact scoped final candidate, native evaluate_attestation_chain over observed W and T, verify_remote_publication, exact remote readback and native handoff at T; stop and RETURN_TO_GPT",
+        "action": "Publish final native-ready attestation only after its independent PRE",
+        "phase": "T"
+      }
+    ],
+    "scope_paths": [
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+      ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+      ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+      ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+      ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+      ".gpt-codex/evidence/instructions/95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json"
+    ],
+    "state_mutation_allowed": false,
+    "state_revision": 34,
+    "subject_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+    "transport_authority": "Direct user section26 native publication lifecycle; execution Instruction actions stay exact and unchanged"
+  },
+  "publication_pre_check_count": 52,
+  "publication_pre_failed_check_count": 0,
+  "publication_semantics": "This PRE accepts the exact Q metadata update, actual P remote bytes and independently reproduced native P HANDOFF_READY. Final T publication/readback/native handoffs remain conditional future facts and require actual proof. No STATE or release execution authority is granted.",
+  "push_status": "NOT_ATTEMPTED",
+  "remote_head_sha": "51322e69af10a1531bccdbce75f26d5e3d58931c",
+  "remote_verification": "VERIFIED",
+  "responder_role": "CODEX_REVIEWER",
+  "response_to_instruction_id": "95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be",
+  "result_id": "2013b1d3-d912-4e61-9f72-a04f162e2ca0",
+  "result_message_type": "REVIEW_RESULT",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "review_target_revision": "7a4ff80ed42b9899edf046f03764a8842cfc512c",
+  "role_observation": {
+    "agent_spawns": 0,
+    "executed_revision": null,
+    "files_changed": [],
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+      ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+      ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+      ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+      "docs/architecture/README.md",
+      "docs/decisions/README.md",
+      "docs/plans/README.md",
+      ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+      ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+      ".gpt-codex/evidence/instructions/95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be.json",
+      ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION.json"
+    ],
+    "findings": [],
+    "fix_round": 0,
+    "instruction_id": "95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be",
+    "result": "REVIEW_RESULT",
+    "reviewed_revision": "7a4ff80ed42b9899edf046f03764a8842cfc512c",
+    "role": "CODEX_REVIEWER",
+    "tests_run": [
+      {
+        "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ],
+        "output_sha256": "ada40387ad612dfc3d20c069f55639a421bf08690d8a5b9001d108557aa52fd9"
+      },
+      {
+        "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          ".gpt-codex/scripts/validate_framework.py"
+        ],
+        "output_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7"
+      },
+      {
+        "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          ".gpt-codex/scripts/validate_consumer_projection.py",
+          "--root",
+          "."
+        ],
+        "output_sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30"
+      },
+      {
+        "baseline_sha": "44d06f8793f931e8449c5312fa510f21f898d200",
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "output_sha256": "7111ddfb796fdf5a389acc88c22e617753a94c12b815622b66ec0d3c85881f02"
+      }
+    ],
+    "work_unit": "post-canonicalization-repository-structure-freeze-001"
+  },
+  "schema_version": 1,
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source_github_repository_id": "1366213495",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "state_revision": 34,
+  "status": "PASS",
+  "sync_status": null,
+  "validation_detail_sha256": "76e444a9849cb6dfa859842e0e74eb2428b8fda54412158b43e7d5bb292f60a6",
+  "validation_evidence_locator": {
+    "blob_sha": "74bdc9008828b7329dec7a4f2c742bb7c3e238c0",
+    "commit_sha": "e07a523daa3159c7c1656ededeeb576ce70c5b2f",
+    "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "verified_baseline_sha": "51322e69af10a1531bccdbce75f26d5e3d58931c",
+  "work_unit_id": "post-canonicalization-repository-structure-freeze-001"
+}
