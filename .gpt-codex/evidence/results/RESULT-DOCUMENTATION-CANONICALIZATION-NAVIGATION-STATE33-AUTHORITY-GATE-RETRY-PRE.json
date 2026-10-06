@@ -1,0 +1,581 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
+  "extension": null,
+  "result_id": "13828505-8c11-45f4-a198-aea29be58cdf",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.7.4",
+  "state_revision": 32,
+  "status": "PASS",
+  "response_to_instruction_id": "542c8e0e-496f-4df2-a008-8015fff62751",
+  "review_target_revision": "8fb5261689f0782b06d5778cec694a51c62a519f",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "observed_utc": "2026-10-06T08:40:16.121540+00:00",
+  "mutation_claim": false,
+  "current_remote_ref": "refs/heads/main",
+  "remote_head_sha": "8fb5261689f0782b06d5778cec694a51c62a519f",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "local_head_sha": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+  "reviewer_context_identity": "/root/state33_retry_independent_review",
+  "implementer_context_identity": "/root",
+  "reviewer_worktree": "D:\\w\\gpt-codex-framework\\review-documentation-canonicalization-navigation-state33-authority-gate-001",
+  "candidate_revision": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+    "path": ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+    "blob_sha": "d6e6c1d4e33beb71c4368873b0263e680e0e0ed8"
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+    ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-TRANSITION-PRE.json"
+  ],
+  "findings": [],
+  "blockers": [],
+  "native_observations": {
+    "reviewer_snapshot": {
+      "head_before": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+      "status_before": "",
+      "index_entries_sha256_before": "f273157f22f84e97ac122b58fa696b40c7b074f26c51b0d14c76f6521c6994da",
+      "head_after": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+      "status_after": "",
+      "index_entries_sha256_after": "f273157f22f84e97ac122b58fa696b40c7b074f26c51b0d14c76f6521c6994da"
+    },
+    "fresh_remote_readback": {
+      "command": [
+        "git",
+        "ls-remote",
+        "origin",
+        "refs/heads/main"
+      ],
+      "exit_code": 0,
+      "stdout": "8fb5261689f0782b06d5778cec694a51c62a519f\trefs/heads/main\n",
+      "stderr": ""
+    },
+    "repository_identity_readback": {
+      "command": [
+        "gh",
+        "api",
+        "repos/xqc2098948451-byte/gpt-codex-framework",
+        "--jq",
+        "{id:.id,full_name:.full_name,default_branch:.default_branch}"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"default_branch\":\"main\",\"full_name\":\"xqc2098948451-byte/gpt-codex-framework\",\"id\":1366213495}\n",
+      "stderr": ""
+    },
+    "instruction_remote_blob_readback": {
+      "command": [
+        "gh",
+        "api",
+        "repos/xqc2098948451-byte/gpt-codex-framework/contents/.gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json?ref=b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+        "--jq",
+        ".sha"
+      ],
+      "exit_code": 1,
+      "stdout": "{\"message\":\"No commit found for the ref b4866225ee626a3e7b60a9488e87f62f51cb3be5\",\"documentation_url\":\"https://docs.github.com/v3/repos/contents/\",\"status\":\"404\"}",
+      "stderr": "gh: No commit found for the ref b4866225ee626a3e7b60a9488e87f62f51cb3be5 (HTTP 404)\n"
+    },
+    "work_unit_remote_blob_readback": {
+      "command": [
+        "gh",
+        "api",
+        "repos/xqc2098948451-byte/gpt-codex-framework/contents/.gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json?ref=bc95c24461fa546184103d6e83ae71565ce4f789",
+        "--jq",
+        ".sha"
+      ],
+      "exit_code": 1,
+      "stdout": "{\"message\":\"No commit found for the ref bc95c24461fa546184103d6e83ae71565ce4f789\",\"documentation_url\":\"https://docs.github.com/v3/repos/contents/\",\"status\":\"404\"}",
+      "stderr": "gh: No commit found for the ref bc95c24461fa546184103d6e83ae71565ce4f789 (HTTP 404)\n"
+    },
+    "continuity_resume": {
+      "status": "LATEST_SYNCED_REMOTE_STATE",
+      "repository_id": "1366213495",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "continuity": {
+        "current_remote_ref": "refs/heads/main",
+        "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+        "latest_synced_state_revision": 32,
+        "latest_verified_remote_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+        "sync_status": "SYNCED"
+      },
+      "active_work_unit": "framework-staged-closure-group-a-001",
+      "remote_reverification_required": true,
+      "verified_baseline_sha": "6695593e5ea9b3a37961a75ee3a6c5b0451f6fd9",
+      "current_attestation_head": "8fb5261689f0782b06d5778cec694a51c62a519f",
+      "reconciliation_required": false,
+      "resume_mode": "COLD_RESUME",
+      "map_route": "MAP_MISSING",
+      "candidate_modules": [],
+      "stale_modules": [],
+      "module_map_reads": [],
+      "required_reads": [],
+      "hot_modules": [],
+      "hot_files": [],
+      "invalidated_context": []
+    },
+    "instruction_immutable_locator": {
+      "status": "ALLOW",
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+        "path": ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+        "blob_sha": "d6e6c1d4e33beb71c4368873b0263e680e0e0ed8"
+      }
+    },
+    "resolve_plugin_instruction": {
+      "status": "INSTRUCTION_RESOLVED",
+      "instruction_id": "87e1a01c-78f2-4063-8256-af25beb7b55c",
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "b4866225ee626a3e7b60a9488e87f62f51cb3be5",
+        "path": ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+        "blob_sha": "d6e6c1d4e33beb71c4368873b0263e680e0e0ed8"
+      },
+      "target_work_unit_id": "documentation-canonicalization-navigation-state33-authority-gate-001",
+      "target_work_unit_ref": {
+        "path": ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+        "sha": "bc95c24461fa546184103d6e83ae71565ce4f789"
+      },
+      "expected_state_revision": 32,
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository_id": "1366213495",
+      "repository": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "instruction_schema_errors": [],
+    "instruction_authority_errors": [],
+    "review_request_schema_errors": [],
+    "review_request_authority_errors": [],
+    "canonical_instruction_bytes_match": true,
+    "exact_role_authority": {
+      "instruction_type": "EXECUTION_INSTRUCTION",
+      "issuer_role": "GPT_ORCHESTRATOR",
+      "executor_role": "CODEX_IMPLEMENTER",
+      "return_role": "GPT_ORCHESTRATOR",
+      "instruction_authorized_actions": [
+        "READ",
+        "TEST",
+        "VALIDATE",
+        "REPORT",
+        "MUTATE_APPROVED_SCOPE"
+      ],
+      "instruction_forbidden_actions": [
+        "AUTHORIZE",
+        "SCOPE_EXPANSION"
+      ],
+      "work_unit_authorized_actions": [
+        "READ",
+        "TEST",
+        "VALIDATE",
+        "REPORT",
+        "MUTATE_APPROVED_SCOPE"
+      ],
+      "work_unit_forbidden_actions": [
+        "AUTHORIZE",
+        "SCOPE_EXPANSION"
+      ],
+      "native_allowed_implementer_actions": [
+        "MUTATE_APPROVED_SCOPE",
+        "READ",
+        "REPORT",
+        "TEST",
+        "VALIDATE"
+      ],
+      "actions_not_allowed_for_role": [],
+      "instruction_actions_subset_of_work_unit": true,
+      "ROLE_AUTHORITY_CONFLICT": "ABSENT",
+      "ACTION_NOT_ALLOWED_FOR_ROLE": "ABSENT"
+    },
+    "scope": {
+      "instruction_scope_exact_work_unit": true,
+      "scope_paths": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+        ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+        ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+        ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+        ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+        ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+        ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+        ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+        ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json"
+      ],
+      "excluded_paths": [
+        "docs/",
+        "Documentation/",
+        ".gpt-codex/scripts/",
+        ".gpt-codex/tests/",
+        ".gpt-codex/schemas/",
+        ".gpt-codex/kernel/",
+        ".gpt-codex/builtins/",
+        "scripts/",
+        "tests/",
+        "schemas/",
+        "kernel/"
+      ],
+      "directory_creations": [],
+      "work_unit_ref": {
+        "path": ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+        "sha": "bc95c24461fa546184103d6e83ae71565ce4f789"
+      },
+      "immutable_work_unit_matches_checkout": true
+    },
+    "baseline_to_packet_diff": [
+      "A\t.gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+      "A\t.gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+      "A\t.gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+      "A\t.gpt-codex/evidence/instructions/98efcf7b-9b69-442f-af5f-8c93efdebba3.json",
+      "A\t.gpt-codex/evidence/instructions/a91821f8-2748-4e0f-8bca-67703ecdef2c.json",
+      "A\t.gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-TRANSITION-PRE.json",
+      "A\t.gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json"
+    ],
+    "retry_delta_from_failed_pre_commit": [
+      "A\t.gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+      "A\t.gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+      "M\t.gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json"
+    ],
+    "state32_preserved": {
+      "baseline_state_blob": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "packet_state_blob": "f0f7883b188b80e79ce3711eacd1b8eb57a239a7",
+      "revision": 32,
+      "state": "AUTHORIZED",
+      "next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED"
+    },
+    "historical_failed_pre": {
+      "result_id": "0d7124a4-4ed7-40da-8a16-c91f0c3a53e4",
+      "immutable_commit": "27e6e33c87b8c78bf19a816d10cc1cdc688b3d5e",
+      "immutable_blob": "7ab51fa2443563d6381db10fc6c9e370012e4aea",
+      "packet_blob": "7ab51fa2443563d6381db10fc6c9e370012e4aea",
+      "negative_control_instruction_id": "98efcf7b-9b69-442f-af5f-8c93efdebba3",
+      "negative_control_request_id": "a91821f8-2748-4e0f-8bca-67703ecdef2c",
+      "preservation": "UNCHANGED"
+    },
+    "old_instruction_preservation": {
+      "old_instructions_checked": 87,
+      "changed_paths": [],
+      "failed_instruction_reused": false
+    },
+    "old_result_and_finding_preservation": {
+      "old_result_files_checked": 90,
+      "changed_paths": []
+    },
+    "protected_path_diff": [],
+    "module_route": {
+      "outcome": "MODULE_ROUTE",
+      "primary_module": "framework-core",
+      "affected_modules": [
+        "framework-core"
+      ],
+      "why_cross_module": null,
+      "contracts_affected": [],
+      "invariants_affected": [],
+      "required_tests": [
+        ".gpt-codex/tests/test_execution_telemetry.py",
+        ".gpt-codex/tests/test_framework_feedback.py",
+        ".gpt-codex/tests/test_framework_module_routing.py",
+        ".gpt-codex/tests/test_framework_module_schemas.py",
+        ".gpt-codex/tests/test_kernel_conformance.py"
+      ]
+    },
+    "test_results": [
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_execution_telemetry.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_event_classes_do_not_infer_authority (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_event_classes_do_not_infer_authority) ... ok\ntest_low_confidence_sequence_identity_and_repeat_subject_enable_out_of_order (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_low_confidence_sequence_identity_and_repeat_subject_enable_out_of_order) ... ok\ntest_observation_only_and_reconstruction_are_reference_only (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_observation_only_and_reconstruction_are_reference_only) ... ok\ntest_publication_event_remains_valid_and_out_of_order_outranks_late (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_publication_event_remains_valid_and_out_of_order_outranks_late) ... ok\ntest_repeat_lineage_uses_earliest_and_chronology_uses_latest (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_repeat_lineage_uses_earliest_and_chronology_uses_latest) ... ok\ntest_result_status_inconsistency_requires_matching_non_null_correlation (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_result_status_inconsistency_requires_matching_non_null_correlation) ... ok\ntest_snapshot_has_only_result_status_and_compares_matching_result_status (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_snapshot_has_only_result_status_and_compares_matching_result_status) ... ok\ntest_zero_telemetry_is_not_authoritative_fallback_or_p0_5_implementation (test_execution_telemetry.ExecutionTelemetryTaskFiveTests.test_zero_telemetry_is_not_authoritative_fallback_or_p0_5_implementation) ... ok\ntest_task_four_rejects_all_unsafe_raw_content_aliases (test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_rejects_all_unsafe_raw_content_aliases) ... ok\ntest_task_four_rejects_nested_provenance_and_detaches_mutable_inputs (test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_rejects_nested_provenance_and_detaches_mutable_inputs) ... ok\ntest_task_four_retention_and_observational_absence (test_execution_telemetry.ExecutionTelemetryTaskFourTests.test_task_four_retention_and_observational_absence) ... ok\ntest_framework_core_owns_telemetry_paths_and_vocabulary_is_closed (test_execution_telemetry.ExecutionTelemetryTaskOneTests.test_framework_core_owns_telemetry_paths_and_vocabulary_is_closed) ... ok\ntest_collector_deduplicates_retries_and_appends_cross_source_repeat (test_execution_telemetry.ExecutionTelemetryTaskThreeTests.test_collector_deduplicates_retries_and_appends_cross_source_repeat) ... ok\ntest_ordering_precedence_stale_outranks_out_of_order (test_execution_telemetry.ExecutionTelemetryTaskThreeTests.test_ordering_precedence_stale_outranks_out_of_order) ... ok\ntest_low_confidence_fallback_requires_complete_producer_identity (test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_low_confidence_fallback_requires_complete_producer_identity) ... ok\ntest_normalization_creates_immutable_derived_event_and_deterministic_key (test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_normalization_creates_immutable_derived_event_and_deterministic_key) ... ok\ntest_normalization_rejects_authority_and_sensitive_fields_but_allows_status (test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_normalization_rejects_authority_and_sensitive_fields_but_allows_status) ... ok\ntest_slot_id_and_source_are_required_non_empty_strings (test_execution_telemetry.ExecutionTelemetryTaskTwoTests.test_slot_id_and_source_are_required_non_empty_strings) ... ok\n\n----------------------------------------------------------------------\nRan 18 tests in 0.116s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_execution_telemetry.py",
+        "test_count": 18,
+        "failure_count": 0,
+        "error_count": 0
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_framework_feedback.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_c1_normalizes_bounded_complete_evidence_and_rejects_unsafe_or_authority_content (test_framework_feedback.FrameworkFeedbackTests.test_c1_normalizes_bounded_complete_evidence_and_rejects_unsafe_or_authority_content) ... ok\ntest_c1_rejects_nonserializable_or_unbounded_nested_process_usage (test_framework_feedback.FrameworkFeedbackTests.test_c1_rejects_nonserializable_or_unbounded_nested_process_usage) ... ok\ntest_c2_complete_evidence_derives_one_process_review_without_duplicate_counting (test_framework_feedback.FrameworkFeedbackTests.test_c2_complete_evidence_derives_one_process_review_without_duplicate_counting) ... ok\ntest_c3_feedback_derivation_retains_review_and_evidence_links_without_authority (test_framework_feedback.FrameworkFeedbackTests.test_c3_feedback_derivation_retains_review_and_evidence_links_without_authority) ... ok\ntest_c4_candidate_is_bounded_deterministic_and_non_authorizing (test_framework_feedback.FrameworkFeedbackTests.test_c4_candidate_is_bounded_deterministic_and_non_authorizing) ... ok\ntest_c5_recurrence_relevance_is_deterministic_and_retains_source_references (test_framework_feedback.FrameworkFeedbackTests.test_c5_recurrence_relevance_is_deterministic_and_retains_source_references) ... ok\ntest_c6_harvest_relation_remains_reference_only (test_framework_feedback.FrameworkFeedbackTests.test_c6_harvest_relation_remains_reference_only) ... ok\ntest_c7_management_input_is_non_authorizing_with_default_no_decision_no_mutation (test_framework_feedback.FrameworkFeedbackTests.test_c7_management_input_is_non_authorizing_with_default_no_decision_no_mutation) ... ok\ntest_c8_closed_loop_matrix_preserves_evidence_classification_and_candidate_non_authority (test_framework_feedback.FrameworkFeedbackTests.test_c8_closed_loop_matrix_preserves_evidence_classification_and_candidate_non_authority) ... ok\ntest_closed_work_unit_record_is_bounded_and_unknown_usage_is_retained (test_framework_feedback.FrameworkFeedbackTests.test_closed_work_unit_record_is_bounded_and_unknown_usage_is_retained) ... ok\ntest_feedback_evidence_refs_are_immutable_and_validated (test_framework_feedback.FrameworkFeedbackTests.test_feedback_evidence_refs_are_immutable_and_validated) ... ok\ntest_feedback_is_evidence_only_and_rejects_authority (test_framework_feedback.FrameworkFeedbackTests.test_feedback_is_evidence_only_and_rejects_authority) ... ok\ntest_feedback_template_is_evidence_only (test_framework_feedback.FrameworkFeedbackTests.test_feedback_template_is_evidence_only) ... ok\ntest_policy_and_counter_negatives_and_validator_reuse (test_framework_feedback.FrameworkFeedbackTests.test_policy_and_counter_negatives_and_validator_reuse) ... ok\ntest_policy_key_and_length_boundaries (test_framework_feedback.FrameworkFeedbackTests.test_policy_key_and_length_boundaries) ... ok\ntest_process_review_aggregates_observable_counters_and_unknown_usage (test_framework_feedback.FrameworkFeedbackTests.test_process_review_aggregates_observable_counters_and_unknown_usage) ... ok\ntest_process_review_aggregates_reliable_record_usage_without_overriding_explicit_usage (test_framework_feedback.FrameworkFeedbackTests.test_process_review_aggregates_reliable_record_usage_without_overriding_explicit_usage) ... ok\ntest_process_review_retains_all_observable_counters (test_framework_feedback.FrameworkFeedbackTests.test_process_review_retains_all_observable_counters) ... ok\ntest_project_strategy_profile_governs_work_units_and_requires_explicit_change (test_framework_feedback.FrameworkFeedbackTests.test_project_strategy_profile_governs_work_units_and_requires_explicit_change) ... ok\ntest_reasoning_template_has_only_bounded_execution_record_fields (test_framework_feedback.FrameworkFeedbackTests.test_reasoning_template_has_only_bounded_execution_record_fields) ... ok\ntest_valid_feedback_is_evidence_but_never_mutation_authority (test_framework_feedback.FrameworkFeedbackTests.test_valid_feedback_is_evidence_but_never_mutation_authority) ... ok\ntest_valid_fixed_execution_policy_is_accepted (test_framework_feedback.FrameworkFeedbackTests.test_valid_fixed_execution_policy_is_accepted) ... ok\ntest_validate_project_cli_reports_malformed_policy (test_framework_feedback.FrameworkFeedbackTests.test_validate_project_cli_reports_malformed_policy) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 0.247s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_framework_feedback.py",
+        "test_count": 23,
+        "failure_count": 0,
+        "error_count": 0
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_framework_module_routing.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_consumed_output_contract_requires_cross_module_change (test_framework_module_routing.FrameworkModuleRoutingTests.test_consumed_output_contract_requires_cross_module_change) ... ok\ntest_contract_consumer_requires_reciprocal_dependency_metadata (test_framework_module_routing.FrameworkModuleRoutingTests.test_contract_consumer_requires_reciprocal_dependency_metadata) ... ok\ntest_declared_output_without_consumers_remains_single_module (test_framework_module_routing.FrameworkModuleRoutingTests.test_declared_output_without_consumers_remains_single_module) ... ok\ntest_dependency_and_used_by_edges_must_be_reciprocal (test_framework_module_routing.FrameworkModuleRoutingTests.test_dependency_and_used_by_edges_must_be_reciprocal) ... ok\ntest_each_registered_descriptor_has_exact_identity_and_fields (test_framework_module_routing.FrameworkModuleRoutingTests.test_each_registered_descriptor_has_exact_identity_and_fields) ... ok\ntest_exact_inside_prefix_is_an_ownership_conflict (test_framework_module_routing.FrameworkModuleRoutingTests.test_exact_inside_prefix_is_an_ownership_conflict) ... ok\ntest_foreign_owned_asset_is_classified_as_cross_module (test_framework_module_routing.FrameworkModuleRoutingTests.test_foreign_owned_asset_is_classified_as_cross_module) ... ok\ntest_framework_feedback_assets_belong_to_framework_core (test_framework_module_routing.FrameworkModuleRoutingTests.test_framework_feedback_assets_belong_to_framework_core) ... ok\ntest_inactive_or_unregistered_candidate_fails_closed (test_framework_module_routing.FrameworkModuleRoutingTests.test_inactive_or_unregistered_candidate_fails_closed) ... ok\ntest_invalid_contract_consumer_dependency_fails_before_routing (test_framework_module_routing.FrameworkModuleRoutingTests.test_invalid_contract_consumer_dependency_fails_before_routing) ... ok\ntest_logical_asset_does_not_use_path_prefix_semantics (test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_asset_does_not_use_path_prefix_semantics) ... ok\ntest_logical_asset_is_a_resolvable_exact_mutation_owner (test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_asset_is_a_resolvable_exact_mutation_owner) ... ok\ntest_logical_identifier_duplicates_conflict (test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_identifier_duplicates_conflict) ... ok\ntest_logical_identifiers_do_not_overlap_physical_paths (test_framework_module_routing.FrameworkModuleRoutingTests.test_logical_identifiers_do_not_overlap_physical_paths) ... ok\ntest_malformed_selector_is_descriptor_invalid_without_raising (test_framework_module_routing.FrameworkModuleRoutingTests.test_malformed_selector_is_descriptor_invalid_without_raising) ... ok\ntest_missing_descriptor_is_reported_as_module_descriptor_invalid (test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_descriptor_is_reported_as_module_descriptor_invalid) ... ok\ntest_missing_or_mismatched_responsibility_is_unresolved (test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_or_mismatched_responsibility_is_unresolved) ... ok\ntest_missing_registry_raises_module_registry_invalid (test_framework_module_routing.FrameworkModuleRoutingTests.test_missing_registry_raises_module_registry_invalid) ... ok\ntest_mixed_namespace_different_owners_is_ambiguous_not_conflict (test_framework_module_routing.FrameworkModuleRoutingTests.test_mixed_namespace_different_owners_is_ambiguous_not_conflict) ... ok\ntest_overlapping_prefixes_are_an_ownership_conflict (test_framework_module_routing.FrameworkModuleRoutingTests.test_overlapping_prefixes_are_an_ownership_conflict) ... ok\ntest_ownership_conflict_is_returned_by_validation (test_framework_module_routing.FrameworkModuleRoutingTests.test_ownership_conflict_is_returned_by_validation) ... ok\ntest_physical_only_value_routes_without_logical_selector (test_framework_module_routing.FrameworkModuleRoutingTests.test_physical_only_value_routes_without_logical_selector) ... ok\ntest_prefix_matching_respects_component_boundaries (test_framework_module_routing.FrameworkModuleRoutingTests.test_prefix_matching_respects_component_boundaries) ... ok\ntest_reading_a_dependency_does_not_make_a_change_cross_module (test_framework_module_routing.FrameworkModuleRoutingTests.test_reading_a_dependency_does_not_make_a_change_cross_module) ... ok\ntest_reciprocal_contract_consumer_dependency_remains_cross_module (test_framework_module_routing.FrameworkModuleRoutingTests.test_reciprocal_contract_consumer_dependency_remains_cross_module) ... ok\ntest_registry_core_assets_have_exactly_framework_core_owner (test_framework_module_routing.FrameworkModuleRoutingTests.test_registry_core_assets_have_exactly_framework_core_owner) ... ok\ntest_registry_has_exact_initial_module_ids (test_framework_module_routing.FrameworkModuleRoutingTests.test_registry_has_exact_initial_module_ids) ... ok\ntest_required_tests_are_sorted_and_deduplicated (test_framework_module_routing.FrameworkModuleRoutingTests.test_required_tests_are_sorted_and_deduplicated) ... ok\ntest_same_owner_in_physical_and_logical_namespaces_is_unique (test_framework_module_routing.FrameworkModuleRoutingTests.test_same_owner_in_physical_and_logical_namespaces_is_unique) ... ok\ntest_selector_paths_reject_absolute_and_parent_traversal (test_framework_module_routing.FrameworkModuleRoutingTests.test_selector_paths_reject_absolute_and_parent_traversal) ... ok\ntest_single_module_route_is_returned_for_one_verified_owner (test_framework_module_routing.FrameworkModuleRoutingTests.test_single_module_route_is_returned_for_one_verified_owner) ... ok\ntest_slash_containing_logical_identifier_routes_without_physical_selector (test_framework_module_routing.FrameworkModuleRoutingTests.test_slash_containing_logical_identifier_routes_without_physical_selector) ... ok\ntest_undeclared_contract_does_not_guess_a_consumer (test_framework_module_routing.FrameworkModuleRoutingTests.test_undeclared_contract_does_not_guess_a_consumer) ... ok\ntest_unsafe_physical_forms_cannot_use_logical_fallback (test_framework_module_routing.FrameworkModuleRoutingTests.test_unsafe_physical_forms_cannot_use_logical_fallback) ... ok\ntest_zero_owner_is_unresolved (test_framework_module_routing.FrameworkModuleRoutingTests.test_zero_owner_is_unresolved) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 0.384s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_framework_module_routing.py",
+        "test_count": 35,
+        "failure_count": 0,
+        "error_count": 0
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_framework_module_schemas.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_module_schema_has_exact_descriptor_fields (test_framework_module_schemas.FrameworkModuleSchemaTests.test_module_schema_has_exact_descriptor_fields) ... ok\ntest_owned_asset_schema_is_exact_two_field_object (test_framework_module_schemas.FrameworkModuleSchemaTests.test_owned_asset_schema_is_exact_two_field_object) ... ok\ntest_registry_schema_freezes_authority_and_status (test_framework_module_schemas.FrameworkModuleSchemaTests.test_registry_schema_freezes_authority_and_status) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_framework_module_schemas.py",
+        "test_count": 3,
+        "failure_count": 0,
+        "error_count": 0
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_kernel_conformance.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_complete_is_terminal (test_kernel_conformance.KernelConformanceTests.test_complete_is_terminal) ... ok\ntest_complete_requires_authoritative_evidence (test_kernel_conformance.KernelConformanceTests.test_complete_requires_authoritative_evidence) ... ok\ntest_extension_reason_must_be_admissible (test_kernel_conformance.KernelConformanceTests.test_extension_reason_must_be_admissible) ... ok\ntest_governed_change_policy_is_present_on_canonical_surfaces (test_kernel_conformance.KernelConformanceTests.test_governed_change_policy_is_present_on_canonical_surfaces) ... ok\ntest_harvest_candidate_is_not_builtin (test_kernel_conformance.KernelConformanceTests.test_harvest_candidate_is_not_builtin) ... ok\ntest_invalid_shortcut_to_complete (test_kernel_conformance.KernelConformanceTests.test_invalid_shortcut_to_complete) ... ok\ntest_model_inference_not_completion_evidence (test_kernel_conformance.KernelConformanceTests.test_model_inference_not_completion_evidence) ... ok\ntest_permission_can_narrow (test_kernel_conformance.KernelConformanceTests.test_permission_can_narrow) ... ok\ntest_permission_cannot_expand (test_kernel_conformance.KernelConformanceTests.test_permission_cannot_expand) ... ok\ntest_project_extension_requires_provenance (test_kernel_conformance.KernelConformanceTests.test_project_extension_requires_provenance) ... ok\ntest_revision_guard (test_kernel_conformance.KernelConformanceTests.test_revision_guard) ... ok\ntest_valid_lifecycle (test_kernel_conformance.KernelConformanceTests.test_valid_lifecycle) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 0.001s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_kernel_conformance.py",
+        "test_count": 12,
+        "failure_count": 0,
+        "error_count": 0
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          ".gpt-codex/tests",
+          "-p",
+          "test_publication_authority.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": "test_candidate_authority_cannot_pass_or_sync (test_publication_authority.PublicationAuthorityTests.test_candidate_authority_cannot_pass_or_sync) ... ok\ntest_candidate_state_cannot_be_complete (test_publication_authority.PublicationAuthorityTests.test_candidate_state_cannot_be_complete) ... ok\ntest_complete_requires_durable_verified_result (test_publication_authority.PublicationAuthorityTests.test_complete_requires_durable_verified_result) ... ok\ntest_pass_requires_verified_remote_for_each_nonverified_status (test_publication_authority.PublicationAuthorityTests.test_pass_requires_verified_remote_for_each_nonverified_status) ... ok\ntest_pass_with_verified_formal_publication_is_allowed (test_publication_authority.PublicationAuthorityTests.test_pass_with_verified_formal_publication_is_allowed) ... ok\ntest_release_phase_derivation_requires_progressively_bound_facts (test_publication_authority.PublicationAuthorityTests.test_release_phase_derivation_requires_progressively_bound_facts) ... ok\ntest_synced_requires_verified_publication_evidence (test_publication_authority.PublicationAuthorityTests.test_synced_requires_verified_publication_evidence) ... ok\ntest_synced_state_requires_current_revision_and_durable_result (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_current_revision_and_durable_result) ... ok\ntest_synced_state_requires_nonempty_verified_baseline_sha (test_publication_authority.PublicationAuthorityTests.test_synced_state_requires_nonempty_verified_baseline_sha) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.007s\n\nOK\n",
+        "test_file": ".gpt-codex/tests/test_publication_authority.py",
+        "test_count": 9,
+        "failure_count": 0,
+        "error_count": 0
+      }
+    ],
+    "project_validator": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-B",
+        ".gpt-codex/scripts/validate_project.py",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-32\nPROJECT_CONTEXT_BINDING: PASS\n",
+      "stderr": ""
+    },
+    "framework_validator": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-B",
+        ".gpt-codex/scripts/validate_framework.py"
+      ],
+      "exit_code": 0,
+      "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n",
+      "stderr": ""
+    },
+    "native_remediation_resolver_current_state32": {
+      "decision_resolved": false,
+      "basis_ids": [],
+      "native_errors": [
+        "REMEDIATION_BASIS_UNRESOLVED"
+      ],
+      "expected_registration_absent_at_state32": true,
+      "source_function": "validate_project._resolve_durable_remediation_adjudication",
+      "source_lines": [
+        846,
+        886
+      ],
+      "source_reads": "HEAD .gpt-codex/STATE.json and its evidence_refs; adjudicated_at_revision must equal HEAD STATE.revision",
+      "prospective_state33_required": true
+    },
+    "readme_navigation_observations": {
+      "docs/architecture/README.md": {
+        "history/designs": false
+      },
+      "docs/decisions/README.md": {
+        "history/amendments": false,
+        "history/reviews": false
+      },
+      "docs/plans/README.md": {
+        "history/plans": true
+      }
+    },
+    "diagnostic_execution_errors_corrected": [
+      {
+        "cause": "Windows git show historic long-path output caused Filename too long",
+        "correction": "read-only git -c core.longpaths=true command; no persistent configuration change",
+        "authority_error": false
+      },
+      {
+        "cause": "A diagnostic Path.read_text without encoding selected Windows GBK and failed",
+        "correction": "explicit encoding=utf-8 read",
+        "authority_error": false
+      }
+    ],
+    "validate_pre_execution_review_errors": [],
+    "validate_governed_mutation_entry_errors": [],
+    "result_schema_errors": [],
+    "result_protocol_errors": [],
+    "result_authority_errors": [],
+    "candidate_remote_visibility": {
+      "status": "UNPUBLISHED_LOCAL_CANDIDATE",
+      "instruction_http_status": 404,
+      "work_unit_http_status": 404,
+      "required_for_native_pre": false,
+      "native_immutable_instruction_validation": "ALLOW",
+      "native_instruction_resolution": "INSTRUCTION_RESOLVED",
+      "reason": "Native PRE validates local immutable Git objects; candidate publication occurs after implementation POST and publication PRE. Remote verification for this review binds baseline main only."
+    },
+    "diagnostic_classification_correction": {
+      "initial_diagnostic_errors": [
+        "IMMUTABLE_INSTRUCTION_REMOTE_READBACK_MISMATCH",
+        "IMMUTABLE_WORK_UNIT_REMOTE_READBACK_MISMATCH"
+      ],
+      "corrected": true,
+      "cause": "Optional candidate visibility probes were incorrectly classified as required PRE publication checks. Actual 404 outputs are retained; no candidate remote verification is asserted."
+    }
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "STATE32_TRANSITION_PRE_REVIEW"
+    ],
+    "executed_scope": [
+      "STATE32_TRANSITION_PRE_REVIEW"
+    ],
+    "test_files_expected": 6,
+    "test_files_executed": 6,
+    "test_count": 100,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONTINUITY_RESUME",
+      "IMMUTABLE_INSTRUCTION_RESOLUTION",
+      "INSTRUCTION_SCHEMA",
+      "INSTRUCTION_AUTHORITY",
+      "REVIEW_REQUEST_SCHEMA",
+      "REVIEW_REQUEST_AUTHORITY",
+      "HISTORICAL_PRESERVATION",
+      "READ_ONLY_SCOPE",
+      "PRE_EXECUTION_REVIEW",
+      "GOVERNED_MUTATION_ENTRY",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "RESULT_AUTHORITY"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONTINUITY_RESUME",
+      "IMMUTABLE_INSTRUCTION_RESOLUTION",
+      "INSTRUCTION_SCHEMA",
+      "INSTRUCTION_AUTHORITY",
+      "REVIEW_REQUEST_SCHEMA",
+      "REVIEW_REQUEST_AUTHORITY",
+      "HISTORICAL_PRESERVATION",
+      "READ_ONLY_SCOPE",
+      "PRE_EXECUTION_REVIEW",
+      "GOVERNED_MUTATION_ENTRY",
+      "RESULT_SCHEMA",
+      "RESULT_PROTOCOL",
+      "RESULT_AUTHORITY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "git": {
+    "base_sha": "8fb5261689f0782b06d5778cec694a51c62a519f",
+    "branch": null,
+    "head_sha": "b4866225ee626a3e7b60a9488e87f62f51cb3be5"
+  },
+  "pre_review_boundary": {
+    "review_kind": "PRE_EXECUTION",
+    "candidate_state_revision": 32,
+    "prospective_target_state_revision": 33,
+    "prospective_phase_transition": false,
+    "prospective_scope": "new gate lifecycle records, Work Unit, STATE evidence_refs, regression basis and adjudication only",
+    "documentation_mutation_count": 0,
+    "readme_mutation_count": 0,
+    "fix_instruction_created": false,
+    "candidate_publication_confirmed": false,
+    "verified_remote_subject": "baseline refs/heads/main only"
+  }
+}
