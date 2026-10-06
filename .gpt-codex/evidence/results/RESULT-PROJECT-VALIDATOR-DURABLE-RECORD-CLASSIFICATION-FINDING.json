@@ -1,0 +1,125 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "project-validator-durable-record-classification-remediation-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_message_type": "REVIEW_FINDING",
+  "result_id": "0a899204-6021-436a-b53d-f4d165186ca5",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_target_revision": "6fa2290f6e682323687c0b5c5e00ba1990924a02",
+  "finding_ids": [
+    "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001"
+  ],
+  "fix_round": 0,
+  "artifact_stage": "IMPLEMENTATION",
+  "framework_version": "2.7.4",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 31,
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+    ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json"
+  ],
+  "remote_verification": "NOT_ATTEMPTED",
+  "observed_utc": "2026-10-05T14:19:26.986428+00:00",
+  "finding_summary": "validate_project.py treats any durable STATE evidence_refs payload containing status as a Result, falsely rejecting the L7 final verification and L8 workspace freeze governance records.",
+  "finding_detail": [
+    {
+      "finding_id": "DOCUMENTATION-NATIVE-PROJECT-VALIDATOR-FREEZE-001",
+      "problem_layer": "FRAMEWORK_VALIDATOR_RECORD_CLASSIFICATION",
+      "root_cause": "STATUS_FIELD_MISCLASSIFIED_AS_RESULT",
+      "severity": "P1",
+      "path": ".gpt-codex/scripts/validate_project.py",
+      "line": 1847,
+      "reproduction_command": "python -B .gpt-codex/scripts/validate_project.py .",
+      "exit_code": 1,
+      "stdout_lines": [
+        "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json: PASS requires remote_verification=VERIFIED",
+        "FAIL: RESULT .gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json: PASS requires remote_verification=VERIFIED",
+        "RESULT: FAIL (2 errors)"
+      ],
+      "false_positive_record_count_before": 2,
+      "not_l7_failure": true,
+      "not_l8_failure": true,
+      "not_remote_publication_failure": true,
+      "not_documentation_migration_failure": true,
+      "frozen_baseline": [
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+          "sha256": "75c5b0db105d646e62e46baf003e100608727a4b59be674bbc1bfcd125c35d60",
+          "blob_sha": "72304374a958594229edb0efc65468d21650c828",
+          "bytes_unchanged": true
+        },
+        {
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+          "sha256": "532d62b2b9cf1a6ef52375cc60c6b2becf8e81519d9fa7d01b1d67257e12a9c2",
+          "blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+          "bytes_unchanged": true
+        },
+        {
+          "path": ".gpt-codex/STATE.json",
+          "sha256": "175170b90fb12743959a8e829e10089302a3c36ccea1da749771b33cdbeb6cd9",
+          "blob_sha": "8928bf4eac8edcf7993183bdf9befad386d57d63",
+          "bytes_unchanged": true
+        },
+        {
+          "path": ".gpt-codex/scripts/publication_contract.py",
+          "sha256": "8e1a1edf13ccb6d94ea7361d3991c10acd660d71c442c650b912f3debf57f4a5",
+          "blob_sha": "0bcc411ebbf2346e2da128a674eef4915c3d17aa",
+          "bytes_unchanged": true
+        }
+      ],
+      "corresponding_durable_results": [
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+          "sha256": "4f66db5888cad7581a99021ab22143510d3102b49bdf4025dc2e7c649e996dc9",
+          "blob_sha": "a3721ed9d66029c939ac5a8c45477411b4ddd025",
+          "status": "PASS",
+          "remote_verification": "VERIFIED",
+          "publication_authority": "CONFIRMED_PUBLICATION",
+          "sync_status": "SYNCED",
+          "authority_errors": [],
+          "protocol_errors": []
+        },
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+          "sha256": "95a4e27ffb1327394be5f84244650aaf548ec8a44fc58dcfa14d03609ad9256e",
+          "blob_sha": "0a932da3c1e573dfd4b4aa588d0deea209869057",
+          "status": "PASS",
+          "remote_verification": "VERIFIED",
+          "publication_authority": "CONFIRMED_PUBLICATION",
+          "sync_status": "SYNCED",
+          "authority_errors": [],
+          "protocol_errors": []
+        }
+      ],
+      "publication_contract_required": "Unchanged validate_result_authority; actual non-approval PASS Results must retain remote_verification=VERIFIED.",
+      "publication_negative_control": [
+        "PASS requires remote_verification=VERIFIED"
+      ],
+      "recommended_source_scope": [
+        ".gpt-codex/scripts/validate_project.py",
+        ".gpt-codex/tests/test_self_hosting_validator.py"
+      ],
+      "recommended_classification": "Result when evidence/results/ path OR result_id/result_message_type key present; otherwise evidence_id invokes existing formal Evidence validation; otherwise governance records retain project/repository identity boundary."
+    }
+  ],
+  "baseline_preservation": {
+    "state_revision": 31,
+    "state_mutation_count": 0,
+    "documentation_mutation_count": 0,
+    "tracked_documentation_file_count": 142,
+    "documentation_aggregate_sha256": "b1c518f788c2ef182386a7e0f2e51831458e680b912ffdcf74b7d44a9fe8c4c4",
+    "tracked_worktree_clean": true
+  },
+  "files_changed": [],
+  "formal_pre_pass_claim": false
+}
