@@ -1,0 +1,123 @@
+{
+  "actual_observations": {
+    "objects": [
+      {
+        "locator": {
+          "blob_sha": "da5a2905067a6f756b32c7e9b854757f08769f35",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/STATE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "e68391522638047330011f2b9c2c76cf6e3b96bb",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "062bf21f54b9a08fecce05e60996bcb6b4b9e6b9",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "df2898be3def2ec9d3538c41cb37b55ca2b764bb",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "6e3aae2e5e2df256ff5a51c76e93b381e09166f5",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "73f50cf9a46d53eec75d683073342025c583f562",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "83e4b045c05e3263021388f96731544363bc9248",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      },
+      {
+        "locator": {
+          "blob_sha": "461f310f7ec1db5efe93247dded6e3a73d21c365",
+          "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+          "repository": "xqc2098948451-byte/gpt-codex-framework"
+        },
+        "remote_exact_blob": "PASS",
+        "remote_exact_bytes": "PASS"
+      }
+    ],
+    "observed_utc": "2026-10-06T11:43:57.890285+00:00",
+    "remote_main": "5b557fc9a2d80593d48905161996d0fae250bacf",
+    "repository_identity": {
+      "default_branch": "main",
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "repository_id": "1366213495"
+    }
+  },
+  "implementation_sha": "2ecffec3fd97762e22e9dbb5135514d8eecfcabe",
+  "primary_transition_work_unit_ref": {
+    "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+    "sha": "6152508c6bd642e741ef4986d0042a66569cc672"
+  },
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "publication_semantics": "W verified by exact remote readback; management-only P will attest W, not itself",
+  "push_status": "SUCCEEDED",
+  "record_kind": "STATE34_GATE_VERIFIED_WORK_PUBLICATION_ATTESTATION",
+  "remote_verification": "VERIFIED",
+  "scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+    ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+    ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json"
+  ],
+  "state_at_verified_work": "AUTHORIZED@34 with SYNC_PENDING continuity before P",
+  "state_revision": 34,
+  "sync_status": "SYNCED",
+  "token_locator": {
+    "blob_sha": "e68391522638047330011f2b9c2c76cf6e3b96bb",
+    "commit_sha": "5b557fc9a2d80593d48905161996d0fae250bacf",
+    "path": ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "verified_work_sha": "5b557fc9a2d80593d48905161996d0fae250bacf"
+}
