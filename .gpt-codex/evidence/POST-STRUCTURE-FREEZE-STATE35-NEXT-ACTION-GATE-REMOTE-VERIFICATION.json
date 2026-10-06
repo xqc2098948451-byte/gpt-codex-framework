@@ -1,0 +1,46 @@
+{
+  "evidence_id": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION",
+  "exact_work_readback": {
+    "exact_artifacts": {
+      ".gpt-codex/STATE.json": {
+        "blob_sha": "a80159b1205f3802f61469b208374a28ae8a6926",
+        "sha256": "30d3a457b0374bc93b9284247c5c53ae41a2654c2baed30a4c8126e3872adf54"
+      },
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json": {
+        "blob_sha": "1a1e68291a86bae8807670add8cf1b13d78e150d",
+        "sha256": "b59afac2f928a8b128f472a8ee0ef3d12f9b52130daed666f4909f72422accd4"
+      }
+    },
+    "native_remote_verification": {
+      "evidence_type": "TOOL_OBSERVED",
+      "reason": "REMOTE_PUBLICATION_VERIFIED",
+      "remote_head_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+      "remote_ref": "refs/heads/main",
+      "status": "VERIFIED"
+    },
+    "next_action": "FRAMEWORK_2_8_0_RELEASE_PREPARATION_REQUIRED",
+    "observed_utc": "2026-10-06T14:06:45.509887+00:00",
+    "remote_main": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "scope_count": 12,
+    "state_revision": 35,
+    "tracked_clean": true
+  },
+  "implementation_sha": "de6e85a7f31273a76ecbcb17a3860119468dac20",
+  "kernel_version": "2.0.0",
+  "observed_utc": "2026-10-06T14:11:53.770981+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "publication_semantics": "W exact remote observation is durable. This evidence does not claim its containing commit; later P/T readbacks remain external until independently observed.",
+  "result": "REMOTE_WORK_VERIFIED",
+  "schema_version": 1,
+  "self_containing_commit_claim": false,
+  "source": "TOOL_OBSERVED",
+  "state_revision": 35,
+  "subject": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE",
+  "token_adjudication_locator": {
+    "blob_sha": "1a1e68291a86bae8807670add8cf1b13d78e150d",
+    "commit_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "verified_work_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5"
+}

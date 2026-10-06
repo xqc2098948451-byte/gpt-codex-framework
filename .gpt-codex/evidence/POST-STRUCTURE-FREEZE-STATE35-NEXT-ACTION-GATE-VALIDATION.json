@@ -13,7 +13,14 @@
   "SCHEMA_CARDINALITY": "PASS",
   "SCOPE_AUTHORITY": "PASS",
   "STATE35_CANDIDATE": "PASS",
+  "STATE_AUTHORITY_VALIDATION": "PASS",
   "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "attestation_pre_locator": {
+    "blob_sha": "13b3e45a9282f9b94028408a14b4df6cd6158ace",
+    "commit_sha": "bb1e5d0d0897a7143b1cfec1988d3a8fe53ffea4",
+    "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
   "candidate_validator_runs": [
     {
       "exit_code": 0,
@@ -94,6 +101,12 @@
       "repository": "xqc2098948451-byte/gpt-codex-framework"
     }
   ],
+  "independent_post_locator": {
+    "blob_sha": "85ea7526f49ee7804bbb096d3c12d3549057e1fc",
+    "commit_sha": "f5266f50c3c83930f0c7d0893244eb0039167e2f",
+    "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
   "independent_pre_locator": {
     "blob_sha": "ac25cfdda494d0725ce6acd3569ea7eaa34953a4",
     "commit_sha": "747169953c8e9961ffa8f83e59d0b9381b373acf",
@@ -104,7 +117,34 @@
   "observed_utc": "2026-10-06T13:46:42.038360+00:00",
   "pre_test_count": 58,
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "result": "STATE35_PRE_VALIDATED",
+  "publication_metadata_validator_runs": [
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\P-CANDIDATE-PROJECT_VALIDATOR.log",
+      "output_sha256": "b00bdf1928f9d0b8285d4676a62b2d705c4c1229df4c89b6f300fe62280e3647",
+      "validator": "PROJECT_VALIDATOR"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\P-CANDIDATE-FRAMEWORK_VALIDATOR.log",
+      "output_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "validator": "FRAMEWORK_VALIDATOR"
+    },
+    {
+      "exit_code": 0,
+      "output_path": "D:\\w\\operations\\post-freeze-state35-gate-20261006\\P-CANDIDATE-PUBLICATION_AUTHORITY_TESTS.log",
+      "output_sha256": "13389c1703f24d9d5e7581658cf3b80ecd3cd13df746e8f6f31a05758359a8eb",
+      "validator": "PUBLICATION_AUTHORITY_TESTS"
+    }
+  ],
+  "publication_pre_locator": {
+    "blob_sha": "72ea3584a1cb8e05d4fcf0431651ecf2a3d69947",
+    "commit_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+    "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+    "repository": "xqc2098948451-byte/gpt-codex-framework"
+  },
+  "published_verified_work_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
+  "result": "STATE35_VERIFIED_WORK_ATTESTATION",
   "schema_aware_artifact_preflight": {
     "BOUNDED_COLLECTION_OVERFLOW_COUNT": 0,
     "STATIC_ARTIFACT_PREFLIGHT": "PASS",
