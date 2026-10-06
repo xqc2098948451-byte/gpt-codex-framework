@@ -12,6 +12,7 @@
   "FREEZE_RESULT_REGISTRATION": "PASS",
   "GITHUB_RELEASE_MUTATION_COUNT": 0,
   "INDEPENDENT_POST": "PASS",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
   "NEXT_ACTION_ADJUDICATION": "PASS",
   "OLD_NEXT_ACTION_SATISFIED": "YES",
   "P41_EXECUTION_AUTHORITY": "NO",
@@ -21,8 +22,9 @@
   "PACKAGING_MUTATION_COUNT": 0,
   "PLUGIN_POST_RELEASE_SYNC": "NOT_STARTED",
   "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE": "COMPLETE",
-  "POST_FREEZE_STATE35_GATE": "LOCAL_COMPLETE_PENDING_NATIVE_HANDOFF",
+  "POST_FREEZE_STATE35_GATE": "PASS",
   "PROJECT_VALIDATOR": "PASS",
+  "READY_FOR_FRAMEWORK_2_8_0_RELEASE_PREPARATION": "YES",
   "RELEASE_PUBLICATION_COUNT": 0,
   "RELEASE_SOURCE_MUTATION_COUNT": 0,
   "RETURN_TO_GPT": "YES",
@@ -88,7 +90,8 @@
       "INDEPENDENT_POST",
       "PUBLICATION_PRE",
       "EXACT_REMOTE_READBACK",
-      "STATE_AUTHORITY"
+      "STATE_AUTHORITY",
+      "NATIVE_HANDOFF"
     ],
     "validators_expected": [
       "REMOTE_BASELINE_IDENTITY",
@@ -104,7 +107,8 @@
       "INDEPENDENT_POST",
       "PUBLICATION_PRE",
       "EXACT_REMOTE_READBACK",
-      "STATE_AUTHORITY"
+      "STATE_AUTHORITY",
+      "NATIVE_HANDOFF"
     ]
   },
   "completion_gate": "GPT_DECISION",
@@ -122,7 +126,8 @@
     ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
     ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
     ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
-    ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json"
+    ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json"
   ],
   "extension": null,
   "findings": [],
@@ -173,6 +178,14 @@
       "path": ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
       "sha": "50b74927ac1a566dffbc16b28fe67188210f370b"
     }
+  },
+  "native_handoff_observation": {
+    "native_status": "HANDOFF_READY",
+    "observed_remote_sha": "ea0abbfbb7e4e538a5499cea9f86c969a3381b59",
+    "observed_utc": "2026-10-06T14:12:27.090105+00:00",
+    "plugin_status": "HANDOFF_READY",
+    "result_id": "af106ad9-0710-423e-96fd-e5693cb234f3",
+    "self_containing_commit_claim": false
   },
   "next_gpt_action": "RETURN_TO_GPT_AND_STOP. Framework 2.8.0 preparation requires separate Work Unit / Instruction / PRE; no release, P41 or plugin sync execution authority.",
   "observed_utc": "2026-10-06T14:11:53.664756+00:00",

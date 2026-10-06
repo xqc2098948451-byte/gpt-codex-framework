@@ -1,5 +1,34 @@
 {
   "evidence_id": "POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION",
+  "exact_publication_metadata_readback": {
+    "exact_artifacts": {
+      ".gpt-codex/STATE.json": {
+        "blob_sha": "31a67c4ec10e2515d907fb92896cdfba04c9875c",
+        "sha256": "038874fcd7c0e0d16f73e9f6acb91de858335fd2496629691025f108c30e3736"
+      },
+      ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json": {
+        "blob_sha": "1a1e68291a86bae8807670add8cf1b13d78e150d",
+        "sha256": "b59afac2f928a8b128f472a8ee0ef3d12f9b52130daed666f4909f72422accd4"
+      },
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json": {
+        "blob_sha": "9e201d4339d1e852882fffa769fe30b6f0ad4123",
+        "sha256": "5788c7105af2143b8ecda8950228c736335d3131b554ced0186a79ef41a37673"
+      }
+    },
+    "native_remote_verification": {
+      "evidence_type": "TOOL_OBSERVED",
+      "reason": "REMOTE_PUBLICATION_VERIFIED",
+      "remote_head_sha": "ea0abbfbb7e4e538a5499cea9f86c969a3381b59",
+      "remote_ref": "refs/heads/main",
+      "status": "VERIFIED"
+    },
+    "next_action": "FRAMEWORK_2_8_0_RELEASE_PREPARATION_REQUIRED",
+    "observed_utc": "2026-10-06T14:12:01.671575+00:00",
+    "remote_main": "ea0abbfbb7e4e538a5499cea9f86c969a3381b59",
+    "scope_count": 17,
+    "state_revision": 35,
+    "tracked_clean": true
+  },
   "exact_work_readback": {
     "exact_artifacts": {
       ".gpt-codex/STATE.json": {
@@ -27,6 +56,14 @@
   },
   "implementation_sha": "de6e85a7f31273a76ecbcb17a3860119468dac20",
   "kernel_version": "2.0.0",
+  "native_handoff_observation": {
+    "native_status": "HANDOFF_READY",
+    "observed_remote_sha": "ea0abbfbb7e4e538a5499cea9f86c969a3381b59",
+    "observed_utc": "2026-10-06T14:12:27.090105+00:00",
+    "plugin_status": "HANDOFF_READY",
+    "result_id": "af106ad9-0710-423e-96fd-e5693cb234f3",
+    "self_containing_commit_claim": false
+  },
   "observed_utc": "2026-10-06T14:11:53.770981+00:00",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "publication_semantics": "W exact remote observation is durable. This evidence does not claim its containing commit; later P/T readbacks remain external until independently observed.",
