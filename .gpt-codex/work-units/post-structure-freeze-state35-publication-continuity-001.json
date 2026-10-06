@@ -81,10 +81,14 @@
       ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
       ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION.json",
       ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+      ".gpt-codex/evidence/instructions/952a5b1c-8eae-4b7c-a4f2-f0d95e87e48a.json",
       ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+      ".gpt-codex/evidence/instructions/ca9ec790-6064-479a-8fc5-e4304dd40b9e.json",
       ".gpt-codex/evidence/instructions/f777b22c-b10d-48bd-a5d3-64aa16bec3ee.json",
       ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
       ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
       ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json"
     ]
   },
