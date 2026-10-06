@@ -19,3 +19,8 @@ The [Phase G Repository Structure Freeze](../../.gpt-codex/evidence/GITHUB-REPOS
 - [S42 — 2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md](./2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md)
 - [S44 — 2026-10-04-legacy-result-id-handoff-compatibility.md](./2026-10-04-legacy-result-id-handoff-compatibility.md)
 - [S45 — 2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md](./2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md)
+
+## Historical decisions and reviews
+
+- [Historical amendments](../history/amendments/) preserve completed governance and decision amendments.
+- [Historical reviews](../history/reviews/) preserve completed review and report history.

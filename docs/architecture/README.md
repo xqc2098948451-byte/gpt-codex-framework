@@ -28,3 +28,7 @@ This README is for human navigation only; it grants no execution authority.
 - [S25 — 2026-09-16-framework-evolution-foundation-design.md](./2026-09-16-framework-evolution-foundation-design.md)
 - [S36 — 2026-09-26-p2-minimum-capability-design-revision-002.md](./2026-09-26-p2-minimum-capability-design-revision-002.md)
 - [S40 — 2026-09-28-github-repository-consolidation-design.md](./2026-09-28-github-repository-consolidation-design.md)
+
+## Historical architecture
+
+- [Historical designs](../history/designs/) preserve completed and superseded design history.

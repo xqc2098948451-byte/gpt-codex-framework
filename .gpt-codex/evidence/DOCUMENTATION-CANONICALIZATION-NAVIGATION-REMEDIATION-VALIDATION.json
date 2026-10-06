@@ -1,0 +1,101 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "evidence_id": "DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-VALIDATION",
+  "state_revision": 33,
+  "observed_utc": "2026-10-06T09:13:21.821312+00:00",
+  "source": "TOOL_OBSERVED",
+  "base_sha": "43497196c2c922f09e30d3d54a4dab7deef9792a",
+  "finding_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f27c5a2e676dcf9c6436ca408838f28f393fde41",
+    "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json",
+    "blob_sha": "bb8add72eab65700b1158c12253ce71c7168895e"
+  },
+  "finding_bytes_rewritten": "NO",
+  "native_fix_pre_result_id": "dd52d084-e5cd-47d1-b679-4ae7f0b884c9",
+  "navigation": {
+    "direct_history_navigation": [
+      {
+        "source": "docs/architecture/README.md",
+        "target": "docs/history/designs",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/decisions/README.md",
+        "target": "docs/history/amendments",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/decisions/README.md",
+        "target": "docs/history/reviews",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      },
+      {
+        "source": "docs/plans/README.md",
+        "target": "docs/history/plans",
+        "direct_navigation_present": true,
+        "directory_exists": true
+      }
+    ],
+    "broken_canonical_navigation_link_count": 0,
+    "broken": []
+  },
+  "validators": {
+    "project": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        ".gpt-codex/scripts/validate_project.py",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-33\nPROJECT_CONTEXT_BINDING: PASS\n",
+      "stderr": ""
+    },
+    "framework": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-B",
+        ".gpt-codex/scripts/validate_framework.py"
+      ],
+      "exit_code": 0,
+      "stdout": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n",
+      "stderr": ""
+    }
+  },
+  "focused_tests": {
+    "files": [
+      "test_consumer_projection",
+      "test_release_packaging",
+      "test_consumer_runtime_closure",
+      "test_publication_authority"
+    ],
+    "test_count": 70,
+    "failure_count": 0,
+    "error_count": 0,
+    "skip_count": 1,
+    "skips": [
+      {
+        "test": "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target)",
+        "reason": "symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpzuucxg93\\\\outside-target.zip' -> 'C:\\\\Users\\\\xqc\\\\AppData\\\\Local\\\\Temp\\\\tmpzuucxg93\\\\materialized\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'"
+      }
+    ],
+    "log_sha256": "b3073af19594d96ed4137e9bbc8fb5eb4b2071abb4e5ca4e180b93008fb6f1f8"
+  },
+  "readme_mutation_count": 2,
+  "documentation_mutation_count": 2,
+  "new_direct_links": 3,
+  "state_mutation_count": 0,
+  "consumer_inventory_count": 86,
+  "readme_semantics": "NAVIGATION_ONLY / NON_AUTHORITATIVE",
+  "preservation_method": "All pre-existing paths outside the two README paths retain exact Git blob identity from STATE33 base; independently audited in POST."
+}
