@@ -65,7 +65,7 @@ def prefix_manifest() -> dict[str, object]:
 
 HISTORICAL_CONTINUITY_DOCS = (
     "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
-    "docs/superpowers/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+    "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
 )
 
 
@@ -187,7 +187,7 @@ class ConsumerProjectionTests(unittest.TestCase):
         self.assertEqual(paths.get(".gpt-codex/tests/test_framework_feedback.py"), "MANAGEMENT_ONLY")
         for relative in (
             "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
-            "docs/superpowers/plans/2026-09-14-execution-telemetry.md",
+            "docs/history/plans/2026-09-14-execution-telemetry.md",
         ):
             self.assertEqual(
                 consumer_projection._resolve_projection_classification(
@@ -201,7 +201,7 @@ class ConsumerProjectionTests(unittest.TestCase):
         manifest = load_projection_manifest(ROOT)
         expected_management_paths = {
             "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md": "DEVELOPMENT_HISTORY",
-            "docs/superpowers/plans/2026-09-13-framework-modular-architecture-routing.md": "DEVELOPMENT_HISTORY",
+            "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md": "DEVELOPMENT_HISTORY",
             ".gpt-codex/framework-modules/REGISTRY.json": "MANAGEMENT_ONLY",
             ".gpt-codex/schemas/framework-module-registry.schema.json": "MANAGEMENT_ONLY",
             ".gpt-codex/schemas/framework-module.schema.json": "MANAGEMENT_ONLY",
