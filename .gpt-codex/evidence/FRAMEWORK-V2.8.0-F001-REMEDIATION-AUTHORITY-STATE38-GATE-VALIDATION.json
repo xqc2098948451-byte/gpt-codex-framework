@@ -86,5 +86,11 @@
     "basis_ids": [
       "F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS"
     ]
-  }
+  },
+  "independent_post": "PASS",
+  "native_metadata_mutation_entry_errors": [],
+  "pre_sync_plugin_instruction_delivery": "RECONCILIATION_REQUIRED",
+  "pre_sync_actual_continuity": "SYNC_PENDING",
+  "pre_sync_authority_route": "EXPLICIT_ACTIVE_GATE_CORE_REVIEW_AND_MUTATION_ENTRY",
+  "plugin_visibility_used_as_execution_authority": false
 }
