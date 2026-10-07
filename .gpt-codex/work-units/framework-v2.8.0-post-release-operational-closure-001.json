@@ -1,0 +1,107 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-v2.8.0-post-release-operational-closure-001",
+  "basis_state_revision": 37,
+  "state": "AUTHORIZED",
+  "goal": "Execute bounded post-release private plugin alignment and real-world acceptance, or return durable FINDING immediately when real external runtime observation is unavailable.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+      ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      "plugins/",
+      "VERSION",
+      ".gpt-codex/release/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/builtins/",
+      "docs/",
+      "AGENTS.md",
+      "README.md",
+      "CHANGELOG.md",
+      "BOOTSTRAP_PROMPT.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION",
+      "PUBLISH"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      "sha": "0102e8d419e45b38e7cf6c1f9e6813f4d1282f68"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      "sha": "0102e8d419e45b38e7cf6c1f9e6813f4d1282f68"
+    }
+  },
+  "authority_source": {
+    "source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+    "request_sha256": "c41e76352e55f17a371b6bfede675dc73950071d31a550faad0c07ad6780b02f",
+    "basis_remote_main": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+    "basis_state_revision": 37,
+    "approved_scope": [
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+      ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "mode": "POST_RELEASE_OPERATIONAL_CLOSURE",
+    "stop_on_finding": true,
+    "source_mutation_authority": false,
+    "state_mutation_authority": false,
+    "p41_execution_authority": false,
+    "publication_transport_authority": "User explicitly authorizes only the listed governance artifacts on main with durable immutable locators and native handoff; no public plugin/release publication."
+  },
+  "module_route": {
+    "outcome": "MODULE_ROUTE_UNRESOLVED",
+    "primary_module": null,
+    "responsibility_requested": "framework governance",
+    "error": "planned asset has no primary owner",
+    "details": {},
+    "planned_assets": [
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+      ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "execution_semantics": "FAIL_CLOSED; reporting Finding only, no framework/module/source remediation."
+  },
+  "acceptance": [
+    "Fresh verify baseline/predecessor/release/plugin identities",
+    "Never substitute helper or unit-test PASS for real GPT/Codex runtime observation",
+    "On external-runtime unavailability stop with FINDING, truthful unexecuted cases and no fabricated counts",
+    "Persist exact native Instruction, Evidence, Result and necessary remote handoff metadata",
+    "Independent PRE/POST and native contract validation; preserve STATE37 and all source/release bytes",
+    "RETURN_TO_GPT; no STATE38, P41 or remediation"
+  ]
+}
