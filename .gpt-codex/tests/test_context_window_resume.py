@@ -33,6 +33,7 @@ class GovernedProjectFixture:
         cls.write_json(root, ".gpt-codex/CONTROL.json", {
             "project_id": "P",
             "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
             "github": {
                 "repository_id": "repo-a",
                 "repository_full_name": "owner/a",

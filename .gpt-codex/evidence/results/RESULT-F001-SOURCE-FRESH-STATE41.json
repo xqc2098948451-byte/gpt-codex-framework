@@ -1,0 +1,290 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-optional-github-source-fix-state41-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_id": "087729cd-eded-4d96-9be1-01e8a207ab92",
+  "result_message_type": "IMPLEMENTATION_RESULT",
+  "response_to_instruction_id": "b793c610-5406-4f06-9ee8-05f395e37ec0",
+  "responder_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 41,
+  "artifact_stage": "IMPLEMENTATION",
+  "fix_round": 1,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "remote_head_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "publication_authority": null,
+  "git": {
+    "base_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+    "implementation_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a"
+  },
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+    ".gpt-codex/evidence/instructions/b793c610-5406-4f06-9ee8-05f395e37ec0.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json"
+  ],
+  "execution": "Fresh F001 source candidate and recorded validation completed; independent exact-SHA POST issued REVIEW_FINDING. Stopped without source repair, integration, push, release, or STATE mutation.",
+  "changed": [
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/scripts/continuity_resume.py",
+    ".gpt-codex/scripts/project_navigation.py",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_context_window_resume.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/tests/test_navigation_project_validation.py",
+    ".gpt-codex/tests/test_project_navigation.py"
+  ],
+  "verify": {
+    "local_semantics": "PARTIAL",
+    "new_regression_test_count": 5,
+    "full_suite_test_count": 752,
+    "full_suite_failures": 0,
+    "full_suite_errors": 0,
+    "full_suite_skips": 2,
+    "full_suite_run_count": 1,
+    "F001_REAL_LOCAL_ONLY_SMOKE": "PASS",
+    "INDEPENDENT_POST": "FINDING",
+    "LOCAL_EXPLICIT_GITHUB_TARGET": "FAIL"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "executed_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "test_files_expected": 55,
+    "test_files_executed": 55,
+    "test_count": 752,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection"
+    ],
+    "validators_completed": [
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection"
+    ]
+  },
+  "deviations": [
+    "Existing test_context_window_resume.py missing-roots fixture corrected within fresh exact PRE-approved scope; zero new tests there."
+  ],
+  "blockers": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "next_gpt_action": "STOP / RETURN_TO_GPT: adjudicate the independent POST Finding. No self-repair; a subsequent correction requires separately authorized fresh FIX and review. No integration, push, STATE42, version, release, tag, asset, Plugin, or formal Mini Task CLI acceptance.",
+  "F001_SOURCE_FIX": "FINDING",
+  "READY_FOR_F001_INTEGRATION": "NO",
+  "RETURN_TO_GPT": "YES",
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "findings": [
+    {
+      "finding_id": "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION",
+      "priority": "P2",
+      "title": "Explicit GitHub Instruction target misclassifies valid local identity",
+      "path": ".gpt-codex/scripts/validate_project.py",
+      "start_line": 525,
+      "end_line": 531,
+      "effect": "The native adoption Instruction gate reports malformed Project Identity for a valid local-only project instead of the required missing optional GitHub binding classification. The operation remains denied, but callers cannot distinguish legitimate unbound identity from invalid CONTROL; the explicit Instruction branch of the required contract remains unsatisfied.",
+      "cause": "_project_identity_decision constructs target_control.github containing only repository_id (or only repository_full_name) and validates that synthetic partial block before evaluating the explicit target against the valid real identity. This returns PROJECT_IDENTITY_INVALID before the GITHUB_REPOSITORY_UNBOUND branch can run.",
+      "reproduction": {
+        "source": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source",
+        "source_candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+        "project": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "project_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+        "control": "Actual smoke CONTROL: github absent; valid project/context/roots. No fixture or source mutation.",
+        "entry_point": "validate_framework_adoption(control, instruction, work_unit, current_state_revision=0)",
+        "work_unit": {
+          "project_id": "PRJ-F001-REAL-LOCAL-SMOKE",
+          "work_unit_id": "WU-F001-ADOPTION-PROBE",
+          "state": "AUTHORIZED",
+          "basis_state_revision": 0
+        },
+        "instruction": {
+          "target_work_unit": "WU-F001-ADOPTION-PROBE",
+          "expected_state_revision": 0,
+          "executor_role": "CODEX_IMPLEMENTER",
+          "authorized_actions": [
+            "MUTATE_APPROVED_SCOPE"
+          ],
+          "forbidden_actions": [],
+          "target_project_context_id": "b8768e51-6a95-4bf0-98ef-d4e06ef3503b",
+          "target_github_repository_id": "repo-a",
+          "target_github_repository_full_name": "owner/a"
+        },
+        "without_explicit_target_actual": [],
+        "with_explicit_target_actual": [
+          "PROJECT_IDENTITY_INVALID"
+        ],
+        "with_explicit_target_expected": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "same_failure_with_id_only_or_full_name_only": true
+      },
+      "security_boundary": "No unauthorized operation was allowed; this is a machine contract classification defect, not a demonstrated cross-project mutation bypass."
+    }
+  ],
+  "independent_post": {
+    "result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "review_target_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "report_sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "status": "FINDING"
+  },
+  "adjudication_return": {
+    "F001_SOURCE_FIX": "FINDING",
+    "EXECUTION_BASE_SHA": "e83998c947e285ed8814a8156539bd467b6c04cf",
+    "REVIEW_SUBJECT_SHA": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "CANDIDATE_SHA": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "CHANGED_SOURCE_PATHS": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "CHANGED_TEST_PATHS": [
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "NEW_REGRESSION_TEST_COUNT": 5,
+    "LOCAL_ONLY_PROJECT_IDENTITY": "PASS",
+    "LOCAL_ONLY_PROJECT_MAP": "PASS",
+    "LOCAL_ONLY_MODULE_MAP": "PASS",
+    "LOCAL_ONLY_RESUME": "PASS",
+    "LOCAL_ONLY_CONTINUITY": "PASS",
+    "PARTIAL_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID",
+    "LOCAL_EXPLICIT_GITHUB_TARGET": "FAIL",
+    "LOCAL_EXPLICIT_GITHUB_TARGET_DETAIL": {
+      "identity_and_continuity": "GITHUB_REPOSITORY_UNBOUND",
+      "adoption_instruction_actual": "PROJECT_IDENTITY_INVALID",
+      "adoption_instruction_expected": "GITHUB_REPOSITORY_UNBOUND"
+    },
+    "BOUND_GITHUB_MATCH": "PASS",
+    "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+    "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+    "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+    "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+    "F001_REAL_LOCAL_ONLY_SMOKE": "PASS",
+    "FOCUSED_TESTS": "PASS",
+    "FOCUSED_TEST_COUNT": 5,
+    "AFFECTED_TESTS": "PASS",
+    "AFFECTED_TEST_COUNT": 198,
+    "AFFECTED_TEST_FAILURES": 0,
+    "AFFECTED_TEST_ERRORS": 0,
+    "FULL_SUITE": "PASS",
+    "FULL_SUITE_RUN_COUNT": 1,
+    "FULL_SUITE_TEST_COUNT": 752,
+    "FULL_SUITE_FAILURES": 0,
+    "FULL_SUITE_ERRORS": 0,
+    "FULL_SUITE_SKIPS": 2,
+    "FULL_SUITE_SKIP_DETAIL": "Existing unchanged Windows symlink privilege WinError 1314 cases: test_cleanup_manifest_blocks_symlink_escape_without_mutation; test_materializer_never_overwrites_or_follows_existing_final_target",
+    "VALIDATE_PROJECT": "PASS",
+    "VALIDATE_FRAMEWORK": "PASS",
+    "VALIDATE_CONSUMER_PROJECTION": "PASS",
+    "INDEPENDENT_POST": "FINDING",
+    "STATE": "AUTHORIZED",
+    "STATE_REVISION": 41,
+    "STATE_NEXT_ACTION": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "STATE_SYNC_STATUS": "SYNCED",
+    "PUSH_STATUS": "NOT_ATTEMPTED",
+    "sync_status": "SYNC_PENDING",
+    "FRAMEWORK_HIGHEST_PRINCIPLES_PRESERVED": "YES",
+    "FINDINGS": [
+      {
+        "finding_id": "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION",
+        "priority": "P2",
+        "title": "Explicit GitHub Instruction target misclassifies valid local identity",
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "start_line": 525,
+        "end_line": 531,
+        "effect": "The native adoption Instruction gate reports malformed Project Identity for a valid local-only project instead of the required missing optional GitHub binding classification. The operation remains denied, but callers cannot distinguish legitimate unbound identity from invalid CONTROL; the explicit Instruction branch of the required contract remains unsatisfied.",
+        "cause": "_project_identity_decision constructs target_control.github containing only repository_id (or only repository_full_name) and validates that synthetic partial block before evaluating the explicit target against the valid real identity. This returns PROJECT_IDENTITY_INVALID before the GITHUB_REPOSITORY_UNBOUND branch can run.",
+        "reproduction": {
+          "source": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source",
+          "source_candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+          "project": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+          "project_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+          "control": "Actual smoke CONTROL: github absent; valid project/context/roots. No fixture or source mutation.",
+          "entry_point": "validate_framework_adoption(control, instruction, work_unit, current_state_revision=0)",
+          "work_unit": {
+            "project_id": "PRJ-F001-REAL-LOCAL-SMOKE",
+            "work_unit_id": "WU-F001-ADOPTION-PROBE",
+            "state": "AUTHORIZED",
+            "basis_state_revision": 0
+          },
+          "instruction": {
+            "target_work_unit": "WU-F001-ADOPTION-PROBE",
+            "expected_state_revision": 0,
+            "executor_role": "CODEX_IMPLEMENTER",
+            "authorized_actions": [
+              "MUTATE_APPROVED_SCOPE"
+            ],
+            "forbidden_actions": [],
+            "target_project_context_id": "b8768e51-6a95-4bf0-98ef-d4e06ef3503b",
+            "target_github_repository_id": "repo-a",
+            "target_github_repository_full_name": "owner/a"
+          },
+          "without_explicit_target_actual": [],
+          "with_explicit_target_actual": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "with_explicit_target_expected": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ],
+          "same_failure_with_id_only_or_full_name_only": true
+        },
+        "security_boundary": "No unauthorized operation was allowed; this is a machine contract classification defect, not a demonstrated cross-project mutation bypass."
+      }
+    ],
+    "BLOCKERS": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "READY_FOR_F001_INTEGRATION": "NO",
+    "RETURN_TO_GPT": "YES",
+    "POST_RESULT_ID": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "POST_RESULT_PATH": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "POST_RESULT_SHA256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "SOURCE_REPAIR_AFTER_POST_FINDING": "NOT_ATTEMPTED",
+    "STATE_CONTROL_SCHEMA_VERSION_CHANGE": "NONE",
+    "PUBLICATION": "NOT_ATTEMPTED",
+    "FULL_TEST_SUITE_IS_REAL_WORLD_ACCEPTANCE": false
+  }
+}

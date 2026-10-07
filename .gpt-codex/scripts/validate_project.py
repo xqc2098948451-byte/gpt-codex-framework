@@ -446,10 +446,10 @@ def validate_harness_root_separation(control: Mapping[str, Any]) -> list[str]:
 
 
 def has_complete_declared_project_identity(control: Mapping[str, Any]) -> bool:
-    return "project_context_id" in control and "github" in control
+    return "project_context_id" in control or "github" in control
 
 
-def validate_identity_before_derived(root: Path, gov: Path, control: Mapping[str, Any], *, active_context_id: str, local_repository_id: str) -> list[str]:
+def validate_identity_before_derived(root: Path, gov: Path, control: Mapping[str, Any], *, active_context_id: str, local_repository_id: str | None) -> list[str]:
     decision = evaluate_project_identity(control, expected_project_context_id=active_context_id, expected_repository_id=local_repository_id)
     if decision.decision != "ALLOW":
         return [decision.reason]
@@ -520,6 +520,12 @@ def _project_identity_decision(
         decision = evaluate_project_identity(project_control, expected_project_context_id=expected_context)
         if decision.decision != "ALLOW":
             return decision
+    if "github" not in project_control:
+        return evaluate_project_identity(
+            project_control,
+            expected_repository_id=instruction.get("target_github_repository_id"),
+            expected_repository_full_name=instruction.get("target_github_repository_full_name"),
+        )
     expected_repository_id = instruction.get("target_github_repository_id")
     if expected_repository_id is not None:
         target_control = dict(project_control)
@@ -1693,21 +1699,23 @@ def validate_optional_navigation_and_resume(root: Path, gov: Path, control: dict
             try:
                 module_map = load_module_map(root, module_map_path)
                 errors += _derived_schema_errors(module_map, 'module-map')
-                validate_navigation_identity(module_map, control)
+                validate_navigation_identity(
+                    module_map, control, resource_type="MODULE_MAP", parent_project_map=project_map,
+                )
             except ValueError as exc:
                 errors.append(str(exc))
                 continue
             if module_map.get('module_id') != module_id:
                 errors.append('MODULE_MAP_ID_MISMATCH')
     try:
-        checkpoint = load_resume_checkpoint(gov)
+        checkpoint = load_resume_checkpoint(gov, control)
     except ValueError as exc:
         errors.append(str(exc))
         checkpoint = None
     if checkpoint is not None:
         errors += _derived_schema_errors(checkpoint, 'resume')
         try:
-            validate_navigation_identity(checkpoint, control)
+            validate_navigation_identity(checkpoint, control, resource_type="RESUME")
         except ValueError as exc:
             errors.append(str(exc))
     return errors

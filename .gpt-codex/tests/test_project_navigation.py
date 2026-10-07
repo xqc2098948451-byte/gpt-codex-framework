@@ -93,16 +93,18 @@ class ProjectNavigationTests(unittest.TestCase):
     def test_rejects_foreign_project_context_id(self) -> None:
         navigation = {
             "project_id": "project-a",
-            "project_context_id": "context-a",
+            "project_context_id": "11111111-1111-4111-8111-111111111111",
             "repository_id": "repo-a",
+            "authority": "DERIVED_NAVIGATION_INDEX",
         }
         control = {
             "project_id": "project-a",
-            "project_context_id": "context-b",
-            "github": {"repository_id": "repo-a"},
+            "project_context_id": "22222222-2222-4222-8222-222222222222",
+            "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
         }
 
-        with self.assertRaisesRegex(ValueError, "NAVIGATION_PROJECT_CONTEXT_MISMATCH"):
+        with self.assertRaisesRegex(ValueError, "CROSS_PROJECT_CONTEXT_MISMATCH"):
             self.navigation.validate_navigation_identity(navigation, control)
 
     def test_rejects_module_map_with_unsupported_schema(self) -> None:

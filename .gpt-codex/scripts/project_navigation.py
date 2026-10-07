@@ -60,33 +60,21 @@ def load_module_map(root: Path, relative_path: str) -> dict[str, Any]:
 
 
 def validate_navigation_identity(
-    navigation: dict[str, Any], control: dict[str, Any]
+    navigation: dict[str, Any], control: dict[str, Any], *,
+    resource_type: str = "PROJECT_MAP",
+    parent_project_map: dict[str, Any] | None = None,
 ) -> None:
     if validate_evolution_metadata_authority(navigation.get("evolution_metadata")):
         raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
-    try:
-        identity = load_project_identity(control)
-    except ValueError:
-        identity = None
-    if identity is not None:
-        decision = evaluate_cross_project_resource_boundary(
-            identity, navigation, resource_type="PROJECT_MAP",
-        )
-        if decision.decision != "ALLOW":
-            raise ValueError(decision.reason)
-    if navigation.get("project_id") != control.get("project_id"):
-        raise ValueError("NAVIGATION_PROJECT_ID_MISMATCH")
-    if navigation.get("project_context_id") != control.get("project_context_id"):
-        raise ValueError("NAVIGATION_PROJECT_CONTEXT_MISMATCH")
-
-    navigation_repository_id = navigation.get("repository_id")
-    control_repository_id = (control.get("github") or {}).get("repository_id")
-    if (
-        navigation_repository_id is not None
-        and control_repository_id is not None
-        and navigation_repository_id != control_repository_id
-    ):
-        raise ValueError("NAVIGATION_REPOSITORY_MISMATCH")
+    identity = load_project_identity(control)
+    expected_authority = "DERIVED_CACHE" if resource_type == "RESUME" else "DERIVED_NAVIGATION_INDEX"
+    if resource_type not in {"PROJECT_MAP", "MODULE_MAP", "RESUME"} or navigation.get("authority") != expected_authority:
+        raise ValueError("NAVIGATION_AUTHORITY_INVALID")
+    decision = evaluate_cross_project_resource_boundary(
+        identity, navigation, resource_type=resource_type, parent_project_map=parent_project_map,
+    )
+    if decision.decision != "ALLOW":
+        raise ValueError(decision.reason)
 
 
 def module_by_id(

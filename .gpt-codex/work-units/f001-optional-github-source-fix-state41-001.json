@@ -1,0 +1,92 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "f001-optional-github-source-fix-state41-001",
+  "goal": "Make GitHub an optional additional project identity dimension while preserving protected resource isolation. Produce local candidate and independent POST only.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_binding.py",
+      ".gpt-codex/tests/test_project_navigation.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/tests/test_github_continuity_validator.py",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json",
+      ".gpt-codex/work-units/f001-optional-github-source-fix-state41-001.json",
+      ".gpt-codex/evidence/instructions/19e11171-f81f-40a4-b6a3-d756581b3cdd.json",
+      ".gpt-codex/evidence/instructions/a3a7c1f9-7eb2-40ec-ad3c-b8a617f73e61.json",
+      ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+      ".gpt-codex/evidence/instructions/2c70e20a-7d83-4693-9639-651194488f8f.json",
+      ".gpt-codex/evidence/instructions/115c1130-dcff-44a5-b902-0498d8d28740.json",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/evidence/instructions/b793c610-5406-4f06-9ee8-05f395e37ec0.json",
+      ".gpt-codex/evidence/instructions/2595ee6e-2498-48da-8c31-5b6575e45b3c.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/schemas/",
+      "VERSION",
+      "plugins/",
+      "releases/"
+    ]
+  },
+  "acceptance": [
+    "Local identity/maps/resume/continuity PASS",
+    "Malformed GitHub PROJECT_IDENTITY_INVALID",
+    "Explicit local GitHub target GITHUB_REPOSITORY_UNBOUND",
+    "Bound matching PASS and mismatch GITHUB_REPOSITORY_MISMATCH",
+    "Cross-project fail closed preserved; no MODULE_MAP repository property",
+    "Five or fewer focused new tests; native validators and real Git smoke PASS; full suite once",
+    "Exact candidate independent POST; STATE41 preserved; no push/release/plugin mutation"
+  ],
+  "selected_extensions": {},
+  "state": "AUTHORIZED",
+  "basis_state_revision": 41,
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+      "sha": "e6de1a24f89a49c1a7c026d47353a99524fef0b0"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+      "sha": "e6de1a24f89a49c1a7c026d47353a99524fef0b0"
+    }
+  },
+  "module_route": {
+    "outcome": "CROSS_MODULE_CHANGE_REQUIRED",
+    "primary_module": "identity-context",
+    "modules": [
+      "identity-context",
+      "navigation-continuity",
+      "framework-validation"
+    ],
+    "reason": "Authorized F001 identity contract propagates through protected derived-resource consumers."
+  }
+}

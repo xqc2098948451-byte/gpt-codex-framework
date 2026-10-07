@@ -19,7 +19,7 @@ _PROJECT_EVOLUTION_TRANSPORTS = frozenset({"MANUAL", "PROJECT_PUSH", "PROJECT_PU
 _RESULT_EVIDENCE_REF_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:/@#%+=-]{0,255}$")
 _PROTECTED_RESOURCE_TYPES = frozenset({
     "CONTROL", "STATE", "WORK_UNIT", "INSTRUCTION", "RESULT", "EVIDENCE",
-    "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION", "PROJECT_MAP", "RESUME",
+    "REPOSITORY_BINDING", "EXTENSION_CONFIGURATION", "PROJECT_MAP", "MODULE_MAP", "RESUME",
 })
 
 
@@ -41,9 +41,9 @@ class ContextDecision:
 class ProjectIdentity:
     project_id: str
     project_context_id: str
-    repository_id: str
-    repository_full_name: str
-    default_branch: str
+    repository_id: str | None
+    repository_full_name: str | None
+    default_branch: str | None
     project_root: Path | None
     framework_root: Path | None
     management: bool
@@ -55,7 +55,7 @@ class ProjectIdentity:
 class ProjectResourceBinding:
     project_id: str
     project_context_id: str
-    repository_id: str
+    repository_id: str | None
     repository_full_name: str | None
     resource_type: str
 
@@ -84,6 +84,8 @@ def load_project_identity(
     project_root: Path | None = None,
     framework_root: Path | None = None,
 ) -> ProjectIdentity:
+    if not isinstance(control, Mapping):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
     github = control.get("github")
     roots = control.get("roots")
     project_id = control.get("project_id")
@@ -91,9 +93,14 @@ def load_project_identity(
     if (
         not isinstance(project_id, str) or not project_id.strip()
         or not is_valid_project_context_id(context_id)
-        or not isinstance(github, Mapping)
-        or not all(isinstance(github.get(key), str) and github.get(key).strip() for key in ("repository_id", "repository_full_name", "default_branch"))
         or not isinstance(roots, Mapping)
+    ):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
+    if "github" in control and (
+        not isinstance(github, Mapping)
+        or set(github) != {"repository_id", "repository_full_name", "default_branch"}
+        or not all(isinstance(github.get(key), str) and github.get(key).strip()
+                   for key in ("repository_id", "repository_full_name", "default_branch"))
     ):
         raise ValueError("PROJECT_IDENTITY_INVALID")
     management = control.get("framework_management_only") is True
@@ -105,8 +112,10 @@ def load_project_identity(
         raise ValueError("PROJECT_IDENTITY_INVALID")
     return ProjectIdentity(
         project_id=project_id.strip(), project_context_id=context_id,
-        repository_id=github["repository_id"].strip(), repository_full_name=github["repository_full_name"].strip(),
-        default_branch=github["default_branch"].strip(), project_root=project_root, framework_root=framework_root,
+        repository_id=github["repository_id"].strip() if github is not None else None,
+        repository_full_name=github["repository_full_name"].strip() if github is not None else None,
+        default_branch=github["default_branch"].strip() if github is not None else None,
+        project_root=project_root, framework_root=framework_root,
         management=management, project_role=project_role, framework_role=framework_role,
     )
 
@@ -124,6 +133,10 @@ def evaluate_project_identity(
         return _decision("DENY", "PROJECT_IDENTITY_INVALID", hard_stop=True)
     if expected_project_context_id is not None and expected_project_context_id != identity.project_context_id:
         return _decision("DENY", "CROSS_PROJECT_CONTEXT_MISMATCH", packet_status="QUARANTINED")
+    if identity.repository_id is None and (
+        expected_repository_id is not None or expected_repository_full_name is not None
+    ):
+        return _decision("DENY", "GITHUB_REPOSITORY_UNBOUND", hard_stop=True)
     if expected_repository_id is not None and expected_repository_id != identity.repository_id:
         return _decision("DENY", "GITHUB_REPOSITORY_MISMATCH", packet_status="QUARANTINED")
     if expected_repository_full_name is not None and expected_repository_full_name != identity.repository_full_name:
@@ -375,17 +388,27 @@ def validate_repository_transfer(
     )
 
 
-def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> ProjectResourceBinding | None:
-    if resource_type not in _PROTECTED_RESOURCE_TYPES:
+def _resource_binding(
+    resource: Mapping[str, Any], resource_type: str, active_identity: ProjectIdentity,
+) -> ProjectResourceBinding | None:
+    if not isinstance(resource, Mapping) or resource_type not in _PROTECTED_RESOURCE_TYPES:
         return None
     project_id = resource.get("project_id")
     project_context_id = resource.get("project_context_id")
     repository_id = resource.get("repository_id")
     repository_full_name = resource.get("repository_full_name")
+    repository_optional = resource_type == "MODULE_MAP" or (
+        resource_type in {"PROJECT_MAP", "RESUME"} and active_identity.repository_id is None
+    )
+    if resource_type == "MODULE_MAP" and (
+        "repository_id" in resource or "repository_full_name" in resource
+    ):
+        return None
     if (
         not isinstance(project_id, str) or not project_id.strip()
         or not is_valid_project_context_id(project_context_id)
-        or not isinstance(repository_id, str) or not repository_id.strip()
+        or not (repository_optional and repository_id is None
+                or isinstance(repository_id, str) and repository_id.strip())
         or (repository_full_name is not None and (
             not isinstance(repository_full_name, str) or not repository_full_name.strip()
         ))
@@ -394,7 +417,7 @@ def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> Projec
     return ProjectResourceBinding(
         project_id=project_id.strip(),
         project_context_id=project_context_id,
-        repository_id=repository_id.strip(),
+        repository_id=repository_id.strip() if isinstance(repository_id, str) else None,
         repository_full_name=repository_full_name.strip() if isinstance(repository_full_name, str) else None,
         resource_type=resource_type,
     )
@@ -418,9 +441,10 @@ def evaluate_cross_project_resource_boundary(
     *,
     resource_type: str,
     analysis_only: bool = False,
+    parent_project_map: Mapping[str, Any] | None = None,
 ) -> ContextDecision:
     """Classify a protected resource without granting execution authority."""
-    binding = _resource_binding(resource, resource_type)
+    binding = _resource_binding(resource, resource_type, active_identity)
     if binding is None:
         return _quarantined_resource_decision("PROJECT_IDENTITY_INVALID", analysis_only=analysis_only)
     if (
@@ -428,8 +452,31 @@ def evaluate_cross_project_resource_boundary(
         or binding.project_context_id != active_identity.project_context_id
     ):
         return _quarantined_resource_decision("CROSS_PROJECT_CONTEXT_MISMATCH", analysis_only=analysis_only)
+    if resource_type == "MODULE_MAP":
+        # Module Maps intentionally have no repository field. Their repository
+        # scope comes from the validated identity and their bound Project Map.
+        parent = evaluate_cross_project_resource_boundary(
+            active_identity, parent_project_map, resource_type="PROJECT_MAP", analysis_only=analysis_only,
+        )
+        if parent.decision != "ALLOW":
+            return parent
+        if (
+            parent_project_map.get("schema_version") != 1
+            or parent_project_map.get("authority") != "DERIVED_NAVIGATION_INDEX"
+            or resource.get("schema_version") != 1
+            or resource.get("authority") != "DERIVED_NAVIGATION_INDEX"
+        ):
+            return _quarantined_resource_decision("PROJECT_IDENTITY_INVALID", analysis_only=analysis_only)
+        modules = parent_project_map.get("modules")
+        if (
+            not isinstance(modules, list)
+            or not isinstance(resource.get("module_id"), str)
+            or sum(isinstance(module, Mapping) and module.get("id") == resource["module_id"]
+                   for module in modules) != 1
+        ):
+            return _quarantined_resource_decision("MODULE_MAP_ID_MISMATCH", analysis_only=analysis_only)
     if (
-        binding.repository_id != active_identity.repository_id
+        resource_type != "MODULE_MAP" and binding.repository_id != active_identity.repository_id
         or (
             binding.repository_full_name is not None
             and binding.repository_full_name != active_identity.repository_full_name

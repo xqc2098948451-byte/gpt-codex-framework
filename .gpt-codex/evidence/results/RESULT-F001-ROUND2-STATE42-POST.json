@@ -1,0 +1,1661 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-explicit-github-unbound-round2-state42-001",
+  "extension": "framework-governance",
+  "result_id": "de22c997-aa28-4452-b46b-65c2f924854b",
+  "result_message_type": "REVIEW_RESULT",
+  "status": "PASS",
+  "response_to_instruction_id": "1fbb1306-1ce3-46a5-910a-566d0ed72587",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 42,
+  "review_target_revision": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+  "fix_round": 2,
+  "finding_ids": [],
+  "remediation_decision_ref": "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION",
+  "artifact_stage": "IMPLEMENTATION",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+  "remote_head_sha": "e77ee58be58eb19131b966f800753522d4e12661",
+  "remote_verification": "VERIFIED",
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "publication_authority": null,
+  "git": {
+    "base_sha": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "implementation_sha": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25"
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+    ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+    ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+    ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+    ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+    ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+    ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json"
+  ],
+  "completion_gate": "GPT_DECISION",
+  "execution": {
+    "mode": "READ_ONLY_INDEPENDENT_POST",
+    "post_review_request_id": "2cf093c7-55bf-43af-b127-56699d99260c",
+    "post_review_request_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "68e16da5d6d4839dee1b62b3d406f6c341ca8176",
+      "path": ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+      "blob_sha": "72b9021f723871914356f1648b1cf80f91f78f8d"
+    },
+    "fresh_FIX_instruction_id": "1fbb1306-1ce3-46a5-910a-566d0ed72587",
+    "reviewer_agent_context": "/root/round2_post_reviewer"
+  },
+  "changed": [],
+  "verify": {
+    "candidate_audit": {
+      "candidate_sha": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+      "execution_base": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+      "review_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+      "checks": [
+        {
+          "check": "exact_candidate_head",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "tracked_and_untracked_clean_before",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "ancestor:661ff5f1d32f84ab867058dbc896b90fc8101d0a:c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "ancestor:c53a2019d88678bd5a64ec3f525a835d7bc98b70:f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "ancestor:f58df9e623de260fa9832a0de493ac7b8a6dce5f:d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_G001_Round1_to_base",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_G001_base_to_source_parent",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "every_commit_bridge_management_only",
+          "passed": true,
+          "facts": {
+            "ff46a9b6a38cf2c5ed165e782598f59dc1d0f4c8": [
+              ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+              ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+              ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json"
+            ],
+            "c53a2019d88678bd5a64ec3f525a835d7bc98b70": [
+              ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+              ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+              ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json"
+            ],
+            "f58df9e623de260fa9832a0de493ac7b8a6dce5f": [
+              ".gpt-codex/STATE.json",
+              ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+              ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json",
+              ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION.json",
+              ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+              ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json",
+              ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
+              ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION.json",
+              ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
+              ".gpt-codex/evidence/instructions/655254b0-16d4-4b53-b4a3-de8ceca62394.json",
+              ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
+              ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
+              ".gpt-codex/evidence/instructions/db39f37d-f476-4b05-8add-0ddafa11ee29.json",
+              ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
+              ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
+              ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
+              ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+              ".gpt-codex/work-units/f001-round2-remediation-authority-state42-continuity-001.json",
+              ".gpt-codex/work-units/f001-round2-remediation-authority-state42-gate-001.json"
+            ]
+          }
+        },
+        {
+          "check": "20_STATE42_authority_records_exact",
+          "passed": true,
+          "facts": [
+            {
+              "path": ".gpt-codex/STATE.json",
+              "blob_sha": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de",
+              "sha256": "2d457a33d51ca773c4fefb38c17a87e0a8146c0f7841942266a3029ea1fffd0e",
+              "byte_count": 23930,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+              "blob_sha": "a966fee22cd9ff5ad92623c6d55f57545b1648be",
+              "sha256": "c1dfc6f0353b8a6356495e2ca4b977610c97c1564a2506dd525d1f56fb05b4af",
+              "byte_count": 30933,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+              "blob_sha": "b976b9a8f9cd93d6007d6d4f845ebbac7d2825d4",
+              "sha256": "8231f3e4367cd27eea7e20a9cd5918530511cab2b1dbcf6029dd1c6dff7db244",
+              "byte_count": 4885,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json",
+              "blob_sha": "a37b5efa44e3dffb493b49ab1fc8f93d16790c3f",
+              "sha256": "f5dff532916364c097055dd2a282c6f2c496f0ec7d25782788a6e0f574748ea6",
+              "byte_count": 2230,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION.json",
+              "blob_sha": "693ce5272a0d9f8c5400e3b41592bc9ba26ec0b7",
+              "sha256": "3dc703c75c31762876a0cd4e8cbe9436fd702e8561047a6ba9b487ecc639d55e",
+              "byte_count": 1395,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
+              "blob_sha": "59545daecb42e1c8066e0b0815c2faf923b2a60b",
+              "sha256": "753d0b866849ccc3a30a223f333684ac1546a5d2fe80c74a35b03ec5e5acb932",
+              "byte_count": 72560,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/655254b0-16d4-4b53-b4a3-de8ceca62394.json",
+              "blob_sha": "e6cae30954cfa5ff6ef9a19f40d757fce83f18a8",
+              "sha256": "cd24215e428d965e9be1bb74aa97bcdb894a06085c91ab06e9e1542593d9434a",
+              "byte_count": 2736,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/db39f37d-f476-4b05-8add-0ddafa11ee29.json",
+              "blob_sha": "4986a782fa8e4522aee3ff74a190903f79a793a8",
+              "sha256": "b4697f373471a04a48105fbf863dcd01b177f53c87e85a36c8e4ebda384e5a3d",
+              "byte_count": 2841,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
+              "blob_sha": "32870c6e50609cca6c57137f4ef78aa47e052a53",
+              "sha256": "ac7b728b47d8020b3f2b714b092ddfe983bdc85b1d579968461c941302fb8202",
+              "byte_count": 36949,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
+              "blob_sha": "d0dd05024ec42ea6fef0237e9f2ca18926fc1117",
+              "sha256": "6f05105cc2c3dc2976c6a7a4f39f62188ad749d38f38a1a482c9702b73c7bf03",
+              "byte_count": 37097,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
+              "blob_sha": "ee4e450c9ebe87f9f199c6c69111b2d64bfc4ae1",
+              "sha256": "d626a7834e00ca170fe195e918e4d9339ce96ae9bf4dd4a99226bc8958f16592",
+              "byte_count": 9585,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION.json",
+              "blob_sha": "dc67cbf033ed37c9603eb32ad466ebefbda2b0a8",
+              "sha256": "cc2855600a6b9c8dc657d31cf24539531a92106a2765f4bf08cfc607d67e8379",
+              "byte_count": 1246,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+              "blob_sha": "5942465c958f4f2a9a0faeb5f4b9792653b555e0",
+              "sha256": "d89e26ca53f8af9c0f6f9fbd8d774560a75d417288c8f9df583a0da1238d83f8",
+              "byte_count": 7099,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
+              "blob_sha": "b1e67eb6d75ce14b63493c81bb733dd6cf76d8c4",
+              "sha256": "5d229589b89521531e40fda9527c4c90f5aa57d817f0d87004453014e003e11b",
+              "byte_count": 2853,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
+              "blob_sha": "36f8d62615395aa83e9de48f56881ffce8782bfc",
+              "sha256": "de4d1e11932f8fcddb4987c1770077391378b1051ee2b40ebfede50853a9bf9e",
+              "byte_count": 2748,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
+              "blob_sha": "1da892dcfc06e7e709134fb7724ab2be50f0d67e",
+              "sha256": "3b0bd06b51194b23dffc80e1436b39f52231a59e2bde4c601780bbd4c08c6820",
+              "byte_count": 2853,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
+              "blob_sha": "5073d42e7690ebe70513790229cc311f2769c364",
+              "sha256": "56fb1204d952bd6abee3b7bbbcae356f40798a9f07a450b24d8ed7b1a1fbc758",
+              "byte_count": 2724,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json",
+              "blob_sha": "ad092fa5ec25a223165d1b8adce3b1e8fbcd5417",
+              "sha256": "073f9a415f03198e355c15efc12ccbda9fb9a7ba9e58cb37e228569b29b9ce6d",
+              "byte_count": 2225,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/work-units/f001-round2-remediation-authority-state42-gate-001.json",
+              "blob_sha": "efd4fc52f79a1dbf42a86bdf090cb29b3b5d604c",
+              "sha256": "eda56c132eebda6df522420ffe8b29607f2ed7653e2b526d0ca6aef454d74fe8",
+              "byte_count": 26780,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            },
+            {
+              "path": ".gpt-codex/work-units/f001-round2-remediation-authority-state42-continuity-001.json",
+              "blob_sha": "445897cac05eadb8e1341a6c0f0699d3252150da",
+              "sha256": "67e266d7587249d67fe5532632dc4c79592ae837db47c6eebb05272c44bdf04c",
+              "byte_count": 26786,
+              "base_equals_remote": true,
+              "candidate_equals_remote": true,
+              "manifest_hash_equal": true,
+              "manifest_count_equal": true
+            }
+          ]
+        },
+        {
+          "check": "Round1_8_changed_source_test_bytes_at_execution_base",
+          "passed": true,
+          "facts": {
+            ".gpt-codex/scripts/context_binding.py": true,
+            ".gpt-codex/scripts/continuity_resume.py": true,
+            ".gpt-codex/scripts/project_navigation.py": true,
+            ".gpt-codex/scripts/validate_project.py": true,
+            ".gpt-codex/tests/test_context_window_resume.py": true,
+            ".gpt-codex/tests/test_continuity_resume.py": true,
+            ".gpt-codex/tests/test_navigation_project_validation.py": true,
+            ".gpt-codex/tests/test_project_navigation.py": true
+          }
+        },
+        {
+          "check": "Round1_3_other_production_sources_unchanged",
+          "passed": true,
+          "facts": [
+            ".gpt-codex/scripts/context_binding.py",
+            ".gpt-codex/scripts/continuity_resume.py",
+            ".gpt-codex/scripts/project_navigation.py"
+          ]
+        },
+        {
+          "check": "live_remote_main_exact",
+          "passed": true,
+          "facts": "e77ee58be58eb19131b966f800753522d4e12661\trefs/heads/main"
+        },
+        {
+          "check": "live_review_ref_head_unchanged",
+          "passed": true,
+          "facts": "c53a2019d88678bd5a64ec3f525a835d7bc98b70\trefs/heads/review/f001-optional-github-post-state41-661ff5f1"
+        },
+        {
+          "check": "STATE_AUTHORIZED_42",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_live_resume",
+          "passed": true,
+          "facts": {
+            "status": "LATEST_SYNCED_REMOTE_STATE",
+            "verified_baseline_sha": "17b2985cf9d9f2b24bff46fcf375799c4f5a18fc"
+          }
+        },
+        {
+          "check": "native_immutable_fresh_FIX_resolve",
+          "passed": true,
+          "facts": {
+            "status": "INSTRUCTION_RESOLVED",
+            "locator": {
+              "repository": "xqc2098948451-byte/gpt-codex-framework",
+              "commit_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+              "path": ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+              "blob_sha": "42ade4900de52f8ca69aba255815aeb508b237cf"
+            }
+          }
+        },
+        {
+          "check": "native_immutable_POST_resolve",
+          "passed": true,
+          "facts": {
+            "status": "INSTRUCTION_RESOLVED",
+            "locator": {
+              "repository": "xqc2098948451-byte/gpt-codex-framework",
+              "commit_sha": "68e16da5d6d4839dee1b62b3d406f6c341ca8176",
+              "path": ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+              "blob_sha": "72b9021f723871914356f1648b1cf80f91f78f8d"
+            }
+          }
+        },
+        {
+          "check": "POST_exact_candidate_bindings",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_Finding_FIX2_durable_lifecycle",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "native_initial_durable_PRE_gate",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "native_initial_PRE_Result_contract_authority",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "initial_PRE_byte_exact_hash",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_scope_durable_PRE_gate",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "native_scope_PRE_Result_contract_authority",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "scope_PRE_byte_exact_hash",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "native_corrected_FIX_candidate_mutation_entry",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "scope_exact_WU_and_FIX",
+          "passed": true,
+          "facts": [
+            ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+            ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+            ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+            ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+            ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+            ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+            ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+            ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+            ".gpt-codex/scripts/validate_project.py",
+            ".gpt-codex/tests/test_continuity_resume.py",
+            ".gpt-codex/tests/test_validator_context_binding.py",
+            ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json"
+          ]
+        },
+        {
+          "check": "protected_paths_no_delta",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "exact_changed_production_and_tests",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "test_file_and_method_growth_zero",
+          "passed": true,
+          "facts": {
+            "new_files": [],
+            "new_methods": [],
+            "removed_methods": [],
+            "method_count": 739
+          }
+        },
+        {
+          "check": "MODULE_MAP_repository_id_absent",
+          "passed": true,
+          "facts": []
+        },
+        {
+          "check": "native_directory_creation_candidate",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "Windows_CRLF_diff_check",
+          "passed": true,
+          "facts": ""
+        },
+        {
+          "check": "retained_RED_GREEN_and_277_to_32_aggregate",
+          "passed": true,
+          "facts": [
+            {
+              "name": "exact-regression-red",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-red.log",
+              "sha256": "6cbf7a7807667ac4ed8d4c9860130a4b233b3eaf218ff1f592463c1a17cfa363",
+              "byte_count": 3242,
+              "test_count": 1,
+              "summary": "failures=2",
+              "individual_ok_count": 0,
+              "failure_ids": [
+                "test_continuity_resume.OptionalGithubContractTests.test_local_explicit_github_target_is_unbound) (target={'target_github_repository_id': 'repo-a'}",
+                "test_continuity_resume.OptionalGithubContractTests.test_local_explicit_github_target_is_unbound) (target={'target_github_repository_full_name': 'owner/a'}"
+              ],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "exact-regression-green",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-green.log",
+              "sha256": "76338fdb42d33664725b98a3337f221d16520432c9b5f5a273022c0b02413fd0",
+              "byte_count": 253,
+              "test_count": 1,
+              "summary": "OK",
+              "individual_ok_count": 1,
+              "failure_ids": [],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "five-semantic-regressions",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\five-semantic-regressions.log",
+              "sha256": "f69ed7c5105a708ffcdfce457aa7a9160f836a74e8ca2abe7503e50a1c55d127",
+              "byte_count": 962,
+              "test_count": 5,
+              "summary": "OK",
+              "individual_ok_count": 5,
+              "failure_ids": [],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "affected-tests",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.log",
+              "sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88",
+              "byte_count": 54893,
+              "test_count": 277,
+              "summary": "failures=1",
+              "individual_ok_count": 276,
+              "failure_ids": [
+                "test_validator_context_binding.ValidatorContextBindingTests.test_adoption_requires_local_authority_not_source_or_observation"
+              ],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "corrected-validator-method",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-method.log",
+              "sha256": "da816c0bb6aa2a9c445cd0fea4d65920fd41747e82ea3808292be46a34a7f572",
+              "byte_count": 302,
+              "test_count": 1,
+              "summary": "OK",
+              "individual_ok_count": 1,
+              "failure_ids": [],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "corrected-validator-module",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-module.log",
+              "sha256": "19b77ab7932cb0c866f299a67e9caa6fc17abb6d0a486fe58380516d2bc67456",
+              "byte_count": 6660,
+              "test_count": 32,
+              "summary": "OK",
+              "individual_ok_count": 32,
+              "failure_ids": [],
+              "validator_PASS": false,
+              "full_file_read": true
+            },
+            {
+              "name": "validate_project",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_project.log",
+              "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+              "byte_count": 111,
+              "test_count": null,
+              "summary": null,
+              "individual_ok_count": 0,
+              "failure_ids": [],
+              "validator_PASS": true,
+              "full_file_read": true
+            },
+            {
+              "name": "validate_framework",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_framework.log",
+              "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+              "byte_count": 74,
+              "test_count": null,
+              "summary": null,
+              "individual_ok_count": 0,
+              "failure_ids": [],
+              "validator_PASS": true,
+              "full_file_read": true
+            },
+            {
+              "name": "validate_consumer_projection",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_consumer_projection.log",
+              "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+              "byte_count": 184,
+              "test_count": null,
+              "summary": null,
+              "individual_ok_count": 0,
+              "failure_ids": [],
+              "validator_PASS": true,
+              "full_file_read": true
+            },
+            {
+              "name": "real-local-project-validator",
+              "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-local-project-validator.log",
+              "sha256": "4bdc6428abd1e758a6824ddbcfa8dc5ae312a9cc6a316e188ec81000070e4fd3",
+              "byte_count": 114,
+              "test_count": null,
+              "summary": null,
+              "individual_ok_count": 0,
+              "failure_ids": [],
+              "validator_PASS": true,
+              "full_file_read": true
+            }
+          ],
+          "audit_correction": "Normalize CRLF for line-anchor parsing only; original bytes and SHA256 hashes retained. No tests or validators rerun."
+        },
+        {
+          "check": "affected_only_stale_fixture_failure",
+          "passed": true,
+          "facts": null
+        },
+        {
+          "check": "independent_5_F001_and_corrected_method",
+          "passed": true,
+          "facts": {
+            "command": [
+              "C:\\Python313\\python.exe",
+              "-m",
+              "unittest",
+              "test_continuity_resume.OptionalGithubContractTests",
+              "test_validator_context_binding.ValidatorContextBindingTests.test_adoption_requires_local_authority_not_source_or_observation",
+              "-v"
+            ],
+            "cwd": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post\\.gpt-codex\\tests",
+            "exit_code": 0,
+            "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\independent_5_F001_and_corrected_method.log",
+            "byte_count": 1162,
+            "sha256": "3d858205efa2cfbbad53fada6965f5daa1c40599e35bd328ff2847ece594b0f1",
+            "test_count": 6,
+            "output": "test_bound_github_identity_and_module_parent_chain_match (test_continuity_resume.OptionalGithubContractTests.test_bound_github_identity_and_module_parent_chain_match) ... ok\r\ntest_bound_mismatch_and_cross_project_resources_fail_closed (test_continuity_resume.OptionalGithubContractTests.test_bound_mismatch_and_cross_project_resources_fail_closed) ... ok\r\ntest_local_explicit_github_target_is_unbound (test_continuity_resume.OptionalGithubContractTests.test_local_explicit_github_target_is_unbound) ... ok\r\ntest_local_only_identity_resources_and_continuity (test_continuity_resume.OptionalGithubContractTests.test_local_only_identity_resources_and_continuity) ... ok\r\ntest_partial_github_identity_never_bypasses_protected_validation (test_continuity_resume.OptionalGithubContractTests.test_partial_github_identity_never_bypasses_protected_validation) ... ok\r\ntest_adoption_requires_local_authority_not_source_or_observation (test_validator_context_binding.ValidatorContextBindingTests.test_adoption_requires_local_authority_not_source_or_observation) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 6 tests in 0.181s\r\n\r\nOK\r\n"
+          }
+        },
+        {
+          "check": "validate_project",
+          "passed": true,
+          "facts": {
+            "command": [
+              "C:\\Python313\\python.exe",
+              "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post\\.gpt-codex\\scripts\\validate_project.py",
+              "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post"
+            ],
+            "cwd": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+            "exit_code": 0,
+            "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_project.log",
+            "byte_count": 111,
+            "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+            "test_count": null,
+            "output": "RESULT: PASS\r\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\r\nSTATE: AUTHORIZED@revision-42\r\nPROJECT_CONTEXT_BINDING: PASS\r\n"
+          }
+        },
+        {
+          "check": "validate_framework",
+          "passed": true,
+          "facts": {
+            "command": [
+              "C:\\Python313\\python.exe",
+              "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post\\.gpt-codex\\scripts\\validate_framework.py"
+            ],
+            "cwd": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+            "exit_code": 0,
+            "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_framework.log",
+            "byte_count": 74,
+            "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+            "test_count": null,
+            "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
+          }
+        },
+        {
+          "check": "validate_consumer_projection",
+          "passed": true,
+          "facts": {
+            "command": [
+              "C:\\Python313\\python.exe",
+              "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post\\.gpt-codex\\scripts\\validate_consumer_projection.py",
+              "--root",
+              "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post"
+            ],
+            "cwd": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+            "exit_code": 0,
+            "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_consumer_projection.log",
+            "byte_count": 184,
+            "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+            "test_count": null,
+            "output": "RESULT: PASS\r\nCONSUMER_PROJECTION_RELEASE_MATCH: PASS\r\nCONSUMER_REQUIRED_COUNT: 86\r\nUNKNOWN_PATH_COUNT: 0\r\nMISSING_REQUIRED_PATH_COUNT: 0\r\nMANAGEMENT_IDS_IN_CONSUMER_PROJECTION: NONE\r\n"
+          }
+        },
+        {
+          "check": "exact_candidate_and_clean_after",
+          "passed": true,
+          "facts": null
+        }
+      ],
+      "passed_count": 40,
+      "failed_checks": [],
+      "F001_FULL_SUITE_RUN_COUNT_THIS_REVIEW": 0
+    },
+    "final_metadata_checks": [
+      {
+        "check": "final_validation_immutable_locator",
+        "passed": true,
+        "facts": {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "34cb3b8f066e3143778f7fa0e1a0b93f6dc7f5d2",
+            "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+            "blob_sha": "c4a465e7eb50c3088f38a797fc55ef239f8c6bdd"
+          },
+          "status": "ALLOW"
+        }
+      },
+      {
+        "check": "final_result_immutable_locator",
+        "passed": true,
+        "facts": {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "34cb3b8f066e3143778f7fa0e1a0b93f6dc7f5d2",
+            "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json",
+            "blob_sha": "e15c9bd4930651eb43d6ad1966c34d7f61837cd7"
+          },
+          "status": "ALLOW"
+        }
+      },
+      {
+        "check": "final_validation_candidate_and_STATE42",
+        "passed": true,
+        "facts": null
+      },
+      {
+        "check": "final_implementation_native_Result_contract",
+        "passed": true,
+        "facts": []
+      },
+      {
+        "check": "final_implementation_LOCAL_COMPLETE_NO_PUSH_POST_PENDING",
+        "passed": true,
+        "facts": null
+      },
+      {
+        "check": "candidate_to_final_metadata_every_commit_management_only",
+        "passed": true,
+        "facts": null
+      },
+      {
+        "check": "entire_source_test_trees_unchanged_after_candidate",
+        "passed": true,
+        "facts": {
+          "path_count": 76
+        }
+      },
+      {
+        "check": "all_17_sealed_external_runtime_hashes_and_counts",
+        "passed": true,
+        "facts": [
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-red.log",
+            "sha256": "6cbf7a7807667ac4ed8d4c9860130a4b233b3eaf218ff1f592463c1a17cfa363",
+            "byte_count": 3242,
+            "name": "exact-regression-red.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-green.log",
+            "sha256": "76338fdb42d33664725b98a3337f221d16520432c9b5f5a273022c0b02413fd0",
+            "byte_count": 253,
+            "name": "exact-regression-green.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\five-semantic-regressions.log",
+            "sha256": "f69ed7c5105a708ffcdfce457aa7a9160f836a74e8ca2abe7503e50a1c55d127",
+            "byte_count": 962,
+            "name": "five-semantic-regressions.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.log",
+            "sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88",
+            "byte_count": 54893,
+            "name": "affected-tests.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.json",
+            "sha256": "3bdcca1431f285dfddab743d348744df6ac0822017655a80a7f6fd0729592766",
+            "byte_count": 648,
+            "name": "affected-tests.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-method.log",
+            "sha256": "da816c0bb6aa2a9c445cd0fea4d65920fd41747e82ea3808292be46a34a7f572",
+            "byte_count": 302,
+            "name": "corrected-validator-method.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-module.log",
+            "sha256": "19b77ab7932cb0c866f299a67e9caa6fc17abb6d0a486fe58380516d2bc67456",
+            "byte_count": 6660,
+            "name": "corrected-validator-module.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-tests.json",
+            "sha256": "3282a6f60421a102385f938ac9219ccf8babea9c733b399fe1f7b53e2c45f6fa",
+            "byte_count": 1242,
+            "name": "corrected-validator-tests.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\native-validators.json",
+            "sha256": "7701ef23d05e85d214c4d0a9527628f67a7e8222e0b1e448b14d6dfe8229b082",
+            "byte_count": 1864,
+            "name": "native-validators.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_project.log",
+            "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+            "byte_count": 111,
+            "name": "validate_project.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_framework.log",
+            "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+            "byte_count": 74,
+            "name": "validate_framework.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_consumer_projection.log",
+            "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+            "byte_count": 184,
+            "name": "validate_consumer_projection.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\run-real-adoption-smoke.py",
+            "sha256": "381cc71bc8a04e6b9498fd12da18972f558ea6ec8acfa44b2d58bf4a549f3861",
+            "byte_count": 7203,
+            "name": "run-real-adoption-smoke.py",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-adoption-smoke.json",
+            "sha256": "206313bc7f2dc3805794b79409ef85e403dc62d069eee0b4547fa2ae940faec3",
+            "byte_count": 3549,
+            "name": "real-adoption-smoke.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-local-project-validator.log",
+            "sha256": "4bdc6428abd1e758a6824ddbcfa8dc5ae312a9cc6a316e188ec81000070e4fd3",
+            "byte_count": 114,
+            "name": "real-local-project-validator.log",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\existing-validator-test-fixture-conflict.json",
+            "sha256": "e533683c2d5b7ba8c1fe0f92cda63e70bbccbcddf8e85043a6193e1eb9943894",
+            "byte_count": 975,
+            "name": "existing-validator-test-fixture-conflict.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          },
+          {
+            "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\bounded-source-verification.json",
+            "sha256": "6d1d573e0a323ea33a7448f199629005f09d71f2c3d1e485050ba75c65bdf10f",
+            "byte_count": 342,
+            "name": "bounded-source-verification.json",
+            "hash_equal": true,
+            "byte_count_equal": true
+          }
+        ]
+      },
+      {
+        "check": "source_hash_recorded_before_fixture_scope_matches_final",
+        "passed": true,
+        "facts": {
+          "changed_production_functions": [
+            "_project_identity_decision"
+          ],
+          "source_sha256": "b51f057b9b6e4c90219a54f2b10a962a5b5952afe462270190bd07f854960139",
+          "native_STATE42_bytes_unchanged": true,
+          "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+          "second_identity_system_count": 0,
+          "pending_test_fixture_scope_decision": true
+        }
+      },
+      {
+        "check": "helper_only_AST_and_second_identity_count_zero",
+        "passed": true,
+        "facts": [
+          "_project_identity_decision"
+        ]
+      },
+      {
+        "check": "inherited_Round1_one_full_suite_not_rerun",
+        "passed": true,
+        "facts": {
+          "run_count": 1,
+          "test_count": 752,
+          "summary": "Ran 752 tests in 366.000s; OK (skipped=2)",
+          "Round2_full_suite_runs": 0
+        }
+      },
+      {
+        "check": "independent_POST_context_and_root",
+        "passed": true,
+        "facts": {
+          "reviewer_agent_context": "/root/round2_post_reviewer",
+          "implementer_context_id": "633e3815-2cf7-4cf7-8b58-89bbe12d95d0",
+          "initial_PRE_context": "/root/round2_pre_reviewer",
+          "scope_PRE_context": "/root/round2_scope_pre_reviewer",
+          "private_contexts_read": false
+        }
+      },
+      {
+        "check": "optional_remote_presentation_limit_transparent",
+        "passed": true,
+        "facts": {
+          "repository_handoff_status": "RECONCILIATION_REQUIRED",
+          "plugin_result_handoff_status": "RECONCILIATION_REQUIRED",
+          "reason": "The existing remote presentation handoff requires remote HEAD == local HEAD. This authorized Round2 is local-only with no PUSH, so remote main e77 differs from exact reviewer candidate d96 and sealed local management descendant. In addition its evidence selector is JSON-evidence-only, whereas original Finding evidence_refs include two source references that native re-review requires retaining. No identity, source, STATE, scope or Result rewrite was attempted to satisfy this optional presentation adapter.",
+          "required_native_gates_accepted": true,
+          "HANDOFF_READY_claimed": false
+        }
+      },
+      {
+        "check": "final_remote_main_review_ref_boundary",
+        "passed": true,
+        "facts": null
+      },
+      {
+        "check": "final_reviewer_HEAD_and_clean",
+        "passed": true,
+        "facts": null
+      },
+      {
+        "check": "native_final_POST_Result_and_re_review_lifecycle",
+        "passed": true,
+        "facts": {
+          "Result_schema": [],
+          "Result_protocol": [],
+          "review_Result": [],
+          "Result_authority": [],
+          "Finding_FIX2_exact_candidate_re_review_lifecycle": []
+        }
+      }
+    ],
+    "independent_real_adoption_smoke": {
+      "status": "PASS",
+      "REAL_ADOPTION_PATH_SMOKE": "PASS",
+      "required_semantic_categories": 5,
+      "observations": [
+        {
+          "case": "LOCAL_NO_GITHUB_NO_TARGET",
+          "expected": [],
+          "actual": [],
+          "helper_decision": "ALLOW",
+          "helper_reason": "IDENTITY_MATCH",
+          "materialized_control_sha256": "a794b0c5dace49c45952402fcd0ed59244de4d2b485ee6947c787af209c8cf52",
+          "instruction_targets": {}
+        },
+        {
+          "case": "LOCAL_EXPLICIT_GITHUB_ID",
+          "expected": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ],
+          "actual": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "GITHUB_REPOSITORY_UNBOUND",
+          "materialized_control_sha256": "a794b0c5dace49c45952402fcd0ed59244de4d2b485ee6947c787af209c8cf52",
+          "instruction_targets": {
+            "target_github_repository_id": "post-repo-a"
+          }
+        },
+        {
+          "case": "LOCAL_EXPLICIT_GITHUB_FULL_NAME",
+          "expected": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ],
+          "actual": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "GITHUB_REPOSITORY_UNBOUND",
+          "materialized_control_sha256": "a794b0c5dace49c45952402fcd0ed59244de4d2b485ee6947c787af209c8cf52",
+          "instruction_targets": {
+            "target_github_repository_full_name": "post-owner/a"
+          }
+        },
+        {
+          "case": "BOUND_MATCH",
+          "expected": [],
+          "actual": [],
+          "helper_decision": "ALLOW",
+          "helper_reason": "IDENTITY_MATCH",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_github_repository_id": "post-repo-a",
+            "target_github_repository_full_name": "post-owner/a"
+          }
+        },
+        {
+          "case": "BOUND_MISMATCH_ID",
+          "expected": [
+            "GITHUB_REPOSITORY_MISMATCH"
+          ],
+          "actual": [
+            "GITHUB_REPOSITORY_MISMATCH"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "GITHUB_REPOSITORY_MISMATCH",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_github_repository_id": "post-foreign"
+          }
+        },
+        {
+          "case": "BOUND_MISMATCH_FULL_NAME",
+          "expected": [
+            "GITHUB_REPOSITORY_MISMATCH"
+          ],
+          "actual": [
+            "GITHUB_REPOSITORY_MISMATCH"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "GITHUB_REPOSITORY_MISMATCH",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_github_repository_full_name": "post-foreign/repo"
+          }
+        },
+        {
+          "case": "PARTIAL_GITHUB",
+          "expected": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "actual": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "PROJECT_IDENTITY_INVALID",
+          "materialized_control_sha256": "801170d592eb3cf719cfb24ad17c991e42a81fe19ff0168f697547cd92dd31e8",
+          "instruction_targets": {}
+        },
+        {
+          "case": "CROSS_CONTEXT_LOCAL_WITH_TARGET",
+          "expected": [
+            "CROSS_PROJECT_CONTEXT_MISMATCH"
+          ],
+          "actual": [
+            "CROSS_PROJECT_CONTEXT_MISMATCH"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "CROSS_PROJECT_CONTEXT_MISMATCH",
+          "materialized_control_sha256": "a794b0c5dace49c45952402fcd0ed59244de4d2b485ee6947c787af209c8cf52",
+          "instruction_targets": {
+            "target_project_context_id": "66c8cfc7-29e7-4036-8ad1-acf801a49744",
+            "target_github_repository_id": "post-repo-a"
+          }
+        },
+        {
+          "case": "MALFORMED_CONTEXT_LOCAL_WITH_TARGET",
+          "expected": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "actual": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "PROJECT_IDENTITY_INVALID",
+          "materialized_control_sha256": "a794b0c5dace49c45952402fcd0ed59244de4d2b485ee6947c787af209c8cf52",
+          "instruction_targets": {
+            "target_project_context_id": "invalid-context",
+            "target_github_repository_id": "post-repo-a"
+          }
+        },
+        {
+          "case": "CROSS_CONTEXT_BOUND",
+          "expected": [
+            "CROSS_PROJECT_CONTEXT_MISMATCH"
+          ],
+          "actual": [
+            "CROSS_PROJECT_CONTEXT_MISMATCH"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "CROSS_PROJECT_CONTEXT_MISMATCH",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_project_context_id": "7a24b574-634c-475f-93bc-47c7bcf8b135",
+            "target_github_repository_id": "post-repo-a"
+          }
+        },
+        {
+          "case": "BOUND_MALFORMED_ID",
+          "expected": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "actual": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "PROJECT_IDENTITY_INVALID",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_github_repository_id": ""
+          }
+        },
+        {
+          "case": "BOUND_MALFORMED_FULL_NAME",
+          "expected": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "actual": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "helper_decision": "DENY",
+          "helper_reason": "PROJECT_IDENTITY_INVALID",
+          "materialized_control_sha256": "4f21f8a51f4c4b0dcbcd93fd2d7072c7f1365f00b33b038614defea3e56cef05",
+          "instruction_targets": {
+            "target_github_repository_full_name": []
+          }
+        }
+      ],
+      "independent_exact_RED_GREEN_reproduction": [
+        {
+          "field": "target_github_repository_id",
+          "unchanged_identity_reason": "GITHUB_REPOSITORY_UNBOUND",
+          "execution_base_adoption": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "exact_candidate_adoption": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ]
+        },
+        {
+          "field": "target_github_repository_full_name",
+          "unchanged_identity_reason": "GITHUB_REPOSITORY_UNBOUND",
+          "execution_base_adoption": [
+            "PROJECT_IDENTITY_INVALID"
+          ],
+          "exact_candidate_adoption": [
+            "GITHUB_REPOSITORY_UNBOUND"
+          ]
+        }
+      ],
+      "project_root": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\real-adoption-project",
+      "framework_source_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+      "project_head": "16a71c5a4d577fa20df443daa42b79499359e6b3",
+      "project_no_remote": true,
+      "project_clean": true,
+      "original_control_github_absent": true,
+      "native_local_resume_status": "LOCAL_PROJECT_STATE",
+      "work_unit_schema_and_instruction_schema_authority": "PASS",
+      "local_project_validator_exit": 0,
+      "local_project_validator_log_sha256": "c3e961c219f6fac1d89bc8e299fcce9fbf970f0b8f9323257b6477ed62f7ddb4",
+      "local_project_validator_log_bytes": 110,
+      "candidate_validate_project_source_sha256": "b51f057b9b6e4c90219a54f2b10a962a5b5952afe462270190bd07f854960139",
+      "candidate_source_or_test_writes": 0,
+      "module_map_repository_id_added": false,
+      "new_test_files": 0,
+      "new_test_methods": 0,
+      "full_suite_runs": 0
+    },
+    "retained_log_aggregate": {
+      "status": "PASS",
+      "manifest": [
+        {
+          "name": "exact-regression-red",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-red.log",
+          "sha256": "6cbf7a7807667ac4ed8d4c9860130a4b233b3eaf218ff1f592463c1a17cfa363",
+          "byte_count": 3242,
+          "test_count": 1,
+          "summary": "failures=2",
+          "individual_ok_count": 0,
+          "failure_ids": [
+            "test_continuity_resume.OptionalGithubContractTests.test_local_explicit_github_target_is_unbound) (target={'target_github_repository_id': 'repo-a'}",
+            "test_continuity_resume.OptionalGithubContractTests.test_local_explicit_github_target_is_unbound) (target={'target_github_repository_full_name': 'owner/a'}"
+          ],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "exact-regression-green",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-green.log",
+          "sha256": "76338fdb42d33664725b98a3337f221d16520432c9b5f5a273022c0b02413fd0",
+          "byte_count": 253,
+          "test_count": 1,
+          "summary": "OK",
+          "individual_ok_count": 1,
+          "failure_ids": [],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "five-semantic-regressions",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\five-semantic-regressions.log",
+          "sha256": "f69ed7c5105a708ffcdfce457aa7a9160f836a74e8ca2abe7503e50a1c55d127",
+          "byte_count": 962,
+          "test_count": 5,
+          "summary": "OK",
+          "individual_ok_count": 5,
+          "failure_ids": [],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "affected-tests",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.log",
+          "sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88",
+          "byte_count": 54893,
+          "test_count": 277,
+          "summary": "failures=1",
+          "individual_ok_count": 276,
+          "failure_ids": [
+            "test_validator_context_binding.ValidatorContextBindingTests.test_adoption_requires_local_authority_not_source_or_observation"
+          ],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "corrected-validator-method",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-method.log",
+          "sha256": "da816c0bb6aa2a9c445cd0fea4d65920fd41747e82ea3808292be46a34a7f572",
+          "byte_count": 302,
+          "test_count": 1,
+          "summary": "OK",
+          "individual_ok_count": 1,
+          "failure_ids": [],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "corrected-validator-module",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-module.log",
+          "sha256": "19b77ab7932cb0c866f299a67e9caa6fc17abb6d0a486fe58380516d2bc67456",
+          "byte_count": 6660,
+          "test_count": 32,
+          "summary": "OK",
+          "individual_ok_count": 32,
+          "failure_ids": [],
+          "validator_PASS": false,
+          "full_file_read": true
+        },
+        {
+          "name": "validate_project",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_project.log",
+          "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+          "byte_count": 111,
+          "test_count": null,
+          "summary": null,
+          "individual_ok_count": 0,
+          "failure_ids": [],
+          "validator_PASS": true,
+          "full_file_read": true
+        },
+        {
+          "name": "validate_framework",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_framework.log",
+          "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+          "byte_count": 74,
+          "test_count": null,
+          "summary": null,
+          "individual_ok_count": 0,
+          "failure_ids": [],
+          "validator_PASS": true,
+          "full_file_read": true
+        },
+        {
+          "name": "validate_consumer_projection",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_consumer_projection.log",
+          "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+          "byte_count": 184,
+          "test_count": null,
+          "summary": null,
+          "individual_ok_count": 0,
+          "failure_ids": [],
+          "validator_PASS": true,
+          "full_file_read": true
+        },
+        {
+          "name": "real-local-project-validator",
+          "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-local-project-validator.log",
+          "sha256": "4bdc6428abd1e758a6824ddbcfa8dc5ae312a9cc6a316e188ec81000070e4fd3",
+          "byte_count": 114,
+          "test_count": null,
+          "summary": null,
+          "individual_ok_count": 0,
+          "failure_ids": [],
+          "validator_PASS": true,
+          "full_file_read": true
+        }
+      ],
+      "aggregate_final_unique_tests": 277,
+      "aggregate_final_failure_count": 0,
+      "aggregate_final_error_count": 0,
+      "aggregate_basis": "First affected run: 245 tests outside validator module PASS plus 31 PASS/one stale fixture in validator module. Final exact same source and unchanged six test modules plus corrected full validator module 32 PASS. Independent six-method final candidate check also PASS."
+    },
+    "independent_external_artifacts": [
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\candidate-audit.json",
+        "sha256": "5c8b239926b1a2c7494cb81fc31c4f80fb83f55fa635aa65f5cf5118bdb9cc3f",
+        "byte_count": 30401
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\retained-log-audit.json",
+        "sha256": "5b08d871ebd10d09beb1de3fb48938eafc89229e157ebf775bc46e5fa8d387c0",
+        "byte_count": 5474
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\independent_5_F001_and_corrected_method.log",
+        "sha256": "3d858205efa2cfbbad53fada6965f5daa1c40599e35bd328ff2847ece594b0f1",
+        "byte_count": 1162
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_project.log",
+        "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+        "byte_count": 111
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_framework.log",
+        "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+        "byte_count": 74
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\validate_consumer_projection.log",
+        "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+        "byte_count": 184
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\independent-real-adoption-smoke.json",
+        "sha256": "f2243adf2864d778f63651ae7259338200b6cc72b6e96bd8e8d3529d5b45d61d",
+        "byte_count": 7543
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\real-local-project-validator.log",
+        "sha256": "c3e961c219f6fac1d89bc8e299fcce9fbf970f0b8f9323257b6477ed62f7ddb4",
+        "byte_count": 110
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\independent_real_git_smoke.py",
+        "sha256": "adc7d692540ee2b12e097b6894f9e41cdb9c1666cc0d5bae09ed5dcddde45e77",
+        "byte_count": 10922
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\audit_candidate.py",
+        "sha256": "727b2506805014cc6f2049abd1e36667c18bb9ac0cc18126dd3cd06945709951",
+        "byte_count": 14769
+      },
+      {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\post-independent-review\\audit_logs.py",
+        "sha256": "129b3ec7ccb73f9a49ddb3e5e9e4e3674980216cc39105c40b6b6bd5323595b2",
+        "byte_count": 3790
+      }
+    ],
+    "return_fields": {
+      "F001_SOURCE_FIX_ROUND2": "PASS",
+      "REMOTE_MAIN": "e77ee58be58eb19131b966f800753522d4e12661",
+      "REVIEW_REF_HEAD": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+      "ROUND1_CANDIDATE": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+      "ROUND2_EXECUTION_BASE": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+      "ROUND2_CANDIDATE_SHA": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+      "CHANGED_SOURCE_PATHS": [
+        ".gpt-codex/scripts/validate_project.py"
+      ],
+      "CHANGED_TEST_PATHS": [
+        ".gpt-codex/tests/test_continuity_resume.py",
+        ".gpt-codex/tests/test_validator_context_binding.py"
+      ],
+      "ROOT_CAUSE_CONFIRMED": "YES",
+      "STATE42_LOCAL_AUTHORITY_MATERIALIZATION": "PASS",
+      "ROUND1_SOURCE_BYTES_PRESERVED_BEFORE_CORRECTION": "YES",
+      "ROUND1_SEMANTICS_PRESERVED_AFTER_CORRECTION": "YES",
+      "LOCAL_EXPLICIT_GITHUB_TARGET": "GITHUB_REPOSITORY_UNBOUND",
+      "VALIDATE_FRAMEWORK_ADOPTION_LOCAL_EXPLICIT_TARGET": "PASS",
+      "PARTIAL_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID",
+      "BOUND_GITHUB_MATCH": "PASS",
+      "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+      "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+      "FAIL_CLOSED": "PRESERVED",
+      "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+      "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+      "REAL_ADOPTION_PATH_SMOKE": "PASS",
+      "NEW_TEST_FILE_COUNT": 0,
+      "NEW_REGRESSION_TEST_COUNT_DELTA": 0,
+      "AFFECTED_TESTS": "277 unique existing test methods in 7 directly affected modules covered. Initial run: 276 PASS, 1 stale malformed fixture FAIL; after authorized one-line fixture correction its exact method and full 32-test validator module PASS. No production changes since the initial run; other six passing modules and native/smoke checks retained. Independently reran five F001 methods plus the exact old failing method (6/6), native three validators, and real Git smoke.",
+      "F001_FULL_SUITE_RUN_COUNT": 1,
+      "F001_FULL_SUITE_RUN_COUNT_PROVENANCE": "Inherited from verified Round1; zero Round2 full-suite runs",
+      "ROUND2_FULL_SUITE_RUN_COUNT": 0,
+      "FULL_SUITE_RERUN_JUSTIFIED": "NO",
+      "VALIDATE_PROJECT": "PASS",
+      "VALIDATE_FRAMEWORK": "PASS",
+      "VALIDATE_CONSUMER_PROJECTION": "PASS",
+      "INDEPENDENT_PRE": "PASS",
+      "SUPPLEMENTAL_INDEPENDENT_PRE": "PASS",
+      "INDEPENDENT_POST": "PASS",
+      "STATE_REVISION": 42,
+      "PUSH_STATUS": "NOT_ATTEMPTED",
+      "READY_FOR_F001_FINAL_INTEGRATION": "YES",
+      "FINDINGS": [],
+      "BLOCKERS": [],
+      "RETURN_TO_GPT": "YES"
+    },
+    "optional_remote_presentation_limit": {
+      "repository_handoff_status": "RECONCILIATION_REQUIRED",
+      "plugin_result_handoff_status": "RECONCILIATION_REQUIRED",
+      "reason": "The existing remote presentation handoff requires remote HEAD == local HEAD. This authorized Round2 is local-only with no PUSH, so remote main e77 differs from exact reviewer candidate d96 and sealed local management descendant. In addition its evidence selector is JSON-evidence-only, whereas original Finding evidence_refs include two source references that native re-review requires retaining. No identity, source, STATE, scope or Result rewrite was attempted to satisfy this optional presentation adapter.",
+      "required_native_gates_accepted": true,
+      "HANDOFF_READY_claimed": false
+    }
+  },
+  "return_fields": {
+    "F001_SOURCE_FIX_ROUND2": "PASS",
+    "REMOTE_MAIN": "e77ee58be58eb19131b966f800753522d4e12661",
+    "REVIEW_REF_HEAD": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "ROUND1_CANDIDATE": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "ROUND2_EXECUTION_BASE": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "ROUND2_CANDIDATE_SHA": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+    "CHANGED_SOURCE_PATHS": [
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "CHANGED_TEST_PATHS": [
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py"
+    ],
+    "ROOT_CAUSE_CONFIRMED": "YES",
+    "STATE42_LOCAL_AUTHORITY_MATERIALIZATION": "PASS",
+    "ROUND1_SOURCE_BYTES_PRESERVED_BEFORE_CORRECTION": "YES",
+    "ROUND1_SEMANTICS_PRESERVED_AFTER_CORRECTION": "YES",
+    "LOCAL_EXPLICIT_GITHUB_TARGET": "GITHUB_REPOSITORY_UNBOUND",
+    "VALIDATE_FRAMEWORK_ADOPTION_LOCAL_EXPLICIT_TARGET": "PASS",
+    "PARTIAL_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID",
+    "BOUND_GITHUB_MATCH": "PASS",
+    "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+    "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+    "FAIL_CLOSED": "PRESERVED",
+    "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+    "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+    "REAL_ADOPTION_PATH_SMOKE": "PASS",
+    "NEW_TEST_FILE_COUNT": 0,
+    "NEW_REGRESSION_TEST_COUNT_DELTA": 0,
+    "AFFECTED_TESTS": "277 unique existing test methods in 7 directly affected modules covered. Initial run: 276 PASS, 1 stale malformed fixture FAIL; after authorized one-line fixture correction its exact method and full 32-test validator module PASS. No production changes since the initial run; other six passing modules and native/smoke checks retained. Independently reran five F001 methods plus the exact old failing method (6/6), native three validators, and real Git smoke.",
+    "F001_FULL_SUITE_RUN_COUNT": 1,
+    "F001_FULL_SUITE_RUN_COUNT_PROVENANCE": "Inherited from verified Round1; zero Round2 full-suite runs",
+    "ROUND2_FULL_SUITE_RUN_COUNT": 0,
+    "FULL_SUITE_RERUN_JUSTIFIED": "NO",
+    "VALIDATE_PROJECT": "PASS",
+    "VALIDATE_FRAMEWORK": "PASS",
+    "VALIDATE_CONSUMER_PROJECTION": "PASS",
+    "INDEPENDENT_PRE": "PASS",
+    "SUPPLEMENTAL_INDEPENDENT_PRE": "PASS",
+    "INDEPENDENT_POST": "PASS",
+    "STATE_REVISION": 42,
+    "PUSH_STATUS": "NOT_ATTEMPTED",
+    "READY_FOR_F001_FINAL_INTEGRATION": "YES",
+    "FINDINGS": [],
+    "BLOCKERS": [],
+    "RETURN_TO_GPT": "YES"
+  },
+  "deviations": [
+    "The causally necessary one-line existing malformed fixture correction was separately authorized and independently PRE reviewed; all original invalid-identity assertions retained."
+  ],
+  "blockers": [],
+  "next_gpt_action": "F001 Round2 exact candidate has passed independent POST and is ready for GPT final integration decision. Keep AUTHORIZED@42 and existing remote main/review ref; no PUSH, publication, version bump, plugin work or Work Unit COMPLETE declaration authorized by this review.",
+  "context_facts": {
+    "reviewer_agent_context": "/root/round2_post_reviewer",
+    "reviewer_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-post",
+    "reviewer_HEAD": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+    "reviewer_tracked_and_untracked_clean": true,
+    "implementer_context_id": "633e3815-2cf7-4cf7-8b58-89bbe12d95d0",
+    "initial_PRE_agent_context": "/root/round2_pre_reviewer",
+    "supplemental_PRE_agent_context": "/root/round2_scope_pre_reviewer",
+    "private_agent_contexts_read": false,
+    "candidate_source_test_STATE_writes": 0,
+    "post_request_id": "2cf093c7-55bf-43af-b127-56699d99260c",
+    "post_request_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "68e16da5d6d4839dee1b62b3d406f6c341ca8176",
+      "path": ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+      "blob_sha": "72b9021f723871914356f1648b1cf80f91f78f8d"
+    },
+    "review_response_FIX_id": "1fbb1306-1ce3-46a5-910a-566d0ed72587",
+    "final_artifact_locators": {
+      "validation": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34cb3b8f066e3143778f7fa0e1a0b93f6dc7f5d2",
+        "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+        "blob_sha": "c4a465e7eb50c3088f38a797fc55ef239f8c6bdd"
+      },
+      "result": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34cb3b8f066e3143778f7fa0e1a0b93f6dc7f5d2",
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json",
+        "blob_sha": "e15c9bd4930651eb43d6ad1966c34d7f61837cd7"
+      }
+    }
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "2cf093c7-55bf-43af-b127-56699d99260c",
+    "work_unit": "f001-explicit-github-unbound-round2-state42-001",
+    "reviewed_revision": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+    "executed_revision": null,
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/instruction_envelope.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/module-map.schema.json",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+      ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+      ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+      ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      "Five existing OptionalGithubContractTests plus exact corrected ValidatorContextBinding test: 6/6 PASS",
+      "Three native candidate validators: PASS",
+      "Independent real local Git adoption project native validator and five categories with 12 direct boundary observations: PASS",
+      "Independent exact memory-loaded f58 helper RED vs candidate GREEN for explicit ID and full name",
+      "Full retained 277 affected test log, corrected 32 module log and 17 sealed runtime files read/count/SHA256 verified; no full-suite rerun"
+    ],
+    "findings": [],
+    "fix_round": 2,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "Independent POST of exact F001 Round2 candidate and sealed supporting management evidence"
+    ],
+    "executed_scope": [
+      "Independent POST of exact F001 Round2 candidate and sealed supporting management evidence"
+    ],
+    "test_files_expected": 2,
+    "test_files_executed": 2,
+    "test_count": 6,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "exact_immutable_authority_and_causal_bridge",
+      "durable_PRE_and_FIX2_lifecycle",
+      "bounded_source_test_scope_and_AST",
+      "retained_277_affected_tests_and_RED_GREEN_logs",
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection",
+      "independent_real_Git_adoption_smoke"
+    ],
+    "validators_completed": [
+      "exact_immutable_authority_and_causal_bridge",
+      "durable_PRE_and_FIX2_lifecycle",
+      "bounded_source_test_scope_and_AST",
+      "retained_277_affected_tests_and_RED_GREEN_logs",
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection",
+      "independent_real_Git_adoption_smoke"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "review_observed_utc": "2026-10-07T16:28:38.458796+00:00",
+  "work_unit_completion_declared": false
+}

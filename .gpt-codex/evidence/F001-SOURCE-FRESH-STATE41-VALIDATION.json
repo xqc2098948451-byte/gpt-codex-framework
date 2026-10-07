@@ -1,0 +1,390 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-SOURCE-FRESH-STATE41-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "F001_SOURCE_REGRESSION_VALIDATION",
+  "state_revision": 41,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T14:06:33.280488+00:00",
+  "execution_base_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "review_subject_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "changed_source_paths": [
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/scripts/continuity_resume.py",
+    ".gpt-codex/scripts/project_navigation.py",
+    ".gpt-codex/scripts/validate_project.py"
+  ],
+  "changed_test_paths": [
+    ".gpt-codex/tests/test_context_window_resume.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/tests/test_navigation_project_validation.py",
+    ".gpt-codex/tests/test_project_navigation.py"
+  ],
+  "new_regression_test_count": 5,
+  "focused_tests": {
+    "count": 5,
+    "status": "PASS"
+  },
+  "affected_tests": {
+    "count": 198,
+    "failures": 0,
+    "errors": 0,
+    "status": "PASS"
+  },
+  "full_suite": {
+    "command": "python -m unittest discover -s .gpt-codex/tests -v",
+    "run_count": 1,
+    "candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "count": 752,
+    "failures": 0,
+    "errors": 0,
+    "skips": 2,
+    "test_files_expected": [
+      "test_bounded_attestation",
+      "test_consumer_projection",
+      "test_consumer_runtime_closure",
+      "test_consumer_workspace",
+      "test_contamination_recovery",
+      "test_context_binding",
+      "test_context_window_resume",
+      "test_continuity_contract_schema",
+      "test_continuity_envelopes",
+      "test_continuity_resume",
+      "test_execution_telemetry",
+      "test_framework_feedback",
+      "test_framework_module_routing",
+      "test_framework_module_schemas",
+      "test_framework_module_validation",
+      "test_framework_plugin",
+      "test_framework_plugin_package",
+      "test_framework_project_separation",
+      "test_git_continuity",
+      "test_github_continuity_validator",
+      "test_github_repository_binding",
+      "test_handoff_navigation_contract",
+      "test_harness_handoff",
+      "test_harness_project_layering",
+      "test_harness_reduction_gate",
+      "test_instruction_envelope",
+      "test_instruction_role_contract",
+      "test_kernel_conformance",
+      "test_local_corrective_state",
+      "test_maintenance_navigation_contract",
+      "test_maintenance_navigation_flow",
+      "test_minimal_task_protocol",
+      "test_multi_project_github_isolation",
+      "test_navigation_project_validation",
+      "test_navigation_schema",
+      "test_project_context_migration",
+      "test_project_navigation",
+      "test_publication_authority",
+      "test_release_archive",
+      "test_release_packaging",
+      "test_remote_verification",
+      "test_result_contract_schema",
+      "test_result_return",
+      "test_return_context_binding",
+      "test_review_history",
+      "test_review_lifecycle",
+      "test_role_authority",
+      "test_role_communication_taxonomy",
+      "test_role_consumer_projection",
+      "test_role_routing_docs",
+      "test_self_hosting_validator",
+      "test_stage_review_routing",
+      "test_validator_context_binding",
+      "test_version_consistency",
+      "test_windows_clean_room_e2e"
+    ],
+    "test_files_observed": [
+      "test_bounded_attestation",
+      "test_consumer_projection",
+      "test_consumer_runtime_closure",
+      "test_consumer_workspace",
+      "test_contamination_recovery",
+      "test_context_binding",
+      "test_context_window_resume",
+      "test_continuity_contract_schema",
+      "test_continuity_envelopes",
+      "test_continuity_resume",
+      "test_execution_telemetry",
+      "test_framework_feedback",
+      "test_framework_module_routing",
+      "test_framework_module_schemas",
+      "test_framework_module_validation",
+      "test_framework_plugin",
+      "test_framework_plugin_package",
+      "test_framework_project_separation",
+      "test_git_continuity",
+      "test_github_continuity_validator",
+      "test_github_repository_binding",
+      "test_handoff_navigation_contract",
+      "test_harness_handoff",
+      "test_harness_project_layering",
+      "test_harness_reduction_gate",
+      "test_instruction_envelope",
+      "test_instruction_role_contract",
+      "test_kernel_conformance",
+      "test_local_corrective_state",
+      "test_maintenance_navigation_contract",
+      "test_maintenance_navigation_flow",
+      "test_minimal_task_protocol",
+      "test_multi_project_github_isolation",
+      "test_navigation_project_validation",
+      "test_navigation_schema",
+      "test_project_context_migration",
+      "test_project_navigation",
+      "test_publication_authority",
+      "test_release_archive",
+      "test_release_packaging",
+      "test_remote_verification",
+      "test_result_contract_schema",
+      "test_result_return",
+      "test_return_context_binding",
+      "test_review_history",
+      "test_review_lifecycle",
+      "test_role_authority",
+      "test_role_communication_taxonomy",
+      "test_role_consumer_projection",
+      "test_role_routing_docs",
+      "test_self_hosting_validator",
+      "test_stage_review_routing",
+      "test_validator_context_binding",
+      "test_version_consistency",
+      "test_windows_clean_room_e2e"
+    ],
+    "status": "PASS",
+    "summary": "Ran 752 tests in 366.000s; OK (skipped=2)",
+    "skip_evidence": [
+      "test_cleanup_manifest_blocks_symlink_escape_without_mutation (test_git_continuity.GitContinuityTests.test_cleanup_manifest_blocks_symlink_escape_without_mutation) ... skipped \"symlink fixture unavailable: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmp009r_0sm\\\\\\\\outside' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmp009r_0sm\\\\\\\\allowed\\\\\\\\safe\\\\\\\\link'\"",
+      "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target) ... skipped \"symbolic links unavailable in this environment: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpe6rnw067\\\\\\\\outside-target.zip' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpe6rnw067\\\\\\\\materialized\\\\\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'\""
+    ],
+    "skipped_test_source_unchanged": true
+  },
+  "validators": {
+    "validate_project": "PASS",
+    "validate_framework": "PASS",
+    "validate_consumer_projection": "PASS"
+  },
+  "real_local_smoke": {
+    "F001_REAL_LOCAL_ONLY_SMOKE": "PASS",
+    "checks": {
+      "LOCAL_ONLY_PROJECT_IDENTITY": "PASS",
+      "LOCAL_ONLY_PROJECT_MAP": "PASS",
+      "LOCAL_ONLY_MODULE_MAP": "PASS",
+      "LOCAL_ONLY_RESUME": "PASS",
+      "LOCAL_ONLY_CONTINUITY": "PASS",
+      "LOCAL_EXPLICIT_GITHUB_TARGET": "GITHUB_REPOSITORY_UNBOUND",
+      "BOUND_GITHUB_MATCH": "PASS",
+      "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+      "PARTIAL_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID"
+    },
+    "project": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+    "framework_source": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source",
+    "project_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+    "projection_file_count": 86,
+    "no_mock_execution": true,
+    "commands": [
+      {
+        "command": [
+          "git",
+          "init",
+          "-b",
+          "main"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "Initialized empty Git repository in D:/通用开发框架管理/f001-source-fresh-runtime-20261007-01/real-local-smoke/project/.git/\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "config",
+          "user.name",
+          "F001 local smoke"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "config",
+          "user.email",
+          "f001-smoke@local.invalid"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "add",
+          "."
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "commit",
+          "-m",
+          "Materialize local-only Framework project"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "[main (root-commit) 3ef0652] Materialize local-only Framework project\n 6 files changed, 150 insertions(+)\n create mode 100644 .gpt-codex/CONTROL.json\n create mode 100644 .gpt-codex/STATE.json\n create mode 100644 .gpt-codex/continuity/RESUME.json\n create mode 100644 .gpt-codex/navigation/PROJECT_MAP.json\n create mode 100644 .gpt-codex/navigation/modules/MODULE_MAP.example-module.json\n create mode 100644 app/main.py\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "remote",
+          "-v"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "3ef0652799995d0f142f8f01678b1c230b5a304f\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source\\.gpt-codex\\scripts\\validate_project.py",
+          "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "RESULT: PASS\nPROJECT: PRJ-F001-REAL-LOCAL-SMOKE\nSTATE: PROPOSED@revision-0\nPROJECT_CONTEXT_BINDING: PASS\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--name-only",
+          "HEAD"
+        ],
+        "cwd": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "candidate_source_sha256": {
+      ".gpt-codex/scripts/context_binding.py": "286978ef1c8d6bb8e3b761092e1753ef3d1ffce8a995f423a6d3a08da6e7fc98",
+      ".gpt-codex/scripts/project_navigation.py": "0a5ed47cd925090e8183bdd11c700c5923acd8801a9c621e363b8d4f6318e05d",
+      ".gpt-codex/scripts/continuity_resume.py": "a0002d544a3766247308fe7f5260fb909044f1aaca0462ebd40acd933f291a11",
+      ".gpt-codex/scripts/validate_project.py": "16a1d3f0ea7607bb87e3a407566a899bed70438fbf64771536d12d2eeeb6a274"
+    }
+  },
+  "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+  "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+  "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+  "STATE_CONTROL_SCHEMAS_VERSION_PRESERVED": true,
+  "evidence_files": {
+    "historical-reproduction.json": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\historical-reproduction.json",
+      "sha256": "0c1574dccb6ef5f23438eb7927a02d60b3cfe9fda332c3a7c57800beec43850f"
+    },
+    "reproduction.json": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\reproduction.json",
+      "sha256": "c33f251b2fcdfc5cb604a2d264cef5fea47ad29c3e41ceacfa2e697b6186d913"
+    },
+    "focused-red.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\focused-red.log",
+      "sha256": "20201d9867d295599c4b25c320da1b24ad03723f2ef370ba6a7f113665ba7f5b"
+    },
+    "module-parent-red.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\module-parent-red.log",
+      "sha256": "0ae7221d8ee4eabdcf07aa2ea49e940d7b736f64ed0ed46668855342acdf98f8"
+    },
+    "focused-final.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\focused-final.log",
+      "sha256": "93a6793ef5443a7c47f321b35192206cd20994ae54be9296449d526df22cc609"
+    },
+    "affected-initial.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\affected-initial.log",
+      "sha256": "b7915c925ac3d230104f0f0669c7758d0ab0d5b3f2f914586f54ac3581f1d361"
+    },
+    "affected-final.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\affected-final.log",
+      "sha256": "1407e57401c59cfee4265d2f3c2fe97bccd09b270fe8068149d2808d12c8a07b"
+    },
+    "validate-project.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\validate-project.log",
+      "sha256": "dd634d5c069bb21207f206de252cf18c35545287161679c99334172a6319e773"
+    },
+    "validate-framework.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\validate-framework.log",
+      "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7"
+    },
+    "validate-consumer-projection.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\validate-consumer-projection.log",
+      "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30"
+    },
+    "real-smoke.json": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-smoke.json",
+      "sha256": "1ddb81204605eec5dd342190ee26d536eb7be26b14adee7a2d7abb822fb73fe0"
+    },
+    "real-smoke.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-smoke.log",
+      "sha256": "d98aaf5f79608e206f0de596a6d0a381d511cc49adc83fb70826ca5c8a862d58"
+    },
+    "full-suite.log": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\full-suite.log",
+      "sha256": "abdf7cd95b5b29c429bfa3009d22c8d031f05953ac45edff2e06a7a28086c51d"
+    },
+    "candidate-scope-audit.json": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\candidate-scope-audit.json",
+      "sha256": "adf33b724b8c75c134f0671ed6251f99aedbe4401ab223852c2e801676a42afc"
+    },
+    "independent-pre.json": {
+      "path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\independent-pre.json",
+      "sha256": "f1e04fa17c70a9dd6c18f0baf932296f8e57458b75864ae0683d783cfbc0fc15"
+    }
+  },
+  "independent_post_status": "FINDING",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "candidate_disposition": "FINDING",
+  "ready_for_f001_integration": false,
+  "independent_post": {
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "review_target_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "finding_ids": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "report_copied_byte_for_byte": true
+  },
+  "explicit_github_instruction_contract": "FAIL",
+  "stop_reason": "Independent POST Finding; no self-repair, integration, transport, release, or STATE change.",
+  "F001_SOURCE_FIX": "FINDING"
+}
