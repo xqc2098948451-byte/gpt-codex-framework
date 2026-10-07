@@ -1,0 +1,107 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-optional-github-source-fix-state41-001",
+  "extension": null,
+  "status": "LOCAL_COMPLETE",
+  "result_id": "087729cd-eded-4d96-9be1-01e8a207ab92",
+  "result_message_type": "IMPLEMENTATION_RESULT",
+  "response_to_instruction_id": "b793c610-5406-4f06-9ee8-05f395e37ec0",
+  "responder_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 41,
+  "artifact_stage": "IMPLEMENTATION",
+  "fix_round": 1,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "remote_head_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "publication_authority": null,
+  "git": {
+    "base_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+    "implementation_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a"
+  },
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+    ".gpt-codex/evidence/instructions/b793c610-5406-4f06-9ee8-05f395e37ec0.json"
+  ],
+  "execution": "Fresh F001 source remediation; exact reproduction, minimal focused regression, affected tests, native validators, real Git local-only smoke, then one full suite. Independent POST remains required.",
+  "changed": [
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/scripts/continuity_resume.py",
+    ".gpt-codex/scripts/project_navigation.py",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_context_window_resume.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/tests/test_navigation_project_validation.py",
+    ".gpt-codex/tests/test_project_navigation.py"
+  ],
+  "verify": {
+    "local_semantics": "PASS",
+    "new_regression_test_count": 5,
+    "full_suite_test_count": 752,
+    "full_suite_failures": 0,
+    "full_suite_errors": 0,
+    "full_suite_skips": 2,
+    "full_suite_run_count": 1,
+    "F001_REAL_LOCAL_ONLY_SMOKE": "PASS",
+    "INDEPENDENT_POST": "PENDING"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "executed_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "test_files_expected": 55,
+    "test_files_executed": 55,
+    "test_count": 752,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection"
+    ],
+    "validators_completed": [
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection"
+    ]
+  },
+  "deviations": [
+    "Existing test_context_window_resume.py missing-roots fixture corrected within fresh exact PRE-approved scope; zero new tests there."
+  ],
+  "blockers": [],
+  "next_gpt_action": "Independent POST exact candidate; stop on Finding; no transport/release/state change authority."
+}
