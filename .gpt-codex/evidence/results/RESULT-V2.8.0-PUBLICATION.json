@@ -70,7 +70,8 @@
     ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
     ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
     ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
-    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json"
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+    ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json"
   ],
   "target_work_unit_ref": {
     "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
@@ -172,5 +173,15 @@
       "STATE_AND_SOURCE_PRESERVATION"
     ],
     "blocker_evidence_refs": []
+  },
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_POST_RELEASE_STATE_GATE": "YES",
+  "native_handoff_observation": {
+    "native_status": "HANDOFF_READY",
+    "plugin_status": "HANDOFF_READY",
+    "observed_remote_sha": "6b4b6d360555ec0bb21d04e29695328b78031616",
+    "observed_utc": "2026-10-07T02:28:13.150290+00:00",
+    "result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c",
+    "self_containing_commit_claim": false
   }
 }
