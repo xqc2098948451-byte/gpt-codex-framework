@@ -41,13 +41,13 @@
     },
     "expected_state_revision": 37
   },
-  "remote_verification": "NOT_ATTEMPTED",
-  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
-  "sync_status": "SYNC_PENDING",
-  "push_status": "NOT_ATTEMPTED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
   "current_remote_ref": "refs/heads/main",
-  "local_head_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
-  "remote_head_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+  "local_head_sha": "ab88b9862e932b06e6adad184805d0d31f967e64",
+  "remote_head_sha": "ab88b9862e932b06e6adad184805d0d31f967e64",
   "git": {
     "base_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
     "implementation_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a"
@@ -306,7 +306,8 @@
       "FRAMEWORK",
       "CONSUMER",
       "NATIVE_PRE_GATE",
-      "INDEPENDENT_POST"
+      "INDEPENDENT_POST",
+      "REMOTE_READBACK"
     ],
     "blocker_evidence_refs": [
       ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json"
@@ -402,8 +403,15 @@
   "NATIVE_HANDOFF": "FINDING",
   "READY_FOR_FINAL_STATE_CLOSURE": "NO",
   "RETURN_TO_GPT": "YES",
-  "REMOTE_MAIN_AFTER_OPERATIONAL_CLOSURE": null,
-  "OPERATIONAL_EVIDENCE_LOCATOR": null,
+  "REMOTE_MAIN_AFTER_OPERATIONAL_CLOSURE": "ab88b9862e932b06e6adad184805d0d31f967e64",
+  "OPERATIONAL_EVIDENCE_LOCATOR": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "ab88b9862e932b06e6adad184805d0d31f967e64",
+    "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+    "blob_sha": "75d266e7e4ba8109ec003be999d1567c1d7831de"
+  },
   "OPERATIONAL_RESULT_LOCATOR": null,
-  "PLUGIN_PACKAGE_VERSION_LABEL_ALIGNMENT": "PASS"
+  "PLUGIN_PACKAGE_VERSION_LABEL_ALIGNMENT": "PASS",
+  "verified_baseline_sha": "ab88b9862e932b06e6adad184805d0d31f967e64",
+  "attestation_semantics": "Verified already-pushed candidate is the observation baseline. This Result never claims to contain its own commit; the remote metadata and final tool return provide immutable Result locators."
 }
