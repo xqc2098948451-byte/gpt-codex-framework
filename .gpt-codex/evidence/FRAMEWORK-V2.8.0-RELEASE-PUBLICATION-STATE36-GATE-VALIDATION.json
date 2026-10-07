@@ -695,6 +695,111 @@
     "PUBLICATION_PRE": {
       "result_id": "ea5b886e-ceb1-4c8d-ad04-d9a3f7026ccb",
       "status": "PASS"
+    },
+    "EXACT_REMOTE_READBACK": {
+      "observed_utc": "2026-10-07T01:57:02.393210+00:00",
+      "remote_head_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+      "EXACT_REMOTE_READBACK": "PASS",
+      "locators": {
+        ".gpt-codex/STATE.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/STATE.json",
+          "blob_sha": "913222c22f817ebbc043a92c28d3161b5ee0bf82",
+          "sha256": "acd264db374ae220eef757ff50384d1aff9ea1ab3a420efebebb247036b35c81"
+        },
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json",
+          "blob_sha": "38957c0f161dfad3ba440969f96f6997db93df4d",
+          "sha256": "0b02adb373d3636c17c36fcd5b67c8332b724990e7ed7d8f59c6ddc7db767510"
+        },
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-VALIDATION.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-VALIDATION.json",
+          "blob_sha": "80f5d20273c6749b65d0d56a9d478f6574b2afc1",
+          "sha256": "820b5771e2dc8300fb657a35d4f9f5a2c0bf32fc06a0a83df813ea267188a91b"
+        },
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PRE.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PRE.json",
+          "blob_sha": "b6cfd5ab3b1953ff30c1e930e4a7b47e38470d41",
+          "sha256": "bbd85ac2d6bd2ac5891df487575acc858a53cc4076dd0c773d549594b29eb5b6"
+        },
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
+          "blob_sha": "e65ed667256ccc5b52a17191525aada7fd55c01d",
+          "sha256": "fb7a2094ee7f3b442e065bf31103e59823577c576365d414a486cbc0e47ae219"
+        },
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json",
+          "blob_sha": "df59dfb99d3cacc8a9d8db2a7219ee4ff9bdb6a3",
+          "sha256": "0dd67f6823fd646a767c840a2ebb22ccdb7af244dd33ec8ebafb66e2da00dcce"
+        },
+        ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-gate-001.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-gate-001.json",
+          "blob_sha": "234185e56a3982cc67ae3d5c1dba815d77fe78f2",
+          "sha256": "ed26f4f0935429e116b179e8f3e40c29403205003eec08205c05b1bdb8a45d23"
+        },
+        ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-continuity-001.json": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
+          "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-continuity-001.json",
+          "blob_sha": "fdd6af19fd7425897ea5c6870f7941eb5ce3c57d",
+          "sha256": "d7070d9d658f11bd5e5cb3887a05140bdfc6cff246fb4180956d11690aa415db"
+        }
+      },
+      "target_conflicts": {
+        "observed_utc": "2026-10-07T01:57:04.220023+00:00",
+        "TARGET_TAG_CONFLICT": "NO",
+        "TARGET_RELEASE_CONFLICT": "NO",
+        "TARGET_ASSET_CONFLICT": "NO",
+        "target_tag": "v2.8.0",
+        "target_release": "v2.8.0",
+        "asset": "NOT_UPLOADED",
+        "github_observations": {
+          "tag": {
+            "path": "repos/xqc2098948451-byte/gpt-codex-framework/git/ref/tags/v2.8.0",
+            "http_status": 404,
+            "body": {
+              "message": "Not Found",
+              "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+              "status": "404"
+            }
+          },
+          "release": {
+            "path": "repos/xqc2098948451-byte/gpt-codex-framework/releases/tags/v2.8.0",
+            "http_status": 404,
+            "body": {
+              "message": "Not Found",
+              "documentation_url": "https://docs.github.com/rest/releases/releases#get-a-release-by-tag-name",
+              "status": "404"
+            }
+          }
+        }
+      }
+    },
+    "ATTESTATION_PRE": {
+      "result_id": "b5f18cba-d77a-47fc-9ada-63891857a6be",
+      "status": "PASS"
+    },
+    "NATIVE_HANDOFF": {
+      "native_status": "HANDOFF_READY",
+      "plugin_status": "HANDOFF_READY",
+      "observed_remote_sha": "25e6eec9d373c69bbb8ca6143f3be037c81341ae"
+    },
+    "HANDOFF_PRE": {
+      "result_id": "0d441fdc-26f8-43c5-a12c-8440f3c2e3cf",
+      "status": "PASS"
     }
   },
   "FULL_TEST_SUITE_POLICY": "Durable preparation 734-test suite reused; gate runs focused tests only."

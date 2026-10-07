@@ -21,7 +21,7 @@
   "blockers": [],
   "findings": [],
   "observed_utc": "2026-10-07T01:57:05.339855+00:00",
-  "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_STATE36_GATE": "ATTESTATION_PENDING_HANDOFF",
+  "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_STATE36_GATE": "PASS",
   "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "COMPLETE",
   "FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "AUTHORIZED_NOT_STARTED",
   "OLD_NEXT_ACTION_SATISFIED": "YES",
@@ -53,8 +53,8 @@
   "TAG_CREATED": "NO",
   "GITHUB_RELEASE_CREATED": "NO",
   "ASSET_UPLOADED": "NO",
-  "NATIVE_HANDOFF": "NOT_STARTED",
-  "READY_FOR_FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "NO",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "YES",
   "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
   "FINDINGS": [],
   "BLOCKERS": [],
@@ -126,17 +126,18 @@
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-ATTESTATION-PRE.json",
-    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-REMOTE-VERIFICATION.json"
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-HANDOFF-PRE.json"
   ],
   "completion_evidence": {
     "execution_state": "COMPLETED",
     "process_completed": true,
     "exit_code": 0,
     "intended_scope": [
-      "GOVERNANCE_ONLY_STATE36_VERIFIED_WORK_ATTESTATION"
+      "GOVERNANCE_ONLY_STATE36_GATE"
     ],
     "executed_scope": [
-      "GOVERNANCE_ONLY_STATE36_VERIFIED_WORK_ATTESTATION"
+      "GOVERNANCE_ONLY_STATE36_GATE"
     ],
     "test_files_expected": 6,
     "test_files_executed": 6,
@@ -162,7 +163,8 @@
       "STATE_AUTHORITY_VALIDATION",
       "INDEPENDENT_POST",
       "PUBLICATION_PRE",
-      "EXACT_REMOTE_READBACK"
+      "EXACT_REMOTE_READBACK",
+      "NATIVE_HANDOFF"
     ],
     "validators_completed": [
       "REMOTE_BASELINE_IDENTITY",
@@ -183,7 +185,8 @@
       "STATE_AUTHORITY_VALIDATION",
       "INDEPENDENT_POST",
       "PUBLICATION_PRE",
-      "EXACT_REMOTE_READBACK"
+      "EXACT_REMOTE_READBACK",
+      "NATIVE_HANDOFF"
     ],
     "blocker_evidence_refs": []
   },
@@ -197,7 +200,11 @@
   "self_containing_commit_claim": false,
   "attestation_semantics": "implementation_sha identifies independently reviewed STATE36 transition I. verified_baseline_sha / remote_head_sha / STATE continuity identify published and exactly read back governance work W. CONFIRMED_PUBLICATION means STATE36 governance repository publication only; no claim of Framework release completion or own containing commit.",
   "native_handoff_observation": {
-    "native_status": "NOT_STARTED",
-    "plugin_status": "NOT_STARTED"
+    "native_status": "HANDOFF_READY",
+    "plugin_status": "HANDOFF_READY",
+    "observed_remote_sha": "25e6eec9d373c69bbb8ca6143f3be037c81341ae",
+    "observed_utc": "2026-10-07T01:59:27.265785+00:00",
+    "result_id": "326dc666-b858-408e-af07-4b3465cedce2",
+    "self_containing_commit_claim": false
   }
 }
