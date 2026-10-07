@@ -4,7 +4,7 @@
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "work_unit_id": "framework-v2.8.0-release-preparation-001",
   "extension": null,
-  "status": "LOCAL_COMPLETE",
+  "status": "PASS",
   "result_message_type": "IMPLEMENTATION_RESULT",
   "result_id": "4c990222-29b8-48a2-afc9-2d226bf16af5",
   "response_to_instruction_id": "ec32be9d-4724-4d74-81ad-c7a57fb77505",
@@ -23,17 +23,19 @@
   },
   "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
   "current_remote_ref": "refs/heads/main",
-  "remote_verification": "NOT_ATTEMPTED",
-  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
-  "sync_status": null,
-  "push_status": "NOT_ATTEMPTED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
   "completion_gate": "GPT_DECISION",
   "evidence_refs": [
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
-    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json"
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json"
   ],
   "changed": [
     "VERSION",
@@ -51,7 +53,7 @@
   "deviations": [],
   "blockers": [],
   "findings": [],
-  "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "LOCAL_COMPLETE",
+  "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "PASS",
   "FRAMEWORK_RELEASE_PUBLICATION": "NOT_STARTED",
   "SOURCE_VERSION_BEFORE": "2.7.4",
   "SOURCE_VERSION_AFTER": "2.8.0",
@@ -97,15 +99,15 @@
   "READY_FOR_RELEASE_PUBLICATION_STATE_GATE": "NO",
   "post_preparation_state_transition_required": "YES",
   "exact_post_preparation_next_action": "UNADJUDICATED",
-  "next_gpt_action": "Finish governed preparation repository publication/readback and native handoff, then RETURN_TO_GPT. Separate release-publication STATE gate required; exact next action remains UNADJUDICATED.",
+  "next_gpt_action": "Run exact native handoff and stop after durable readback. Separate post-preparation release-publication STATE gate is required; exact next action UNADJUDICATED. Framework Release/P41/plugin sync remain NOT_STARTED.",
   "completion_evidence": {
     "execution_state": "COMPLETED",
     "process_completed": true,
     "intended_scope": [
-      "LOCAL_FRAMEWORK_2_8_0_SOURCE_AND_PACKAGE_PREPARATION"
+      "FRAMEWORK_2_8_0_PREPARATION_AND_GOVERNED_REPOSITORY_PUBLICATION"
     ],
     "executed_scope": [
-      "LOCAL_FRAMEWORK_2_8_0_SOURCE_AND_PACKAGE_PREPARATION"
+      "FRAMEWORK_2_8_0_PREPARATION_AND_GOVERNED_REPOSITORY_PUBLICATION"
     ],
     "test_count": 734,
     "failure_count": 0,
@@ -126,7 +128,9 @@
       "CLEAN_CLONE_VALIDATION",
       "PACKAGE_REPRODUCIBILITY",
       "PUBLICATION_CAPABILITY_PREFLIGHT",
-      "INDEPENDENT_POST"
+      "INDEPENDENT_POST",
+      "INDEPENDENT_PUBLICATION_PRE",
+      "EXACT_REMOTE_WORK_READBACK"
     ],
     "validators_completed": [
       "SCHEMA_AWARE_ARTIFACT_PREFLIGHT",
@@ -142,7 +146,9 @@
       "CLEAN_CLONE_VALIDATION",
       "PACKAGE_REPRODUCIBILITY",
       "PUBLICATION_CAPABILITY_PREFLIGHT",
-      "INDEPENDENT_POST"
+      "INDEPENDENT_POST",
+      "INDEPENDENT_PUBLICATION_PRE",
+      "EXACT_REMOTE_WORK_READBACK"
     ],
     "exit_code": 0,
     "blocker_evidence_refs": []
@@ -157,6 +163,10 @@
     "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
     "blob_sha": "91f70ab6d0edd11e3f1accab7c174052e6be8c16"
   },
-  "observed_utc": "2026-10-07T01:24:44.432934+00:00",
-  "self_containing_commit_claim": false
+  "observed_utc": "2026-10-07T01:28:06.701965+00:00",
+  "self_containing_commit_claim": false,
+  "local_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "remote_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "verified_baseline_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "attestation_semantics": "implementation_sha identifies exact independently reviewed source/package candidate. verified_baseline_sha identifies exact repository-published preparation Work commit. This Result does not claim its own containing commit or any Framework tag/Release/asset publication."
 }

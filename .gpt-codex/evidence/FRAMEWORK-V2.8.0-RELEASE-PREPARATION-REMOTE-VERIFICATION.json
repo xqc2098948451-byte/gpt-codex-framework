@@ -1,0 +1,61 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "Framework 2.8.0 release preparation only",
+  "state_revision": 35,
+  "result": "PASS",
+  "source_base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+  "observed_utc": "2026-10-07T01:28:06.703827+00:00",
+  "exact_remote_readback": {
+    "phase": "push",
+    "expected_remote_before_or_readback": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "remote_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+    "exact_remote_readback": "PASS",
+    "locators": {
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json": {
+        "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        "blob_sha": "9f5d2ecf90a41136925fbe9202a48cf5fe9cc7d8",
+        "sha256": "2fff4a71895e12b5844e449416311f1df0ecd81b5cd45c18e9ee1ba079486edf"
+      },
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json": {
+        "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+        "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        "blob_sha": "014b18a745e7829abbaadb8678b08a3e176497dd",
+        "sha256": "f2e29bfbe582002ef269ca71550cafbba02195e84a3f990768fc55fb51c2c8e9"
+      },
+      "dist/gpt-codex-framework-v2.8.0-bootstrap.zip": {
+        "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+        "path": "dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+        "blob_sha": "c44ffd0307972e29bb2a3142b8a8190af1fb4a59",
+        "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd"
+      },
+      ".gpt-codex/STATE.json": {
+        "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "31a67c4ec10e2515d907fb92896cdfba04c9875c",
+        "sha256": "038874fcd7c0e0d16f73e9f6acb91de858335fd2496629691025f108c30e3736"
+      }
+    },
+    "scope": "PASS",
+    "directory_contract": "PASS",
+    "STATE_MUTATION_COUNT": 0,
+    "tag_created": "NO",
+    "observed_utc": "2026-10-07T01:27:59.739697+00:00"
+  },
+  "work_commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "FRAMEWORK_RELEASE_PUBLICATION": "NOT_STARTED",
+  "STATE_MUTATION_COUNT": 0,
+  "tag_created": "NO",
+  "github_release_created": "NO",
+  "asset_uploaded": "NO"
+}
