@@ -1,0 +1,480 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-explicit-github-unbound-round2-state42-001",
+  "extension": null,
+  "result_id": "dfea23de-fd89-455e-9a36-62c54a80236c",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "462987d1-c941-4b52-ac6b-c77dab65b56b",
+  "review_target_revision": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+  "review_phase": "PRE_EXECUTION",
+  "status": "PASS",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 42,
+  "artifact_stage": "IMPLEMENTATION",
+  "finding_ids": [],
+  "fix_round": 2,
+  "remediation_decision_ref": "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+  "remote_head_sha": "e77ee58be58eb19131b966f800753522d4e12661",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "publication_authority": null,
+  "git": {
+    "base_sha": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "implementation_sha": null
+  },
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+    ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+    ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+    ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+    ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+    ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/tests/test_validator_context_binding.py",
+    ".gpt-codex/framework-modules/modules/framework-validation.json",
+    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json"
+  ],
+  "execution": "READ_ONLY_SUPPLEMENTAL_SCOPE_PRE_REVIEW_COMPLETED",
+  "changed": [],
+  "deviations": [],
+  "blockers": [],
+  "findings": [],
+  "next_gpt_action": "After byte-exact supplemental PRE admission, the implementer may apply only the specified one-line partial-GitHub fixture correction under FIX 1fbb1306-1ce3-46a5-910a-566d0ed72587. Retain existing assertions, zero new files/methods, exact STATE42, and the original PRE-authorized helper/continuity changes. Run the required affected validation and obtain independent POST of an exact candidate. STOP on Finding. No push or publication authority.",
+  "observed_utc": "2026-10-07T16:12:34.433763+00:00",
+  "review_context": {
+    "reviewer_agent_context": "/root/round2_scope_pre_reviewer",
+    "reviewer_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-scope-pre",
+    "reviewer_HEAD": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "reviewer_clean": true,
+    "implementer_context_id": "633e3815-2cf7-4cf7-8b58-89bbe12d95d0",
+    "implementer_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001",
+    "metadata_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+    "distinct_contexts": true,
+    "fix_instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+      "path": ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      "blob_sha": "42ade4900de52f8ca69aba255815aeb508b237cf"
+    },
+    "pre_instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+      "path": ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      "blob_sha": "93fd9d0cf8e29a9d8e95040e5f001930697d8ac3"
+    },
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      "sha": "c14b89cd0707cbfb6e983acde0feaeb64d73c437"
+    },
+    "authority_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d28ebdc11ad8717a0ce14ad5bb5a6629359ed5e6",
+      "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      "blob_sha": "2731e8f20a3107b2d1647849143ac8e58d492c1d"
+    },
+    "amendment_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d28ebdc11ad8717a0ce14ad5bb5a6629359ed5e6",
+      "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      "blob_sha": "1af1e4cf3ae82387411b799983e4e612df9a1fd6"
+    }
+  },
+  "authority_input_sources": {
+    "CONTROL_STATE": {
+      "commit_sha": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+      "STATE_remote_sha": "e77ee58be58eb19131b966f800753522d4e12661"
+    },
+    "finding": {
+      "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+      "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+    },
+    "durable_remediation": "Native lifecycle resolves exact reviewer HEAD STATE42 evidence_refs; no external remediation dictionary supplied.",
+    "live_remote_refs": {
+      "refs/heads/main": "e77ee58be58eb19131b966f800753522d4e12661",
+      "refs/heads/review/f001-optional-github-post-state41-661ff5f1": "c53a2019d88678bd5a64ec3f525a835d7bc98b70"
+    },
+    "repository_authority": null,
+    "repository_authority_reason": "Authoritative CONTROL and STATE have no execution_policy/active_execution_slots; no slot facts invented."
+  },
+  "authority_checks": {
+    "reviewer_exact_HEAD": [],
+    "reviewer_clean": [],
+    "implementer_current_HEAD": [],
+    "live_remote_authority": [],
+    "necessary_STATE42_authority_byte_exact": [],
+    "STATE42_expected_semantics": [],
+    "STATE42_native_authority": [],
+    "STATE42_Result_PASS": [],
+    "CONTROL_identity_bytes_preserved": [],
+    "original_finding_exact": [],
+    "original_finding_native_role": [],
+    "native_G001_round1_to_execution_base": [],
+    "native_G001_execution_base_to_metadata": [],
+    "committed_source_test_delta_empty": [],
+    "initial_immutable_FIX_PRE_retained": [],
+    "initial_PRE_Result_retained": [],
+    "initial_PRE_native_gate": [],
+    "amended_WU_exact_scope": [],
+    "scope_additions_bounded": [],
+    "exact_exclusions_retained": [],
+    "WU_identity_state_ref": [],
+    "fixture_contract_exact": [],
+    "fixture_PRE_policy": [],
+    "test_policy_preserved": [],
+    "helper_plan_unchanged": [],
+    "no_durable_directory_creation": [],
+    "same_F001_authority_correlation": [],
+    "original_user_directive_exact": [],
+    "exact_instruction_bindings": [],
+    "role_actions_no_push": [],
+    "PRE_durable_ref_exact": [],
+    "WU_schema": [],
+    "WU_project_binding": [],
+    "authority_project_binding": [],
+    "amendment_project_binding": [],
+    "FIX_schema": [],
+    "FIX_authority": [],
+    "FIX_immutable_native_resolver": [],
+    "PRE_schema": [],
+    "PRE_authority": [],
+    "PRE_immutable_native_resolver": [],
+    "immutable_authority_amendment_resolve": [],
+    "FIX_native_finding_lifecycle": [],
+    "FIX_native_adoption_authority": [],
+    "candidate_directory_contract_base": [],
+    "candidate_directory_contract_metadata": [],
+    "native_continuity_resume": [],
+    "no_slot_authority_invention": [],
+    "independent_context": [],
+    "implementer_actual_scope_oracle": [],
+    "implementer_actual_changes_truthful": [],
+    "supplement_fixture_untouched_before_PRE": [],
+    "implementer_index_source_not_staged": [],
+    "existing_production_diff_helper_only": [],
+    "existing_test_delta_zero_growth": [],
+    "old_line_exact_once": [],
+    "proposed_one_line_no_method_growth": [],
+    "fixture_causal_native_probes": [],
+    "existing_validator_test_module_responsibility": [],
+    "causal_evidence_logs_sealed": [],
+    "affected_failure_exact": [],
+    "validate_project_retained_base_evidence_hash": [],
+    "validate_framework_retained_base_evidence_hash": [],
+    "validate_consumer_projection_retained_base_evidence_hash": [],
+    "native_missing_PRE_denies": [],
+    "supplemental_native_PRE_gate": [],
+    "supplemental_native_governed_entry_reviewer": [],
+    "supplemental_native_governed_entry_actual_implementer": [],
+    "result_schema": [],
+    "result_protocol": [],
+    "result_review_role": [],
+    "result_authority": [],
+    "result_completion_evidence": [],
+    "final_reviewer_HEAD_clean": [],
+    "final_fixture_untouched": []
+  },
+  "scope_checks": {
+    "source_paths": [
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "helper": "_project_identity_decision",
+    "test_paths": [
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py"
+    ],
+    "scope_additions": [
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json"
+    ],
+    "exact_fixture_correction": {
+      "test_method": "test_adoption_requires_local_authority_not_source_or_observation",
+      "old_line": "        malformed = {key: value for key, value in control.items() if key != \"github\"}",
+      "new_line": "        malformed = {**control, \"github\": {\"repository_id\": \"123\"}}",
+      "preserved_expected_result": [
+        "PROJECT_IDENTITY_INVALID"
+      ],
+      "other_assertions_preserved": true
+    },
+    "NEW_TEST_FILE_COUNT": 0,
+    "NEW_REGRESSION_TEST_COUNT_DELTA": 0,
+    "F001_FULL_SUITE_RUN_COUNT": 1,
+    "supplemental_PRE_test_suite_rerun_count": 0,
+    "supplemental_PRE_native_validator_rerun_count": 0,
+    "excluded_scope": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      "VERSION",
+      "plugins/",
+      "releases/"
+    ]
+  },
+  "verification": {
+    "necessary_STATE42_authority_bytes": {
+      ".gpt-codex/STATE.json": {
+        "base_blob": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de",
+        "remote_blob": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de",
+        "equal": true
+      },
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json": {
+        "base_blob": "b976b9a8f9cd93d6007d6d4f845ebbac7d2825d4",
+        "remote_blob": "b976b9a8f9cd93d6007d6d4f845ebbac7d2825d4",
+        "equal": true
+      },
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json": {
+        "base_blob": "a37b5efa44e3dffb493b49ab1fc8f93d16790c3f",
+        "remote_blob": "a37b5efa44e3dffb493b49ab1fc8f93d16790c3f",
+        "equal": true
+      }
+    },
+    "implementer_actual_observation": {
+      "HEAD": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+      "clean": false,
+      "actual_changed_paths": [
+        ".gpt-codex/scripts/validate_project.py",
+        ".gpt-codex/tests/test_continuity_resume.py"
+      ],
+      "status_porcelain": " M .gpt-codex/scripts/validate_project.py\n M .gpt-codex/tests/test_continuity_resume.py\n",
+      "initial_authorized_source_diff_sha256": "d904b200d1eccdcfdb3eddae420e6d0c58d281a7becf28764fdc785162a50ea2",
+      "initial_authorized_test_diff_sha256": "170ba4271ad2a290906a21e800c4f1427d67431982db71649e780c781f78359c",
+      "supplemental_fixture_bytes_equal_base": true,
+      "source_numstat": "6\t0\t.gpt-codex/scripts/validate_project.py",
+      "test_numstat": "34\t0\t.gpt-codex/tests/test_continuity_resume.py"
+    },
+    "fixture_native_probes": {
+      "old_absent_no_target": {
+        "decision": "ALLOW",
+        "reason": "IDENTITY_MATCH",
+        "hard_stop": false
+      },
+      "old_absent_explicit_target": {
+        "decision": "DENY",
+        "reason": "GITHUB_REPOSITORY_UNBOUND",
+        "hard_stop": true
+      },
+      "proposed_partial_explicit_target": {
+        "decision": "DENY",
+        "reason": "PROJECT_IDENTITY_INVALID",
+        "hard_stop": true
+      },
+      "actual_corrected_adoption_old_absent": [
+        "GITHUB_REPOSITORY_UNBOUND"
+      ],
+      "actual_corrected_adoption_proposed_partial": [
+        "PROJECT_IDENTITY_INVALID"
+      ]
+    },
+    "causal_log_hashes": {
+      "affected-tests.log": {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.log",
+        "expected_sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88",
+        "observed_sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88"
+      },
+      "affected-tests.json": {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.json",
+        "expected_sha256": "3bdcca1431f285dfddab743d348744df6ac0822017655a80a7f6fd0729592766",
+        "observed_sha256": "3bdcca1431f285dfddab743d348744df6ac0822017655a80a7f6fd0729592766"
+      },
+      "existing-validator-test-fixture-conflict.json": {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\existing-validator-test-fixture-conflict.json",
+        "expected_sha256": "e533683c2d5b7ba8c1fe0f92cda63e70bbccbcddf8e85043a6193e1eb9943894",
+        "observed_sha256": "e533683c2d5b7ba8c1fe0f92cda63e70bbccbcddf8e85043a6193e1eb9943894"
+      },
+      "bounded-source-verification.json": {
+        "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\bounded-source-verification.json",
+        "expected_sha256": "6d1d573e0a323ea33a7448f199629005f09d71f2c3d1e485050ba75c65bdf10f",
+        "observed_sha256": "6d1d573e0a323ea33a7448f199629005f09d71f2c3d1e485050ba75c65bdf10f"
+      }
+    },
+    "retained_initial_PRE_native_validators": {
+      "validate_project": {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-pre\\.gpt-codex\\scripts\\validate_project.py",
+          "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-pre"
+        ],
+        "exit_code": 0,
+        "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\pre-independent-review\\validate_project.log",
+        "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+        "output": "RESULT: PASS\r\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\r\nSTATE: AUTHORIZED@revision-42\r\nPROJECT_CONTEXT_BINDING: PASS\r\n"
+      },
+      "validate_framework": {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-pre\\.gpt-codex\\scripts\\validate_framework.py"
+        ],
+        "exit_code": 0,
+        "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\pre-independent-review\\validate_framework.log",
+        "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+        "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
+      },
+      "validate_consumer_projection": {
+        "command": [
+          "C:\\Python313\\python.exe",
+          "-B",
+          "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-pre\\.gpt-codex\\scripts\\validate_consumer_projection.py",
+          "--root",
+          "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-explicit-github-unbound-round2-state42-001-pre"
+        ],
+        "exit_code": 0,
+        "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\pre-independent-review\\validate_consumer_projection.log",
+        "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+        "output": "RESULT: PASS\r\nCONSUMER_PROJECTION_RELEASE_MATCH: PASS\r\nCONSUMER_REQUIRED_COUNT: 86\r\nUNKNOWN_PATH_COUNT: 0\r\nMISSING_REQUIRED_PATH_COUNT: 0\r\nMANAGEMENT_IDS_IN_CONSUMER_PROJECTION: NONE\r\n"
+      }
+    },
+    "initial_PRE_result_id": "9dffeda1-bead-4044-927c-3018b1e9dc0c",
+    "initial_PRE_result_sha256": "992227ef5a64dd2d902667faba67e5460f77e9924f3c1b1466a2d33a0c13d3e0"
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "462987d1-c941-4b52-ac6b-c77dab65b56b",
+    "work_unit": "f001-explicit-github-unbound-round2-state42-001",
+    "reviewed_revision": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "executed_revision": null,
+    "files_read": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+      ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/framework-modules/modules/framework-validation.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      "Native fixture identity/adoption probes; scope/authority/schema/G001/lifecycle/PRE/governed-entry/result checks; retained log hash checks. No full suite or three-validator rerun."
+    ],
+    "findings": [],
+    "fix_round": 2,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+      ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/framework-modules/modules/framework-validation.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json"
+    ],
+    "executed_scope": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+      ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/framework-modules/modules/framework-validation.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "native_STATE42_authority_and_resume",
+      "immutable_FIX_PRE_resolver",
+      "WU_instruction_schema_authority_binding",
+      "native_G001_management_bridge",
+      "durable_finding_remediation_lifecycle",
+      "causal_fixture_native_probes",
+      "actual_implementer_scope_oracle",
+      "native_PRE_gate",
+      "native_governed_mutation_entry_reviewer",
+      "native_governed_mutation_entry_actual_implementer",
+      "native_result_schema_protocol_authority_completion",
+      "retained_native_validator_evidence_hashes"
+    ],
+    "validators_completed": [
+      "native_STATE42_authority_and_resume",
+      "immutable_FIX_PRE_resolver",
+      "WU_instruction_schema_authority_binding",
+      "native_G001_management_bridge",
+      "durable_finding_remediation_lifecycle",
+      "causal_fixture_native_probes",
+      "actual_implementer_scope_oracle",
+      "native_PRE_gate",
+      "native_governed_mutation_entry_reviewer",
+      "native_governed_mutation_entry_actual_implementer",
+      "native_result_schema_protocol_authority_completion",
+      "retained_native_validator_evidence_hashes"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "limitations": [
+    "This is supplemental PRE scope/authority review, not independent POST or final correction acceptance.",
+    "The implementer currently has two uncommitted, initially PRE-authorized source/test modifications; the supplemental validator fixture is untouched. Reviewer HEAD and tree are exact BASE and clean.",
+    "Three already-passing initial PRE native validator logs were hash-verified and retained. No repeated full suite, three-validator run, or twenty-blob audit was performed."
+  ],
+  "external_output": {
+    "result_path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\scope-pre-independent-review\\independent-scope-pre.json",
+    "expected_durable_result_path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+    "pending_canonical_write": true
+  },
+  "INDEPENDENT_SCOPE_PRE": "PASS",
+  "RETURN_TO_GPT": true
+}
