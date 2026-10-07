@@ -1,0 +1,120 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "work_unit_id": "framework-v2.8.0-release-preparation-001",
+  "basis_state_revision": 35,
+  "state": "AUTHORIZED",
+  "goal": "Prepare and validate the exact Framework 2.8.0 source and package candidate without tag, GitHub Release, asset upload, STATE transition, P41 execution or plugin synchronization.",
+  "scope": {
+    "owned_paths": [
+      "VERSION",
+      ".gpt-codex/builtins/INDEX.json",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      "AGENTS.md",
+      ".gpt-codex/release/consumer-projection-manifest.json",
+      "releases/INDEX.json",
+      "releases/records/v2.8.0.json",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.7.4-release.json",
+      "dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "dist/gpt-codex-framework-v2.8.0-bootstrap.zip.sha256",
+      "dist/gpt-codex-framework-v2.8.0-release.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-preparation-001.json",
+      ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+      ".gpt-codex/evidence/instructions/ea619aea-0382-4303-a1d2-c5ab566ba70a.json",
+      ".gpt-codex/evidence/instructions/2d5e867b-d2e0-48e2-95c9-60614dc571c2.json",
+      ".gpt-codex/evidence/instructions/586793f6-4f0d-4e18-b7b6-fdfdb3756ff8.json",
+      ".gpt-codex/evidence/instructions/ed5eeeba-03e7-4d1c-8241-6f2341532cc7.json",
+      ".gpt-codex/evidence/instructions/f2e41687-3f52-48a3-a1c1-7f4bac9b0f6d.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-HANDOFF-PRE.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      "plugins/",
+      "docs/"
+    ]
+  },
+  "acceptance": [
+    "SCHEMA_AWARE_ARTIFACT_PREFLIGHT",
+    "EXACT_VERSION_SURFACES",
+    "SUPPORTED_CHANGELOG",
+    "FROZEN_SOURCE_PRESERVATION",
+    "CONSUMER86",
+    "NATIVE_PACKAGING",
+    "FULL_VALIDATION",
+    "CLEAN_CLONE_REPRODUCIBILITY",
+    "PUBLICATION_CAPABILITY_PREFLIGHT",
+    "INDEPENDENT_POST",
+    "EXACT_REMOTE_READBACK",
+    "NATIVE_HANDOFF"
+  ],
+  "selected_extensions": {},
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+      "sha": "2102d3a475cf451c5785b150fe615c2a79eced2c"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+      "sha": "2102d3a475cf451c5785b150fe615c2a79eced2c"
+    }
+  },
+  "authority_source": {
+    "kind": "DIRECT_USER_RELEASE_PREPARATION_REQUEST",
+    "mode": "RELEASE_PREPARATION_ONLY",
+    "request_sha256": "7a37a4babf73a39ccf5ed0d194352b74b81349cba03b8528fd0cf3e1578d2096",
+    "expected_base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+    "publication_transport_authority": "Direct user sections 23/25 require governed preparation candidate/Result repository publication, durable PASS and exact remote readback. Bounded local commits and non-force main fast-forward transport only after independent gates; role actions remain exact. No Framework tag/Release/asset publication authority."
+  },
+  "module_route": {
+    "outcome": "CROSS_MODULE_CHANGE_REQUIRED",
+    "primary_module": "release-projection",
+    "related_modules": [
+      "framework-core",
+      "framework-validation"
+    ],
+    "responsibility": "release version surfaces, release metadata and governed preparation evidence"
+  },
+  "STATE_MUTATION_COUNT": 0,
+  "P41_DEFERRED_BY_USER": "YES",
+  "PLUGIN_SYNC_STARTED": "NO",
+  "post_preparation_state_transition_required": "YES",
+  "exact_post_preparation_next_action": "UNADJUDICATED"
+}
