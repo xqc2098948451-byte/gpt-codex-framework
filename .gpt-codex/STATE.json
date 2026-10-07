@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
     "latest_synced_state_revision": 38,
     "latest_verified_remote_sha": "677a398671abbdd4bfcdf3ed6fbdf81d1dccf0c7",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -205,13 +205,20 @@
     ".gpt-codex/evidence/instructions/e51775b8-0687-47b7-87d2-81c1623d0f49.json",
     ".gpt-codex/evidence/instructions/c9ec3710-ef1c-4b8d-8120-db0eb585fba1.json",
     ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json",
-    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json"
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+    ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+    ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+    ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json",
+    ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+  "next_action": "FRAMEWORK_REMEDIATION_CAUSAL_BASE_LIVENESS_CORRECTION_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 38,
+  "revision": 39,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }

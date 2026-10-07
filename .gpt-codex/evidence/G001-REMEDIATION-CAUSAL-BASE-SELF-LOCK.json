@@ -78,7 +78,7 @@
   "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
   "F001_FIX": "PAUSED_BY_GOVERNANCE_LIVENESS_DEFECT",
   "F001_STATUS": "PAUSED_PENDING_G001_CORRECTION",
-  "independent_reviewer_conclusion": "PENDING",
+  "independent_reviewer_conclusion": "PASS",
   "workspace_binding": {
     "status": "MATCH",
     "current_layout_authority": {
@@ -94,5 +94,18 @@
     "current_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
     "durable_binding_mutation": 0
   },
-  "root_cause": "Finding.review_target_revision == FIX.expected_base_sha, but durable Finding/Basis/Adjudication/STATE publication advances HEAD; immutable exact review causality, durable remediation authority and a current clean execution baseline cannot all be satisfied."
+  "root_cause": "Finding.review_target_revision == FIX.expected_base_sha, but durable Finding/Basis/Adjudication/STATE publication advances HEAD; immutable exact review causality, durable remediation authority and a current clean execution baseline cannot all be satisfied.",
+  "independent_pre_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+  "independent_pre_review_subject_sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594",
+  "independent_pre_reviewer_context": {
+    "distinct_agent": "/root/g001_pre_review",
+    "distinct_role": "CODEX_REVIEWER",
+    "implementer_context_reused": false,
+    "implementer_private_context_read": false,
+    "implementer_gate_script_read": false,
+    "repository_writes": 0,
+    "index_changes": 0,
+    "head_changes": 0,
+    "agent_spawns": 0
+  }
 }

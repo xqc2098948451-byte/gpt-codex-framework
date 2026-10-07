@@ -1,0 +1,66 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "GOVERNANCE_GATE_VALIDATION",
+  "state_revision": 39,
+  "result": "LOCAL_COMPLETE",
+  "observed_utc": "2026-10-07T09:59:31.684167+00:00",
+  "native_governed_mutation_entry_errors": [],
+  "independent_pre": "PASS",
+  "F001_records_preserved": true,
+  "framework_source_mutation_count": 0,
+  "plugin_mutation_count": 0,
+  "release_mutation_count": 0,
+  "schema_checks": [
+    {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/STATE.json",
+      "schema": "state",
+      "status": "PASS"
+    }
+  ],
+  "validators": {
+    "project": {
+      "exit_code": 0,
+      "status": "PASS",
+      "log_sha256": "fdf7379e7d444fb35a87169605afcfe3db6ee37a599a464795c187e7890b3175",
+      "output": "RESULT: PASS\r\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\r\nSTATE: AUTHORIZED@revision-39\r\nPROJECT_CONTEXT_BINDING: PASS\r\n"
+    },
+    "framework": {
+      "exit_code": 0,
+      "status": "PASS",
+      "log_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
+    }
+  }
+}
