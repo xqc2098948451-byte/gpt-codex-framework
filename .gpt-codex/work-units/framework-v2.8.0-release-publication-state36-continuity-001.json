@@ -1,0 +1,144 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-v2.8.0-release-publication-state36-continuity-001",
+  "basis_state_revision": 36,
+  "state": "AUTHORIZED",
+  "goal": "Attest verified STATE36 governance publication and synchronize native continuity metadata only; preserve revision and release candidate.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-gate-001.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-continuity-001.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-ATTESTATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-HANDOFF-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
+      ".gpt-codex/evidence/instructions/880e7c42-feb3-4a42-83a1-b9e6fa986d14.json",
+      ".gpt-codex/evidence/instructions/9ed7a817-34f4-41e3-ba95-badc3ba8fc9c.json",
+      ".gpt-codex/evidence/instructions/176720bb-2a58-48f7-92ac-a332c5662835.json",
+      ".gpt-codex/evidence/instructions/81922379-4c25-4055-8d9d-1f2755d5aaf0.json",
+      ".gpt-codex/evidence/instructions/39fa05e9-4f47-49b7-8b02-e5d37eb28112.json",
+      ".gpt-codex/evidence/instructions/a16e877e-6737-4439-b7b7-06800aef0f85.json",
+      ".gpt-codex/evidence/instructions/3c3189e1-6a6c-4258-882f-f661d94fc271.json",
+      ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json"
+    ],
+    "excluded_paths": [
+      "VERSION",
+      "CHANGELOG.md",
+      "README.md",
+      "BOOTSTRAP_PROMPT.md",
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      "dist/",
+      "releases/",
+      "plugins/",
+      "docs/",
+      "tests/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-AUTHORITY.json",
+      "sha": "969a2853b54bdd55aeeeb01a33cb67381996fd62"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-AUTHORITY.json",
+      "sha": "969a2853b54bdd55aeeeb01a33cb67381996fd62"
+    }
+  },
+  "acceptance": [
+    "Native PRE PASS before STATE transition",
+    "Independent POST and Publication PRE PASS",
+    "Exact remote readback and native handoff",
+    "Release/source/package/plugin/tag/Release/asset/P41 mutation count zero",
+    "Stop at STATE36 durable PASS"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Governance state and durable evidence registration"
+  },
+  "authority_source": {
+    "record_kind": "FRAMEWORK_V2_8_0_RELEASE_PUBLICATION_STATE36_GATE_AUTHORITY",
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "basis_state_revision": 35,
+    "basis_remote_main": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+    "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+    "request_sha256": "5ac06dcc94ad43eccbbb90b181f163a17a0278c8a269a051ffe45101e5d06143",
+    "mode": "GOVERNANCE_ONLY_RELEASE_PUBLICATION_AUTHORITY_GATE",
+    "publication_transport_authority": "User sections19-21 explicitly require governance commits/main publication, exact remote readback and synced final Result. COMMIT/PUSH/PUBLISH are not machine authorized_actions.",
+    "state_fields_allowed": [
+      "revision",
+      "next_action",
+      "blockers",
+      "reconciliation",
+      "evidence_refs",
+      "continuity"
+    ],
+    "state_fields_preserved": [
+      "state",
+      "kernel_version",
+      "schema_version",
+      "project_id",
+      "active_work_unit"
+    ],
+    "preparation_authority_locators": [
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+        "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        "blob_sha": "c4357fcacb61f526568dd1b42ce75e60ce622b99"
+      },
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        "blob_sha": "ceb3d2e82f07da72f93c1d8ac28b2f90466d3439"
+      }
+    ],
+    "publication_authority_semantic_boundary": "CONFIRMED_PUBLICATION in preparation Result means GOVERNED_REPOSITORY_PREPARATION_PUBLICATION only; this gate establishes release publication authority for next independent Work Unit.",
+    "companion_semantics": "Basis36 companion for metadata-only verified-work attestation/native handoff; does not execute Framework release lifecycle or STATE37.",
+    "stop_boundary": "STATE36 durable PASS then RETURN_TO_GPT",
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+    "directory_creations": []
+  }
+}
