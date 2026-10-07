@@ -14,38 +14,23 @@
   "native_governed_mutation_entry_errors": [],
   "schema_checks": [
     {
-      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
       "schema": "result-envelope",
       "status": "PASS"
     },
     {
-      "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
-      "schema": "result-envelope",
-      "status": "PASS"
-    },
-    {
-      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
       "schema": "evidence",
       "status": "PASS"
     },
     {
-      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
-      "schema": "evidence",
-      "status": "PASS"
-    },
-    {
-      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
       "schema": "evidence",
       "status": "PASS"
     },
     {
       "path": ".gpt-codex/STATE.json",
       "schema": "state",
-      "status": "PASS"
-    },
-    {
-      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
-      "schema": "evidence",
       "status": "PASS"
     }
   ],
