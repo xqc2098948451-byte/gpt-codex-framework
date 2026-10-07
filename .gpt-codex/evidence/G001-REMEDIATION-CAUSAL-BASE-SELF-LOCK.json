@@ -107,5 +107,28 @@
     "index_changes": 0,
     "head_changes": 0,
     "agent_spawns": 0
+  },
+  "independent_post_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+  "independent_post_review_subject_sha": "ecaeecfdbaa14caae2d65efb44e82d8083d890a8",
+  "independent_post_reviewer_context": {
+    "distinct_agent": "/root/g001_post_review",
+    "distinct_role": "CODEX_REVIEWER",
+    "fresh_context": "FRESH_INDEPENDENT_REVIEW_TASK",
+    "implementer_context_reused": false,
+    "implementer_private_context_read": false,
+    "implementer_gate_script_read": false,
+    "implementer_publication_script_read": false,
+    "repository_writes": 0,
+    "index_changes": 0,
+    "head_changes": 0,
+    "agent_spawns": 0,
+    "input_sources": [
+      "USER_EXPLICIT_DIRECTIVE",
+      "AGENTS",
+      "DURABLE_REPOSITORY_AUTHORITY",
+      "NATIVE_SCRIPTS_SCHEMAS",
+      "EXACT_GIT_TREE_AND_DIFF",
+      "READ_ONLY_WORKSPACE_BINDING_RECORDS"
+    ]
   }
 }

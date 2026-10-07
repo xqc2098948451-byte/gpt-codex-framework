@@ -9,7 +9,7 @@
   "source": "TOOL_OBSERVED",
   "subject": "GOVERNANCE_GATE_VALIDATION",
   "state_revision": 39,
-  "result": "LOCAL_COMPLETE",
+  "result": "PASS",
   "observed_utc": "2026-10-07T09:59:31.684167+00:00",
   "native_governed_mutation_entry_errors": [],
   "independent_pre": "PASS",
@@ -62,5 +62,108 @@
       "log_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
       "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
     }
-  }
+  },
+  "independent_post": "PASS",
+  "independent_metadata_pre": "PASS",
+  "native_metadata_mutation_entry_errors": [],
+  "source_preservation": {
+    "head": "f6b254961ce897b0f0847cb0d0cf7319097dd9bb",
+    "baseline": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+    "changed_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+      ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+      ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+      ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+      ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json",
+      ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json"
+    ],
+    "per_commit_audit": [
+      {
+        "sha": "f7dbe23755f64b2bbb63007ffaa4ce8def12409e",
+        "changed_paths": [
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594",
+        "changed_paths": [
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "fda5a7b5c3876994a23a92fb2a36eab9b796be6a",
+        "changed_paths": [
+          ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+          ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "ecaeecfdbaa14caae2d65efb44e82d8083d890a8",
+        "changed_paths": [
+          ".gpt-codex/STATE.json",
+          ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "f6b254961ce897b0f0847cb0d0cf7319097dd9bb",
+        "changed_paths": [
+          ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+          ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+          ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json"
+        ],
+        "management_only": true
+      }
+    ],
+    "non_governance_tree_equivalent": true,
+    "non_governance_tree_sha256": "77c8715edf713872ebf13715a1643033ad723c7bfc75454a0afa8e7642017ce2",
+    "F001_RECORD_BYTES_PRESERVED": true,
+    "F001_REVIEW_TARGET_PRESERVED": true,
+    "historical_evidence_refs_preserved": true,
+    "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+    "PLUGIN_MUTATION_COUNT": 0,
+    "RELEASE_MUTATION_COUNT": 0,
+    "SECOND_AUTHORITY_SYSTEM_COUNT": 0,
+    "BLANKET_GOVERNANCE_EXEMPTION_COUNT": 0,
+    "workspace": {
+      "status": "MATCH",
+      "current_layout_authority": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34860e4ba83383afb5ff10c90b57a3d96bdb81c2",
+        "path": "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+        "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0"
+      },
+      "worktree_root": "D:\\通用开发框架管理\\worktrees",
+      "source_root": "D:\\通用开发框架管理",
+      "legacy_d_w_binding": "SUPERSEDED_HISTORICAL_BINDING",
+      "legacy_binding_bytes_preserved": true,
+      "current_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "durable_binding_mutation": 0
+    }
+  },
+  "live_repository_identity": {
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "default_branch": "main",
+    "source": "TOOL_OBSERVED"
+  },
+  "pre_sync_plugin_visibility": "RECONCILIATION_REQUIRED",
+  "pre_sync_continuity": "SYNC_PENDING",
+  "publication_authority_route": "EXPLICIT_ACTIVE_GATE_NATIVE_CORE_ENTRY_WITH_INDEPENDENT_METADATA_PRE",
+  "plugin_visibility_used_as_execution_authority": false
 }
