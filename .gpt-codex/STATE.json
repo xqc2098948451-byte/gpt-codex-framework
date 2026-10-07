@@ -204,7 +204,8 @@
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
     ".gpt-codex/evidence/instructions/e51775b8-0687-47b7-87d2-81c1623d0f49.json",
     ".gpt-codex/evidence/instructions/c9ec3710-ef1c-4b8d-8120-db0eb585fba1.json",
-    ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json"
+    ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",

@@ -5,7 +5,7 @@
   "work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-continuity-001",
   "gate_work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-gate-001",
   "extension": null,
-  "status": "LOCAL_COMPLETE",
+  "status": "PASS",
   "result_id": "d5cf2bb2-0c55-4f32-b955-6d9a874979d8",
   "result_message_type": "IMPLEMENTATION_RESULT",
   "response_to_instruction_id": "a0c6564f-b109-4796-863c-5032eed1edbc",
@@ -103,13 +103,14 @@
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
-    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json"
   ],
   "completion_gate": "GPT_DECISION",
   "completion_evidence": {
-    "execution_state": "INCOMPLETE",
-    "process_completed": false,
-    "exit_code": null,
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
     "intended_scope": [
       "GOVERNANCE_ONLY_REMEDIATION_AUTHORITY_GATE"
     ],
@@ -142,13 +143,14 @@
       "INDEPENDENT_PRE",
       "INDEPENDENT_POST",
       "SOURCE_PRESERVATION",
-      "EXACT_REMOTE_GOVERNANCE_READBACK"
+      "EXACT_REMOTE_GOVERNANCE_READBACK",
+      "NATIVE_HANDOFF"
     ],
     "blocker_evidence_refs": []
   },
-  "NATIVE_HANDOFF": "PENDING_VERIFICATION",
-  "READY_FOR_F001_FRESH_FIX": "NO",
-  "F001_STATE38_AUTHORITY_GATE": "LOCAL_COMPLETE",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_F001_FRESH_FIX": "YES",
+  "F001_STATE38_AUTHORITY_GATE": "PASS",
   "FINDINGS": [],
   "BLOCKERS": [],
   "findings": [],
@@ -157,5 +159,12 @@
   "next_gpt_action": "Create a fresh STATE38 FIX Work Unit and fresh FIX Instruction expected_state_revision=38, remediation_decision_ref=F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION. Do not reuse STATE37 authority or directly continue the rejected candidate. This gate stops without FIX execution.",
   "self_containing_commit_claim": false,
   "attestation_semantics": "Verified remote baseline is the already published reviewed work commit. Final Result and STATE continuity are management attestations.",
-  "observed_utc": "2026-10-07T08:45:34.731749+00:00"
+  "observed_utc": "2026-10-07T08:45:34.731749+00:00",
+  "PLUGIN_INSTRUCTION_RESOLVER": "INSTRUCTION_RESOLVED",
+  "native_handoff_observation": {
+    "observed_remote_sha": "57f0b22bf64c5267d05c08c758b4f0e0c22e6fd9",
+    "native_status": "HANDOFF_READY",
+    "plugin_status": "HANDOFF_READY",
+    "self_containing_commit_claim": false
+  }
 }

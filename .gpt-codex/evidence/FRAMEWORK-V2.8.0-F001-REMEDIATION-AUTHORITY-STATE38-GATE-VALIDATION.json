@@ -24,6 +24,11 @@
       "status": "PASS"
     },
     {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
       "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
       "schema": "evidence",
       "status": "PASS"
@@ -31,6 +36,36 @@
     {
       "path": ".gpt-codex/STATE.json",
       "schema": "state",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-POST.json",
+      "schema": "result-envelope",
       "status": "PASS"
     }
   ],
@@ -77,5 +112,8 @@
   "pre_sync_plugin_instruction_delivery": "RECONCILIATION_REQUIRED",
   "pre_sync_actual_continuity": "SYNC_PENDING",
   "pre_sync_authority_route": "EXPLICIT_ACTIVE_GATE_CORE_REVIEW_AND_MUTATION_ENTRY",
-  "plugin_visibility_used_as_execution_authority": false
+  "plugin_visibility_used_as_execution_authority": false,
+  "native_handoff": "HANDOFF_READY",
+  "plugin_handoff": "HANDOFF_READY",
+  "native_handoff_observed_remote_sha": "57f0b22bf64c5267d05c08c758b4f0e0c22e6fd9"
 }

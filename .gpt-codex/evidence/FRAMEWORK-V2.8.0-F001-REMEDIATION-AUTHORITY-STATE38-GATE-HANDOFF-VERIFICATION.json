@@ -1,0 +1,37 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "NATIVE_RESULT_HANDOFF",
+  "state_revision": 38,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T08:46:24.343781+00:00",
+  "observed_remote_sha": "57f0b22bf64c5267d05c08c758b4f0e0c22e6fd9",
+  "native_status": "HANDOFF_READY",
+  "plugin_status": "HANDOFF_READY",
+  "validated_result_id": "d5cf2bb2-0c55-4f32-b955-6d9a874979d8",
+  "validated_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
+  "bindings": {
+    "target_work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-v2.8.0-f001-remediation-authority-state38-continuity-001.json",
+      "sha": "1480e2b74a589e0aed77a91c9275822e1c11d8ae"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "684ba80e22d4b137a047878f0db5f5091f3d85d8",
+      "path": ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json",
+      "blob_sha": "507ac2d11a09ccd71da950b4ca7dfa66fc6972c1"
+    },
+    "expected_state_revision": 38
+  },
+  "mutation": "NONE",
+  "source_fix_execution": "NOT_STARTED",
+  "self_containing_commit_claim": false,
+  "plugin_instruction_resolver": "INSTRUCTION_RESOLVED"
+}
