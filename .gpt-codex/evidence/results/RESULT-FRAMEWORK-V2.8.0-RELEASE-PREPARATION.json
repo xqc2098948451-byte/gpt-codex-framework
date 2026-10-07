@@ -35,7 +35,8 @@
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
-    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json"
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-HANDOFF-PRE.json"
   ],
   "changed": [
     "VERSION",
@@ -95,11 +96,11 @@
   "P41_EXECUTION_STARTED": "NO",
   "PLUGIN_SYNC_STARTED": "NO",
   "FINAL_INDEPENDENT_POST": "PASS",
-  "NATIVE_HANDOFF": "PENDING_REMOTE_PUBLICATION",
-  "READY_FOR_RELEASE_PUBLICATION_STATE_GATE": "NO",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_RELEASE_PUBLICATION_STATE_GATE": "YES",
   "post_preparation_state_transition_required": "YES",
   "exact_post_preparation_next_action": "UNADJUDICATED",
-  "next_gpt_action": "Run exact native handoff and stop after durable readback. Separate post-preparation release-publication STATE gate is required; exact next action UNADJUDICATED. Framework Release/P41/plugin sync remain NOT_STARTED.",
+  "next_gpt_action": "RETURN_TO_GPT_AND_STOP. Preparation durable PASS; separate post-preparation release-publication STATE authority gate required. Exact next action UNADJUDICATED. No tag/GitHub Release/asset upload/STATE transition/P41/plugin sync authority.",
   "completion_evidence": {
     "execution_state": "COMPLETED",
     "process_completed": true,
@@ -130,7 +131,10 @@
       "PUBLICATION_CAPABILITY_PREFLIGHT",
       "INDEPENDENT_POST",
       "INDEPENDENT_PUBLICATION_PRE",
-      "EXACT_REMOTE_WORK_READBACK"
+      "EXACT_REMOTE_WORK_READBACK",
+      "NATIVE_REPOSITORY_HANDOFF",
+      "NATIVE_PLUGIN_RESULT_HANDOFF",
+      "INDEPENDENT_HANDOFF_PRE"
     ],
     "validators_completed": [
       "SCHEMA_AWARE_ARTIFACT_PREFLIGHT",
@@ -148,7 +152,10 @@
       "PUBLICATION_CAPABILITY_PREFLIGHT",
       "INDEPENDENT_POST",
       "INDEPENDENT_PUBLICATION_PRE",
-      "EXACT_REMOTE_WORK_READBACK"
+      "EXACT_REMOTE_WORK_READBACK",
+      "NATIVE_REPOSITORY_HANDOFF",
+      "NATIVE_PLUGIN_RESULT_HANDOFF",
+      "INDEPENDENT_HANDOFF_PRE"
     ],
     "exit_code": 0,
     "blocker_evidence_refs": []
@@ -168,5 +175,27 @@
   "local_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
   "remote_head_sha": "116f3873c276641338621ca26ea93ad692332cdd",
   "verified_baseline_sha": "116f3873c276641338621ca26ea93ad692332cdd",
-  "attestation_semantics": "implementation_sha identifies exact independently reviewed source/package candidate. verified_baseline_sha identifies exact repository-published preparation Work commit. This Result does not claim its own containing commit or any Framework tag/Release/asset publication."
+  "attestation_semantics": "implementation_sha identifies exact independently reviewed source/package candidate. verified_baseline_sha identifies exact repository-published preparation Work commit. This Result does not claim its own containing commit or any Framework tag/Release/asset publication.",
+  "native_handoff_bindings": {
+    "target_work_unit_id": "framework-v2.8.0-release-preparation-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-v2.8.0-release-preparation-001.json",
+      "sha": "6b8b9d175fae09c982b9d490d61f75718b2cf79b"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "e986f05cf6202d6c8e6e6762ad3bdc901b06a5e9",
+      "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+      "blob_sha": "91f70ab6d0edd11e3f1accab7c174052e6be8c16"
+    },
+    "expected_state_revision": 35
+  },
+  "native_handoff_observation": {
+    "native_status": "HANDOFF_READY",
+    "plugin_status": "HANDOFF_READY",
+    "observed_remote_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+    "observed_utc": "2026-10-07T01:28:52.696283+00:00",
+    "result_id": "4c990222-29b8-48a2-afc9-2d226bf16af5",
+    "self_containing_commit_claim": false
+  }
 }

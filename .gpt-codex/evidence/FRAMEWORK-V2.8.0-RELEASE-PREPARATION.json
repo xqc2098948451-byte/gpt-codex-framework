@@ -8,7 +8,7 @@
   "state_revision": 35,
   "result": "PASS",
   "source_base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
-  "observed_utc": "2026-10-07T01:14:52.504569+00:00",
+  "observed_utc": "2026-10-07T01:32:20.355588+00:00",
   "previous_version": "2.7.4",
   "target_version": "2.8.0",
   "target_tag": "v2.8.0",
@@ -77,7 +77,10 @@
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
-    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json"
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-HANDOFF-PRE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json"
   ],
   "consumer_inventory_count": 86,
   "consumer_boundary": "PASS",
@@ -154,5 +157,11 @@
     "tag_creation": 0,
     "github_release_creation": 0,
     "asset_upload": 0
-  }
+  },
+  "governed_repository_publication": "CONFIRMED_PUBLICATION",
+  "remote_verification": "VERIFIED",
+  "preparation_work_commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+  "preparation_attestation_commit_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_RELEASE_PUBLICATION_STATE_GATE": "YES"
 }

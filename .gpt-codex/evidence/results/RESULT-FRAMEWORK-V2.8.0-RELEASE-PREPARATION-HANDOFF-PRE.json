@@ -1,0 +1,300 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.8.0-release-preparation-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "result_id": "e2bb5dd8-1115-44ce-b111-a3dab23e40c3",
+  "response_to_instruction_id": "f2e41687-3f52-48a3-a1c1-7f4bac9b0f6d",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "state_revision": 35,
+  "review_target_revision": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+  "remote_head_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "git": {
+    "base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807"
+  },
+  "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-v2.8.0-release-preparation-001.json",
+    "sha": "6b8b9d175fae09c982b9d490d61f75718b2cf79b"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "e986f05cf6202d6c8e6e6762ad3bdc901b06a5e9",
+    "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+    "blob_sha": "91f70ab6d0edd11e3f1accab7c174052e6be8c16"
+  },
+  "review_request_candidate_binding": {
+    "path": ".gpt-codex/evidence/instructions/f2e41687-3f52-48a3-a1c1-7f4bac9b0f6d.json",
+    "sha256": "7b23e790d2e93517c9859154b76cdce9ad05cd61ace316547dfd0663ae69b99b",
+    "git_blob_sha": "35e9a24031d573967a9f16d0f96dc354f62ef28e",
+    "reviewed_base_commit": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+    "durable_before_review": false,
+    "semantics": "Canonical draft inspected under direct read-only reviewer authorization; root will commit these exact bytes alongside this PRE before final bounded transport. No immutable locator for an uncommitted request is claimed."
+  },
+  "finding_ids": [],
+  "findings": [],
+  "blockers": [],
+  "changed": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json"
+  ],
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "READ_ONLY_HANDOFF_PRE_AND_IN_MEMORY_FINAL_METADATA_PLAN"
+    ],
+    "executed_scope": [
+      "READ_ONLY_HANDOFF_PRE_AND_IN_MEMORY_FINAL_METADATA_PLAN"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "CURRENT_REMOTE_LOCAL_IDENTITY_AND_DRAFT_REQUEST_SCHEMA_BINDING",
+      "DURABLE_SOURCE_INSTRUCTION_WORK_UNIT_RESOLUTION",
+      "CURRENT_PASS_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "INDEPENDENT_GITHUB_CONTENTS_WORK_AND_ATTESTATION_READBACK",
+      "W0_SOURCE_PACKAGE_FROZEN_BLOB_PRESERVATION",
+      "STATE35_AND_FORMAL_RELEASE_BOUNDARIES",
+      "NATIVE_REPOSITORY_HANDOFF",
+      "NATIVE_PLUGIN_RESULT_HANDOFF",
+      "BOUNDED_FINAL_METADATA_PLAN_IN_MEMORY",
+      "CONTINUING_NATIVE_GOVERNED_MUTATION_GATE"
+    ],
+    "validators_completed": [
+      "CURRENT_REMOTE_LOCAL_IDENTITY_AND_DRAFT_REQUEST_SCHEMA_BINDING",
+      "DURABLE_SOURCE_INSTRUCTION_WORK_UNIT_RESOLUTION",
+      "CURRENT_PASS_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "INDEPENDENT_GITHUB_CONTENTS_WORK_AND_ATTESTATION_READBACK",
+      "W0_SOURCE_PACKAGE_FROZEN_BLOB_PRESERVATION",
+      "STATE35_AND_FORMAL_RELEASE_BOUNDARIES",
+      "NATIVE_REPOSITORY_HANDOFF",
+      "NATIVE_PLUGIN_RESULT_HANDOFF",
+      "BOUNDED_FINAL_METADATA_PLAN_IN_MEMORY",
+      "CONTINUING_NATIVE_GOVERNED_MUTATION_GATE"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "observed_utc": "2026-10-07T01:32:01.022080+00:00",
+  "self_containing_commit_claim": false,
+  "INDEPENDENT_HANDOFF_PRE": "PASS",
+  "native_handoff_observation": {
+    "native": {
+      "status": "HANDOFF_READY",
+      "reconciliation_required": false,
+      "project": {
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495"
+      },
+      "state": {
+        "revision": 35,
+        "state": "AUTHORIZED"
+      },
+      "current_work": {
+        "work_unit_id": "framework-v2.8.0-release-preparation-001",
+        "status": "AUTHORIZED"
+      },
+      "instruction_id": "ec32be9d-4724-4d74-81ad-c7a57fb77505",
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "e986f05cf6202d6c8e6e6762ad3bdc901b06a5e9",
+        "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+        "blob_sha": "91f70ab6d0edd11e3f1accab7c174052e6be8c16"
+      },
+      "result_id": "4c990222-29b8-48a2-afc9-2d226bf16af5",
+      "result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "evidence_refs": [
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json"
+      ],
+      "git": {
+        "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+        "current_head_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f"
+      },
+      "result_status": "PASS",
+      "next_action_hint": "Run exact native handoff and stop after durable readback. Separate post-preparation release-publication STATE gate is required; exact next action UNADJUDICATED. Framework Release/P41/plugin sync remain NOT_STARTED.",
+      "blockers": []
+    },
+    "plugin": {
+      "status": "HANDOFF_READY",
+      "reconciliation_required": false,
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository_id": "1366213495",
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "state_revision": 35,
+      "state": "AUTHORIZED",
+      "current_work": {
+        "work_unit_id": "framework-v2.8.0-release-preparation-001",
+        "status": "AUTHORIZED"
+      },
+      "instruction_id": "ec32be9d-4724-4d74-81ad-c7a57fb77505",
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "e986f05cf6202d6c8e6e6762ad3bdc901b06a5e9",
+        "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+        "blob_sha": "91f70ab6d0edd11e3f1accab7c174052e6be8c16"
+      },
+      "result_id": "4c990222-29b8-48a2-afc9-2d226bf16af5",
+      "result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "evidence_refs": [
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json"
+      ],
+      "git": {
+        "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+        "current_head_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f"
+      },
+      "result_status": "PASS",
+      "blockers": [],
+      "next_action_hint": "Run exact native handoff and stop after durable readback. Separate post-preparation release-publication STATE gate is required; exact next action UNADJUDICATED. Framework Release/P41/plugin sync remain NOT_STARTED.",
+      "compact_return": "RESULT: PASS\nWORK_UNIT: framework-v2.8.0-release-preparation-001\nHEAD_SHA: 012b7c8af71da815f3b92cee7ee93e1764970807\nRESULT_REF: 4c990222-29b8-48a2-afc9-2d226bf16af5\nSTATE_REVISION: 35\nEVIDENCE_REFS: .gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json, .gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json, .gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json, .gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json, .gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json, .gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PUBLICATION-PRE.json, .gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-REMOTE-VERIFICATION.json\nREVIEW_STATUS: NONE\nARTIFACT_LOCATOR: NONE\nBLOCKERS: NONE\nNEXT_ACTION: Run exact native handoff and stop after durable readback. Separate post-preparation release-publication STATE gate is required; exact next action UNADJUDICATED. Framework Release/P41/plugin sync remain NOT_STARTED."
+    },
+    "observed_remote_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f"
+  },
+  "independent_exact_readbacks": [
+    {
+      "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "9f5d2ecf90a41136925fbe9202a48cf5fe9cc7d8",
+      "sha256": "2fff4a71895e12b5844e449416311f1df0ecd81b5cd45c18e9ee1ba079486edf",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "014b18a745e7829abbaadb8678b08a3e176497dd",
+      "sha256": "f2e29bfbe582002ef269ca71550cafbba02195e84a3f990768fc55fb51c2c8e9",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+      "path": "dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "blob_sha": "c44ffd0307972e29bb2a3142b8a8190af1fb4a59",
+      "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "31a67c4ec10e2515d907fb92896cdfba04c9875c",
+      "sha256": "038874fcd7c0e0d16f73e9f6acb91de858335fd2496629691025f108c30e3736",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "3302a42ed2dae0369ac539968faf7fb15af43d6c",
+      "sha256": "07c29c07512184f60f9c192b2c6350214830d4ebdc9e29b1760337c58b09608c",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "014b18a745e7829abbaadb8678b08a3e176497dd",
+      "sha256": "f2e29bfbe582002ef269ca71550cafbba02195e84a3f990768fc55fb51c2c8e9",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+      "path": "dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "blob_sha": "c44ffd0307972e29bb2a3142b8a8190af1fb4a59",
+      "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    },
+    {
+      "commit_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "31a67c4ec10e2515d907fb92896cdfba04c9875c",
+      "sha256": "038874fcd7c0e0d16f73e9f6acb91de858335fd2496629691025f108c30e3736",
+      "byte_identical": true,
+      "source": "Independent fresh GitHub contents read"
+    }
+  ],
+  "native_gate_errors": [],
+  "frozen_w0_blob_count_preserved": 389,
+  "STATE_REVISION": 35,
+  "STATE_MUTATION_COUNT": 0,
+  "PLUGIN_MUTATION_COUNT": 0,
+  "FRAMEWORK_RELEASE_PUBLICATION": "NOT_STARTED",
+  "P41_DEFERRED_BY_USER": "YES",
+  "P41_EXECUTION_STARTED": "NO",
+  "PLUGIN_SYNC_STARTED": "NO",
+  "TAG_CREATED": "NO",
+  "GITHUB_RELEASE_CREATED": "NO",
+  "ASSET_UPLOADED": "NO",
+  "completion_basis": "No tests or full suite rerun. Independently executed native contracts and handoff entrypoints, eight exact GitHub contents reads, frozen tree comparisons, and an in-memory dry run of the final metadata record branch.",
+  "next_gpt_action": "Root may commit the exact canonical request, this PRE and the reviewed Result/Evidence metadata only, perform bounded non-force main transport with exact readback, rerun both native handoffs at final T, and RETURN_TO_GPT. READY_FOR_RELEASE_PUBLICATION_STATE_GATE=YES is readiness for a separate GPT authority gate; it grants no publication or STATE authority.",
+  "final_metadata_plan": {
+    "status": "PASS",
+    "record_branch_simulated_in_memory": true,
+    "writer_replaced_with_schema_validating_memory_sink": true,
+    "script_sha256": "7d5abbe817006032e8a91ac2ab81381d48d08005b7278f2e71408923a4baffb3",
+    "proposed_tracked_paths": [
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      ".gpt-codex/evidence/instructions/f2e41687-3f52-48a3-a1c1-7f4bac9b0f6d.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-HANDOFF-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json"
+    ],
+    "final_result_changed_keys": [
+      "NATIVE_HANDOFF",
+      "READY_FOR_RELEASE_PUBLICATION_STATE_GATE",
+      "completion_evidence",
+      "evidence_refs",
+      "native_handoff_bindings",
+      "native_handoff_observation",
+      "next_gpt_action"
+    ],
+    "result_schema_protocol_authority": "PASS",
+    "readiness_semantics": "READY_FOR_RELEASE_PUBLICATION_STATE_GATE=YES denotes separate GPT gate readiness only. STATE remains35 and next action UNADJUDICATED; publication/P41/plugin synchronization remain NOT_STARTED.",
+    "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+    "verified_work_sha": "116f3873c276641338621ca26ea93ad692332cdd",
+    "observed_attestation_sha": "2093896e32e22b2e7e15a54231d2c4c9a3031e9f",
+    "future_containing_commit_claim": false
+  }
+}
