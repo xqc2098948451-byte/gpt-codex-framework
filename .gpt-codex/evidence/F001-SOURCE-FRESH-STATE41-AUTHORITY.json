@@ -71,7 +71,9 @@
     ".gpt-codex/work-units/f001-optional-github-source-fix-state41-001.json",
     ".gpt-codex/evidence/instructions/19e11171-f81f-40a4-b6a3-d756581b3cdd.json",
     ".gpt-codex/evidence/instructions/a3a7c1f9-7eb2-40ec-ad3c-b8a617f73e61.json",
-    ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json"
+    ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+    ".gpt-codex/evidence/instructions/2c70e20a-7d83-4693-9639-651194488f8f.json",
+    ".gpt-codex/evidence/instructions/115c1130-dcff-44a5-b902-0498d8d28740.json"
   ],
   "excluded_scope": [
     ".gpt-codex/STATE.json",
@@ -93,5 +95,6 @@
   "new_test_limit": 5,
   "full_suite_run_count_required": 1,
   "publication_authority": "NONE",
-  "state_revision_preserved": 41
+  "state_revision_preserved": 41,
+  "bootstrap_correction": "Unexecuted FIX COMMIT action removed; native CODEX_IMPLEMENTER role allowlist authoritative; old immutable records retained."
 }
