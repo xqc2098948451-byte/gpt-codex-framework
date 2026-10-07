@@ -57,14 +57,11 @@
       "TEST",
       "VALIDATE",
       "REPORT",
-      "MUTATE_APPROVED_SCOPE",
-      "COMMIT",
-      "PUSH"
+      "MUTATE_APPROVED_SCOPE"
     ],
     "forbidden_actions": [
       "AUTHORIZE",
-      "SCOPE_EXPANSION",
-      "PUBLISH"
+      "SCOPE_EXPANSION"
     ]
   },
   "selected_extensions": {},
