@@ -1,0 +1,246 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_REMOTE_PUBLICATION_VERIFICATION",
+  "source": "TOOL_OBSERVED",
+  "subject": "V2.8.0_CONFIRMED_REMOTE_PUBLICATION",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "state_revision": 36,
+  "PUBLICATION_TRANSPORT_AUTHORITY": "STATE36_PLUS_GPT_EXPLICIT_PUBLICATION_DIRECTIVE",
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "verification": {
+    "repository_identity": "PASS",
+    "annotated_tag": "PASS",
+    "tag_target": "PASS",
+    "release": "PASS",
+    "release_not_draft": "PASS",
+    "release_not_prerelease": "PASS",
+    "remote_version": "PASS",
+    "artifact_sha256": "PASS",
+    "artifact_size": "PASS",
+    "release_record_consistency": "PASS",
+    "release_index_consistency": "PASS",
+    "source_ancestry": "PASS",
+    "consumer_validation": "PASS",
+    "framework_validation": "PASS",
+    "project_validation": "PASS"
+  },
+  "observations": {
+    "observed_utc": "2026-10-07T02:23:20.730849+00:00",
+    "remote_main": "31c0b89e8e798384f1f443764f5911467807e711",
+    "release_subject_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "repository_identity": {
+      "id": "1366213495",
+      "full_name": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "annotated_tag_object_sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+    "tag_target_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "tag_message": "v2.8.0\n",
+    "tag_ls_remote": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b\trefs/tags/v2.8.0\n31c0b89e8e798384f1f443764f5911467807e711\trefs/tags/v2.8.0^{}",
+    "release_id": 405311428,
+    "release_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.8.0",
+    "published_at": "2026-10-07T02:23:29Z",
+    "draft": false,
+    "prerelease": false,
+    "asset_id": 617318101,
+    "asset_name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "asset_count": 1,
+    "asset_download_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/download/v2.8.0/gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "remote_downloaded_asset_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+    "remote_downloaded_asset_size": 150884,
+    "download_path": "D:\\w\\publication-observations\\framework-v2.8.0-release-publication-001\\remote-download-5501cb93-e57f-4c13-aa59-f3eb6e8d122a\\gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "remote_version": "2.8.0",
+    "remote_version_blob_sha": "834f2629538327723c074ed4c3addca9888f0256",
+    "release_record_identity": {
+      "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+      "path": "releases/records/v2.8.0.json",
+      "blob_sha": "db66398f6acea9356892ae3927bf89bb482e8616",
+      "record": {
+        "version": "2.8.0",
+        "artifact": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+        "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+        "artifact_size_bytes": 150884,
+        "artifact_hash_location": "EXTERNAL_RELEASE_SIDECAR",
+        "kernel_version": "2.0.0",
+        "schema_version": 1,
+        "previous_version": "2.7.4",
+        "archive_policy": "METADATA_ONLY",
+        "record_status": "FRAMEWORK_RELEASE",
+        "recorded_at": "2026-10-07T01:08:51Z",
+        "source": "FRAMEWORK_SOURCE"
+      }
+    },
+    "release_index_identity": {
+      "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+      "path": "releases/INDEX.json",
+      "blob_sha": "3c61be2b26f84a850458c68112d22b37dda22b42",
+      "entry": {
+        "version": "2.8.0",
+        "artifact": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+        "record": "records/v2.8.0.json",
+        "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+        "archive_policy": "METADATA_ONLY",
+        "record_status": "FRAMEWORK_RELEASE"
+      }
+    },
+    "source_ancestry": {
+      "release_subject_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+      "observed_remote_main": "31c0b89e8e798384f1f443764f5911467807e711",
+      "merge_base_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+      "subject_is_ancestor": true
+    },
+    "remote_api_readback": {
+      "tag_ref": {
+        "ref": "refs/tags/v2.8.0",
+        "node_id": "REF_kwDOUW7Dd7ByZWZzL3RhZ3MvdjIuOC4w",
+        "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/git/refs/tags/v2.8.0",
+        "object": {
+          "sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+          "type": "tag",
+          "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/git/tags/9d71ccd8ea9768dfc0aa4c809e3b405935ac223b"
+        }
+      },
+      "tag_object": {
+        "node_id": "TA_kwDOUW7Dd9oAKDlkNzFjY2Q4ZWE5NzY4ZGZjMGFhNGM4MDllM2I0MDU5MzVhYzIyM2I",
+        "sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+        "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/git/tags/9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+        "tagger": {
+          "name": "Task6 Sensitivity",
+          "email": "task6@example.invalid",
+          "date": "2026-10-07T02:23:13Z"
+        },
+        "object": {
+          "sha": "31c0b89e8e798384f1f443764f5911467807e711",
+          "type": "commit",
+          "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/git/commits/31c0b89e8e798384f1f443764f5911467807e711"
+        },
+        "tag": "v2.8.0",
+        "message": "v2.8.0\n",
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "release": {
+        "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/releases/405311428",
+        "assets_url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/releases/405311428/assets",
+        "upload_url": "https://uploads.github.com/repos/xqc2098948451-byte/gpt-codex-framework/releases/405311428/assets{?name,label}",
+        "html_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.8.0",
+        "id": 405311428,
+        "author": {
+          "login": "xqc2098948451-byte",
+          "id": 326916602,
+          "node_id": "U_kgDOE3xZ-g",
+          "avatar_url": "https://avatars.githubusercontent.com/u/326916602?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/xqc2098948451-byte",
+          "html_url": "https://github.com/xqc2098948451-byte",
+          "followers_url": "https://api.github.com/users/xqc2098948451-byte/followers",
+          "following_url": "https://api.github.com/users/xqc2098948451-byte/following{/other_user}",
+          "gists_url": "https://api.github.com/users/xqc2098948451-byte/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/xqc2098948451-byte/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/xqc2098948451-byte/subscriptions",
+          "organizations_url": "https://api.github.com/users/xqc2098948451-byte/orgs",
+          "repos_url": "https://api.github.com/users/xqc2098948451-byte/repos",
+          "events_url": "https://api.github.com/users/xqc2098948451-byte/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/xqc2098948451-byte/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "node_id": "RE_kwDOUW7Dd84YKI_E",
+        "tag_name": "v2.8.0",
+        "target_commitish": "main",
+        "name": "GPT-Codex Framework v2.8.0",
+        "draft": false,
+        "immutable": false,
+        "prerelease": false,
+        "created_at": "2026-10-07T02:23:13Z",
+        "updated_at": "2026-10-07T02:23:31Z",
+        "published_at": "2026-10-07T02:23:29Z",
+        "assets": [
+          {
+            "url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/releases/assets/617318101",
+            "id": 617318101,
+            "node_id": "RA_kwDOUW7Dd84ky4bV",
+            "name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+            "label": "",
+            "uploader": {
+              "login": "xqc2098948451-byte",
+              "id": 326916602,
+              "node_id": "U_kgDOE3xZ-g",
+              "avatar_url": "https://avatars.githubusercontent.com/u/326916602?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/xqc2098948451-byte",
+              "html_url": "https://github.com/xqc2098948451-byte",
+              "followers_url": "https://api.github.com/users/xqc2098948451-byte/followers",
+              "following_url": "https://api.github.com/users/xqc2098948451-byte/following{/other_user}",
+              "gists_url": "https://api.github.com/users/xqc2098948451-byte/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/xqc2098948451-byte/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/xqc2098948451-byte/subscriptions",
+              "organizations_url": "https://api.github.com/users/xqc2098948451-byte/orgs",
+              "repos_url": "https://api.github.com/users/xqc2098948451-byte/repos",
+              "events_url": "https://api.github.com/users/xqc2098948451-byte/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/xqc2098948451-byte/received_events",
+              "type": "User",
+              "user_view_type": "public",
+              "site_admin": false
+            },
+            "content_type": "application/zip",
+            "state": "uploaded",
+            "size": 150884,
+            "digest": "sha256:2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+            "download_count": 0,
+            "created_at": "2026-10-07T02:23:31Z",
+            "updated_at": "2026-10-07T02:23:31Z",
+            "browser_download_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/download/v2.8.0/gpt-codex-framework-v2.8.0-bootstrap.zip"
+          }
+        ],
+        "tarball_url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/tarball/v2.8.0",
+        "zipball_url": "https://api.github.com/repos/xqc2098948451-byte/gpt-codex-framework/zipball/v2.8.0",
+        "body": "## v2.8.0\n\n- Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.\n\n\n- Hardens Work Unit scope and directory-creation declarations, actual Git directory checks, and the independent review/mutation entry contract.\n\n\n- Unifies current release-version validation across source, release archive, and publication preflight while retaining metadata-only historical release records and the consumer projection boundary.\n\n\n- Records the completed repository and local-workspace consolidation and documentation canonicalization; current architecture/decisions/navigation are separated from development history with durable closure evidence.\n\n\n- Records the post-canonicalization repository structure freeze and the STATE35 release-preparation gate; the frozen runtime, schemas, tests, plugin files, and canonical documentation remain unchanged by this release preparation.\n\n\n- The management repository contains the native plugin governance adapter and package (plugin version 0.1.0). They remain outside the consumer bootstrap; P41 Plugin Public Release = DEFERRED_BY_USER. Plugin public release and post-release synchronization are not complete and have not started as part of this Framework release.\n\n\n- KERNEL_VERSION remains 2.0.0; SCHEMA_VERSION remains 1. This release publishes annotated tag v2.8.0 and the verified canonical bootstrap ZIP. Post-publication STATE finalization remains a separate stage.\n\nPlugin public release = NOT PART OF THIS FRAMEWORK RELEASE.\n\nCanonical bootstrap ZIP SHA256: `2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd`\n"
+      }
+    }
+  },
+  "authority_instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "087eb7bb72014e8461cf969c9ec79a6585f1c2df",
+    "path": ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+    "blob_sha": "c3ed5274cfbebbf1ec482fa52f1a8f830fcc8ace"
+  },
+  "state36_authority_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
+    "blob_sha": "0b5ee7af25ce1863d47234bb95403443031ec7f1"
+  },
+  "preparation_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    "blob_sha": "ceb3d2e82f07da72f93c1d8ac28b2f90466d3439"
+  },
+  "publication_pre_result_ref": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+  "source_preservation": {
+    "STATE_MUTATION_COUNT": 0,
+    "RELEASE_SOURCE_MUTATION_COUNT": 0,
+    "PACKAGE_MUTATION_COUNT": 0,
+    "PLUGIN_MUTATION_COUNT": 0,
+    "UNEXPECTED_CHANGED_PATH_COUNT": 0,
+    "NEW_DURABLE_DIRECTORY_COUNT": 0,
+    "changed_governance_paths": [
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+      ".gpt-codex/evidence/instructions/3324f514-8b50-4cb1-94fe-1e621ae2c963.json",
+      ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json",
+      ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+      ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json"
+    ]
+  },
+  "PARTIAL_PUBLICATION": "NO",
+  "attestation_semantics": "Observed external tag/Release/asset and source subject are immutable facts. remote_main is explicitly the observed baseline, not a claim about this Evidence containing commit."
+}
