@@ -1,0 +1,404 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-STATE40-CANONICAL-RETRY-AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "EXPLICIT_GOVERNANCE_ONLY_STATE40_RETRY",
+  "state_revision": 39,
+  "result": "AUTHORIZED",
+  "observed_utc": "2026-10-07T12:25:09.393386+00:00",
+  "source_directive_sha256": "eaab5f1e8685be3b3117b41bfca307994c696f73843ae2ac5e8a934d4fa87b14",
+  "mode": "PROCEDURAL_RETRY_USING_EXISTING_CANONICAL_WORKSPACE",
+  "expected_remote_main": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "approved_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-ATTESTATION.json",
+    ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-POST.json",
+    ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-METADATA-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-G001-DURABLE-CLOSURE-STATE40-CANONICAL-RETRY.json",
+    ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json",
+    ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+    ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+    ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+    ".gpt-codex/evidence/instructions/107fe7c6-3960-4e53-8de9-a3a5265aeb3f.json",
+    ".gpt-codex/evidence/instructions/ccfdf2da-61fb-4700-808e-7be273a175de.json",
+    ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+    ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json"
+  ],
+  "excluded_scope": [
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/KERNEL.md",
+    ".gpt-codex/scripts/",
+    ".gpt-codex/schemas/",
+    ".gpt-codex/tests/",
+    ".gpt-codex/kernel/",
+    ".gpt-codex/builtins/",
+    ".gpt-codex/framework-modules/",
+    ".gpt-codex/release/",
+    "plugins/",
+    "VERSION",
+    "releases/",
+    "docs/",
+    "tests/",
+    "dist/",
+    "AGENTS.md",
+    ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json"
+  ],
+  "proposed_transition": {
+    "before": 39,
+    "after": 40,
+    "state": "AUTHORIZED",
+    "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "sync_status": "SYNC_PENDING",
+    "latest_synced_state_revision": 39
+  },
+  "pre_sync_exception": {
+    "phase": "STATE_TRANSITION_PUBLICATION_PRE_SYNC",
+    "candidate_revision": 40,
+    "sync_status": "SYNC_PENDING",
+    "allowed_only_reason": "LOCAL_UNSYNCED_STATE",
+    "required_pass": [
+      "immutable locator",
+      "instruction bytes",
+      "schema",
+      "role authority",
+      "state revision",
+      "Work Unit correlation",
+      "scope",
+      "repository identity",
+      "PRE review"
+    ],
+    "post_sync_exception_allowed": false
+  },
+  "historical_failed_candidate_authority": "NONE",
+  "previous_failure_class": "PROCEDURAL_WORKSPACE_SELECTION_ERROR",
+  "create_G002": false,
+  "source_plugin_release_mutation_counts": [
+    0,
+    0,
+    0
+  ],
+  "canonical_workspace_identity": "MATCH",
+  "D_W_USED_AS_CANONICAL": "NO",
+  "workspace": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\g001-state40-canonical-workspace-retry-001",
+  "stop_boundary": "Durable STATE40 PASS then RETURN_TO_GPT; do not start F001 or STATE41.",
+  "workspace_identity_gate": {
+    "LOCAL_WORKSPACE_BINDING_STATUS": "MATCH",
+    "CANONICAL_WORKTREE_ROOT": "D:\\通用开发框架管理\\worktrees",
+    "D_W_USED_AS_CANONICAL": "NO",
+    "independent_identity_report_sha256": "32ecdafd8787e1fba62850d2ec3a96be139fed5aa5f843a34c4c057280b4fc18",
+    "identities_stable": true
+  },
+  "workspace_identity_evidence": {
+    "record_kind": "INDEPENDENT_CANONICAL_WORKSPACE_IDENTITY_REVIEW",
+    "schema_version": 1,
+    "reviewer_context": "/root/canonical_workspace_reviewer",
+    "implementer_context": "/root",
+    "role": "CODEX_REVIEWER",
+    "scope": "WORKSPACE_IDENTITY_PREFLIGHT_ONLY",
+    "observed_utc": "2026-10-07T12:24:25.622369+00:00",
+    "source_root": "D:\\通用开发框架管理",
+    "canonical_worktree_root": "D:\\通用开发框架管理\\worktrees",
+    "expected_remote_baseline": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+    "status": "PASS",
+    "checks": {
+      "canonical_FileID_creation_realpath_nonreparse": "PASS",
+      "canonical_binding_authority_and_legacy_preservation": "PASS",
+      "saved_app_project_binding": "PASS",
+      "reciprocal_Git_topology_distinct_detached_clean_baseline": "PASS",
+      "fresh_remote_identity_and_main": "PASS",
+      "native_continuity_context_only_resume": "PASS",
+      "CONTROL_STATE_current_view_legacy_binding_preserved": "PASS"
+    },
+    "limits": [
+      "Identity PASS is not a PRE-EXECUTION authorization or a Work Unit completion.",
+      "Historical D:\\w binding is superseded and preserved; no D:\\w filesystem target was probed or used.",
+      "Only current retry leaves and their reciprocal topology are checked; historical unrelated registrations are not mutated.",
+      "Local creation-time snapshots supply observations of the same durable-pinned canonical directory FileIDs."
+    ],
+    "project_identity": {
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "github": {
+        "repository_id": "1366213495",
+        "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "default_branch": "main"
+      },
+      "state_revision": 39
+    },
+    "root_observations": {
+      "source": {
+        "path": "D:\\通用开发框架管理",
+        "realpath": "D:\\通用开发框架管理",
+        "win32_finalpath": "D:\\通用开发框架管理",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 8162774324731175,
+        "file_id128_hex": "27dd010000001d000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134335773833920560,
+        "creation_ns": 1789103783392056000,
+        "python_st_ino": 8162774324731175,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1789103783392056000
+      },
+      "worktrees": {
+        "path": "D:\\通用开发框架管理\\worktrees",
+        "realpath": "D:\\通用开发框架管理\\worktrees",
+        "win32_finalpath": "D:\\通用开发框架管理\\worktrees",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 6755399441174840,
+        "file_id128_hex": "38d10100000018000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134355696251970624,
+        "creation_ns": 1791096025197062400,
+        "python_st_ino": 6755399441174840,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1791096025197062400
+      },
+      "main": {
+        "path": "D:\\通用开发框架管理\\gpt-codex-framework",
+        "realpath": "D:\\通用开发框架管理\\gpt-codex-framework",
+        "win32_finalpath": "D:\\通用开发框架管理\\gpt-codex-framework",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 8444249301441941,
+        "file_id128_hex": "95dd010000001e000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134335803066992825,
+        "creation_ns": 1789106706699282500,
+        "python_st_ino": 8444249301441941,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1789106706699282500
+      },
+      "common_git": {
+        "path": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "realpath": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "win32_finalpath": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "attributes": 2066,
+        "directory": true,
+        "reparse": false,
+        "file_id": 6473924464469582,
+        "file_id128_hex": "4ee60100000017000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134336090144335943,
+        "creation_ns": 1789135414433594300,
+        "python_st_ino": 6473924464469582,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1789135414433594300
+      },
+      "repository_wrapper": {
+        "path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework",
+        "realpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework",
+        "win32_finalpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 1688849860264364,
+        "file_id128_hex": "ac010000000006000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134356805671536458,
+        "creation_ns": 1791206967153645800,
+        "python_st_ino": 1688849860264364,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1791206967153645800
+      },
+      "implementer": {
+        "path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\g001-state40-canonical-workspace-retry-001",
+        "realpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\g001-state40-canonical-workspace-retry-001",
+        "win32_finalpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\g001-state40-canonical-workspace-retry-001",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 844424930287487,
+        "file_id128_hex": "7f5f0200000003000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134358490262776555,
+        "creation_ns": 1791375426277655500,
+        "python_st_ino": 844424930287487,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1791375426277655500
+      },
+      "reviewer": {
+        "path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+        "realpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+        "win32_finalpath": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+        "attributes": 2064,
+        "directory": true,
+        "reparse": false,
+        "file_id": 1407374883709743,
+        "file_id128_hex": "2f630200000005000000000000000000",
+        "volume_serial32": 877160114,
+        "device64": 591177115022943922,
+        "creation_filetime": 134358490267971606,
+        "creation_ns": 1791375426797160600,
+        "python_st_ino": 1407374883709743,
+        "python_st_dev": 591177115022943922,
+        "python_st_birthtime_ns": 1791375426797160600
+      }
+    },
+    "canonical_identity_basis": {
+      "durable_path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\evidence\\L7A-CANONICALIZATION-CLOSURE.json",
+      "durable_blob_sha": "0ee214d8faf161a42addbfe8aaa2d508ccb1c727",
+      "durable_sha256": "46f41bdbfcb848207ad2fdf2a6daa977fb94c8c887ba7459294eb7f3e7dde88d",
+      "embedded_PROTECTED_BASELINE_sha256": "a00feee571cdc9bcbb6b591036c089f5ad3d3ae3a9c13e7873e79310b49721c8",
+      "embedded_root_identity": {
+        "id": 8162774324731175,
+        "device": 591177115022943922
+      },
+      "embedded_worktrees_identity": {
+        "name": "worktrees",
+        "file_id": 6755399441174840,
+        "directory": true
+      },
+      "source_creation_snapshot": {
+        "path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l6a-remaining-layout-preparation-20261004\\FILESYSTEM-SCOPE-OBSERVATION.json",
+        "sha256": "7f0c93a6540e399334b073bbaf533e3d08f3f253376997e3bccba29aeef60c47",
+        "json_path": "$.D_root_entries[69]",
+        "identity": {
+          "FileID": 8162774324731175,
+          "attributes": 2064,
+          "creation_ns": 1789103783392056000,
+          "device": 591177115022943922,
+          "is_directory": true,
+          "mtime_ns": 1791046923979288200,
+          "path": "D:\\通用开发框架管理",
+          "reparse_point": false,
+          "resolved_path": "D:\\通用开发框架管理",
+          "size_bytes": 49152
+        }
+      },
+      "worktrees_creation_snapshot": {
+        "path": "D:\\通用开发框架管理\\history\\operations\\l6a-unresolved-worktree-containment-recovery-amendment-20261004\\EXACT-ACTION-MATRIX.json",
+        "sha256": "3471b023e641ccec59856411d4064aa67f7f28d84566cd2b4f105daeb0d68c28",
+        "json_path": "$.registered_worktrees[4].path_check.existing_ancestor",
+        "identity": {
+          "path": "D:\\通用开发框架管理\\worktrees",
+          "exists": true,
+          "realpath": "D:\\通用开发框架管理\\worktrees",
+          "FileID": 6755399441174840,
+          "device": 591177115022943922,
+          "attributes": 2064,
+          "bytes": 4096,
+          "mtime_ns": 1791096688087568700,
+          "creation_ns": 1791096025197062400,
+          "directory": true,
+          "reparse": false
+        }
+      }
+    },
+    "binding_basis": {
+      "current_view_path": "D:\\通用开发框架管理\\CURRENT-LOCAL-WORKSPACE-VIEW.json",
+      "current_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "L8_durable_path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\evidence\\LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+      "L8_blob_sha": "830359803860d803a85207c05bef19cd5defa4f8",
+      "L8_view_equal_local_view": true,
+      "legacy_binding_sha256": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4",
+      "legacy_binding_semantics": {
+        "path": "D:\\通用开发框架管理\\LOCAL-WORKSPACE-WORKTREE-ROOT-BINDING.json",
+        "sha256": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4",
+        "current_runtime_binding": false,
+        "preserve_original_bytes": true
+      },
+      "local_path_authority_path": "D:\\通用开发框架管理\\.local-workspace-consolidation-l6a-boundary-amendment-correction-20261004\\LOCAL-WORKSPACE-PATH-AUTHORITY.json",
+      "local_path_authority_sha256": "092cd78df0f3a240e38f45e398a6cd1eeee96b72cfc812a3fac6a2c045f4826d",
+      "layout_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34860e4ba83383afb5ff10c90b57a3d96bdb81c2",
+        "path": "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+        "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0"
+      },
+      "canonical_current_layout_path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\docs\\decisions\\2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md"
+    },
+    "saved_app_project_binding": {
+      "observed_via": "mcp__codex_app__list_projects",
+      "projectId": "dcb95eaa-774e-423e-8a81-23df68d3ae6f",
+      "projectKind": "local",
+      "label": "通用开发框架管理",
+      "path": "D:\\通用开发框架管理",
+      "hostId": "local",
+      "isGitRepository": false,
+      "observation_basis": "Direct tool result in this independent reviewer session, before this report was written."
+    },
+    "reciprocal_git_topology": [
+      {
+        "leaf": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\g001-state40-canonical-workspace-retry-001",
+        "admin": "D:\\通用开发框架管理\\gpt-codex-framework\\.git\\worktrees\\g001-state40-canonical-workspace-retry-001",
+        "common": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "HEAD": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+        "detached": true,
+        "clean": true,
+        "gitfile": "gitdir: D:/通用开发框架管理/gpt-codex-framework/.git/worktrees/g001-state40-canonical-workspace-retry-001",
+        "admin_gitdir": "D:/通用开发框架管理/worktrees/gpt-codex-framework/g001-state40-canonical-workspace-retry-001/.git",
+        "admin_commondir": "../.."
+      },
+      {
+        "leaf": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+        "admin": "D:\\通用开发框架管理\\gpt-codex-framework\\.git\\worktrees\\review-g001-state40-canonical-workspace-retry-001",
+        "common": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "HEAD": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+        "detached": true,
+        "clean": true,
+        "gitfile": "gitdir: D:/通用开发框架管理/gpt-codex-framework/.git/worktrees/review-g001-state40-canonical-workspace-retry-001",
+        "admin_gitdir": "D:/通用开发框架管理/worktrees/gpt-codex-framework/review-g001-state40-canonical-workspace-retry-001/.git",
+        "admin_commondir": "../.."
+      }
+    ],
+    "fresh_remote": {
+      "repository": {
+        "default_branch": "main",
+        "full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "id": 1366213495
+      },
+      "main_head": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "observed_utc": "2026-10-07T12:24:30.106010+00:00"
+    },
+    "native_context_only_resume": {
+      "status": "LATEST_SYNCED_REMOTE_STATE",
+      "repository_id": "1366213495",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "verified_baseline_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+      "current_attestation_head": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "reconciliation_required": false,
+      "resume_mode": "COLD_RESUME",
+      "map_route": "MAP_MISSING",
+      "required_reads": []
+    },
+    "preserved_bytes_before_after": {
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\CONTROL.json": "6e3e0e9a010be1397b20d41e4f6bb4946a75839be1809f803894194c5f176c52",
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\STATE.json": "8e406606497a9b28854b3a1bcdd4e970fe694d1e45982ffe5aef47f39929c19f",
+      "D:\\通用开发框架管理\\CURRENT-LOCAL-WORKSPACE-VIEW.json": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "D:\\通用开发框架管理\\LOCAL-WORKSPACE-WORKTREE-ROOT-BINDING.json": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4"
+    }
+  },
+  "fresh_candidate_semantics": "Prospective external STATE40 candidate is reviewed before governed STATE transition; authoritative STATE remains 39 until independent PRE PASS.",
+  "public_mutation_boundary": [
+    "STATE",
+    "Work Unit",
+    "Instruction",
+    "Evidence",
+    "Result",
+    "PRE/POST",
+    "remote verification",
+    "handoff/attestation metadata"
+  ]
+}
