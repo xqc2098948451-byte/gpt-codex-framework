@@ -1,0 +1,420 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-STATE42-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "F001_ROUND2_BOUNDED_LOCAL_SOURCE_VALIDATION",
+  "state_revision": 42,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T16:19:59.486863+00:00",
+  "return_fields": {
+    "F001_SOURCE_FIX_ROUND2": "PASS",
+    "REMOTE_MAIN": "e77ee58be58eb19131b966f800753522d4e12661",
+    "REVIEW_REF_HEAD": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "ROUND1_CANDIDATE": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "ROUND2_EXECUTION_BASE": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "ROUND2_CANDIDATE_SHA": "d96f4dc0bb19898f9df6d5f2669ae3678f487d25",
+    "CHANGED_SOURCE_PATHS": [
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "CHANGED_TEST_PATHS": [
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_validator_context_binding.py"
+    ],
+    "ROOT_CAUSE_CONFIRMED": "YES",
+    "STATE42_LOCAL_AUTHORITY_MATERIALIZATION": "PASS",
+    "ROUND1_SOURCE_BYTES_PRESERVED_BEFORE_CORRECTION": "YES",
+    "ROUND1_SEMANTICS_PRESERVED_AFTER_CORRECTION": "YES",
+    "LOCAL_EXPLICIT_GITHUB_TARGET": "GITHUB_REPOSITORY_UNBOUND",
+    "VALIDATE_FRAMEWORK_ADOPTION_LOCAL_EXPLICIT_TARGET": "PASS",
+    "PARTIAL_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID",
+    "BOUND_GITHUB_MATCH": "PASS",
+    "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+    "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+    "FAIL_CLOSED": "PRESERVED",
+    "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+    "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+    "REAL_ADOPTION_PATH_SMOKE": "PASS",
+    "NEW_TEST_FILE_COUNT": 0,
+    "NEW_REGRESSION_TEST_COUNT_DELTA": 0,
+    "AFFECTED_TESTS": "277 unique existing test methods in 7 directly affected modules covered. Initial run: 276 PASS, 1 stale malformed fixture FAIL; after authorized one-line fixture correction its exact method and full 32-test validator module PASS. No production changes since the initial run; other six passing modules and native/smoke checks retained.",
+    "F001_FULL_SUITE_RUN_COUNT": 1,
+    "F001_FULL_SUITE_RUN_COUNT_PROVENANCE": "Inherited from verified Round1; zero Round2 full-suite runs",
+    "ROUND2_FULL_SUITE_RUN_COUNT": 0,
+    "FULL_SUITE_RERUN_JUSTIFIED": "NO",
+    "VALIDATE_PROJECT": "PASS",
+    "VALIDATE_FRAMEWORK": "PASS",
+    "VALIDATE_CONSUMER_PROJECTION": "PASS",
+    "INDEPENDENT_PRE": "PASS",
+    "SUPPLEMENTAL_INDEPENDENT_PRE": "PASS",
+    "INDEPENDENT_POST": "PENDING",
+    "STATE_REVISION": 42,
+    "PUSH_STATUS": "NOT_ATTEMPTED",
+    "READY_FOR_F001_FINAL_INTEGRATION": "NO",
+    "FINDINGS": [],
+    "BLOCKERS": [
+      "INDEPENDENT_POST_PENDING"
+    ],
+    "RETURN_TO_GPT": "YES"
+  },
+  "source_test_candidate_blobs": {
+    ".gpt-codex/scripts/validate_project.py": "c1ea7a584e4c9ceae2cd17b75f0f9c806915bfef",
+    ".gpt-codex/tests/test_continuity_resume.py": "525aff66aa0cae495f55539bd9f1a57c1ab933cd",
+    ".gpt-codex/tests/test_validator_context_binding.py": "b7c264d3e545ea2e82baeb0218cb45e768ba5c7d"
+  },
+  "implementer_context_id": "633e3815-2cf7-4cf7-8b58-89bbe12d95d0",
+  "authority_bindings": {
+    "initial_locators": {
+      "fix_instruction": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "515f9c536bfdba1966d4f145db9207a5d4d25919",
+        "path": ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+        "blob_sha": "01d90ce660c79134e512880c6afacb04a62c772f"
+      },
+      "pre_request": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "515f9c536bfdba1966d4f145db9207a5d4d25919",
+        "path": ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+        "blob_sha": "98d060822150c073c1c990d9569dbf61a1ac59fb"
+      }
+    },
+    "active_locators": {
+      "supplemental_fix_instruction": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+        "path": ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+        "blob_sha": "42ade4900de52f8ca69aba255815aeb508b237cf"
+      },
+      "supplemental_pre_request": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7475d334d57b1fe3d4816de4148993abb8f1b202",
+        "path": ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+        "blob_sha": "93fd9d0cf8e29a9d8e95040e5f001930697d8ac3"
+      }
+    },
+    "POST_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "68e16da5d6d4839dee1b62b3d406f6c341ca8176",
+      "path": ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+      "blob_sha": "72b9021f723871914356f1648b1cf80f91f78f8d"
+    },
+    "work_unit_ref": {
+      "path": ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      "sha": "c14b89cd0707cbfb6e983acde0feaeb64d73c437"
+    }
+  },
+  "PRE_records": [
+    {
+      "ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      "result_id": "9dffeda1-bead-4044-927c-3018b1e9dc0c",
+      "sha256": "992227ef5a64dd2d902667faba67e5460f77e9924f3c1b1466a2d33a0c13d3e0"
+    },
+    {
+      "ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+      "result_id": "dfea23de-fd89-455e-9a36-62c54a80236c",
+      "sha256": "19feba34e27f2b9a35b472eecd1291cd5cb32da29fd00a61087cde092d7526c4"
+    }
+  ],
+  "verification_attempts": {
+    "exact_RED": {
+      "methods": 1,
+      "required_id_full_name_subcases": 2,
+      "status": "EXPECTED_FAILURE"
+    },
+    "exact_GREEN": {
+      "methods": 1,
+      "status": "PASS"
+    },
+    "existing_F001_semantics": {
+      "methods": 5,
+      "status": "PASS"
+    },
+    "affected_initial": {
+      "modules": 7,
+      "methods": 277,
+      "passed_methods": 276,
+      "failures": 1,
+      "errors": 0,
+      "failing_method": "test_validator_context_binding.ValidatorContextBindingTests.test_adoption_requires_local_authority_not_source_or_observation",
+      "cause": "Its absent-GitHub malformed fixture is valid local-only under the authorized F001 contract."
+    },
+    "post_scope_PRE_fixture_correction": {
+      "exact_method_count": 1,
+      "exact_method_status": "PASS",
+      "validator_module_count": 32,
+      "validator_module_status": "PASS",
+      "production_changed_since_initial_affected_run": false
+    },
+    "final_coverage": {
+      "unique_methods": 277,
+      "modules": 7,
+      "unresolved_failure_count": 0,
+      "method": "Retained the other six passing modules; reran the only changed validator module after exact fixture correction."
+    }
+  },
+  "native_validators": [
+    {
+      "validator": "validate_project",
+      "command": [
+        "python",
+        "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001\\.gpt-codex\\scripts\\validate_project.py",
+        "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001"
+      ],
+      "exit_code": 0,
+      "output": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-42\nPROJECT_CONTEXT_BINDING: PASS\n",
+      "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_project.log"
+    },
+    {
+      "validator": "validate_framework",
+      "command": [
+        "python",
+        "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001\\.gpt-codex\\scripts\\validate_framework.py"
+      ],
+      "exit_code": 0,
+      "output": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS\n",
+      "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_framework.log"
+    },
+    {
+      "validator": "validate_consumer_projection",
+      "command": [
+        "python",
+        "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001\\.gpt-codex\\scripts\\validate_consumer_projection.py",
+        "--root",
+        "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001"
+      ],
+      "exit_code": 0,
+      "output": "RESULT: PASS\nCONSUMER_PROJECTION_RELEASE_MATCH: PASS\nCONSUMER_REQUIRED_COUNT: 86\nUNKNOWN_PATH_COUNT: 0\nMISSING_REQUIRED_PATH_COUNT: 0\nMANAGEMENT_IDS_IN_CONSUMER_PROJECTION: NONE\n",
+      "log": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_consumer_projection.log"
+    }
+  ],
+  "actual_implementer_mutation_entry": [],
+  "real_adoption_smoke": {
+    "REAL_ADOPTION_PATH_SMOKE": "PASS",
+    "project_root": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-adoption-smoke\\project",
+    "framework_source_root": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-adoption-smoke\\framework-source",
+    "project_git_sha": "a30aa2026c495a1af0cf743b5f33279d25433735",
+    "project_has_no_remote": true,
+    "project_control_github_absent": true,
+    "local_project_native_validation": "RESULT: PASS\nPROJECT: PRJ-F001-REAL-ADOPTION-SMOKE\nSTATE: AUTHORIZED@revision-0\nPROJECT_CONTEXT_BINDING: PASS\n",
+    "native_local_resume_status": "LOCAL_PROJECT_STATE",
+    "native_instruction_schema_authority": "PASS",
+    "framework_helper_sha256": "b51f057b9b6e4c90219a54f2b10a962a5b5952afe462270190bd07f854960139",
+    "entry_points": [
+      "validate_framework_adoption",
+      "_project_identity_decision"
+    ],
+    "required_semantic_cases": 5,
+    "observations": [
+      {
+        "case": "LOCAL_NO_GITHUB_NO_TARGET",
+        "instruction_target": {},
+        "expected": [],
+        "actual": [],
+        "helper_decision": "ALLOW",
+        "helper_reason": "IDENTITY_MATCH",
+        "control_github": null,
+        "matched": true
+      },
+      {
+        "case": "LOCAL_EXPLICIT_GITHUB_ID",
+        "instruction_target": {
+          "target_github_repository_id": "repo-a"
+        },
+        "expected": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "actual": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "helper_decision": "DENY",
+        "helper_reason": "GITHUB_REPOSITORY_UNBOUND",
+        "control_github": null,
+        "matched": true
+      },
+      {
+        "case": "LOCAL_EXPLICIT_GITHUB_FULL_NAME",
+        "instruction_target": {
+          "target_github_repository_full_name": "owner/a"
+        },
+        "expected": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "actual": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "helper_decision": "DENY",
+        "helper_reason": "GITHUB_REPOSITORY_UNBOUND",
+        "control_github": null,
+        "matched": true
+      },
+      {
+        "case": "BOUND_MATCH",
+        "instruction_target": {
+          "target_github_repository_id": "repo-a",
+          "target_github_repository_full_name": "owner/a"
+        },
+        "expected": [],
+        "actual": [],
+        "helper_decision": "ALLOW",
+        "helper_reason": "IDENTITY_MATCH",
+        "control_github": {
+          "repository_id": "repo-a",
+          "repository_full_name": "owner/a",
+          "default_branch": "main"
+        },
+        "matched": true
+      },
+      {
+        "case": "BOUND_MISMATCH",
+        "instruction_target": {
+          "target_github_repository_id": "foreign"
+        },
+        "expected": [
+          "GITHUB_REPOSITORY_MISMATCH"
+        ],
+        "actual": [
+          "GITHUB_REPOSITORY_MISMATCH"
+        ],
+        "helper_decision": "DENY",
+        "helper_reason": "GITHUB_REPOSITORY_MISMATCH",
+        "control_github": {
+          "repository_id": "repo-a",
+          "repository_full_name": "owner/a",
+          "default_branch": "main"
+        },
+        "matched": true
+      },
+      {
+        "case": "PARTIAL_GITHUB",
+        "instruction_target": {},
+        "expected": [
+          "PROJECT_IDENTITY_INVALID"
+        ],
+        "actual": [
+          "PROJECT_IDENTITY_INVALID"
+        ],
+        "helper_decision": "DENY",
+        "helper_reason": "PROJECT_IDENTITY_INVALID",
+        "control_github": {
+          "repository_id": "repo-a"
+        },
+        "matched": true
+      }
+    ],
+    "project_git_clean_after_smoke": true
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+    ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+    ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+    ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+    ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+    ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+    ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json"
+  ],
+  "runtime_logs": {
+    "exact-regression-red.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-red.log",
+      "sha256": "6cbf7a7807667ac4ed8d4c9860130a4b233b3eaf218ff1f592463c1a17cfa363",
+      "byte_count": 3242
+    },
+    "exact-regression-green.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\exact-regression-green.log",
+      "sha256": "76338fdb42d33664725b98a3337f221d16520432c9b5f5a273022c0b02413fd0",
+      "byte_count": 253
+    },
+    "five-semantic-regressions.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\five-semantic-regressions.log",
+      "sha256": "f69ed7c5105a708ffcdfce457aa7a9160f836a74e8ca2abe7503e50a1c55d127",
+      "byte_count": 962
+    },
+    "affected-tests.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.log",
+      "sha256": "4ecca7eba6b5263c7cb6aa5afc45055cca56c2ea52c21812306186d96c37db88",
+      "byte_count": 54893
+    },
+    "affected-tests.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\affected-tests.json",
+      "sha256": "3bdcca1431f285dfddab743d348744df6ac0822017655a80a7f6fd0729592766",
+      "byte_count": 648
+    },
+    "corrected-validator-method.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-method.log",
+      "sha256": "da816c0bb6aa2a9c445cd0fea4d65920fd41747e82ea3808292be46a34a7f572",
+      "byte_count": 302
+    },
+    "corrected-validator-module.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-module.log",
+      "sha256": "19b77ab7932cb0c866f299a67e9caa6fc17abb6d0a486fe58380516d2bc67456",
+      "byte_count": 6660
+    },
+    "corrected-validator-tests.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\corrected-validator-tests.json",
+      "sha256": "3282a6f60421a102385f938ac9219ccf8babea9c733b399fe1f7b53e2c45f6fa",
+      "byte_count": 1242
+    },
+    "native-validators.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\native-validators.json",
+      "sha256": "7701ef23d05e85d214c4d0a9527628f67a7e8222e0b1e448b14d6dfe8229b082",
+      "byte_count": 1864
+    },
+    "validate_project.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_project.log",
+      "sha256": "0ee1e22046f9d913b3a04db74948c2e4adbe3e53f01d7e40cc5000285efe2572",
+      "byte_count": 111
+    },
+    "validate_framework.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_framework.log",
+      "sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "byte_count": 74
+    },
+    "validate_consumer_projection.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\validate_consumer_projection.log",
+      "sha256": "6bb883b30fda712a3d8284b0d64e3aeed51995adbfce0de703164ba95c348d30",
+      "byte_count": 184
+    },
+    "run-real-adoption-smoke.py": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\run-real-adoption-smoke.py",
+      "sha256": "381cc71bc8a04e6b9498fd12da18972f558ea6ec8acfa44b2d58bf4a549f3861",
+      "byte_count": 7203
+    },
+    "real-adoption-smoke.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-adoption-smoke.json",
+      "sha256": "206313bc7f2dc3805794b79409ef85e403dc62d069eee0b4547fa2ae940faec3",
+      "byte_count": 3549
+    },
+    "real-local-project-validator.log": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\real-local-project-validator.log",
+      "sha256": "4bdc6428abd1e758a6824ddbcfa8dc5ae312a9cc6a316e188ec81000070e4fd3",
+      "byte_count": 114
+    },
+    "existing-validator-test-fixture-conflict.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\existing-validator-test-fixture-conflict.json",
+      "sha256": "e533683c2d5b7ba8c1fe0f92cda63e70bbccbcddf8e85043a6193e1eb9943894",
+      "byte_count": 975
+    },
+    "bounded-source-verification.json": {
+      "path": "D:\\通用开发框架管理\\f001-round2-runtime-20261007-633e3815\\bounded-source-verification.json",
+      "sha256": "6d1d573e0a323ea33a7448f199629005f09d71f2c3d1e485050ba75c65bdf10f",
+      "byte_count": 342
+    }
+  },
+  "source_candidate_sealed": true,
+  "INDEPENDENT_POST": "PENDING",
+  "work_unit_completion_declared": false,
+  "state42_authority_bytes_unchanged": true
+}
