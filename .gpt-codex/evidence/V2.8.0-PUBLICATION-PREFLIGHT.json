@@ -142,5 +142,14 @@
     "RELEASE_SOURCE_MUTATION_COUNT": 0,
     "PACKAGE_MUTATION_COUNT": 0,
     "PLUGIN_MUTATION_COUNT": 0
-  }
+  },
+  "PUBLICATION_PRE": "PASS",
+  "native_mutation_entry": {
+    "status": "PASS",
+    "capability": "AUTHORIZED_GOVERNANCE_CAPABILITY_REQUEST",
+    "requested_action": "MUTATE_APPROVED_SCOPE",
+    "errors": []
+  },
+  "independent_pre_result_id": "db0d8ffc-3a79-47bd-9a6d-25d019d20c9b",
+  "final_pre_observed_utc": "2026-10-07T02:23:04.667439+00:00"
 }
