@@ -39,8 +39,38 @@
       "status": "PASS"
     },
     {
+      "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-HANDOFF-VERIFICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
       "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
       "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json",
+      "schema": "work-unit",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      "schema": "work-unit",
       "status": "PASS"
     },
     {
@@ -165,5 +195,8 @@
   "pre_sync_plugin_visibility": "RECONCILIATION_REQUIRED",
   "pre_sync_continuity": "SYNC_PENDING",
   "publication_authority_route": "EXPLICIT_ACTIVE_GATE_NATIVE_CORE_ENTRY_WITH_INDEPENDENT_METADATA_PRE",
-  "plugin_visibility_used_as_execution_authority": false
+  "plugin_visibility_used_as_execution_authority": false,
+  "native_handoff": "HANDOFF_READY",
+  "plugin_handoff": "HANDOFF_READY",
+  "native_handoff_observed_remote_sha": "33ec52c1ae9ca0f35ab5eb6b6c1b9c8a1a466718"
 }

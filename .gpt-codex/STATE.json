@@ -219,7 +219,8 @@
     ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json",
     ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
     ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
-    ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json"
+    ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json",
+    ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-HANDOFF-VERIFICATION.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "FRAMEWORK_REMEDIATION_CAUSAL_BASE_LIVENESS_CORRECTION_REQUIRED",

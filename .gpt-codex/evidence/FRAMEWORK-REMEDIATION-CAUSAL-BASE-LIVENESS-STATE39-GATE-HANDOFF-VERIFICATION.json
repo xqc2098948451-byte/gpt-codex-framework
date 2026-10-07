@@ -1,0 +1,37 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-HANDOFF-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "NATIVE_RESULT_HANDOFF",
+  "state_revision": 39,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T10:09:21.544717+00:00",
+  "observed_remote_sha": "33ec52c1ae9ca0f35ab5eb6b6c1b9c8a1a466718",
+  "native_status": "HANDOFF_READY",
+  "plugin_status": "HANDOFF_READY",
+  "validated_result_id": "68a32aa3-973a-43b1-b68d-ea628f6e0f9f",
+  "validated_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+  "bindings": {
+    "target_work_unit_id": "framework-remediation-causal-base-liveness-state39-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      "sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "8915d4ab25bf3acab3151e89dcf865f807c84434",
+      "path": ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json",
+      "blob_sha": "1fd3f3ac0881a62c9f4a7d8941058c87c8ea43ee"
+    },
+    "expected_state_revision": 39
+  },
+  "mutation": "NONE",
+  "source_implementation": "NOT_STARTED",
+  "self_containing_commit_claim": false,
+  "plugin_instruction_resolver": "INSTRUCTION_RESOLVED"
+}
