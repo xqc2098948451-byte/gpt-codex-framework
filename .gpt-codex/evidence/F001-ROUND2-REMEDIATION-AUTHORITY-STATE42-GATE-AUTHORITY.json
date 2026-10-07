@@ -1,14 +1,63 @@
 {
-  "active_work_unit": "framework-staged-closure-group-a-001",
-  "blockers": [],
-  "continuity": {
-    "current_remote_ref": "refs/heads/main",
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
-    "latest_synced_state_revision": 42,
-    "latest_verified_remote_sha": "17b2985cf9d9f2b24bff46fcf375799c4f5a18fc",
-    "sync_status": "SYNCED"
-  },
-  "evidence_refs": [
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "EXPLICIT_GOVERNANCE_ONLY_REMEDIATION_AUTHORITY_REFRESH",
+  "state_revision": 41,
+  "result": "AUTHORIZED",
+  "observed_utc": "2026-10-07T14:56:13.083257+00:00",
+  "authority_provenance": "USER_SUPPLIED_EXPLICIT_GPT_GOVERNANCE_DIRECTIVE",
+  "source_directive_sha256": "703d01e448431356d6192156eaea6bfc9827ab232403886df8c04695e0601807",
+  "mode": "GOVERNANCE_ONLY_REMEDIATION_AUTHORITY_REFRESH",
+  "expected_remote_main": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "approved_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+    ".gpt-codex/work-units/f001-round2-remediation-authority-state42-gate-001.json",
+    ".gpt-codex/work-units/f001-round2-remediation-authority-state42-continuity-001.json",
+    ".gpt-codex/evidence/instructions/655254b0-16d4-4b53-b4a3-de8ceca62394.json",
+    ".gpt-codex/evidence/instructions/db39f37d-f476-4b05-8add-0ddafa11ee29.json",
+    ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
+    ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
+    ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
+    ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json"
+  ],
+  "excluded_scope": [
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/KERNEL.md",
+    ".gpt-codex/scripts/",
+    ".gpt-codex/schemas/",
+    ".gpt-codex/tests/",
+    ".gpt-codex/kernel/",
+    ".gpt-codex/builtins/",
+    ".gpt-codex/framework-modules/",
+    ".gpt-codex/release/",
+    "plugins/",
+    "VERSION",
+    "releases/",
+    "docs/",
+    "tests/",
+    "dist/",
+    "AGENTS.md",
+    ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
     ".gpt-codex/evidence/results/RESULT-V2.2.1-LOCAL-CORRECTIVE.json",
     ".gpt-codex/evidence/V2.3.0-RELEASE-VERIFICATION.json",
@@ -187,9 +236,6 @@
     ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
     ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
     ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json",
-    ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
-    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
-    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
     ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
     ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
@@ -254,29 +300,140 @@
     ".gpt-codex/evidence/instructions/9bbc19d0-d3be-4125-bf1d-cc740276beab.json",
     ".gpt-codex/evidence/instructions/a1f12b34-ceb3-41f6-b21a-5b8972b5d12a.json",
     ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-HANDOFF-VERIFICATION.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
-    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
-    ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION.json",
-    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
-    ".gpt-codex/evidence/instructions/655254b0-16d4-4b53-b4a3-de8ceca62394.json",
-    ".gpt-codex/evidence/instructions/db39f37d-f476-4b05-8add-0ddafa11ee29.json",
-    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
-    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION.json",
-    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
-    ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
-    ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
-    ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
-    ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json"
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json"
   ],
-  "kernel_version": "2.0.0",
-  "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
-  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "reconciliation": null,
-  "revision": 42,
-  "schema_version": 1,
-  "state": "AUTHORIZED"
+  "proposed_transition": {
+    "before": 41,
+    "after": 42,
+    "state": "AUTHORIZED",
+    "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "sync_status": "SYNC_PENDING",
+    "latest_synced_state_revision": 41
+  },
+  "review_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+  },
+  "review_result_remote_readback": {
+    "observed_utc": "2026-10-07T14:56:11.405641+00:00",
+    "review_ref": "refs/heads/review/f001-optional-github-post-state41-661ff5f1",
+    "review_ref_head": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "review_target": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "review_result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "finding_ids": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "status": "FAIL",
+    "fix_round": 1,
+    "review_result_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+      "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+    },
+    "sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "byte_count": 15188,
+    "remote_blob_readback": "VERIFIED",
+    "native_review_validation": "PASS",
+    "management_only_lineage": {
+      "status": "PASS",
+      "commits": [
+        "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+        "ff46a9b6a38cf2c5ed165e782598f59dc1d0f4c8"
+      ],
+      "changed_paths": [
+        ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+        ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+        ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+        ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json"
+      ],
+      "source_tree_equivalence": true
+    },
+    "finding_source": "IMMUTABLE_REMOTE_REVIEW_OBJECT",
+    "copied_to_main": false
+  },
+  "classification": "F001_FIX_INCOMPLETE_CALLSITE",
+  "NEW_PRODUCT_DEFECT": "NO",
+  "NEW_ARCHITECTURE_DEFECT": "NO",
+  "NEW_GOVERNANCE_DEFECT": "NO",
+  "source_mutation_authorization": "NO",
+  "fresh_future_FIX_INSTRUCTION_required": true,
+  "workspace_identity_gate": {
+    "LOCAL_WORKSPACE_BINDING_STATUS": "MATCH",
+    "source_root": "D:\\通用开发框架管理",
+    "canonical_root": "D:\\通用开发框架管理\\worktrees",
+    "D_W_USED_AS_CANONICAL": "NO",
+    "current_identities": {
+      "D:\\通用开发框架管理": {
+        "path": "D:\\通用开发框架管理",
+        "canonical_path": "D:\\通用开发框架管理",
+        "volume_serial": 877160114,
+        "file_index": 8162774324731175,
+        "creation_filetime": 134335773833920560,
+        "creation_ns": 1789103783392056000,
+        "device": 591177115022943922,
+        "non_reparse_directory": true
+      },
+      "D:\\通用开发框架管理\\worktrees": {
+        "path": "D:\\通用开发框架管理\\worktrees",
+        "canonical_path": "D:\\通用开发框架管理\\worktrees",
+        "volume_serial": 877160114,
+        "file_index": 6755399441174840,
+        "creation_filetime": 134355696251970624,
+        "creation_ns": 1791096025197062400,
+        "device": 591177115022943922,
+        "non_reparse_directory": true
+      },
+      "D:\\通用开发框架管理\\gpt-codex-framework\\.git": {
+        "path": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "canonical_path": "D:\\通用开发框架管理\\gpt-codex-framework\\.git",
+        "volume_serial": 877160114,
+        "file_index": 6473924464469582,
+        "creation_filetime": 134336090144335943,
+        "creation_ns": 1789135414433594300,
+        "device": 591177115022943922,
+        "non_reparse_directory": true
+      },
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-round2-remediation-authority-state42-gate-001": {
+        "path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-round2-remediation-authority-state42-gate-001",
+        "canonical_path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-round2-remediation-authority-state42-gate-001",
+        "volume_serial": 877160114,
+        "file_index": 281474976873933,
+        "creation_filetime": 134358582276836965,
+        "creation_ns": 1791384627683696500,
+        "device": 591177115022943922,
+        "non_reparse_directory": true
+      },
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-round2-remediation-authority-state42-gate-001": {
+        "path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-round2-remediation-authority-state42-gate-001",
+        "canonical_path": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-round2-remediation-authority-state42-gate-001",
+        "volume_serial": 877160114,
+        "file_index": 1125899907006883,
+        "creation_filetime": 134358582290058391,
+        "creation_ns": 1791384629005839100,
+        "device": 591177115022943922,
+        "non_reparse_directory": true
+      }
+    },
+    "independent_report_sha256": "bab415bb2a03ec1c59086e0374344dedf326dd937d9512fc85ba060fe6e82cf1"
+  },
+  "pre_sync_visibility": {
+    "expected_native_resume": "LOCAL_UNSYNCED_STATE",
+    "require_latest_synced_remote_state": false
+  },
+  "directory_creations": [],
+  "publication_sequence": [
+    "independent PRE",
+    "governance candidate SYNC_PENDING",
+    "independent POST",
+    "metadata PRE",
+    "publication",
+    "remote readback",
+    "native attestation",
+    "STATE42 SYNCED",
+    "native handoff"
+  ],
+  "stop_boundary": "STATE42 durable remote PASS then RETURN_TO_GPT. No Round2 FIX, no candidate integration/merge, no STATE43, version/release/Plugin/Mini Task CLI/C-D recovery/P41."
 }
