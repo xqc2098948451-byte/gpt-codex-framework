@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
     "latest_synced_state_revision": 36,
     "latest_verified_remote_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -171,13 +171,28 @@
     ".gpt-codex/evidence/instructions/a16e877e-6737-4439-b7b7-06800aef0f85.json",
     ".gpt-codex/evidence/instructions/3c3189e1-6a6c-4258-882f-f661d94fc271.json",
     ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json",
-    ".gpt-codex/evidence/instructions/56d2b6af-3b05-4b44-8fbc-bfe5ea3faad8.json"
+    ".gpt-codex/evidence/instructions/56d2b6af-3b05-4b44-8fbc-bfe5ea3faad8.json",
+    ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+    ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/instructions/153dc4fc-ba8d-492a-a211-9b141e040ec9.json",
+    ".gpt-codex/evidence/instructions/635d29c3-a638-4fbd-ae14-1e8879861132.json",
+    ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
+    ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
+    ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_REQUIRED",
+  "next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 36,
+  "revision": 37,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }

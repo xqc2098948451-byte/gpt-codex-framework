@@ -1,0 +1,71 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_POST_RELEASE_STATE37_GATE_VALIDATION",
+  "source": "TOOL_OBSERVED",
+  "observed_utc": "2026-10-07T02:56:14.759843+00:00",
+  "basis_state_revision": 36,
+  "state_revision": 37,
+  "RELEASE_PUBLICATION_AUTHORITY": "PASS",
+  "FRESH_RELEASE_READBACK": "PASS",
+  "OLD_NEXT_ACTION_SATISFIED": "YES",
+  "NEXT_ACTION_ADJUDICATION": "PASS",
+  "PROJECT_VALIDATOR": "PASS",
+  "FRAMEWORK_VALIDATOR": "PASS",
+  "STATE_AUTHORITY_VALIDATION": "PASS",
+  "SCHEMA_AWARE_ARTIFACT_PREFLIGHT": "PASS",
+  "NATIVE_GOVERNED_MUTATION_ENTRY": {
+    "status": "PASS",
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "f122ddb557156a295e4edb783b777ab9ad0ecbc3",
+      "path": ".gpt-codex/evidence/instructions/153dc4fc-ba8d-492a-a211-9b141e040ec9.json",
+      "blob_sha": "692c41691621c16f40da4fc73bad9c2db4b44e9c"
+    },
+    "resolution_status": "INSTRUCTION_RESOLVED"
+  },
+  "validators": {
+    "PROJECT_VALIDATOR": {
+      "status": "PASS",
+      "output": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-37\nPROJECT_CONTEXT_BINDING: PASS"
+    },
+    "FRAMEWORK_VALIDATOR": {
+      "status": "PASS",
+      "output": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS"
+    }
+  },
+  "release_readback": {
+    "observed_utc": "2026-10-07T02:56:13.525783+00:00",
+    "remote_main": "820e4f68648b662a368dde4a48a58a69b2242957",
+    "repository_identity": {
+      "id": 1366213495,
+      "full_name": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "annotated_tag_object_sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+    "tag_target_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "release": {
+      "id": 405311428,
+      "tag_name": "v2.8.0",
+      "draft": false,
+      "prerelease": false,
+      "updated_at": "2026-10-07T02:23:31Z"
+    },
+    "asset": {
+      "id": 617318101,
+      "name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "size": 150884,
+      "digest": "sha256:2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "updated_at": "2026-10-07T02:23:31Z"
+    },
+    "FRESH_RELEASE_READBACK": "PASS"
+  },
+  "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "COMPLETE",
+  "FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "COMPLETE",
+  "POST_RELEASE_PLUGIN_SYNC": "NOT_STARTED",
+  "PLUGIN_FILE_CHANGE_ROUTING_CHECK": "NOT_STARTED",
+  "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "NOT_STARTED",
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "CURRENT_PLUGIN_VERSION": "0.1.0",
+  "TARGET_PLUGIN_VERSION": "UNADJUDICATED",
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "final_remote_continuity": "PENDING_INDEPENDENT_POST_AND_REMOTE_READBACK"
+}
