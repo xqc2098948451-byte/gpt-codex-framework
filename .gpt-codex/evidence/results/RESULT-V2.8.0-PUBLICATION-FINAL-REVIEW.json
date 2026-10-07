@@ -1,0 +1,615 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.8.0-release-publication-001",
+  "target_work_unit_id": "framework-v2.8.0-release-publication-001",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
+    "sha": "7ea198b04bd79c86203c5b968e6491c510d9c9d9"
+  },
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "result_id": "da070a6b-23d7-49aa-b308-d7cb939ba7f3",
+  "response_to_instruction_id": "b4d912be-e2b2-44ec-a05a-92f39bcd2cbb",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "state_revision": 36,
+  "expected_state_revision": 36,
+  "review_phase": "FINAL_INDEPENDENT_READBACK",
+  "review_target_revision": "432230d978a65fab7d686d214f6708f65f17d63d",
+  "reviewed_authority_candidate_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+    "path": ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+    "blob_sha": "0a8bf68e5d1443a61b85ce737d65bf8ed0933cb8"
+  },
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+  "remote_head_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+  "sync_status": "SYNCED",
+  "push_status": "SUCCEEDED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+    ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+    ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+    ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json"
+  ],
+  "findings": [],
+  "finding_ids": [],
+  "blockers": [],
+  "execution": "FINAL_INDEPENDENT_PUBLICATION_AND_NATIVE_HANDOFF_READBACK",
+  "changed": [],
+  "verify": {
+    "FINAL_INDEPENDENT_PUBLICATION_REVIEW": "PASS",
+    "REMOTE_MAIN_IDENTITY": "PASS",
+    "ANNOTATED_TAG": "PASS",
+    "TAG_TARGET": "PASS",
+    "PUBLISHED_RELEASE": "PASS",
+    "RELEASE_NOT_DRAFT": "PASS",
+    "RELEASE_NOT_PRERELEASE": "PASS",
+    "SINGLE_CANONICAL_ASSET": "PASS",
+    "REMOTE_ASSET_HASH": "PASS",
+    "REMOTE_ASSET_SIZE": "PASS",
+    "REMOTE_ASSET_EXACT_CANONICAL_BYTES": "PASS",
+    "EXACT_RESULT_BYTES_BLOB": "PASS",
+    "EXACT_EVIDENCE_BYTES_BLOB": "PASS",
+    "EXACT_GOVERNANCE_BYTES_BLOBS": "PASS",
+    "STATE_BYTES_PRESERVATION": "PASS",
+    "STATE36_BOUNDARY": "PASS",
+    "RELEASE_SOURCE_PRESERVATION": "PASS",
+    "PACKAGE_PRESERVATION": "PASS",
+    "PLUGIN_PRESERVATION": "PASS",
+    "RELEASE_RECORD_CONSISTENCY": "PASS",
+    "RELEASE_INDEX_CONSISTENCY": "PASS",
+    "SOURCE_ANCESTRY": "PASS",
+    "ROLE_SCOPE_AUTHORITY": "PASS",
+    "DIRECTORY_CONTRACT": "PASS",
+    "NATIVE_RESUME": "PASS",
+    "DURABLE_INSTRUCTION_RESOLUTION": "PASS",
+    "PROJECT_VALIDATOR": "PASS",
+    "NATIVE_HANDOFF": "HANDOFF_READY",
+    "PLUGIN_HANDOFF": "HANDOFF_READY",
+    "PARTIAL_PUBLICATION": "NO"
+  },
+  "observed_utc": "2026-10-07T02:31:41.923048+00:00",
+  "reviewer_context": {
+    "role": "CODEX_REVIEWER",
+    "root": "D:\\w\\gpt-codex-framework\\review-framework-v2.8.0-release-publication-001",
+    "head_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+    "implementer_root": "D:/w/gpt-codex-framework/framework-v2.8.0-release-publication-001",
+    "contexts_distinct": true
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "FINAL_INDEPENDENT_PUBLICATION_REVIEW"
+    ],
+    "executed_scope": [
+      "FINAL_INDEPENDENT_PUBLICATION_REVIEW"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "FINAL_INDEPENDENT_PUBLICATION_REVIEW",
+      "REMOTE_MAIN_IDENTITY",
+      "ANNOTATED_TAG",
+      "TAG_TARGET",
+      "PUBLISHED_RELEASE",
+      "RELEASE_NOT_DRAFT",
+      "RELEASE_NOT_PRERELEASE",
+      "SINGLE_CANONICAL_ASSET",
+      "REMOTE_ASSET_HASH",
+      "REMOTE_ASSET_SIZE",
+      "REMOTE_ASSET_EXACT_CANONICAL_BYTES",
+      "EXACT_RESULT_BYTES_BLOB",
+      "EXACT_EVIDENCE_BYTES_BLOB",
+      "EXACT_GOVERNANCE_BYTES_BLOBS",
+      "STATE_BYTES_PRESERVATION",
+      "STATE36_BOUNDARY",
+      "RELEASE_SOURCE_PRESERVATION",
+      "PACKAGE_PRESERVATION",
+      "PLUGIN_PRESERVATION",
+      "RELEASE_RECORD_CONSISTENCY",
+      "RELEASE_INDEX_CONSISTENCY",
+      "SOURCE_ANCESTRY",
+      "ROLE_SCOPE_AUTHORITY",
+      "DIRECTORY_CONTRACT",
+      "NATIVE_RESUME",
+      "DURABLE_INSTRUCTION_RESOLUTION",
+      "PROJECT_VALIDATOR",
+      "NATIVE_HANDOFF",
+      "PLUGIN_HANDOFF",
+      "PARTIAL_PUBLICATION"
+    ],
+    "validators_completed": [
+      "FINAL_INDEPENDENT_PUBLICATION_REVIEW",
+      "REMOTE_MAIN_IDENTITY",
+      "ANNOTATED_TAG",
+      "TAG_TARGET",
+      "PUBLISHED_RELEASE",
+      "RELEASE_NOT_DRAFT",
+      "RELEASE_NOT_PRERELEASE",
+      "SINGLE_CANONICAL_ASSET",
+      "REMOTE_ASSET_HASH",
+      "REMOTE_ASSET_SIZE",
+      "REMOTE_ASSET_EXACT_CANONICAL_BYTES",
+      "EXACT_RESULT_BYTES_BLOB",
+      "EXACT_EVIDENCE_BYTES_BLOB",
+      "EXACT_GOVERNANCE_BYTES_BLOBS",
+      "STATE_BYTES_PRESERVATION",
+      "STATE36_BOUNDARY",
+      "RELEASE_SOURCE_PRESERVATION",
+      "PACKAGE_PRESERVATION",
+      "PLUGIN_PRESERVATION",
+      "RELEASE_RECORD_CONSISTENCY",
+      "RELEASE_INDEX_CONSISTENCY",
+      "SOURCE_ANCESTRY",
+      "ROLE_SCOPE_AUTHORITY",
+      "DIRECTORY_CONTRACT",
+      "NATIVE_RESUME",
+      "DURABLE_INSTRUCTION_RESOLUTION",
+      "PROJECT_VALIDATOR",
+      "NATIVE_HANDOFF",
+      "PLUGIN_HANDOFF",
+      "PARTIAL_PUBLICATION"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "b4d912be-e2b2-44ec-a05a-92f39bcd2cbb",
+    "work_unit": "framework-v2.8.0-release-publication-001",
+    "reviewed_revision": "432230d978a65fab7d686d214f6708f65f17d63d",
+    "executed_revision": null,
+    "files_read": [
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+      ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+      ".gpt-codex/evidence/instructions/3324f514-8b50-4cb1-94fe-1e621ae2c963.json",
+      ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json",
+      ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+      ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
+      ".gpt-codex/STATE.json",
+      "VERSION",
+      "releases/records/v2.8.0.json",
+      "releases/INDEX.json",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      "D:\\w\\publication-observations\\framework-v2.8.0-release-publication-001\\independent-final-download-33d9c797-f17c-48ce-a38c-9e78c4df78f1\\gpt-codex-framework-v2.8.0-bootstrap.zip"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      {
+        "command": "python -X utf8 -B .gpt-codex/scripts/validate_project.py .",
+        "exit_code": 0,
+        "result": "PASS; STATE: AUTHORIZED@revision-36; PROJECT_CONTEXT_BINDING: PASS"
+      },
+      {
+        "command": "python -X utf8 -B native load_continuity_resume; build_repository_handoff; build_plugin_result_handoff with all four explicit Result.native_handoff_bindings",
+        "exit_code": 0,
+        "resume": "LATEST_SYNCED_REMOTE_STATE",
+        "native": "HANDOFF_READY",
+        "plugin": "HANDOFF_READY",
+        "result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c"
+      }
+    ],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "observations": {
+    "observed_utc": "2026-10-07T02:30:53.309840+00:00",
+    "remote_main": "795024dc05188209e10ba6745076a403a8c5234d",
+    "subject": "31c0b89e8e798384f1f443764f5911467807e711",
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+      "path": ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+      "blob_sha": "0a8bf68e5d1443a61b85ce737d65bf8ed0933cb8"
+    },
+    "native_resume_status": "LATEST_SYNCED_REMOTE_STATE",
+    "native_handoff": {
+      "status": "HANDOFF_READY",
+      "reconciliation_required": false,
+      "project": {
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "repository_id": "1366213495"
+      },
+      "state": {
+        "revision": 36,
+        "state": "AUTHORIZED"
+      },
+      "current_work": {
+        "work_unit_id": "framework-v2.8.0-release-publication-001",
+        "status": "AUTHORIZED"
+      },
+      "instruction_id": "9a5b2fef-5eb8-44c0-b35b-4e13c74521f9",
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "087eb7bb72014e8461cf969c9ec79a6585f1c2df",
+        "path": ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+        "blob_sha": "c3ed5274cfbebbf1ec482fa52f1a8f830fcc8ace"
+      },
+      "result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c",
+      "result_ref": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+      "evidence_refs": [
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+        ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+        ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json"
+      ],
+      "git": {
+        "implementation_sha": "116dae8977e283b67005370884a14977c3a87934",
+        "current_head_sha": "795024dc05188209e10ba6745076a403a8c5234d"
+      },
+      "result_status": "PASS",
+      "next_action_hint": "Framework 2.8.0 remote publication complete. Return to GPT for separate post-publication STATE finalization and post-release plugin / real-world acceptance planning.",
+      "blockers": []
+    },
+    "plugin_handoff": {
+      "status": "HANDOFF_READY",
+      "reconciliation_required": false,
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "repository_id": "1366213495",
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "state_revision": 36,
+      "state": "AUTHORIZED",
+      "current_work": {
+        "work_unit_id": "framework-v2.8.0-release-publication-001",
+        "status": "AUTHORIZED"
+      },
+      "instruction_id": "9a5b2fef-5eb8-44c0-b35b-4e13c74521f9",
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "087eb7bb72014e8461cf969c9ec79a6585f1c2df",
+        "path": ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+        "blob_sha": "c3ed5274cfbebbf1ec482fa52f1a8f830fcc8ace"
+      },
+      "result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c",
+      "result_ref": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+      "evidence_refs": [
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+        ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+        ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+        ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json"
+      ],
+      "git": {
+        "implementation_sha": "116dae8977e283b67005370884a14977c3a87934",
+        "current_head_sha": "795024dc05188209e10ba6745076a403a8c5234d"
+      },
+      "result_status": "PASS",
+      "blockers": [],
+      "next_action_hint": "Framework 2.8.0 remote publication complete. Return to GPT for separate post-publication STATE finalization and post-release plugin / real-world acceptance planning.",
+      "compact_return": "RESULT: PASS\nWORK_UNIT: framework-v2.8.0-release-publication-001\nHEAD_SHA: 116dae8977e283b67005370884a14977c3a87934\nRESULT_REF: 9c663e36-a26e-4e9e-a9d4-74dc9a82a44c\nSTATE_REVISION: 36\nEVIDENCE_REFS: .gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json, .gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json, .gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json, .gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json, .gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json, .gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json\nREVIEW_STATUS: NONE\nARTIFACT_LOCATOR: NONE\nBLOCKERS: NONE\nNEXT_ACTION: Framework 2.8.0 remote publication complete. Return to GPT for separate post-publication STATE finalization and post-release plugin / real-world acceptance planning."
+    },
+    "all_four_explicit_bindings": {
+      "target_work_unit_id": "framework-v2.8.0-release-publication-001",
+      "target_work_unit_ref": {
+        "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
+        "sha": "7ea198b04bd79c86203c5b968e6491c510d9c9d9"
+      },
+      "instruction_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "087eb7bb72014e8461cf969c9ec79a6585f1c2df",
+        "path": ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+        "blob_sha": "c3ed5274cfbebbf1ec482fa52f1a8f830fcc8ace"
+      },
+      "expected_state_revision": 36
+    },
+    "locators": {
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+        "blob_sha": "ad775b5672ee48ad779fb9d2ad49c2901cfce9e0",
+        "sha256": "fb16a57d17f846cab063b0d4a541f4153e52519c6aab8323a52818a963a82b01",
+        "size_bytes": 3740,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json",
+        "blob_sha": "53b16ebb81e587774a618383d9b9443580ca6b91",
+        "sha256": "641dc4f6fa3bf134a77c61e6b6e1f52eff584b39e5ca5f8d7d6adec1cda5717e",
+        "size_bytes": 5485,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+        "blob_sha": "39da87e03e5eaaffd7dae3f721a951854108f475",
+        "sha256": "ae77632d896c259cef1847bf5c24045ed0406a66cbb760f8e6af79537fc2c246",
+        "size_bytes": 10352,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+        "blob_sha": "b3ff12f1aafe339e72e00cf2ef0eea14fa7f35c9",
+        "sha256": "a710038a45419194899201dba1e3f3e941fba28ec03796704ba69c436506bd50",
+        "size_bytes": 14513,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/instructions/3324f514-8b50-4cb1-94fe-1e621ae2c963.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/instructions/3324f514-8b50-4cb1-94fe-1e621ae2c963.json",
+        "blob_sha": "1e546b5bafd0c0c321fbd53a3802c73c81829195",
+        "sha256": "1aaf3cf51f8d0d921cc33ddc98381a352d96ae87c145d1d763b1de33b88b67db",
+        "size_bytes": 2059,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json",
+        "blob_sha": "38f1a23b4ec66d68c8476bb916856a32f3994e23",
+        "sha256": "61aae011f2b17de50a3a16117147a8058a20ef8ffcce30a43a69bb90e3de4b94",
+        "size_bytes": 2059,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+        "blob_sha": "c3ed5274cfbebbf1ec482fa52f1a8f830fcc8ace",
+        "sha256": "fad940a2098e36b5527b3aee570c8a65b1630c56a82110e40460308de5b8fb74",
+        "size_bytes": 1954,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+        "blob_sha": "0a8bf68e5d1443a61b85ce737d65bf8ed0933cb8",
+        "sha256": "275766bb9c3c57d89f67b5ab26491a13bee249212f30d12108eeda34aa15913c",
+        "size_bytes": 2059,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+        "blob_sha": "95ea1024deec3936100081c45a6df816d3c044b6",
+        "sha256": "f1b89153b2d4336dbdfb68da62114b5c3424b7e684bfbc1248cb37482ad5960f",
+        "size_bytes": 14990,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+        "blob_sha": "a09e592187a358f91d758d24b667bfe9807265e9",
+        "sha256": "eac08b006a8fcb54485b67ed90c38fcc179a1acee24ced43e31b065e085bae13",
+        "size_bytes": 15269,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+        "blob_sha": "ac93692c89c3c2c0003827df4d1935e77291ea9f",
+        "sha256": "c2797ea7cbb8837e8fc6a7b7559437dc45c0677fc7d9d146642f3cf54434d8a8",
+        "size_bytes": 8284,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json",
+        "blob_sha": "b4fb4b68a0bd0d11071ab09d4cdcf70271b46a67",
+        "sha256": "93523d7fe021980c69c1a0ee5f4f034bdf932e0ad1c88120b408ea6788893b4f",
+        "size_bytes": 7684,
+        "exact_bytes_verified": true
+      },
+      ".gpt-codex/STATE.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "7f5de46edb3769498c0b947cc932457707bb03a6",
+        "sha256": "0383b6b508b31af6986561cc79c9817b64db4c5b30b0afa18cf7f08053b21b2a",
+        "size_bytes": 15076,
+        "exact_bytes_verified": true
+      },
+      "VERSION": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": "VERSION",
+        "blob_sha": "834f2629538327723c074ed4c3addca9888f0256",
+        "sha256": "dceb827995520dae388b7283c5bc7847ef58a16e8013318c3bb436feeb5dc51e",
+        "size_bytes": 6,
+        "exact_bytes_verified": true
+      },
+      "releases/records/v2.8.0.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": "releases/records/v2.8.0.json",
+        "blob_sha": "db66398f6acea9356892ae3927bf89bb482e8616",
+        "sha256": "a3a309fc6baaf2457fd78f091a035399d45899feee21b9ae75a18df9ecbaeffe",
+        "size_bytes": 494,
+        "exact_bytes_verified": true
+      },
+      "releases/INDEX.json": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+        "path": "releases/INDEX.json",
+        "blob_sha": "3c61be2b26f84a850458c68112d22b37dda22b42",
+        "sha256": "2258ba9c0c08a50d30858db1d81b079286ccaa5a782eedee734b5ff29fdf1aa7",
+        "size_bytes": 7658,
+        "exact_bytes_verified": true
+      }
+    },
+    "scope_directory_errors": [],
+    "changed_governance_paths": [
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-AUTHORITY.json",
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/V2.8.0-PUBLICATION-PREFLIGHT.json",
+      ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+      ".gpt-codex/evidence/instructions/3324f514-8b50-4cb1-94fe-1e621ae2c963.json",
+      ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json",
+      ".gpt-codex/evidence/instructions/9a5b2fef-5eb8-44c0-b35b-4e13c74521f9.json",
+      ".gpt-codex/evidence/instructions/b4d912be-e2b2-44ec-a05a-92f39bcd2cbb.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-POST.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-release-publication-001.json"
+    ],
+    "tag_object_sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+    "tag_target_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "release_id": 405311428,
+    "release_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/tag/v2.8.0",
+    "release_title": "GPT-Codex Framework v2.8.0",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-07T02:23:29Z",
+    "asset_id": 617318101,
+    "asset_name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "asset_count": 1,
+    "remote_download_path": "D:\\w\\publication-observations\\framework-v2.8.0-release-publication-001\\independent-final-download-33d9c797-f17c-48ce-a38c-9e78c4df78f1\\gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "remote_asset_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+    "remote_asset_size_bytes": 150884,
+    "remote_asset_equals_canonical_bytes": true,
+    "final_result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c",
+    "STATE_MUTATION_COUNT": 0,
+    "RELEASE_SOURCE_MUTATION_COUNT": 0,
+    "PACKAGE_MUTATION_COUNT": 0,
+    "PLUGIN_MUTATION_COUNT": 0,
+    "NEW_DURABLE_DIRECTORY_COUNT": 0,
+    "UNEXPECTED_CHANGED_PATH_COUNT": 0,
+    "reviewer_checkout_clean": true,
+    "commands": [
+      {
+        "command": "git ls-remote origin refs/heads/main refs/tags/v2.8.0 refs/tags/v2.8.0^{}",
+        "exit_code": 0,
+        "remote_main": "795024dc05188209e10ba6745076a403a8c5234d",
+        "tag_object": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+        "tag_target": "31c0b89e8e798384f1f443764f5911467807e711"
+      },
+      {
+        "command": "gh api contents endpoints for all 12 changed governance paths plus STATE/VERSION/record/index at exact remote main",
+        "exit_code": 0,
+        "path_count": 16,
+        "exact_bytes_and_blob_equal": true
+      },
+      {
+        "command": "gh api release-by-tag and annotated tag-ref/object",
+        "exit_code": 0,
+        "release_id": 405311428,
+        "asset_id": 617318101,
+        "asset_count": 1
+      },
+      {
+        "command": "gh release download v2.8.0 --repo xqc2098948451-byte/gpt-codex-framework --pattern gpt-codex-framework-v2.8.0-bootstrap.zip --output D:\\w\\publication-observations\\framework-v2.8.0-release-publication-001\\independent-final-download-33d9c797-f17c-48ce-a38c-9e78c4df78f1\\gpt-codex-framework-v2.8.0-bootstrap.zip",
+        "exit_code": 0,
+        "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+        "size_bytes": 150884,
+        "canonical_bytes_equal": true
+      },
+      {
+        "command": "python -X utf8 -B .gpt-codex/scripts/validate_project.py .",
+        "exit_code": 0,
+        "result": "PASS; STATE: AUTHORIZED@revision-36; PROJECT_CONTEXT_BINDING: PASS"
+      },
+      {
+        "command": "python -X utf8 -B native load_continuity_resume; build_repository_handoff; build_plugin_result_handoff with all four explicit Result.native_handoff_bindings",
+        "exit_code": 0,
+        "resume": "LATEST_SYNCED_REMOTE_STATE",
+        "native": "HANDOFF_READY",
+        "plugin": "HANDOFF_READY",
+        "result_id": "9c663e36-a26e-4e9e-a9d4-74dc9a82a44c"
+      }
+    ],
+    "PUBLICATION_TRANSPORT_AUTHORITY": "STATE36_PLUS_GPT_EXPLICIT_PUBLICATION_DIRECTIVE",
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+    "full_suite_reexecution": "NOT_REQUIRED_SOURCE_UNCHANGED; existing preparation binds 734 tests",
+    "consumer_validation": "Prior independent POST fresh remote-ZIP validator PASS; final downloaded bytes are identical to canonical subject bytes",
+    "governance_push_status_semantics": "SUCCEEDED describes already published and independently read back governance at exact remote main795024; reviewer performed no push",
+    "self_containing_commit_claim": false
+  },
+  "declined_to_judge": [
+    {
+      "behavior": "Fresh 734-test rerun or package regeneration",
+      "reason": "Exact source/package unchanged; explicitly bound preparation suite and fresh POST consumer checks remain sufficient."
+    },
+    {
+      "behavior": "Hypothetical UTF-8 wrapper/preflight requirements",
+      "reason": "Explicit directive defers hardening; native Git JSON reads were executed successfully with Python -X utf8."
+    },
+    {
+      "behavior": "STATE37/P41/plugin sync/real-world acceptance",
+      "reason": "Original explicit stop boundary reserves those stages for GPT after publication."
+    }
+  ],
+  "next_gpt_action": "Framework 2.8.0 remote publication complete. Return to GPT for separate post-publication STATE finalization and post-release plugin / real-world acceptance planning.",
+  "verified_baseline_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+  "FINAL_INDEPENDENT_PUBLICATION_REVIEW": "PASS",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "RETURN_TO_GPT": "YES",
+  "READY_FOR_POST_RELEASE_STATE_GATE": "YES",
+  "PUBLICATION_RESULT_LOCATOR": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+    "path": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+    "blob_sha": "ac93692c89c3c2c0003827df4d1935e77291ea9f",
+    "sha256": "c2797ea7cbb8837e8fc6a7b7559437dc45c0677fc7d9d146642f3cf54434d8a8",
+    "size_bytes": 8284,
+    "exact_bytes_verified": true
+  },
+  "PUBLICATION_EVIDENCE_LOCATOR": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "795024dc05188209e10ba6745076a403a8c5234d",
+    "path": ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+    "blob_sha": "b3ff12f1aafe339e72e00cf2ef0eea14fa7f35c9",
+    "sha256": "a710038a45419194899201dba1e3f3e941fba28ec03796704ba69c436506bd50",
+    "size_bytes": 14513,
+    "exact_bytes_verified": true
+  },
+  "RELEASE_SUBJECT_SHA": "31c0b89e8e798384f1f443764f5911467807e711",
+  "TAG_TARGET_SHA": "31c0b89e8e798384f1f443764f5911467807e711",
+  "STATE_REVISION": 36,
+  "STATE_MUTATION_COUNT": 0,
+  "RELEASE_SOURCE_MUTATION_COUNT": 0,
+  "PACKAGE_MUTATION_COUNT": 0,
+  "PLUGIN_MUTATION_COUNT": 0,
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "PLUGIN_POST_RELEASE_SYNC": "NOT_STARTED",
+  "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "NOT_STARTED",
+  "self_containing_commit_claim": false,
+  "attestation_semantics": "This review attests exact remote main795024 and published Result/Evidence bytes at that commit. It does not claim publication of its own future containing commit. Release subject/tag target remain31c0b89; STATE36 is unchanged."
+}
