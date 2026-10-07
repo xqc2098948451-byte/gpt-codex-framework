@@ -1,0 +1,29 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-STATE40-CANONICAL-RETRY-ATTESTATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "NATIVE_BOUNDED_W_P_SYNC_ATTESTATION",
+  "state_revision": 40,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T12:38:22.999396+00:00",
+  "native_function": "git_continuity.evaluate_attestation_chain",
+  "native_chain": {
+    "status": "PASS",
+    "sync_status": "SYNCED",
+    "remote_verification": "VERIFIED",
+    "publication_authority": "CONFIRMED_PUBLICATION",
+    "verified_baseline_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+    "publication_sha": "2dd9e16a074ebd431856a0bc7f0ce61b2a01ba7b"
+  },
+  "verified_work_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+  "state40_candidate": "681d84d183a9b52d31a275031172351408557f83",
+  "remote_verification_ref": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-REMOTE-VERIFICATION.json",
+  "latest_synced_state_revision": 40,
+  "sync_status": "SYNCED",
+  "self_reference": false
+}
