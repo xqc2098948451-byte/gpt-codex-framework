@@ -193,6 +193,7 @@ class ContinuityResumeTests(unittest.TestCase):
         self._write_json(root, ".gpt-codex/CONTROL.json", {
             "project_id": "P",
             "project_context_id": "11111111-1111-4111-8111-111111111111",
+            "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
             "github": {
                 "repository_id": "repo-a",
                 "repository_full_name": "owner/a",
@@ -586,6 +587,7 @@ class ContinuityResumeTests(unittest.TestCase):
             gov.mkdir()
             (gov / "CONTROL.json").write_text(json.dumps({
                 "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
                 "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
             }), encoding="utf-8")
             (gov / "STATE.json").write_text(json.dumps({
@@ -605,6 +607,8 @@ class ContinuityResumeTests(unittest.TestCase):
             gov = root / ".gpt-codex"
             gov.mkdir()
             (gov / "CONTROL.json").write_text(json.dumps({
+                "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
                 "github": {
                     "repository_id": "repo-a",
                     "repository_full_name": "owner/a",
@@ -636,7 +640,7 @@ class ContinuityResumeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             gov = Path(td) / ".gpt-codex"
             gov.mkdir()
-            (gov / "CONTROL.json").write_text(json.dumps({"github": {"repository_id": "repo-a", "repository_full_name": "o/a", "default_branch": "main"}}), encoding="utf-8")
+            (gov / "CONTROL.json").write_text(json.dumps({"project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111", "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"}, "github": {"repository_id": "repo-a", "repository_full_name": "o/a", "default_branch": "main"}}), encoding="utf-8")
             (gov / "STATE.json").write_text(json.dumps({"revision": 0, "continuity": {"sync_status": "SYNCED"}}), encoding="utf-8")
             with self.assertRaises(ValueError):
                 load_continuity_resume(Path(td), "repo-b")
@@ -650,6 +654,7 @@ class ContinuityResumeTests(unittest.TestCase):
             gov.mkdir()
             (gov / "CONTROL.json").write_text(json.dumps({
                 "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
                 "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
             }), encoding="utf-8")
             (gov / "STATE.json").write_text(json.dumps({
@@ -678,6 +683,8 @@ class ContinuityResumeTests(unittest.TestCase):
             gov = root / ".gpt-codex"
             gov.mkdir()
             (gov / "CONTROL.json").write_text(json.dumps({
+                "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
                 "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
             }), encoding="utf-8")
             (gov / "STATE.json").write_text(json.dumps({
@@ -1097,6 +1104,7 @@ class RepositoryHandoffBindingTests(unittest.TestCase):
             gov.mkdir()
             (gov / "CONTROL.json").write_text(json.dumps({
                 "project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                "roots": {"project_role": "AUTHORITATIVE", "framework_role": "ADVISORY"},
                 "github": {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"},
             }), encoding="utf-8")
             (gov / "STATE.json").write_text(json.dumps({
@@ -1120,3 +1128,137 @@ class RepositoryHandoffBindingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OptionalGithubContractTests(unittest.TestCase):
+    """Five semantic regressions over native identity and derived-resource entry points."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.gov = self.root / ".gpt-codex"
+        template = Path(__file__).resolve().parents[1] / "project-template"
+        self.control = json.loads((template / "CONTROL.template.json").read_text(encoding="utf-8"))
+        self.control.pop("github")
+        self.control["project_context_id"] = "11111111-1111-4111-8111-111111111111"
+        self.control["extensions"] = {"skills": [], "guardrails": [], "fitness": []}
+        self.project_map = json.loads((template / "navigation/PROJECT_MAP.template.json").read_text(encoding="utf-8"))
+        self.module_map = json.loads((template / "navigation/modules/MODULE_MAP.template.json").read_text(encoding="utf-8"))
+        self.checkpoint = json.loads((template / "continuity/RESUME.template.json").read_text(encoding="utf-8"))
+        for payload in (self.project_map, self.module_map, self.checkpoint):
+            payload["project_context_id"] = self.control["project_context_id"]
+        self.state = json.loads((template / "STATE.template.json").read_text(encoding="utf-8"))
+        self.write_fixture()
+
+    def write_fixture(self):
+        for relative, payload in (("CONTROL.json", self.control), ("STATE.json", self.state),
+                                  ("navigation/PROJECT_MAP.json", self.project_map),
+                                  ("navigation/modules/MODULE_MAP.example-module.json", self.module_map),
+                                  ("continuity/RESUME.json", self.checkpoint)):
+            path = self.gov / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(payload), encoding="utf-8")
+
+    def check_resources(self):
+        from context_binding import load_project_identity, evaluate_cross_project_resource_boundary
+        from project_navigation import validate_navigation_identity, load_project_map, load_module_map
+        from continuity_resume import load_resume_checkpoint
+        from validate_project import validate_project_identity_and_derived
+        identity = load_project_identity(self.control)
+        project_map = load_project_map(self.root)
+        module_map = load_module_map(self.root, self.project_map["modules"][0]["module_map"])
+        for payload, kind in ((project_map, "PROJECT_MAP"), (module_map, "MODULE_MAP"), (self.checkpoint, "RESUME")):
+            decision = evaluate_cross_project_resource_boundary(
+                identity, payload, resource_type=kind,
+                **({"parent_project_map": project_map} if kind == "MODULE_MAP" else {}))
+            self.assertEqual(decision.decision, "ALLOW")
+            self.assertFalse(decision.action_executable)
+            validate_navigation_identity(payload, self.control, resource_type=kind,
+                                         **({"parent_project_map": project_map} if kind == "MODULE_MAP" else {}))
+        self.assertEqual(load_resume_checkpoint(self.gov, self.control), self.checkpoint)
+        self.assertEqual(validate_project_identity_and_derived(self.root, self.gov, self.control), [])
+
+    def test_local_only_identity_resources_and_continuity(self):
+        from context_binding import load_project_identity, evaluate_project_identity
+        from continuity_resume import load_continuity_resume
+        identity = load_project_identity(self.control)
+        self.assertEqual((identity.repository_id, identity.repository_full_name, identity.default_branch), (None, None, None))
+        self.assertEqual(evaluate_project_identity(self.control).decision, "ALLOW")
+        self.check_resources()
+        resumed = load_continuity_resume(self.root, None)
+        self.assertEqual(resumed["status"], "LOCAL_PROJECT_STATE")
+        self.assertIsNone(resumed["repository_id"])
+        self.assertFalse(resumed["remote_reverification_required"])
+        self.assertNotIn("repository_id", self.module_map)
+
+    def test_partial_github_identity_never_bypasses_protected_validation(self):
+        from context_binding import evaluate_project_identity
+        from project_navigation import validate_navigation_identity
+        from continuity_resume import load_resume_checkpoint, load_continuity_resume
+        self.control["github"] = {"repository_id": "repo-a"}
+        self.write_fixture()
+        self.assertEqual(evaluate_project_identity(self.control).reason, "PROJECT_IDENTITY_INVALID")
+        for call in (lambda: validate_navigation_identity(self.project_map, self.control),
+                     lambda: load_resume_checkpoint(self.gov, self.control),
+                     lambda: load_continuity_resume(self.root, None)):
+            with self.assertRaisesRegex(ValueError, "^PROJECT_IDENTITY_INVALID$"):
+                call()
+
+    def test_local_explicit_github_target_is_unbound(self):
+        from context_binding import evaluate_project_identity
+        from continuity_resume import load_continuity_resume
+        for expected in ({"expected_repository_id": "repo-a"}, {"expected_repository_full_name": "owner/a"}):
+            decision = evaluate_project_identity(self.control, **expected)
+            self.assertEqual((decision.decision, decision.reason), ("DENY", "GITHUB_REPOSITORY_UNBOUND"))
+        with self.assertRaisesRegex(ValueError, "^GITHUB_REPOSITORY_UNBOUND$"):
+            load_continuity_resume(self.root, "repo-a")
+
+    def bind_github(self):
+        self.control["github"] = {"repository_id": "repo-a", "repository_full_name": "owner/a", "default_branch": "main"}
+        self.project_map["repository_id"] = self.checkpoint["repository_id"] = "repo-a"
+        self.state["continuity"]["sync_status"] = "SYNCED"
+        self.write_fixture()
+
+    def test_bound_github_identity_and_module_parent_chain_match(self):
+        from context_binding import evaluate_project_identity
+        from continuity_resume import load_continuity_resume
+        self.bind_github()
+        self.assertEqual(evaluate_project_identity(self.control, expected_repository_id="repo-a",
+                                                 expected_repository_full_name="owner/a").decision, "ALLOW")
+        self.check_resources()
+        self.assertEqual(load_continuity_resume(self.root, "repo-a")["status"], "LATEST_SYNCED_REMOTE_STATE")
+        self.assertNotIn("repository_id", self.module_map)
+
+    def test_bound_mismatch_and_cross_project_resources_fail_closed(self):
+        from context_binding import load_project_identity, evaluate_project_identity, evaluate_cross_project_resource_boundary
+        from project_navigation import validate_navigation_identity
+        from continuity_resume import load_continuity_resume, load_resume_checkpoint
+        self.bind_github()
+        identity = load_project_identity(self.control)
+        self.assertEqual(evaluate_project_identity(self.control, expected_repository_id="foreign").reason, "GITHUB_REPOSITORY_MISMATCH")
+        self.assertEqual(evaluate_project_identity(self.control, expected_repository_full_name="foreign/repo").reason, "GITHUB_REPOSITORY_MISMATCH")
+        with self.assertRaisesRegex(ValueError, "^GITHUB_REPOSITORY_MISMATCH$"):
+            load_continuity_resume(self.root, "foreign")
+        for kind, payload in (("PROJECT_MAP", self.project_map), ("MODULE_MAP", self.module_map), ("RESUME", self.checkpoint)):
+            kwargs = {"parent_project_map": self.project_map} if kind == "MODULE_MAP" else {}
+            for foreign in (dict(payload, project_id="foreign"),
+                            dict(payload, project_context_id="22222222-2222-4222-8222-222222222222")):
+                decision = evaluate_cross_project_resource_boundary(identity, foreign, resource_type=kind, **kwargs)
+                self.assertEqual((decision.decision, decision.reason), ("DENY", "CROSS_PROJECT_CONTEXT_MISMATCH"))
+            if kind != "MODULE_MAP":
+                for repository_id in (None, "foreign"):
+                    with self.assertRaises(ValueError):
+                        validate_navigation_identity(dict(payload, repository_id=repository_id), self.control, resource_type=kind)
+        decision = evaluate_cross_project_resource_boundary(identity, self.module_map, resource_type="MODULE_MAP",
+                    parent_project_map=dict(self.project_map, repository_id="foreign"))
+        self.assertEqual(decision.reason, "GITHUB_REPOSITORY_MISMATCH")
+        self.assertEqual(evaluate_cross_project_resource_boundary(identity, self.module_map, resource_type="MODULE_MAP").decision, "DENY")
+        self.assertEqual(evaluate_cross_project_resource_boundary(identity, self.module_map, resource_type="MODULE_MAP",
+                         parent_project_map=dict(self.project_map, authority="FOREIGN_AUTHORITY")).decision, "DENY")
+        with self.assertRaises(ValueError):
+            validate_navigation_identity(dict(self.project_map, project_context_id=None), self.control)
+        self.checkpoint["repository_id"] = "foreign"
+        self.write_fixture()
+        with self.assertRaisesRegex(ValueError, "^GITHUB_REPOSITORY_MISMATCH$"):
+            load_resume_checkpoint(self.gov, self.control)

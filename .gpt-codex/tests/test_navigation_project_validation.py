@@ -1643,7 +1643,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("NAVIGATION_PROJECT_ID_MISMATCH", result.stdout)
+            self.assertIn("CROSS_PROJECT_CONTEXT_MISMATCH", result.stdout)
 
     def test_incomplete_identity_valid_project_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
@@ -1668,7 +1668,7 @@ class NavigationProjectValidationTests(unittest.TestCase):
             result = self._validate(root)
 
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("NAVIGATION_PROJECT_ID_MISMATCH", result.stdout)
+            self.assertIn("CROSS_PROJECT_CONTEXT_MISMATCH", result.stdout)
 
     def test_incomplete_identity_valid_module_map_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:

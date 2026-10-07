@@ -1258,14 +1258,10 @@ def load_resume_checkpoint(gov: Path, control: dict[str, Any] | None = None) -> 
     if validate_evolution_metadata_authority(checkpoint.get("evolution_metadata")):
         raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
     if control is not None:
-        try:
-            identity = load_project_identity(control)
-        except ValueError:
-            identity = None
-        if identity is not None:
-            decision = evaluate_cross_project_resource_boundary(identity, checkpoint, resource_type="RESUME")
-            if decision.decision != "ALLOW":
-                raise ValueError(decision.reason)
+        identity = load_project_identity(control)
+        decision = evaluate_cross_project_resource_boundary(identity, checkpoint, resource_type="RESUME")
+        if decision.decision != "ALLOW":
+            raise ValueError(decision.reason)
     return checkpoint
 
 
@@ -1308,7 +1304,7 @@ def compare_context_sources(root: Path, checkpoint: dict[str, Any]) -> tuple[lis
 
 def load_continuity_resume(
     repo_root: Path,
-    selected_repository_id: str,
+    selected_repository_id: str | None,
     *,
     changed_paths: list[str] | None = None,
     candidate_module_ids: list[str] | None = None,
@@ -1328,15 +1324,18 @@ def load_continuity_resume(
         state = json.loads((gov / "STATE.json").read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError("CONTINUITY_MACHINE_STATE_INVALID") from exc
-    github = control.get("github")
-    if not isinstance(github, dict) or set(("repository_id", "repository_full_name", "default_branch")) - set(github):
+    identity = load_project_identity(control)
+    local_only = identity.repository_id is None
+    if local_only and (selected_repository_id is not None or observed_remote_head_sha is not None):
         raise ValueError("GITHUB_REPOSITORY_UNBOUND")
-    if str(github["repository_id"]) != str(selected_repository_id):
+    if not local_only and identity.repository_id != str(selected_repository_id):
         raise ValueError("GITHUB_REPOSITORY_MISMATCH")
-    continuity = state.get("continuity")
+    if not isinstance(state, dict):
+        raise ValueError("CONTINUITY_MACHINE_STATE_INVALID")
+    continuity = state.get("continuity", {} if local_only else None)
     if not isinstance(continuity, dict):
         raise ValueError("CONTINUITY_STATE_MISSING")
-    if continuity.get("sync_status") != "SYNCED":
+    if not local_only and continuity.get("sync_status") != "SYNCED":
         return {
             "status": "LOCAL_UNSYNCED_STATE",
             "repository_id": str(selected_repository_id),
@@ -1344,7 +1343,7 @@ def load_continuity_resume(
             "continuity": continuity,
             **_non_optimization_resume_fields(),
         }
-    baseline_sha = continuity.get("latest_verified_remote_sha")
+    baseline_sha = None if local_only else continuity.get("latest_verified_remote_sha")
     if observed_remote_head_sha is not None and not (
         baseline_sha
         and work_reachable
@@ -1383,7 +1382,7 @@ def load_continuity_resume(
         invalidated_context: list[str] = []
         missing_context: list[str] = []
     else:
-        validate_navigation_identity(checkpoint, control)
+        validate_navigation_identity(checkpoint, control, resource_type="RESUME")
         checkpoint_working_set = checkpoint.get("working_set")
         if not isinstance(checkpoint_working_set, dict):
             checkpoint_working_set = {}
@@ -1456,14 +1455,14 @@ def load_continuity_resume(
         resume_mode = "FAST_RESUME"
 
     return {
-        "status": "LATEST_SYNCED_REMOTE_STATE",
-        "repository_id": str(selected_repository_id),
+        "status": "LOCAL_PROJECT_STATE" if local_only else "LATEST_SYNCED_REMOTE_STATE",
+        "repository_id": identity.repository_id,
         "project_context_id": control.get("project_context_id"),
         "control": control,
         "state": state,
         "continuity": continuity,
         "active_work_unit": state.get("active_work_unit"),
-        "remote_reverification_required": True,
+        "remote_reverification_required": not local_only,
         "verified_baseline_sha": baseline_sha,
         "current_attestation_head": observed_remote_head_sha,
         "reconciliation_required": False,
