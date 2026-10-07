@@ -1,0 +1,98 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-remediation-causal-base-liveness-state39-continuity-001",
+  "basis_state_revision": 39,
+  "state": "AUTHORIZED",
+  "goal": "Attest STATE39 governance publication and return its exact native Result; metadata only.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json",
+      ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+      ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json",
+      ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+      ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+      ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      "plugins/",
+      "VERSION",
+      "releases/",
+      "docs/",
+      "tests/",
+      "dist/",
+      "AGENTS.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      "sha": "f7dbe23755f64b2bbb63007ffaa4ce8def12409e"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      "sha": "f7dbe23755f64b2bbb63007ffaa4ce8def12409e"
+    }
+  },
+  "acceptance": [
+    "Independent PRE PASS before STATE mutation",
+    "G001 semantics exactly match explicit adjudication",
+    "Existing F001 evidence and causal revision byte-preserved",
+    "Zero source/plugin/release mutations",
+    "Independent POST PASS and metadata PRE PASS",
+    "Fresh exact remote readback and native handoff",
+    "Stop at durable STATE39"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Governance state and durable liveness authority registration"
+  },
+  "authority_source_ref": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f7dbe23755f64b2bbb63007ffaa4ce8def12409e",
+    "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+    "blob_sha": "e159767e1a7880fdb63d8a5f2616532cf1ba1f66"
+  }
+}
