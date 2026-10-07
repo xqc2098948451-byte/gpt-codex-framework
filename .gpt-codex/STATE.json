@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
     "latest_synced_state_revision": 35,
     "latest_verified_remote_sha": "62fea2b2f54ce314a9a29c5dc4e25b704a39ddf5",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -150,13 +150,34 @@
     ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
     ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json",
     ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
-    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json"
+    ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-HANDOFF-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
+    ".gpt-codex/evidence/instructions/880e7c42-feb3-4a42-83a1-b9e6fa986d14.json",
+    ".gpt-codex/evidence/instructions/9ed7a817-34f4-41e3-ba95-badc3ba8fc9c.json",
+    ".gpt-codex/evidence/instructions/176720bb-2a58-48f7-92ac-a332c5662835.json",
+    ".gpt-codex/evidence/instructions/81922379-4c25-4055-8d9d-1f2755d5aaf0.json",
+    ".gpt-codex/evidence/instructions/39fa05e9-4f47-49b7-8b02-e5d37eb28112.json",
+    ".gpt-codex/evidence/instructions/a16e877e-6737-4439-b7b7-06800aef0f85.json",
+    ".gpt-codex/evidence/instructions/3c3189e1-6a6c-4258-882f-f661d94fc271.json",
+    ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json",
+    ".gpt-codex/evidence/instructions/56d2b6af-3b05-4b44-8fbc-bfe5ea3faad8.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "FRAMEWORK_2_8_0_RELEASE_PREPARATION_REQUIRED",
+  "next_action": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 35,
+  "revision": 36,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }
