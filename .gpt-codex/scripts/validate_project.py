@@ -520,6 +520,12 @@ def _project_identity_decision(
         decision = evaluate_project_identity(project_control, expected_project_context_id=expected_context)
         if decision.decision != "ALLOW":
             return decision
+    if "github" not in project_control:
+        return evaluate_project_identity(
+            project_control,
+            expected_repository_id=instruction.get("target_github_repository_id"),
+            expected_repository_full_name=instruction.get("target_github_repository_full_name"),
+        )
     expected_repository_id = instruction.get("target_github_repository_id")
     if expected_repository_id is not None:
         target_control = dict(project_control)

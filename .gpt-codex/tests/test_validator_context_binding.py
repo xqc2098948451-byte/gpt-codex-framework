@@ -682,7 +682,7 @@ class ValidatorContextBindingTests(unittest.TestCase):
             ),
             ["PROJECT_IDENTITY_INVALID"],
         )
-        malformed = {key: value for key, value in control.items() if key != "github"}
+        malformed = {**control, "github": {"repository_id": "123"}}
         self.assertEqual(
             validate_framework_adoption(malformed, instruction, work_unit, current_state_revision=6, source=source),
             ["PROJECT_IDENTITY_INVALID"],

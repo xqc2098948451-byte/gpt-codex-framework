@@ -1149,6 +1149,16 @@ class OptionalGithubContractTests(unittest.TestCase):
         for payload in (self.project_map, self.module_map, self.checkpoint):
             payload["project_context_id"] = self.control["project_context_id"]
         self.state = json.loads((template / "STATE.template.json").read_text(encoding="utf-8"))
+        self.adoption_work_unit = {
+            "project_id": self.control["project_id"], "work_unit_id": "WU-F001-ADOPTION-PROBE",
+            "state": "AUTHORIZED", "basis_state_revision": 0,
+        }
+        self.adoption_instruction = {
+            "target_work_unit": self.adoption_work_unit["work_unit_id"],
+            "target_project_context_id": self.control["project_context_id"],
+            "expected_state_revision": 0, "executor_role": "CODEX_IMPLEMENTER",
+            "authorized_actions": ["MUTATE_APPROVED_SCOPE"], "forbidden_actions": [],
+        }
         self.write_fixture()
 
     def write_fixture(self):
@@ -1182,9 +1192,12 @@ class OptionalGithubContractTests(unittest.TestCase):
     def test_local_only_identity_resources_and_continuity(self):
         from context_binding import load_project_identity, evaluate_project_identity
         from continuity_resume import load_continuity_resume
+        from validate_project import validate_framework_adoption
         identity = load_project_identity(self.control)
         self.assertEqual((identity.repository_id, identity.repository_full_name, identity.default_branch), (None, None, None))
         self.assertEqual(evaluate_project_identity(self.control).decision, "ALLOW")
+        self.assertEqual(validate_framework_adoption(self.control, self.adoption_instruction,
+                         self.adoption_work_unit, current_state_revision=0), [])
         self.check_resources()
         resumed = load_continuity_resume(self.root, None)
         self.assertEqual(resumed["status"], "LOCAL_PROJECT_STATE")
@@ -1196,9 +1209,12 @@ class OptionalGithubContractTests(unittest.TestCase):
         from context_binding import evaluate_project_identity
         from project_navigation import validate_navigation_identity
         from continuity_resume import load_resume_checkpoint, load_continuity_resume
+        from validate_project import validate_framework_adoption
         self.control["github"] = {"repository_id": "repo-a"}
         self.write_fixture()
         self.assertEqual(evaluate_project_identity(self.control).reason, "PROJECT_IDENTITY_INVALID")
+        self.assertEqual(validate_framework_adoption(self.control, self.adoption_instruction,
+                         self.adoption_work_unit, current_state_revision=0), ["PROJECT_IDENTITY_INVALID"])
         for call in (lambda: validate_navigation_identity(self.project_map, self.control),
                      lambda: load_resume_checkpoint(self.gov, self.control),
                      lambda: load_continuity_resume(self.root, None)):
@@ -1208,9 +1224,15 @@ class OptionalGithubContractTests(unittest.TestCase):
     def test_local_explicit_github_target_is_unbound(self):
         from context_binding import evaluate_project_identity
         from continuity_resume import load_continuity_resume
+        from validate_project import validate_framework_adoption
         for expected in ({"expected_repository_id": "repo-a"}, {"expected_repository_full_name": "owner/a"}):
             decision = evaluate_project_identity(self.control, **expected)
             self.assertEqual((decision.decision, decision.reason), ("DENY", "GITHUB_REPOSITORY_UNBOUND"))
+        for target in ({"target_github_repository_id": "repo-a"},
+                       {"target_github_repository_full_name": "owner/a"}):
+            with self.subTest(target=target):
+                self.assertEqual(validate_framework_adoption(self.control, dict(self.adoption_instruction, **target),
+                                 self.adoption_work_unit, current_state_revision=0), ["GITHUB_REPOSITORY_UNBOUND"])
         with self.assertRaisesRegex(ValueError, "^GITHUB_REPOSITORY_UNBOUND$"):
             load_continuity_resume(self.root, "repo-a")
 
@@ -1223,9 +1245,14 @@ class OptionalGithubContractTests(unittest.TestCase):
     def test_bound_github_identity_and_module_parent_chain_match(self):
         from context_binding import evaluate_project_identity
         from continuity_resume import load_continuity_resume
+        from validate_project import validate_framework_adoption
         self.bind_github()
         self.assertEqual(evaluate_project_identity(self.control, expected_repository_id="repo-a",
                                                  expected_repository_full_name="owner/a").decision, "ALLOW")
+        self.assertEqual(validate_framework_adoption(self.control,
+                         dict(self.adoption_instruction, target_github_repository_id="repo-a",
+                              target_github_repository_full_name="owner/a"),
+                         self.adoption_work_unit, current_state_revision=0), [])
         self.check_resources()
         self.assertEqual(load_continuity_resume(self.root, "repo-a")["status"], "LATEST_SYNCED_REMOTE_STATE")
         self.assertNotIn("repository_id", self.module_map)
@@ -1234,10 +1261,17 @@ class OptionalGithubContractTests(unittest.TestCase):
         from context_binding import load_project_identity, evaluate_project_identity, evaluate_cross_project_resource_boundary
         from project_navigation import validate_navigation_identity
         from continuity_resume import load_continuity_resume, load_resume_checkpoint
+        from validate_project import validate_framework_adoption
         self.bind_github()
         identity = load_project_identity(self.control)
         self.assertEqual(evaluate_project_identity(self.control, expected_repository_id="foreign").reason, "GITHUB_REPOSITORY_MISMATCH")
         self.assertEqual(evaluate_project_identity(self.control, expected_repository_full_name="foreign/repo").reason, "GITHUB_REPOSITORY_MISMATCH")
+        for target, reason in (({"target_github_repository_id": "foreign"}, "GITHUB_REPOSITORY_MISMATCH"),
+                               ({"target_github_repository_full_name": "foreign/repo"}, "GITHUB_REPOSITORY_MISMATCH"),
+                               ({"target_github_repository_id": ""}, "PROJECT_IDENTITY_INVALID")):
+            with self.subTest(target=target):
+                self.assertEqual(validate_framework_adoption(self.control, dict(self.adoption_instruction, **target),
+                                 self.adoption_work_unit, current_state_revision=0), [reason])
         with self.assertRaisesRegex(ValueError, "^GITHUB_REPOSITORY_MISMATCH$"):
             load_continuity_resume(self.root, "foreign")
         for kind, payload in (("PROJECT_MAP", self.project_map), ("MODULE_MAP", self.module_map), ("RESUME", self.checkpoint)):
