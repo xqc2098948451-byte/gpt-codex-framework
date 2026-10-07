@@ -369,7 +369,22 @@
       "sha256": "f1e04fa17c70a9dd6c18f0baf932296f8e57458b75864ae0683d783cfbc0fc15"
     }
   },
-  "independent_post_status": "PENDING",
+  "independent_post_status": "FINDING",
   "push_status": "NOT_ATTEMPTED",
-  "sync_status": "SYNC_PENDING"
+  "sync_status": "SYNC_PENDING",
+  "candidate_disposition": "FINDING",
+  "ready_for_f001_integration": false,
+  "independent_post": {
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "review_target_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "finding_ids": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "report_copied_byte_for_byte": true
+  },
+  "explicit_github_instruction_contract": "FAIL",
+  "stop_reason": "Independent POST Finding; no self-repair, integration, transport, release, or STATE change.",
+  "F001_SOURCE_FIX": "FINDING"
 }

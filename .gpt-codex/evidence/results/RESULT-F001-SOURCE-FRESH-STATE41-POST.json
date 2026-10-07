@@ -1,0 +1,338 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-optional-github-source-fix-state41-001",
+  "extension": null,
+  "result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+  "result_message_type": "REVIEW_FINDING",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "56918e43-5e8a-4593-b1db-04e094a775df",
+  "review_target_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "review_phase": "POST_EXECUTION",
+  "status": "FAIL",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "state_revision": 41,
+  "artifact_stage": "IMPLEMENTATION",
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "fix_round": 1,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "remote_head_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "publication_authority": null,
+  "git": {
+    "base_sha": "e83998c947e285ed8814a8156539bd467b6c04cf",
+    "implementation_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a"
+  },
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+    ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+    ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/scripts/context_binding.py"
+  ],
+  "changed": [],
+  "deviations": [],
+  "blockers": [],
+  "next_gpt_action": "STOP / RETURN_TO_GPT. Adjudicate the POST Finding through the existing lifecycle; any remediation requires a fresh FIX_INSTRUCTION and re-review. No repair, integration, push, STATE/version/release/Plugin change or formal Mini Task CLI acceptance is authorized by this review.",
+  "observed_utc": "2026-10-07T14:16:19.008621+00:00",
+  "review_context": {
+    "reviewer_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-f001-optional-github-source-fix-state41-001",
+    "implementer_root": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-optional-github-source-fix-state41-001",
+    "distinct_contexts": true,
+    "reviewer_head_exact": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "reviewer_tracked_clean": true,
+    "metadata_commit": "ff46a9b6a38cf2c5ed165e782598f59dc1d0f4c8",
+    "post_instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "ff46a9b6a38cf2c5ed165e782598f59dc1d0f4c8",
+      "path": ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+      "blob_sha": "f517c2805d4e549dc00ac8b0f02e8385c8a94717"
+    },
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/f001-optional-github-source-fix-state41-001.json",
+      "sha": "39a8c9d70a57b9ce4650e01056fbf2e7829e5b18"
+    }
+  },
+  "authority_checks": {
+    "native_resume": "LATEST_SYNCED_REMOTE_STATE",
+    "native_post_resolution": "INSTRUCTION_RESOLVED",
+    "post_target_exact": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "state": "AUTHORIZED",
+    "revision": 41,
+    "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "durable_sync_status": "SYNCED",
+    "state_bytes_preserved": true,
+    "state_sha256": "3e49859da9b460b74f36969e9866a25e46cfd3161df32b269a1c8efc2c2565ab",
+    "remote_main_exact_base": true,
+    "no_push": true,
+    "scope_exact": true,
+    "excluded_control_state_schema_version_plugin_release_diff_empty": true
+  },
+  "findings": [
+    {
+      "finding_id": "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION",
+      "priority": "P2",
+      "title": "Explicit GitHub Instruction target misclassifies valid local identity",
+      "path": ".gpt-codex/scripts/validate_project.py",
+      "start_line": 525,
+      "end_line": 531,
+      "effect": "The native adoption Instruction gate reports malformed Project Identity for a valid local-only project instead of the required missing optional GitHub binding classification. The operation remains denied, but callers cannot distinguish legitimate unbound identity from invalid CONTROL; the explicit Instruction branch of the required contract remains unsatisfied.",
+      "cause": "_project_identity_decision constructs target_control.github containing only repository_id (or only repository_full_name) and validates that synthetic partial block before evaluating the explicit target against the valid real identity. This returns PROJECT_IDENTITY_INVALID before the GITHUB_REPOSITORY_UNBOUND branch can run.",
+      "reproduction": {
+        "source": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source",
+        "source_candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+        "project": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+        "project_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+        "control": "Actual smoke CONTROL: github absent; valid project/context/roots. No fixture or source mutation.",
+        "entry_point": "validate_framework_adoption(control, instruction, work_unit, current_state_revision=0)",
+        "work_unit": {
+          "project_id": "PRJ-F001-REAL-LOCAL-SMOKE",
+          "work_unit_id": "WU-F001-ADOPTION-PROBE",
+          "state": "AUTHORIZED",
+          "basis_state_revision": 0
+        },
+        "instruction": {
+          "target_work_unit": "WU-F001-ADOPTION-PROBE",
+          "expected_state_revision": 0,
+          "executor_role": "CODEX_IMPLEMENTER",
+          "authorized_actions": [
+            "MUTATE_APPROVED_SCOPE"
+          ],
+          "forbidden_actions": [],
+          "target_project_context_id": "b8768e51-6a95-4bf0-98ef-d4e06ef3503b",
+          "target_github_repository_id": "repo-a",
+          "target_github_repository_full_name": "owner/a"
+        },
+        "without_explicit_target_actual": [],
+        "with_explicit_target_actual": [
+          "PROJECT_IDENTITY_INVALID"
+        ],
+        "with_explicit_target_expected": [
+          "GITHUB_REPOSITORY_UNBOUND"
+        ],
+        "same_failure_with_id_only_or_full_name_only": true
+      },
+      "security_boundary": "No unauthorized operation was allowed; this is a machine contract classification defect, not a demonstrated cross-project mutation bypass."
+    }
+  ],
+  "semantic_checks": {
+    "LOCAL_ONLY_PROJECT_IDENTITY": "PASS",
+    "LOCAL_ONLY_PROJECT_MAP": "PASS",
+    "LOCAL_ONLY_MODULE_MAP": "PASS",
+    "LOCAL_ONLY_RESUME": "PASS",
+    "LOCAL_ONLY_CONTINUITY": "PASS",
+    "PARTIAL_EMPTY_MALFORMED_GITHUB_CONTROL": "PROJECT_IDENTITY_INVALID",
+    "LOCAL_EXPLICIT_GITHUB_TARGET": {
+      "direct_identity": "GITHUB_REPOSITORY_UNBOUND",
+      "continuity": "GITHUB_REPOSITORY_UNBOUND",
+      "adoption_instruction": "PROJECT_IDENTITY_INVALID (FAIL)"
+    },
+    "BOUND_GITHUB_MATCH": "PASS",
+    "BOUND_GITHUB_MISMATCH": "GITHUB_REPOSITORY_MISMATCH",
+    "CROSS_PROJECT_FAIL_CLOSED": "PRESERVED",
+    "MODULE_MAP_REPOSITORY_ID_ADDED": "NO",
+    "SECOND_IDENTITY_SYSTEM_COUNT": 0,
+    "BROAD_IDENTITY_LOAD_FAILURE_BYPASS": "ABSENT"
+  },
+  "verification": {
+    "changed_source_paths": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py"
+    ],
+    "changed_test_paths": [
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "new_regression_test_count": 5,
+    "reviewer_focused_tests": {
+      "command": "python -B -m unittest test_continuity_resume.OptionalGithubContractTests -v",
+      "count": 5,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS"
+    },
+    "reviewer_native_validators": {
+      "validate_project": "PASS",
+      "validate_framework": "PASS",
+      "validate_consumer_projection": "PASS"
+    },
+    "affected_tests": {
+      "log_sha256": "1407e57401c59cfee4265d2f3c2fe97bccd09b270fe8068149d2808d12c8a07b",
+      "count": 198,
+      "failures": 0,
+      "errors": 0,
+      "status": "PASS",
+      "independently_rerun": false
+    },
+    "full_suite": {
+      "log_sha256": "abdf7cd95b5b29c429bfa3009d22c8d031f05953ac45edff2e06a7a28086c51d",
+      "recorded_run_count": 1,
+      "independently_rerun": false,
+      "count": 752,
+      "failures": 0,
+      "errors": 0,
+      "skips": "Two existing unchanged-source Windows symlink privilege WinError 1314 cases",
+      "all_test_file_modules_verified": 55,
+      "status": "PASS"
+    },
+    "validation_evidence_hashes_verified": 15,
+    "real_local_smoke": {
+      "status": "PASS",
+      "actual_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+      "git_clean": true,
+      "git_remote_absent": true,
+      "materialized_source_hashes_verified": {
+        ".gpt-codex/scripts/context_binding.py": "286978ef1c8d6bb8e3b761092e1753ef3d1ffce8a995f423a6d3a08da6e7fc98",
+        ".gpt-codex/scripts/project_navigation.py": "0a5ed47cd925090e8183bdd11c700c5923acd8801a9c621e363b8d4f6318e05d",
+        ".gpt-codex/scripts/continuity_resume.py": "a0002d544a3766247308fe7f5260fb909044f1aaca0462ebd40acd933f291a11",
+        ".gpt-codex/scripts/validate_project.py": "16a1d3f0ea7607bb87e3a407566a899bed70438fbf64771536d12d2eeeb6a274"
+      },
+      "native_project_validator_rerun": "PASS",
+      "identity_navigation_module_resume_continuity_entry_points_rerun": "PASS",
+      "no_mock_execution": true
+    }
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "56918e43-5e8a-4593-b1db-04e094a775df",
+    "work_unit": "f001-optional-github-source-fix-state41-001",
+    "reviewed_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "executed_revision": null,
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+      ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-AUTHORITY.json",
+      ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+      ".gpt-codex/schemas/module-map.schema.json",
+      ".gpt-codex/schemas/result-envelope.schema.json"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      "Five OptionalGithubContractTests",
+      "Native validate_project / validate_framework / validate_consumer_projection",
+      "Actual materialized local Git entry points and bounded identity/Instruction probes",
+      "Read-only full-suite and affected-log hash/count audit; no suite rerun"
+    ],
+    "findings": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "fix_round": 1,
+    "agent_spawns": 0,
+    "result": "REVIEW_FINDING"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "executed_scope": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_context_window_resume.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/tests/test_navigation_project_validation.py",
+      ".gpt-codex/tests/test_project_navigation.py"
+    ],
+    "test_files_expected": 1,
+    "test_files_executed": 1,
+    "test_count": 5,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "load_continuity_resume",
+      "resolve_plugin_instruction",
+      "validate_instruction_envelope_contract",
+      "validate_instruction_authority",
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection",
+      "real_local_git_entry_points",
+      "committed_validation_hash_and_full_log_audit",
+      "validate_result_envelope_contract",
+      "validate_result_protocol",
+      "validate_review_result",
+      "validate_result_authority"
+    ],
+    "validators_completed": [
+      "load_continuity_resume",
+      "resolve_plugin_instruction",
+      "validate_instruction_envelope_contract",
+      "validate_instruction_authority",
+      "validate_project",
+      "validate_framework",
+      "validate_consumer_projection",
+      "real_local_git_entry_points",
+      "committed_validation_hash_and_full_log_audit",
+      "validate_result_envelope_contract",
+      "validate_result_protocol",
+      "validate_review_result",
+      "validate_result_authority"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "limitations": [
+    "Implementation full suite and 198 affected tests were checked against committed metadata, SHA256 logs, exact counts and module inventory; not repeated by this reviewer.",
+    "Reproduction uses the public native adoption validator and valid real local identity with a matching authorized Work Unit; no mutation executed.",
+    "Finding issuance stops remediation and grants no new execution authority."
+  ],
+  "F001_SOURCE_FIX": "FINDING",
+  "INDEPENDENT_POST": "FINDING",
+  "READY_FOR_F001_INTEGRATION": "NO",
+  "STOP": true,
+  "RETURN_TO_GPT": true,
+  "external_output": {
+    "result_path": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\independent-post.json",
+    "expected_durable_result_path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "pending_canonical_write": true
+  },
+  "native_validation": {
+    "source_revision": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "checks": {
+      "result_schema": [],
+      "result_protocol": [],
+      "review_role": [],
+      "result_authority": [],
+      "executor_role": [],
+      "result_message_type": []
+    }
+  }
+}
