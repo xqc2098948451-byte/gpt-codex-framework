@@ -46,9 +46,7 @@
       "TEST",
       "VALIDATE",
       "REPORT",
-      "MUTATE_APPROVED_SCOPE",
-      "COMMIT",
-      "PUSH"
+      "MUTATE_APPROVED_SCOPE"
     ],
     "forbidden_actions": [
       "AUTHORIZE",
