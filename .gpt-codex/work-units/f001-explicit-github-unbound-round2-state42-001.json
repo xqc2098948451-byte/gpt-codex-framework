@@ -1,0 +1,82 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "f001-explicit-github-unbound-round2-state42-001",
+  "goal": "Correct only the F001 Round1 missed validate_framework_adoption caller: valid local-only project plus explicit GitHub target denies as GITHUB_REPOSITORY_UNBOUND. Preserve exact Round1 source lineage; local candidate and independent review only.",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_continuity_resume.py",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json",
+      ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+      ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+      ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+      ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      "VERSION",
+      "plugins/",
+      "releases/"
+    ]
+  },
+  "acceptance": [
+    "Local-only no repository target adoption remains ALLOW",
+    "Local-only explicit repository ID or full name adoption is GITHUB_REPOSITORY_UNBOUND",
+    "Partial/malformed CONTROL.github remains PROJECT_IDENTITY_INVALID",
+    "Bound matching repository adoption PASS; foreign target GITHUB_REPOSITORY_MISMATCH; malformed target fail closed preserved",
+    "Round1 source semantics and cross-project fail-closed preserved; MODULE_MAP.repository_id absent; no second identity system",
+    "No new test file or method preferred; one new regression maximum; historical full suite count remains one",
+    "Affected tests, validate_project, validate_framework, validate_consumer_projection and real adoption-path Git smoke PASS",
+    "Independent native PRE before source mutation and exact candidate independent POST; STOP on Finding",
+    "STATE AUTHORIZED@42 exact bytes preserved; no push, review-ref movement, release, plugin, VERSION or schema changes"
+  ],
+  "selected_extensions": {},
+  "state": "AUTHORIZED",
+  "basis_state_revision": 42,
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "PUSH",
+      "PUBLISH",
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      "sha": "2158151cd9460f5d6713f355efc43768b35fcb2d"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+      "sha": "2158151cd9460f5d6713f355efc43768b35fcb2d"
+    }
+  },
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-validation",
+    "modules": [
+      "framework-validation"
+    ],
+    "reason": "Bounded correction to validation orchestration adoption caller; existing identity-context contract is consumed without modifying its implementation."
+  }
+}
