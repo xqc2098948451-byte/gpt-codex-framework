@@ -1,0 +1,282 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-remediation-causal-base-liveness-correction-001",
+  "extension": null,
+  "status": "PASS",
+  "result_id": "RESULT-G001-CORRECTION-PRE",
+  "result_message_type": "REVIEW_RESULT",
+  "response_to_instruction_id": "9a740983-65df-44c7-9f90-458322654e5f",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "review_phase": "PRE_EXECUTION",
+  "review_target_revision": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "state_revision": 39,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "674c0a5410d0775f66c0804a815f140703cbbf53",
+  "remote_head_sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "return_to_gpt_required": true,
+  "completion_gate": "GPT_DECISION",
+  "finding_ids": [],
+  "fix_round": 0,
+  "evidence_refs": [
+    ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+    ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+    ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+    ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json"
+  ],
+  "changed": [],
+  "blockers": [],
+  "findings": [],
+  "review_summary_zh": "精确基线、fresh remote main、STATE39、不可变 Instruction/WU、当前 Guardrails 与最小执行计划均通过独立 PRE。许可范围为两个指定 source/test 文件及该 WU 的精确管理记录。方案复用现有 ancestry API，逐个中间提交校验严格 JSON 管理 allowlist，保留 durable resolver、当前 FIX PRE exact 与 execution-base candidate diff。该结果仅为 PRE，不宣称 G001 实现已修复或 full suite/POST 已完成。",
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "9a740983-65df-44c7-9f90-458322654e5f",
+    "work_unit": "framework-remediation-causal-base-liveness-correction-001",
+    "reviewed_revision": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+    "executed_revision": null,
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+      ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+      ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/scripts/git_continuity.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/instruction_envelope.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/role_communication.py",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/validate_framework.py",
+      ".gpt-codex/scripts/validate_consumer_projection.py",
+      ".gpt-codex/schemas/instruction-envelope.schema.json",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/work-unit.schema.json",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      ".gpt-codex/framework-modules/modules/framework-validation.json",
+      "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+      ".gpt-codex/builtins/guardrails/universal-safety/GUARDRAIL.md",
+      ".gpt-codex/builtins/guardrails/cross-project-context-binding/GUARDRAIL.md",
+      ".gpt-codex/extensions/guardrails/github-repository-binding/GUARDRAIL.md",
+      ".gpt-codex/tests/test_review_lifecycle.py",
+      ".gpt-codex/tests/test_role_authority.py",
+      ".gpt-codex/tests/test_instruction_role_contract.py",
+      ".gpt-codex/tests/test_git_continuity.py",
+      ".gpt-codex/tests/test_publication_authority.py"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      {
+        "modules": [
+          "test_review_lifecycle",
+          "test_role_authority",
+          "test_instruction_role_contract",
+          "test_git_continuity",
+          "test_publication_authority"
+        ],
+        "test_count": 72,
+        "failure_count": 0,
+        "error_count": 0,
+        "skipped_count": 1
+      },
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_VALIDATOR"
+    ],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "INDEPENDENT_PRE_EXECUTION_EXACT_BASE_REVIEW"
+    ],
+    "executed_scope": [
+      "INDEPENDENT_PRE_EXECUTION_EXACT_BASE_REVIEW"
+    ],
+    "test_files_expected": 5,
+    "test_files_executed": 5,
+    "test_count": 72,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_VALIDATOR"
+    ],
+    "validators_completed": [
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "CONSUMER_VALIDATOR"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "independent_context_evidence": {
+    "distinct_agent": "/root/g001_correction_pre",
+    "distinct_role": "CODEX_REVIEWER",
+    "review_context": "FRESH_DEDICATED_INDEPENDENT_PRE_TASK",
+    "implementer_context_reused": false,
+    "implementer_private_context_read": false,
+    "implementer_private_scripts_read": false,
+    "implementer_runtime_manifest_read": false,
+    "repository_writes": 0,
+    "index_changes": 0,
+    "head_changes": 0,
+    "agent_spawns": 0,
+    "input_sources": [
+      "USER_EXPLICIT_DIRECTIVE",
+      "AGENTS",
+      "DURABLE_REPOSITORY_AUTHORITY",
+      "NATIVE_SCRIPTS_SCHEMAS",
+      "EXACT_GIT_TREE_AND_DIFF",
+      "READ_ONLY_WORKSPACE_BINDING_RECORDS"
+    ]
+  },
+  "expected_execution_instruction_id": "c1bf5c77-a907-485d-a5d2-dafd67ceb05a",
+  "exact_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+    "sha": "f6a69961d89863964ac24b5235e293c4bc47946c"
+  },
+  "immutable_instruction_locators": [
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "674c0a5410d0775f66c0804a815f140703cbbf53",
+      "path": ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+      "blob_sha": "3db444b38182b49122737d956d87c21e8ac79c47"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "674c0a5410d0775f66c0804a815f140703cbbf53",
+      "path": ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+      "blob_sha": "8e5b9018db6c11b21cb3243d7ae5addcbf08d72d"
+    }
+  ],
+  "review_limits": [
+    "PRE only; implementation source and new regression cases have not been changed or executed.",
+    "Full unittest discovery and independent POST remain implementation-stage acceptance requirements.",
+    "Read-only reviewer has no commit, push, source mutation, authorization or scope expansion authority."
+  ],
+  "environment_skips": [
+    {
+      "test": "test_git_continuity.GitContinuityTests.test_cleanup_manifest_blocks_symlink_escape_without_mutation",
+      "reason": "Windows symlink fixture unavailable: WinError 1314 (privilege not held)"
+    }
+  ],
+  "observed_utc": "2026-10-07T10:25:23.131398+00:00",
+  "verify": {
+    "exact_pre_gate_errors": [],
+    "governed_mutation_entry_errors": [],
+    "instruction_context_decision": "ALLOW",
+    "mismatched_current_PRE_request_denied": true,
+    "mismatched_current_PRE_result_denied": true,
+    "implementer_transport_action_denials": {
+      "COMMIT": [
+        "ROLE_AUTHORITY_CONFLICT",
+        "ACTION_NOT_ALLOWED_FOR_ROLE"
+      ],
+      "PUSH": [
+        "ROLE_AUTHORITY_CONFLICT",
+        "ACTION_NOT_ALLOWED_FOR_ROLE"
+      ]
+    },
+    "schema_errors": [],
+    "result_protocol_errors": [],
+    "result_authority_errors": [],
+    "fresh_remote_main": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+    "head_final": "674c0a5410d0775f66c0804a815f140703cbbf53",
+    "status_final": "",
+    "metadata_only_delta": [
+      "A\t.gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+      "A\t.gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+      "A\t.gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+      "A\t.gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json"
+    ],
+    "individual_preparation_commit_changes": [
+      {
+        "sha": "674c0a5410d0775f66c0804a815f140703cbbf53",
+        "changed_paths": [
+          ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+          ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json"
+        ]
+      },
+      {
+        "sha": "f6a69961d89863964ac24b5235e293c4bc47946c",
+        "changed_paths": [
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json"
+        ]
+      },
+      {
+        "sha": "8bd91b144d32befcf1d10d9d70d1f5373f2ed7b3",
+        "changed_paths": [
+          ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json"
+        ]
+      }
+    ],
+    "preserved_core_tree_blobs": {
+      ".gpt-codex/STATE.json": true,
+      ".gpt-codex/scripts/validate_project.py": true,
+      ".gpt-codex/tests/test_review_lifecycle.py": true,
+      ".gpt-codex/CONTROL.json": true
+    },
+    "state_worktree_sha256": "8e406606497a9b28854b3a1bcdd4e970fe694d1e45982ffe5aef47f39929c19f",
+    "state_base_blob_sha256": "8e406606497a9b28854b3a1bcdd4e970fe694d1e45982ffe5aef47f39929c19f",
+    "current_workspace_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+    "legacy_binding_sha256": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4",
+    "durable_G001_evidence_in_STATE_refs": true,
+    "durable_G001_evidence_resolves_at_HEAD": {
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json": true,
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json": true
+    },
+    "immutable_instruction_resolution": [
+      {
+        "instruction_id": "c1bf5c77-a907-485d-a5d2-dafd67ceb05a",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+          "sha": "f6a69961d89863964ac24b5235e293c4bc47946c"
+        },
+        "schema_errors": [],
+        "wu_schema_errors": []
+      },
+      {
+        "instruction_id": "9a740983-65df-44c7-9f90-458322654e5f",
+        "status": "INSTRUCTION_RESOLVED",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+          "sha": "f6a69961d89863964ac24b5235e293c4bc47946c"
+        },
+        "schema_errors": [],
+        "wu_schema_errors": []
+      }
+    ],
+    "execution_framework_adoption_errors": [],
+    "current_guardrail_errors": [],
+    "request_hash_matches_durable_authority": true,
+    "request_sha256": "010cae92a1c8b40d5e8846f2a42ae95a175d31151b33ac2aa4d2c97c9c77abfd",
+    "reviewer_adoption_probe_interpretation": "Read-only REVIEW_REQUEST correctly lacks MUTATE_APPROVED_SCOPE; mutation-only framework-adoption predicate is inapplicable to Reviewer, while its Core instruction schema/authority/resolver checks pass."
+  }
+}
