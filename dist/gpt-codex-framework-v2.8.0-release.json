@@ -1,9 +1,9 @@
 {
-  "framework_version": "2.7.4",
+  "framework_version": "2.8.0",
   "kernel_version": "2.0.0",
   "schema_version": 1,
-  "artifact": "gpt-codex-framework-v2.7.4-bootstrap.zip",
-  "sha256": "3216f9fb9f7719c1f87f3c7a62ebd993cc3804fbdf1c48c8069f5d88df8df86b",
+  "artifact": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+  "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
   "validation": {
     "framework": "PASS",
     "tests": "PASS",

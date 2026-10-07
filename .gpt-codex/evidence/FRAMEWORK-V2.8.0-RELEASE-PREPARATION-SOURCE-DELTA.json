@@ -1,0 +1,3303 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "Framework 2.8.0 release preparation only",
+  "state_revision": 35,
+  "result": "PASS",
+  "source_base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+  "observed_utc": "2026-10-07T01:14:52.505630+00:00",
+  "previous_release_tag": "v2.7.4",
+  "previous_release_target_sha": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c",
+  "candidate_tree_semantics": "Exact staged source/package snapshot audited before candidate commit; no self-containing commit SHA claim. Later attestation/handoff files are management governance only.",
+  "delta_counts": {
+    "CONSUMER_RELEASE_DELTA": 12,
+    "MANAGEMENT_ONLY_DELTA": 109,
+    "DEVELOPMENT_HISTORY_DELTA": 155,
+    "GOVERNANCE_EVIDENCE_DELTA": 330,
+    "GENERATED_ARTIFACT_DELTA": 6
+  },
+  "delta_chunks": [
+    {
+      "classification": "CONSUMER_RELEASE_DELTA",
+      "chunk": 1,
+      "records": [
+        {
+          "status": "M",
+          "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/MIGRATION_v1.7_to_v2.0.md",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/README.md",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/builtins/INDEX.json",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/project-template/WORK_UNIT.template.json",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/schemas/work-unit.schema.json",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/continuity_resume.py",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/instruction_envelope.py",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/validate_framework.py",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/validate_project.py",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": "AGENTS.md",
+          "projection_classification": "CONSUMER_REQUIRED"
+        },
+        {
+          "status": "M",
+          "path": "VERSION",
+          "projection_classification": "CONSUMER_REQUIRED"
+        }
+      ]
+    },
+    {
+      "classification": "MANAGEMENT_ONLY_DELTA",
+      "chunk": 1,
+      "records": [
+        {
+          "status": "M",
+          "path": ".gpt-codex/CHANGELOG.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/STATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/framework-modules/REGISTRY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/release/consumer-projection-manifest.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/scripts/framework_plugin_entry.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/release_archive.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/scripts/release_framework.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_consumer_projection.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_continuity_resume.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/tests/test_framework_plugin.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/tests/test_framework_plugin_package.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_harness_handoff.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_release_archive.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_release_packaging.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_result_return.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_self_hosting_validator.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": ".gpt-codex/tests/test_validator_context_binding.py",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-current-reference-activation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-history-amendments-reviews-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-history-designs-plans-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-navigation-remediation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-navigation-state33-authority-gate-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-next-action-gate-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/documentation-canonicalization-state34-publication-continuity-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/framework-v2.8.0-release-preparation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-b-decisions-consumer-projection-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-directory-creation-contract-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-fix-round-1-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-remediation-authority-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-c-temp-ref-cleanup-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-batch-1-migration-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-batch-2-migration-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-current-documentation-surface-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-d-reference-inventory-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-e-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-e1-release-version-policy-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-e2-plugin-duplication-classification-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-fix-round-1-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-fix-round-1-authority-correction-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-full-validation-clean-clone-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-f-immutable-locator-remediation-authority-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-g-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-phase-g-repository-structure-freeze-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-ref-cleanup-ledger-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/github-repository-consolidation-ref-cleanup-ledger-002.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/legacy-result-id-handoff-compatibility-remediation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-finding-fix-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-post-remediation-authority-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-authority-correction-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l1-preservation-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l2-path-layout-authority-resolution-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l2-path-layout-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-boundary-amendment-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-containment-recovery-amendment-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l6a-version-archive-acceptance-amendment-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l7-final-reverification-after-l7a-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l7a-git-metadata-drift-reconciliation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l7a-minimal-safe-canonicalization-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l7a-retry-18-and-close-canonicalization-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l8-local-workspace-freeze-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-l8-next-action-token-adjudication-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/local-workspace-consolidation-post-l8-durable-closure-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/p2-finding-004-provenance-fix-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/p2-finding-004-remediation-authority-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/p2-minimum-capability-implementation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/p2-plugin-public-release-preparation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/post-canonicalization-repository-structure-freeze-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/post-structure-freeze-state35-next-action-gate-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/post-structure-freeze-state35-publication-continuity-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "MANAGEMENT_ONLY_DELTA",
+      "chunk": 2,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/project-validator-durable-record-classification-remediation-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/project-validator-remediation-authority-state32-gate-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/work-units/project-validator-state32-handoff-correction-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-11-v2.0-minimal-kernel-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-11-v2.2.0-github-project-continuity-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-13-execution-telemetry-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-13-framework-design-continuity-sufficiency-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-13-framework-modular-architecture-routing-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-13-framework-project-separation-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-13-role-communication-protocol-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-14-project-isolation-centralized-evolution-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-16-framework-evolution-foundation-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-26-p2-minimum-capability-design-revision-002.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/2026-09-28-github-repository-consolidation-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/architecture/README.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-09-27-p2-plugin-public-release-design.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-10-03-local-workspace-consolidation-l6a-acceptance-amendment.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-10-04-legacy-result-id-handoff-compatibility.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/decisions/README.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/plans/2026-09-27-p2-plugin-public-release-plan.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "docs/plans/README.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "plugins/gpt-codex-framework/plugin.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "M",
+          "path": "releases/INDEX.json",
+          "projection_classification": "RELEASE_METADATA"
+        },
+        {
+          "status": "A",
+          "path": "releases/records/v2.8.0.json",
+          "projection_classification": "RELEASE_METADATA"
+        }
+      ]
+    },
+    {
+      "classification": "DEVELOPMENT_HISTORY_DELTA",
+      "chunk": 1,
+      "records": [
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": ".superpowers/sdd/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c8-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-26-p2-minimum-capability-plan-revision-003.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-26-p2-rev002-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-27-p2-finding-004-remediation-reconciliation-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-09-28-github-repository-consolidation-plan-baseline-binding-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-10-04-l6a-unresolved-worktree-containment-recovery-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/amendments/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-controlled-git-lifecycle-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.6-ephemeral-observability-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/designs/2026-10-01-local-workspace-consolidation-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-controlled-git-lifecycle.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.6-ephemeral-observability.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.0-minimal-kernel.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-13-framework-modular-architecture-routing.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-13-framework-project-separation.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-13-role-communication-protocol.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-14-execution-telemetry.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-14-project-isolation-centralized-evolution.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-16-framework-evolution-foundation-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-26-p2-minimum-capability-plan-revision-002.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-27-p2-finding-004-remediation-reconciliation-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-09-28-github-repository-consolidation-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-10-01-local-workspace-consolidation-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/plans/2026-10-04-legacy-result-id-handoff-compatibility.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-1-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        }
+      ]
+    },
+    {
+      "classification": "DEVELOPMENT_HISTORY_DELTA",
+      "chunk": 2,
+      "records": [
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-11-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-12-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-3-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-4-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-12-v2.3.0-project-map-context-resume/task-6-report.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-15-minimal-harness-reduction-review.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "A",
+          "path": "docs/history/reviews/2026-09-15-post-v2.7-efficiency-reduction-review.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-controlled-git-lifecycle.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.3-action-routing-handoff-manifest.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.4.1-semantic-sha-fix.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.5-controlled-parallel-development.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.5.1-project-adaptation-model.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.6-ephemeral-observability.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v1.7-specification-quality-continuous-hygiene.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.0-minimal-kernel.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.0.2-lightweight-release-archive.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.1.0-bidirectional-project-context-binding.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.2.0-github-project-continuity.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.2.1-consumer-projection-release-boundary.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-11-v2.2.1-self-hosting-publication-corrective.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-12-v2.3.0-project-map-context-resume.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-13-framework-modular-architecture-routing.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-13-framework-project-separation.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-13-role-communication-protocol.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-14-execution-telemetry.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-14-framework-design-continuity-sufficiency.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-14-project-isolation-centralized-evolution.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-15-minimal-closed-loop-harness-upgrade.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-15-v2.7.0-minimal-closed-loop-harness-release.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-16-framework-evolution-foundation-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-16-global-framework-plugin-governance-evidence.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-21-b7-v2.7.3-release-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-finalization-authority-plan.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-22-b7-v2.7.3-publication-packaging-authority-plan-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-22-group-c-c1-c7-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-23-group-c-c8-work-unit-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-authority-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-bootstrap-authority-mapping-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-phase-a-validation-order-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/plans/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-plan-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/reviews/2026-09-15-minimal-harness-reduction-review.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/reviews/2026-09-15-post-v2.7-efficiency-reduction-review.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-controlled-git-lifecycle-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.3-action-routing-handoff-manifest-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.4.1-semantic-sha-fix-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.5-controlled-parallel-development-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.5.1-project-adaptation-model-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.6-ephemeral-observability-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v1.7-specification-quality-continuous-hygiene-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.0-minimal-kernel-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.0.2-lightweight-release-archive-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.0.3-paste-ready-return-and-fixed-source-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.1.0-bidirectional-project-context-binding-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.2.0-github-project-continuity-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.2.1-consumer-projection-release-boundary-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-11-v2.2.1-self-hosting-publication-corrective-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-12-v2.3.0-project-map-context-resume-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-13-execution-telemetry-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-13-framework-design-continuity-sufficiency-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-13-framework-modular-architecture-routing-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-13-framework-project-separation-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-13-role-communication-protocol-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-14-project-isolation-centralized-evolution-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-15-minimal-closed-loop-harness-upgrade-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-15-post-v2.7-minimal-closed-loop-efficiency-optimization-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-15-v2.7.0-minimal-closed-loop-harness-release-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-16-framework-evolution-foundation-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-16-global-framework-plugin-governance-evidence-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-21-b7-v2.7.3-release-work-unit-authority-design-base-binding-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-finalization-authority-design.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-22-b7-v2.7.3-publication-packaging-authority-design-correction.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        }
+      ]
+    },
+    {
+      "classification": "DEVELOPMENT_HISTORY_DELTA",
+      "chunk": 3,
+      "records": [
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-22-group-c-c1-c7-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-23-group-c-c8-work-unit-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-authority-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-23-group-c-c9-v2.7.4-runtime-scope-correction-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        },
+        {
+          "status": "D",
+          "path": "docs/superpowers/specs/2026-09-24-group-c-c9-v2.7.4-packaging-bootstrap-materialization-reconciliation-design-amendment.md",
+          "projection_classification": "DEVELOPMENT_HISTORY"
+        }
+      ]
+    },
+    {
+      "classification": "GOVERNANCE_EVIDENCE_DELTA",
+      "chunk": 1,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH1-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH2-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-BATCH3-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-NATIVE-HANDOFF.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REGRESSION-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-AUTHORITY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-REFERENCE-INVENTORY-RECOVERY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-GATE-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-SCHEMA-RETRY-AUTHORITY-ATTESTATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-SOURCE-DELTA.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-1-MIGRATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-BATCH-2-MIGRATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-CURRENT-DOCUMENTATION-SURFACE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-D-REFERENCE-INVENTORY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E1-RELEASE-VERSION-POLICY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-E2-PLUGIN-DUPLICATION-CLASSIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-PHASE-F-FULL-VALIDATION-CLEAN-CLONE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-CONSOLIDATION-REF-CLEANUP.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/GITHUB-REPOSITORY-STRUCTURE-FREEZE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-CLOSURE-WU-SCHEMA-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-EXECUTION-FACTS-EQUIVALENCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-NORMALIZATION-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-RETIREMENT-EXECUTION-EVIDENCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-RETIREMENT-FRESHNESS-EVIDENCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-RETIREMENT-INTEGRITY-EVIDENCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-RETIREMENT-PRE-EVIDENCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L6A-R3-SOURCE-EVIDENCE-INVENTORY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L7A-CANONICALIZATION-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L7A-CANONICALIZATION-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L7A-GIT-METADATA-INDEPENDENT-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L7A-GIT-METADATA-RECONCILIATION-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/L7A-GIT-SEMANTIC-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-AUTHORITY-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LEGACY-RESULT-ID-COMPATIBILITY-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-AUTHORITY-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-INDEPENDENT-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-INDEPENDENT-FRESH-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-LOCAL-WORKSPACE-FREEZE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/P2-FINDING-004-AUTHORITY-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/P2-FINDING-004-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/P2-PLUGIN-E2E-ACCEPTANCE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/P2-PLUGIN-PUBLIC-RELEASE-PREPARATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-AUTHORITY-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-C-DIRECTORY-CONTRACT-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-D-DOCUMENTATION-HISTORY-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-E-PROVEN-DUPLICATE-SEMANTICS-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-F-FULL-VALIDATION-CLEAN-CLONE-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "GOVERNANCE_EVIDENCE_DELTA",
+      "chunk": 2,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-AUTHORITY-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-F-IMMUTABLE-LOCATOR-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PHASE-G-REPOSITORY-STRUCTURE-FREEZE-REMOTE-INTEGRATION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-01.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-CANONICALIZATION-STRUCTURE-FREEZE-BRANCH-INVENTORY-02.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-P2-PUBLIC-RELEASE-DEFERRAL.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REGRESSION-BASIS.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-VALIDATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-AUTHORITY.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-REMOTE-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-VERIFICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/00e1c7b7-2c0a-4544-acb9-902979490cea.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/03cf8ad1-d153-4f83-be9f-b7c0f462e8f8.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/05c0837e-c479-4d96-bedb-860ad69336d6.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/0aa8f16f-3d8f-4aa0-9bb4-17bb42b64e89.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/0b87b46a-ae68-4b67-90ab-ab49baa5041f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/1216e0c8-f31f-42de-a8e5-4f484923b645.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/1350c9fc-f3b3-480b-84f2-c5c72749915c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/169f3ec2-37a1-40f2-ae77-2b06b2575e5e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/17968a9d-e2aa-4f12-b9df-6b29bdf7e078.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/1c17e3d1-5dc7-5bd8-a06b-e5b3890fa4e7.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/1c555f45-2b60-44c5-8b4f-4031919c2e66.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/2362c78b-66e3-4852-b29a-3e580e8f7582.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/253a0548-faaa-4676-97a5-588d587cf1b5.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/26425c12-41be-40ed-853d-73857aab83ff.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/26a258fb-5991-4dca-9a35-5b0510f79668.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/27ccbc9a-e228-4445-9122-ed4ec073283b.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/3cd101c8-4074-4620-b434-1f8249cbd7d4.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/3e4434ad-225b-4746-b22d-1521634b2ca5.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/3fadab4f-e818-4e6c-b5f6-10e12bc5558a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/42016054-dd12-417c-bb41-6036601d0659.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4243a9c4-25f3-4e26-b7bb-5f51a0dccf70.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/430b8512-28ce-4454-96bb-f5d48e5d8d6c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/499ebff9-b4fd-4f3b-8625-82fdf4910e1b.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/49b03749-4959-4197-bc7d-550f0d2f03fa.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4a10e66f-8af0-4f0a-b4aa-3f4bd524f2fd.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4bad87af-c865-47c3-b73c-ebded5a20fbe.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4bb24005-21fc-4597-a8e5-072b9c135183.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4e7ed4c5-5778-4b20-8c7b-1dcc9237c65b.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4f681ae1-254b-437b-9bbb-0aa83f6c87d8.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/4f6f9b6d-ac4c-420a-9a53-673eccaac4e9.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5091ac56-4c1b-426a-8bfa-2d201031725e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/542c8e0e-496f-4df2-a008-8015fff62751.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/54db120a-31ee-4ae4-b3b9-f3b4d057b76f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/557c9f44-6c99-42d2-91ea-8e8bf91824c3.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5650ec93-99e9-430e-80cd-d6ee1c90102b.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/577e4ea5-9773-41d8-ad51-dd113696f5c2.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/57996f14-1474-4057-b0de-3c697d360110.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/593eba35-4ec6-4788-a245-a93731d46618.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5a9d1aca-670b-4ca5-9128-01ab6bd2a8b9.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5aecb753-6deb-4cf7-8b64-7849c05c1a24.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5d5d6ba3-98a1-5c8c-88b3-c055528d5a5c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/5d9a433a-5c88-4478-b9c2-e031f762552c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/60426adc-39dc-49b7-a031-ba52659f1e49.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6073cd9f-4d34-4b7c-b300-840d61bcc345.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/60a53475-2371-4560-a4c7-dc82812a529d.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/639eef6f-d758-4a1a-ac9b-c930175dd85d.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/63e200a2-d143-4c8d-b075-c1b5310cbd3e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/65eecec8-7cc3-4352-9c6c-5401f8b90467.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/68381d06-0684-49c3-bc1b-bd05eef22b5d.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6a09c9d1-8f8f-44b2-b97f-6f0da41fe197.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6a371a6b-1c0f-4188-8853-186464288883.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6b779f25-bdbb-46a2-9a2c-ddfb6168f30a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6b845c76-7f75-4ed8-afec-38029672fb5a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/6cff6486-926f-4b8a-9afc-3bfa9efe077e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "GOVERNANCE_EVIDENCE_DELTA",
+      "chunk": 3,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/70595f70-c509-438d-8375-609c7e7edf0e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/71e2471c-addf-40e3-a620-02f459938203.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/7894ec85-6b60-42f0-9d7d-72cfa88d12ba.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/7a124075-0783-4ee3-8a3f-a40f34e63755.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8027386d-fa8e-45e5-8478-0384ccd2626e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/812876c3-4ea3-4836-b876-f22fadd1daef.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/832f4cd5-03a0-4a56-8d5c-d6bf541eabfd.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/87e1a01c-78f2-4063-8256-af25beb7b55c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8af1e90c-75da-4874-910e-ac3bf597f503.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8cc273e1-e2af-4f50-bae9-f665578ae58e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8d7f8013-b6bd-4043-a6b3-d6ac37ae752c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8d938de0-39da-488d-b437-277290bdd907.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/8ef09eec-4f63-52d5-af2e-813ba9177c39.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9029b674-8a48-48aa-89d3-5f6ea6dfb297.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/918659ad-4bc0-4c3b-84f7-72dfc2ccf4a9.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/93c7fcb7-adfe-45e9-b353-7ce5fa75f771.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/952a5b1c-8eae-4b7c-a4f2-f0d95e87e48a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/95bd14a5-f6d1-4ba1-9424-3fd2fdfe71be.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9694f2fa-7071-4f3c-91cc-c518e872a8cd.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/96ac2d8a-3f6b-4c78-a7a8-0c5404e3e0aa.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/98efcf7b-9b69-442f-af5f-8c93efdebba3.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9b7477a0-4c02-42c5-ac17-60062cf3f139.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9da63055-9e84-4348-8b8c-fbc11c5501ae.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9de11ad2-9cd4-52a4-be38-786f6636db60.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9e52d832-21b9-4ffc-b979-86b97534ae89.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9e67c531-50ab-467f-940a-e71ace5f5f34.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/9ee2123c-0a4b-4162-b2e1-ea02e414a9b4.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/a5058f74-133a-4e07-a7ed-a042a8bdc67c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/a7f5feba-8e73-4002-8a38-55e075a66cb3.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/a91821f8-2748-4e0f-8bca-67703ecdef2c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ab4f7708-793b-4513-b4e9-e72dcf6b3f1a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/abab148b-1967-4113-9f13-6f147789058f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ac765e6a-c30c-58e0-8d32-48feabfd03cd.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ad28276d-a842-4723-b5df-1f55ff7ee70c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/afb22324-8cd0-494f-92b6-93c3149b362e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/b015af20-d08e-4dde-91ef-b82bda9427ff.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/b54384fc-606f-4073-9731-e78acf3471bf.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/b5ca55ab-e79f-43c8-9822-db6596adb28f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/b6418752-aded-4bb8-8838-eb327d06f87f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/b800f27b-c149-5930-afce-e94406909799.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ba5fdb19-cc71-4fea-9c26-9348da8fe743.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ba93108a-63af-4122-8773-8cc32e52408c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/beefbd2a-3d5f-4e2e-b1a6-964dce376e11.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/bf0910ba-424d-553f-bcd1-19c48a7ff612.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c0257063-3afd-4e53-82c9-b6908ebf3126.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c10b388b-08f3-435e-b125-5833a6102d5c.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c352a383-69c0-4562-85c5-0dd02a2aa1e7.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c4480444-b6e2-4de1-a66d-730319663b9e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/c818da18-d9a4-4b8f-92e9-944962db385e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ca9ec790-6064-479a-8fc5-e4304dd40b9e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/caa0687a-8a62-4fde-9d9b-07f339a198cd.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/cbf83696-fa9b-4e52-ab97-5ef03fcfbcc0.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/d1477c2c-2b28-45b0-9a5d-4ddc98b12e61.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/d29bb383-1c0b-4ab2-8858-9c1d60f6fc47.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/d825947b-5328-4de7-b9b3-ed6670b845e2.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/dd83f554-64b0-4018-a6cf-f99f252e7823.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/e0d3f45a-a9d2-4306-a6eb-4a17cb407138.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/e13f95a2-7ad9-5aca-93e0-a290e1a99e8e.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/e5aaf934-d712-4714-b337-89ef7fa4d692.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/e5b8e8be-ae9c-4567-9cde-6533af34681a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ea41059d-d0b7-4043-ab05-aca6b0dd6559.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ea619aea-0382-4303-a1d2-c5ab566ba70a.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ec32be9d-4724-4d74-81ad-c7a57fb77505.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ec3c41b4-6413-4bde-935e-713c986aaac3.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/edf344bf-b9e8-43ae-96a8-ae2d0699f1d6.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/ee60dbaa-63a4-4a20-ac0e-6548e325219f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/eface2a2-80e2-4b5b-b11e-4519cce70d8f.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/eff8d0a2-b707-479d-ad5b-68dd26fe9cc8.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/f079c523-7f0e-43fd-9636-98c7915fb6d2.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/f134f55c-8c7f-4bda-b486-832d36c762a8.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/f297ca7e-023c-4f83-9fb1-4a08bcaeacbb.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/instructions/f777b22c-b10d-48bd-a5d3-64aa16bec3ee.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "GOVERNANCE_EVIDENCE_DELTA",
+      "chunk": 4,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH1.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH2.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-BATCH3.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-REMEDIATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-RETRY-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE-TRANSITION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-AUTHORITY-GATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-NAVIGATION-STATE33-FRESH-FINDING.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-STATE34-NEXT-ACTION-GATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-AUTHORITY-FINDING.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-EXTERNAL-WORKTREE-RETIREMENT-001-CORRECTED.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-R3-EVIDENCE-REMEDIATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L6A-R3-EVIDENCE-REMEDIATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-CLOSURE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-FINAL.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-GIT-METADATA-ADJUDICATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-GIT-METADATA-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-GIT-METADATA-RECONCILIATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-L7A-INITIAL.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-FINDING.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-REMEDIATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE-SYNC-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-POST-FINDINGS-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L1-PRESERVATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-AUTHORITY-RESOLUTION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L2-PATH-LAYOUT-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L7-FINAL.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-L8-FREEZE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE-SYNC-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-STATE30-L8-GATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-P2-FINDING-004.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-FINDINGS-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-C-FIX-ROUND-1-FINAL-REREVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "GOVERNANCE_EVIDENCE_DELTA",
+      "chunk": 5,
+      "records": [
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-D-DOCUMENTATION-HISTORY-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-IMMUTABLE-LOCATOR-001.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-CLOSURE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-G-REPOSITORY-STRUCTURE-FREEZE-FINAL-REVIEW.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-ATTESTATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-HANDOFF-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FINDING.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-FRESH-FINDING-STATE32.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-PUBLICATION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-STATE32-FRESH-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-HANDOFF-CORRECTION.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-POST.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-REMEDIATION-AUTHORITY-STATE32-GATE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        },
+        {
+          "status": "A",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-STATE32-HANDOFF-CORRECTION-PRE.json",
+          "projection_classification": "MANAGEMENT_ONLY"
+        }
+      ]
+    },
+    {
+      "classification": "GENERATED_ARTIFACT_DELTA",
+      "chunk": 1,
+      "records": [
+        {
+          "status": "D",
+          "path": "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+          "projection_classification": "GENERATED_ARTIFACT"
+        },
+        {
+          "status": "D",
+          "path": "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+          "projection_classification": "GENERATED_ARTIFACT"
+        },
+        {
+          "status": "D",
+          "path": "dist/gpt-codex-framework-v2.7.4-release.json",
+          "projection_classification": "GENERATED_ARTIFACT"
+        },
+        {
+          "status": "A",
+          "path": "dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+          "projection_classification": "GENERATED_ARTIFACT"
+        },
+        {
+          "status": "A",
+          "path": "dist/gpt-codex-framework-v2.8.0-bootstrap.zip.sha256",
+          "projection_classification": "GENERATED_ARTIFACT"
+        },
+        {
+          "status": "A",
+          "path": "dist/gpt-codex-framework-v2.8.0-release.json",
+          "projection_classification": "GENERATED_ARTIFACT"
+        }
+      ]
+    }
+  ],
+  "changelog_claims": [
+    {
+      "claim": "governance/continuity/handoff contract evolution",
+      "delta_paths": [
+        ".gpt-codex/scripts/continuity_resume.py",
+        ".gpt-codex/scripts/instruction_envelope.py",
+        ".gpt-codex/scripts/validate_project.py",
+        ".gpt-codex/scripts/framework_plugin_entry.py"
+      ],
+      "evidence_paths": [
+        ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+        ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-REMEDIATION.json",
+        ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION.json"
+      ],
+      "durable_locators": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+          "blob_sha": "d9809a865584eae126e5f4eb6a3a3fb6046d8f9f"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-REMEDIATION.json",
+          "blob_sha": "e6a3d9bd2f6c6921d94eadd6498da5ef9f8241ba"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION.json",
+          "blob_sha": "cbf5acf33e969fc3fe5dce2c8439997fdba2078d"
+        }
+      ]
+    },
+    {
+      "claim": "Work Unit and directory-contract hardening",
+      "delta_paths": [
+        ".gpt-codex/schemas/work-unit.schema.json",
+        ".gpt-codex/project-template/WORK_UNIT.template.json",
+        ".gpt-codex/scripts/validate_project.py",
+        "AGENTS.md"
+      ],
+      "evidence_paths": [
+        ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json"
+      ],
+      "durable_locators": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+          "blob_sha": "ef75c30eaad9d3962acdfa45e4bd14e90648a3df"
+        }
+      ]
+    },
+    {
+      "claim": "release/version policy and validation hardening",
+      "delta_paths": [
+        ".gpt-codex/scripts/release_archive.py",
+        ".gpt-codex/scripts/release_framework.py",
+        ".gpt-codex/tests/test_release_archive.py",
+        ".gpt-codex/tests/test_release_packaging.py"
+      ],
+      "evidence_paths": [
+        ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+        ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json"
+      ],
+      "durable_locators": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+          "blob_sha": "d1a10233b5264d50534833704ecb3982d1ed3e79"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+          "blob_sha": "dee5eaf25bd42f56ed707ae026917a077dc938d9"
+        }
+      ]
+    },
+    {
+      "claim": "repository/workspace/documentation canonicalization",
+      "delta_paths": [
+        "docs/architecture/",
+        "docs/decisions/",
+        "docs/history/"
+      ],
+      "evidence_paths": [
+        ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+        ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json"
+      ],
+      "durable_locators": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+          "blob_sha": "9edd3e3435f4579a84746ec0a3a1f52e36002ece"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json",
+          "blob_sha": "0f0e961f4f7b03313bdba36652e6244e0be95b8d"
+        }
+      ]
+    },
+    {
+      "claim": "post-canonicalization structure freeze and STATE35 gate",
+      "delta_paths": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+        ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json"
+      ],
+      "evidence_paths": [
+        ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+        ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json"
+      ],
+      "durable_locators": [
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-CANONICALIZATION-REPOSITORY-STRUCTURE-FREEZE.json",
+          "blob_sha": "028298984a532818ed5994f0a6813da39e5b8207"
+        },
+        {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+          "path": ".gpt-codex/evidence/results/RESULT-POST-STRUCTURE-FREEZE-STATE35-NEXT-ACTION-GATE.json",
+          "blob_sha": "1fa522a63e70d095632016032e6b14a939dba7aa"
+        }
+      ]
+    },
+    {
+      "claim": "repository-native plugin adapter/package presence; P41 deferred",
+      "delta_paths": [
+        ".gpt-codex/scripts/framework_plugin_entry.py",
+        "plugins/gpt-codex-framework/plugin.json",
+        "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md"
+      ],
+      "evidence_paths": []
+    }
+  ],
+  "UNSUPPORTED_CHANGELOG_CLAIM_COUNT": 0,
+  "UNEXPECTED_RELEASE_SOURCE_MUTATION_COUNT": 0,
+  "BOUNDED_COLLECTION_OVERFLOW_COUNT": 0
+}

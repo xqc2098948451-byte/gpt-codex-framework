@@ -1,0 +1,111 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "source": "TOOL_OBSERVED",
+  "subject": "Framework 2.8.0 release preparation only",
+  "state_revision": 35,
+  "result": "PASS",
+  "source_base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+  "observed_utc": "2026-10-07T01:14:52.336428+00:00",
+  "root": "D:\\w\\gpt-codex-framework\\framework-v2.8.0-release-preparation-001",
+  "VERSION_CONSISTENCY": "PASS",
+  "CONSUMER_BOUNDARY": "PASS",
+  "CONSUMER_INVENTORY_COUNT": 86,
+  "ZIP_INTEGRITY": "PASS",
+  "RELEASE_HYGIENE": "PASS",
+  "ARTIFACT_SHA256_CONSISTENCY": "PASS",
+  "ARTIFACT_SIZE_CONSISTENCY": "PASS",
+  "RELEASE_RECORD_CONSISTENCY": "PASS",
+  "RELEASE_INDEX_CONSISTENCY": "PASS",
+  "RELEASE_MANIFEST_CONSISTENCY": "PASS",
+  "RELEASE_ARTIFACT_SHA256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+  "RELEASE_ARTIFACT_SIZE_BYTES": 150884,
+  "RELEASE_SOURCE_MUTATION_COUNT": 7,
+  "UNEXPECTED_RELEASE_SOURCE_MUTATION_COUNT": 0,
+  "PLUGIN_MUTATION_COUNT": 0,
+  "STATE_MUTATION_COUNT": 0,
+  "changed_existing_paths": [
+    ".gpt-codex/BOOTSTRAP_PROMPT.md",
+    ".gpt-codex/CHANGELOG.md",
+    ".gpt-codex/README.md",
+    ".gpt-codex/builtins/INDEX.json",
+    ".gpt-codex/framework-modules/REGISTRY.json",
+    ".gpt-codex/release/consumer-projection-manifest.json",
+    "AGENTS.md",
+    "VERSION",
+    "dist/gpt-codex-framework-v2.7.4-bootstrap.zip",
+    "dist/gpt-codex-framework-v2.7.4-bootstrap.zip.sha256",
+    "dist/gpt-codex-framework-v2.7.4-release.json",
+    "releases/INDEX.json"
+  ],
+  "full_test_summary": {
+    "FULL_TEST_SUITE": "PASS",
+    "FULL_TEST_COUNT": 734,
+    "FULL_TEST_FAILURE_COUNT": 0,
+    "FULL_TEST_ERROR_COUNT": 0,
+    "FULL_TEST_SKIP_COUNT": 2,
+    "elapsed_seconds": 346.372,
+    "log_sha256": "6f8953057dcc7027e3f088adf206e3e0ae6865c64421ee3117fb001821ebeb08",
+    "command": "python -X utf8 .gpt-codex/scripts/release_framework.py (native unittest discover -s .gpt-codex/tests -p test_*.py)",
+    "skip_policy": "Actual native Windows environment skips; no suite filters, skipped tests or hardcoded test count introduced."
+  },
+  "validators": {
+    "root": "D:\\w\\gpt-codex-framework\\framework-v2.8.0-release-preparation-001",
+    "observed_utc": "2026-10-07T01:10:30.566243+00:00",
+    "checks": {
+      "PROJECT_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ]
+      },
+      "FRAMEWORK_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_framework.py"
+        ]
+      },
+      "CONSUMER_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_consumer_projection.py",
+          "--root",
+          ".",
+          "--zip",
+          "dist/gpt-codex-framework-v2.8.0-bootstrap.zip"
+        ]
+      }
+    }
+  },
+  "static_artifact_preflight": {
+    "SCHEMA_AWARE_ARTIFACT_PREFLIGHT": "PASS",
+    "BOUNDED_COLLECTION_OVERFLOW_COUNT": 0,
+    "scope_count": 33,
+    "schema_errors": [],
+    "baseline_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "state_revision": 35,
+    "new_directory_count": 0,
+    "consumer_inventory_count": 86
+  },
+  "consumer_validator_environment_recovery": {
+    "initial_check": "FAIL_CRLF_SOURCE_VS_CANONICAL_LF_ARCHIVE",
+    "affected_authorized_paths": [
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/builtins/INDEX.json",
+      "AGENTS.md"
+    ],
+    "byte_comparison": "ONLY_CRLF_TO_LF_DIFFERENCE",
+    "recovery": "Normalize only four authorized release-version surfaces to LF; native ZIP bytes unchanged; rerun all three validators PASS.",
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING"
+  }
+}

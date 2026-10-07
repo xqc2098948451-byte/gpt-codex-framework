@@ -1,5 +1,15 @@
 # GPT–Codex Framework Changelog
 
+## v2.8.0
+
+- Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.
+- Hardens Work Unit scope and directory-creation declarations, actual Git directory checks, and the independent review/mutation entry contract.
+- Unifies current release-version validation across source, release archive, and publication preflight while retaining metadata-only historical release records and the consumer projection boundary.
+- Records the completed repository and local-workspace consolidation and documentation canonicalization; current architecture/decisions/navigation are separated from development history with durable closure evidence.
+- Records the post-canonicalization repository structure freeze and the STATE35 release-preparation gate; the frozen runtime, schemas, tests, plugin files, and canonical documentation remain unchanged by this release preparation.
+- The management repository contains the native plugin governance adapter and package (plugin version 0.1.0). They remain outside the consumer bootstrap; P41 Plugin Public Release = DEFERRED_BY_USER. Plugin public release and post-release synchronization are not complete and have not started in this preparation.
+- KERNEL_VERSION remains 2.0.0; SCHEMA_VERSION remains 1. This preparation does not create a tag, GitHub Release, asset upload, or STATE transition.
+
 ## v2.7.4
 
 - Prepares the minimum release-source candidate with the accepted C8 feedback and clean-room validation connection.

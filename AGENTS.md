@@ -1,4 +1,4 @@
-# AGENTS.md — GPT–Codex Framework v2.7.4
+# AGENTS.md — GPT–Codex Framework v2.8.0
 
 This repository is the **universal framework root**, not a business-project root.
 

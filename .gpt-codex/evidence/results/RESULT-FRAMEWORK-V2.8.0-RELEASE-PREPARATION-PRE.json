@@ -65,7 +65,8 @@
       "BASELINE_CONSUMER_VALIDATOR",
       "NATIVE_PACKAGE_DETERMINISM",
       "NATIVE_PACKAGE_BOUNDARY",
-      "READ_ONLY_PUBLICATION_CAPABILITIES"
+      "READ_ONLY_PUBLICATION_CAPABILITIES",
+      "CHANGELOG_SOURCE_DELTA_AND_DURABLE_CLOSURE"
     ],
     "validators_completed": [
       "EXACT_DIRECT_REQUEST",
@@ -78,7 +79,8 @@
       "BASELINE_CONSUMER_VALIDATOR",
       "NATIVE_PACKAGE_DETERMINISM",
       "NATIVE_PACKAGE_BOUNDARY",
-      "READ_ONLY_PUBLICATION_CAPABILITIES"
+      "READ_ONLY_PUBLICATION_CAPABILITIES",
+      "CHANGELOG_SOURCE_DELTA_AND_DURABLE_CLOSURE"
     ],
     "blocker_evidence_refs": []
   },
@@ -110,7 +112,15 @@
       ".gpt-codex/tests/test_release_packaging.py",
       ".gpt-codex/tests/test_release_archive.py",
       ".gpt-codex/tests/test_consumer_projection.py",
-      ".gpt-codex/tests/test_version_consistency.py"
+      ".gpt-codex/tests/test_version_consistency.py",
+      ".gpt-codex/evidence/results/RESULT-PHASE-A-GOVERNANCE-HARDENING.json",
+      ".gpt-codex/evidence/results/RESULT-LEGACY-RESULT-ID-COMPATIBILITY-REMEDIATION.json",
+      ".gpt-codex/evidence/results/RESULT-PROJECT-VALIDATOR-DURABLE-RECORD-CLASSIFICATION-REMEDIATION.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-C-DIRECTORY-CONTRACT-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-E-PROVEN-DUPLICATE-SEMANTICS-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-PHASE-F-FULL-VALIDATION-CLEAN-CLONE-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-LOCAL-WORKSPACE-CONSOLIDATION-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-DOCUMENTATION-CANONICALIZATION-DURABLE-CLOSURE.json"
     ],
     "files_changed": [],
     "tests_run": [
@@ -198,5 +208,20 @@
     "review_result": [],
     "completion_evidence": [],
     "result_authority": []
+  },
+  "changelog_preflight": {
+    "status": "PASS",
+    "previous_release_peeled_target": "935d6f3fcf5e54a478810a79a82a8695fcf4cf4c",
+    "frozen_source_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "changelog_draft_sha256": "f1de7c89d71ff92950f1cb8f576b59a0433ecdfcd1d63354242c07ecb3b5e875",
+    "claim_group_count": 6,
+    "unsupported_claim_count": 0,
+    "actual_delta_path_mapping": "PASS_ALL_21_PATHS_OR_PREFIXES",
+    "durable_pass_evidence_count": 10,
+    "evidence_authority_errors": [],
+    "native_plugin_version": "0.1.0",
+    "P41_DEFERRED_BY_USER": "YES",
+    "preparation_preservation_statement": "CONDITIONAL_ON_LATER_EXACT_CANDIDATE_POST",
+    "notes": "All six claim groups map to actual tag-target to BASE changes and durable PASS closure evidence where applicable. Plugin claim is presence-only supported by source/plugin.json; current preparation boundaries are reviewed constraints, with final preservation verified in POST."
   }
 }

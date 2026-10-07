@@ -1,0 +1,14 @@
+{
+  "version": "2.8.0",
+  "artifact": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+  "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+  "artifact_size_bytes": 150884,
+  "artifact_hash_location": "EXTERNAL_RELEASE_SIDECAR",
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "previous_version": "2.7.4",
+  "archive_policy": "METADATA_ONLY",
+  "record_status": "FRAMEWORK_RELEASE",
+  "recorded_at": "2026-10-07T01:08:51Z",
+  "source": "FRAMEWORK_SOURCE"
+}
