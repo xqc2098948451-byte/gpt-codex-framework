@@ -1,0 +1,261 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-gate-001",
+  "basis_state_revision": 37,
+  "state": "AUTHORIZED",
+  "goal": "Register the confirmed F001 optional GitHub contract finding, concrete regression basis and explicit remediation adjudication; transition STATE37 to STATE38; stop before source FIX.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-f001-remediation-authority-state38-gate-001.json",
+      ".gpt-codex/work-units/framework-v2.8.0-f001-remediation-authority-state38-continuity-001.json",
+      ".gpt-codex/evidence/instructions/955a1194-3815-4a21-9a9f-fcbc5b472ca9.json",
+      ".gpt-codex/evidence/instructions/2c681bff-66a4-4bbe-9895-3a9b57db3178.json",
+      ".gpt-codex/evidence/instructions/e51775b8-0687-47b7-87d2-81c1623d0f49.json",
+      ".gpt-codex/evidence/instructions/c9ec3710-ef1c-4b8d-8120-db0eb585fba1.json",
+      ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/release/",
+      "VERSION",
+      "plugins/",
+      "docs/",
+      "tests/",
+      "dist/",
+      "releases/",
+      "AGENTS.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE",
+      "COMMIT",
+      "PUSH"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION",
+      "PUBLISH"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+      "sha": "9d01cf76d48600f37a453e4d63f46e43444825da"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+      "sha": "9d01cf76d48600f37a453e4d63f46e43444825da"
+    }
+  },
+  "acceptance": [
+    "Independent PRE PASS before STATE mutation",
+    "Schema-valid formal REVIEW_FINDING, regression basis, accepted adjudication",
+    "Native durable remediation resolver succeeds at STATE38",
+    "Preserve all historical refs and original operational closure evidence",
+    "Independent POST PASS, zero Framework source/plugin/release mutations",
+    "Fresh exact remote verification, synced native Result handoff",
+    "Stop at STATE38; fresh FIX next round only"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Governance state and durable remediation evidence registration"
+  },
+  "authority_source": {
+    "kernel_version": "2.0.0",
+    "schema_version": 1,
+    "evidence_id": "FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY",
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "source": "USER_ASSERTED",
+    "subject": "GOVERNANCE_ONLY_REMEDIATION_AUTHORITY_GATE",
+    "state_revision": 37,
+    "result": "AUTHORIZED",
+    "observed_utc": "2026-10-07T08:27:41.413920+00:00",
+    "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+    "request_sha256": "223e79be4f277a395946ceaf9413182eaa8fc9338973ac52170024919fad581e",
+    "basis_remote_main": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+    "basis_state_revision": 37,
+    "mode": "GOVERNANCE_ONLY_REMEDIATION_AUTHORITY_GATE",
+    "approved_scope": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-f001-remediation-authority-state38-gate-001.json",
+      ".gpt-codex/work-units/framework-v2.8.0-f001-remediation-authority-state38-continuity-001.json",
+      ".gpt-codex/evidence/instructions/955a1194-3815-4a21-9a9f-fcbc5b472ca9.json",
+      ".gpt-codex/evidence/instructions/2c681bff-66a4-4bbe-9895-3a9b57db3178.json",
+      ".gpt-codex/evidence/instructions/e51775b8-0687-47b7-87d2-81c1623d0f49.json",
+      ".gpt-codex/evidence/instructions/c9ec3710-ef1c-4b8d-8120-db0eb585fba1.json",
+      ".gpt-codex/evidence/instructions/a0c6564f-b109-4796-863c-5032eed1edbc.json"
+    ],
+    "excluded_scope": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/release/",
+      "VERSION",
+      "plugins/",
+      "docs/",
+      "tests/",
+      "dist/",
+      "releases/",
+      "AGENTS.md"
+    ],
+    "directory_creations": [],
+    "worktree_root_identity": {
+      "current_layout_authority": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34860e4ba83383afb5ff10c90b57a3d96bdb81c2",
+        "path": "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+        "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0"
+      },
+      "worktree_root": "D:\\通用开发框架管理\\worktrees",
+      "source_root": "D:\\通用开发框架管理",
+      "legacy_d_w_binding": "SUPERSEDED_HISTORICAL_BINDING",
+      "legacy_fileid_mismatch": "NON_AUTHORITATIVE_HISTORICAL_OBSERVATION",
+      "worktree_leaf": "framework-v2.8.0-f001-remediation-authority-state38-gate-001"
+    },
+    "module_route": {
+      "outcome": "MODULE_ROUTE",
+      "primary_module": "framework-core",
+      "responsibility": "Governance state and durable remediation evidence registration"
+    },
+    "finding_semantic_adjudication": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+    "finding_ids": [
+      "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+    ],
+    "semantic_levels": [
+      "core project identity / governed mutation",
+      "derived navigation / continuity: PROJECT_MAP, MODULE_MAP, RESUME, continuity resume"
+    ],
+    "failed_candidate": {
+      "sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+      "accepted": false,
+      "integration_authority": false,
+      "publication_authority": "NO",
+      "status": "REJECTED_FOR_INTEGRATION_PENDING_FIX",
+      "use": "READ_ONLY_REGRESSION_EVIDENCE"
+    },
+    "correct_target_semantics": {
+      "project_identity": [
+        "project_id",
+        "project_context_id",
+        "project/framework authority mode"
+      ],
+      "github_repository_binding": "OPTIONAL_ADDITIONAL_IDENTITY_DIMENSION",
+      "mandatory_when": [
+        "Project adopts GitHub continuity",
+        "operation or Instruction explicitly requires a GitHub repository"
+      ],
+      "local_control_github": "ABSENT",
+      "local_project_map_repository_id": null,
+      "local_resume_repository_id": null,
+      "local_module_map_repository_id": "ABSENT",
+      "valid_local_resource": [
+        "project_id match",
+        "project_context_id match",
+        "authority type valid"
+      ],
+      "bound_project_requirements": [
+        "repository_id match",
+        "repository_full_name match where applicable"
+      ],
+      "repository_mismatch": "GITHUB_REPOSITORY_MISMATCH",
+      "partial_malformed_control_github": "PROJECT_IDENTITY_INVALID",
+      "local_explicit_github_operation": "GITHUB_REPOSITORY_UNBOUND",
+      "fail_open": false,
+      "module_map_repository_scope": "validated CONTROL/project identity + validated parent PROJECT_MAP/context or equivalent existing authority chain",
+      "add_mandatory_module_map_repository_id": false,
+      "second_identity_store": false,
+      "audit_paths": [
+        "validate_navigation_identity",
+        "load_resume_checkpoint",
+        "load_continuity_resume",
+        "all selected_repository_id / CONTROL.github mandatory assumptions"
+      ],
+      "local_only_continuity_path": "SUPPORTED",
+      "github_continuity_path": "STRICT_REPOSITORY_BINDING"
+    },
+    "next_action": {
+      "old": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+      "old_status": "BLOCKED_BY_ACCEPTED_FINDING",
+      "old_complete": false,
+      "accepted_finding_priority": "P0",
+      "exact": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+      "authority": "NEXT_PHASE_FRESH_FIX_WORK_UNIT_MATERIALIZATION_ONLY"
+    },
+    "fresh_fix_requirement": {
+      "basis_state_revision": 38,
+      "expected_state_revision": 38,
+      "remediation_decision_ref": "F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION",
+      "fresh_work_unit": true,
+      "fresh_fix_instruction": true,
+      "fresh_implementer_after_finding": true,
+      "independent_review": true,
+      "state37_work_unit_reuse": false,
+      "old_candidate_continuation": false,
+      "current_gate_source_fix_authorized": false
+    },
+    "principles": [
+      "Project is authoritative",
+      "Framework is advisory",
+      "repository durable authority priority",
+      "fail-closed",
+      "fresh Implementer after Finding",
+      "independent review",
+      "no second authority system"
+    ],
+    "publication_transport_authority": "The explicit directive requires durable STATE38, VERIFIED remote, SYNCED and native handoff. Only fast-forward governance commits on remote main are authorized; no candidate source, tags, Release or assets.",
+    "companion_semantics": "STATE38 metadata attestation and read-only Result handoff only. No FIX Work Unit or FIX Instruction is created.",
+    "stop_boundary": "STATE38 durable PASS then RETURN_TO_GPT; no FIX, STATE39, 2.8.1, Mini Task CLI, C/D recovery, plugin remediation or P41"
+  }
+}
