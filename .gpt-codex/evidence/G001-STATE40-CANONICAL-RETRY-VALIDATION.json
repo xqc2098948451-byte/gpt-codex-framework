@@ -1,0 +1,29 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-STATE40-CANONICAL-RETRY-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "GOVERNANCE_CANDIDATE_ONLY",
+  "state_revision": 40,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T12:30:51.963527+00:00",
+  "baseline": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "source_correction_complete": true,
+  "source_blob": "8a6d7b823834be1cbee27c095610a518b2afbc14",
+  "historical_result_unchanged": true,
+  "native_governed_mutation_entry_errors": [],
+  "PRE": "PASS",
+  "publication": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "old_verified_continuity_preserved": true,
+  "post_sync_validation": "NOT_RUN",
+  "mutation_counts": {
+    "source": 0,
+    "plugin": 0,
+    "release": 0
+  }
+}
