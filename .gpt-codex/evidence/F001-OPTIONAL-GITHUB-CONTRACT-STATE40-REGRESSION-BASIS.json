@@ -1,0 +1,286 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "F001_OPTIONAL_GITHUB_CONTRACT_CURRENT_MAIN_REGRESSION",
+  "state_revision": 41,
+  "result": "FAIL",
+  "observed_utc": "2026-10-07T13:01:12.730737+00:00",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "failing": true,
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "baseline_remote_main": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "observed_state_revision": 40,
+  "source_baseline_state_revision": 40,
+  "authority_applicability_revision": 41,
+  "F001_REPRODUCED_ON_CURRENT_MAIN": "YES",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+  "current_source_reproduction": {
+    "evidence_id": "F001-CURRENT-MAIN-INDEPENDENT-REPRODUCTION",
+    "source": "TOOL_OBSERVED",
+    "result": "FAIL",
+    "regression_evidence_only": true,
+    "source_review_target_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "observed_state_revision": 40,
+    "finding_ids": [
+      "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+    ],
+    "finding_semantic": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+    "historical_finding_classification": "HISTORICAL_FINDING_ONLY",
+    "historical_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+    "historical_artifacts_used_as_current_authority": false,
+    "reviewer_context_independent": true,
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "observed_utc": "2026-10-07T12:56:41.808121+00:00",
+    "run_id": "77f08fe6-472d-402e-878f-f2f34914fafc",
+    "method": "Export repository-native Python, schemas and templates using git show from exact current immutable SHA; import unmodified exported functions with PYTHONDONTWRITEBYTECODE=1; exercise independently constructed schema-valid local and bound project fixtures outside repository.",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "-B",
+      "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-current-reproduction.py"
+    ],
+    "runner_sha256": "44ded9403b492c3f65b545e4842b86bc47edb07a2aa85b6f1b154605187e2f01",
+    "git_checks": {
+      "live_remote_start": "9c1fac9d5942782e452b7664d9eb38b71a37f44c\trefs/heads/main",
+      "live_remote_end": "9c1fac9d5942782e452b7664d9eb38b71a37f44c\trefs/heads/main",
+      "head_start": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+      "head_end": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+      "status_start": "",
+      "status_end": ""
+    },
+    "native_imports": [
+      {
+        "module": "context_binding",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\context_binding.py"
+      },
+      {
+        "module": "project_navigation",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\project_navigation.py"
+      },
+      {
+        "module": "continuity_resume",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\continuity_resume.py"
+      },
+      {
+        "module": "validate_project",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\validate_project.py"
+      }
+    ],
+    "exact_source_export": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc",
+    "external_fixtures": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-fixtures-77f08fe6-472d-402e-878f-f2f34914fafc",
+    "fixture_schema_validation": {
+      "local_control": [],
+      "bound_control": [],
+      "project_map": [],
+      "module_map": [],
+      "resume": []
+    },
+    "module_map_repository_id_addition_schema_errors": [
+      "MODULE_MAP_SCHEMA_INVALID:$.repository_id is not allowed"
+    ],
+    "observations": [
+      {
+        "probe": "management_current_baseline_resume",
+        "outcome": "RETURNED",
+        "value": {
+          "status": "LATEST_SYNCED_REMOTE_STATE",
+          "resume_mode": "COLD_RESUME",
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "verified_baseline_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+          "current_attestation_head": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+          "reconciliation_required": false
+        }
+      },
+      {
+        "probe": "local_only_identity_load",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "local_only_identity_evaluation",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "NONE"
+        }
+      },
+      {
+        "probe": "local_only_continuity_resume",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "GITHUB_REPOSITORY_UNBOUND"
+      },
+      {
+        "probe": "local_only_project_map_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "local_only_module_map_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "local_only_resume_checkpoint_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "checkpoint_loaded": true,
+          "repository_id": null
+        }
+      },
+      {
+        "probe": "local_only_optional_navigation_resume_validator",
+        "outcome": "RETURNED",
+        "value": []
+      },
+      {
+        "probe": "bound_identity_project_map_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_project_map_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_module_map_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_module_map_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_resume_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_resume_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_resume_checkpoint_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_project_map_positive_control",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "bound_resume_positive_control",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "bound_optional_navigation_resume_validator",
+        "outcome": "RETURNED",
+        "value": [
+          "PROJECT_IDENTITY_INVALID",
+          "PROJECT_IDENTITY_INVALID",
+          "PROJECT_IDENTITY_INVALID"
+        ]
+      }
+    ],
+    "conclusion": "Current core identity rejects an otherwise native-schema-valid local project without GitHub; continuity rejects it as unbound. Protected derived resource binding rejects native nullable/no-repository template forms even when project/context IDs match a successfully loaded bound identity. Local navigation/resume wrappers currently bypass protected boundary enforcement after local identity loading fails. These are the same optional GitHub contract and derived binding semantics represented by historical F001, freshly reproduced on current main; candidate-era three-test failures are not asserted as fresh current-main failures.",
+    "limitations": [
+      "Focused native-function reproduction only; no full test suite run.",
+      "No local-only identity was fabricated or manually accepted; bound identity used explicitly to isolate the protected resource layer.",
+      "Management current-baseline resume is context-only; no execution handoff authorization is inferred.",
+      "No repository writes, checkout, commit, push, STATE transition or source remediation occurred."
+    ]
+  },
+  "historical_supporting_evidence": [
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      "blob_sha": "0b5fd7589db95c6c38fceca14f5de082dace19a5",
+      "classification": "HISTORICAL_SUPPORTING_EVIDENCE_ONLY",
+      "current_defect_authority": false
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      "blob_sha": "0654e474accf009a6ff566679f86c9f8a3bfa9b5",
+      "classification": "HISTORICAL_SUPPORTING_EVIDENCE_ONLY",
+      "current_defect_authority": false
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      "blob_sha": "067e4ffa414444d5bc8f70d2da8a1cda8f120640",
+      "classification": "HISTORICAL_SUPPORTING_EVIDENCE_ONLY",
+      "current_defect_authority": false
+    }
+  ],
+  "old_failed_candidate_current_defect_authority": false,
+  "source_semantics": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+  "state_revision_semantics": "STATE40 labels the observed source baseline; state_revision41 is the fresh current remediation authority applicability required by native adjudication validation."
+}

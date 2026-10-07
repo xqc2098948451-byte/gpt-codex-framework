@@ -1,0 +1,30 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "CURRENT_BASELINE_AUTHORITY_CANDIDATE",
+  "state_revision": 41,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T13:07:47.224779+00:00",
+  "baseline": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "F001_REPRODUCED_ON_CURRENT_MAIN": "YES",
+  "CURRENT_BASELINE_REVIEW_FINDING": "PASS",
+  "CURRENT_BASELINE_REVIEW_TARGET": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "CURRENT_BASELINE_REGRESSION_BASIS": "PASS",
+  "STATE41_REMEDIATION_ADJUDICATION": "PASS",
+  "native_governed_mutation_entry_errors": [],
+  "PRE": "PASS",
+  "publication": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "source_plugin_release_mutation_counts": [
+    0,
+    0,
+    0
+  ],
+  "historical_records_preserved": true
+}

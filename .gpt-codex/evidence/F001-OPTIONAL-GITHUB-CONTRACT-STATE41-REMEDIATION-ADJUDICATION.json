@@ -1,0 +1,73 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-OPTIONAL-GITHUB-CONTRACT-STATE41-REMEDIATION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 41,
+  "result": "ACCEPT",
+  "observed_utc": "2026-10-07T13:01:12.772005+00:00",
+  "decision": "ACCEPT",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "basis_refs": [
+    "F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS"
+  ],
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "adjudicated_at_revision": 41,
+  "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "authority_provenance": "USER_SUPPLIED_EXPLICIT_GPT_GOVERNANCE_DIRECTIVE",
+  "source_directive_sha256": "83a9ba95b04758c031d3de31d1b693ad3c795c8e1be281a095ff3423667948af",
+  "authority_directive_ref": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+  "review_subject": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "source_mutation_authorization": "NO",
+  "fresh_future_FIX_INSTRUCTION_required": true,
+  "target_semantics": {
+    "project_identity": [
+      "project_id",
+      "project_context_id",
+      "project/framework authority mode"
+    ],
+    "github_repository_binding": "OPTIONAL_ADDITIONAL_IDENTITY_DIMENSION",
+    "mandatory_when": [
+      "Project adopts GitHub continuity",
+      "operation or Instruction explicitly requires a GitHub repository"
+    ],
+    "local_control_github": "ABSENT",
+    "local_project_map_repository_id": null,
+    "local_resume_repository_id": null,
+    "local_module_map_repository_id": "ABSENT",
+    "valid_local_resource": [
+      "project_id match",
+      "project_context_id match",
+      "authority type valid"
+    ],
+    "bound_project_requirements": [
+      "repository_id match",
+      "repository_full_name match where applicable"
+    ],
+    "repository_mismatch": "GITHUB_REPOSITORY_MISMATCH",
+    "partial_malformed_control_github": "PROJECT_IDENTITY_INVALID",
+    "local_explicit_github_operation": "GITHUB_REPOSITORY_UNBOUND",
+    "fail_open": false,
+    "module_map_repository_scope": "validated CONTROL/project identity + validated parent PROJECT_MAP/context or equivalent existing authority chain",
+    "add_mandatory_module_map_repository_id": false,
+    "second_identity_store": false,
+    "audit_paths": [
+      "validate_navigation_identity",
+      "load_resume_checkpoint",
+      "load_continuity_resume",
+      "all selected_repository_id / CONTROL.github mandatory assumptions"
+    ],
+    "local_only_continuity_path": "SUPPORTED",
+    "github_continuity_path": "STRICT_REPOSITORY_BINDING"
+  },
+  "historical_finding_classification": "HISTORICAL_FINDING_ONLY",
+  "old_failed_candidate_accepted": false
+}

@@ -1,0 +1,897 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-current-baseline-authority-state41-gate-001",
+  "extension": null,
+  "status": "FAIL",
+  "result_id": "d4117c57-5fcc-4b8b-8675-ad6f5bcea1ff",
+  "result_message_type": "REVIEW_FINDING",
+  "response_to_instruction_id": "f49d43e4-a77a-4c7e-bc47-714b10c65754",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "review_target_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "review_phase": "POST_EXECUTION",
+  "state_revision": 40,
+  "artifact_stage": "IMPLEMENTATION",
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "fix_round": 0,
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "remote_head_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "remote_verification": "VERIFIED",
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": null,
+  "publication_authority": null,
+  "git": {
+    "base_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "implementation_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c"
+  },
+  "completion_gate": "GPT_DECISION",
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json"
+  ],
+  "execution": "Independent read-only current-main review and focused native-function reproduction; repository mutations=0.",
+  "changed": [],
+  "verify": {
+    "native_probe_count": 18,
+    "fixtures_native_schema_valid": true,
+    "result_native_schema_valid": true,
+    "source_checkout_clean": true,
+    "live_remote_matches_exact_review_target": true
+  },
+  "findings": [
+    {
+      "finding_id": "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION",
+      "severity": "P1",
+      "title": "Current local identity and derived resources still require mandatory GitHub binding",
+      "finding_semantic": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+      "review_target_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+      "summary": "Current core identity rejects an otherwise native-schema-valid local project without GitHub; continuity rejects it as unbound. Protected derived resource binding rejects native nullable/no-repository template forms even when project/context IDs match a successfully loaded bound identity. Local navigation/resume wrappers currently bypass protected boundary enforcement after local identity loading fails. These are the same optional GitHub contract and derived binding semantics represented by historical F001, freshly reproduced on current main; candidate-era three-test failures are not asserted as fresh current-main failures.",
+      "observed_failures": [
+        {
+          "probe": "local_only_identity_load",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "PROJECT_IDENTITY_INVALID"
+        },
+        {
+          "probe": "local_only_identity_evaluation",
+          "outcome": "RETURNED",
+          "value": {
+            "decision": "DENY",
+            "reason": "PROJECT_IDENTITY_INVALID",
+            "identity_match": false,
+            "freshness_match": false,
+            "current_project_mutation": false,
+            "action_executable": false,
+            "authority": "NONE",
+            "hard_stop": true,
+            "business_execution": false,
+            "packet_status": "NONE"
+          }
+        },
+        {
+          "probe": "local_only_continuity_resume",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "GITHUB_REPOSITORY_UNBOUND"
+        },
+        {
+          "probe": "bound_identity_project_map_resource_boundary",
+          "outcome": "RETURNED",
+          "value": {
+            "decision": "DENY",
+            "reason": "PROJECT_IDENTITY_INVALID",
+            "identity_match": false,
+            "freshness_match": false,
+            "current_project_mutation": false,
+            "action_executable": false,
+            "authority": "NONE",
+            "hard_stop": true,
+            "business_execution": false,
+            "packet_status": "QUARANTINED"
+          }
+        },
+        {
+          "probe": "bound_identity_project_map_navigation_wrapper",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "PROJECT_IDENTITY_INVALID"
+        },
+        {
+          "probe": "bound_identity_module_map_resource_boundary",
+          "outcome": "RETURNED",
+          "value": {
+            "decision": "DENY",
+            "reason": "PROJECT_IDENTITY_INVALID",
+            "identity_match": false,
+            "freshness_match": false,
+            "current_project_mutation": false,
+            "action_executable": false,
+            "authority": "NONE",
+            "hard_stop": true,
+            "business_execution": false,
+            "packet_status": "QUARANTINED"
+          }
+        },
+        {
+          "probe": "bound_identity_module_map_navigation_wrapper",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "PROJECT_IDENTITY_INVALID"
+        },
+        {
+          "probe": "bound_identity_resume_resource_boundary",
+          "outcome": "RETURNED",
+          "value": {
+            "decision": "DENY",
+            "reason": "PROJECT_IDENTITY_INVALID",
+            "identity_match": false,
+            "freshness_match": false,
+            "current_project_mutation": false,
+            "action_executable": false,
+            "authority": "NONE",
+            "hard_stop": true,
+            "business_execution": false,
+            "packet_status": "QUARANTINED"
+          }
+        },
+        {
+          "probe": "bound_identity_resume_navigation_wrapper",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "PROJECT_IDENTITY_INVALID"
+        },
+        {
+          "probe": "bound_identity_resume_checkpoint_wrapper",
+          "outcome": "RAISED",
+          "exception_type": "ValueError",
+          "message": "PROJECT_IDENTITY_INVALID"
+        },
+        {
+          "probe": "bound_optional_navigation_resume_validator",
+          "outcome": "RETURNED",
+          "value": [
+            "PROJECT_IDENTITY_INVALID",
+            "PROJECT_IDENTITY_INVALID",
+            "PROJECT_IDENTITY_INVALID"
+          ]
+        }
+      ],
+      "counterchecks": [
+        {
+          "probe": "local_only_project_map_wrapper",
+          "outcome": "RETURNED",
+          "value": {
+            "returned": null
+          }
+        },
+        {
+          "probe": "local_only_module_map_wrapper",
+          "outcome": "RETURNED",
+          "value": {
+            "returned": null
+          }
+        },
+        {
+          "probe": "local_only_resume_checkpoint_wrapper",
+          "outcome": "RETURNED",
+          "value": {
+            "checkpoint_loaded": true,
+            "repository_id": null
+          }
+        },
+        {
+          "probe": "bound_project_map_positive_control",
+          "outcome": "RETURNED",
+          "value": {
+            "returned": null
+          }
+        },
+        {
+          "probe": "bound_resume_positive_control",
+          "outcome": "RETURNED",
+          "value": {
+            "returned": null
+          }
+        }
+      ],
+      "fixture_schema_errors": {
+        "local_control": [],
+        "bound_control": [],
+        "project_map": [],
+        "module_map": [],
+        "resume": []
+      },
+      "module_map_repository_id_addition_schema_errors": [
+        "MODULE_MAP_SCHEMA_INVALID:$.repository_id is not allowed"
+      ],
+      "source_contract_observations": [
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/schemas/control.schema.json",
+            "blob_sha": "5edc2c52272de5974f0eaf84a3145e6cc56bdfc9"
+          },
+          "observation": "GitHub binding is not in top-level required fields",
+          "confirmed": true,
+          "detail": {
+            "github_required": false
+          }
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/schemas/project-map.schema.json",
+            "blob_sha": "dfd844bdb55e9f7cf30cf504c548081e303e13d2"
+          },
+          "observation": "Native derived schema allows a null repository_id",
+          "confirmed": true,
+          "detail": {
+            "repository_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/schemas/module-map.schema.json",
+            "blob_sha": "18b52048f6d0479584f6920b7d49eaf106f5aea0"
+          },
+          "observation": "Module Map has no repository_id property and prohibits additional properties",
+          "confirmed": true,
+          "detail": {
+            "repository_id_present": false,
+            "additionalProperties": false
+          }
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/schemas/resume.schema.json",
+            "blob_sha": "2a991edd8892330fe32270c97e82487bcfd5d3cd"
+          },
+          "observation": "Native derived schema allows a null repository_id",
+          "confirmed": true,
+          "detail": {
+            "repository_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+            "blob_sha": "54496e26768df436bb267e0485f1d606802e9a29"
+          },
+          "observation": "GitHub continuity is opt-in per project",
+          "confirmed": true,
+          "detail": {
+            "line": 16
+          }
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/context_binding.py",
+            "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+          },
+          "observation": "Core project identity unconditionally requires nonempty GitHub binding",
+          "confirmed": true,
+          "function": "load_project_identity",
+          "line": 81,
+          "end_line": 111
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/context_binding.py",
+            "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+          },
+          "observation": "Protected derived resource binding unconditionally requires nonempty repository_id",
+          "confirmed": true,
+          "function": "_resource_binding",
+          "line": 378,
+          "end_line": 400
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/context_binding.py",
+            "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+          },
+          "observation": "Protected resource boundaries reject missing/nullable repository binding before checking project and context",
+          "confirmed": true,
+          "function": "evaluate_cross_project_resource_boundary",
+          "line": 415,
+          "end_line": 447
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/project_navigation.py",
+            "blob_sha": "1aa185a969a0ab00cdee9bf2d0dcabc6e30ae4b3"
+          },
+          "observation": "Navigation invokes protected boundary for accepted bound identities, but bypasses it when local-only identity loading raises",
+          "confirmed": true,
+          "function": "validate_navigation_identity",
+          "line": 62,
+          "end_line": 89
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/continuity_resume.py",
+            "blob_sha": "4d4101d8c6f35c3168d3e86be033be8747b1527a"
+          },
+          "observation": "Resume checkpoint invokes the protected resource boundary only when project identity successfully loads",
+          "confirmed": true,
+          "function": "load_resume_checkpoint",
+          "line": 1244,
+          "end_line": 1269
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/continuity_resume.py",
+            "blob_sha": "4d4101d8c6f35c3168d3e86be033be8747b1527a"
+          },
+          "observation": "Continuity resume unconditionally requires CONTROL.github",
+          "confirmed": true,
+          "function": "load_continuity_resume",
+          "line": 1309,
+          "end_line": 1479
+        },
+        {
+          "locator": {
+            "repository": "xqc2098948451-byte/gpt-codex-framework",
+            "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+            "path": ".gpt-codex/scripts/validate_project.py",
+            "blob_sha": "8a6d7b823834be1cbee27c095610a518b2afbc14"
+          },
+          "observation": "Optional project/module navigation and resume validation reuses the above consumers",
+          "confirmed": true,
+          "function": "validate_optional_navigation_and_resume",
+          "line": 1657,
+          "end_line": 1713
+        }
+      ],
+      "evidence_refs": [
+        ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS.json"
+      ],
+      "remediation_scope_observation": "A future source remediation must align core identity, protected derived-resource binding, navigation/resume consumers and GitHub optional continuity semantics; this Finding authorizes no implementation or mutation."
+    }
+  ],
+  "deviations": [],
+  "blockers": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "next_gpt_action": "Interpret this freshly reproduced current-baseline Finding and register current remediation authority through the existing decision lifecycle; no source FIX Instruction or implementation is authorized by this Result.",
+  "reviewer_context_independent": true,
+  "implementer_private_context_consumed": false,
+  "historical_finding_classification": "HISTORICAL_FINDING_ONLY",
+  "historical_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+  "historical_artifacts_used_as_current_authority": false,
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "e06aeeb9209991e9d9003212c5d30ad528b897df",
+    "path": ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json",
+    "blob_sha": "fa604618b4a211548fa90f3cb2f95d95d221bd56"
+  },
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/f001-current-baseline-authority-state41-gate-001.json",
+    "sha": "05d032c4e36c3dd306093b165f301d52742b117e"
+  },
+  "source_contract_observations": [
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/schemas/control.schema.json",
+        "blob_sha": "5edc2c52272de5974f0eaf84a3145e6cc56bdfc9"
+      },
+      "observation": "GitHub binding is not in top-level required fields",
+      "confirmed": true,
+      "detail": {
+        "github_required": false
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/schemas/project-map.schema.json",
+        "blob_sha": "dfd844bdb55e9f7cf30cf504c548081e303e13d2"
+      },
+      "observation": "Native derived schema allows a null repository_id",
+      "confirmed": true,
+      "detail": {
+        "repository_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/schemas/module-map.schema.json",
+        "blob_sha": "18b52048f6d0479584f6920b7d49eaf106f5aea0"
+      },
+      "observation": "Module Map has no repository_id property and prohibits additional properties",
+      "confirmed": true,
+      "detail": {
+        "repository_id_present": false,
+        "additionalProperties": false
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/schemas/resume.schema.json",
+        "blob_sha": "2a991edd8892330fe32270c97e82487bcfd5d3cd"
+      },
+      "observation": "Native derived schema allows a null repository_id",
+      "confirmed": true,
+      "detail": {
+        "repository_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        "blob_sha": "54496e26768df436bb267e0485f1d606802e9a29"
+      },
+      "observation": "GitHub continuity is opt-in per project",
+      "confirmed": true,
+      "detail": {
+        "line": 16
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/context_binding.py",
+        "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+      },
+      "observation": "Core project identity unconditionally requires nonempty GitHub binding",
+      "confirmed": true,
+      "function": "load_project_identity",
+      "line": 81,
+      "end_line": 111
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/context_binding.py",
+        "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+      },
+      "observation": "Protected derived resource binding unconditionally requires nonempty repository_id",
+      "confirmed": true,
+      "function": "_resource_binding",
+      "line": 378,
+      "end_line": 400
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/context_binding.py",
+        "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+      },
+      "observation": "Protected resource boundaries reject missing/nullable repository binding before checking project and context",
+      "confirmed": true,
+      "function": "evaluate_cross_project_resource_boundary",
+      "line": 415,
+      "end_line": 447
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/project_navigation.py",
+        "blob_sha": "1aa185a969a0ab00cdee9bf2d0dcabc6e30ae4b3"
+      },
+      "observation": "Navigation invokes protected boundary for accepted bound identities, but bypasses it when local-only identity loading raises",
+      "confirmed": true,
+      "function": "validate_navigation_identity",
+      "line": 62,
+      "end_line": 89
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/continuity_resume.py",
+        "blob_sha": "4d4101d8c6f35c3168d3e86be033be8747b1527a"
+      },
+      "observation": "Resume checkpoint invokes the protected resource boundary only when project identity successfully loads",
+      "confirmed": true,
+      "function": "load_resume_checkpoint",
+      "line": 1244,
+      "end_line": 1269
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/continuity_resume.py",
+        "blob_sha": "4d4101d8c6f35c3168d3e86be033be8747b1527a"
+      },
+      "observation": "Continuity resume unconditionally requires CONTROL.github",
+      "confirmed": true,
+      "function": "load_continuity_resume",
+      "line": 1309,
+      "end_line": 1479
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "blob_sha": "8a6d7b823834be1cbee27c095610a518b2afbc14"
+      },
+      "observation": "Optional project/module navigation and resume validation reuses the above consumers",
+      "confirmed": true,
+      "function": "validate_optional_navigation_and_resume",
+      "line": 1657,
+      "end_line": 1713
+    }
+  ],
+  "independent_reproduction": {
+    "evidence_id": "F001-CURRENT-MAIN-INDEPENDENT-REPRODUCTION",
+    "source": "TOOL_OBSERVED",
+    "result": "FAIL",
+    "regression_evidence_only": true,
+    "source_review_target_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "observed_state_revision": 40,
+    "finding_ids": [
+      "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+    ],
+    "finding_semantic": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+    "historical_finding_classification": "HISTORICAL_FINDING_ONLY",
+    "historical_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+    "historical_artifacts_used_as_current_authority": false,
+    "reviewer_context_independent": true,
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "observed_utc": "2026-10-07T12:56:41.808121+00:00",
+    "run_id": "77f08fe6-472d-402e-878f-f2f34914fafc",
+    "method": "Export repository-native Python, schemas and templates using git show from exact current immutable SHA; import unmodified exported functions with PYTHONDONTWRITEBYTECODE=1; exercise independently constructed schema-valid local and bound project fixtures outside repository.",
+    "command": [
+      "C:\\Python313\\python.exe",
+      "-B",
+      "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-current-reproduction.py"
+    ],
+    "runner_sha256": "44ded9403b492c3f65b545e4842b86bc47edb07a2aa85b6f1b154605187e2f01",
+    "git_checks": {
+      "live_remote_start": "9c1fac9d5942782e452b7664d9eb38b71a37f44c\trefs/heads/main",
+      "live_remote_end": "9c1fac9d5942782e452b7664d9eb38b71a37f44c\trefs/heads/main",
+      "head_start": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+      "head_end": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+      "status_start": "",
+      "status_end": ""
+    },
+    "native_imports": [
+      {
+        "module": "context_binding",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\context_binding.py"
+      },
+      {
+        "module": "project_navigation",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\project_navigation.py"
+      },
+      {
+        "module": "continuity_resume",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\continuity_resume.py"
+      },
+      {
+        "module": "validate_project",
+        "path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc\\.gpt-codex\\scripts\\validate_project.py"
+      }
+    ],
+    "exact_source_export": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-native-source-77f08fe6-472d-402e-878f-f2f34914fafc",
+    "external_fixtures": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-fixtures-77f08fe6-472d-402e-878f-f2f34914fafc",
+    "fixture_schema_validation": {
+      "local_control": [],
+      "bound_control": [],
+      "project_map": [],
+      "module_map": [],
+      "resume": []
+    },
+    "module_map_repository_id_addition_schema_errors": [
+      "MODULE_MAP_SCHEMA_INVALID:$.repository_id is not allowed"
+    ],
+    "observations": [
+      {
+        "probe": "management_current_baseline_resume",
+        "outcome": "RETURNED",
+        "value": {
+          "status": "LATEST_SYNCED_REMOTE_STATE",
+          "resume_mode": "COLD_RESUME",
+          "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+          "verified_baseline_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+          "current_attestation_head": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+          "reconciliation_required": false
+        }
+      },
+      {
+        "probe": "local_only_identity_load",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "local_only_identity_evaluation",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "NONE"
+        }
+      },
+      {
+        "probe": "local_only_continuity_resume",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "GITHUB_REPOSITORY_UNBOUND"
+      },
+      {
+        "probe": "local_only_project_map_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "local_only_module_map_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "local_only_resume_checkpoint_wrapper",
+        "outcome": "RETURNED",
+        "value": {
+          "checkpoint_loaded": true,
+          "repository_id": null
+        }
+      },
+      {
+        "probe": "local_only_optional_navigation_resume_validator",
+        "outcome": "RETURNED",
+        "value": []
+      },
+      {
+        "probe": "bound_identity_project_map_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_project_map_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_module_map_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_module_map_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_resume_resource_boundary",
+        "outcome": "RETURNED",
+        "value": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID",
+          "identity_match": false,
+          "freshness_match": false,
+          "current_project_mutation": false,
+          "action_executable": false,
+          "authority": "NONE",
+          "hard_stop": true,
+          "business_execution": false,
+          "packet_status": "QUARANTINED"
+        }
+      },
+      {
+        "probe": "bound_identity_resume_navigation_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_identity_resume_checkpoint_wrapper",
+        "outcome": "RAISED",
+        "exception_type": "ValueError",
+        "message": "PROJECT_IDENTITY_INVALID"
+      },
+      {
+        "probe": "bound_project_map_positive_control",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "bound_resume_positive_control",
+        "outcome": "RETURNED",
+        "value": {
+          "returned": null
+        }
+      },
+      {
+        "probe": "bound_optional_navigation_resume_validator",
+        "outcome": "RETURNED",
+        "value": [
+          "PROJECT_IDENTITY_INVALID",
+          "PROJECT_IDENTITY_INVALID",
+          "PROJECT_IDENTITY_INVALID"
+        ]
+      }
+    ],
+    "conclusion": "Current core identity rejects an otherwise native-schema-valid local project without GitHub; continuity rejects it as unbound. Protected derived resource binding rejects native nullable/no-repository template forms even when project/context IDs match a successfully loaded bound identity. Local navigation/resume wrappers currently bypass protected boundary enforcement after local identity loading fails. These are the same optional GitHub contract and derived binding semantics represented by historical F001, freshly reproduced on current main; candidate-era three-test failures are not asserted as fresh current-main failures.",
+    "limitations": [
+      "Focused native-function reproduction only; no full test suite run.",
+      "No local-only identity was fabricated or manually accepted; bound identity used explicitly to isolate the protected resource layer.",
+      "Management current-baseline resume is context-only; no execution handoff authorization is inferred.",
+      "No repository writes, checkout, commit, push, STATE transition or source remediation occurred."
+    ]
+  },
+  "external_output": {
+    "result_path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\current-review-finding.json",
+    "expected_durable_result_path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+    "reproduction_path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\current-reproduction.json",
+    "reproduction_sha256": "1ee0cd3a2a5efea4b85d96aa7fcf7e818b2af82473aa438a12e5c3d4bc673cdb",
+    "source_manifest_path": "D:\\通用开发框架管理\\f001-state41-authority-runtime\\independent-source-manifest.json",
+    "source_manifest_sha256": "8e48efe8974a195cb2fd54acb0ec2921929e43e8be5f49645593b282af330e87",
+    "pending_canonical_write": true
+  },
+  "observed_utc": "2026-10-07T13:00:11.939722+00:00",
+  "limitations": [
+    "Focused native-function reproduction only; no full test suite run.",
+    "No local-only identity was fabricated or manually accepted; bound identity used explicitly to isolate the protected resource layer.",
+    "Management current-baseline resume is context-only; no execution handoff authorization is inferred.",
+    "No repository writes, checkout, commit, push, STATE transition or source remediation occurred."
+  ],
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "f49d43e4-a77a-4c7e-bc47-714b10c65754",
+    "work_unit": "f001-current-baseline-authority-state41-gate-001",
+    "reviewed_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "executed_revision": null,
+    "files_read": [
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json",
+      ".gpt-codex/project-template/CONTROL.template.json",
+      ".gpt-codex/project-template/continuity/RESUME.template.json",
+      ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json",
+      ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json",
+      ".gpt-codex/schemas/control.schema.json",
+      ".gpt-codex/schemas/module-map.schema.json",
+      ".gpt-codex/schemas/project-map.schema.json",
+      ".gpt-codex/schemas/result-envelope.schema.json",
+      ".gpt-codex/schemas/resume.schema.json",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/framework_plugin_entry.py",
+      ".gpt-codex/scripts/instruction_envelope.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/publication_contract.py",
+      ".gpt-codex/scripts/role_communication.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/work-units/f001-current-baseline-authority-state41-gate-001.json",
+      "AGENTS.md"
+    ],
+    "files_changed": [],
+    "tests_run": [
+      {
+        "kind": "native-function-reproduction",
+        "probe_count": 18,
+        "source_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+        "runner": "independent-current-reproduction.py",
+        "runner_sha256": "44ded9403b492c3f65b545e4842b86bc47edb07a2aa85b6f1b154605187e2f01"
+      }
+    ],
+    "findings": [
+      "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+    ],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_FINDING"
+  },
+  "native_validation": {
+    "source_revision": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+    "checks": {
+      "result_schema": [],
+      "result_protocol": [],
+      "review_role": [],
+      "result_authority": [],
+      "executor_role": [],
+      "result_message_type": []
+    },
+    "fresh_instruction_resolution_status": "INSTRUCTION_RESOLVED"
+  }
+}
