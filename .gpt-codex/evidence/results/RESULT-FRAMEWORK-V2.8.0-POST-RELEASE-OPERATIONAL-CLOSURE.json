@@ -305,7 +305,8 @@
       "PROJECT",
       "FRAMEWORK",
       "CONSUMER",
-      "NATIVE_PRE_GATE"
+      "NATIVE_PRE_GATE",
+      "INDEPENDENT_POST"
     ],
     "blocker_evidence_refs": [
       ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json"
