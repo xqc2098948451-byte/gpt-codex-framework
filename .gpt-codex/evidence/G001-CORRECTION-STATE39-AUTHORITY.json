@@ -1,0 +1,88 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-CORRECTION-STATE39-AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source": "USER_ASSERTED",
+  "subject": "EXPLICIT_STATE39_EXECUTION_AUTHORITY",
+  "state_revision": 39,
+  "result": "ACCEPT",
+  "observed_utc": "2026-10-07T10:18:00.216838+00:00",
+  "request_sha256": "010cae92a1c8b40d5e8846f2a42ae95a175d31151b33ac2aa4d2c97c9c77abfd",
+  "mode": "MINIMAL_GOVERNANCE_PROTOCOL_CORRECTION",
+  "instruction_type": "EXECUTION_INSTRUCTION",
+  "expected_base_sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+  "scope": [
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_review_lifecycle.py",
+    ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+    ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+    ".gpt-codex/evidence/results/RESULT-G001-CORRECTION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-G001-CORRECTION-POST.json",
+    ".gpt-codex/evidence/G001-CORRECTION-VALIDATION.json",
+    ".gpt-codex/evidence/G001-CORRECTION-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/G001-CORRECTION-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+    ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+    ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+    ".gpt-codex/evidence/instructions/8a35b066-ce0b-4c81-8358-aa23f89d105e.json"
+  ],
+  "STATE_MUTATION_COUNT": 0,
+  "conditional_transport_authority": "User explicitly permits only fast-forward main synchronization after independent PRE, implementation, full suite, all validators, independent POST and exact scope PASS. No force push. Native DENY returns LOCAL_COMPLETE/SYNC_PENDING.",
+  "principles": [
+    "CORRECT_ENOUGH",
+    "SAFE_ENOUGH",
+    "SIMPLE_AS_POSSIBLE",
+    "NO_KNOWN_COMPOUNDING_TECH_DEBT"
+  ],
+  "plan": [
+    {
+      "step": "independent PRE",
+      "state": "pending"
+    },
+    {
+      "step": "RED disposable-git lifecycle and bridge regressions",
+      "state": "pending"
+    },
+    {
+      "step": "minimal bounded bridge helper and two lifecycle call sites",
+      "state": "pending"
+    },
+    {
+      "step": "focused + full suite + project/framework/consumer validation",
+      "state": "pending"
+    },
+    {
+      "step": "independent hostile POST",
+      "state": "pending"
+    },
+    {
+      "step": "native push gate, fast-forward main, remote byte readback, result handoff",
+      "state": "pending"
+    }
+  ],
+  "design_basis": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+  "required_regression_cases": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "extra_review_focus": [
+    "source changes reverted before execution base must still DENY",
+    "merge-parent and rename paths must not bypass allowlist",
+    "missing Git observations fail closed",
+    "no bridge without repository-root authority",
+    "FIX PRE remains exact at execution base"
+  ],
+  "stop_boundary": "G001 correction only; RETURN_TO_GPT; no F001/STATE40/release/plugin/P41 work"
+}

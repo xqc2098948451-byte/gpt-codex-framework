@@ -1,0 +1,87 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-remediation-causal-base-liveness-correction-001",
+  "basis_state_revision": 39,
+  "state": "AUTHORIZED",
+  "goal": "Minimally correct G001 remediation causal-base self-lock with an ancestor-and-management-only bridge; preserve exact PRE and durable remediation authority.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_review_lifecycle.py",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-correction-001.json",
+      ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json",
+      ".gpt-codex/evidence/results/RESULT-G001-CORRECTION-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-G001-CORRECTION-POST.json",
+      ".gpt-codex/evidence/G001-CORRECTION-VALIDATION.json",
+      ".gpt-codex/evidence/G001-CORRECTION-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/G001-CORRECTION-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+      ".gpt-codex/evidence/instructions/c1bf5c77-a907-485d-a5d2-dafd67ceb05a.json",
+      ".gpt-codex/evidence/instructions/9a740983-65df-44c7-9f90-458322654e5f.json",
+      ".gpt-codex/evidence/instructions/8a35b066-ce0b-4c81-8358-aa23f89d105e.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/builtins/",
+      "plugins/",
+      "VERSION",
+      "releases/",
+      "docs/",
+      "AGENTS.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE",
+      "COMMIT",
+      "PUSH"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION",
+      "PUBLISH"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      "sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      "sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644"
+    }
+  },
+  "acceptance": [
+    "Independent PRE exact baseline PASS before source/tests",
+    "Cases 1-12 and real positive/negative Git fixtures PASS",
+    "Exact-match, durable authority, PRE exact, execution-base diff preserved",
+    "Full tests zero failures/errors; project/framework/consumer validators PASS",
+    "Independent hostile POST PASS",
+    "Only exact approved paths changed and STATE39 bytes unchanged",
+    "Native conditional transport check; remote byte readback if synced",
+    "Immediate RETURN_TO_GPT; no F001 work"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-validation",
+    "responsibility": "Existing review lifecycle validator orchestration; git-continuity API reused without mutation"
+  },
+  "authority_source_ref": ".gpt-codex/evidence/G001-CORRECTION-STATE39-AUTHORITY.json"
+}
