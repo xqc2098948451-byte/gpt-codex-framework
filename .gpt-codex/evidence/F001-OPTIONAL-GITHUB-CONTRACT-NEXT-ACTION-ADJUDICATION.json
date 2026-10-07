@@ -1,0 +1,26 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "NEXT_ACTION_ADJUDICATION",
+  "state_revision": 38,
+  "result": "ACCEPT",
+  "observed_utc": "2026-10-07T08:34:42.704568+00:00",
+  "decision": "ACCEPT",
+  "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "OLD_NEXT_ACTION_STATUS": "BLOCKED_BY_ACCEPTED_FINDING",
+  "old_next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+  "old_next_action_complete": false,
+  "accepted_finding_priority": "P0",
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "remediation_decision_ref": "F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION",
+  "exact_next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+  "scope": "Next phase fresh STATE38 FIX Work Unit and fresh FIX Instruction required; no FIX execution in this gate"
+}

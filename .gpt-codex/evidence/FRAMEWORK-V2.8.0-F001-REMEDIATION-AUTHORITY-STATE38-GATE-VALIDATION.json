@@ -1,0 +1,83 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "GOVERNANCE_GATE_VALIDATION",
+  "state_revision": 38,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T08:34:42.705584+00:00",
+  "native_governed_mutation_entry_errors": [],
+  "schema_checks": [
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      "schema": "result-envelope",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/STATE.json",
+      "schema": "state",
+      "status": "PASS"
+    },
+    {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
+      "schema": "evidence",
+      "status": "PASS"
+    }
+  ],
+  "remediation_basis": "RESOLVED_IN_CANDIDATE_AWAITING_HEAD_COMMIT",
+  "source_mutation_count": 0,
+  "plugin_mutation_count": 0,
+  "release_mutation_count": 0,
+  "historical_refs_preserved": true,
+  "original_operational_closure_registered": true,
+  "independent_pre": "PASS",
+  "validators": {
+    "project": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "D:\\通用开发框架管理\\worktrees\\framework-v2.8.0-f001-remediation-authority-state38-gate-001\\.gpt-codex\\scripts\\validate_project.py",
+        "D:\\通用开发框架管理\\worktrees\\framework-v2.8.0-f001-remediation-authority-state38-gate-001"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_sha256": "299c99e485bb894a14baff3207e91237efdf10f25c456aec7f95b7c51f756658",
+      "output": "RESULT: PASS\r\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\r\nSTATE: AUTHORIZED@revision-38\r\nPROJECT_CONTEXT_BINDING: PASS\r\n"
+    },
+    "framework": {
+      "command": [
+        "C:\\Python313\\python.exe",
+        "D:\\通用开发框架管理\\worktrees\\framework-v2.8.0-f001-remediation-authority-state38-gate-001\\.gpt-codex\\scripts\\validate_framework.py",
+        "D:\\通用开发框架管理\\worktrees\\framework-v2.8.0-f001-remediation-authority-state38-gate-001"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_sha256": "e14183582a1b067b918177fd69727484d3e7894cf620f0ad3f8cf30484fdedd7",
+      "output": "RESULT: PASS\r\nBUILTINS: 12\r\nKERNEL_VERSION: 2.0.0\r\nCONTEXT_BINDING: PASS\r\n"
+    }
+  }
+}

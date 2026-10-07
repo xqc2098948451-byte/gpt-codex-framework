@@ -6,7 +6,7 @@
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
     "latest_synced_state_revision": 37,
     "latest_verified_remote_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
-    "sync_status": "SYNCED"
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -186,13 +186,25 @@
     ".gpt-codex/evidence/instructions/635d29c3-a638-4fbd-ae14-1e8879861132.json",
     ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
     ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
-    ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json"
+    ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json",
+    ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json",
+    ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/evidence/instructions/955a1194-3815-4a21-9a9f-fcbc5b472ca9.json",
+    ".gpt-codex/evidence/instructions/2c681bff-66a4-4bbe-9895-3a9b57db3178.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+  "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 37,
+  "revision": 38,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }

@@ -1,0 +1,223 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "F001_OPTIONAL_GITHUB_CONTRACT_REGRESSION",
+  "state_revision": 38,
+  "result": "FAIL",
+  "observed_utc": "2026-10-07T08:34:42.702060+00:00",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "failing": true,
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "finding_semantic": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+  "remote_baseline": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+    "state_revision": 37,
+    "remote_ref": "refs/heads/main",
+    "fresh_observed_utc": "2026-10-07T08:34:42.416872+00:00"
+  },
+  "failed_candidate_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+  "failed_candidate_accepted": false,
+  "failed_candidate_publication_authority": "NO",
+  "source_candidate_status": "REJECTED_FOR_INTEGRATION_PENDING_FIX",
+  "local_candidate_identity": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "repository_id": "1366213495",
+    "head_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+    "parent_sha": "f9fcb2e24ac57c4bc6cbd2fcc85f5153dae55159",
+    "merge_base_with_remote": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+    "candidate_is_ancestor_of_remote": false,
+    "remote_is_ancestor_of_candidate": true,
+    "source_implementation_sha": "3d095c7a209045782fdb2c017d9e040624d6774f",
+    "source_tree_matches_tested_candidate": true,
+    "source_delta": [
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/tests/test_validator_context_binding.py"
+    ],
+    "state37_work_unit_basis": 37,
+    "original_post_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-POST.json",
+      "blob_sha": "5d73d113674dfdf49b6590a0ebd9f27ed1772fb4"
+    },
+    "original_execution_evidence_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION.json",
+      "blob_sha": "c89ef6da72bb827e8126de466f70faa118a1454d"
+    }
+  },
+  "candidate_core_local_only_identity": "PASS",
+  "candidate_local_only_governed_mutation": "PASS",
+  "post_review": "FINDING",
+  "full_suite": {
+    "test_count": 753,
+    "failure_count": 3,
+    "error_count": 0,
+    "skip_count": 2,
+    "exit_code": 1,
+    "command": [
+      "C:\\Python313\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      ".gpt-codex/tests",
+      "-v"
+    ],
+    "exact_failure_identities": [
+      "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_module_map_is_rejected",
+      "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_project_map_is_rejected",
+      "test_navigation_project_validation.NavigationProjectValidationTests.test_module_map_id_must_match_project_map_entry"
+    ],
+    "exact_failure_headers": [
+      "test_foreign_module_map_is_rejected (test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_module_map_is_rejected)",
+      "test_foreign_project_map_is_rejected (test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_project_map_is_rejected)",
+      "test_module_map_id_must_match_project_map_entry (test_navigation_project_validation.NavigationProjectValidationTests.test_module_map_id_must_match_project_map_entry)"
+    ],
+    "log_sha256": "665b5a6bcfc9a7ba1e86713e57b72397281b0e748ba26388c0e9765bafe0fdc1",
+    "failure_tracebacks": "\n======================================================================\nFAIL: test_foreign_module_map_is_rejected (test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_module_map_is_rejected)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\framework-v2.8.0-f001-local-project-identity-remediation-001\\.gpt-codex\\tests\\test_navigation_project_validation.py\", line 1671, in test_foreign_module_map_is_rejected\n    self.assertIn(\"NAVIGATION_PROJECT_ID_MISMATCH\", result.stdout)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'NAVIGATION_PROJECT_ID_MISMATCH' not found in 'FAIL: PROJECT_IDENTITY_INVALID\\nFAIL: PROJECT_IDENTITY_INVALID\\nRESULT: FAIL (2 errors)\\n'\n\n======================================================================\nFAIL: test_foreign_project_map_is_rejected (test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_project_map_is_rejected)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\framework-v2.8.0-f001-local-project-identity-remediation-001\\.gpt-codex\\tests\\test_navigation_project_validation.py\", line 1646, in test_foreign_project_map_is_rejected\n    self.assertIn(\"NAVIGATION_PROJECT_ID_MISMATCH\", result.stdout)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'NAVIGATION_PROJECT_ID_MISMATCH' not found in 'FAIL: PROJECT_IDENTITY_INVALID\\nRESULT: FAIL (1 errors)\\n'\n\n======================================================================\nFAIL: test_module_map_id_must_match_project_map_entry (test_navigation_project_validation.NavigationProjectValidationTests.test_module_map_id_must_match_project_map_entry)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\framework-v2.8.0-f001-local-project-identity-remediation-001\\.gpt-codex\\tests\\test_navigation_project_validation.py\", line 1719, in test_module_map_id_must_match_project_map_entry\n    self.assertIn(\"MODULE_MAP_ID_MISMATCH\", result.stdout)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'MODULE_MAP_ID_MISMATCH' not found in 'FAIL: PROJECT_IDENTITY_INVALID\\nFAIL: PROJECT_IDENTITY_INVALID\\nRESULT: FAIL (2 errors)\\n'\n\n----------------------------------------------------------------------\nRan 753 tests in 420.290s\n\nFAILED (failures=3, skipped=2)\n",
+    "evidence_origin": "HISTORICAL_EXECUTED_CANDIDATE_SUITE_RECORDED_IN_IMMUTABLE_POST_RESULT; NOT_A_FRESH_MAIN_SUITE_RUN"
+  },
+  "source_contract_observations": [
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/schemas/control.schema.json",
+        "blob_sha": "5edc2c52272de5974f0eaf84a3145e6cc56bdfc9"
+      },
+      "observation": "github absent from top-level required",
+      "confirmed": true,
+      "detail": {
+        "top_level_required": [
+          "kernel_version",
+          "schema_version",
+          "project_id",
+          "governance_profile",
+          "framework",
+          "roots",
+          "extensions",
+          "permissions",
+          "complexity"
+        ]
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/BOOTSTRAP_PROMPT.md",
+        "blob_sha": "54496e26768df436bb267e0485f1d606802e9a29"
+      },
+      "observation": "GitHub continuity is opt-in per project",
+      "confirmed": true,
+      "detail": {
+        "line": 16
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/schemas/project-map.schema.json",
+        "blob_sha": "dfd844bdb55e9f7cf30cf504c548081e303e13d2"
+      },
+      "observation": "repository_id required, string or null",
+      "confirmed": true,
+      "detail": {
+        "repository_id_required": true,
+        "repository_id_type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/schemas/resume.schema.json",
+        "blob_sha": "2a991edd8892330fe32270c97e82487bcfd5d3cd"
+      },
+      "observation": "repository_id required, string or null",
+      "confirmed": true,
+      "detail": {
+        "repository_id_required": true,
+        "repository_id_type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/schemas/module-map.schema.json",
+        "blob_sha": "18b52048f6d0479584f6920b7d49eaf106f5aea0"
+      },
+      "observation": "no repository_id identity field",
+      "confirmed": true,
+      "detail": {
+        "repository_id_field_present": false
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/scripts/context_binding.py",
+        "blob_sha": "7d5c3031b98cf145e8970b18d211becfbf1e2505"
+      },
+      "observation": "protected-resource binding requires nonempty repository_id",
+      "confirmed": true,
+      "detail": {
+        "function": "_resource_binding / evaluate_cross_project_resource_boundary",
+        "line": 378,
+        "source_excerpt": "def _resource_binding(resource: Mapping[str, Any], resource_type: str) -> ProjectResourceBinding | None:\n    if resource_type not in _PROTECTED_RESOURCE_TYPES:\n        return None\n    project_id = resource.get(\"project_id\")\n    project_context_id = resource.get(\"project_context_id\")\n    repository_id = resource.get(\"repository_id\")\n    repository_full_name = resource.get(\"repository_full_name\")\n    if (\n        not isinstance(project_id, str) or not project_id.strip()\n        or not is_valid_project_context_id(project_context_id)\n        or not isinstance(repository_id, str) or not repository_id.strip()\n        or (repository_full_name is not None and (\n            not isinstance(repository_full_name, str) or not repository_full_name.strip()\n        ))\n    ):\n        return None\n    return ProjectResourceBinding(\n        project_id=project_id.strip(),\n        project_context_id=project_context_id,\n        repository_id=repository_id.strip(),\n        repository_full_name=repository_full_name.strip() if isinstance(repository_full_name, str) else None,\n        resource_type=resource_type,\n    )\n\n"
+      }
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "path": ".gpt-codex/scripts/continuity_resume.py",
+        "blob_sha": "4d4101d8c6f35c3168d3e86be033be8747b1527a"
+      },
+      "observation": "load_continuity_resume unconditionally requires CONTROL.github",
+      "confirmed": true,
+      "detail": {
+        "function": "load_continuity_resume",
+        "line": 1309,
+        "source_excerpt": "def load_continuity_resume(\n    repo_root: Path,\n    selected_repository_id: str,\n    *,\n    changed_paths: list[str] | None = None,\n    candidate_module_ids: list[str] | None = None,\n    observed_remote_head_sha: str | None = None,\n    work_reachable: bool = True,\n    attestation_is_management_only: bool = True,\n    attestation_references_work: bool = True,\n    generic_tree_matches: bool = True,\n    execution_slot_id: str | None = None,\n    execution_slot_binding: Mapping | None = None,\n    authoritative_facts: Mapping | None = None,\n) -> dict[str, Any]:\n    root = Path(repo_root)\n    gov = root / \".gpt-codex\"\n    try:\n        control = json.loads((gov / \"CONTROL.json\").read_text(encoding=\"utf-8\"))\n        state = json.loads((gov / \"STATE.json\").read_text(encoding=\"utf-8\"))\n    except (OSError, json.JSONDecodeError) as exc:\n        raise ValueError(\"CONTINUITY_MACHINE_STATE_INVALID\") from exc\n    github = control.get(\"github\")\n    if not isinstance(github, dict) or set((\"repository_id\", \"repository_full_name\", \"default_branch\")) - set(github):\n        raise ValueError(\"GITHUB_REPOSITORY_UNBOUND\")\n    if str(github[\"repository_id\"]) != str(selected_repository_id):\n        raise ValueError(\"GITHUB_REPOSITORY_MISMATCH\")\n"
+      }
+    }
+  ],
+  "derived_resource_reproduction": {
+    "method": "Existing templates with matching local project_id/project_context_id; baseline context_binding loaded in memory from immutable git show; candidate consumers called read-only; Resume checkpoint stored only in an external temporary directory.",
+    "baseline_revision": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+    "baseline_navigation": "PASS",
+    "baseline_resume": "PASS",
+    "candidate_project_map_schema_errors": [],
+    "candidate_module_map_schema_errors": [],
+    "candidate_resume_schema_errors": [],
+    "candidate_project_map_identity": "PROJECT_IDENTITY_INVALID",
+    "candidate_module_map_identity": "PROJECT_IDENTITY_INVALID",
+    "candidate_resume_identity": "PROJECT_IDENTITY_INVALID"
+  },
+  "conclusion": "Derived navigation / resume remains coupled to GitHub binding; core and derived levels are one F001 optional GitHub contract defect.",
+  "regression_evidence_only": true,
+  "no_source_acceptance": true
+}

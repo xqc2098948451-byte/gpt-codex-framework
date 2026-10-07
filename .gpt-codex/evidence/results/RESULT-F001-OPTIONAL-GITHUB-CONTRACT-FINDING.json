@@ -1,0 +1,468 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "result_id": "ced6271d-ed14-4a12-bb6a-4765829d54b7",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.8.0-f001-local-project-identity-remediation-001",
+  "extension": null,
+  "status": "FAIL",
+  "review_verdict": "FINDING",
+  "result_message_type": "REVIEW_FINDING",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "f0012800-1000-4000-8000-000000000003",
+  "review_phase": "POST_EXECUTION",
+  "review_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "current_remote_ref": "refs/heads/main",
+  "state_revision": 38,
+  "local_head_sha": "c5f48d6aa4d79b09b81736326276f8d3e4cfa136",
+  "remote_head_sha": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "fix_round": 0,
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "findings": [
+    {
+      "finding_id": "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION",
+      "severity": "IMPORTANT",
+      "priority": 1,
+      "title": "Adapt local derived-resource consumers to optional repository identity",
+      "primary_location": ".gpt-codex/scripts/context_binding.py:103",
+      "consumer_locations": [
+        ".gpt-codex/scripts/context_binding.py:394",
+        ".gpt-codex/scripts/context_binding.py:403",
+        ".gpt-codex/scripts/context_binding.py:431",
+        ".gpt-codex/scripts/project_navigation.py:68",
+        ".gpt-codex/scripts/project_navigation.py:72",
+        ".gpt-codex/scripts/continuity_resume.py:1264",
+        ".gpt-codex/scripts/continuity_resume.py:1268",
+        ".gpt-codex/scripts/validate_project.py:459",
+        ".gpt-codex/scripts/validate_project.py:1674"
+      ],
+      "contract_locations": [
+        ".gpt-codex/schemas/project-map.schema.json:22",
+        ".gpt-codex/schemas/resume.schema.json:25",
+        ".gpt-codex/schemas/module-map.schema.json:7",
+        ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json:6",
+        ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json:1",
+        ".gpt-codex/project-template/continuity/RESUME.template.json:6"
+      ],
+      "trigger": "A valid local CONTROL without github uses a matching schema-valid Project Map, Module Map, or Resume.",
+      "actual": "load_project_identity now succeeds, so consumers enter evaluate_cross_project_resource_boundary. Its _resource_binding still requires a nonempty repository_id and returns PROJECT_IDENTITY_INVALID.",
+      "expected": "Local derived navigation and resume should validate mandatory project/context identity without requiring an absent GitHub binding. Explicit repository claims and repository-bound resources must remain fail-closed.",
+      "impact": "Valid local projects with optional navigation or resume fail project validation. Module Map cannot supply repository_id under its current additionalProperties=false schema.",
+      "independent_reproduction": {
+        "method": "Existing templates with matching local project_id/project_context_id; baseline context_binding loaded in memory from immutable git show; candidate consumers called read-only; Resume checkpoint stored only in an external temporary directory.",
+        "baseline_revision": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+        "baseline_navigation": "PASS",
+        "baseline_resume": "PASS",
+        "candidate_project_map_schema_errors": [],
+        "candidate_module_map_schema_errors": [],
+        "candidate_resume_schema_errors": [],
+        "candidate_project_map_identity": "PROJECT_IDENTITY_INVALID",
+        "candidate_module_map_identity": "PROJECT_IDENTITY_INVALID",
+        "candidate_resume_identity": "PROJECT_IDENTITY_INVALID"
+      },
+      "recommended_bounded_fix": "Adapt the existing resource boundary for unbound local PROJECT_MAP/RESUME resources, validating project and context identity while denying explicit repository claims; retain strict repository requirements for other protected resource types. Add regressions for all three derived schemas and foreign identities."
+    }
+  ],
+  "strengths": [
+    "Absent github is distinguished from present null, partial, and malformed binding.",
+    "Explicit local instruction, review-request, and return repository claims remain fail-closed, including null and empty values.",
+    "Repository handoff rejects unbound identity before artifact processing.",
+    "STATE37, CONTROL, VERSION, plugin, and release paths are unchanged."
+  ],
+  "validation_evidence": {
+    "focused": {
+      "test_count": 265,
+      "failure_count": 0,
+      "error_count": 0,
+      "status": "PASS"
+    },
+    "project_validator": "PASS",
+    "framework_validator": "PASS",
+    "consumer_validator": "PASS",
+    "full_suite": {
+      "status": "FAIL",
+      "exit_code": 1,
+      "test_count": 753,
+      "failure_count": 3,
+      "error_count": 0,
+      "skipped_count": 2,
+      "failed_tests": [
+        "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_module_map_is_rejected",
+        "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_project_map_is_rejected",
+        "test_navigation_project_validation.NavigationProjectValidationTests.test_module_map_id_must_match_project_map_entry"
+      ],
+      "failure_detail": "PROJECT_IDENTITY_INVALID masks the expected navigation/module identity diagnostics.",
+      "evidence": [
+        "D:/通用开发框架管理/f001-remediation-run/full.json",
+        "D:/通用开发框架管理/f001-remediation-run/full.log"
+      ]
+    },
+    "independent_explicit_claim_spot_checks": "20 malformed/null/empty local review-request and return repository claims denied"
+  },
+  "authority_ruling": {
+    "outcome": "RETURN_TO_GPT",
+    "further_source_mutation": "DENY_UNDER_ORIGINAL_CHAIN_AFTER_POST_FINDING",
+    "original_instruction_reuse": "NOT_A_VALID_SUBSTITUTE_FOR_FIX_LIFECYCLE",
+    "references": [
+      "AGENTS.md:99",
+      "AGENTS.md:105",
+      ".gpt-codex/KERNEL.md:171",
+      ".gpt-codex/README.md:168",
+      ".gpt-codex/scripts/validate_project.py:854",
+      ".gpt-codex/scripts/validate_project.py:914"
+    ],
+    "native_observation": {
+      "state_revision": 37,
+      "f001_state_evidence_refs": [],
+      "new_f001_decision_resolution": [
+        "REMEDIATION_BASIS_UNRESOLVED"
+      ]
+    },
+    "reason": "Existing scope permits necessary caller adaptations but does not replace the causal remediation authority required after a POST REVIEW_FINDING. No still-open-instruction exception exists in the accepted contracts."
+  },
+  "blockers": [
+    "Verified local derived-resource regression",
+    "Full Framework suite has 3 failures",
+    "New causal FIX adjudication cannot resolve through unchanged STATE37"
+  ],
+  "declined_to_judge": [
+    {
+      "behavior": "2.8.1 release preparation, publication, plugin synchronization, and complete P0 manual acceptance",
+      "reason": "Explicitly outside this source-remediation review and stop boundary."
+    },
+    {
+      "behavior": "General pre-existing identity and authority defects outside the optional repository identity adaptation",
+      "reason": "No unrelated optimization or governance redesign is authorized."
+    }
+  ],
+  "evidence_refs": [
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/2c681bff-66a4-4bbe-9895-3a9b57db3178.json",
+    "D:/通用开发框架管理/f001-remediation-run/full.json",
+    "D:/通用开发框架管理/f001-remediation-run/full.log"
+  ],
+  "context_separation_evidence": {
+    "distinct_agent": "/root/f001_post_review",
+    "distinct_role": "CODEX_REVIEWER",
+    "implementation_context_reused_as_review_authority": false,
+    "repository_writes": 0,
+    "index_changes": 0,
+    "head_changes": 0,
+    "agent_spawns": 0,
+    "external_temporary_fixture_only": true
+  },
+  "state_sha256": "38a177eec88eae7aab7c3128be50e67cdc9fed2a5700d0017da8164b08672ba2",
+  "changed": [],
+  "execution": "Independent read-only POST source and consumer audit, immutable-baseline comparison, schema alignment checks, explicit-claim spot checks, validation-evidence review, and native remediation-authority audit.",
+  "next_gpt_action": "Register this formal REVIEW_FINDING and its concrete failing regression basis in STATE38. Future remediation needs a fresh STATE38 FIX Work Unit and FIX Instruction; source mutation remains unauthorized in this gate.",
+  "source_candidate_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+  "source_candidate_status": "REJECTED_FOR_INTEGRATION_PENDING_FIX",
+  "finding_semantic_adjudication": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+  "source_mutation_authorization": "NO",
+  "failed_candidate_accepted": "NO",
+  "failed_candidate_integrated": "NO",
+  "failed_candidate_publication_authority": "NO",
+  "ready_for_2_8_1_patch_release": "NO",
+  "normalization_type": "STATE38_DURABLE_REGISTRATION_OF_PREVIOUSLY_INDEPENDENT_POST_FINDING",
+  "normalization_scope": "Preserve the prior independent POST finding and immutable attribution, register the human-adjudicated expanded optional GitHub contract semantics at STATE38; this is not a new implementation review and does not accept the failed source candidate.",
+  "prior_post_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "7d52f3ba30d492b013877f06426cc5df448bc2cb",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-POST.json",
+    "blob_sha": "5d73d113674dfdf49b6590a0ebd9f27ed1772fb4"
+  },
+  "prior_post_instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f9fcb2e24ac57c4bc6cbd2fcc85f5153dae55159",
+    "path": ".gpt-codex/evidence/instructions/f0012800-1000-4000-8000-000000000003.json",
+    "blob_sha": "9370ef4db6f3400cd702ec31319aa42261b11fbe"
+  },
+  "prior_review_provenance": {
+    "result_id": "f0012800-2000-4000-8000-000000000003",
+    "state_revision": 37,
+    "response_to_instruction_id": "f0012800-1000-4000-8000-000000000003",
+    "review_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+    "reviewer": {
+      "distinct_agent": "/root/f001_post_review",
+      "distinct_role": "CODEX_REVIEWER",
+      "implementation_context_reused_as_review_authority": false,
+      "repository_writes": 0,
+      "index_changes": 0,
+      "head_changes": 0,
+      "agent_spawns": 0,
+      "external_temporary_fixture_only": true
+    },
+    "original_evidence_refs": [
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-AUTHORITY.json",
+      ".gpt-codex/evidence/instructions/f0012800-1000-4000-8000-000000000003.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-PRE.json",
+      ".gpt-codex/scripts/context_binding.py",
+      ".gpt-codex/scripts/project_navigation.py",
+      ".gpt-codex/scripts/continuity_resume.py",
+      ".gpt-codex/scripts/validate_project.py",
+      ".gpt-codex/schemas/project-map.schema.json",
+      ".gpt-codex/schemas/module-map.schema.json",
+      ".gpt-codex/schemas/resume.schema.json",
+      "D:/通用开发框架管理/f001-remediation-run/focused.json",
+      "D:/通用开发框架管理/f001-remediation-run/full.json",
+      "D:/通用开发框架管理/f001-remediation-run/full.log"
+    ],
+    "original_post_result": {
+      "kernel_version": "2.0.0",
+      "schema_version": 1,
+      "result_id": "f0012800-2000-4000-8000-000000000003",
+      "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+      "work_unit_id": "framework-v2.8.0-f001-local-project-identity-remediation-001",
+      "extension": null,
+      "status": "FAIL",
+      "review_verdict": "FINDING",
+      "result_message_type": "REVIEW_FINDING",
+      "responder_role": "CODEX_REVIEWER",
+      "return_role": "GPT_ORCHESTRATOR",
+      "response_to_instruction_id": "f0012800-1000-4000-8000-000000000003",
+      "review_phase": "POST_EXECUTION",
+      "review_target_revision": "3d095c7a209045782fdb2c017d9e040624d6774f",
+      "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "source_project_name": "通用开发框架管理",
+      "source_github_repository_id": "1366213495",
+      "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+      "framework_version": "2.8.0",
+      "current_remote_ref": "refs/heads/main",
+      "state_revision": 37,
+      "local_head_sha": "f9fcb2e24ac57c4bc6cbd2fcc85f5153dae55159",
+      "remote_head_sha": null,
+      "remote_verification": "NOT_ATTEMPTED",
+      "publication_authority": null,
+      "sync_status": "SYNC_PENDING",
+      "push_status": "NOT_ATTEMPTED",
+      "completion_gate": "GPT_DECISION",
+      "return_to_gpt_required": true,
+      "fix_round": 0,
+      "finding_ids": [
+        "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+      ],
+      "findings": [
+        {
+          "finding_id": "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION",
+          "severity": "IMPORTANT",
+          "priority": 1,
+          "title": "Adapt local derived-resource consumers to optional repository identity",
+          "primary_location": ".gpt-codex/scripts/context_binding.py:103",
+          "consumer_locations": [
+            ".gpt-codex/scripts/context_binding.py:394",
+            ".gpt-codex/scripts/context_binding.py:403",
+            ".gpt-codex/scripts/context_binding.py:431",
+            ".gpt-codex/scripts/project_navigation.py:68",
+            ".gpt-codex/scripts/project_navigation.py:72",
+            ".gpt-codex/scripts/continuity_resume.py:1264",
+            ".gpt-codex/scripts/continuity_resume.py:1268",
+            ".gpt-codex/scripts/validate_project.py:459",
+            ".gpt-codex/scripts/validate_project.py:1674"
+          ],
+          "contract_locations": [
+            ".gpt-codex/schemas/project-map.schema.json:22",
+            ".gpt-codex/schemas/resume.schema.json:25",
+            ".gpt-codex/schemas/module-map.schema.json:7",
+            ".gpt-codex/project-template/navigation/PROJECT_MAP.template.json:6",
+            ".gpt-codex/project-template/navigation/modules/MODULE_MAP.template.json:1",
+            ".gpt-codex/project-template/continuity/RESUME.template.json:6"
+          ],
+          "trigger": "A valid local CONTROL without github uses a matching schema-valid Project Map, Module Map, or Resume.",
+          "actual": "load_project_identity now succeeds, so consumers enter evaluate_cross_project_resource_boundary. Its _resource_binding still requires a nonempty repository_id and returns PROJECT_IDENTITY_INVALID.",
+          "expected": "Local derived navigation and resume should validate mandatory project/context identity without requiring an absent GitHub binding. Explicit repository claims and repository-bound resources must remain fail-closed.",
+          "impact": "Valid local projects with optional navigation or resume fail project validation. Module Map cannot supply repository_id under its current additionalProperties=false schema.",
+          "independent_reproduction": {
+            "method": "Existing templates with matching local project_id/project_context_id; baseline context_binding loaded in memory from immutable git show; candidate consumers called read-only; Resume checkpoint stored only in an external temporary directory.",
+            "baseline_revision": "fb773bb57c52519d7dcbab6d7d3109d5e6d6a695",
+            "baseline_navigation": "PASS",
+            "baseline_resume": "PASS",
+            "candidate_project_map_schema_errors": [],
+            "candidate_module_map_schema_errors": [],
+            "candidate_resume_schema_errors": [],
+            "candidate_project_map_identity": "PROJECT_IDENTITY_INVALID",
+            "candidate_module_map_identity": "PROJECT_IDENTITY_INVALID",
+            "candidate_resume_identity": "PROJECT_IDENTITY_INVALID"
+          },
+          "recommended_bounded_fix": "Adapt the existing resource boundary for unbound local PROJECT_MAP/RESUME resources, validating project and context identity while denying explicit repository claims; retain strict repository requirements for other protected resource types. Add regressions for all three derived schemas and foreign identities."
+        }
+      ],
+      "strengths": [
+        "Absent github is distinguished from present null, partial, and malformed binding.",
+        "Explicit local instruction, review-request, and return repository claims remain fail-closed, including null and empty values.",
+        "Repository handoff rejects unbound identity before artifact processing.",
+        "STATE37, CONTROL, VERSION, plugin, and release paths are unchanged."
+      ],
+      "validation_evidence": {
+        "focused": {
+          "test_count": 265,
+          "failure_count": 0,
+          "error_count": 0,
+          "status": "PASS"
+        },
+        "project_validator": "PASS",
+        "framework_validator": "PASS",
+        "consumer_validator": "PASS",
+        "full_suite": {
+          "status": "FAIL",
+          "exit_code": 1,
+          "test_count": 753,
+          "failure_count": 3,
+          "error_count": 0,
+          "skipped_count": 2,
+          "failed_tests": [
+            "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_module_map_is_rejected",
+            "test_navigation_project_validation.NavigationProjectValidationTests.test_foreign_project_map_is_rejected",
+            "test_navigation_project_validation.NavigationProjectValidationTests.test_module_map_id_must_match_project_map_entry"
+          ],
+          "failure_detail": "PROJECT_IDENTITY_INVALID masks the expected navigation/module identity diagnostics.",
+          "evidence": [
+            "D:/通用开发框架管理/f001-remediation-run/full.json",
+            "D:/通用开发框架管理/f001-remediation-run/full.log"
+          ]
+        },
+        "independent_explicit_claim_spot_checks": "20 malformed/null/empty local review-request and return repository claims denied"
+      },
+      "authority_ruling": {
+        "outcome": "RETURN_TO_GPT",
+        "further_source_mutation": "DENY_UNDER_ORIGINAL_CHAIN_AFTER_POST_FINDING",
+        "original_instruction_reuse": "NOT_A_VALID_SUBSTITUTE_FOR_FIX_LIFECYCLE",
+        "references": [
+          "AGENTS.md:99",
+          "AGENTS.md:105",
+          ".gpt-codex/KERNEL.md:171",
+          ".gpt-codex/README.md:168",
+          ".gpt-codex/scripts/validate_project.py:854",
+          ".gpt-codex/scripts/validate_project.py:914"
+        ],
+        "native_observation": {
+          "state_revision": 37,
+          "f001_state_evidence_refs": [],
+          "new_f001_decision_resolution": [
+            "REMEDIATION_BASIS_UNRESOLVED"
+          ]
+        },
+        "reason": "Existing scope permits necessary caller adaptations but does not replace the causal remediation authority required after a POST REVIEW_FINDING. No still-open-instruction exception exists in the accepted contracts."
+      },
+      "blockers": [
+        "Verified local derived-resource regression",
+        "Full Framework suite has 3 failures",
+        "New causal FIX adjudication cannot resolve through unchanged STATE37"
+      ],
+      "declined_to_judge": [
+        {
+          "behavior": "2.8.1 release preparation, publication, plugin synchronization, and complete P0 manual acceptance",
+          "reason": "Explicitly outside this source-remediation review and stop boundary."
+        },
+        {
+          "behavior": "General pre-existing identity and authority defects outside the optional repository identity adaptation",
+          "reason": "No unrelated optimization or governance redesign is authorized."
+        }
+      ],
+      "evidence_refs": [
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-AUTHORITY.json",
+        ".gpt-codex/evidence/instructions/f0012800-1000-4000-8000-000000000003.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-LOCAL-PROJECT-IDENTITY-REMEDIATION-PRE.json",
+        ".gpt-codex/scripts/context_binding.py",
+        ".gpt-codex/scripts/project_navigation.py",
+        ".gpt-codex/scripts/continuity_resume.py",
+        ".gpt-codex/scripts/validate_project.py",
+        ".gpt-codex/schemas/project-map.schema.json",
+        ".gpt-codex/schemas/module-map.schema.json",
+        ".gpt-codex/schemas/resume.schema.json",
+        "D:/通用开发框架管理/f001-remediation-run/focused.json",
+        "D:/通用开发框架管理/f001-remediation-run/full.json",
+        "D:/通用开发框架管理/f001-remediation-run/full.log"
+      ],
+      "context_separation_evidence": {
+        "distinct_agent": "/root/f001_post_review",
+        "distinct_role": "CODEX_REVIEWER",
+        "implementation_context_reused_as_review_authority": false,
+        "repository_writes": 0,
+        "index_changes": 0,
+        "head_changes": 0,
+        "agent_spawns": 0,
+        "external_temporary_fixture_only": true
+      },
+      "state_sha256": "38a177eec88eae7aab7c3128be50e67cdc9fed2a5700d0017da8164b08672ba2",
+      "changed": [],
+      "execution": "Independent read-only POST source and consumer audit, immutable-baseline comparison, schema alignment checks, explicit-claim spot checks, validation-evidence review, and native remediation-authority audit.",
+      "next_gpt_action": "Adjudicate this finding and resolve an admissible bounded FIX authority while preserving the prohibited STATE/source/publication boundaries. Do not claim F001 remediation PASS or publish the candidate."
+    }
+  },
+  "registration_context_separation_evidence": {
+    "distinct_agent": "/root/state38_pre_review",
+    "distinct_role": "CODEX_REVIEWER",
+    "repository_writes": 0,
+    "index_changes": 0,
+    "head_changes": 0,
+    "agent_spawns": 0,
+    "source_review_rerun": false
+  },
+  "correct_target_semantics": {
+    "project_identity": [
+      "project_id",
+      "project_context_id",
+      "project/framework authority mode"
+    ],
+    "github_repository_binding": "OPTIONAL_ADDITIONAL_IDENTITY_DIMENSION",
+    "mandatory_when": [
+      "Project adopts GitHub continuity",
+      "operation or Instruction explicitly requires a GitHub repository"
+    ],
+    "local_control_github": "ABSENT",
+    "local_project_map_repository_id": null,
+    "local_resume_repository_id": null,
+    "local_module_map_repository_id": "ABSENT",
+    "valid_local_resource": [
+      "project_id match",
+      "project_context_id match",
+      "authority type valid"
+    ],
+    "bound_project_requirements": [
+      "repository_id match",
+      "repository_full_name match where applicable"
+    ],
+    "repository_mismatch": "GITHUB_REPOSITORY_MISMATCH",
+    "partial_malformed_control_github": "PROJECT_IDENTITY_INVALID",
+    "local_explicit_github_operation": "GITHUB_REPOSITORY_UNBOUND",
+    "fail_open": false,
+    "module_map_repository_scope": "validated CONTROL/project identity + validated parent PROJECT_MAP/context or equivalent existing authority chain",
+    "add_mandatory_module_map_repository_id": false,
+    "second_identity_store": false,
+    "audit_paths": [
+      "validate_navigation_identity",
+      "load_resume_checkpoint",
+      "load_continuity_resume",
+      "all selected_repository_id / CONTROL.github mandatory assumptions"
+    ],
+    "local_only_continuity_path": "SUPPORTED",
+    "github_continuity_path": "STRICT_REPOSITORY_BINDING"
+  },
+  "fresh_fix_requirement": {
+    "basis_state_revision": 38,
+    "expected_state_revision": 38,
+    "remediation_decision_ref": "F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION",
+    "fresh_work_unit": true,
+    "fresh_fix_instruction": true,
+    "fresh_implementer_after_finding": true,
+    "independent_review": true,
+    "state37_work_unit_reuse": false,
+    "old_candidate_continuation": false,
+    "current_gate_source_fix_authorized": false
+  },
+  "adjudication_basis": "Explicit human semantic adjudication in digest-bound authority; levels A and B are one F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE finding."
+}

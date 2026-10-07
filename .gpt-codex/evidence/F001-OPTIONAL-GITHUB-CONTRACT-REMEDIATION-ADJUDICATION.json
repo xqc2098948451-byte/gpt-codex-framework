@@ -1,0 +1,81 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 38,
+  "result": "ACCEPT",
+  "observed_utc": "2026-10-07T08:34:42.704020+00:00",
+  "decision": "ACCEPT",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "basis_refs": [
+    "F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS"
+  ],
+  "finding_ids": [
+    "F001_POST_LOCAL_DERIVED_RESOURCE_BINDING_REGRESSION"
+  ],
+  "adjudicated_at_revision": 38,
+  "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "review_finding_result_ref": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+  "source_mutation_authorization": "NO",
+  "failed_candidate_accepted": "NO",
+  "finding_semantic": "F001_OPTIONAL_GITHUB_CONTRACT_INCOMPLETE",
+  "target_semantics": {
+    "project_identity": [
+      "project_id",
+      "project_context_id",
+      "project/framework authority mode"
+    ],
+    "github_repository_binding": "OPTIONAL_ADDITIONAL_IDENTITY_DIMENSION",
+    "mandatory_when": [
+      "Project adopts GitHub continuity",
+      "operation or Instruction explicitly requires a GitHub repository"
+    ],
+    "local_control_github": "ABSENT",
+    "local_project_map_repository_id": null,
+    "local_resume_repository_id": null,
+    "local_module_map_repository_id": "ABSENT",
+    "valid_local_resource": [
+      "project_id match",
+      "project_context_id match",
+      "authority type valid"
+    ],
+    "bound_project_requirements": [
+      "repository_id match",
+      "repository_full_name match where applicable"
+    ],
+    "repository_mismatch": "GITHUB_REPOSITORY_MISMATCH",
+    "partial_malformed_control_github": "PROJECT_IDENTITY_INVALID",
+    "local_explicit_github_operation": "GITHUB_REPOSITORY_UNBOUND",
+    "fail_open": false,
+    "module_map_repository_scope": "validated CONTROL/project identity + validated parent PROJECT_MAP/context or equivalent existing authority chain",
+    "add_mandatory_module_map_repository_id": false,
+    "second_identity_store": false,
+    "audit_paths": [
+      "validate_navigation_identity",
+      "load_resume_checkpoint",
+      "load_continuity_resume",
+      "all selected_repository_id / CONTROL.github mandatory assumptions"
+    ],
+    "local_only_continuity_path": "SUPPORTED",
+    "github_continuity_path": "STRICT_REPOSITORY_BINDING"
+  },
+  "fresh_fix_requirement": {
+    "basis_state_revision": 38,
+    "expected_state_revision": 38,
+    "remediation_decision_ref": "F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION",
+    "fresh_work_unit": true,
+    "fresh_fix_instruction": true,
+    "fresh_implementer_after_finding": true,
+    "independent_review": true,
+    "state37_work_unit_reuse": false,
+    "old_candidate_continuation": false,
+    "current_gate_source_fix_authorized": false
+  },
+  "authority_directive_ref": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-AUTHORITY.json"
+}
