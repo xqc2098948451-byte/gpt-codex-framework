@@ -1,0 +1,306 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "result_id": "a3f194de-b67c-456e-8d80-fc1557acfd4c",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "g001-state40-canonical-workspace-retry-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "review_phase": "PRE_EXECUTION",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "931043cf-bd4f-4d71-9f65-efbadd063df2",
+  "review_target_revision": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "state_revision": 39,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "8327aab14c81282ef0c5709a6f35eef15c5f9438",
+  "remote_head_sha": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "remote_verification": "VERIFIED",
+  "sync_status": null,
+  "publication_authority": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "finding_ids": [],
+  "finding_details": [],
+  "changed": [],
+  "blockers": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+    ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json",
+    ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+    ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json"
+  ],
+  "authority_refs": {
+    "authority": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "fab9e1fc7cc4acd88ccefd8162d9075ad9d66ea1",
+      "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+      "blob_sha": "d0d45b108ebf13e2ccde855d3d4947a6bb99e43c"
+    },
+    "work_unit": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d8723b764fac95af1e68190612120d05fa726498",
+      "path": ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json",
+      "blob_sha": "ae1553b39145b988260f49e33e13679988e1ed1f"
+    },
+    "mutation_instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "8327aab14c81282ef0c5709a6f35eef15c5f9438",
+      "path": ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+      "blob_sha": "91b44042be9549a50301dbfa6d8c1d276e84fafa"
+    },
+    "review_instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "8327aab14c81282ef0c5709a6f35eef15c5f9438",
+      "path": ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+      "blob_sha": "3f477f99e3d646198802a5bc0044ae6c50da6679"
+    }
+  },
+  "context_separation_evidence": {
+    "reviewer_context": "/root/canonical_workspace_reviewer",
+    "implementer_context": "/root",
+    "independent_reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+    "implementer_private_context_read": false,
+    "implementer_runner_or_preparation_code_read": false,
+    "old_retry_runtime_or_failed_candidate_read": false,
+    "reviewer_checkout_only_authorized_git_change": {
+      "from": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "to": "8327aab14c81282ef0c5709a6f35eef15c5f9438"
+    },
+    "repository_content_edits": 0,
+    "implementation_writes": 0,
+    "agent_spawns": 0
+  },
+  "review_limit": "PRE covers only the exact governance mutation Instruction while authoritative STATE remains39. Prospective STATE40 is review input only. Require actual transition, independent candidate POST, metadata PRE, publication, remote verification, attestation, post-sync resolver and explicit native handoff; stop before F001 and STATE41.",
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "Independent PRE_EXECUTION of exact governance-only STATE39 to prospective STATE40 canonical workspace retry."
+    ],
+    "executed_scope": [
+      "Independent PRE_EXECUTION of exact governance-only STATE39 to prospective STATE40 canonical workspace retry."
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "independent canonical workspace identity stable and embedded exactly",
+      "exact clean authority checkout STATE39 and live repository baseline",
+      "mutation immutable Instruction bytes schema core authority",
+      "review immutable Instruction bytes schema core authority",
+      "exact immutable Work Unit authority and review role correlation",
+      "current STATE native schema",
+      "prospective STATE40 native schema",
+      "gate Work Unit native schema",
+      "continuity Work Unit native schema",
+      "authority evidence native schema",
+      "prospective revision39 to40 exact fields preserve continuity history and stop boundary",
+      "prospective STATE40 publication authority",
+      "native committed candidate scope",
+      "native directory creation contract",
+      "all existing tracked source plugin release historical Result and F001 blobs preserved",
+      "native context resume at authoritative STATE39",
+      "project validator",
+      "framework validator",
+      "Result native schema protocol completion and authority",
+      "native PRE_EXECUTION correlation",
+      "native governed mutation entry",
+      "native durable capability request mutation gate",
+      "preserved authority and binding bytes after audit"
+    ],
+    "validators_completed": [
+      "independent canonical workspace identity stable and embedded exactly",
+      "exact clean authority checkout STATE39 and live repository baseline",
+      "mutation immutable Instruction bytes schema core authority",
+      "review immutable Instruction bytes schema core authority",
+      "exact immutable Work Unit authority and review role correlation",
+      "current STATE native schema",
+      "prospective STATE40 native schema",
+      "gate Work Unit native schema",
+      "continuity Work Unit native schema",
+      "authority evidence native schema",
+      "prospective revision39 to40 exact fields preserve continuity history and stop boundary",
+      "prospective STATE40 publication authority",
+      "native committed candidate scope",
+      "native directory creation contract",
+      "all existing tracked source plugin release historical Result and F001 blobs preserved",
+      "native context resume at authoritative STATE39",
+      "project validator",
+      "framework validator",
+      "Result native schema protocol completion and authority",
+      "native PRE_EXECUTION correlation",
+      "native governed mutation entry",
+      "native durable capability request mutation gate",
+      "preserved authority and binding bytes after audit"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "verify": {
+    "independent canonical workspace identity stable and embedded exactly": {
+      "status": "PASS",
+      "errors": []
+    },
+    "exact clean authority checkout STATE39 and live repository baseline": {
+      "status": "PASS",
+      "errors": []
+    },
+    "mutation immutable Instruction bytes schema core authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "review immutable Instruction bytes schema core authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "exact immutable Work Unit authority and review role correlation": {
+      "status": "PASS",
+      "errors": []
+    },
+    "current STATE native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "prospective STATE40 native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "gate Work Unit native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "continuity Work Unit native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "authority evidence native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "prospective revision39 to40 exact fields preserve continuity history and stop boundary": {
+      "status": "PASS",
+      "errors": []
+    },
+    "prospective STATE40 publication authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native committed candidate scope": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native directory creation contract": {
+      "status": "PASS",
+      "errors": []
+    },
+    "all existing tracked source plugin release historical Result and F001 blobs preserved": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native context resume at authoritative STATE39": {
+      "status": "PASS",
+      "errors": []
+    },
+    "project validator": {
+      "status": "PASS",
+      "errors": []
+    },
+    "framework validator": {
+      "status": "PASS",
+      "errors": []
+    },
+    "Result native schema protocol completion and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native PRE_EXECUTION correlation": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native governed mutation entry": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native durable capability request mutation gate": {
+      "status": "PASS",
+      "errors": []
+    },
+    "preserved authority and binding bytes after audit": {
+      "status": "PASS",
+      "errors": []
+    }
+  },
+  "independent_observations": {
+    "remote": {
+      "main": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "repository": {
+        "default_branch": "main",
+        "full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "id": 1366213495
+      },
+      "observed_utc": "2026-10-07T12:30:03.695173+00:00"
+    },
+    "prospective_candidate": {
+      "path": "D:\\通用开发框架管理\\g001-state40-canonical-retry-runtime\\fresh-state40-candidate.json",
+      "sha256": "ceda60f639e1a69c2e070a58b7c75d07fe4e127cb09360eacd75e384a1ea83e7",
+      "is_execution_authority": false,
+      "revision": 40,
+      "state": "AUTHORIZED",
+      "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+      "appended_evidence_refs": [
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+        ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json",
+        ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+        ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json"
+      ],
+      "preserved_continuity": {
+        "current_remote_ref": "refs/heads/main",
+        "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+        "latest_synced_state_revision": 39,
+        "latest_verified_remote_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "sync_status": "SYNC_PENDING"
+      },
+      "state_value_unchanged": true
+    },
+    "tracked_delta": [
+      ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+      ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+      ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+      ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+      ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json"
+    ],
+    "preserved_existing_tracked_file_count": 865,
+    "continuity_resume": {
+      "status": "LATEST_SYNCED_REMOTE_STATE",
+      "repository_id": "1366213495",
+      "verified_baseline_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+      "current_attestation_head": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "reconciliation_required": false,
+      "resume_mode": "COLD_RESUME",
+      "map_route": "MAP_MISSING"
+    },
+    "validator_cli_evidence": {
+      "project": "RESULT: PASS; PROJECT: PRJ-FRAMEWORK-MANAGEMENT; STATE: AUTHORIZED@revision-39; PROJECT_CONTEXT_BINDING: PASS",
+      "framework": "RESULT: PASS; BUILTINS: 12; KERNEL_VERSION: 2.0.0; CONTEXT_BINDING: PASS",
+      "observed_via": "Direct independent reviewer exec tool call immediately before this script; Python -B -X utf8; no regression suite."
+    },
+    "preserved_bytes_sha256": {
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\STATE.json": "8e406606497a9b28854b3a1bcdd4e970fe694d1e45982ffe5aef47f39929c19f",
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\CONTROL.json": "6e3e0e9a010be1397b20d41e4f6bb4946a75839be1809f803894194c5f176c52",
+      "D:\\通用开发框架管理\\CURRENT-LOCAL-WORKSPACE-VIEW.json": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "D:\\通用开发框架管理\\LOCAL-WORKSPACE-WORKTREE-ROOT-BINDING.json": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4"
+    }
+  },
+  "observed_utc": "2026-10-07T12:30:06.538561+00:00"
+}
