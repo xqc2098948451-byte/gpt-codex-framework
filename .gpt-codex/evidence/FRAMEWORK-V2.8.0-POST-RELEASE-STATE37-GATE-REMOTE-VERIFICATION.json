@@ -1,0 +1,129 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_POST_RELEASE_STATE37_GATE_REMOTE_VERIFICATION",
+  "source": "TOOL_OBSERVED",
+  "observed_utc": "2026-10-07T03:02:35.100408+00:00",
+  "verified_baseline_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+  "remote_main": "d98fa851ecc5555950e56b622309f1f75810120c",
+  "state_revision": 37,
+  "verification": {
+    "exact_remote_main": "PASS",
+    "exact_governance_blobs": "PASS",
+    "state37_readback": "PASS",
+    "source_plugin_release_preservation": "PASS",
+    "release_readback": "PASS",
+    "independent_post": "PASS"
+  },
+  "governance_locators": [
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/STATE.json",
+      "blob_sha": "3cac4e54d9fe6b57724e3e93c3d0569c01288089"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+      "blob_sha": "1cc154890b61791f85bae84e6781cb357be1ca29"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-VALIDATION.json",
+      "blob_sha": "48f0946708edabb67cc538911ab45d9980245064"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      "blob_sha": "86b131176d98e2ae22c27035c23fc9c72a139417"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/153dc4fc-ba8d-492a-a211-9b141e040ec9.json",
+      "blob_sha": "692c41691621c16f40da4fc73bad9c2db4b44e9c"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
+      "blob_sha": "13e313d4717bf71f651b3614df2353bddb55a6c7"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/635d29c3-a638-4fbd-ae14-1e8879861132.json",
+      "blob_sha": "f46831fc621d61bd3b5f48c07e62e97ce171b0e8"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json",
+      "blob_sha": "a4452e2f4af9c2a6bda6bcaec09becd0090be300"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
+      "blob_sha": "c72f8aa7adf1fa8f219bd217f889d5961c8ec216"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-POST.json",
+      "blob_sha": "6411d7836d56445559cfc2807582cfd04ed341d4"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-PRE.json",
+      "blob_sha": "6d0700cd06a85afc4fccd03764d0e9ce52ba8bc4"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-continuity-001.json",
+      "blob_sha": "7795b3f7a52c9fe8cab10560c08e3dd246d6079a"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-gate-001.json",
+      "blob_sha": "40f781867a29740bc442063a7b8f311272c19e8c"
+    }
+  ],
+  "release_readback": {
+    "observed_utc": "2026-10-07T03:02:34.249432+00:00",
+    "remote_main": "d98fa851ecc5555950e56b622309f1f75810120c",
+    "repository_identity": {
+      "id": 1366213495,
+      "full_name": "xqc2098948451-byte/gpt-codex-framework"
+    },
+    "annotated_tag_object_sha": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+    "tag_target_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "release": {
+      "id": 405311428,
+      "tag_name": "v2.8.0",
+      "draft": false,
+      "prerelease": false,
+      "updated_at": "2026-10-07T02:23:31Z"
+    },
+    "asset": {
+      "id": 617318101,
+      "name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "size": 150884,
+      "digest": "sha256:2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "updated_at": "2026-10-07T02:23:31Z"
+    },
+    "FRESH_RELEASE_READBACK": "PASS"
+  },
+  "attestation_semantics": "This record observes an already pushed Work/POST baseline; it does not claim its own containing commit.",
+  "PLUGIN_MUTATION_COUNT": 0,
+  "RELEASE_SOURCE_MUTATION_COUNT": 0,
+  "TAG_MUTATION_COUNT": 0,
+  "GITHUB_RELEASE_MUTATION_COUNT": 0,
+  "ASSET_MUTATION_COUNT": 0,
+  "P41_EXECUTION_COUNT": 0,
+  "REAL_WORLD_TEST_EXECUTION_COUNT": 0
+}

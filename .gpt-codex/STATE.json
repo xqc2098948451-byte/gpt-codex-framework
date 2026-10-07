@@ -3,10 +3,10 @@
   "blockers": [],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
-    "latest_synced_state_revision": 36,
-    "latest_verified_remote_sha": "b76293adb6fc7d7dd2ee573423d2ad549ab0b794",
-    "sync_status": "SYNC_PENDING"
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+    "latest_synced_state_revision": 37,
+    "latest_verified_remote_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+    "sync_status": "SYNCED"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",

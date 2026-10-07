@@ -67,5 +67,17 @@
   "CURRENT_PLUGIN_VERSION": "0.1.0",
   "TARGET_PLUGIN_VERSION": "UNADJUDICATED",
   "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
-  "final_remote_continuity": "PENDING_INDEPENDENT_POST_AND_REMOTE_READBACK"
+  "final_remote_continuity": "VERIFIED",
+  "verified_baseline_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+  "INDEPENDENT_POST": "PASS",
+  "continuity_mutation_entry": {
+    "status": "PASS",
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
+      "blob_sha": "c72f8aa7adf1fa8f219bd217f889d5961c8ec216"
+    },
+    "resolution_status": "ALLOW"
+  }
 }
