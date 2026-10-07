@@ -682,6 +682,19 @@
     "PRE": {
       "result_id": "054ee9dc-5ce3-4a52-bdee-4a83cf0566d1",
       "status": "PASS"
+    },
+    "INDEPENDENT_POST": {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "421e5e55977304898f4b7799e3d856ff24b9871f",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
+        "blob_sha": "e65ed667256ccc5b52a17191525aada7fd55c01d"
+      },
+      "status": "PASS"
+    },
+    "PUBLICATION_PRE": {
+      "result_id": "ea5b886e-ceb1-4c8d-ad04-d9a3f7026ccb",
+      "status": "PASS"
     }
   },
   "FULL_TEST_SUITE_POLICY": "Durable preparation 734-test suite reused; gate runs focused tests only."
