@@ -1,0 +1,69 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_RELEASE_PUBLICATION_STATE36_GATE_AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "basis_state_revision": 35,
+  "basis_remote_main": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+  "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+  "request_sha256": "5ac06dcc94ad43eccbbb90b181f163a17a0278c8a269a051ffe45101e5d06143",
+  "mode": "GOVERNANCE_ONLY_RELEASE_PUBLICATION_AUTHORITY_GATE",
+  "approved_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-AUTHORITY.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-REMOTE-VERIFICATION.json",
+    ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-gate-001.json",
+    ".gpt-codex/work-units/framework-v2.8.0-release-publication-state36-continuity-001.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-PUBLICATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-ATTESTATION-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE-HANDOFF-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
+    ".gpt-codex/evidence/instructions/880e7c42-feb3-4a42-83a1-b9e6fa986d14.json",
+    ".gpt-codex/evidence/instructions/9ed7a817-34f4-41e3-ba95-badc3ba8fc9c.json",
+    ".gpt-codex/evidence/instructions/176720bb-2a58-48f7-92ac-a332c5662835.json",
+    ".gpt-codex/evidence/instructions/81922379-4c25-4055-8d9d-1f2755d5aaf0.json",
+    ".gpt-codex/evidence/instructions/39fa05e9-4f47-49b7-8b02-e5d37eb28112.json",
+    ".gpt-codex/evidence/instructions/a16e877e-6737-4439-b7b7-06800aef0f85.json",
+    ".gpt-codex/evidence/instructions/3c3189e1-6a6c-4258-882f-f661d94fc271.json",
+    ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json"
+  ],
+  "publication_transport_authority": "User sections19-21 explicitly require governance commits/main publication, exact remote readback and synced final Result. COMMIT/PUSH/PUBLISH are not machine authorized_actions.",
+  "state_fields_allowed": [
+    "revision",
+    "next_action",
+    "blockers",
+    "reconciliation",
+    "evidence_refs",
+    "continuity"
+  ],
+  "state_fields_preserved": [
+    "state",
+    "kernel_version",
+    "schema_version",
+    "project_id",
+    "active_work_unit"
+  ],
+  "preparation_authority_locators": [
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "c4357fcacb61f526568dd1b42ce75e60ce622b99"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "ceb3d2e82f07da72f93c1d8ac28b2f90466d3439"
+    }
+  ],
+  "publication_authority_semantic_boundary": "CONFIRMED_PUBLICATION in preparation Result means GOVERNED_REPOSITORY_PREPARATION_PUBLICATION only; this gate establishes release publication authority for next independent Work Unit.",
+  "companion_semantics": "Basis36 companion for metadata-only verified-work attestation/native handoff; does not execute Framework release lifecycle or STATE37.",
+  "stop_boundary": "STATE36 durable PASS then RETURN_TO_GPT",
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "directory_creations": []
+}

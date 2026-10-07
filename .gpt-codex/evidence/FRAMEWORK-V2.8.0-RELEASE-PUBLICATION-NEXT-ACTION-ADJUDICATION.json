@@ -1,0 +1,34 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_RELEASE_PUBLICATION_NEXT_ACTION_ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "basis_state_revision": 35,
+  "basis_remote_main": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+  "previous_token": "FRAMEWORK_2_8_0_RELEASE_PREPARATION_REQUIRED",
+  "preparation_complete": "YES",
+  "semantic_target": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION",
+  "exact_next_action": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_REQUIRED",
+  "token_authority": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "actual_release_publication_started": "NO",
+  "tag_created": "NO",
+  "github_release_created": "NO",
+  "asset_uploaded": "NO",
+  "preparation_authority_locators": [
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "c4357fcacb61f526568dd1b42ce75e60ce622b99"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "0617e35dabbb7d12fab9a48a3fc442ddd25dd502",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+      "blob_sha": "ceb3d2e82f07da72f93c1d8ac28b2f90466d3439"
+    }
+  ],
+  "publication_semantics": "Next independent Work Unit may enter the Framework 2.8.0 release publication lifecycle after this gate. This gate performs governance repository publication only.",
+  "separate_publication_work_unit_required": true,
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "PLUGIN_POST_RELEASE_SYNC": "NOT_STARTED"
+}
