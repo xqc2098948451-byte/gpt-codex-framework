@@ -1,0 +1,35 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_EXTERNAL_RELEASE_PUBLICATION_AUTHORITY",
+  "source": "EXPLICIT_USER_SUPPLIED_GPT_PUBLICATION_DIRECTIVE",
+  "request_sha256": "03f3b8ba2eded1c3671dafc4bf893828e66471a8978653954a2272a5568772c1",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "basis_state_revision": 36,
+  "basis_remote_main": "31c0b89e8e798384f1f443764f5911467807e711",
+  "release_subject_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+  "target_tag": "v2.8.0",
+  "target_release": "v2.8.0",
+  "artifact_name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+  "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+  "artifact_size_bytes": 150884,
+  "preparation_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    "blob_sha": "ceb3d2e82f07da72f93c1d8ac28b2f90466d3439"
+  },
+  "state36_authority_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "31c0b89e8e798384f1f443764f5911467807e711",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-STATE36-GATE.json",
+    "blob_sha": "0b5ee7af25ce1863d47234bb95403443031ec7f1"
+  },
+  "PUBLICATION_TRANSPORT_AUTHORITY": "STATE36_PLUS_GPT_EXPLICIT_PUBLICATION_DIRECTIVE",
+  "machine_action_contract_preserved": true,
+  "release_notes": "## v2.8.0\n\n- Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.\r\r\n- Hardens Work Unit scope and directory-creation declarations, actual Git directory checks, and the independent review/mutation entry contract.\r\r\n- Unifies current release-version validation across source, release archive, and publication preflight while retaining metadata-only historical release records and the consumer projection boundary.\r\r\n- Records the completed repository and local-workspace consolidation and documentation canonicalization; current architecture/decisions/navigation are separated from development history with durable closure evidence.\r\r\n- Records the post-canonicalization repository structure freeze and the STATE35 release-preparation gate; the frozen runtime, schemas, tests, plugin files, and canonical documentation remain unchanged by this release preparation.\r\r\n- The management repository contains the native plugin governance adapter and package (plugin version 0.1.0). They remain outside the consumer bootstrap; P41 Plugin Public Release = DEFERRED_BY_USER. Plugin public release and post-release synchronization are not complete and have not started as part of this Framework release.\r\r\n- KERNEL_VERSION remains 2.0.0; SCHEMA_VERSION remains 1. This release publishes annotated tag v2.8.0 and the verified canonical bootstrap ZIP. Post-publication STATE finalization remains a separate stage.\n\nPlugin public release = NOT PART OF THIS FRAMEWORK RELEASE.\n\nCanonical bootstrap ZIP SHA256: `2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd`\n",
+  "release_notes_sha256": "1366940ab894e06eae82a85051b76c5bf2c856e876fe8ac0576201fd1ddb6764",
+  "stop_boundary": "Durable publication PASS then RETURN_TO_GPT; no STATE37, P41, plugin sync or real-world acceptance",
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "directory_creations": []
+}
