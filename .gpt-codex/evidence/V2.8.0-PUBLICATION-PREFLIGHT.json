@@ -120,5 +120,27 @@
     "triage": true,
     "pull": true
   },
-  "artifact_materialized_from": "31c0b89e8e798384f1f443764f5911467807e711:dist/gpt-codex-framework-v2.8.0-bootstrap.zip"
+  "artifact_materialized_from": "31c0b89e8e798384f1f443764f5911467807e711:dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+  "instruction_binding_correction": {
+    "source": "TOOL_OBSERVED",
+    "original_review_instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "087eb7bb72014e8461cf969c9ec79a6585f1c2df",
+      "path": ".gpt-codex/evidence/instructions/96ce4e3a-3ca3-4afe-9094-7f73c6732aa3.json",
+      "blob_sha": "e86fc2c5e9f17a1d36e56968bfa3bd3c9b188057"
+    },
+    "observed_native_errors": [
+      "PRE_EXECUTION_REVIEW_REQUEST_CORRELATION_REQUIRED",
+      "PRE_EXECUTION_REVIEW_TARGET_MISMATCH"
+    ],
+    "corrected_fields": {
+      "in_response_to_instruction_id": "9a5b2fef-5eb8-44c0-b35b-4e13c74521f9",
+      "review_target_revision": "31c0b89e8e798384f1f443764f5911467807e711"
+    },
+    "authority": "Existing explicit publication directive authorizes materialization of exact Instructions within approved scope; correction adds required identity bindings only",
+    "STATE_MUTATION_COUNT": 0,
+    "RELEASE_SOURCE_MUTATION_COUNT": 0,
+    "PACKAGE_MUTATION_COUNT": 0,
+    "PLUGIN_MUTATION_COUNT": 0
+  }
 }
