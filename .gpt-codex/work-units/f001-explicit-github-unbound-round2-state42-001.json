@@ -17,7 +17,12 @@
       ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
       ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
       ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
-      ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json"
+      ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json",
+      ".gpt-codex/tests/test_validator_context_binding.py",
+      ".gpt-codex/evidence/F001-ROUND2-STATE42-TEST-FIXTURE-SCOPE-AMENDMENT.json",
+      ".gpt-codex/evidence/instructions/1fbb1306-1ce3-46a5-910a-566d0ed72587.json",
+      ".gpt-codex/evidence/instructions/462987d1-c941-4b52-ac6b-c77dab65b56b.json",
+      ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json"
     ],
     "excluded_paths": [
       ".gpt-codex/STATE.json",
@@ -40,7 +45,8 @@
     "No new test file or method preferred; one new regression maximum; historical full suite count remains one",
     "Affected tests, validate_project, validate_framework, validate_consumer_projection and real adoption-path Git smoke PASS",
     "Independent native PRE before source mutation and exact candidate independent POST; STOP on Finding",
-    "STATE AUTHORIZED@42 exact bytes preserved; no push, review-ref movement, release, plugin, VERSION or schema changes"
+    "STATE AUTHORIZED@42 exact bytes preserved; no push, review-ref movement, release, plugin, VERSION or schema changes",
+    "Existing validator malformed fixture changes exactly one line to partial CONTROL.github; original invalid-identity assertion remains unchanged after supplemental independent PRE"
   ],
   "selected_extensions": {},
   "state": "AUTHORIZED",
@@ -64,11 +70,11 @@
   "artifact_refs": {
     "design": {
       "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
-      "sha": "2158151cd9460f5d6713f355efc43768b35fcb2d"
+      "sha": "d28ebdc11ad8717a0ce14ad5bb5a6629359ed5e6"
     },
     "plan": {
       "path": ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
-      "sha": "2158151cd9460f5d6713f355efc43768b35fcb2d"
+      "sha": "d28ebdc11ad8717a0ce14ad5bb5a6629359ed5e6"
     }
   },
   "module_route": {
@@ -78,5 +84,14 @@
       "framework-validation"
     ],
     "reason": "Bounded correction to validation orchestration adoption caller; existing identity-context contract is consumed without modifying its implementation."
+  },
+  "required_existing_fixture_correction": {
+    "test_method": "test_adoption_requires_local_authority_not_source_or_observation",
+    "old_line": "        malformed = {key: value for key, value in control.items() if key != \"github\"}",
+    "new_line": "        malformed = {**control, \"github\": {\"repository_id\": \"123\"}}",
+    "preserved_expected_result": [
+      "PROJECT_IDENTITY_INVALID"
+    ],
+    "other_assertions_preserved": true
   }
 }
