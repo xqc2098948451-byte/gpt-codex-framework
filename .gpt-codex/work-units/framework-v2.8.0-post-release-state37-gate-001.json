@@ -71,11 +71,11 @@
   "artifact_refs": {
     "design": {
       "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
-      "sha": "1cc154890b61791f85bae84e6781cb357be1ca29"
+      "sha": "6a79e9ed8de44ac6c6cd5c2c15aa3d36d1933917"
     },
     "plan": {
       "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
-      "sha": "1cc154890b61791f85bae84e6781cb357be1ca29"
+      "sha": "6a79e9ed8de44ac6c6cd5c2c15aa3d36d1933917"
     }
   },
   "acceptance": [
