@@ -1,0 +1,211 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-REMOTE-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "STATE41_CURRENT_BASELINE_AUTHORITY_REMOTE_BYTES",
+  "state_revision": 41,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T13:15:53.680164+00:00",
+  "work_sha": "4666305c6277222e2ed3b7e29b9bd54ca8c8e0ad",
+  "review_subject": "9c1fac9d5942782e452b7664d9eb38b71a37f44c",
+  "remote_readback": {
+    "observed_utc": "2026-10-07T13:15:53.674728+00:00",
+    "observed_remote_sha": "4666305c6277222e2ed3b7e29b9bd54ca8c8e0ad",
+    "fetch_head": "4666305c6277222e2ed3b7e29b9bd54ca8c8e0ad",
+    "remote_tree_byte_identity": "PASS",
+    "remote_blob_readbacks": [
+      {
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "1ae60fefd18616aaeb991c67e3a5d380d9756c65",
+        "sha256": "3d4915262fd5fc7aafd65532e308a0dbf17cb8b0a40daccd7870f71b861e0045",
+        "byte_count": 21475,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+        "blob_sha": "2597b5c4fe53b5fb9aa69b123f6f769afd8f0e71",
+        "sha256": "5ac6ece60a0bc54563cf9649a89cc4ee0501a7b7a451e8e04e77baba962657d6",
+        "byte_count": 23992,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-VALIDATION.json",
+        "blob_sha": "4ee17c4d1966c51670b796589631eebb742f4497",
+        "sha256": "80b5bf5f12941f02ebc35342fae6bbab6a718c7208eaf951c483378ca0254c50",
+        "byte_count": 1081,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS.json",
+        "blob_sha": "0719871525a7e66c4751ad157ad88d429e5dac61",
+        "sha256": "8c0866a78b9aa33a38d5fefa5e6a2b4035adc7d4c6fecd0cda16f6f66b915dbe",
+        "byte_count": 11812,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE41-REMEDIATION-ADJUDICATION.json",
+        "blob_sha": "dbd28c50c19569fcb5da134d7ab0a64f2d686f6b",
+        "sha256": "59d3bdb9d26c8ebfd155e384cdaa00f616de37fd498f539d942d2bdce963cada",
+        "byte_count": 3094,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/11abafb4-2ddd-4faa-a2c7-30e17a709ab6.json",
+        "blob_sha": "918f31055a24a99e6699ddf2b9c45b79df7a68de",
+        "sha256": "e2998aac3575e2c9c5a95bbd9be052473a06a98349907b29d2ef8c6d03e217a0",
+        "byte_count": 3004,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/3d750be1-401e-4c4f-9ca7-a181402b9a67.json",
+        "blob_sha": "95161833067d6b0042600439737ff0c68809b91d",
+        "sha256": "ca9ef80b8508a60c1fb531b2792bf8dc69cacfee7d2a933f4fffab1480362f63",
+        "byte_count": 2992,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/608f1c66-689c-4b73-ad1a-6e9094bdf635.json",
+        "blob_sha": "9361610730b094119d7f405a594b96054c7de8be",
+        "sha256": "03a880ecc08ce25b7a2ea9e8e8c0be99376b18039ed156b632be5bbdbdcf9576",
+        "byte_count": 2899,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/9bbc19d0-d3be-4125-bf1d-cc740276beab.json",
+        "blob_sha": "89cbb17da1d366e60f2aad2d71942de816bdc0c4",
+        "sha256": "6e113272396282e387d683deef6974c685475b1d6a3a0634c6bf25d969a0ffe8",
+        "byte_count": 3004,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/a1f12b34-ceb3-41f6-b21a-5b8972b5d12a.json",
+        "blob_sha": "074cb5bf10fb8ba5d608ecdb99d44d03f505c37c",
+        "sha256": "9a8e201d621d9ab5261390a9952e9b0e376545fa5c48f7f49fa5c0d37371ed33",
+        "byte_count": 2868,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/b56a89a7-84f8-45e5-bdd7-7d8c1ac69222.json",
+        "blob_sha": "085a26cbe7b4f19c4b109771e921eda6f9f228a5",
+        "sha256": "18b8ea4a330a3850fd70442033133dde8a01102f1849d72ea9a61f28b76536e2",
+        "byte_count": 2887,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json",
+        "blob_sha": "fa604618b4a211548fa90f3cb2f95d95d221bd56",
+        "sha256": "b8be654fd45bfabbca5e3defaa1c87773f2502f04351d2837ada3676a527d0d9",
+        "byte_count": 2992,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-METADATA-PRE.json",
+        "blob_sha": "3eb3810371716dc53724627cedf7211c2d65baf7",
+        "sha256": "949d0a1d43cc71de6b5a90e93c07f6a931b06afaa93b0adf41f195a8d417d989",
+        "byte_count": 46726,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-POST.json",
+        "blob_sha": "f7ac85d9a561b42aed02d9c29464429441d12aa6",
+        "sha256": "2670a2d6ba4d4ccffba2940eaad8118bf5cb4fa3d2f8577cec1d39f66c3415b9",
+        "byte_count": 46727,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-PRE.json",
+        "blob_sha": "2980b9ae851d9ae19bcf49b373c3a4560d068d81",
+        "sha256": "bbd3594cdbd60b29bd990436601c24cbc2c88c7b3adf687c73e4f063fb5cfad6",
+        "byte_count": 34143,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+        "blob_sha": "690774b5bc3d950835d7c66db8911f9a471e1a9f",
+        "sha256": "8a236ca1d5b0a63b3ce681c2ff10eb4bcb30228567ba6fbc148e02b671297c20",
+        "byte_count": 36640,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/work-units/f001-current-baseline-authority-state41-continuity-001.json",
+        "blob_sha": "cf826b494aa360b946132ab3c3c749005a050f01",
+        "sha256": "2a661b7a97c2d14f9c84300cd88feacf125017022dded051e881299c99d345aa",
+        "byte_count": 5114,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/work-units/f001-current-baseline-authority-state41-gate-001.json",
+        "blob_sha": "41a06124a4091a1c4bdb92561c430dc4aee127be",
+        "sha256": "1f8828179442c9646a368ca8cf5890d30a5906921d78afe1df61134397ff3234",
+        "byte_count": 5108,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "blob_sha": "8a6d7b823834be1cbee27c095610a518b2afbc14",
+        "sha256": "4d3a63ee903d54557a657a7f33be5638b05888f3e5391eb6c7f6fb3c47bd4eb0",
+        "byte_count": 100558,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/tests/test_review_lifecycle.py",
+        "blob_sha": "bc695ee1a477cd33d5dd87c7ee1cf1ef99f46a77",
+        "sha256": "a4c08a12b7fe8400810409e86b8dbf43f830be0da97c02806b70b0e6a8d01a91",
+        "byte_count": 45877,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+        "blob_sha": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1",
+        "sha256": "6999bb579c57a78a46a5def7827d53d16bced477e18ef4cc83158d29b519b46f",
+        "byte_count": 8681,
+        "remote_bytes": "VERIFIED"
+      }
+    ],
+    "state_revision": 41,
+    "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "sync_status": "SYNC_PENDING",
+    "native_remote_verification": {
+      "status": "VERIFIED",
+      "reason": "REMOTE_PUBLICATION_VERIFIED",
+      "evidence_type": "TOOL_OBSERVED",
+      "remote_ref": "refs/heads/main",
+      "remote_head_sha": "4666305c6277222e2ed3b7e29b9bd54ca8c8e0ad"
+    },
+    "scope": {
+      "changed": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+        ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-VALIDATION.json",
+        ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS.json",
+        ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE41-REMEDIATION-ADJUDICATION.json",
+        ".gpt-codex/evidence/instructions/11abafb4-2ddd-4faa-a2c7-30e17a709ab6.json",
+        ".gpt-codex/evidence/instructions/3d750be1-401e-4c4f-9ca7-a181402b9a67.json",
+        ".gpt-codex/evidence/instructions/608f1c66-689c-4b73-ad1a-6e9094bdf635.json",
+        ".gpt-codex/evidence/instructions/9bbc19d0-d3be-4125-bf1d-cc740276beab.json",
+        ".gpt-codex/evidence/instructions/a1f12b34-ceb3-41f6-b21a-5b8972b5d12a.json",
+        ".gpt-codex/evidence/instructions/b56a89a7-84f8-45e5-bdd7-7d8c1ac69222.json",
+        ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json",
+        ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-METADATA-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-POST.json",
+        ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+        ".gpt-codex/work-units/f001-current-baseline-authority-state41-continuity-001.json",
+        ".gpt-codex/work-units/f001-current-baseline-authority-state41-gate-001.json"
+      ],
+      "protected_blob_count": 881,
+      "new_directory_prefixes": [],
+      "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+      "PLUGIN_MUTATION_COUNT": 0,
+      "RELEASE_MUTATION_COUNT": 0,
+      "historical_result_blob": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1"
+    }
+  },
+  "sync_status": "SYNC_PENDING",
+  "candidate_not_yet_sync_attested": true
+}
