@@ -1,0 +1,29 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "NATIVE_BOUNDED_W_P_SYNC_ATTESTATION",
+  "state_revision": 42,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T15:26:48.567161+00:00",
+  "native_function": "git_continuity.evaluate_attestation_chain",
+  "native_chain": {
+    "status": "PASS",
+    "sync_status": "SYNCED",
+    "remote_verification": "VERIFIED",
+    "publication_authority": "CONFIRMED_PUBLICATION",
+    "verified_baseline_sha": "17b2985cf9d9f2b24bff46fcf375799c4f5a18fc",
+    "publication_sha": "c516ffc0149eb8a82dbc0e6b4c5d7807500c09a5"
+  },
+  "verified_work_sha": "17b2985cf9d9f2b24bff46fcf375799c4f5a18fc",
+  "state42_candidate": "9b96d6f822075306127a0da9550ccd1eea1d2c64",
+  "remote_verification_ref": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
+  "latest_synced_state_revision": 42,
+  "sync_status": "SYNCED",
+  "self_reference": false
+}
