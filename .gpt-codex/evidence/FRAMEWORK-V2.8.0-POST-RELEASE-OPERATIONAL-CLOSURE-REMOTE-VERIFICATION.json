@@ -1,0 +1,10 @@
+{
+  "record_kind": "OPERATIONAL_CLOSURE_REMOTE_VERIFICATION",
+  "source": "EXECUTION_OBSERVED",
+  "status": "NOT_ATTEMPTED",
+  "baseline_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+  "state_revision": 37,
+  "self_containing_commit_claim": false,
+  "remote_readbacks": [],
+  "native_handoff_observation": null
+}

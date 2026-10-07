@@ -1,0 +1,408 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.8.0-post-release-operational-closure-001",
+  "extension": null,
+  "status": "BLOCKED",
+  "result_id": "a7fd7656-e962-492a-af22-43ef66ee295c",
+  "result_message_type": "IMPLEMENTATION_RESULT",
+  "response_to_instruction_id": "285f678b-548c-4424-a1ff-55bf4aae637d",
+  "responder_role": "CODEX_IMPLEMENTER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "state_revision": 37,
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+    "sha": "6637aa4b302d249cea039af208daa2214f05311e"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+    "path": ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+    "blob_sha": "ac50a17f6e685b32a773c617597d1bab8f3c961f"
+  },
+  "native_handoff_bindings": {
+    "target_work_unit_id": "framework-v2.8.0-post-release-operational-closure-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+      "sha": "6637aa4b302d249cea039af208daa2214f05311e"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+      "path": ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+      "blob_sha": "ac50a17f6e685b32a773c617597d1bab8f3c961f"
+    },
+    "expected_state_revision": 37
+  },
+  "remote_verification": "NOT_ATTEMPTED",
+  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+  "sync_status": "SYNC_PENDING",
+  "push_status": "NOT_ATTEMPTED",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+  "remote_head_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+  "git": {
+    "base_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+    "implementation_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a"
+  },
+  "evidence_refs": [
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+  ],
+  "completion_gate": "GPT_DECISION",
+  "findings": [
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-001",
+      "code": "EXTERNAL_PLUGIN_RUNTIME_OBSERVATION_UNAVAILABLE",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT",
+        "CODEX_RUNTIME_BINDING_AND_RESTART_OBSERVATION"
+      ],
+      "reproduction": [
+        "Inventory enabled browser/native surfaces",
+        "Open https://chatgpt.com/ in IAB",
+        "Observe access challenge; no authenticated GPT plugin session",
+        "Inspect loaded skill catalog, Codex enabled plugin config and caches; no isolated effective binding or hot/restarted runtime observation API"
+      ],
+      "expected_behavior": "Observe real GPT and Codex plugin resume, route and handoff under canonical release identity, then compare hot/restarted behavior.",
+      "actual_behavior": "GPT browser remains at access challenge. Codex metadata/skill availability is observable, but symmetric external effective-binding and restart smoke is not. No real cross-runtime smoke executed.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "EXTERNAL_RUNTIME_ACCESS_AND_OBSERVABILITY",
+      "minimal_reproduction_facts": {
+        "gpt_browser_title": "请稍候…",
+        "native_apps_enabled": false,
+        "runtime_smoke_tool_names": []
+      },
+      "automatic_remediation_authorized": false
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-002",
+      "code": "PLUGIN_PACKAGE_BYTES_NOT_CANONICAL",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT_PRIVATE_PACKAGE",
+        "CODEX_INSTALLED_CACHE"
+      ],
+      "reproduction": [
+        "Read canonical release-subject plugin.json",
+        "Read current private GPT package plugin.json and Codex cache plugin.json",
+        "Compare byte length and SHA256"
+      ],
+      "expected_behavior": "Current private/existing packages match canonical release-subject package bytes with version0.1.0.",
+      "actual_behavior": "Canonical manifest831 bytes differs from observed240-byte manifest. Skill bytes match. GPT has generated664-byte .codex-plugin/plugin.json absent in canonical package.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "PRIVATE_PACKAGE_INSTALL_AND_BINDING",
+      "minimal_reproduction_facts": {
+        "canonical_manifest": {
+          "bytes": 831,
+          "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa",
+          "subject_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "main_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "byte_equivalent": true
+        },
+        "observed_manifest": {
+          "bytes": 240,
+          "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+        }
+      },
+      "sync_attempted": false,
+      "stop_reason": "Stop at external runtime FINDING; do not mutate install/cache without verifiable runtime outcome."
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-003",
+      "code": "GOVERNANCE_ARTIFACT_MODULE_ROUTE_UNRESOLVED",
+      "source": "EXECUTION_OBSERVED",
+      "affected_runtime": [
+        "REPOSITORY_NATIVE_SUPPORTING_HELPER_ONLY"
+      ],
+      "reproduction": [
+        "Invoke route_responsibility with framework-core, framework governance, and the five exact governance record paths"
+      ],
+      "expected_behavior": "Resolve a bounded module route for the requested records or fail closed.",
+      "actual_behavior": "MODULE_ROUTE_UNRESOLVED: planned asset has no primary owner. Registry descriptors have no owned selectors for these management evidence/Work Unit paths. Fail-closed behavior was observed; the authorized record-only Finding report remains distinct from a successful operational route.",
+      "route_trace": {
+        "outcome": "MODULE_ROUTE_UNRESOLVED",
+        "primary_module": null,
+        "responsibility_requested": "framework governance",
+        "error": "planned asset has no primary owner",
+        "details": {},
+        "planned_assets": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "execution_semantics": "FAIL_CLOSED; reporting Finding only, no framework/module/source remediation."
+      },
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "REGISTRY_COVERAGE_OF_MANAGEMENT_GOVERNANCE_RECORDS",
+      "minimal_reproduction_facts": {
+        "paths": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ]
+      },
+      "automatic_remediation_authorized": false
+    }
+  ],
+  "blockers": [
+    "EXTERNAL_PLUGIN_RUNTIME_OBSERVATION_UNAVAILABLE",
+    "PLUGIN_PACKAGE_BYTES_NOT_CANONICAL",
+    "GOVERNANCE_ARTIFACT_MODULE_ROUTE_UNRESOLVED"
+  ],
+  "FINDINGS": [
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-001",
+      "code": "EXTERNAL_PLUGIN_RUNTIME_OBSERVATION_UNAVAILABLE",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT",
+        "CODEX_RUNTIME_BINDING_AND_RESTART_OBSERVATION"
+      ],
+      "reproduction": [
+        "Inventory enabled browser/native surfaces",
+        "Open https://chatgpt.com/ in IAB",
+        "Observe access challenge; no authenticated GPT plugin session",
+        "Inspect loaded skill catalog, Codex enabled plugin config and caches; no isolated effective binding or hot/restarted runtime observation API"
+      ],
+      "expected_behavior": "Observe real GPT and Codex plugin resume, route and handoff under canonical release identity, then compare hot/restarted behavior.",
+      "actual_behavior": "GPT browser remains at access challenge. Codex metadata/skill availability is observable, but symmetric external effective-binding and restart smoke is not. No real cross-runtime smoke executed.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "EXTERNAL_RUNTIME_ACCESS_AND_OBSERVABILITY",
+      "minimal_reproduction_facts": {
+        "gpt_browser_title": "请稍候…",
+        "native_apps_enabled": false,
+        "runtime_smoke_tool_names": []
+      },
+      "automatic_remediation_authorized": false
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-002",
+      "code": "PLUGIN_PACKAGE_BYTES_NOT_CANONICAL",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT_PRIVATE_PACKAGE",
+        "CODEX_INSTALLED_CACHE"
+      ],
+      "reproduction": [
+        "Read canonical release-subject plugin.json",
+        "Read current private GPT package plugin.json and Codex cache plugin.json",
+        "Compare byte length and SHA256"
+      ],
+      "expected_behavior": "Current private/existing packages match canonical release-subject package bytes with version0.1.0.",
+      "actual_behavior": "Canonical manifest831 bytes differs from observed240-byte manifest. Skill bytes match. GPT has generated664-byte .codex-plugin/plugin.json absent in canonical package.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "PRIVATE_PACKAGE_INSTALL_AND_BINDING",
+      "minimal_reproduction_facts": {
+        "canonical_manifest": {
+          "bytes": 831,
+          "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa",
+          "subject_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "main_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "byte_equivalent": true
+        },
+        "observed_manifest": {
+          "bytes": 240,
+          "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+        }
+      },
+      "sync_attempted": false,
+      "stop_reason": "Stop at external runtime FINDING; do not mutate install/cache without verifiable runtime outcome."
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-003",
+      "code": "GOVERNANCE_ARTIFACT_MODULE_ROUTE_UNRESOLVED",
+      "source": "EXECUTION_OBSERVED",
+      "affected_runtime": [
+        "REPOSITORY_NATIVE_SUPPORTING_HELPER_ONLY"
+      ],
+      "reproduction": [
+        "Invoke route_responsibility with framework-core, framework governance, and the five exact governance record paths"
+      ],
+      "expected_behavior": "Resolve a bounded module route for the requested records or fail closed.",
+      "actual_behavior": "MODULE_ROUTE_UNRESOLVED: planned asset has no primary owner. Registry descriptors have no owned selectors for these management evidence/Work Unit paths. Fail-closed behavior was observed; the authorized record-only Finding report remains distinct from a successful operational route.",
+      "route_trace": {
+        "outcome": "MODULE_ROUTE_UNRESOLVED",
+        "primary_module": null,
+        "responsibility_requested": "framework governance",
+        "error": "planned asset has no primary owner",
+        "details": {},
+        "planned_assets": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "execution_semantics": "FAIL_CLOSED; reporting Finding only, no framework/module/source remediation."
+      },
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "REGISTRY_COVERAGE_OF_MANAGEMENT_GOVERNANCE_RECORDS",
+      "minimal_reproduction_facts": {
+        "paths": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ]
+      },
+      "automatic_remediation_authorized": false
+    }
+  ],
+  "BLOCKERS": [
+    "EXTERNAL_PLUGIN_RUNTIME_OBSERVATION_UNAVAILABLE",
+    "PLUGIN_PACKAGE_BYTES_NOT_CANONICAL",
+    "GOVERNANCE_ARTIFACT_MODULE_ROUTE_UNRESOLVED"
+  ],
+  "completion_evidence": {
+    "execution_state": "BLOCKED",
+    "process_completed": false,
+    "exit_code": null,
+    "intended_scope": [
+      "POST_RELEASE_PLUGIN_SYNC",
+      "REAL_WORLD_ACCEPTANCE",
+      "DURABLE_FINDING_RETURN"
+    ],
+    "executed_scope": [
+      "BASELINE_AND_RELEASE_READBACK",
+      "PRIVATE_PACKAGE_AND_LOCAL_CACHE_OBSERVATION",
+      "FINAL_RELEASE_ASSET_VERIFICATION",
+      "SUPPORTING_NATIVE_CONTRACT_REGRESSION",
+      "DURABLE_FINDING_RETURN"
+    ],
+    "test_files_expected": 9,
+    "test_files_executed": 9,
+    "test_count": 162,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "PROJECT",
+      "FRAMEWORK",
+      "CONSUMER",
+      "NATIVE_PRE_GATE",
+      "INDEPENDENT_POST",
+      "REMOTE_READBACK",
+      "NATIVE_HANDOFF_TRANSPORT"
+    ],
+    "validators_completed": [
+      "PROJECT",
+      "FRAMEWORK",
+      "CONSUMER",
+      "NATIVE_PRE_GATE"
+    ],
+    "blocker_evidence_refs": [
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json"
+    ]
+  },
+  "acceptance_execution_status": {
+    "GPT_CODEX_REPOSITORY_ALIGNMENT": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "GPT_CODEX_VERSION_ALIGNMENT": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "GPT_CODEX_RELEASE_SUBJECT_ALIGNMENT": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "FINAL_DELIVERABLE_BOOTSTRAP": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_PROJECT_BOOTSTRAP": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_PROJECT_RESUME": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_PROJECT_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_INITIAL_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_FILE_MODIFICATION_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_FILE_ADD_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_FILE_RENAME_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_FILE_DELETE_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_MULTI_FILE_CHANGE_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "UNCOMMITTED_FILE_CHANGE_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "COMMITTED_FILE_CHANGE_ROUTING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "PLUGIN_FILE_CHANGE_ROUTING_CHECK": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_FILE_CHANGE_HANDLING": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_PROJECT_RESUME_AFTER_CHANGE": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_HANDOFF": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_HANDOFF_AFTER_CHANGE": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "RELOAD_RESTART_BEHAVIOR": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_WORLD_FAIL_CLOSED": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP",
+    "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "NOT_EXECUTED_AFTER_MANDATORY_FINDING_STOP"
+  },
+  "metric_semantics": "FAIL/NO means required acceptance was not established, not an observed failure in an unexecuted case. Null counts mean unobserved. PASS contract tests never stand in for actual runtime smoke.",
+  "next_gpt_action": "Review operational Findings and separately authorize any private package/runtime observability or registry reconciliation work. Preserve STATE37; do not execute STATE38/P41 or Framework/runtime remediation in this Work Unit.",
+  "self_containing_commit_claim": false,
+  "observed_utc": "2026-10-07T06:59:04.158783+00:00",
+  "GPT_CODEX_REPOSITORY_ALIGNMENT": "FAIL",
+  "GPT_CODEX_VERSION_ALIGNMENT": "FAIL",
+  "GPT_CODEX_RELEASE_SUBJECT_ALIGNMENT": "FAIL",
+  "FINAL_DELIVERABLE_BOOTSTRAP": "FAIL",
+  "REAL_PROJECT_BOOTSTRAP": "FAIL",
+  "REAL_PROJECT_RESUME": "FAIL",
+  "REAL_PROJECT_ROUTING": "FAIL",
+  "PLUGIN_INITIAL_ROUTING": "FAIL",
+  "PLUGIN_FILE_MODIFICATION_ROUTING": "FAIL",
+  "PLUGIN_FILE_ADD_ROUTING": "FAIL",
+  "PLUGIN_FILE_RENAME_ROUTING": "FAIL",
+  "PLUGIN_FILE_DELETE_ROUTING": "FAIL",
+  "PLUGIN_MULTI_FILE_CHANGE_ROUTING": "FAIL",
+  "UNCOMMITTED_FILE_CHANGE_ROUTING": "FAIL",
+  "COMMITTED_FILE_CHANGE_ROUTING": "FAIL",
+  "PLUGIN_FILE_CHANGE_ROUTING_CHECK": "FAIL",
+  "REAL_FILE_CHANGE_HANDLING": "FAIL",
+  "REAL_PROJECT_RESUME_AFTER_CHANGE": "FAIL",
+  "REAL_HANDOFF": "FAIL",
+  "REAL_HANDOFF_AFTER_CHANGE": "FAIL",
+  "RELOAD_RESTART_BEHAVIOR": "FAIL",
+  "REAL_WORLD_FAIL_CLOSED": "FAIL",
+  "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "FAIL",
+  "GPT_ROUTING_SMOKE_TEST": "NOT_OBSERVABLE",
+  "CODEX_ROUTING_SMOKE_TEST": "NOT_OBSERVABLE",
+  "GPT_PLUGIN_REAL_WORLD_SMOKE": "NOT_OBSERVABLE",
+  "CODEX_PLUGIN_REAL_WORLD_SMOKE": "NOT_OBSERVABLE",
+  "GPT_CODEX_BEHAVIOR_ALIGNMENT": "NOT_OBSERVABLE",
+  "POST_RELEASE_OPERATIONAL_CLOSURE": "FINDING",
+  "FRAMEWORK_RELEASE": "v2.8.0",
+  "FRAMEWORK_RELEASE_SUBJECT": "31c0b89e8e798384f1f443764f5911467807e711",
+  "CURRENT_PLUGIN_VERSION": "0.1.0",
+  "TARGET_PLUGIN_VERSION": "0.1.0",
+  "PLUGIN_SOURCE_MUTATION_REQUIRED": "NO",
+  "POST_RELEASE_PLUGIN_SYNC": "FINDING",
+  "PLUGIN_VERSION_SYNC": "FAIL",
+  "PLUGIN_VERSION_SYNC_SEMANTICS": "Observed metadata versions are0.1.0; effective release/package/repository alignment is unproven and canonical package-byte sync is incomplete.",
+  "FINAL_DELIVERABLE_ASSET_VERIFICATION": "PASS",
+  "REAL_WORLD_TEST_TARGET": "FINAL_DELIVERABLE",
+  "CONTRACT_VALIDATION": "PASS",
+  "STALE_ROUTE_COUNT": null,
+  "WRONG_SKILL_OR_MODULE_SELECTION_COUNT": null,
+  "RESTART_REQUIRED_FOR_ROUTING_CORRECTNESS": "NOT_OBSERVED",
+  "HOT_RUNTIME_ROUTE_CORRECT": "NOT_OBSERVED",
+  "RESTARTED_RUNTIME_ROUTE_CORRECT": "NOT_OBSERVED",
+  "CROSS_PROJECT_ROUTE_LEAK_COUNT": null,
+  "EXPECTED_USER_OUTCOME_MATCH": "NO",
+  "MANUAL_INTERNAL_REPAIR_REQUIRED": "NOT_OBSERVED",
+  "UNEXPECTED_RUNTIME_FAILURE_COUNT": null,
+  "USER_PATH_USABLE": "NO",
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "P41_EXECUTION_STARTED": "NO",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "STATE_REVISION": 37,
+  "STATE_MUTATION_COUNT": 0,
+  "PLUGIN_SOURCE_MUTATION_COUNT": 0,
+  "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+  "RELEASE_ARTIFACT_MUTATION_COUNT": 0,
+  "NATIVE_HANDOFF": "FINDING",
+  "READY_FOR_FINAL_STATE_CLOSURE": "NO",
+  "RETURN_TO_GPT": "YES",
+  "REMOTE_MAIN_AFTER_OPERATIONAL_CLOSURE": null,
+  "OPERATIONAL_EVIDENCE_LOCATOR": null,
+  "OPERATIONAL_RESULT_LOCATOR": null,
+  "PLUGIN_PACKAGE_VERSION_LABEL_ALIGNMENT": "PASS"
+}

@@ -458,7 +458,347 @@
   "RELEASE_ARTIFACT_MUTATION_COUNT": 0,
   "POST_RELEASE_OPERATIONAL_CLOSURE": "FINDING",
   "RETURN_TO_GPT": "YES",
-  "native_reviews": {},
-  "regression": {},
+  "native_reviews": {
+    "PRE": {
+      "review_request": {
+        "instruction_id": "ad46f95e-52dd-4155-91b3-412a22cd559d",
+        "instruction_type": "REVIEW_REQUEST",
+        "issuer_role": "GPT_ORCHESTRATOR",
+        "executor_role": "CODEX_REVIEWER",
+        "return_role": "GPT_ORCHESTRATOR",
+        "target_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "target_project_name": "通用开发框架管理",
+        "target_github_repository_id": "1366213495",
+        "target_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "target_work_unit": "framework-v2.8.0-post-release-operational-closure-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          "sha": "6637aa4b302d249cea039af208daa2214f05311e"
+        },
+        "expected_state_revision": 37,
+        "framework_version": "2.8.0",
+        "expected_base_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+        "expected_remote_head_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+        "expected_remote_ref": "refs/heads/main",
+        "scope_paths": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "authorized_actions": [
+          "READ",
+          "TEST",
+          "VALIDATE",
+          "REPORT"
+        ],
+        "forbidden_actions": [
+          "MUTATE_APPROVED_SCOPE",
+          "AUTHORIZE",
+          "SCOPE_EXPANSION",
+          "COMMIT",
+          "PUSH",
+          "PUBLISH"
+        ],
+        "completion_gate": "GPT_DECISION",
+        "in_response_to_instruction_id": "285f678b-548c-4424-a1ff-55bf4aae637d",
+        "review_target_revision": "e152613f25ee320d25de096fc7b0bd01b1ad8426"
+      },
+      "review_result": {
+        "kernel_version": "2.0.0",
+        "schema_version": 1,
+        "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+        "work_unit_id": "framework-v2.8.0-post-release-operational-closure-001",
+        "extension": null,
+        "status": "PASS",
+        "result_id": "d6919f29-2568-467a-b082-e92a60d8d7dd",
+        "result_message_type": "REVIEW_RESULT",
+        "response_to_instruction_id": "ad46f95e-52dd-4155-91b3-412a22cd559d",
+        "responder_role": "CODEX_REVIEWER",
+        "return_role": "GPT_ORCHESTRATOR",
+        "return_to_gpt_required": true,
+        "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+        "source_project_name": "通用开发框架管理",
+        "source_github_repository_id": "1366213495",
+        "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "framework_version": "2.8.0",
+        "state_revision": 37,
+        "review_target_revision": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+        "review_phase": "PRE_EXECUTION",
+        "current_remote_ref": "refs/heads/main",
+        "local_head_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+        "remote_head_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+        "remote_verification": "VERIFIED",
+        "publication_authority": null,
+        "sync_status": "SYNC_PENDING",
+        "push_status": "NOT_ATTEMPTED",
+        "completion_gate": "GPT_DECISION",
+        "evidence_refs": [
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json"
+        ],
+        "finding_ids": [],
+        "findings": [],
+        "blockers": [],
+        "changed": [],
+        "execution": "Independent read-only PRE review of exact native Instruction and immutable candidate records for bounded FINDING report persistence only. Operational execution remains stopped.",
+        "git": {
+          "base_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+          "implementation_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a"
+        },
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          "sha": "6637aa4b302d249cea039af208daa2214f05311e"
+        },
+        "instruction_locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+          "path": ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          "blob_sha": "ac50a17f6e685b32a773c617597d1bab8f3c961f"
+        },
+        "reviewed_candidate_revision": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+        "review_conclusion": "PASS_FOR_RECORD_ONLY_FINDING_PERSISTENCE",
+        "approved_scope": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "operational_execution_authorized": false,
+        "source_modification_authorized": false,
+        "state_mutation_authorized": false,
+        "p41_execution_authorized": false,
+        "retained_operational_findings": [
+          "OPERATIONAL-CLOSURE-001",
+          "OPERATIONAL-CLOSURE-002",
+          "OPERATIONAL-CLOSURE-003"
+        ],
+        "module_route_observation": {
+          "exception_type": "ModuleRoutingError",
+          "message": "planned asset has no primary owner",
+          "code": "MODULE_ROUTE_UNRESOLVED"
+        },
+        "review_analysis": "The explicit user directive requires durable Evidence and Result when real external runtime observation is unavailable. PRE passes for the five bounded governance records and their user-authorized report transport only. MODULE_ROUTE_UNRESOLVED continues to deny operational/module/source execution and is preserved as a finding. Download verification, cache metadata, direct helpers and 162 implementer-recorded native tests remain supporting evidence only. A-H, reload/restart and fail-closed real-project cases remain unexecuted; runtime counts remain unknown. The final native Result must be BLOCKED with operational closure FINDING, acceptance FAIL/unproven, user path NO/unproven and RETURN_TO_GPT YES.",
+        "post_requirements": [
+          "Final Result status BLOCKED; completion_evidence.execution_state BLOCKED; blocker_evidence_refs present",
+          "No runtime smoke PASS; retain NOT_EXECUTED cases and null runtime counters",
+          "STATE37 and plugin/runtime/schema/test/docs/VERSION/release bytes unchanged",
+          "Independent POST on exact final candidate; native scope and live remote verification before SYNCED claims",
+          "Transport HANDOFF_READY is distinct from operational NATIVE_HANDOFF FINDING; no self-containing commit claim",
+          "Stop and RETURN_TO_GPT; no remediation, STATE38 or P41"
+        ],
+        "implementer_workspace": "D:\\w\\gpt-codex-framework\\framework-v2.8.0-post-release-operational-closure-001",
+        "reviewer_workspace": "D:\\w\\gpt-codex-framework\\framework-v2.8.0-post-release-state37-gate-001",
+        "context_separation_evidence": {
+          "distinct_agent": "/root/operational_closure_review",
+          "distinct_role": "CODEX_REVIEWER",
+          "distinct_context": true,
+          "repository_writes": 0,
+          "implementation_commits": 0,
+          "agent_spawns": 0,
+          "implementation_context_reused_as_review_authority": false
+        },
+        "role_observation": {
+          "role": "CODEX_REVIEWER",
+          "instruction_id": "ad46f95e-52dd-4155-91b3-412a22cd559d",
+          "work_unit": "framework-v2.8.0-post-release-operational-closure-001",
+          "reviewed_revision": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+          "executed_revision": null,
+          "files_read": [
+            "AGENTS.md",
+            ".gpt-codex/KERNEL.md",
+            ".gpt-codex/CONTROL.json",
+            ".gpt-codex/STATE.json",
+            ".gpt-codex/framework-modules/REGISTRY.json",
+            ".gpt-codex/framework-modules/modules/framework-core.json",
+            ".gpt-codex/scripts/validate_project.py",
+            ".gpt-codex/scripts/role_communication.py",
+            ".gpt-codex/scripts/continuity_resume.py",
+            ".gpt-codex/scripts/framework_module_routing.py",
+            ".gpt-codex/schemas/work-unit.schema.json",
+            ".gpt-codex/schemas/instruction-envelope.schema.json",
+            ".gpt-codex/schemas/result-envelope.schema.json",
+            ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+            ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+            ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+            ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+            "C:\\Users\\xqc\\AppData\\Local\\Temp\\framework-280-operational-closure-20261007\\draft-packet.json",
+            "C:\\Users\\xqc\\AppData\\Local\\Temp\\framework-280-operational-closure-20261007\\regression-observations.json"
+          ],
+          "files_changed": [],
+          "tests_run": [
+            {
+              "kind": "READ_ONLY_NATIVE_CONTRACT_VALIDATION",
+              "tests_reexecuted": 0
+            }
+          ],
+          "findings": [],
+          "fix_round": 0,
+          "agent_spawns": 0,
+          "result": "REVIEW_RESULT"
+        },
+        "completion_evidence": {
+          "execution_state": "COMPLETED",
+          "process_completed": true,
+          "exit_code": 0,
+          "intended_scope": [
+            "RECORD_ONLY_FINDING_PERSISTENCE_PRE_REVIEW"
+          ],
+          "executed_scope": [
+            "RECORD_ONLY_FINDING_PERSISTENCE_PRE_REVIEW"
+          ],
+          "test_files_expected": 0,
+          "test_files_executed": 0,
+          "test_count": 0,
+          "failure_count": 0,
+          "error_count": 0,
+          "validators_expected": [
+            "EXACT_CORRECTED_CANDIDATE",
+            "CLEAN_BASELINE",
+            "LIVE_REMOTE_MAIN",
+            "EXACT_IMMUTABLE_RECORDS",
+            "EXACT_BLOB_LOCATORS",
+            "APPEND_ONLY_CANDIDATE",
+            "EXACT_RECORD_SCOPE",
+            "ROLE_ACTIONS_CORRECTED",
+            "EXPLICIT_USER_HASH",
+            "FINAL_ASSET_HASH_SIZE",
+            "CANONICAL_PLUGIN_RELEASE_MAIN_EQUIVALENCE",
+            "UNEXECUTED_RUNTIME_SEMANTICS",
+            "MODULE_ROUTE_FAIL_CLOSED_REPRODUCED",
+            "NATIVE_SCHEMA_PREFLIGHT",
+            "NATIVE_PRE_EXECUTION_REVIEW",
+            "NATIVE_GOVERNED_MUTATION_ENTRY",
+            "NATIVE_CANDIDATE_SCOPE_AND_DIRECTORIES",
+            "NATIVE_COMPLETION_EVIDENCE"
+          ],
+          "validators_completed": [
+            "EXACT_CORRECTED_CANDIDATE",
+            "CLEAN_BASELINE",
+            "LIVE_REMOTE_MAIN",
+            "EXACT_IMMUTABLE_RECORDS",
+            "EXACT_BLOB_LOCATORS",
+            "APPEND_ONLY_CANDIDATE",
+            "EXACT_RECORD_SCOPE",
+            "ROLE_ACTIONS_CORRECTED",
+            "EXPLICIT_USER_HASH",
+            "FINAL_ASSET_HASH_SIZE",
+            "CANONICAL_PLUGIN_RELEASE_MAIN_EQUIVALENCE",
+            "UNEXECUTED_RUNTIME_SEMANTICS",
+            "MODULE_ROUTE_FAIL_CLOSED_REPRODUCED",
+            "NATIVE_SCHEMA_PREFLIGHT",
+            "NATIVE_PRE_EXECUTION_REVIEW",
+            "NATIVE_GOVERNED_MUTATION_ENTRY",
+            "NATIVE_CANDIDATE_SCOPE_AND_DIRECTORIES",
+            "NATIVE_COMPLETION_EVIDENCE"
+          ],
+          "blocker_evidence_refs": []
+        },
+        "observed_utc": "2026-10-07T06:58:40.715409+00:00",
+        "self_containing_commit_claim": false,
+        "verification_observations": {
+          "checks": {
+            "EXACT_CORRECTED_CANDIDATE": true,
+            "CLEAN_BASELINE": true,
+            "LIVE_REMOTE_MAIN": true,
+            "EXACT_IMMUTABLE_RECORDS": true,
+            "EXACT_BLOB_LOCATORS": true,
+            "APPEND_ONLY_CANDIDATE": true,
+            "EXACT_RECORD_SCOPE": true,
+            "ROLE_ACTIONS_CORRECTED": true,
+            "EXPLICIT_USER_HASH": true,
+            "FINAL_ASSET_HASH_SIZE": true,
+            "CANONICAL_PLUGIN_RELEASE_MAIN_EQUIVALENCE": true,
+            "UNEXECUTED_RUNTIME_SEMANTICS": true,
+            "MODULE_ROUTE_FAIL_CLOSED_REPRODUCED": true
+          },
+          "native_errors": {
+            "schema": [],
+            "pre": [],
+            "mutation_entry": [],
+            "committed_scope": [],
+            "directories": [],
+            "completion": []
+          },
+          "reviewer_tests_reexecuted": 0,
+          "implementer_regression_recorded_count": 162
+        }
+      },
+      "machine_gate": {
+        "source": "EXECUTION_OBSERVED",
+        "status": "PASS",
+        "errors": [],
+        "candidate": "c0d83ff573b7f6d061996fa8a34dda089b6ba90a",
+        "scope": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ]
+      }
+    }
+  },
+  "regression": {
+    "source": "EXECUTION_OBSERVED",
+    "framework_source_mutation_count": 0,
+    "tests": [
+      {
+        "command": "python -m unittest discover -s .gpt-codex/tests -p test_framework_plugin*.py",
+        "count": 40,
+        "elapsed_seconds": 89.366,
+        "exit_code": 0,
+        "result": "OK"
+      },
+      {
+        "command": "python -m unittest discover -s .gpt-codex/tests -p test_continuity*.py",
+        "count": 51,
+        "elapsed_seconds": 58.567,
+        "exit_code": 0,
+        "result": "OK"
+      },
+      {
+        "command": "python -m unittest discover -s .gpt-codex/tests -p test_framework_module_routing.py",
+        "count": 35,
+        "elapsed_seconds": 0.317,
+        "exit_code": 0,
+        "result": "OK"
+      },
+      {
+        "command": "python -m unittest discover -s .gpt-codex/tests -p test_result*.py",
+        "count": 35,
+        "elapsed_seconds": 0.078,
+        "exit_code": 0,
+        "result": "OK"
+      },
+      {
+        "command": "python -m unittest discover -s .gpt-codex/tests -p test_handoff_navigation_contract.py",
+        "count": 1,
+        "elapsed_seconds": 0.0,
+        "exit_code": 0,
+        "result": "OK"
+      }
+    ],
+    "test_count": 162,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators": {
+      "project": {
+        "exit_code": 0,
+        "output": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-37\nPROJECT_CONTEXT_BINDING: PASS"
+      },
+      "framework": {
+        "exit_code": 0,
+        "output": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS"
+      },
+      "consumer": {
+        "exit_code": 0,
+        "output": "RESULT: PASS\nCONSUMER_PROJECTION_RELEASE_MATCH: PASS\nCONSUMER_REQUIRED_COUNT: 86\nUNKNOWN_PATH_COUNT: 0\nMISSING_REQUIRED_PATH_COUNT: 0\nMANAGEMENT_IDS_IN_CONSUMER_PROJECTION: NONE"
+      }
+    },
+    "native_test_semantics": "Supporting contract regression only; never GPT_PLUGIN_REAL_WORLD_SMOKE or CODEX_PLUGIN_REAL_WORLD_SMOKE."
+  },
   "count_semantics": "Runtime correctness/failure counts are null because cases did not execute. Source/state/release mutation counts are verified separately."
 }
