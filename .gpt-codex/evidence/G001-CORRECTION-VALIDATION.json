@@ -1,0 +1,152 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-CORRECTION-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source": "TOOL_OBSERVED",
+  "subject": "G001_MINIMAL_CORRECTION_SOURCE_VALIDATION",
+  "state_revision": 39,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T10:44:23.750423+00:00",
+  "expected_base_sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+  "full_suite": {
+    "command": "python -m unittest discover -s .gpt-codex/tests -v",
+    "tests": 747,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "skip_reasons": [
+      [
+        "test_cleanup_manifest_blocks_symlink_escape_without_mutation (test_git_continuity.GitContinuityTests.test_cleanup_manifest_blocks_symlink_escape_without_mutation)",
+        "\"symlink fixture unavailable: [WinError 1314] �ͻ���û���������Ȩ��: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmphl9wg7p8\\\\\\\\outside' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmphl9wg7p8\\\\\\\\allowed\\\\\\\\safe\\\\\\\\link'\""
+      ],
+      [
+        "test_materializer_never_overwrites_or_follows_existing_final_target (test_release_packaging.ReleasePackagingTests.test_materializer_never_overwrites_or_follows_existing_final_target)",
+        "\"symbolic links unavailable in this environment: [WinError 1314] �ͻ���û���������Ȩ��: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpfpemjgio\\\\\\\\outside-target.zip' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmpfpemjgio\\\\\\\\materialized\\\\\\\\gpt-codex-framework-v2.7.0-bootstrap.zip'\""
+      ]
+    ],
+    "log_sha256": "262a0ccb772bc03bad5afafadc87b5d1082fe4af4f20651e84ca86bed771ca06",
+    "status": "PASS"
+  },
+  "focused_suite": {
+    "status": "PASS",
+    "actual_tests": 388,
+    "failure_count": 0,
+    "actual_test_error_count": 0,
+    "skipped_count": 1,
+    "skip_reasons": [
+      [
+        "test_cleanup_manifest_blocks_symlink_escape_without_mutation (test_git_continuity.GitContinuityTests.test_cleanup_manifest_blocks_symlink_escape_without_mutation)",
+        "\"symlink fixture unavailable: [WinError 1314] 客户端没有所需的特权。: 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmptytbfek0\\\\\\\\outside' -> 'C:\\\\\\\\Users\\\\\\\\xqc\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\tmptytbfek0\\\\\\\\allowed\\\\\\\\safe\\\\\\\\link'\""
+      ]
+    ],
+    "command_corrections": {
+      "initial_load_errors": [
+        "test_publication_contract (unittest.loader._FailedTest.test_publication_contract)",
+        "test_framework_plugin_entry (unittest.loader._FailedTest.test_framework_plugin_entry)"
+      ],
+      "correct_modules": [
+        "test_publication_authority",
+        "test_framework_plugin"
+      ],
+      "corrected_command_passed": true,
+      "summary_serializer_correction": "Serialize skip test IDs/reasons as strings; the native full-suite command uses no custom serializer."
+    },
+    "logs": {
+      "focused-tests.log": "1b5917d4bb991b3e2e84cba1e259663775790793b8953ff1b768f4bf62844439",
+      "focused-corrected-module-names.log": "bf8a1c2013413a6cedcbe790b729feb44ef69a8c32817a913a2de2aa4170fb11"
+    }
+  },
+  "contract_preservation": {
+    "only_existing_function_changed": [
+      "validate_review_lifecycle"
+    ],
+    "only_helper_added": [
+      "_review_revision_matches_or_management_bridge"
+    ],
+    "preserved_existing_contracts": {
+      "_resolve_durable_remediation_adjudication": true,
+      "validate_pre_execution_review": true,
+      "validate_candidate_directory_creation": true,
+      "validate_committed_candidate_scope": true,
+      "validate_governed_mutation_entry": true
+    },
+    "STATE_sha256": "8e406606497a9b28854b3a1bcdd4e970fe694d1e45982ffe5aef47f39929c19f",
+    "STATE_MUTATION_COUNT": 0,
+    "red_test_count": 34,
+    "red_failure_count": 4,
+    "red_error_count": 0,
+    "red_failure_signature": [
+      "RECONCILIATION_REQUIRED",
+      "STALE_REVIEW_REVISION",
+      "REVIEW_TARGET_REVISION_MISMATCH"
+    ]
+  },
+  "source_push_authority": {
+    "native_source_push": "DENY",
+    "probe_errors": [
+      "ROLE_AUTHORITY_CONFLICT",
+      "ACTION_NOT_ALLOWED_FOR_ROLE"
+    ],
+    "probe_is_unissued_in_memory_only": true,
+    "actual_instruction_unchanged": true,
+    "actual_source_push_attempted": false,
+    "remote_main": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+    "fallback": "LOCAL_COMPLETE/SYNC_PENDING",
+    "STATE_MUTATION_COUNT": 0
+  },
+  "validators": {
+    "PROJECT_VALIDATOR": {
+      "status": "PASS",
+      "command": "python .gpt-codex/scripts/validate_project.py .",
+      "exit_code": 0,
+      "output": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-39\nPROJECT_CONTEXT_BINDING: PASS"
+    },
+    "FRAMEWORK_VALIDATOR": {
+      "status": "PASS",
+      "command": "python .gpt-codex/scripts/validate_framework.py",
+      "exit_code": 0,
+      "output": "RESULT: PASS\nBUILTINS: 12\nKERNEL_VERSION: 2.0.0\nCONTEXT_BINDING: PASS"
+    },
+    "CONSUMER_VALIDATOR": {
+      "status": "PASS",
+      "command": "python .gpt-codex/scripts/validate_consumer_projection.py --root .",
+      "exit_code": 0,
+      "output": "RESULT: PASS\nCONSUMER_PROJECTION_RELEASE_MATCH: PASS\nCONSUMER_REQUIRED_COUNT: 86\nUNKNOWN_PATH_COUNT: 0\nMISSING_REQUIRED_PATH_COUNT: 0\nMANAGEMENT_IDS_IN_CONSUMER_PROJECTION: NONE"
+    }
+  },
+  "source_files_changed": [
+    ".gpt-codex/scripts/validate_project.py"
+  ],
+  "test_files_changed": [
+    ".gpt-codex/tests/test_review_lifecycle.py"
+  ],
+  "required_cases": {
+    "CASE_1": "test_exact_match_preserves_native_success",
+    "CASE_2": "test_native_remediation_lifecycle_bridges_durable_management_publication",
+    "CASE_3": "test_non_ancestor_review_subject_is_denied",
+    "CASE_4": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_5": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_6": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_7": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_8": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_12": "test_descendant_with_any_non_allowlisted_path_is_denied",
+    "CASE_9": "test_bridge_cannot_relax_current_fix_pre_request_or_result",
+    "CASE_10": "test_bridge_requires_current_head_resolvable_remediation_authority",
+    "CASE_11": "test_candidate_scope_and_directories_use_execution_base"
+  },
+  "additional_cases": [
+    "test_reverted_source_change_is_still_denied",
+    "test_merge_cannot_hide_source_changes_on_a_side_parent",
+    "test_rename_into_evidence_does_not_hide_source_deletion",
+    "test_empty_management_commit_preserves_bridge",
+    "test_unavailable_or_malformed_git_bridge_observations_fail_closed",
+    "test_bridge_without_repository_cannot_use_in_memory_authority"
+  ],
+  "STATE_MUTATION_COUNT": 0,
+  "FRAMEWORK_SOURCE_MUTATION_COUNT": 1,
+  "PLUGIN_MUTATION_COUNT": 0,
+  "RELEASE_MUTATION_COUNT": 0,
+  "independent_POST": "PENDING"
+}

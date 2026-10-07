@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from copy import deepcopy
 from pathlib import Path
 
@@ -143,6 +144,254 @@ def write_durable_adjudication_repository(root, decision_evidence=None, basis_ev
         ["git", "config", "user.name", "Tests"], ["git", "add", "."], ["git", "commit", "-m", "fixture"],
     ):
         subprocess.run(command, cwd=root, check=True, capture_output=True)
+
+
+class ManagementOnlyBridgeTests(unittest.TestCase):
+    """Reproduce Finding publication advancing the clean execution baseline."""
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="g001-bridge-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.validator = load_validator()
+        self.control = json.loads((ROOT / "CONTROL.json").read_text(encoding="utf-8"))
+        self.git("init")
+        self.git("config", "user.email", "tests@example.invalid")
+        self.git("config", "user.name", "Tests")
+        self.write("src/fix.py", "base\n")
+        self.write(".gpt-codex/scripts/validate_project.py", "source baseline\n")
+        self.write(".gpt-codex/CONTROL.json", self.control)
+        self.write(".gpt-codex/STATE.json", {"revision": 38, "evidence_refs": []})
+        self.subject = self.commit("source reviewed at A")
+        self.identity = {
+            "source_project_context_id": self.control["project_context_id"],
+            "source_github_repository_id": self.control["github"]["repository_id"],
+            "source_github_repository_full_name": self.control["github"]["repository_full_name"],
+            "current_remote_ref": "refs/heads/main",
+        }
+        self.finding = {**finding_result(), **self.identity, "review_target_revision": self.subject}
+        self.decision = remediation_decision_evidence(adjudicated_at_revision=39)
+        basis = {"evidence_id": "basis/accepted-001", **resolved_basis(state_revision=39)["basis/accepted-001"]}
+        self.state = {
+            "project_id": self.control["project_id"], "revision": 39,
+            "evidence_refs": [".gpt-codex/evidence/decision.json", ".gpt-codex/evidence/basis.json",
+                              ".gpt-codex/evidence/results/finding.json"],
+        }
+        self.work_unit = {
+            "project_id": self.control["project_id"], "work_unit_id": "G001-FIX",
+            "state": "AUTHORIZED", "basis_state_revision": 39,
+            "scope": {"owned_paths": ["src/fix.py"], "excluded_paths": []},
+            "directory_creations": [],
+        }
+        for path, payload in (
+            (".gpt-codex/STATE.json", self.state),
+            (".gpt-codex/work-units/G001-FIX.json", self.work_unit),
+            (".gpt-codex/evidence/decision.json", self.decision),
+            (".gpt-codex/evidence/basis.json", basis),
+            (".gpt-codex/evidence/results/finding.json", self.finding),
+            (".gpt-codex/evidence/instructions/previous.json", mutation_instruction()),
+            (".gpt-codex/evidence/nested/remote-verification.json", {"result": "VERIFIED"}),
+        ):
+            self.write(path, payload)
+        self.base = self.commit("publish Finding Basis Adjudication STATE Work Unit Instruction at B")
+        self.fix = {
+            **fix_instruction(), "expected_base_sha": self.base, "expected_state_revision": 39,
+            "target_project_context_id": self.control["project_context_id"],
+            "target_project_name": self.control["project_name"],
+            "target_github_repository_id": self.control["github"]["repository_id"],
+            "target_github_repository_full_name": self.control["github"]["repository_full_name"],
+            "expected_remote_ref": "refs/heads/main", "target_work_unit": "G001-FIX",
+            "target_work_unit_ref": {"path": ".gpt-codex/work-units/G001-FIX.json", "sha": self.base},
+            "scope_paths": ["src/fix.py"],
+        }
+        self.request = {
+            **self.fix, "instruction_id": review_request()["instruction_id"],
+            "instruction_type": "REVIEW_REQUEST", "executor_role": "CODEX_REVIEWER",
+            "authorized_actions": ["READ", "TEST", "VALIDATE", "REPORT"],
+            "in_response_to_instruction_id": self.fix["instruction_id"],
+            "review_target_revision": self.base,
+        }
+        self.result = {**review_result(), **self.identity, "review_target_revision": self.base}
+
+    def git(self, *args):
+        return subprocess.run(["git", *args], cwd=self.root, check=True,
+                              capture_output=True, text=True).stdout.strip()
+
+    def write(self, path, payload):
+        target = self.root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(payload if isinstance(payload, str) else json.dumps(payload), encoding="utf-8")
+
+    def commit(self, message):
+        self.git("add", ".")
+        self.git("commit", "-m", message)
+        return self.git("rev-parse", "HEAD")
+
+    def advance_base(self, base):
+        self.base = base
+        self.fix["expected_base_sha"] = base
+        self.request["expected_base_sha"] = base
+        self.request["review_target_revision"] = base
+        self.result["review_target_revision"] = base
+
+    def lifecycle(self, **overrides):
+        arguments = {
+            "current_state_revision": 39, "repository_root": self.root,
+            "authoritative_review_context": {
+                "reviewed_revision": self.base, "project_context_id": self.control["project_context_id"],
+                "repository_id": self.control["github"]["repository_id"],
+                "repository_full_name": self.control["github"]["repository_full_name"],
+                "remote_ref": "refs/heads/main",
+            },
+        }
+        arguments.update(overrides)
+        return self.validator.validate_review_lifecycle(self.fix, self.finding, **arguments)
+
+    def native(self, request=None, result=None, candidate_revision=None):
+        return self.validator.validate_governed_mutation_entry(
+            self.control, self.state, self.work_unit, self.fix,
+            self.request if request is None else request, self.result if result is None else result,
+            current_state_revision=39, repository_root=self.root, finding_result=self.finding,
+            candidate_revision=candidate_revision,
+        )
+
+    def assert_bridge_denied(self):
+        errors = self.lifecycle()
+        for error in ("RECONCILIATION_REQUIRED", "STALE_REVIEW_REVISION", "REVIEW_TARGET_REVISION_MISMATCH"):
+            self.assertIn(error, errors)
+
+    def test_exact_match_preserves_native_success(self):
+        self.finding["review_target_revision"] = self.base
+        self.assertEqual(self.lifecycle(), [])
+        self.assertEqual(self.native(), [])
+
+    def test_native_remediation_lifecycle_bridges_durable_management_publication(self):
+        original = deepcopy(self.finding)
+        self.assertEqual(self.git("merge-base", self.subject, self.base), self.subject)
+        self.assertEqual(self.lifecycle(), [])
+        self.assertEqual(self.native(), [])
+        self.assertEqual(self.finding, original)
+        self.assertEqual(self.request["review_target_revision"], self.base)
+        self.assertEqual(self.result["review_target_revision"], self.base)
+
+    def test_non_ancestor_review_subject_is_denied(self):
+        base = self.base
+        self.git("checkout", "--detach", self.subject)
+        self.write(".gpt-codex/evidence/sibling.json", {})
+        sibling = self.commit("sibling management commit")
+        self.git("checkout", "--detach", base)
+        self.finding["review_target_revision"] = sibling
+        self.assert_bridge_denied()
+
+    def test_descendant_with_any_non_allowlisted_path_is_denied(self):
+        base = self.base
+        for path in (
+            ".gpt-codex/scripts/validate_project.py", ".gpt-codex/schemas/state.schema.json",
+            ".gpt-codex/CONTROL.json", "plugins/plugin.json", "extra.txt",
+            ".gpt-codex/KERNEL.md", ".gpt-codex/tests/extra.py", "VERSION",
+            "releases/extra.json", "docs/extra.md", "AGENTS.md", "src/fix.py",
+            ".gpt-codex/evidence/extra.txt", ".gpt-codex/work-units/nested/extra.json",
+            ".gpt-codex/framework-modules/extra.json", ".gpt-codex/builtins/extra.json",
+        ):
+            with self.subTest(path=path):
+                self.git("reset", "--hard", base)
+                self.write(path, "extra non-management change\n")
+                self.advance_base(self.commit("forbidden intermediate change"))
+                self.assertEqual(self.git("merge-base", self.subject, self.base), self.subject)
+                self.assert_bridge_denied()
+
+    def test_bridge_cannot_relax_current_fix_pre_request_or_result(self):
+        self.assertEqual(self.lifecycle(), [])
+        for request, result in (
+            ({**self.request, "review_target_revision": self.subject}, self.result),
+            (self.request, {**self.result, "review_target_revision": self.subject}),
+        ):
+            with self.subTest(request_target=request["review_target_revision"], result_target=result["review_target_revision"]):
+                self.assertIn("PRE_EXECUTION_REVIEW_TARGET_MISMATCH", self.native(request=request, result=result))
+
+    def test_bridge_requires_current_head_resolvable_remediation_authority(self):
+        base = self.base
+        for path, payload, expected_error in (
+            (".gpt-codex/STATE.json", {**self.state, "evidence_refs": []}, "REMEDIATION_BASIS_UNRESOLVED"),
+            (".gpt-codex/evidence/decision.json", {**self.decision, "adjudicated_at_revision": 38}, "REMEDIATION_BASIS_STALE"),
+        ):
+            with self.subTest(expected_error=expected_error):
+                self.git("reset", "--hard", base)
+                self.write(path, payload)
+                self.advance_base(self.commit("invalid current remediation authority"))
+                self.assertIn(expected_error, self.lifecycle())
+                self.assert_bridge_denied()
+
+    def test_bridge_without_repository_cannot_use_in_memory_authority(self):
+        errors = self.lifecycle(repository_root=None, remediation_decision=self.decision,
+                                resolved_basis=resolved_basis(state_revision=39))
+        self.assertIn("RECONCILIATION_REQUIRED", errors)
+        self.assertIn("REVIEW_TARGET_REVISION_MISMATCH", errors)
+
+    def test_candidate_scope_and_directories_use_execution_base(self):
+        self.write("src/fix.py", "corrected\n")
+        candidate = self.commit("source fix after execution base")
+        self.assertEqual(self.native(candidate_revision=candidate), [])
+        self.assertEqual(self.validator.validate_committed_candidate_scope(
+            self.root, self.fix["expected_base_sha"], candidate, {"src/fix.py"}, set()), [])
+        self.assertEqual(self.validator.validate_candidate_directory_creation(
+            self.root, self.fix["expected_base_sha"], candidate, self.work_unit, self.fix), [])
+        self.assertIn("SCOPE_EXPANSION_DENIED", self.validator.validate_committed_candidate_scope(
+            self.root, self.subject, candidate, {"src/fix.py"}, set()))
+        self.assertIn("DIRECTORY_CREATION_DENIED", self.validator.validate_candidate_directory_creation(
+            self.root, self.subject, candidate, self.work_unit, self.fix))
+
+    def test_reverted_source_change_is_still_denied(self):
+        path = ".gpt-codex/scripts/validate_project.py"
+        self.write(path, "transient source change\n")
+        self.commit("source change in bridge history")
+        self.git("checkout", self.subject, "--", path)
+        self.advance_base(self.commit("restore source bytes before execution"))
+        self.assertNotIn(path, self.git("diff", "--name-only", self.subject, self.base).splitlines())
+        self.assert_bridge_denied()
+
+    def test_merge_cannot_hide_source_changes_on_a_side_parent(self):
+        base = self.base
+        self.git("checkout", "-b", "source-side", self.subject)
+        self.write(".gpt-codex/scripts/validate_project.py", "side source change\n")
+        self.commit("source change on merge parent")
+        self.git("checkout", "--detach", base)
+        self.git("merge", "--no-ff", "-s", "ours", "source-side", "-m", "omit side source from final tree")
+        self.advance_base(self.git("rev-parse", "HEAD"))
+        self.assertNotIn(".gpt-codex/scripts/validate_project.py",
+                         self.git("diff", "--name-only", self.subject, self.base).splitlines())
+        self.assert_bridge_denied()
+
+    def test_rename_into_evidence_does_not_hide_source_deletion(self):
+        self.git("mv", ".gpt-codex/scripts/validate_project.py", ".gpt-codex/evidence/moved.json")
+        self.advance_base(self.commit("rename source into management namespace"))
+        self.assert_bridge_denied()
+
+    def test_empty_management_commit_preserves_bridge(self):
+        self.git("commit", "--allow-empty", "-m", "empty management attestation")
+        self.advance_base(self.git("rev-parse", "HEAD"))
+        self.assertEqual(self.native(), [])
+
+    def test_unavailable_or_malformed_git_bridge_observations_fail_closed(self):
+        real_run = subprocess.run
+        for operation, fault in (
+            ("merge-base", "unavailable"), ("rev-list", "unavailable"),
+            ("rev-list", "failed"), ("diff-tree", "unavailable"),
+            ("diff-tree", "failed"), ("diff-tree", "malformed"),
+        ):
+            def observed_run(command, *args, **kwargs):
+                if len(command) > 3 and command[3] == operation:
+                    if fault == "unavailable":
+                        raise OSError("Git observation unavailable")
+                    if fault == "failed":
+                        return subprocess.CompletedProcess(command, 1, b"", b"Git observation failed")
+                    return subprocess.CompletedProcess(command, 0, b".gpt-codex/evidence/missing-nul.json", b"")
+                return real_run(command, *args, **kwargs)
+
+            with self.subTest(operation=operation, fault=fault), patch.object(
+                self.validator.subprocess, "run", side_effect=observed_run,
+            ):
+                self.assert_bridge_denied()
 
 
 class ReviewLifecycleTests(unittest.TestCase):

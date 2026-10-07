@@ -39,7 +39,7 @@ from project_navigation import (
     load_project_map,
     validate_navigation_identity,
 )
-from git_continuity import resolve_approval_evidence_locator
+from git_continuity import resolve_approval_evidence_locator, validate_review_revision
 
 REQUIRED_CONTEXT_GUARDRAIL = 'cross-project-context-binding'
 REQUIRED_REPOSITORY_GUARDRAIL = 'github-repository-binding'
@@ -885,6 +885,49 @@ def _resolve_durable_remediation_adjudication(
     return decision, resolved_basis, list(dict.fromkeys(errors))
 
 
+def _review_revision_matches_or_management_bridge(
+    repository_root: Path | None, review_subject: object, execution_base: object,
+) -> bool:
+    """Allow exact equality or a descendant whose every intermediate diff is management-only."""
+    if review_subject == execution_base:
+        return True
+    if not isinstance(repository_root, Path) or not _is_sha(review_subject) or not _is_sha(execution_base):
+        return False
+
+    def is_ancestor(subject: str, base: str) -> bool:
+        result = subprocess.run(
+            ["git", "-C", str(repository_root), "merge-base", "--is-ancestor", subject, base],
+            capture_output=True,
+        )
+        return result.returncode == 0
+
+    if validate_review_revision(review_subject, execution_base, is_ancestor):
+        return False
+    try:
+        commits = subprocess.run(
+            ["git", "-C", str(repository_root), "rev-list", f"{review_subject}..{execution_base}"],
+            capture_output=True,
+        )
+        if commits.returncode or not commits.stdout:
+            return False
+        # Inspect each commit against all parents, including changes later reverted
+        # and changes on merge parents; a net endpoint diff cannot prove this bound.
+        changed = subprocess.run(
+            ["git", "-C", str(repository_root), "diff-tree", "--stdin", "--root", "-r", "-m",
+             "--no-commit-id", "--no-renames", "--name-only", "-z"],
+            input=commits.stdout, capture_output=True,
+        )
+    except OSError:
+        return False
+    if changed.returncode:
+        return False
+    paths, path_errors = _nul_git_paths(changed.stdout)
+    return paths is not None and not path_errors and all(
+        re.fullmatch(r"\.gpt-codex/(?:STATE\.json|work-units/[^/]+\.json|evidence/(?:[^/]+/)*[^/]+\.json)", path)
+        for path in paths
+    )
+
+
 def validate_review_lifecycle(
     instruction: Mapping[str, Any] | None,
     finding_result: Mapping[str, Any],
@@ -909,6 +952,8 @@ def validate_review_lifecycle(
         errors.append("FIX_INSTRUCTION_REQUIRED")
     effective_decision = remediation_decision
     effective_basis = resolved_basis
+    resolution_errors: list[str] = []
+    adjudication_errors: list[str] = []
     if repository_root is not None:
         effective_decision, effective_basis, resolution_errors = _resolve_durable_remediation_adjudication(
             repository_root,
@@ -919,9 +964,14 @@ def validate_review_lifecycle(
     if not isinstance(effective_decision, Mapping):
         errors.append("REMEDIATION_DECISION_REQUIRED")
     else:
-        errors.extend(validate_remediation_adjudication(
+        adjudication_errors = validate_remediation_adjudication(
             effective_decision, finding_result, effective_basis if effective_basis is not None else {},
-        ))
+        )
+        errors.extend(adjudication_errors)
+    durable_bridge_authorized = (
+        repository_root is not None and isinstance(effective_decision, Mapping)
+        and not resolution_errors and not adjudication_errors
+    )
     if authoritative_review_context is not None:
         if not isinstance(authoritative_review_context, Mapping):
             errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_INVALID"])
@@ -930,7 +980,10 @@ def validate_review_lifecycle(
             if not _is_sha(current_revision):
                 errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_CONTEXT_REVISION_REQUIRED"])
             elif finding_result.get("review_target_revision") != current_revision:
-                errors.extend(["RECONCILIATION_REQUIRED", "STALE_REVIEW_REVISION"])
+                if not (durable_bridge_authorized and _review_revision_matches_or_management_bridge(
+                    repository_root, finding_result.get("review_target_revision"), current_revision,
+                )):
+                    errors.extend(["RECONCILIATION_REQUIRED", "STALE_REVIEW_REVISION"])
             errors.extend(_validate_identity(
                 finding_result,
                 authoritative_review_context,
@@ -948,7 +1001,10 @@ def validate_review_lifecycle(
         if not set(instruction.get("finding_ids") or []).intersection(finding_result.get("finding_ids") or []):
             errors.append("FINDING_CORRELATION_REQUIRED")
         if instruction.get("expected_base_sha") != finding_result.get("review_target_revision"):
-            errors.append("REVIEW_TARGET_REVISION_MISMATCH")
+            if not (durable_bridge_authorized and _review_revision_matches_or_management_bridge(
+                repository_root, finding_result.get("review_target_revision"), instruction.get("expected_base_sha"),
+            )):
+                errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_TARGET_REVISION_MISMATCH"])
         if instruction.get("review_target_revision") is not None and instruction.get("review_target_revision") != finding_result.get("review_target_revision"):
             errors.append("REVIEW_TARGET_REVISION_MISMATCH")
         if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
