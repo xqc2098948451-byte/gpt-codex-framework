@@ -1,0 +1,109 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "F001_ROUND2_REMOTE_POST_REGRESSION",
+  "state_revision": 42,
+  "result": "FAIL",
+  "observed_utc": "2026-10-07T14:56:15.693099+00:00",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "failing": true,
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "review_subject": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "review_result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+  "review_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+  },
+  "review_ref": "refs/heads/review/f001-optional-github-post-state41-661ff5f1",
+  "review_ref_head": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+  "review_result_sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+  "review_fix_round": 1,
+  "remote_readback": {
+    "observed_utc": "2026-10-07T14:56:11.405641+00:00",
+    "review_ref": "refs/heads/review/f001-optional-github-post-state41-661ff5f1",
+    "review_ref_head": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "review_target": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "review_result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+    "finding_ids": [
+      "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+    ],
+    "status": "FAIL",
+    "fix_round": 1,
+    "review_result_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+      "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+      "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+    },
+    "sha256": "3c655c5e4d47f0195aba1438a3b1096093c590eee6f40f2d5d0dec7a55a9ca3d",
+    "byte_count": 15188,
+    "remote_blob_readback": "VERIFIED",
+    "native_review_validation": "PASS",
+    "management_only_lineage": {
+      "status": "PASS",
+      "commits": [
+        "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+        "ff46a9b6a38cf2c5ed165e782598f59dc1d0f4c8"
+      ],
+      "changed_paths": [
+        ".gpt-codex/evidence/F001-SOURCE-FRESH-STATE41-VALIDATION.json",
+        ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
+        ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+        ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json"
+      ],
+      "source_tree_equivalence": true
+    },
+    "finding_source": "IMMUTABLE_REMOTE_REVIEW_OBJECT",
+    "copied_to_main": false
+  },
+  "observed_source_state_revision": 41,
+  "authority_applicability_revision": 42,
+  "classification": "F001_FIX_INCOMPLETE_CALLSITE",
+  "reproduction_source": "Existing independent immutable remote POST Finding; no tests or smoke rerun in governance gate",
+  "reproduction": {
+    "source": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\framework-source",
+    "source_candidate_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+    "project": "D:\\通用开发框架管理\\f001-source-fresh-runtime-20261007-01\\real-local-smoke\\project",
+    "project_git_sha": "3ef0652799995d0f142f8f01678b1c230b5a304f",
+    "control": "Actual smoke CONTROL: github absent; valid project/context/roots. No fixture or source mutation.",
+    "entry_point": "validate_framework_adoption(control, instruction, work_unit, current_state_revision=0)",
+    "work_unit": {
+      "project_id": "PRJ-F001-REAL-LOCAL-SMOKE",
+      "work_unit_id": "WU-F001-ADOPTION-PROBE",
+      "state": "AUTHORIZED",
+      "basis_state_revision": 0
+    },
+    "instruction": {
+      "target_work_unit": "WU-F001-ADOPTION-PROBE",
+      "expected_state_revision": 0,
+      "executor_role": "CODEX_IMPLEMENTER",
+      "authorized_actions": [
+        "MUTATE_APPROVED_SCOPE"
+      ],
+      "forbidden_actions": [],
+      "target_project_context_id": "b8768e51-6a95-4bf0-98ef-d4e06ef3503b",
+      "target_github_repository_id": "repo-a",
+      "target_github_repository_full_name": "owner/a"
+    },
+    "without_explicit_target_actual": [],
+    "with_explicit_target_actual": [
+      "PROJECT_IDENTITY_INVALID"
+    ],
+    "with_explicit_target_expected": [
+      "GITHUB_REPOSITORY_UNBOUND"
+    ],
+    "same_failure_with_id_only_or_full_name_only": true
+  },
+  "finding_copied_to_main": false,
+  "source_mutation_authorization": "NO"
+}

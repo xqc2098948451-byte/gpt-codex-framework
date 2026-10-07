@@ -1,0 +1,52 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "REMEDIATION_ADJUDICATION",
+  "state_revision": 42,
+  "result": "ACCEPT",
+  "observed_utc": "2026-10-07T14:56:15.693260+00:00",
+  "decision": "ACCEPT",
+  "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+  "basis_refs": [
+    "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS"
+  ],
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "adjudicated_at_revision": 42,
+  "authority_source": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "authority_provenance": "USER_SUPPLIED_EXPLICIT_GPT_GOVERNANCE_DIRECTIVE",
+  "source_directive_sha256": "703d01e448431356d6192156eaea6bfc9827ab232403886df8c04695e0601807",
+  "authority_directive_ref": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+  "review_subject": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "review_result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+  "review_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+  },
+  "classification": "F001_FIX_INCOMPLETE_CALLSITE",
+  "NEW_PRODUCT_DEFECT": "NO",
+  "NEW_ARCHITECTURE_DEFECT": "NO",
+  "NEW_GOVERNANCE_DEFECT": "NO",
+  "source_mutation_authorization": "NO",
+  "fresh_future_FIX_INSTRUCTION_required": true,
+  "target_semantics": {
+    "valid_local_only_explicit_github_target": {
+      "decision": "DENY",
+      "reason": "GITHUB_REPOSITORY_UNBOUND"
+    },
+    "partial_malformed_control_github": "PROJECT_IDENTITY_INVALID",
+    "bound_matching_repository": "PASS",
+    "bound_mismatching_repository": "GITHUB_REPOSITORY_MISMATCH",
+    "fail_closed": true
+  },
+  "old_state41_adjudication_reused": false
+}

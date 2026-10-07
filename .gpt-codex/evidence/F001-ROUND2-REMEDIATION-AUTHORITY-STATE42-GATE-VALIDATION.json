@@ -1,0 +1,39 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "EXACT_REMOTE_FINDING_AUTHORITY_STATE42",
+  "state_revision": 42,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T15:01:08.870650+00:00",
+  "baseline": "e83998c947e285ed8814a8156539bd467b6c04cf",
+  "review_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+  },
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "REMEDIATION_FINDING_CORRELATION": "PASS",
+  "ROUND2_REGRESSION_BASIS": "PASS",
+  "ROUND2_REMEDIATION_ADJUDICATION": "ACCEPT",
+  "native_governed_mutation_entry_errors": [],
+  "PRE": "PASS",
+  "sync_status": "SYNC_PENDING",
+  "source_test_plugin_release_mutation_counts": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "review_ref_preserved": true,
+  "failed_source_candidate_on_main": false,
+  "Round2_FIX_STARTED": false
+}
