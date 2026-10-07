@@ -1,0 +1,247 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-STATE42-AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "F001_ROUND2_BOUNDED_SOURCE_CORRECTION",
+  "state_revision": 42,
+  "result": "ACCEPT",
+  "mode": "BOUNDED_F001_CORRECTION",
+  "source_directive_sha256": "f1dfda4c9fb2d0066751ca0c831d441313335ecc43f5c6e03a73f3f597b17024",
+  "execution_base_sha": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+  "durable_authority_remote_head_sha": "e77ee58be58eb19131b966f800753522d4e12661",
+  "review_subject_sha": "661ff5f1d32f84ab867058dbc896b90fc8101d0a",
+  "finding_result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+  "finding_ids": [
+    "F001_POST_LOCAL_EXPLICIT_GITHUB_INSTRUCTION_UNBOUND_CLASSIFICATION"
+  ],
+  "remediation_decision_ref": "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION",
+  "fix_round": 2,
+  "fresh_implementer_context_id": "633e3815-2cf7-4cf7-8b58-89bbe12d95d0",
+  "canonical_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\f001-explicit-github-unbound-round2-state42-001",
+  "canonical_worktree_root": "D:\\通用开发框架管理\\worktrees",
+  "approved_scope": [
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/tests/test_continuity_resume.py",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-AUTHORITY.json",
+    ".gpt-codex/evidence/F001-ROUND2-STATE42-VALIDATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-POST.json",
+    ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json",
+    ".gpt-codex/work-units/f001-explicit-github-unbound-round2-state42-001.json",
+    ".gpt-codex/evidence/instructions/a105f966-96a9-4df7-bd99-4ac84c636b2b.json",
+    ".gpt-codex/evidence/instructions/4cb9b4b7-3f0c-4c11-9977-1120ded6c110.json",
+    ".gpt-codex/evidence/instructions/2cf093c7-55bf-43af-b127-56699d99260c.json"
+  ],
+  "excluded_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/schemas/",
+    ".gpt-codex/scripts/context_binding.py",
+    ".gpt-codex/scripts/project_navigation.py",
+    ".gpt-codex/scripts/continuity_resume.py",
+    "VERSION",
+    "plugins/",
+    "releases/"
+  ],
+  "source_plan": [
+    "Require independent native PRE PASS before source/test edit",
+    "Reproduce exact POST Finding in validate_framework_adoption and _project_identity_decision",
+    "Correct only _project_identity_decision local-only explicit GitHub classification while preserving bound malformed-target fail-closed behavior",
+    "Extend existing OptionalGithubContractTests adoption caller assertions; zero new test files and zero new test methods preferred",
+    "Run exact regression, directly affected validator/identity/adoption tests, native validators, and real local Git smoke hitting adoption caller",
+    "Seal exact Round2 candidate; independent POST; STOP on any Finding; RETURN_TO_GPT"
+  ],
+  "test_policy": {
+    "test_case_growth_default": "DENY",
+    "new_test_file_count": 0,
+    "new_regression_test_count_delta_preferred": 0,
+    "new_regression_test_count_delta_maximum": 1,
+    "historical_F001_full_suite_run_count": 1,
+    "round2_full_suite_rerun_default": "DENY"
+  },
+  "state42_materialization": {
+    "source_sha": "e77ee58be58eb19131b966f800753522d4e12661",
+    "management_only_commit": "f58df9e623de260fa9832a0de493ac7b8a6dce5f",
+    "copied_paths": [
+      {
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de",
+        "sha256": "2d457a33d51ca773c4fefb38c17a87e0a8146c0f7841942266a3029ea1fffd0e",
+        "byte_count": 23930
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+        "blob_sha": "a966fee22cd9ff5ad92623c6d55f57545b1648be",
+        "sha256": "c1dfc6f0353b8a6356495e2ca4b977610c97c1564a2506dd525d1f56fb05b4af",
+        "byte_count": 30933
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS.json",
+        "blob_sha": "b976b9a8f9cd93d6007d6d4f845ebbac7d2825d4",
+        "sha256": "8231f3e4367cd27eea7e20a9cd5918530511cab2b1dbcf6029dd1c6dff7db244",
+        "byte_count": 4885
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REMEDIATION-ADJUDICATION.json",
+        "blob_sha": "a37b5efa44e3dffb493b49ab1fc8f93d16790c3f",
+        "sha256": "f5dff532916364c097055dd2a282c6f2c496f0ec7d25782788a6e0f574748ea6",
+        "byte_count": 2230
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-VALIDATION.json",
+        "blob_sha": "693ce5272a0d9f8c5400e3b41592bc9ba26ec0b7",
+        "sha256": "3dc703c75c31762876a0cd4e8cbe9436fd702e8561047a6ba9b487ecc639d55e",
+        "byte_count": 1395
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
+        "blob_sha": "59545daecb42e1c8066e0b0815c2faf923b2a60b",
+        "sha256": "753d0b866849ccc3a30a223f333684ac1546a5d2fe80c74a35b03ec5e5acb932",
+        "byte_count": 72560
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/655254b0-16d4-4b53-b4a3-de8ceca62394.json",
+        "blob_sha": "e6cae30954cfa5ff6ef9a19f40d757fce83f18a8",
+        "sha256": "cd24215e428d965e9be1bb74aa97bcdb894a06085c91ab06e9e1542593d9434a",
+        "byte_count": 2736
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/db39f37d-f476-4b05-8add-0ddafa11ee29.json",
+        "blob_sha": "4986a782fa8e4522aee3ff74a190903f79a793a8",
+        "sha256": "b4697f373471a04a48105fbf863dcd01b177f53c87e85a36c8e4ebda384e5a3d",
+        "byte_count": 2841
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
+        "blob_sha": "32870c6e50609cca6c57137f4ef78aa47e052a53",
+        "sha256": "ac7b728b47d8020b3f2b714b092ddfe983bdc85b1d579968461c941302fb8202",
+        "byte_count": 36949
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
+        "blob_sha": "d0dd05024ec42ea6fef0237e9f2ca18926fc1117",
+        "sha256": "6f05105cc2c3dc2976c6a7a4f39f62188ad749d38f38a1a482c9702b73c7bf03",
+        "byte_count": 37097
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-REMOTE-VERIFICATION.json",
+        "blob_sha": "ee4e450c9ebe87f9f199c6c69111b2d64bfc4ae1",
+        "sha256": "d626a7834e00ca170fe195e918e4d9339ce96ae9bf4dd4a99226bc8958f16592",
+        "byte_count": 9585
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-ATTESTATION.json",
+        "blob_sha": "dc67cbf033ed37c9603eb32ad466ebefbda2b0a8",
+        "sha256": "cc2855600a6b9c8dc657d31cf24539531a92106a2765f4bf08cfc607d67e8379",
+        "byte_count": 1246
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+        "blob_sha": "5942465c958f4f2a9a0faeb5f4b9792653b555e0",
+        "sha256": "d89e26ca53f8af9c0f6f9fbd8d774560a75d417288c8f9df583a0da1238d83f8",
+        "byte_count": 7099
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
+        "blob_sha": "b1e67eb6d75ce14b63493c81bb733dd6cf76d8c4",
+        "sha256": "5d229589b89521531e40fda9527c4c90f5aa57d817f0d87004453014e003e11b",
+        "byte_count": 2853
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
+        "blob_sha": "36f8d62615395aa83e9de48f56881ffce8782bfc",
+        "sha256": "de4d1e11932f8fcddb4987c1770077391378b1051ee2b40ebfede50853a9bf9e",
+        "byte_count": 2748
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
+        "blob_sha": "1da892dcfc06e7e709134fb7724ab2be50f0d67e",
+        "sha256": "3b0bd06b51194b23dffc80e1436b39f52231a59e2bde4c601780bbd4c08c6820",
+        "byte_count": 2853
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
+        "blob_sha": "5073d42e7690ebe70513790229cc311f2769c364",
+        "sha256": "56fb1204d952bd6abee3b7bbbcae356f40798a9f07a450b24d8ed7b1a1fbc758",
+        "byte_count": 2724
+      },
+      {
+        "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json",
+        "blob_sha": "ad092fa5ec25a223165d1b8adce3b1e8fbcd5417",
+        "sha256": "073f9a415f03198e355c15efc12ccbda9fb9a7ba9e58cb37e228569b29b9ce6d",
+        "byte_count": 2225
+      },
+      {
+        "path": ".gpt-codex/work-units/f001-round2-remediation-authority-state42-gate-001.json",
+        "blob_sha": "efd4fc52f79a1dbf42a86bdf090cb29b3b5d604c",
+        "sha256": "eda56c132eebda6df522420ffe8b29607f2ed7653e2b526d0ca6aef454d74fe8",
+        "byte_count": 26780
+      },
+      {
+        "path": ".gpt-codex/work-units/f001-round2-remediation-authority-state42-continuity-001.json",
+        "blob_sha": "445897cac05eadb8e1341a6c0f0699d3252150da",
+        "sha256": "67e266d7587249d67fe5532632dc4c79592ae837db47c6eebb05272c44bdf04c",
+        "byte_count": 26786
+      }
+    ],
+    "remote_main_remains_durable_authority": true,
+    "state_bytes_equal_remote_main": true
+  },
+  "causal_bridge": {
+    "native_G001_every_intermediate_parent_check": true,
+    "round1_source_test_byte_checks": {
+      ".gpt-codex/scripts/context_binding.py": true,
+      ".gpt-codex/scripts/continuity_resume.py": true,
+      ".gpt-codex/scripts/project_navigation.py": true,
+      ".gpt-codex/scripts/validate_project.py": true,
+      ".gpt-codex/tests/test_context_window_resume.py": true,
+      ".gpt-codex/tests/test_continuity_resume.py": true,
+      ".gpt-codex/tests/test_navigation_project_validation.py": true,
+      ".gpt-codex/tests/test_project_navigation.py": true
+    }
+  },
+  "root_cause": {
+    "confirmed": true,
+    "actual_source_helper": ".gpt-codex/scripts/validate_project.py:_project_identity_decision",
+    "cause": "For local-only CONTROL the helper synthesizes target_control.github containing only one target repository field, causing invalid partial GitHub identity before existing unbound classification. Bound malformed target validation remains required.",
+    "nonpersistent_reproduction": {
+      "without_target": [],
+      "target_github_repository_id": {
+        "identity": {
+          "decision": "DENY",
+          "reason": "GITHUB_REPOSITORY_UNBOUND"
+        },
+        "helper": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID"
+        },
+        "adoption": [
+          "PROJECT_IDENTITY_INVALID"
+        ]
+      },
+      "target_github_repository_full_name": {
+        "identity": {
+          "decision": "DENY",
+          "reason": "GITHUB_REPOSITORY_UNBOUND"
+        },
+        "helper": {
+          "decision": "DENY",
+          "reason": "PROJECT_IDENTITY_INVALID"
+        },
+        "adoption": [
+          "PROJECT_IDENTITY_INVALID"
+        ]
+      }
+    }
+  },
+  "PRE_EXECUTION_REVIEW": "REQUIRED_PENDING",
+  "publication_authority": "NONE",
+  "PUSH_STATUS": "NOT_ATTEMPTED",
+  "state_revision_preserved": 42,
+  "no_new_durable_directories": true
+}
