@@ -1,0 +1,98 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "PRE_EXECUTION_GOVERNANCE_LIVENESS_FINDING",
+  "state_revision": 38,
+  "result": "CONFIRMED",
+  "observed_utc": "2026-10-07T09:52:41.258559+00:00",
+  "finding_id": "G001_REMEDIATION_CAUSAL_BASE_SELF_LOCK",
+  "classification": "PRE_EXECUTION_GOVERNANCE_LIVENESS_FINDING",
+  "classification_exclusions": [
+    "POST_EXECUTION_REVIEW_FINDING",
+    "F001_PRODUCT_DEFECT_EXTENSION"
+  ],
+  "observed_errors": [
+    "RECONCILIATION_REQUIRED",
+    "STALE_REVIEW_REVISION",
+    "REVIEW_TARGET_REVISION_MISMATCH"
+  ],
+  "native_lifecycle_errors": [
+    "RECONCILIATION_REQUIRED",
+    "STALE_REVIEW_REVISION",
+    "REVIEW_TARGET_REVISION_MISMATCH"
+  ],
+  "native_probe": "READ_ONLY_IN_MEMORY_ONLY_NO_FIX_INSTRUCTION_ISSUED",
+  "observed_remote_main": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+  "observed_state_revision": 38,
+  "F001_REPRODUCED_ON_CURRENT_MAIN": "YES",
+  "f001_reproduction": [
+    {
+      "resource": "PROJECT_MAP",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "repository_id": null
+    },
+    {
+      "resource": "MODULE_MAP",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "repository_id": null
+    },
+    {
+      "resource": "RESUME",
+      "expected": "ALLOW",
+      "actual": "ALLOW",
+      "repository_id": null
+    }
+  ],
+  "local_core_identity_observation": {
+    "expected": "ALLOW_LOCAL",
+    "actual": "PROJECT_IDENTITY_INVALID"
+  },
+  "bound_module_map_observation": {
+    "expected": "ALLOW",
+    "actual": "PROJECT_IDENTITY_INVALID",
+    "repository_id_present": false,
+    "schema": ".gpt-codex/schemas/module-map.schema.json"
+  },
+  "reproduction_interpretation": "Current main still violates the accepted optional-GitHub identity and derived-resource contract. Its local navigation helpers fall back when core identity is invalid; the historical rejected candidate has a distinct failure signature and is not reused as current-main execution evidence.",
+  "immutable_f001_finding_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+    "blob_sha": "0b5fd7589db95c6c38fceca14f5de082dace19a5"
+  },
+  "immutable_f001_review_subject_sha": "3d095c7a209045782fdb2c017d9e040624d6774f",
+  "source_locations": [
+    ".gpt-codex/scripts/validate_project.py:933",
+    ".gpt-codex/scripts/validate_project.py:950",
+    ".gpt-codex/scripts/validate_project.py:1053"
+  ],
+  "framework_source_mutation": 0,
+  "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+  "F001_FIX": "PAUSED_BY_GOVERNANCE_LIVENESS_DEFECT",
+  "F001_STATUS": "PAUSED_PENDING_G001_CORRECTION",
+  "independent_reviewer_conclusion": "PENDING",
+  "workspace_binding": {
+    "status": "MATCH",
+    "current_layout_authority": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "34860e4ba83383afb5ff10c90b57a3d96bdb81c2",
+      "path": "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+      "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0"
+    },
+    "worktree_root": "D:\\通用开发框架管理\\worktrees",
+    "source_root": "D:\\通用开发框架管理",
+    "legacy_d_w_binding": "SUPERSEDED_HISTORICAL_BINDING",
+    "legacy_binding_bytes_preserved": true,
+    "current_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+    "durable_binding_mutation": 0
+  },
+  "root_cause": "Finding.review_target_revision == FIX.expected_base_sha, but durable Finding/Basis/Adjudication/STATE publication advances HEAD; immutable exact review causality, durable remediation authority and a current clean execution baseline cannot all be satisfied."
+}
