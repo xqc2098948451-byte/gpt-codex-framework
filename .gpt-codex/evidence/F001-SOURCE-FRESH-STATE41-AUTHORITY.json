@@ -73,7 +73,10 @@
     ".gpt-codex/evidence/instructions/a3a7c1f9-7eb2-40ec-ad3c-b8a617f73e61.json",
     ".gpt-codex/evidence/instructions/56918e43-5e8a-4593-b1db-04e094a775df.json",
     ".gpt-codex/evidence/instructions/2c70e20a-7d83-4693-9639-651194488f8f.json",
-    ".gpt-codex/evidence/instructions/115c1130-dcff-44a5-b902-0498d8d28740.json"
+    ".gpt-codex/evidence/instructions/115c1130-dcff-44a5-b902-0498d8d28740.json",
+    ".gpt-codex/tests/test_context_window_resume.py",
+    ".gpt-codex/evidence/instructions/b793c610-5406-4f06-9ee8-05f395e37ec0.json",
+    ".gpt-codex/evidence/instructions/2595ee6e-2498-48da-8c31-5b6575e45b3c.json"
   ],
   "excluded_scope": [
     ".gpt-codex/STATE.json",
@@ -96,5 +99,11 @@
   "full_suite_run_count_required": 1,
   "publication_authority": "NONE",
   "state_revision_preserved": 41,
-  "bootstrap_correction": "Unexecuted FIX COMMIT action removed; native CODEX_IMPLEMENTER role allowlist authoritative; old immutable records retained."
+  "bootstrap_correction": "Unexecuted FIX COMMIT action removed; native CODEX_IMPLEMENTER role allowlist authoritative; old immutable records retained.",
+  "existing_fixture_correction": {
+    "path": ".gpt-codex/tests/test_context_window_resume.py",
+    "required_change": "Add valid AUTHORITATIVE/ADVISORY roots to existing CONTROL fixture; no new test.",
+    "evidence": "Exact existing CONTROL rejected by native load_project_identity; navigation-continuity REQUIRED_TESTS includes file.",
+    "user_scope_interpretation": "Focused regression scope may include is nonexclusive; only files actually required. Production scope remains four exact files; new regression count remains five."
+  }
 }
