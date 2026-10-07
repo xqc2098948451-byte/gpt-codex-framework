@@ -1,0 +1,30 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-CORRECTION-REMOTE-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source": "TOOL_OBSERVED",
+  "subject": "SOURCE_CORRECTION_NATIVE_TRANSPORT_AUTHORITY_AND_REMOTE_OBSERVATION",
+  "state_revision": 39,
+  "result": "SYNC_PENDING",
+  "observed_utc": "2026-10-07T10:56:26.189225+00:00",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "remote_ref": "refs/heads/main",
+  "observed_remote_sha": "f4c38903a3a97806c1af7dd3e798bcc30de6c644",
+  "remote_ref_verification": "VERIFIED",
+  "source_candidate_sha": "041f0560191195d1f7058a1c5cd03cfca159b63e",
+  "correction_remote_verification": "NOT_ATTEMPTED",
+  "source_push_authority": "DENY",
+  "native_role_errors": [
+    "ROLE_AUTHORITY_CONFLICT",
+    "ACTION_NOT_ALLOWED_FOR_ROLE"
+  ],
+  "push_status": "NOT_ATTEMPTED",
+  "sync_status": "SYNC_PENDING",
+  "native_probe_is_unissued_in_memory_only": true,
+  "actual_instruction_unchanged": true,
+  "force_push_attempted": false,
+  "main_mutation_count": 0,
+  "fallback_authority": "User directive section 21: native source push DENY returns LOCAL_COMPLETE/SYNC_PENDING."
+}
