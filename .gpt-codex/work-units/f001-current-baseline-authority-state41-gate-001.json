@@ -1,0 +1,108 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "f001-current-baseline-authority-state41-gate-001",
+  "basis_state_revision": 40,
+  "state": "AUTHORIZED",
+  "goal": "Refresh F001 remediation authority at exact current STATE40 main, publish STATE41 governance only, then stop before source FIX.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE40-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-STATE41-REMEDIATION-ADJUDICATION.json",
+      ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-ATTESTATION.json",
+      ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-METADATA-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE.json",
+      ".gpt-codex/work-units/f001-current-baseline-authority-state41-gate-001.json",
+      ".gpt-codex/work-units/f001-current-baseline-authority-state41-continuity-001.json",
+      ".gpt-codex/evidence/instructions/b56a89a7-84f8-45e5-bdd7-7d8c1ac69222.json",
+      ".gpt-codex/evidence/instructions/3d750be1-401e-4c4f-9ca7-a181402b9a67.json",
+      ".gpt-codex/evidence/instructions/f49d43e4-a77a-4c7e-bc47-714b10c65754.json",
+      ".gpt-codex/evidence/instructions/11abafb4-2ddd-4faa-a2c7-30e17a709ab6.json",
+      ".gpt-codex/evidence/instructions/608f1c66-689c-4b73-ad1a-6e9094bdf635.json",
+      ".gpt-codex/evidence/instructions/9bbc19d0-d3be-4125-bf1d-cc740276beab.json",
+      ".gpt-codex/evidence/instructions/a1f12b34-ceb3-41f6-b21a-5b8972b5d12a.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      "plugins/",
+      "VERSION",
+      "releases/",
+      "docs/",
+      "tests/",
+      "dist/",
+      "AGENTS.md",
+      ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+      ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REGRESSION-BASIS.json",
+      ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION.json"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+      "sha": "daabc0e98bdb3a0f365af33df45ae8dcc933902d"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+      "sha": "daabc0e98bdb3a0f365af33df45ae8dcc933902d"
+    }
+  },
+  "acceptance": [
+    "Fresh independent exact-main Finding and concrete failing reproduction",
+    "Exact-base independent PRE before STATE41",
+    "Current basis applicability41 and explicit adjudication41 resolve durably",
+    "G001 ancestor and every intermediate change management-only with equal source trees",
+    "STATE41 AUTHORIZED empty blockers null reconciliation unchanged next_action",
+    "Independent POST and metadata PRE",
+    "Remote tree and bytes, native W/P SYNCED and explicit native handoff",
+    "Historical F001 and G001 bytes preserved; source/plugin/release mutation counts zero",
+    "Stop after STATE41 remote PASS"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Governance state and durable liveness authority registration"
+  },
+  "authority_source_ref": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "daabc0e98bdb3a0f365af33df45ae8dcc933902d",
+    "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+    "blob_sha": "2597b5c4fe53b5fb9aa69b123f6f769afd8f0e71"
+  }
+}
