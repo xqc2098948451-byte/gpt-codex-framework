@@ -1,0 +1,40 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-STATE40-CANONICAL-RETRY-HANDOFF-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "POST_SYNC_NATIVE_RESOLVER_AND_HANDOFF",
+  "state_revision": 40,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T12:39:38.223793+00:00",
+  "observed_remote_sha": "6f395df26a814f78bc65c0aafeb48ec6c183e08f",
+  "load_continuity_resume": "LATEST_SYNCED_REMOTE_STATE",
+  "resolve_durable_instruction": "INSTRUCTION_RESOLVED",
+  "resolve_plugin_instruction": "INSTRUCTION_RESOLVED",
+  "native_status": "HANDOFF_READY",
+  "plugin_resume_status": "PLUGIN_RESUME_READY",
+  "plugin_handoff_status": "HANDOFF_READY",
+  "validated_result_id": "f8bab456-9e2e-4cc7-85c2-d5187c839289",
+  "validated_result_ref": ".gpt-codex/evidence/results/RESULT-G001-DURABLE-CLOSURE-STATE40-CANONICAL-RETRY.json",
+  "bindings": {
+    "target_work_unit_id": "g001-state40-canonical-retry-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+      "sha": "d8723b764fac95af1e68190612120d05fa726498"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+      "path": ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json",
+      "blob_sha": "ee0906e27abf1f8d01cee84bbd455e2bb7e69faf"
+    },
+    "expected_state_revision": 40
+  },
+  "prior_result_status": "LOCAL_COMPLETE",
+  "mutation": "NONE",
+  "F001_FIX_STARTED": false
+}
