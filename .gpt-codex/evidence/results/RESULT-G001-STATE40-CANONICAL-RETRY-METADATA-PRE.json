@@ -1,0 +1,391 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "result_id": "1b6f941f-b42d-46cf-a165-6d26e664259d",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "g001-state40-canonical-retry-continuity-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "review_phase": "PRE_EXECUTION",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d",
+  "review_target_revision": "681d84d183a9b52d31a275031172351408557f83",
+  "state_revision": 40,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+  "remote_head_sha": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "remote_verification": "VERIFIED",
+  "sync_status": null,
+  "publication_authority": null,
+  "push_status": "NOT_ATTEMPTED",
+  "remote_verification_semantics": "Fresh remote BASE and actual Tool-observed candidate review only; candidate publication not attempted.",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+    ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+    ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+    ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json"
+  ],
+  "authority_refs": {
+    "review_instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+      "path": ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+      "blob_sha": "4d58cdbca47d53eaf45356e121de3ffd1155521c"
+    },
+    "work_unit": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d8723b764fac95af1e68190612120d05fa726498",
+      "path": ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+      "blob_sha": "9a399ced6b57925ad1e4603903991caa5e9c5a7d"
+    },
+    "authority": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "fab9e1fc7cc4acd88ccefd8162d9075ad9d66ea1",
+      "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+      "blob_sha": "d0d45b108ebf13e2ccde855d3d4947a6bb99e43c"
+    },
+    "mutation_instruction": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+      "path": ".gpt-codex/evidence/instructions/ccfdf2da-61fb-4700-808e-7be273a175de.json",
+      "blob_sha": "2d3fa6c8536a45dd6112023b81e189c8328c9304"
+    }
+  },
+  "changed": [],
+  "blockers": [],
+  "finding_ids": [],
+  "finding_details": [],
+  "context_separation_evidence": {
+    "reviewer_context": "/root/canonical_workspace_reviewer",
+    "implementer_context": "/root",
+    "reviewer_worktree": "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001",
+    "implementation_runner_or_preparation_code_read": false,
+    "old_retry_runtime_or_failed_candidate_read": false,
+    "repository_content_edits": 0,
+    "implementation_writes": 0,
+    "authorized_reviewer_checkout": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+    "agent_spawns": 0
+  },
+  "result_claim": "GOVERNANCE_CANDIDATE_REVIEW_ONLY",
+  "final_durable_closure_claim": false,
+  "review_limit": "Only governance publication readiness. LOCAL_UNSYNCED_STATE is pre-sync transient solely; after sync all resolvers and explicit native handoff must pass without exceptions. Source/plugin/release/F001/STATE41 changes forbidden. Stop RETURN_TO_GPT after durable STATE40.",
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "Independent PRE_EXECUTION of governance-only canonical STATE40 candidate; no durable closure claim."
+    ],
+    "executed_scope": [
+      "Independent PRE_EXECUTION of governance-only canonical STATE40 candidate; no durable closure claim."
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "canonical identity stable distinct clean reviewer checkout",
+      "actual STATE40 equals independent PRE candidate with historical continuity preserved",
+      "live remote baseline repository identity and no candidate publication",
+      "immutable authorized continuity Work Unit authority and embedded identity",
+      "post exact immutable canonical Instruction core schema and authority",
+      "metadata exact immutable canonical Instruction core schema and authority",
+      "metadata_pre exact immutable canonical Instruction core schema and authority",
+      "handoff exact immutable canonical Instruction core schema and authority",
+      "runtime resolver EXPECTED_TRANSIENT solely LOCAL_UNSYNCED_STATE with every other branch checked",
+      "STATE40 native schema",
+      "continuity Work Unit native schema",
+      "authority native schema",
+      "candidate validation native schema",
+      "independent preserved PRE Result native schema",
+      "STATE40 native publication authority",
+      "native exact candidate and bundle scope",
+      "native no new durable directories",
+      "every 864 existing nonSTATE source plugin release F001 and historical Result blobs unchanged",
+      "project and framework native validators PASS",
+      "independent candidate POST PASS persisted before metadata PRE",
+      "proposed bounded FF remote readback native W/P attestation four binding handoff and final stop plan",
+      "native Result schema protocol completion and authority",
+      "native exact metadata PRE and governed mutation entry",
+      "preserved repository STATE CONTROL and canonical binding bytes"
+    ],
+    "validators_completed": [
+      "canonical identity stable distinct clean reviewer checkout",
+      "actual STATE40 equals independent PRE candidate with historical continuity preserved",
+      "live remote baseline repository identity and no candidate publication",
+      "immutable authorized continuity Work Unit authority and embedded identity",
+      "post exact immutable canonical Instruction core schema and authority",
+      "metadata exact immutable canonical Instruction core schema and authority",
+      "metadata_pre exact immutable canonical Instruction core schema and authority",
+      "handoff exact immutable canonical Instruction core schema and authority",
+      "runtime resolver EXPECTED_TRANSIENT solely LOCAL_UNSYNCED_STATE with every other branch checked",
+      "STATE40 native schema",
+      "continuity Work Unit native schema",
+      "authority native schema",
+      "candidate validation native schema",
+      "independent preserved PRE Result native schema",
+      "STATE40 native publication authority",
+      "native exact candidate and bundle scope",
+      "native no new durable directories",
+      "every 864 existing nonSTATE source plugin release F001 and historical Result blobs unchanged",
+      "project and framework native validators PASS",
+      "independent candidate POST PASS persisted before metadata PRE",
+      "proposed bounded FF remote readback native W/P attestation four binding handoff and final stop plan",
+      "native Result schema protocol completion and authority",
+      "native exact metadata PRE and governed mutation entry",
+      "preserved repository STATE CONTROL and canonical binding bytes"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "verify": {
+    "canonical identity stable distinct clean reviewer checkout": {
+      "status": "PASS",
+      "errors": []
+    },
+    "actual STATE40 equals independent PRE candidate with historical continuity preserved": {
+      "status": "PASS",
+      "errors": []
+    },
+    "live remote baseline repository identity and no candidate publication": {
+      "status": "PASS",
+      "errors": []
+    },
+    "immutable authorized continuity Work Unit authority and embedded identity": {
+      "status": "PASS",
+      "errors": []
+    },
+    "post exact immutable canonical Instruction core schema and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "metadata exact immutable canonical Instruction core schema and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "metadata_pre exact immutable canonical Instruction core schema and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "handoff exact immutable canonical Instruction core schema and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "runtime resolver EXPECTED_TRANSIENT solely LOCAL_UNSYNCED_STATE with every other branch checked": {
+      "status": "PASS",
+      "errors": []
+    },
+    "STATE40 native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "continuity Work Unit native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "authority native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "candidate validation native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "independent preserved PRE Result native schema": {
+      "status": "PASS",
+      "errors": []
+    },
+    "STATE40 native publication authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native exact candidate and bundle scope": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native no new durable directories": {
+      "status": "PASS",
+      "errors": []
+    },
+    "every 864 existing nonSTATE source plugin release F001 and historical Result blobs unchanged": {
+      "status": "PASS",
+      "errors": []
+    },
+    "project and framework native validators PASS": {
+      "status": "PASS",
+      "errors": []
+    },
+    "independent candidate POST PASS persisted before metadata PRE": {
+      "status": "PASS",
+      "errors": []
+    },
+    "proposed bounded FF remote readback native W/P attestation four binding handoff and final stop plan": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native Result schema protocol completion and authority": {
+      "status": "PASS",
+      "errors": []
+    },
+    "native exact metadata PRE and governed mutation entry": {
+      "status": "PASS",
+      "errors": []
+    },
+    "preserved repository STATE CONTROL and canonical binding bytes": {
+      "status": "PASS",
+      "errors": []
+    }
+  },
+  "independent_observations": {
+    "preserved_PRE_Result": {
+      "parsed_exact_equality": true,
+      "durable_sha256": "184b0dc15b6f64c42203ebac5301931c738130c778d7ee078f9e443d1cf4acb0",
+      "external_sha256": "ab8b80a5c6ff1edefbda0f42d9c0d45461c1d5634f4c67da01b87c8712bf0289",
+      "serialization_semantics": "Result data preserved exactly; canonical bytes are an Instruction requirement."
+    },
+    "baseline_remote": {
+      "head": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+      "repository": {
+        "default_branch": "main",
+        "full_name": "xqc2098948451-byte/gpt-codex-framework",
+        "id": 1366213495
+      },
+      "observed_utc": "2026-10-07T12:37:01.661079+00:00",
+      "candidate_is_published": false
+    },
+    "resolver_observations": {
+      "native_baseline_status": "LOCAL_UNSYNCED_STATE",
+      "resolver_results": {
+        "post": {
+          "status": "RECONCILIATION_REQUIRED"
+        },
+        "metadata": {
+          "status": "RECONCILIATION_REQUIRED"
+        },
+        "metadata_pre": {
+          "status": "RECONCILIATION_REQUIRED"
+        },
+        "handoff": {
+          "status": "RECONCILIATION_REQUIRED"
+        }
+      },
+      "classification": "EXPECTED_TRANSIENT",
+      "only_underlying_reason": "LOCAL_UNSYNCED_STATE",
+      "post_sync_exception_allowed": false
+    },
+    "tracked_preservation": {
+      "baseline_existing_files": 865,
+      "existing_nonSTATE_preserved": 864,
+      "historical_G001_Result_blob": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1",
+      "candidate_delta": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+        ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+        ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+        ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json",
+        ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+        ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json"
+      ],
+      "bundle_delta": [
+        ".gpt-codex/evidence/instructions/107fe7c6-3960-4e53-8de9-a3a5265aeb3f.json",
+        ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+        ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json",
+        ".gpt-codex/evidence/instructions/ccfdf2da-61fb-4700-808e-7be273a175de.json"
+      ]
+    },
+    "validators": {
+      "project": "RESULT: PASS; STATE: AUTHORIZED@revision-40; PROJECT_CONTEXT_BINDING: PASS",
+      "framework": "RESULT: PASS; BUILTINS: 12; KERNEL_VERSION: 2.0.0; CONTEXT_BINDING: PASS",
+      "provenance": "Direct independent reviewer exec call before this external audit; no G001 regression suite re-executed."
+    },
+    "candidate_STATE_sha256": "ceda60f639e1a69c2e070a58b7c75d07fe4e127cb09360eacd75e384a1ea83e7",
+    "immutable_work_unit_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d8723b764fac95af1e68190612120d05fa726498",
+      "path": ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+      "blob_sha": "9a399ced6b57925ad1e4603903991caa5e9c5a7d"
+    },
+    "state_authority": {
+      "revision": 40,
+      "state": "AUTHORIZED",
+      "sync_status": "SYNC_PENDING",
+      "continuity_latest_synced_revision": 39,
+      "candidate_publication": "NOT_ATTEMPTED"
+    },
+    "metadata_plan": {
+      "path": "D:\\通用开发框架管理\\g001-state40-canonical-retry-runtime\\metadata-publication-plan.json",
+      "sha256": "bcaa950f337e1c35e6ecf0946c5d08e7beba4f25fbb0758644cf6be30fb80f1e",
+      "authority": false,
+      "sequence": [
+        "independent candidate POST PASS",
+        "independent metadata PRE PASS",
+        "commit exact POST/PRE Results as W with STATE40 SYNC_PENDING",
+        "fast-forward W to main only if live main still BASE",
+        "remote tree and raw blob readback W",
+        "record readback Q; call native evaluate_attestation_chain(facts) with all seven exact facts/predicates documented in native_attestation_call",
+        "write native W/P attestation and LOCAL_COMPLETE final Result plus continuity40 SYNCED as P",
+        "fast-forward P and exact remote bytes readback",
+        "post-sync native instruction resolution",
+        "four explicit binding repository/plugin handoff",
+        "record native evidence and fresh final Result PASS as F, fast-forward and readback",
+        "fresh post-sync resolver/handoff at remote F, stop RETURN_TO_GPT"
+      ],
+      "native_attestation_call": {
+        "function": "git_continuity.evaluate_attestation_chain",
+        "argument": "facts dictionary",
+        "facts": {
+          "work_sha": "W: exact already-pushed and remote-byte-verified STATE40 SYNC_PENDING commit",
+          "publication_sha": "Q: local governance-only remote-verification metadata commit, then P/F when validating the synced chain",
+          "verified_work": true,
+          "publication_references_work": true,
+          "publication_references_self": false,
+          "publication_is_management_only": true,
+          "generic_tree_matches": true
+        },
+        "observed_predicates": {
+          "publication_references_work": "remote evidence work_sha == W; synced STATE continuity.latest_verified_remote_sha == W",
+          "publication_references_self": "work_sha != publication_sha",
+          "publication_is_management_only": "git diff W Q/P/F contains only exact approved scope paths",
+          "generic_tree_matches": "all baseline/non-scope mode/type/blob tuples identical at W and Q/P/F",
+          "verified_work": "verify_remote_publication and exact remote raw tree/blob readbacks of W return VERIFIED"
+        },
+        "required_result": {
+          "status": "PASS",
+          "verified_baseline_sha": "W"
+        }
+      },
+      "handoff_bindings": {
+        "target_work_unit_id": "g001-state40-canonical-retry-continuity-001",
+        "target_work_unit_ref": {
+          "path": ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+          "sha": "d8723b764fac95af1e68190612120d05fa726498"
+        },
+        "instruction_locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "bff3cdb90740e3aadafc4aca65e5a5d4984ffead",
+          "path": ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json",
+          "blob_sha": "ee0906e27abf1f8d01cee84bbd455e2bb7e69faf"
+        },
+        "expected_state_revision": 40
+      },
+      "post_sync_exception_allowed": false
+    },
+    "preserved_bytes_sha256": {
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\STATE.json": "ceda60f639e1a69c2e070a58b7c75d07fe4e127cb09360eacd75e384a1ea83e7",
+      "D:\\通用开发框架管理\\worktrees\\gpt-codex-framework\\review-g001-state40-canonical-workspace-retry-001\\.gpt-codex\\CONTROL.json": "6e3e0e9a010be1397b20d41e4f6bb4946a75839be1809f803894194c5f176c52",
+      "D:\\通用开发框架管理\\CURRENT-LOCAL-WORKSPACE-VIEW.json": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "D:\\通用开发框架管理\\LOCAL-WORKSPACE-WORKTREE-ROOT-BINDING.json": "849fe427b91ccb99a505202d8df7e630be197d9fcbfbdface530467caae24bb4"
+    }
+  },
+  "observed_utc": "2026-10-07T12:37:03.996852+00:00"
+}
