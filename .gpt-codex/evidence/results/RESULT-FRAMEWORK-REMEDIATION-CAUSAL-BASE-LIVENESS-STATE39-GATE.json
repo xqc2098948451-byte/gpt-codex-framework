@@ -3,12 +3,12 @@
   "schema_version": 1,
   "result_id": "68a32aa3-973a-43b1-b68d-ea628f6e0f9f",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
-  "work_unit_id": "framework-remediation-causal-base-liveness-state39-gate-001",
+  "work_unit_id": "framework-remediation-causal-base-liveness-state39-continuity-001",
   "gate_work_unit_id": "framework-remediation-causal-base-liveness-state39-gate-001",
   "extension": null,
   "status": "LOCAL_COMPLETE",
   "result_message_type": "IMPLEMENTATION_RESULT",
-  "response_to_instruction_id": "a6ba4070-1a27-4621-ab12-78da6c419788",
+  "response_to_instruction_id": "dfc2bd33-c0ea-46d7-a5ac-cbb03027529c",
   "responder_role": "CODEX_IMPLEMENTER",
   "return_role": "GPT_ORCHESTRATOR",
   "return_to_gpt_required": true,
@@ -19,10 +19,10 @@
   "framework_version": "2.8.0",
   "state_revision": 39,
   "current_remote_ref": "refs/heads/main",
-  "remote_verification": "NOT_ATTEMPTED",
-  "sync_status": "SYNC_PENDING",
-  "publication_authority": null,
-  "push_status": "NOT_ATTEMPTED",
+  "remote_verification": "VERIFIED",
+  "sync_status": "SYNCED",
+  "publication_authority": "CONFIRMED_PUBLICATION",
+  "push_status": "SUCCEEDED",
   "completion_gate": "GPT_DECISION",
   "finding_ids": [],
   "fix_round": 0,
@@ -59,7 +59,10 @@
     ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
     ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
-    ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json"
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+    ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-REMOTE-VERIFICATION.json"
   ],
   "completion_evidence": {
     "execution_state": "INCOMPLETE",
@@ -87,9 +90,53 @@
       "EXACT_REMOTE_READBACK",
       "NATIVE_HANDOFF"
     ],
-    "validators_completed": [],
+    "validators_completed": [
+      "GOVERNANCE_SCHEMAS",
+      "NATIVE_MUTATION_ENTRY",
+      "PROJECT_VALIDATOR",
+      "FRAMEWORK_VALIDATOR",
+      "INDEPENDENT_PRE",
+      "INDEPENDENT_POST",
+      "SOURCE_PRESERVATION",
+      "EXACT_REMOTE_READBACK"
+    ],
     "blocker_evidence_refs": []
   },
   "RETURN_TO_GPT": "YES",
-  "next_gpt_action": "Issue fresh EXECUTION_INSTRUCTION for G001 correction under STATE39 with independent PRE, implementation, full tests and independent POST; F001 remains paused."
+  "next_gpt_action": "Issue fresh EXECUTION_INSTRUCTION for G001 correction under STATE39 with independent PRE, implementation, full tests and independent POST; F001 remains paused.",
+  "local_head_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+  "remote_head_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+  "verified_baseline_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+  "implementation_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+  "git": {
+    "base_sha": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+    "implementation_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01"
+  },
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+    "sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "8915d4ab25bf3acab3151e89dcf865f807c84434",
+    "path": ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json",
+    "blob_sha": "1fd3f3ac0881a62c9f4a7d8941058c87c8ea43ee"
+  },
+  "native_handoff_bindings": {
+    "target_work_unit_id": "framework-remediation-causal-base-liveness-state39-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      "sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "8915d4ab25bf3acab3151e89dcf865f807c84434",
+      "path": ".gpt-codex/evidence/instructions/dfc2bd33-c0ea-46d7-a5ac-cbb03027529c.json",
+      "blob_sha": "1fd3f3ac0881a62c9f4a7d8941058c87c8ea43ee"
+    },
+    "expected_state_revision": 39
+  },
+  "self_containing_commit_claim": false,
+  "attestation_semantics": "STATE and Result attest a previously published reviewed work commit.",
+  "observed_utc": "2026-10-07T10:08:32.572614+00:00"
 }

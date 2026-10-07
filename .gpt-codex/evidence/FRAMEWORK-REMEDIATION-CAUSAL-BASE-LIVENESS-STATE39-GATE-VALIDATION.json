@@ -29,13 +29,13 @@
       "status": "PASS"
     },
     {
-      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
       "schema": "result-envelope",
       "status": "PASS"
     },
     {
-      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
-      "schema": "result-envelope",
+      "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-REMOTE-VERIFICATION.json",
+      "schema": "evidence",
       "status": "PASS"
     },
     {

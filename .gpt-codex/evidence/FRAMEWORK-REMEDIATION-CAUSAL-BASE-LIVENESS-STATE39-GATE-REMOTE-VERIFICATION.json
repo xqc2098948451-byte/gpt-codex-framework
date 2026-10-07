@@ -1,0 +1,276 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-REMOTE-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "EXACT_REMOTE_GOVERNANCE_READBACK",
+  "state_revision": 39,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T10:08:32.156909+00:00",
+  "verified_remote_main": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+  "baseline_remote_main": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+  "state_revision_observed": 39,
+  "exact_next_action": "FRAMEWORK_REMEDIATION_CAUSAL_BASE_LIVENESS_CORRECTION_REQUIRED",
+  "remote_verification": "VERIFIED",
+  "remote_ref": "refs/heads/main",
+  "artifact_locators": [
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "745f8913744b1b0fd7f60ec9ef562a008174b3ed"
+      },
+      "sha256": "4f9ab49c2e13c74a0b18487ff7d6e1fe387380e89261d3e2dc73ab174d26e634",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+        "blob_sha": "75e957f8a4a07ca901f1062d2dcf44024702a3b6"
+      },
+      "sha256": "92d4618ea6732539cdf0d8e902fe3ae6453cde48b6db4120105584f0a0c01555",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+        "blob_sha": "e159767e1a7880fdb63d8a5f2616532cf1ba1f66"
+      },
+      "sha256": "fd92107775429d5ef98225e1d25d831a6131e54e94197bd0fbb1a47288ee670c",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+        "blob_sha": "38422c6798c80db72c2b779a45a2fdba4d78c5c3"
+      },
+      "sha256": "c48af54404376d3ca2497240effb232d086ac199994e34f477ef5e645b00b638",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+        "blob_sha": "a582967dde30cfbd4472e94dccf337eaab29889b"
+      },
+      "sha256": "04da3e81621a95a617acf510b579cdda6a528374be0bafa8e54d54d1602d9d7e",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+        "blob_sha": "8c8c8ac0ba42b29d6ef3f90bae1fc54491770cb2"
+      },
+      "sha256": "77e949c6aeca820f0e29114236a812ede3b076357fdf691c3dbc19f6ead984c5",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+        "blob_sha": "19f6efb24b63b814a6ba86b2f346e17fb3266597"
+      },
+      "sha256": "5d27fd1e63f8a17f081811e75a9890b5c51e6837cbef77842eb246fd75a240fc",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json",
+        "blob_sha": "d51e8294751601b659f4ad1631b875943e517f74"
+      },
+      "sha256": "cb3f7f624bda1f500fa1db948af3125c0c646c0fdb06c201ed46b19e35841ffa",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json",
+        "blob_sha": "195cbd3ddcf313200bc5db1d8c1c1d4b31555d54"
+      },
+      "sha256": "fbd691733d858a87547b41ff19b0239b502e9133c4f93cbd5a677f7046bd8142",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+        "blob_sha": "25d08c97379e894e90080fc7888ec804977f4e92"
+      },
+      "sha256": "a280fe6967eeb2628489e1ec4d46786372e9ac1317b43e977f8e9bb5cbf3e25d",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+        "blob_sha": "afe680c6cfbf246f9832952dfb5cf05ce7195301"
+      },
+      "sha256": "578679a5ebf4cc38cea9942db6c86d46d5453f6cd8d0bbdb6b7a730a299dfdd4",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+        "blob_sha": "11e99f509f57aac3ccbf0913d7c0298241377e07"
+      },
+      "sha256": "571eac8883e7e1532aa4d0e78e292ee9d9bc0610d0863c7e7793c7f18c761bc3",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+        "blob_sha": "6c3d0cb0d1095ab1ea157cd636dd61eb204b8557"
+      },
+      "sha256": "152746d3146dcd1483bec66b0189ab515e8bd62a75b09fa53f4dea957148cb85",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+        "blob_sha": "c4af67db519ce12e5640afb720c136768ace9c00"
+      },
+      "sha256": "ae32e9e7b261c48f83f05fb071bb0fc74a8e63e30a82d1af167d043116f5ed9e",
+      "working_bytes_match_remote": true
+    },
+    {
+      "locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "path": ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json",
+        "blob_sha": "ab2421e8c0d6d7b537d14973cb5fa22f49b20fda"
+      },
+      "sha256": "970c2696a5ba8f738010d26ec74b2b989123c7d16e21dd751a507e881c6838f0",
+      "working_bytes_match_remote": true
+    }
+  ],
+  "source_preservation": {
+    "head": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+    "baseline": "a7492a2151b0079fd0a65a0e61bb8a6736c553e2",
+    "changed_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+      ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+      ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+      ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+      ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+      ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json",
+      ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+      ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json"
+    ],
+    "per_commit_audit": [
+      {
+        "sha": "f7dbe23755f64b2bbb63007ffaa4ce8def12409e",
+        "changed_paths": [
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-LIVENESS-ADJUDICATION.json",
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "6a48626ddfb2c01e57ff7292438edd49d69d8594",
+        "changed_paths": [
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-continuity-001.json",
+          ".gpt-codex/work-units/framework-remediation-causal-base-liveness-state39-gate-001.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "fda5a7b5c3876994a23a92fb2a36eab9b796be6a",
+        "changed_paths": [
+          ".gpt-codex/evidence/instructions/7c26e1ee-7bca-403f-b56f-09d48bc5d7c0.json",
+          ".gpt-codex/evidence/instructions/a6ba4070-1a27-4621-ab12-78da6c419788.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "ecaeecfdbaa14caae2d65efb44e82d8083d890a8",
+        "changed_paths": [
+          ".gpt-codex/STATE.json",
+          ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "f6b254961ce897b0f0847cb0d0cf7319097dd9bb",
+        "changed_paths": [
+          ".gpt-codex/evidence/instructions/1a441d8b-61a8-4018-9f72-1e68ec86953a.json",
+          ".gpt-codex/evidence/instructions/1aad1957-714e-4749-81a8-ef38b85a8e5f.json",
+          ".gpt-codex/evidence/instructions/8b906ca7-0ae3-42d3-a71c-e549f22d6597.json"
+        ],
+        "management_only": true
+      },
+      {
+        "sha": "7e03beee9f9648082c13997eec29fb4a6c8aaf01",
+        "changed_paths": [
+          ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-VALIDATION.json",
+          ".gpt-codex/evidence/G001-REMEDIATION-CAUSAL-BASE-SELF-LOCK.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-METADATA-PRE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-POST.json"
+        ],
+        "management_only": true
+      }
+    ],
+    "non_governance_tree_equivalent": true,
+    "non_governance_tree_sha256": "77c8715edf713872ebf13715a1643033ad723c7bfc75454a0afa8e7642017ce2",
+    "F001_RECORD_BYTES_PRESERVED": true,
+    "F001_REVIEW_TARGET_PRESERVED": true,
+    "historical_evidence_refs_preserved": true,
+    "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+    "PLUGIN_MUTATION_COUNT": 0,
+    "RELEASE_MUTATION_COUNT": 0,
+    "SECOND_AUTHORITY_SYSTEM_COUNT": 0,
+    "BLANKET_GOVERNANCE_EXEMPTION_COUNT": 0,
+    "workspace": {
+      "status": "MATCH",
+      "current_layout_authority": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "34860e4ba83383afb5ff10c90b57a3d96bdb81c2",
+        "path": "docs/superpowers/specs/2026-10-04-local-workspace-consolidation-l6a-boundary-amendment.md",
+        "blob_sha": "6cd101bf751cbd8517039f882665bdf9ea8c1ea0"
+      },
+      "worktree_root": "D:\\通用开发框架管理\\worktrees",
+      "source_root": "D:\\通用开发框架管理",
+      "legacy_d_w_binding": "SUPERSEDED_HISTORICAL_BINDING",
+      "legacy_binding_bytes_preserved": true,
+      "current_view_sha256": "ff5a2a92cc4a71c04faa9f7b555b52f2045ac3e99a0c6f7698249300eb62a762",
+      "durable_binding_mutation": 0
+    }
+  },
+  "self_containing_commit_claim": false,
+  "attestation_semantics": "Attests published work/review; descendant metadata preserves its non-governance tree."
+}
