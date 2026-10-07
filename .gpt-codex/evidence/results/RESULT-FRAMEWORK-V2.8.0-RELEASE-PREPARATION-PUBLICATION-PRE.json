@@ -1,0 +1,181 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "framework-v2.8.0-release-preparation-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "result_id": "eb7e9012-6e67-4040-8d3d-3df29fa509ba",
+  "response_to_instruction_id": "ed5eeeba-03e7-4d1c-8241-6f2341532cc7",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "return_to_gpt_required": true,
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "framework_version": "2.8.0",
+  "state_revision": 35,
+  "review_target_revision": "da4d654c38a32ed9ed44ffa23ce1a6314e93165f",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "current_remote_ref": "refs/heads/main",
+  "local_head_sha": "1c0bea510d834905ca19a6b94899ec46aff0b982",
+  "remote_head_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+  "remote_verification": "VERIFIED",
+  "publication_authority": null,
+  "sync_status": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "git": {
+    "base_sha": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807"
+  },
+  "implementation_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/framework-v2.8.0-release-preparation-001.json",
+    "sha": "6b8b9d175fae09c982b9d490d61f75718b2cf79b"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "1c0bea510d834905ca19a6b94899ec46aff0b982",
+    "path": ".gpt-codex/evidence/instructions/ed5eeeba-03e7-4d1c-8241-6f2341532cc7.json",
+    "blob_sha": "615db21c3232a3159ce5b05af850261a6f9bc297"
+  },
+  "reviewed_publication_instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "1c0bea510d834905ca19a6b94899ec46aff0b982",
+    "path": ".gpt-codex/evidence/instructions/586793f6-4f0d-4e18-b7b6-fdfdb3756ff8.json",
+    "blob_sha": "deae3437f29118ae30c08df96eabeb13f5f6678b"
+  },
+  "finding_ids": [],
+  "findings": [],
+  "blockers": [],
+  "changed": [],
+  "evidence_refs": [
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json"
+  ],
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "READ_ONLY_PREPARATION_REPOSITORY_PUBLICATION_PRE"
+    ],
+    "executed_scope": [
+      "READ_ONLY_PREPARATION_REPOSITORY_PUBLICATION_PRE"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "NATIVE_RESUME_AND_CANONICAL_INSTRUCTION_RESOLUTION",
+      "ROLE_ACTION_IDENTITY_SCOPE_BINDING",
+      "DIRECT_USER_SECTION23_25_BOUNDED_NONFORCE_TRANSPORT",
+      "LOCAL_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "INDEPENDENT_POST_AND_CLOSURE_EVIDENCE",
+      "METADATA_ONLY_CLOSURE_AND_CURRENT_DELTA",
+      "W0_SOURCE_PACKAGE_FROZEN_BLOB_IDENTITY",
+      "STATE35_CONTROL_AND_DIRECTORY_PRESERVATION",
+      "FULL_SUITE_LOG_HASH_AND_RESULT_COUNTS",
+      "FRESH_REMOTE_BASE_IDENTITY_CAPABILITY_CONFLICT",
+      "NATIVE_PUBLICATION_PREFLIGHT",
+      "PROJECT_VALIDATOR",
+      "NATIVE_GOVERNED_MUTATION_GATE"
+    ],
+    "validators_completed": [
+      "NATIVE_RESUME_AND_CANONICAL_INSTRUCTION_RESOLUTION",
+      "ROLE_ACTION_IDENTITY_SCOPE_BINDING",
+      "DIRECT_USER_SECTION23_25_BOUNDED_NONFORCE_TRANSPORT",
+      "LOCAL_RESULT_SCHEMA_PROTOCOL_AUTHORITY",
+      "INDEPENDENT_POST_AND_CLOSURE_EVIDENCE",
+      "METADATA_ONLY_CLOSURE_AND_CURRENT_DELTA",
+      "W0_SOURCE_PACKAGE_FROZEN_BLOB_IDENTITY",
+      "STATE35_CONTROL_AND_DIRECTORY_PRESERVATION",
+      "FULL_SUITE_LOG_HASH_AND_RESULT_COUNTS",
+      "FRESH_REMOTE_BASE_IDENTITY_CAPABILITY_CONFLICT",
+      "NATIVE_PUBLICATION_PREFLIGHT",
+      "PROJECT_VALIDATOR",
+      "NATIVE_GOVERNED_MUTATION_GATE"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "observed_utc": "2026-10-07T01:27:30.144271+00:00",
+  "self_containing_commit_claim": false,
+  "preparation_repository_publication_pre": "PASS",
+  "native_gate_errors": [],
+  "native_publication_preflight_errors": [],
+  "closure_metadata_changes": [
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION-VALIDATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json",
+    ".gpt-codex/evidence/instructions/2d5e867b-d2e0-48e2-95c9-60614dc571c2.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION-POST.json",
+    ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-RELEASE-PREPARATION.json"
+  ],
+  "current_metadata_changes": [
+    ".gpt-codex/evidence/instructions/586793f6-4f0d-4e18-b7b6-fdfdb3756ff8.json",
+    ".gpt-codex/evidence/instructions/ed5eeeba-03e7-4d1c-8241-6f2341532cc7.json"
+  ],
+  "w0_frozen_blob_count_preserved": 389,
+  "STATE_REVISION": 35,
+  "STATE_MUTATION_COUNT": 0,
+  "PLUGIN_MUTATION_COUNT": 0,
+  "FRAMEWORK_RELEASE_PUBLICATION": "NOT_STARTED",
+  "P41_DEFERRED_BY_USER": "YES",
+  "P41_EXECUTION_STARTED": "NO",
+  "PLUGIN_SYNC_STARTED": "NO",
+  "TAG_CREATED": "NO",
+  "GITHUB_RELEASE_CREATED": "NO",
+  "ASSET_UPLOADED": "NO",
+  "read_only_capability_facts": {
+    "repository_id": "1366213495",
+    "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    },
+    "oauth_scopes": "gist, read:org, repo, workflow",
+    "rulesets": [],
+    "native_facts": {
+      "source_version": "2.8.0",
+      "source_version_closed": true,
+      "projection_closed": true,
+      "release_record_ready": true,
+      "canonical_lf_verified": true,
+      "repository_identity_verified": true,
+      "work_main_ancestry_verified": true,
+      "tag_conflict": false,
+      "release_conflict": false,
+      "publication_mechanism_available": true,
+      "canonical_artifact_ref": "012b7c8af71da815f3b92cee7ee93e1764970807:dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "artifact_size_bytes": 150884,
+      "available_capabilities": [
+        "TAG_WRITE",
+        "RELEASE_WRITE",
+        "ASSET_UPLOAD"
+      ]
+    },
+    "remote_main": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+    "target_tag_absent": true,
+    "target_release_absent": true,
+    "target_asset_absent": true,
+    "release_inventory_count": 11,
+    "write_probe_performed": false
+  },
+  "project_validator": {
+    "exit_code": 0,
+    "stdout": "RESULT: PASS\nPROJECT: PRJ-FRAMEWORK-MANAGEMENT\nSTATE: AUTHORIZED@revision-35\nPROJECT_CONTEXT_BINDING: PASS"
+  },
+  "transport_boundary": "Direct user sections23/25 require governed preparation candidate/Result repository publication. Only the already-reviewed W0 candidate plus bounded governance closure may be transported via a non-force fast-forward to refs/heads/main in the bound repository, after this PRE and root native mutation gate. No COMMIT/PUSH/PUBLISH actions are added to the five-action role envelope. No Framework tag, GitHub Release, asset upload, STATE mutation, P41 or plugin synchronization is authorized.",
+  "attestation_boundary": "The local IMPLEMENTATION_RESULT remains LOCAL_COMPLETE/PUBLICATION_CANDIDATE_ONLY/NOT_ATTEMPTED until exact remote Work readback. Subsequent bounded metadata attestation must reference the actual published Work commit and exact W0 source/package SHA, without claiming its own containing commit. Later attestation/native handoff review remains separate.",
+  "review_completion_basis": "No test suite rerun. This PRE independently executed current native schema/protocol/authority/scope/directory/gate/preflight checks and one current project validator; source/package and prior full-suite evidence are unchanged from independently reviewed W0.",
+  "next_gpt_action": "Root may record this PRE, recheck the native gate on the exact committed candidate and fresh remote baseline, then perform the bounded non-force main transport and exact readback. Obtain the separately bound attestation/handoff review before closure."
+}
