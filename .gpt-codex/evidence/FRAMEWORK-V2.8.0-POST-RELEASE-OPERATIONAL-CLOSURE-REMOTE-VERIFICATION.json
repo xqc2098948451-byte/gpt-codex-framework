@@ -82,9 +82,111 @@
         "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
         "blob_sha": "d834018c5bb0041a30be23a98082e42287282ae3"
       }
+    },
+    {
+      "source": "TOOL_OBSERVED / EXECUTION_OBSERVED",
+      "observed_utc": "2026-10-07T07:03:16.390670+00:00",
+      "remote_main": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+      "local_head": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+      "status": "VERIFIED",
+      "files": [
+        {
+          "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          "blob_sha": "bdc983f28293b2a145e78b3c257ce9c7f5e54bfa",
+          "byte_match": true,
+          "bytes": 4732
+        },
+        {
+          "path": ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          "blob_sha": "ac50a17f6e685b32a773c617597d1bab8f3c961f",
+          "byte_match": true,
+          "bytes": 1527
+        },
+        {
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          "blob_sha": "75d266e7e4ba8109ec003be999d1567c1d7831de",
+          "byte_match": true,
+          "bytes": 50699
+        },
+        {
+          "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          "blob_sha": "13b7f49f688b72b2df46dea002f7f0f07f81d8fe",
+          "byte_match": true,
+          "bytes": 21248
+        },
+        {
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json",
+          "blob_sha": "3ca14d1c37c1458596a798e38cd28d9a6d771d52",
+          "byte_match": true,
+          "bytes": 4496
+        },
+        {
+          "path": ".gpt-codex/STATE.json",
+          "blob_sha": "4d7172d429a2762d20f2732f27b4bcfed6bbcaf5",
+          "byte_match": true,
+          "bytes": 16355
+        }
+      ],
+      "preservation": {
+        "changed_paths": [
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json"
+        ],
+        "state_mutation_count": 0,
+        "plugin_source_mutation_count": 0,
+        "framework_source_mutation_count": 0,
+        "release_artifact_mutation_count": 0
+      },
+      "release_readback": {
+        "release_id": 405311428,
+        "asset_id": 617318101,
+        "size": 150884,
+        "digest": "sha256:2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+        "status": "PASS"
+      },
+      "operational_evidence_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+        "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+        "blob_sha": "75d266e7e4ba8109ec003be999d1567c1d7831de"
+      },
+      "operational_result_locator": {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+        "blob_sha": "13b7f49f688b72b2df46dea002f7f0f07f81d8fe"
+      }
     }
   ],
-  "native_handoff_observation": null,
+  "native_handoff_observation": {
+    "source": "EXECUTION_OBSERVED",
+    "observed_remote_sha": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+    "instruction_status": "INSTRUCTION_RESOLVED",
+    "native_status": "HANDOFF_READY",
+    "plugin_helper_status": "HANDOFF_READY",
+    "result_id": "a7fd7656-e962-492a-af22-43ef66ee295c",
+    "result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+    "state_revision": 37,
+    "result_status": "BLOCKED",
+    "operational_Native_Handoff": "FINDING",
+    "semantic_scope": "TRANSPORT_ONLY_DIRECT_NATIVE_HELPER; does not establish real-world plugin acceptance.",
+    "evidence_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      "blob_sha": "75d266e7e4ba8109ec003be999d1567c1d7831de"
+    },
+    "result_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "7ea39b96849f40f9a3bc09ce320b4f3e4d7a5c72",
+      "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      "blob_sha": "13b7f49f688b72b2df46dea002f7f0f07f81d8fe"
+    },
+    "self_containing_commit_claim": false
+  },
   "scope": "FINDING_REPORT_PUBLICATION_ONLY",
   "preservation": {
     "changed_paths": [
