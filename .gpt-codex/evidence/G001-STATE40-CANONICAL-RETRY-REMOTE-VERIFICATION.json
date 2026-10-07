@@ -1,0 +1,183 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "G001-STATE40-CANONICAL-RETRY-REMOTE-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "G001_SOURCE_INTEGRATION_AND_STATE40_REMOTE_CANDIDATE",
+  "state_revision": 40,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T12:38:13.149845+00:00",
+  "work_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+  "G001_CORRECTION": "COMPLETE",
+  "G001_REMOTE_INTEGRATION": "PASS",
+  "source_verified_remote_main": "3041ab3121b9fdaaa58114e31fa28379a2f08412",
+  "source_remote_bytes": "VERIFIED",
+  "historical_result_blob": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1",
+  "remote_state40_readback": {
+    "observed_utc": "2026-10-07T12:38:13.112848+00:00",
+    "observed_remote_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+    "fetch_head": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831",
+    "remote_tree_byte_identity": "PASS",
+    "remote_blob_readbacks": [
+      {
+        "path": ".gpt-codex/STATE.json",
+        "blob_sha": "9fd9dab8b63c56b25c918ba46b2c09400f8b8a2f",
+        "sha256": "ceda60f639e1a69c2e070a58b7c75d07fe4e127cb09360eacd75e384a1ea83e7",
+        "byte_count": 19933,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+        "blob_sha": "d0d45b108ebf13e2ccde855d3d4947a6bb99e43c",
+        "sha256": "d26d2bcbbff46d89f10f224ee6626746a6cf619445dc130255d41384970fb6e9",
+        "byte_count": 19737,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+        "blob_sha": "4fb45c54f9d92ec4c65b987bf6272e5792a0cf75",
+        "sha256": "b2a9dfdeb4e3d8e41e6eb52473e2ed80f6cae98fdca0149aaab65f85319b8f36",
+        "byte_count": 981,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/107fe7c6-3960-4e53-8de9-a3a5265aeb3f.json",
+        "blob_sha": "f385f48b0d1e7d9ff6766ac0bd6de1a7b1771068",
+        "sha256": "55db11d88fbd06967bec69d1065c63283fad742ed082e208832c3e186cda84ef",
+        "byte_count": 2483,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+        "blob_sha": "4d58cdbca47d53eaf45356e121de3ffd1155521c",
+        "sha256": "93bd3a24793a541d458aa5a4065317eb6312a4ead7b6c331af3c50af2fd483ca",
+        "byte_count": 2483,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+        "blob_sha": "3f477f99e3d646198802a5bc0044ae6c50da6679",
+        "sha256": "e8a4982bd0e1171edc9739e8512d5ccef73943493013c8085c1b71f1f352bcdd",
+        "byte_count": 2481,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json",
+        "blob_sha": "ee0906e27abf1f8d01cee84bbd455e2bb7e69faf",
+        "sha256": "d84651d6a23ea581f96432ed98e792c218c14ac89fa951aff982fe3ef6e7b15a",
+        "byte_count": 2347,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/ccfdf2da-61fb-4700-808e-7be273a175de.json",
+        "blob_sha": "2d3fa6c8536a45dd6112023b81e189c8328c9304",
+        "sha256": "b10801027da89b742a95975642845f1e86812d299495d8cfabe6188f9fce06ef",
+        "byte_count": 2378,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+        "blob_sha": "91b44042be9549a50301dbfa6d8c1d276e84fafa",
+        "sha256": "01032955850c915d963f818dfe0c3d61bba2e04bfea13282fb5417b9fa59e590",
+        "byte_count": 2376,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-METADATA-PRE.json",
+        "blob_sha": "141a87d1208df0561f7ebd2be70c200c8dfbd5c6",
+        "sha256": "449d432e26ccebaaecfa1601ff01fc9108b2680ee7ff103cd590e4aa0a3c17a8",
+        "byte_count": 18267,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-POST.json",
+        "blob_sha": "96a33d990b34ec6266ffad534f553004db8ca0b8",
+        "sha256": "cbca7e5c64b8c71b53ba832f8ff359982a9c99d7b2f539bd938022325b747ff7",
+        "byte_count": 14199,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json",
+        "blob_sha": "3b4f91c9a2a1f7435d63b74294423ea68984b17f",
+        "sha256": "184b0dc15b6f64c42203ebac5301931c738130c778d7ee078f9e443d1cf4acb0",
+        "byte_count": 13277,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+        "blob_sha": "9a399ced6b57925ad1e4603903991caa5e9c5a7d",
+        "sha256": "6f012a82d937f02c0ed92a85c3556c95c06e8c8846da9e7544031b26f3e86176",
+        "byte_count": 4088,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json",
+        "blob_sha": "ae1553b39145b988260f49e33e13679988e1ed1f",
+        "sha256": "a232c4161989ae7d6932a932733fae8245ef45c6c36c5b0bcff2379f9382dc91",
+        "byte_count": 4087,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/scripts/validate_project.py",
+        "blob_sha": "8a6d7b823834be1cbee27c095610a518b2afbc14",
+        "sha256": "4d3a63ee903d54557a657a7f33be5638b05888f3e5391eb6c7f6fb3c47bd4eb0",
+        "byte_count": 100558,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/tests/test_review_lifecycle.py",
+        "blob_sha": "bc695ee1a477cd33d5dd87c7ee1cf1ef99f46a77",
+        "sha256": "a4c08a12b7fe8400810409e86b8dbf43f830be0da97c02806b70b0e6a8d01a91",
+        "byte_count": 45877,
+        "remote_bytes": "VERIFIED"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-G001-CORRECTION.json",
+        "blob_sha": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1",
+        "sha256": "6999bb579c57a78a46a5def7827d53d16bced477e18ef4cc83158d29b519b46f",
+        "byte_count": 8681,
+        "remote_bytes": "VERIFIED"
+      }
+    ],
+    "state_revision": 40,
+    "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+    "sync_status": "SYNC_PENDING",
+    "native_remote_verification": {
+      "status": "VERIFIED",
+      "reason": "REMOTE_PUBLICATION_VERIFIED",
+      "evidence_type": "TOOL_OBSERVED",
+      "remote_ref": "refs/heads/main",
+      "remote_head_sha": "128f65c42dd7c7abfe0e466356ebcc7fc11f5831"
+    },
+    "scope": {
+      "changed": [
+        ".gpt-codex/STATE.json",
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+        ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-VALIDATION.json",
+        ".gpt-codex/evidence/instructions/107fe7c6-3960-4e53-8de9-a3a5265aeb3f.json",
+        ".gpt-codex/evidence/instructions/8e0a94f4-ce00-4bb6-8ad9-f60f21952b4d.json",
+        ".gpt-codex/evidence/instructions/931043cf-bd4f-4d71-9f65-efbadd063df2.json",
+        ".gpt-codex/evidence/instructions/afbcfed9-0bf7-4a19-a7f1-5aadb58b4320.json",
+        ".gpt-codex/evidence/instructions/ccfdf2da-61fb-4700-808e-7be273a175de.json",
+        ".gpt-codex/evidence/instructions/e529403d-a771-4f98-947a-f8f017b741ba.json",
+        ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-METADATA-PRE.json",
+        ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-POST.json",
+        ".gpt-codex/evidence/results/RESULT-G001-STATE40-CANONICAL-RETRY-PRE.json",
+        ".gpt-codex/work-units/g001-state40-canonical-retry-continuity-001.json",
+        ".gpt-codex/work-units/g001-state40-canonical-workspace-retry-001.json"
+      ],
+      "protected_blob_count": 864,
+      "new_directory_prefixes": [],
+      "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+      "PLUGIN_MUTATION_COUNT": 0,
+      "RELEASE_MUTATION_COUNT": 0,
+      "historical_result_blob": "cbda21e7a20e6112fbf963b922cbc79769c2cfb1"
+    }
+  },
+  "sync_status": "SYNC_PENDING",
+  "candidate_not_yet_sync_attested": true
+}
