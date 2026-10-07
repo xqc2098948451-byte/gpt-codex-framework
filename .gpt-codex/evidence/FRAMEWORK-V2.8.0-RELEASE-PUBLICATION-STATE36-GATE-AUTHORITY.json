@@ -29,7 +29,8 @@
     ".gpt-codex/evidence/instructions/39fa05e9-4f47-49b7-8b02-e5d37eb28112.json",
     ".gpt-codex/evidence/instructions/a16e877e-6737-4439-b7b7-06800aef0f85.json",
     ".gpt-codex/evidence/instructions/3c3189e1-6a6c-4258-882f-f661d94fc271.json",
-    ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json"
+    ".gpt-codex/evidence/instructions/d0a42626-17c9-4d0d-bc84-e4482fa77822.json",
+    ".gpt-codex/evidence/instructions/56d2b6af-3b05-4b44-8fbc-bfe5ea3faad8.json"
   ],
   "publication_transport_authority": "User sections19-21 explicitly require governance commits/main publication, exact remote readback and synced final Result. COMMIT/PUSH/PUBLISH are not machine authorized_actions.",
   "state_fields_allowed": [
