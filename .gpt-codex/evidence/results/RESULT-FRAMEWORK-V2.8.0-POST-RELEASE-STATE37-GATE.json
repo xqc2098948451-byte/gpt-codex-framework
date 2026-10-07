@@ -69,7 +69,8 @@
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-PRE.json",
     ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-POST.json",
     ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
-    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json"
+    ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+    ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-HANDOFF-VERIFICATION.json"
   ],
   "completion_gate": "GPT_DECISION",
   "completion_evidence": {
@@ -99,7 +100,8 @@
       "NATIVE_GOVERNED_MUTATION_ENTRY",
       "INDEPENDENT_POST",
       "EXACT_REMOTE_GOVERNANCE_READBACK",
-      "SOURCE_PRESERVATION"
+      "SOURCE_PRESERVATION",
+      "NATIVE_HANDOFF"
     ],
     "validators_completed": [
       "RELEASE_PUBLICATION_AUTHORITY",
@@ -113,7 +115,8 @@
       "NATIVE_GOVERNED_MUTATION_ENTRY",
       "INDEPENDENT_POST",
       "EXACT_REMOTE_GOVERNANCE_READBACK",
-      "SOURCE_PRESERVATION"
+      "SOURCE_PRESERVATION",
+      "NATIVE_HANDOFF"
     ],
     "blocker_evidence_refs": []
   },
@@ -141,8 +144,8 @@
     },
     "expected_state_revision": 37
   },
-  "NATIVE_HANDOFF": "FINDING",
-  "READY_FOR_POST_RELEASE_OPERATIONAL_CLOSURE": "NO",
+  "NATIVE_HANDOFF": "HANDOFF_READY",
+  "READY_FOR_POST_RELEASE_OPERATIONAL_CLOSURE": "YES",
   "findings": [],
   "blockers": [],
   "FINDINGS": [],
@@ -151,5 +154,12 @@
   "next_gpt_action": "STATE37 gate is bounded to governance finalization. Separate post-release operational closure Work Unit must be created in the next round. P41 remains deferred.",
   "attestation_semantics": "Verified remote baseline is the already pushed Work/POST commit. Final Result and STATE continuity are management attestations; no self-containing commit claim.",
   "self_containing_commit_claim": false,
-  "observed_utc": "2026-10-07T03:02:48.532909+00:00"
+  "observed_utc": "2026-10-07T03:03:46.702460+00:00",
+  "native_handoff_observation": {
+    "observed_remote_sha": "251a70c03cc6162cb9f55e90c11c370af48360d8",
+    "result_id": "cd8c2680-1e9b-4d48-a8ed-f56a8c70d57b",
+    "native_status": "HANDOFF_READY",
+    "plugin_status": "HANDOFF_READY",
+    "self_containing_commit_claim": false
+  }
 }

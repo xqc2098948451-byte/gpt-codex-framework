@@ -1,0 +1,28 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_POST_RELEASE_STATE37_GATE_HANDOFF_VERIFICATION",
+  "source": "TOOL_OBSERVED",
+  "observed_utc": "2026-10-07T03:03:31.871567+00:00",
+  "observed_remote_sha": "251a70c03cc6162cb9f55e90c11c370af48360d8",
+  "native_status": "HANDOFF_READY",
+  "plugin_status": "HANDOFF_READY",
+  "validated_result_id": "cd8c2680-1e9b-4d48-a8ed-f56a8c70d57b",
+  "validated_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+  "state_revision": 37,
+  "bindings": {
+    "target_work_unit_id": "framework-v2.8.0-post-release-state37-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-continuity-001.json",
+      "sha": "0357c75f5a249c7ac7c0fa54eb7e07dbe62f3de8"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "path": ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json",
+      "blob_sha": "a4452e2f4af9c2a6bda6bcaec09becd0090be300"
+    },
+    "expected_state_revision": 37
+  },
+  "mutation": "NONE",
+  "operational_phase_execution": "NOT_STARTED",
+  "self_containing_commit_claim": false
+}
