@@ -1,0 +1,65 @@
+{
+  "record_kind": "POST_V2_8_0_RELEASE_NEXT_ACTION_TOKEN_ADJUDICATION",
+  "basis_state_revision": 36,
+  "basis_remote_main": "820e4f68648b662a368dde4a48a58a69b2242957",
+  "previous_token": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_REQUIRED",
+  "framework_release_complete": "YES",
+  "exact_next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+  "token_authority": "GPT_EXPLICIT_GOVERNANCE_ADJUDICATION",
+  "semantic_target": "POST_RELEASE_OPERATIONAL_CLOSURE",
+  "CURRENT_PLUGIN_VERSION": "0.1.0",
+  "TARGET_PLUGIN_VERSION": "UNADJUDICATED",
+  "plugin_version_boundary": "Decide only in separate operational closure from actual versioning contract and GPT/Codex integration binding; do not assign Framework version automatically.",
+  "next_phase": {
+    "plugin_synchronization": [
+      "PLUGIN_VERSION_SYNC",
+      "GPT_CODEX_REPOSITORY_ALIGNMENT",
+      "GPT_CODEX_VERSION_ALIGNMENT",
+      "GPT_ROUTING_SMOKE_TEST",
+      "CODEX_ROUTING_SMOKE_TEST"
+    ],
+    "file_change_routing": [
+      "PLUGIN_INITIAL_ROUTING",
+      "PLUGIN_FILE_MODIFICATION_ROUTING",
+      "PLUGIN_FILE_ADD_ROUTING",
+      "PLUGIN_FILE_RENAME_ROUTING",
+      "PLUGIN_FILE_DELETE_ROUTING",
+      "PLUGIN_MULTI_FILE_CHANGE_ROUTING",
+      "UNCOMMITTED_FILE_CHANGE_ROUTING",
+      "COMMITTED_FILE_CHANGE_ROUTING"
+    ],
+    "routing_targets": {
+      "STALE_ROUTE_COUNT": 0,
+      "WRONG_SKILL_OR_MODULE_SELECTION_COUNT": 0,
+      "RESTART_REQUIRED_FOR_ROUTING_CORRECTNESS": "NO"
+    },
+    "functional_acceptance": [
+      "FINAL_DELIVERABLE_BOOTSTRAP",
+      "REAL_PROJECT_RESUME",
+      "REAL_PROJECT_ROUTING",
+      "REAL_FILE_CHANGE_HANDLING",
+      "REAL_HANDOFF",
+      "RELOAD_RESTART_BEHAVIOR"
+    ],
+    "acceptance_targets": {
+      "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "PASS",
+      "EXPECTED_USER_OUTCOME_MATCH": "YES",
+      "USER_PATH_USABLE": "YES"
+    }
+  },
+  "FRAMEWORK_2_8_0_RELEASE_PREPARATION": "COMPLETE",
+  "FRAMEWORK_2_8_0_RELEASE_PUBLICATION": "COMPLETE",
+  "POST_RELEASE_PLUGIN_SYNC": "NOT_STARTED",
+  "PLUGIN_FILE_CHANGE_ROUTING_CHECK": "NOT_STARTED",
+  "REAL_WORLD_FUNCTIONAL_ACCEPTANCE": "NOT_STARTED",
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "P41_EXECUTION_AUTHORITY": "NO",
+  "excluded_next_phase_actions": [
+    "Portal submission",
+    "Submit for Review",
+    "public plugin publication",
+    "P41 execution"
+  ],
+  "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+  "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE"
+}

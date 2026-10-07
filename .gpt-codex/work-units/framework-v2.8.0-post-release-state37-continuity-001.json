@@ -1,0 +1,156 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "framework-v2.8.0-post-release-state37-continuity-001",
+  "basis_state_revision": 37,
+  "state": "AUTHORIZED",
+  "goal": "Attest verified STATE37 governance publication and synchronize native continuity metadata / Result handoff only; do not execute post-release operational closure.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-gate-001.json",
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-continuity-001.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+      ".gpt-codex/evidence/instructions/153dc4fc-ba8d-492a-a211-9b141e040ec9.json",
+      ".gpt-codex/evidence/instructions/635d29c3-a638-4fbd-ae14-1e8879861132.json",
+      ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
+      ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
+      ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json"
+    ],
+    "excluded_paths": [
+      "VERSION",
+      "CHANGELOG.md",
+      "README.md",
+      "BOOTSTRAP_PROMPT.md",
+      "AGENTS.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/CHANGELOG.md",
+      ".gpt-codex/README.md",
+      ".gpt-codex/BOOTSTRAP_PROMPT.md",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/kernel/",
+      "dist/",
+      "releases/",
+      "plugins/",
+      "docs/",
+      "tests/"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "TEST",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+      "sha": "1cc154890b61791f85bae84e6781cb357be1ca29"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+      "sha": "1cc154890b61791f85bae84e6781cb357be1ca29"
+    }
+  },
+  "acceptance": [
+    "Independent PRE PASS before STATE36 to STATE37 transition",
+    "Focused validators / state authority / schema preflight PASS",
+    "Independent POST PASS; remote governance readback; native handoff",
+    "Zero plugin/source/tag/Release/asset/P41/real-world execution mutation",
+    "Stop at STATE37 durable PASS and RETURN_TO_GPT"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "Governance state and durable evidence registration"
+  },
+  "authority_source": {
+    "record_kind": "FRAMEWORK_V2_8_0_POST_RELEASE_STATE37_GATE_AUTHORITY",
+    "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+    "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "basis_state_revision": 36,
+    "basis_remote_main": "820e4f68648b662a368dde4a48a58a69b2242957",
+    "authority_source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+    "request_sha256": "9b58578c10be8708672e21a4b77d84256138bef28eb85a45813a44a178d26242",
+    "mode": "GOVERNANCE_ONLY_POST_RELEASE_STATE_TRANSITION",
+    "approved_scope": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-AUTHORITY.json",
+      ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-VALIDATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-REMOTE-VERIFICATION.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-HANDOFF-VERIFICATION.json",
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-gate-001.json",
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-state37-continuity-001.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE-POST.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+      ".gpt-codex/evidence/instructions/153dc4fc-ba8d-492a-a211-9b141e040ec9.json",
+      ".gpt-codex/evidence/instructions/635d29c3-a638-4fbd-ae14-1e8879861132.json",
+      ".gpt-codex/evidence/instructions/e445e6e9-717c-4a1b-96a9-4a55946bcf2c.json",
+      ".gpt-codex/evidence/instructions/501c003c-351b-4818-b59c-bc0f8c53061e.json",
+      ".gpt-codex/evidence/instructions/990be649-3dc5-460d-a3e1-9e5d147df167.json"
+    ],
+    "state_fields_allowed": [
+      "revision",
+      "next_action",
+      "blockers",
+      "reconciliation",
+      "evidence_refs",
+      "continuity"
+    ],
+    "state_fields_preserved": [
+      "state",
+      "project_id",
+      "kernel_version",
+      "schema_version",
+      "active_work_unit"
+    ],
+    "publication_authority_locators": [
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "820e4f68648b662a368dde4a48a58a69b2242957",
+        "path": ".gpt-codex/evidence/V2.8.0-REMOTE-PUBLICATION-VERIFICATION.json",
+        "blob_sha": "b3ff12f1aafe339e72e00cf2ef0eea14fa7f35c9"
+      },
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "820e4f68648b662a368dde4a48a58a69b2242957",
+        "path": ".gpt-codex/evidence/results/RESULT-V2.8.0-PUBLICATION.json",
+        "blob_sha": "ac93692c89c3c2c0003827df4d1935e77291ea9f"
+      }
+    ],
+    "publication_transport_authority": "User requires durable STATE37 with remote_verification VERIFIED, publication_authority CONFIRMED_PUBLICATION, sync_status SYNCED, remote main locator and native handoff; governance-only fast-forward publication is within that scope. No tag/Release/asset mutation authority.",
+    "companion_semantics": "Basis37 metadata-only continuity and Result handoff; no operational closure execution.",
+    "stop_boundary": "STATE37 durable PASS then RETURN_TO_GPT",
+    "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING",
+    "directory_creations": []
+  }
+}
