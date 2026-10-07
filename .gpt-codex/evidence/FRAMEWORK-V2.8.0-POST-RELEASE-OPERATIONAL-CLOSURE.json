@@ -1,0 +1,464 @@
+{
+  "record_kind": "FRAMEWORK_V2_8_0_POST_RELEASE_OPERATIONAL_CLOSURE",
+  "source": "TOOL_OBSERVED / EXECUTION_OBSERVED",
+  "observed_utc": "2026-10-07T06:57:22.768680+00:00",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "state_revision": 37,
+  "authority_source": {
+    "source": "EXPLICIT_USER_SUPPLIED_GPT_GOVERNANCE_DIRECTIVE",
+    "request_sha256": "c41e76352e55f17a371b6bfede675dc73950071d31a550faad0c07ad6780b02f",
+    "basis_remote_main": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+    "basis_state_revision": 37,
+    "approved_scope": [
+      ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+      ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+      ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+    ],
+    "mode": "POST_RELEASE_OPERATIONAL_CLOSURE",
+    "stop_on_finding": true,
+    "source_mutation_authority": false,
+    "state_mutation_authority": false,
+    "p41_execution_authority": false,
+    "publication_transport_authority": "User explicitly authorizes only the listed governance artifacts on main with durable immutable locators and native handoff; no public plugin/release publication."
+  },
+  "predecessor_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+    "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+    "blob_sha": "5c48a3708011eb151edd1deab7b48727689dcf8b"
+  },
+  "predecessor_requirements": "PASS",
+  "framework_release": {
+    "version": "v2.8.0",
+    "subject": "31c0b89e8e798384f1f443764f5911467807e711",
+    "tag_object": "9d71ccd8ea9768dfc0aa4c809e3b405935ac223b",
+    "remote_main_observed": "e152613f25ee320d25de096fc7b0bd01b1ad8426"
+  },
+  "plugin_identity": {
+    "target_version": "0.1.0",
+    "current_gpt_package_version": "0.1.0",
+    "current_codex_package_version": "0.1.0",
+    "canonical_package_files": {
+      "plugins/gpt-codex-framework/plugin.json": {
+        "bytes": 831,
+        "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa",
+        "subject_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+        "main_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+        "byte_equivalent": true
+      },
+      "plugins/gpt-codex-framework/skills/framework-governance/SKILL.md": {
+        "bytes": 2838,
+        "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93",
+        "subject_blob": "e55cb30529e3cd8ca332753b4611ed331972c400",
+        "main_blob": "e55cb30529e3cd8ca332753b4611ed331972c400",
+        "byte_equivalent": true
+      }
+    },
+    "plugin_source_mutation_required": false
+  },
+  "gpt_binding_identity": {
+    "metadata": {
+      "plugin_id": "plugins_6ab7cd6758f08191ad652111988358a8",
+      "name": "gpt-codex-framework",
+      "description": "Repository-backed GPT and Codex governance handoff using existing Framework authority.",
+      "version": "0.1.0",
+      "current_release_id": "pluginrel_6ab7cd68f9ec8191acc68ffba0c7b9f7",
+      "scope": "USER",
+      "discoverability": "PRIVATE"
+    },
+    "package_files": {
+      "plugin.json": {
+        "bytes": 240,
+        "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+      },
+      "skills/framework-governance/SKILL.md": {
+        "bytes": 2838,
+        "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+      },
+      ".codex-plugin/plugin.json": {
+        "bytes": 664,
+        "sha256": "83c715a14575e71828ae716739a83bdd06c9a895a0da685dd47a69859b25ef65"
+      }
+    },
+    "repository_full_name": null,
+    "framework_release": null,
+    "release_subject": null,
+    "effective_runtime_binding": "NOT_OBSERVABLE",
+    "observation_kind": "PRIVATE_PLUGIN_BACKEND_METADATA_ONLY"
+  },
+  "codex_binding_identity": {
+    "enabled_config_plugin": "gpt-codex-framework@p2-e2e-local",
+    "session_skill_catalog": [
+      "gpt-codex-framework:framework-governance@created-by-me-remote",
+      "gpt-codex-framework:framework-governance@p2-e2e-local"
+    ],
+    "caches": {
+      "created-by-me-remote": {
+        "path": "C:\\Users\\xqc\\.codex\\plugins\\cache\\created-by-me-remote\\gpt-codex-framework\\0.1.0",
+        "files": {
+          "plugin.json": {
+            "bytes": 240,
+            "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+          },
+          ".codex-plugin/plugin.json": {
+            "bytes": 664,
+            "sha256": "83c715a14575e71828ae716739a83bdd06c9a895a0da685dd47a69859b25ef65"
+          },
+          "skills/framework-governance/SKILL.md": {
+            "bytes": 2838,
+            "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+          }
+        }
+      },
+      "p2-e2e-local": {
+        "path": "C:\\Users\\xqc\\.codex\\plugins\\cache\\p2-e2e-local\\gpt-codex-framework\\0.1.0",
+        "files": {
+          "plugin.json": {
+            "bytes": 240,
+            "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+          },
+          "skills/framework-governance/SKILL.md": {
+            "bytes": 2838,
+            "sha256": "3b379bb56ae9d3c0b3860c9274876c7871860785f84c4248460b12f1d6f8ee93"
+          }
+        }
+      }
+    },
+    "effective_selected_package": "NOT_OBSERVABLE",
+    "repository_full_name": null,
+    "framework_release": null,
+    "release_subject": null
+  },
+  "runtime_smoke_observations": {
+    "enabled_surfaces": {
+      "apps": [],
+      "browsers": [
+        "Codex In-app Browser",
+        "Codex MCP Apps"
+      ]
+    },
+    "url": "https://chatgpt.com/",
+    "title": "请稍候…",
+    "authenticated_plugin_session_reached": false,
+    "native_apps_enabled": false
+  },
+  "actual_gpt_smoke": "NOT_OBSERVABLE",
+  "actual_codex_smoke": "NOT_OBSERVABLE",
+  "asset_verification": {
+    "source": "GITHUB_RELEASE_DOWNLOAD",
+    "asset_id": 617318101,
+    "release_id": 405311428,
+    "asset_name": "gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "download_url": "https://github.com/xqc2098948451-byte/gpt-codex-framework/releases/download/v2.8.0/gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "local_path": "C:\\Users\\xqc\\AppData\\Local\\Temp\\framework-280-operational-closure-20261007\\gpt-codex-framework-v2.8.0-bootstrap.zip",
+    "size": 150884,
+    "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+    "status": "PASS"
+  },
+  "acceptance_project": {
+    "path": null,
+    "bootstrap_source": "FINAL_DELIVERABLE_REQUIRED",
+    "execution_status": "NOT_EXECUTED",
+    "reason": "Mandatory FINDING stop before external-runtime-dependent acceptance; download verification is not bootstrap acceptance."
+  },
+  "routing_cases": [
+    {
+      "case": "A",
+      "scenario": "relevant modification",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "B",
+      "scenario": "irrelevant modification",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "C",
+      "scenario": "add",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "D",
+      "scenario": "rename/move",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "E",
+      "scenario": "delete",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "F",
+      "scenario": "multiple changes",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "G",
+      "scenario": "uncommitted changes",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    },
+    {
+      "case": "H",
+      "scenario": "committed changes",
+      "execution_status": "NOT_EXECUTED",
+      "ROUTE_BEFORE": null,
+      "EXPECTED_ROUTE": null,
+      "ACTUAL_ROUTE": null,
+      "ROUTE_AFTER": null,
+      "STALE_ROUTE_DETECTED": null,
+      "WRONG_SKILL_OR_MODULE_SELECTED": null,
+      "PLUGIN_RELOAD_REQUIRED": null,
+      "RECOVERY_AFTER_RELOAD": null
+    }
+  ],
+  "reload_restart": {
+    "execution_status": "NOT_EXECUTED",
+    "hot_runtime_observation": null,
+    "restarted_runtime_observation": null,
+    "semantics_equal": null
+  },
+  "fail_closed_cases": [
+    {
+      "case": "wrong repository identity",
+      "execution_status": "NOT_EXECUTED",
+      "actual_result": null
+    },
+    {
+      "case": "stale/invalid durable locator",
+      "execution_status": "NOT_EXECUTED",
+      "actual_result": null
+    },
+    {
+      "case": "incomplete handoff binding",
+      "execution_status": "NOT_EXECUTED",
+      "actual_result": null
+    }
+  ],
+  "real_user_outcome": {
+    "expected_user_outcome_match": "NO",
+    "user_path_usable": "NO",
+    "semantics": "Unproven because real runtime acceptance did not execute; no runtime failure diagnosis is inferred."
+  },
+  "supporting_repository_native_observations": {
+    "observation_kind": "DIRECT_NATIVE_HELPER_CALL_NOT_REAL_PLUGIN_SMOKE",
+    "resume": {
+      "status": "LATEST_SYNCED_REMOTE_STATE",
+      "repository_id": "1366213495",
+      "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+      "continuity": {
+        "current_remote_ref": "refs/heads/main",
+        "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-STATE37-GATE.json",
+        "latest_synced_state_revision": 37,
+        "latest_verified_remote_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+        "sync_status": "SYNCED"
+      },
+      "active_work_unit": "framework-staged-closure-group-a-001",
+      "remote_reverification_required": true,
+      "verified_baseline_sha": "d98fa851ecc5555950e56b622309f1f75810120c",
+      "current_attestation_head": "e152613f25ee320d25de096fc7b0bd01b1ad8426",
+      "reconciliation_required": false,
+      "resume_mode": "COLD_RESUME",
+      "map_route": "MAP_MISSING",
+      "candidate_modules": [],
+      "stale_modules": [],
+      "module_map_reads": [],
+      "required_reads": [],
+      "hot_modules": [],
+      "hot_files": [],
+      "invalidated_context": []
+    },
+    "state_revision": 37,
+    "next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+    "module_route": {
+      "outcome": "MODULE_ROUTE_UNRESOLVED",
+      "primary_module": null,
+      "responsibility_requested": "framework governance",
+      "error": "planned asset has no primary owner",
+      "details": {},
+      "planned_assets": [
+        ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+        ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+        ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+        ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+      ],
+      "execution_semantics": "FAIL_CLOSED; reporting Finding only, no framework/module/source remediation."
+    },
+    "predecessor_native_handoff_status": "HANDOFF_READY",
+    "predecessor_plugin_helper_handoff_status": "HANDOFF_READY"
+  },
+  "findings": [
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-001",
+      "code": "EXTERNAL_PLUGIN_RUNTIME_OBSERVATION_UNAVAILABLE",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT",
+        "CODEX_RUNTIME_BINDING_AND_RESTART_OBSERVATION"
+      ],
+      "reproduction": [
+        "Inventory enabled browser/native surfaces",
+        "Open https://chatgpt.com/ in IAB",
+        "Observe access challenge; no authenticated GPT plugin session",
+        "Inspect loaded skill catalog, Codex enabled plugin config and caches; no isolated effective binding or hot/restarted runtime observation API"
+      ],
+      "expected_behavior": "Observe real GPT and Codex plugin resume, route and handoff under canonical release identity, then compare hot/restarted behavior.",
+      "actual_behavior": "GPT browser remains at access challenge. Codex metadata/skill availability is observable, but symmetric external effective-binding and restart smoke is not. No real cross-runtime smoke executed.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "EXTERNAL_RUNTIME_ACCESS_AND_OBSERVABILITY",
+      "minimal_reproduction_facts": {
+        "gpt_browser_title": "请稍候…",
+        "native_apps_enabled": false,
+        "runtime_smoke_tool_names": []
+      },
+      "automatic_remediation_authorized": false
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-002",
+      "code": "PLUGIN_PACKAGE_BYTES_NOT_CANONICAL",
+      "source": "TOOL_OBSERVED",
+      "affected_runtime": [
+        "GPT_PRIVATE_PACKAGE",
+        "CODEX_INSTALLED_CACHE"
+      ],
+      "reproduction": [
+        "Read canonical release-subject plugin.json",
+        "Read current private GPT package plugin.json and Codex cache plugin.json",
+        "Compare byte length and SHA256"
+      ],
+      "expected_behavior": "Current private/existing packages match canonical release-subject package bytes with version0.1.0.",
+      "actual_behavior": "Canonical manifest831 bytes differs from observed240-byte manifest. Skill bytes match. GPT has generated664-byte .codex-plugin/plugin.json absent in canonical package.",
+      "route_trace": null,
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "PRIVATE_PACKAGE_INSTALL_AND_BINDING",
+      "minimal_reproduction_facts": {
+        "canonical_manifest": {
+          "bytes": 831,
+          "sha256": "57f2c5a6785cead8e994bde7988165fb8028faf9ba53b3741eb5096de93a20fa",
+          "subject_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "main_blob": "9af235b904c15b19e179cdb1fe6b4c685fa2ba62",
+          "byte_equivalent": true
+        },
+        "observed_manifest": {
+          "bytes": 240,
+          "sha256": "129320a50e96e9c1785a7e8b2839f06b28d0ac8667418b5ad969dc131710048f"
+        }
+      },
+      "sync_attempted": false,
+      "stop_reason": "Stop at external runtime FINDING; do not mutate install/cache without verifiable runtime outcome."
+    },
+    {
+      "finding_id": "OPERATIONAL-CLOSURE-003",
+      "code": "GOVERNANCE_ARTIFACT_MODULE_ROUTE_UNRESOLVED",
+      "source": "EXECUTION_OBSERVED",
+      "affected_runtime": [
+        "REPOSITORY_NATIVE_SUPPORTING_HELPER_ONLY"
+      ],
+      "reproduction": [
+        "Invoke route_responsibility with framework-core, framework governance, and the five exact governance record paths"
+      ],
+      "expected_behavior": "Resolve a bounded module route for the requested records or fail closed.",
+      "actual_behavior": "MODULE_ROUTE_UNRESOLVED: planned asset has no primary owner. Registry descriptors have no owned selectors for these management evidence/Work Unit paths. Fail-closed behavior was observed; the authorized record-only Finding report remains distinct from a successful operational route.",
+      "route_trace": {
+        "outcome": "MODULE_ROUTE_UNRESOLVED",
+        "primary_module": null,
+        "responsibility_requested": "framework governance",
+        "error": "planned asset has no primary owner",
+        "details": {},
+        "planned_assets": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ],
+        "execution_semantics": "FAIL_CLOSED; reporting Finding only, no framework/module/source remediation."
+      },
+      "whether_restart_recovers": "NOT_OBSERVED",
+      "suspected_boundary": "REGISTRY_COVERAGE_OF_MANAGEMENT_GOVERNANCE_RECORDS",
+      "minimal_reproduction_facts": {
+        "paths": [
+          ".gpt-codex/work-units/framework-v2.8.0-post-release-operational-closure-001.json",
+          ".gpt-codex/evidence/instructions/285f678b-548c-4424-a1ff-55bf4aae637d.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE.json",
+          ".gpt-codex/evidence/FRAMEWORK-V2.8.0-POST-RELEASE-OPERATIONAL-CLOSURE-REMOTE-VERIFICATION.json"
+        ]
+      },
+      "automatic_remediation_authorized": false
+    }
+  ],
+  "P41_PUBLIC_RELEASE": "DEFERRED_BY_USER",
+  "P41_EXECUTION_STARTED": "NO",
+  "STATE_MUTATION_COUNT": 0,
+  "PLUGIN_SOURCE_MUTATION_COUNT": 0,
+  "FRAMEWORK_SOURCE_MUTATION_COUNT": 0,
+  "RELEASE_ARTIFACT_MUTATION_COUNT": 0,
+  "POST_RELEASE_OPERATIONAL_CLOSURE": "FINDING",
+  "RETURN_TO_GPT": "YES",
+  "native_reviews": {},
+  "regression": {},
+  "count_semantics": "Runtime correctness/failure counts are null because cases did not execute. Source/state/release mutation counts are verified separately."
+}
