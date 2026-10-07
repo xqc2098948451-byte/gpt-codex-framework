@@ -107,5 +107,113 @@
     "byte_comparison": "ONLY_CRLF_TO_LF_DIFFERENCE",
     "recovery": "Normalize only four authorized release-version surfaces to LF; native ZIP bytes unchanged; rerun all three validators PASS.",
     "UTF8_HARDENING_STATUS": "DEFERRED_NON_BLOCKING"
-  }
+  },
+  "clean_clone": {
+    "PACKAGE_REPRODUCIBILITY": "PASS",
+    "CLEAN_CLONE_VALIDATION": "PASS",
+    "checkout_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+    "observed_utc": "2026-10-07T01:15:37.290507+00:00",
+    "implementation": "repository-native release_framework.package_release with passed exact candidate full-suite validation facts; reproduction output is disposable and never used as publication authority",
+    "byte_identical": {
+      "gpt-codex-framework-v2.8.0-bootstrap.zip": true,
+      "gpt-codex-framework-v2.8.0-bootstrap.zip.sha256": true,
+      "gpt-codex-framework-v2.8.0-release.json": true
+    },
+    "sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+    "size_bytes": 150884,
+    "root": "D:\\v\\framework-v2.8.0-release-preparation-20261007\\clean-clone",
+    "three_validators": "PASS",
+    "metadata_preserved": true,
+    "checkout_clean": true
+  },
+  "clean_clone_validators": {
+    "root": "D:\\v\\framework-v2.8.0-release-preparation-20261007\\clean-clone",
+    "observed_utc": "2026-10-07T01:15:18.504701+00:00",
+    "checks": {
+      "PROJECT_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_project.py",
+          "."
+        ]
+      },
+      "FRAMEWORK_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_framework.py"
+        ]
+      },
+      "CONSUMER_VALIDATOR": {
+        "status": "PASS",
+        "exit_code": 0,
+        "command": [
+          "C:\\Python313\\python.exe",
+          ".gpt-codex/scripts/validate_consumer_projection.py",
+          "--root",
+          ".",
+          "--zip",
+          "dist/gpt-codex-framework-v2.8.0-bootstrap.zip"
+        ]
+      }
+    }
+  },
+  "native_publication_preflight": {
+    "PUBLICATION_CAPABILITY_PREFLIGHT": "PASS",
+    "native_preflight_errors": [],
+    "facts": {
+      "source_version": "2.8.0",
+      "source_version_closed": true,
+      "projection_closed": true,
+      "release_record_ready": true,
+      "canonical_lf_verified": true,
+      "repository_identity_verified": true,
+      "work_main_ancestry_verified": true,
+      "tag_conflict": false,
+      "release_conflict": false,
+      "publication_mechanism_available": true,
+      "canonical_artifact_ref": "012b7c8af71da815f3b92cee7ee93e1764970807:dist/gpt-codex-framework-v2.8.0-bootstrap.zip",
+      "artifact_sha256": "2aa85ae26aaece286dfb8abb9ae641ab2defbfe1571520f79837cb2a1f8bc7dd",
+      "artifact_size_bytes": 150884,
+      "available_capabilities": [
+        "TAG_WRITE",
+        "RELEASE_WRITE",
+        "ASSET_UPLOAD"
+      ]
+    },
+    "capability_observation": {
+      "observed_utc": "2026-10-07T01:07:38.512973+00:00",
+      "remote_main": "2102d3a475cf451c5785b150fe615c2a79eced2c",
+      "repository_id": "1366213495",
+      "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "push": true,
+        "triage": true,
+        "pull": true
+      },
+      "oauth_scopes": "gist, read:org, repo, workflow",
+      "rulesets": [],
+      "TAG_WRITE": "PASS",
+      "RELEASE_WRITE": "PASS",
+      "ASSET_UPLOAD": "PASS",
+      "TARGET_TAG_CONFLICT": "NO",
+      "TARGET_RELEASE_CONFLICT": "NO",
+      "TARGET_ASSET_CONFLICT": "NO",
+      "non_mutating": true,
+      "capability_basis": "Observed GitHub repository push/admin permission, active OAuth repo scope, gh native publication mechanism and no ruleset blocker; no capability write probes performed."
+    },
+    "candidate_sha": "012b7c8af71da815f3b92cee7ee93e1764970807",
+    "current_local_sha": "43b185f6935f60573583eb82a554ea10e47a0159",
+    "observed_utc": "2026-10-07T01:16:19.761520+00:00",
+    "remote_writes": 0,
+    "tag_creation": 0,
+    "github_release_creation": 0,
+    "asset_upload": 0
+  },
+  "FINAL_INDEPENDENT_POST": "PASS"
 }
