@@ -269,7 +269,8 @@
     ".gpt-codex/evidence/instructions/677469ea-86a1-4c49-83c8-1bb9580f6866.json",
     ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
     ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
-    ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json"
+    ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",

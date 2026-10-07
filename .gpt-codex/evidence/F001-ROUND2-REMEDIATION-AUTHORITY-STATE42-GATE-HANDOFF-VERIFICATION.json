@@ -1,0 +1,51 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "POST_SYNC_NATIVE_HANDOFF_AND_EXACT_FINDING_CORRELATION",
+  "state_revision": 42,
+  "result": "PASS",
+  "observed_utc": "2026-10-07T15:28:06.643889+00:00",
+  "observed_remote_sha": "bc9de1365728eb102b021318a43ff508810b16da",
+  "load_continuity_resume": "LATEST_SYNCED_REMOTE_STATE",
+  "resolve_plugin_instruction": "INSTRUCTION_RESOLVED",
+  "native_status": "HANDOFF_READY",
+  "plugin_handoff_status": "HANDOFF_READY",
+  "validated_result_id": "c75276ed-d241-4e28-b2cd-ac59b271ece2",
+  "validated_result_ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+  "bindings": {
+    "target_work_unit_id": "f001-round2-remediation-authority-state42-continuity-001",
+    "target_work_unit_ref": {
+      "path": ".gpt-codex/work-units/f001-round2-remediation-authority-state42-continuity-001.json",
+      "sha": "164cb144b2e34a95e413c28143528c805020ad87"
+    },
+    "instruction_locator": {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "df2ce778b9403c12f7ac5e2044e43cc856828076",
+      "path": ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
+      "blob_sha": "5073d42e7690ebe70513790229cc311f2769c364"
+    },
+    "expected_state_revision": 42
+  },
+  "remediation_resolution": {
+    "errors": [],
+    "basis_refs": [
+      "F001-ROUND2-EXPLICIT-GITHUB-UNBOUND-STATE42-REGRESSION-BASIS"
+    ],
+    "adjudicated_at_revision": 42
+  },
+  "review_result_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+    "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+    "blob_sha": "c63793331b7a91d710bfe518c62cc38c34fca14f"
+  },
+  "review_ref_preserved": true,
+  "Round2_FIX_STARTED": false,
+  "mutation": "GOVERNANCE_ONLY"
+}
