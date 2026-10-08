@@ -242,7 +242,7 @@
       "version": "2.13.0",
       "artifact": "gpt-codex-framework-v2.13.0-bootstrap.zip",
       "record": "records/v2.13.0.json",
-      "artifact_sha256": "f58429eb4331e6a332c18f6359027ff69aa58470f5990540d6d5f64832f1bc72",
+      "artifact_sha256": "bf34f7ef1c02c906c27845c4c6518b191a5a6e5742f8152f248334849592bb89",
       "archive_policy": "METADATA_ONLY",
       "record_status": "FRAMEWORK_RELEASE"
     }
