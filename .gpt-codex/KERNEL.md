@@ -231,3 +231,15 @@ Before adding any future Kernel concept, ask:
 3. Can it not be expressed as Skill, Guardrail, or Fitness?
 
 If any answer is `NO`, default to keeping it outside Kernel.
+
+## Stage 1: bounded workflow simplification
+
+An already-authorized Work Unit may use one Lightweight Management Transaction for STATE sync, evidence finalization or verified-work publication. Its Instruction scope is restricted to STATE and named evidence JSON records. Reuse the Work Unit, native identity/STATE/permission/Guardrail checks and genuine independent PRE; apply one independent POST to the exact resulting bundle. `validate_lightweight_management_transaction` checks committed authority, actual Git worktree, bound GitHub remote and current remote head before any write. Source changes, Work Unit/Instruction creation, dirty worktrees, stale revisions and remote drift fail closed. Creation of new authority uses the existing governed materialization path.
+
+Do not recursively create a successor Work Unit, temporary branch, separate cleanup review or repeated unchanged validation merely to close that same transaction. Ref deletion retains the existing explicit user authorization path. Commit, push, tag and release still require their existing role/action authority; a derived transaction plan grants none.
+
+Review judgments remain independent. Codex supplies a concise self-proof with exact changed scope, focused checks, original user-path evidence, core boundary checks and limitations. The reviewer assesses that proof against the immutable candidate and current authority; self-proof never constitutes PRE/POST PASS. Combine design and plan when one bounded accepted scope is sufficient; create another review only for changed authority/scope, changed reviewed inputs or an unresolved finding.
+
+Validation follows the affected risk and real user path: focused regressions plus affected validators, real Consumer acceptance, and touched fail-closed boundaries first. Release validation includes one full suite. Repeat a check only when its inputs changed or a failure remains unresolved; a successful prior run is evidence, never a reusable authority cache. Do not expand synthetic tests to chase coverage.
+
+Finding evidence identifies the exact Result, finding IDs, revision, observable trigger and supporting evidence. Remediation requires explicit GPT/User ACCEPT or MODIFY based on accepted authority or concrete regression evidence, a correlated FIX Instruction, fresh implementer context and independent re-review. Machine construction cannot adjudicate the Finding.

@@ -1,4 +1,4 @@
-# AGENTS.md — GPT–Codex Framework v2.8.0
+# AGENTS.md — GPT–Codex Framework v2.9.0
 
 This repository is the **universal framework root**, not a business-project root.
 
@@ -132,3 +132,11 @@ After the later local workspace consolidation gate, the deterministic layout is 
 - Git delta = what may be stale.
 - For existing governed projects, bind identity, route through the Project Map and relevant module maps, validate Resume and the relevant Git delta, then read only required files.
 - Repository Discovery is for initial bootstrap, `MAP_MISS` scoped discovery, `MAP_PARTIAL` bounded discovery, or explicit material re-baseline; it is not normal maintenance rediscovery.
+
+### Stage 1 execution shortcuts
+
+Use the existing native builders in `instruction_envelope.py` and `result_return.py` to construct Work Unit candidates, PRE requests, Finding Results, correlated FIX Instructions and one compact immutable-locator handoff. Dry-validate construction before dispatch. A Work Unit candidate is DRAFT with execution denied; local canonical bytes, byte count and hashes are computed after generation. Explicit project authorization and genuine independent PRE remain necessary before durable materialization or execution.
+
+For existing-authority metadata bundles use the Kernel Lightweight Management Transaction policy and `validate_lightweight_management_transaction`. Reuse one Work Unit and one PRE/POST pair; closure does not recursively create another cleanup Work Unit. Use risk-based focused/affected checks and actual user-path acceptance before release's single full suite. Include Codex self-proof for independent review; machine-built requests never issue PASS.
+
+Deliver one self-contained human-readable Codex copy block with project/context, role, Work Unit, STATE revision, immutable Instruction locator, goal, scope, STOP conditions and return requirement. The block is presentation only; fresh resume and native gate still determine authority.

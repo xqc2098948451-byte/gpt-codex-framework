@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.8.0
+# GPT–Codex Framework v2.9.0
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
@@ -184,3 +184,25 @@ The framework management project includes the project-local `framework-release` 
 ## Lightweight release archive
 
 The framework management project keeps `releases/INDEX.json` and `releases/records/` as lightweight release history. Old ZIP binaries are intentionally not nested inside later releases. The release Skill cleans stale generated artifacts from `dist/` and emits only the current release ZIP, SHA-256 sidecar, and release manifest. Source history remains in Git/docs; release metadata survives even if old local ZIP copies are removed.
+
+## Stage 1 workflow helpers (v2.9.0)
+
+The helpers extend existing owners; they create no second STATE, approval registry, transport or Connector. Import them from `.gpt-codex/scripts` in the local governed execution context:
+
+| Existing owner | Helper | Output and boundary |
+| --- | --- | --- |
+| instruction_envelope | build_work_unit_candidate | Native-schema DRAFT, local canonical bytes/size/hash; no execution authorization |
+| instruction_envelope | build_pre_execution_review_request | Correlated request with exact mutation base revision, validated by shared request checks; no PASS |
+| result_return | build_finding_result | Native Finding envelope with evidence and exact revision; no remediation decision |
+| instruction_envelope | build_fix_instruction | Correlated FIX candidate after explicit accepted decision/basis; native execution re-resolves durable adjudication |
+| instruction_envelope | render_compact_codex_handoff | One copy block, immutable Instruction locator and full identity/scope/STOP binding |
+| git_continuity | plan_management_transaction / build_validation_plan | Bounded metadata/risk advice; no authority, cached exemption or review judgment |
+| validate_project | validate_lightweight_management_transaction | Existing native entry/PRE plus committed authority, clean Git and live bound remote preflight |
+
+For Work Unit materialization provide only the new semantic decision (goal, scope, acceptance, declared directories and immutable design/plan refs), current CONTROL/STATE and an immutable predecessor. Generate locally, inspect the candidate, apply explicit authorization through the existing project path, then dispatch machine-built PRE. The predecessor's approval never authorizes its successor; writing candidates to project files is itself governed. No long JSON transfer or manually supplied byte count/hash is needed.
+
+A lightweight management bundle uses the already-authorized Work Unit and Instruction. Validate once before writing, retain one transaction evidence record, independently review the exact output, then publish/verify under existing publication authority. No successor cleanup bundle is required merely to tidy its own evidence. Source/authority creation and ref deletion use their existing explicit paths.
+
+For Findings retain the original reproduction and immutable target; record the explicit accepted adjudication in STATE-registered evidence before FIX execution. A fresh implementer fixes the bounded path, then the reviewer checks original reproduction, related regression and touched invariants. Nonblocking issues may be recorded as ACCEPTED_LIMITATION with their practical effect.
+
+Count review gates, newly required governance artifacts, human-mediated dispatches and repeated unchanged validation within a named comparable flow boundary. Report measured values separately from contract-derived baseline estimates. Do not imply that local Consumer acceptance is an adoption or verified publication of the Consumer business main.

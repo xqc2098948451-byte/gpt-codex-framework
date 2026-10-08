@@ -12,6 +12,45 @@ if str(SCRIPTS) not in sys.path:
 
 
 class GitContinuityTests(unittest.TestCase):
+    def test_management_entry_keeps_native_pre_and_actual_scope_fail_closed(self):
+        from validate_project import validate_lightweight_management_transaction
+        import json
+        project = ROOT.parent
+        control = json.loads((ROOT / "CONTROL.json").read_text(encoding="utf-8"))
+        state = json.loads((ROOT / "STATE.json").read_text(encoding="utf-8"))
+        unit = json.loads((ROOT / "work-units/issue17-stage1-workflow-simplification-001.json").read_text(encoding="utf-8"))
+        instruction = json.loads((ROOT / "evidence/instructions/a81ec402-95d6-4821-9346-fd2be6ed50df.json").read_text(encoding="utf-8"))
+        instruction["scope_paths"] = [".gpt-codex/evidence/STAGE1-ACCEPTANCE.json"]
+        errors = validate_lightweight_management_transaction(control, state, unit, instruction, None, None,
+            operation="EVIDENCE_FINALIZATION", current_state_revision=state["revision"], repository_root=project)
+        self.assertIn("PRE_EXECUTION_REVIEW_REQUIRED", errors)
+        instruction["scope_paths"] = ["src/business.py"]
+        errors = validate_lightweight_management_transaction(control, state, unit, instruction, None, None,
+            operation="EVIDENCE_FINALIZATION", current_state_revision=state["revision"], repository_root=project)
+        self.assertIn("MANAGEMENT_SCOPE_DENIED", errors)
+
+    def test_management_transaction_plan_is_bounded_and_does_not_create_cleanup_work(self):
+        from git_continuity import plan_management_transaction
+        plan = plan_management_transaction("EVIDENCE_FINALIZATION", [".gpt-codex/evidence/closure.json"])
+        self.assertEqual(plan["gates"], ["PRE_EXECUTION", "POST_EXECUTION"])
+        self.assertEqual(plan["new_work_unit_required"], False)
+        self.assertEqual(plan["temporary_branch_required"], False)
+        with self.assertRaisesRegex(ValueError, "MANAGEMENT_SCOPE_DENIED"):
+            plan_management_transaction("EVIDENCE_FINALIZATION", ["src/business.py"])
+        with self.assertRaisesRegex(ValueError, "MANAGEMENT_SCOPE_DENIED"):
+            plan_management_transaction("EVIDENCE_FINALIZATION", [".gpt-codex/work-units/self.json"])
+
+    def test_validation_strategy_requires_real_acceptance_and_escalates_at_release(self):
+        from git_continuity import build_validation_plan
+        routine = build_validation_plan(["docs/guide.md"])
+        self.assertFalse(routine["full_suite_required"])
+        self.assertTrue(routine["real_world_acceptance_required"])
+        safety = build_validation_plan([".gpt-codex/STATE.json"], finding=True)
+        self.assertEqual(safety["risk_tier"], "CORE_AUTHORITY")
+        self.assertTrue(safety["original_user_path_reproduction_required"])
+        self.assertTrue(safety["core_fail_closed_required"])
+        self.assertTrue(build_validation_plan(["docs/guide.md"], release=True)["full_suite_required"])
+
     def test_cleanup_manifest_classifier_is_pure_and_fails_closed(self):
         from git_continuity import classify_cleanup_manifest
         with tempfile.TemporaryDirectory(prefix="manifest-") as temporary:

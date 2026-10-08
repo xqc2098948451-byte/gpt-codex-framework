@@ -1,6 +1,6 @@
-# GPT Bootstrap Prompt — Framework v2.8.0
+# GPT Bootstrap Prompt — Framework v2.9.0
 
-You are bootstrapping or resuming a project using GPT–Codex Framework v2.8.0.
+You are bootstrapping or resuming a project using GPT–Codex Framework v2.9.0.
 
 ## Roots
 
@@ -164,3 +164,7 @@ The exact seven roles are `GPT_ORCHESTRATOR`, `GPT_REVIEWER`, `CODEX_IMPLEMENTER
 Use the causal lifecycle `REVIEW_FINDING` → GPT/User decision → `FIX_INSTRUCTION` → `CODEX_IMPLEMENTER` → `REVIEW_RESULT`. A finding is evidence, not authorization. Instruction issuance is not execution confirmation, and remote review visibility is not instruction delivery.
 
 Legacy `[CODEX]` compatibility is bounded and fail-closed: map only a deterministic implementation/work-unit or explicitly review-bound context to one Codex role, and reject unknown or ambiguous forms. Handoff is derived evidence, not an authority source.
+
+## Stage 1 compact handoff and validation
+
+Construct the local Work Unit/PRE candidates with existing native builders, dry-validate, and send one compact immutable-locator copy block. Apply explicit current project authorization and genuine PRE before writing; builders and self-proof grant no authority. For an existing-authority metadata bundle use one Lightweight Management Transaction with native entry and one independent PRE/POST pair, without recursive cleanup work. Findings require evidence-grounded explicit adjudication, correlated FIX, fresh implementer and independent re-review. Run focused/affected and real user-path checks first, touched fail-closed boundaries next, and one full suite for release. Repeat only changed-input or unresolved-failure checks. Stop at the authorized stage boundary.

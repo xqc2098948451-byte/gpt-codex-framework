@@ -82,6 +82,153 @@ def canonical_instruction_bytes(envelope: Mapping[str, Any]) -> bytes:
                        separators=(",", ":")) + "\n").encode("utf-8")
 
 
+def build_pre_execution_review_request(
+    mutation_instruction: Mapping[str, Any], *, current_state_revision: int,
+    approved_scope: set[str], runtime_fresh_context_verified: bool,
+    runtime_input_source_kinds: list[str], instruction_id: str | None = None,
+) -> dict[str, Any]:
+    """Construct a candidate request; no review judgment or execution authority."""
+    from validate_project import (validate_instruction_authority,
+        validate_instruction_envelope_contract, validate_pre_execution_review_request)
+    errors = validate_instruction_envelope_contract(mutation_instruction)
+    errors += validate_instruction_authority(mutation_instruction, current_state_revision, approved_scope)
+    if errors:
+        raise ValueError("REQUEST_CONSTRUCTION_BLOCKED:" + ",".join(dict.fromkeys(errors)))
+    value = dict(mutation_instruction)
+    value.update(instruction_id=instruction_id or str(uuid4()), instruction_type="REVIEW_REQUEST",
+        issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_REVIEWER", return_role="GPT_ORCHESTRATOR",
+        authorized_actions=["READ", "TEST", "VALIDATE", "REPORT"],
+        forbidden_actions=["MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"],
+        in_response_to_instruction_id=mutation_instruction["instruction_id"],
+        review_target_revision=mutation_instruction.get("expected_base_sha"))
+    # Approval locators are exclusive to their originating reconciliation request.
+    value.pop("approval_evidence_ref", None)
+    if runtime_fresh_context_verified is not True or _validate_role_input_sources("CODEX_REVIEWER", runtime_input_source_kinds):
+        raise ValueError("REQUEST_CONSTRUCTION_BLOCKED:ROLE_DISPATCH = BLOCKED")
+    errors = validate_instruction_envelope_contract(value)
+    errors += validate_pre_execution_review_request(mutation_instruction, value, current_state_revision=current_state_revision)
+    if errors:
+        raise ValueError("REQUEST_CONSTRUCTION_BLOCKED:" + ",".join(dict.fromkeys(errors)))
+    return value
+
+
+def build_work_unit_candidate(
+    root: Path, semantic_decision: Mapping[str, Any], *, predecessor_ref: Mapping[str, str],
+    expected_state_revision: int, expected_head_sha: str, approved_scope: set[str],
+) -> dict[str, Any]:
+    """Generate bytes locally; callers govern materialization and publication."""
+    import hashlib
+    from copy import deepcopy
+    from validate_project import _resolve_work_unit_at_ref, _schema_shape_errors, _scope_covers
+    root = Path(root)
+    control = json.loads((root / ".gpt-codex/CONTROL.json").read_text(encoding="utf-8"))
+    state = json.loads((root / ".gpt-codex/STATE.json").read_text(encoding="utf-8"))
+    head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+    if state.get("revision") != expected_state_revision:
+        raise ValueError("STALE_STATE_REVISION")
+    if head != expected_head_sha or state.get("project_id") != control.get("project_id"):
+        raise ValueError("RECONCILIATION_REQUIRED")
+    predecessor = _resolve_work_unit_at_ref(root, predecessor_ref)
+    if not isinstance(predecessor, Mapping) or predecessor.get("project_id") != control.get("project_id"):
+        raise ValueError("WORK_UNIT_PREDECESSOR_UNRESOLVED")
+    allowed = {"work_unit_id", "goal", "scope", "acceptance", "evidence_refs", "directory_creations", "artifact_refs"}
+    if not isinstance(semantic_decision, Mapping) or set(semantic_decision) - allowed:
+        raise ValueError("WORK_UNIT_CANDIDATE_INVALID")
+    value = deepcopy(dict(predecessor))
+    value.update(deepcopy(dict(semantic_decision)))
+    scope = value.get("scope", {})
+    owned = scope.get("owned_paths", []) if isinstance(scope, Mapping) else []
+    excluded = set(scope.get("excluded_paths", [])) if isinstance(scope, Mapping) else set()
+    if not owned or not all(_scope_covers(path, approved_scope, excluded) for path in owned):
+        raise ValueError("SCOPE_EXPANSION_DENIED")
+    value.update(project_id=control["project_id"], project_context_id=control["project_context_id"],
+        basis_state_revision=state["revision"], state="DRAFT",
+        implementation_authorized=False, implementation_start_allowed=False,
+        next_gate="EXPLICIT_AUTHORIZATION_REQUIRED",
+        authorization={"authority_type": "CANDIDATE_ONLY", "implementation_authorized": False,
+                       "implementation_start_allowed": False, "next_gate": "EXPLICIT_AUTHORIZATION_REQUIRED"},
+        permissions={"authorized_actions": ["READ", "VALIDATE", "REPORT"],
+                     "forbidden_actions": ["MUTATE_APPROVED_SCOPE", "COMMIT", "PUSH", "PUBLISH", "AUTHORIZE", "SCOPE_EXPANSION"]})
+    # Never carry the predecessor's approvals or runtime identity as successor authority.
+    for key in ("user_local_proxy", "authority_source_ref", "bootstrap_exception_ref"):
+        value.pop(key, None)
+    schema = json.loads((HERE.parent / "schemas/work-unit.schema.json").read_text(encoding="utf-8"))
+    errors = _schema_shape_errors(value, schema)
+    if errors:
+        raise ValueError("WORK_UNIT_CANDIDATE_INVALID:" + ",".join(errors))
+    data = canonical_instruction_bytes(value)
+    return {"work_unit": value, "bytes": data, "byte_count": len(data),
+            "sha256": hashlib.sha256(data).hexdigest(),
+            "git_blob": hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\0" + data).hexdigest(),
+            "authority": "CANDIDATE_ONLY"}
+
+
+def build_fix_instruction(
+    mutation_template: Mapping[str, Any], finding_result: Mapping[str, Any],
+    decision: Mapping[str, Any], resolved_basis: Mapping[str, Mapping[str, Any]], *,
+    current_state_revision: int, approved_scope: set[str], repository_root: Path | None = None,
+) -> dict[str, Any]:
+    """Correlate an explicit decision; Finding alone never permits a fix."""
+    from validate_project import (validate_remediation_adjudication, validate_instruction_authority,
+        validate_instruction_envelope_contract, validate_review_lifecycle)
+    errors = validate_remediation_adjudication(decision, finding_result, resolved_basis)
+    if decision.get("adjudicated_at_revision") != current_state_revision:
+        errors.append("REMEDIATION_BASIS_STALE")
+    if errors:
+        raise ValueError(",".join(dict.fromkeys(errors)))
+    value = dict(mutation_template)
+    value.update(instruction_id=str(uuid4()), instruction_type="FIX_INSTRUCTION",
+        in_response_to_result_id=finding_result.get("result_id"), finding_ids=list(finding_result.get("finding_ids", [])),
+        remediation_decision_ref=decision.get("evidence_id"), fix_round=(finding_result.get("fix_round") or 0) + 1,
+        review_target_revision=finding_result.get("review_target_revision"))
+    errors = validate_instruction_envelope_contract(value)
+    errors += validate_instruction_authority(value, current_state_revision, approved_scope)
+    context = None
+    if repository_root is not None:
+        control = json.loads((Path(repository_root) / ".gpt-codex/CONTROL.json").read_text(encoding="utf-8"))
+        state = json.loads((Path(repository_root) / ".gpt-codex/STATE.json").read_text(encoding="utf-8"))
+        context = {"reviewed_revision": value.get("expected_base_sha"),
+            "project_context_id": control.get("project_context_id"),
+            "repository_id": (control.get("github") or {}).get("repository_id"),
+            "repository_full_name": (control.get("github") or {}).get("repository_full_name"),
+            "remote_ref": (state.get("continuity") or {}).get("current_remote_ref")}
+    errors += validate_review_lifecycle(value, finding_result, current_state_revision,
+        remediation_decision=decision, resolved_basis=resolved_basis,
+        repository_root=repository_root, authoritative_review_context=context)
+    if errors:
+        raise ValueError("FIX_CONSTRUCTION_BLOCKED:" + ",".join(dict.fromkeys(errors)))
+    return value
+
+
+def render_compact_codex_handoff(
+    instruction: Mapping[str, Any], locator: Mapping[str, str], *, goal: str, stop_conditions: list[str],
+) -> str:
+    """One copyable presentation block; the immutable Instruction stays authoritative."""
+    from validate_project import validate_instruction_envelope_contract
+    if validate_instruction_envelope_contract(instruction) or not isinstance(locator, Mapping):
+        raise ValueError("HANDOFF_BINDING_INVALID")
+    if (set(locator) != {"repository", "commit_sha", "path", "blob_sha"}
+        or locator.get("repository") != instruction.get("target_github_repository_full_name")
+        or locator.get("path") != instruction_artifact_relative_path(instruction.get("instruction_id"))
+        or not _SHA_RE.fullmatch(str(locator.get("commit_sha", "")))
+        or not _SHA_RE.fullmatch(str(locator.get("blob_sha", "")))
+        or not isinstance(goal, str) or not goal.strip()
+        or not isinstance(stop_conditions, list) or not stop_conditions):
+        raise ValueError("HANDOFF_BINDING_INVALID")
+    lines = ["```text", f"EXECUTOR: {instruction.get('executor_role')}",
+             f"PROJECT_CONTEXT: {instruction.get('target_project_context_id')}",
+             f"WORK_UNIT: {instruction.get('target_work_unit')}",
+             f"STATE_REVISION: {instruction.get('expected_state_revision')}",
+             "INSTRUCTION_LOCATOR: " + json.dumps(dict(locator), ensure_ascii=False, sort_keys=True),
+             f"GOAL: {goal}", "SCOPE: " + ", ".join(instruction.get("scope_paths", [])),
+             "STOP: " + "; ".join(stop_conditions),
+             "Read the immutable Instruction; fresh resume and native gate are required before mutation.",
+             "RETURN_TO_GPT: YES", "```"]
+    if any("```" in line for line in lines[1:-1]):
+        raise ValueError("HANDOFF_BINDING_INVALID")
+    return "\n".join(lines)
+
+
 def resolve_durable_instruction(
     root: Path, locator: Mapping[str, Any], expected_repository: str, *,
     current_state_revision: int, approved_scope: set[str] | None = None,

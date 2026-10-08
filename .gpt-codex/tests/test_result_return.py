@@ -63,6 +63,24 @@ def envelope(status="PASS"):
 
 
 class ResultReturnTests(unittest.TestCase):
+    def test_finding_builder_binds_review_evidence_and_rejects_missing_evidence(self):
+        from result_return import build_finding_result
+        from validate_project import validate_result_envelope_contract, validate_review_result
+        control = {"project_id": "P", "project_context_id": "11111111-1111-4111-8111-111111111111",
+                   "project_name": "Project", "github": {"repository_id": "12", "repository_full_name": "owner/project"}}
+        result = build_finding_result(control, {"project_id": "P", "revision": 7},
+            framework_version="2.9.0", review_target_revision="a" * 40,
+            finding_ids=["F-1"], evidence_refs=[".gpt-codex/evidence/reproduction.json"])
+        self.assertEqual(result["result_message_type"], "REVIEW_FINDING")
+        self.assertEqual(result["state_revision"], 7)
+        self.assertEqual(validate_result_envelope_contract(result), [])
+        self.assertEqual(validate_review_result(result), [])
+        self.assertNotIn("authorized_actions", result)
+        with self.assertRaisesRegex(ValueError, "FINDING_EVIDENCE_REQUIRED"):
+            build_finding_result(control, {"project_id": "P", "revision": 7},
+                framework_version="2.9.0", review_target_revision="a" * 40,
+                finding_ids=["F-1"], evidence_refs=[])
+
     def test_compact_return_is_durable_ref_first(self):
         value = envelope("PASS")
         value.update(

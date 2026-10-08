@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.9.0 — Issue #17 Stage 1 workflow simplification
+
+- Reuse native Instruction/Result owners for local Work Unit materialization, correlated machine-built PRE, evidence-grounded Finding/FIX and compact immutable-locator handoff.
+- Bound existing-authority management bundles to one PRE/POST pair, a single transaction record and live Git/remote preflight; eliminate recursive closure Work Units and cleanup reviews.
+- Make focused affected checks and real Consumer reproduction the first validation path, preserve touched fail-closed boundaries and independent review, and run the full release suite once.
+- Acceptance and publication facts are retained in Stage1 evidence. Stage2, Connector automation and a second authority/store are excluded.
+
 ## v2.8.0
 
 - Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.

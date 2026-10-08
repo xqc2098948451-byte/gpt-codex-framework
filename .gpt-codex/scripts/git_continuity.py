@@ -34,6 +34,41 @@ _FORBIDDEN_REVIEW_OPERATIONS = frozenset({
 _SHA_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
+def plan_management_transaction(operation: str, scope_paths: list[str]) -> dict[str, Any]:
+    """Non-authoritative plan for one existing-authority metadata transaction."""
+    if operation not in {"STATE_SYNC", "EVIDENCE_FINALIZATION", "VERIFIED_WORK_PUBLICATION"}:
+        raise ValueError("MANAGEMENT_OPERATION_DENIED")
+    if not isinstance(scope_paths, list) or not scope_paths or len(scope_paths) != len(set(scope_paths)):
+        raise ValueError("MANAGEMENT_SCOPE_DENIED")
+    for path in scope_paths:
+        if not isinstance(path, str) or not (
+            path == ".gpt-codex/STATE.json"
+            or re.fullmatch(r"\.gpt-codex/evidence/(?:results/)?[A-Za-z0-9_.-]+\.json", path)
+        ):
+            raise ValueError("MANAGEMENT_SCOPE_DENIED")
+    return {"operation": operation, "scope_paths": list(scope_paths), "authority": "DERIVED_PLAN_ONLY",
+            "gates": ["PRE_EXECUTION", "POST_EXECUTION"], "new_work_unit_required": False,
+            "temporary_branch_required": False, "transaction_record_count": 1,
+            "destructive_actions": "USE_EXISTING_EXPLICIT_USER_AUTHORIZATION_PATH"}
+
+
+def build_validation_plan(changed_paths: list[str], *, finding: bool = False, release: bool = False) -> dict[str, Any]:
+    """Risk advice, not a validator result, exemption or reusable authority cache."""
+    if not isinstance(changed_paths, list) or not changed_paths or not all(_is_safe_evidence_path(p) for p in changed_paths):
+        raise ValueError("VALIDATION_SCOPE_INVALID")
+    safety = any(p in {"AGENTS.md", ".gpt-codex/KERNEL.md", ".gpt-codex/STATE.json", ".gpt-codex/CONTROL.json"}
+                 or p.startswith(".gpt-codex/schemas/")
+                 or p in {".gpt-codex/scripts/validate_project.py", ".gpt-codex/scripts/context_binding.py",
+                          ".gpt-codex/scripts/role_communication.py", ".gpt-codex/scripts/git_continuity.py"}
+                 for p in changed_paths)
+    return {"risk_tier": "RELEASE" if release else "CORE_AUTHORITY" if safety else "FOCUSED",
+            "full_suite_required": release, "focused_regression_required": True,
+            "affected_validators_required": True, "real_world_acceptance_required": True,
+            "original_user_path_reproduction_required": finding, "core_fail_closed_required": safety,
+            "independent_review_required": True, "self_proof_replaces_review": False,
+            "repeat_validation": "ONLY_CHANGED_INPUTS_OR_UNRESOLVED_FAILURES", "authority": "DERIVED_ADVICE_ONLY"}
+
+
 def _is_safe_evidence_path(value: object) -> bool:
     return (
         isinstance(value, str) and bool(value) and "\\" not in value

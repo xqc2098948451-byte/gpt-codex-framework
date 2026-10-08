@@ -29,6 +29,40 @@ def required_return_sections() -> tuple[str, ...]:
     return _REQUIRED_SECTIONS
 
 
+def build_finding_result(
+    project_control: Mapping[str, Any], state: Mapping[str, Any], *, framework_version: str,
+    review_target_revision: str, finding_ids: list[str], evidence_refs: list[str],
+    work_unit_id: str | None = None, response_to_instruction_id: str | None = None,
+    findings: list[Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Build a review evidence candidate; it contains no remediation authorization."""
+    from uuid import uuid4
+    from validate_project import validate_result_envelope_contract, validate_review_result
+    if state.get("project_id") != project_control.get("project_id"):
+        raise ValueError("PROJECT_IDENTITY_INVALID")
+    if not evidence_refs:
+        raise ValueError("FINDING_EVIDENCE_REQUIRED")
+    if not finding_ids or not all(isinstance(x, str) and x.strip() for x in finding_ids + evidence_refs):
+        raise ValueError("FINDING_REFERENCE_REQUIRED")
+    github = project_control.get("github") or {}
+    result = {"kernel_version": "2.0.0", "schema_version": 1, "extension": None,
+        "project_id": project_control.get("project_id"), "work_unit_id": work_unit_id,
+        "source_project_context_id": project_control.get("project_context_id"),
+        "source_project_name": project_control.get("project_name"),
+        "source_github_repository_id": github.get("repository_id"),
+        "source_github_repository_full_name": github.get("repository_full_name"),
+        "framework_version": framework_version, "state_revision": state.get("revision"),
+        "result_id": str(uuid4()), "result_message_type": "REVIEW_FINDING", "status": "FAIL",
+        "responder_role": "CODEX_REVIEWER", "return_role": "GPT_ORCHESTRATOR",
+        "response_to_instruction_id": response_to_instruction_id, "review_target_revision": review_target_revision,
+        "finding_ids": list(finding_ids), "evidence_refs": list(evidence_refs), "fix_round": 0,
+        "findings": list(findings or []), "completion_gate": "GPT_DECISION", "return_to_gpt_required": True}
+    errors = validate_result_envelope_contract(result) + validate_review_result(result)
+    if errors:
+        raise ValueError("FINDING_CONSTRUCTION_BLOCKED:" + ",".join(dict.fromkeys(errors)))
+    return result
+
+
 def _text(value: Any) -> str:
     if value is None or value == "" or value == [] or value == {}:
         return "NONE"

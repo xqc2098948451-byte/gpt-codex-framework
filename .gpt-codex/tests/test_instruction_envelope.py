@@ -20,6 +20,95 @@ def load_instruction_envelope():
 
 
 class InstructionEnvelopeTests(unittest.TestCase):
+    def test_fix_builder_requires_explicit_correlated_adjudication(self):
+        ie = load_instruction_envelope()
+        mutation = ie.build_instruction_envelope("EXECUTION_INSTRUCTION", VALID_ID, "Example", 7, "2.8.0",
+            target_work_unit="WU-1", expected_base_sha="a" * 40, issuer_role="GPT_ORCHESTRATOR",
+            executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR",
+            authorized_actions=["READ", "MUTATE_APPROVED_SCOPE"], forbidden_actions=["AUTHORIZE"],
+            scope_paths=["docs/approved.md"])
+        finding = {"result_id": "22222222-2222-4222-8222-222222222222", "result_message_type": "REVIEW_FINDING",
+                   "responder_role": "CODEX_REVIEWER", "review_target_revision": "a" * 40,
+                   "finding_ids": ["F-1"], "evidence_refs": ["reproduction"], "fix_round": 0}
+        decision = {"evidence_id": "decision", "subject": "REMEDIATION_ADJUDICATION", "decision": "ACCEPT",
+                    "finding_ids": ["F-1"], "basis_type": "CONCRETE_REGRESSION_EVIDENCE",
+                    "basis_refs": ["reproduction"], "adjudicated_at_revision": 7}
+        basis = {"reproduction": {"basis_type": "CONCRETE_REGRESSION_EVIDENCE", "finding_ids": ["F-1"],
+                                  "state_revision": 7, "failing": True}}
+        fix = ie.build_fix_instruction(mutation, finding, decision, basis, current_state_revision=7,
+                                       approved_scope={"docs/approved.md"})
+        self.assertEqual(fix["instruction_type"], "FIX_INSTRUCTION")
+        self.assertEqual(fix["in_response_to_result_id"], finding["result_id"])
+        self.assertEqual(fix["remediation_decision_ref"], "decision")
+        self.assertEqual(fix["fix_round"], 1)
+        with self.assertRaisesRegex(ValueError, "REMEDIATION_DECISION"):
+            ie.build_fix_instruction(mutation, finding, {}, basis, current_state_revision=7,
+                                     approved_scope={"docs/approved.md"})
+
+    def test_compact_handoff_keeps_complete_binding_in_one_block(self):
+        ie = load_instruction_envelope()
+        instruction = ie.build_instruction_envelope("EXECUTION_INSTRUCTION", VALID_ID, "Example", 7, "2.8.0",
+            target_work_unit="WU-1", expected_base_sha="a" * 40, issuer_role="GPT_ORCHESTRATOR",
+            executor_role="CODEX_IMPLEMENTER", return_role="GPT_ORCHESTRATOR", authorized_actions=["READ"],
+            forbidden_actions=["AUTHORIZE"], scope_paths=["docs/approved.md"],
+            target_github_repository_id="12", target_github_repository_full_name="owner/project")
+        locator = {"repository": "owner/project", "commit_sha": "b" * 40,
+                   "path": ie.instruction_artifact_relative_path(instruction["instruction_id"]), "blob_sha": "c" * 40}
+        text = ie.render_compact_codex_handoff(instruction, locator, goal="Read approved document",
+                                             stop_conditions=["STOP on authority drift"])
+        self.assertEqual(text.count("```text"), 1)
+        self.assertIn("STATE_REVISION: 7", text)
+        self.assertIn("CODEX_IMPLEMENTER", text)
+        self.assertIn("docs/approved.md", text)
+        self.assertIn("STOP on authority drift", text)
+        self.assertIn("b" * 40, text)
+
+    def test_machine_pre_request_derives_correlation_without_issuing_pass(self):
+        ie = load_instruction_envelope()
+        from validate_project import validate_pre_execution_review_request
+        mutation = ie.build_instruction_envelope(
+            "EXECUTION_INSTRUCTION", VALID_ID, "Example", 7, "2.8.0",
+            target_work_unit="WU-1", expected_base_sha="a" * 40,
+            issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_IMPLEMENTER",
+            return_role="GPT_ORCHESTRATOR", authorized_actions=["READ", "MUTATE_APPROVED_SCOPE"],
+            forbidden_actions=["AUTHORIZE"], scope_paths=["docs/approved.md"],
+        )
+        request = ie.build_pre_execution_review_request(
+            mutation, current_state_revision=7, approved_scope={"docs/approved.md"},
+            runtime_fresh_context_verified=True, runtime_input_source_kinds=["GOVERNED_INSTRUCTION"],
+        )
+        self.assertEqual(request["review_target_revision"], "a" * 40)
+        self.assertEqual(request["in_response_to_instruction_id"], mutation["instruction_id"])
+        self.assertEqual(validate_pre_execution_review_request(mutation, request, current_state_revision=7), [])
+        self.assertNotIn("status", request)
+        with self.assertRaisesRegex(ValueError, "REQUEST_CONSTRUCTION_BLOCKED"):
+            ie.build_pre_execution_review_request(mutation, current_state_revision=8,
+                approved_scope={"docs/approved.md"}, runtime_fresh_context_verified=True,
+                runtime_input_source_kinds=["GOVERNED_INSTRUCTION"])
+
+    def test_work_unit_candidate_locks_local_bytes_without_authorizing_execution(self):
+        ie = load_instruction_envelope()
+        import subprocess
+        project = ROOT.parent
+        state = json.loads((ROOT / "STATE.json").read_text(encoding="utf-8"))
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=project, text=True).strip()
+        candidate = ie.build_work_unit_candidate(project,
+            {"work_unit_id": "builder-check", "goal": "Check candidate materialization",
+             "scope": {"owned_paths": [".gpt-codex/scripts/result_return.py"]}, "acceptance": ["candidate only"]},
+            predecessor_ref={"path": ".gpt-codex/work-units/framework-staged-closure-group-a-001.json", "sha": head},
+            expected_state_revision=state["revision"], expected_head_sha=head,
+            approved_scope={".gpt-codex/scripts/result_return.py"})
+        import hashlib
+        self.assertEqual(candidate["sha256"], hashlib.sha256(candidate["bytes"]).hexdigest())
+        self.assertEqual(candidate["work_unit"]["state"], "DRAFT")
+        self.assertFalse(candidate["work_unit"]["authorization"]["implementation_authorized"])
+        self.assertEqual(candidate["work_unit"]["basis_state_revision"], state["revision"])
+        self.assertEqual(candidate["byte_count"], len(candidate["bytes"]))
+        with self.assertRaisesRegex(ValueError, "STALE_STATE_REVISION"):
+            ie.build_work_unit_candidate(project, {"work_unit_id": "builder-check"},
+                predecessor_ref={"path": ".gpt-codex/work-units/framework-staged-closure-group-a-001.json", "sha": head},
+                expected_state_revision=state["revision"] + 1, expected_head_sha=head, approved_scope=set())
+
     def test_review_dispatch_requires_independent_freshness_and_allowed_sources(self):
         ie = load_instruction_envelope()
         args = dict(instruction_type="REVIEW_REQUEST", target_project_context_id="ctx", target_project_name="Project", expected_state_revision=1, framework_version="2.0.0", target_work_unit="WU-1", expected_base_sha="a" * 40, issuer_role="GPT_ORCHESTRATOR", executor_role="CODEX_REVIEWER", return_role="GPT_ORCHESTRATOR", target_github_repository_id="repo")

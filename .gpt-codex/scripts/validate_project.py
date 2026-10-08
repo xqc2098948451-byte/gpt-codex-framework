@@ -1049,26 +1049,17 @@ def validate_review_lifecycle(
     return list(dict.fromkeys(errors))
 
 
-def validate_pre_execution_review(
-    mutation_instruction: Mapping[str, Any],
-    review_request: Mapping[str, Any] | None,
-    review_result: Mapping[str, Any] | None,
-    *,
-    current_state_revision: int,
-    authoritative_review_context: Mapping[str, Any] | None = None,
+def validate_pre_execution_review_request(
+    mutation_instruction: Mapping[str, Any], review_request: Mapping[str, Any] | None,
+    *, current_state_revision: int,
 ) -> list[str]:
-    """Compose existing authority checks before a durable mutation may execute."""
-
+    """Dry request checks shared by construction and the genuine PRE gate."""
     errors = validate_instruction_authority(mutation_instruction, current_state_revision)
-    if not isinstance(mutation_instruction, Mapping) or not _UUID_RE.fullmatch(str(mutation_instruction.get("instruction_id", ""))):
-        errors.append("INVALID_INSTRUCTION")
-    expected_base = mutation_instruction.get("expected_base_sha") if isinstance(mutation_instruction, Mapping) else None
+    if not isinstance(mutation_instruction, Mapping):
+        return errors
+    expected_base = mutation_instruction.get("expected_base_sha")
     if not _is_sha(expected_base):
         errors.append("INVALID_INSTRUCTION")
-    if review_request is None or review_result is None:
-        errors.append("PRE_EXECUTION_REVIEW_REQUIRED")
-        return list(dict.fromkeys(errors))
-
     errors.extend(validate_instruction_authority(review_request, current_state_revision))
     if not isinstance(review_request, Mapping):
         return list(dict.fromkeys(errors))
@@ -1095,6 +1086,32 @@ def validate_pre_execution_review(
     if review_request.get("review_target_revision") != expected_base:
         errors.append("PRE_EXECUTION_REVIEW_TARGET_MISMATCH")
 
+    return list(dict.fromkeys(errors))
+
+
+def validate_pre_execution_review(
+    mutation_instruction: Mapping[str, Any],
+    review_request: Mapping[str, Any] | None,
+    review_result: Mapping[str, Any] | None,
+    *,
+    current_state_revision: int,
+    authoritative_review_context: Mapping[str, Any] | None = None,
+) -> list[str]:
+    """Compose existing authority checks before a durable mutation may execute."""
+
+    errors = validate_instruction_authority(mutation_instruction, current_state_revision)
+    if not isinstance(mutation_instruction, Mapping) or not _UUID_RE.fullmatch(str(mutation_instruction.get("instruction_id", ""))):
+        errors.append("INVALID_INSTRUCTION")
+    expected_base = mutation_instruction.get("expected_base_sha") if isinstance(mutation_instruction, Mapping) else None
+    if not _is_sha(expected_base):
+        errors.append("INVALID_INSTRUCTION")
+    if review_request is None or review_result is None:
+        errors.append("PRE_EXECUTION_REVIEW_REQUIRED")
+        return list(dict.fromkeys(errors))
+
+    errors.extend(validate_pre_execution_review_request(
+        mutation_instruction, review_request, current_state_revision=current_state_revision,
+    ))
     errors.extend(validate_review_result(review_result))
     if not isinstance(review_result, Mapping):
         return list(dict.fromkeys(errors))
@@ -1413,6 +1430,60 @@ def validate_governed_mutation_entry(
                 remediation_decision=remediation_decision, resolved_basis=resolved_basis,
                 authoritative_review_context=authoritative_review_context, repository_root=repository_root,
             ))
+    return list(dict.fromkeys(errors))
+
+
+def validate_lightweight_management_transaction(
+    project_control: Mapping[str, Any], state: Mapping[str, Any], work_unit: Mapping[str, Any],
+    mutation_instruction: Mapping[str, Any], review_request: Mapping[str, Any] | None,
+    review_result: Mapping[str, Any] | None, *, operation: str, current_state_revision: int,
+    repository_root: Path,
+) -> list[str]:
+    """Enter one metadata bundle under the existing WU and genuine native PRE.
+
+    Call before writing. POST and publication verification remain mandatory;
+    this entry creates no branches, Work Units, Instructions or approval.
+    """
+    from git_continuity import plan_management_transaction, SyncSnapshot, evaluate_new_work_preflight
+    try:
+        plan_management_transaction(operation, mutation_instruction.get("scope_paths"))
+    except (ValueError, AttributeError) as exc:
+        return [str(exc)]
+    errors = validate_governed_mutation_entry(project_control, state, work_unit, mutation_instruction,
+        review_request, review_result, current_state_revision=current_state_revision, repository_root=repository_root)
+    if errors:
+        return errors
+    root = Path(repository_root)
+    try:
+        from github_repository_binding import canonicalize_remote_url
+        head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+        committed_control = _git_json_at_path(root, head, ".gpt-codex/CONTROL.json")
+        committed_state = _git_json_at_path(root, head, ".gpt-codex/STATE.json")
+        if committed_control != project_control or committed_state != state:
+            errors.append("RECONCILIATION_REQUIRED")
+        remote_ref = mutation_instruction.get("expected_remote_ref")
+        if not isinstance(remote_ref, str) or not remote_ref.startswith("refs/heads/"):
+            return list(dict.fromkeys(errors + ["REMOTE_REF_MISMATCH"]))
+        remote_name = mutation_instruction.get("expected_remote_name") or "origin"
+        url = subprocess.check_output(["git", "-C", str(root), "remote", "get-url", "--", remote_name], text=True)
+        if canonicalize_remote_url(url) != "github:" + project_control["github"]["repository_full_name"]:
+            return list(dict.fromkeys(errors + ["GITHUB_REPOSITORY_MISMATCH"]))
+        # Git receives separate arguments; a ref/name is never a shell command.
+        remote = subprocess.check_output(["git", "-C", str(root), "ls-remote", "--", remote_name, remote_ref], text=True, timeout=30).split()
+        remote_sha = remote[0] if len(remote) == 2 and remote[1] == remote_ref else None
+        dirty = bool(subprocess.check_output(["git", "-C", str(root), "status", "--porcelain=v1", "--untracked-files=all"]))
+        if remote_sha is None:
+            return list(dict.fromkeys(errors + ["REMOTE_UNAVAILABLE"]))
+        counts = subprocess.check_output(["git", "-C", str(root), "rev-list", "--left-right", "--count", f"{head}...{remote_sha}"], text=True).split()
+        local_ahead, remote_ahead = map(int, counts)
+        sync = evaluate_new_work_preflight(SyncSnapshot(head, remote_sha, remote_ref, dirty,
+            local_ahead, remote_ahead, bool(local_ahead and remote_ahead)),
+            mutation_instruction.get("expected_base_sha"), remote_ref, mutation_instruction.get("expected_remote_head_sha"),
+            current_state_revision, state.get("revision"))
+        if sync.decision != "CLEAN_SYNCED":
+            errors.append(sync.reason)
+    except (OSError, subprocess.SubprocessError, KeyError, TypeError, ValueError):
+        errors.append("REMOTE_UNAVAILABLE")
     return list(dict.fromkeys(errors))
 
 
