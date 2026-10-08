@@ -154,8 +154,10 @@ class BoundaryRegressions(unittest.TestCase):
    observed={'remote_head_sha':W,'repository_id':'1366213495','repository':'xqc2098948451-byte/gpt-codex-framework','remote_ref':'refs/heads/main'}
    with patch('git_continuity.observe_bound_remote',return_value=observed):
     self.assertFalse(build_state_sync_finalization(root,post_result=post,**args)['work_unit_completed'])
-    for change in ({'exit_code':None},{'process_completed':False},{'executed_scope':[]},{'validators_completed':[]}):
-     bad=copy.deepcopy(post);bad['completion_evidence'].update(change)
+    for change in ({'exit_code':None},{'process_completed':False},{'executed_scope':[]},{'validators_completed':[]},{'remote_verification':None}):
+     bad=copy.deepcopy(post)
+     if 'remote_verification' in change:bad.pop('remote_verification',None)
+     else:bad['completion_evidence'].update(change)
      with self.subTest(change=change),self.assertRaises(ValueError):build_state_sync_finalization(root,post_result=bad,**args)
  def test_real_stage4_request_bound_fix_rejects_foreign_lineage(self):
   finding=load('.gpt-codex/evidence/results/RESULT-STAGE4-FRAMEWORK-FINDING.json');decision=load('.gpt-codex/evidence/STAGE4-FRAMEWORK-REMEDIATION.json');basis=load('.gpt-codex/evidence/STAGE4-FRAMEWORK-REGRESSION.json')
@@ -192,6 +194,34 @@ class BoundaryRegressions(unittest.TestCase):
      blob=subprocess.check_output(['git','-C',str(root),'hash-object','-w','--stdin'],input=canonical_instruction_bytes(record)).decode().strip();subprocess.check_call(['git','-C',str(root),'update-index','--add','--cacheinfo',f'100644,{blob},{path}'],env=env,stdout=subprocess.DEVNULL)
     tree=subprocess.check_output(['git','-C',str(root),'write-tree'],env=env).decode().strip();bad=git(root,'-c','user.name=ContractTests','-c','user.email=contract@example.invalid','commit-tree',tree,'-p',W,'-m','negative publication binding')
     with self.subTest(change=change),patch('git_continuity.observe_bound_remote',return_value={**observed,'remote_head_sha':bad}),self.assertRaises(ValueError):verify_work_publication(root,work_sha=W,publication_sha=bad,remote_ref='refs/heads/main',scope_paths=scope)
+
+
+ def test_real_stage4_current_publication_requires_exact_durable_post_request(self):
+  # Controlled promotion of the real Stage4 execution exercises the current
+  # durability rule without rewriting any historical authority artifact.
+  import os
+  closed,state,W=self.fixture();original='f018563a98e4f637652a1dd1182360d9a93ad9c1';scope=closed['post_request']['scope_paths'];closurepath=state['continuity']['last_verified_result_ref'];executionpath=f".gpt-codex/evidence/instructions/{closed['response_to_instruction_id']}.json";postpath='.gpt-codex/evidence/instructions/ef5c9407-1cf2-4cd6-93c0-8d7945a1e73c.json'
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t)/'review';self.clone(root,W)
+   def tree(parent,records,label):
+    env=dict(os.environ,GIT_INDEX_FILE=str(Path(t)/(label+'.index')));subprocess.check_call(['git','-C',str(root),'read-tree',parent],env=env,stdout=subprocess.DEVNULL)
+    for path,record in records.items():
+     blob=subprocess.check_output(['git','-C',str(root),'hash-object','-w','--stdin'],input=canonical_instruction_bytes(record)).decode().strip();subprocess.check_call(['git','-C',str(root),'update-index','--add','--cacheinfo',f'100644,{blob},{path}'],env=env,stdout=subprocess.DEVNULL)
+    value=subprocess.check_output(['git','-C',str(root),'write-tree'],env=env).decode().strip();return git(root,'-c','user.name=ContractTests','-c','user.email=contract@example.invalid','commit-tree',value,'-p',parent,'-m',label)
+   execution=json.loads(subprocess.check_output(['git','-C',str(root),'show',W+':'+executionpath]));execution['framework_version']='2.13.0';currentW=tree(W,{executionpath:execution},'current-execution')
+   def retarget(value):
+    if isinstance(value,dict):return {k:retarget(v) for k,v in value.items()}
+    if isinstance(value,list):return [retarget(v) for v in value]
+    return currentW if value==W else value
+   records={p:retarget(json.loads(subprocess.check_output(['git','-C',str(root),'show',original+':'+p]))) for p in git(root,'diff','--name-only',W,original).splitlines()};closure=records[closurepath];closure['framework_version']='2.13.0';closure['post_request']['framework_version']='2.13.0';closure['post_request']['instruction_id']='ef5c9407-1cf2-4cd6-93c0-8d7945a1e73c';closure['independent_post']['response_to_instruction_id']=closure['post_request']['instruction_id'];closure['independent_post']['framework_version']='2.13.0'
+   def verify(P):
+    observed={'remote_head_sha':P,'repository_id':'1366213495','repository':'xqc2098948451-byte/gpt-codex-framework','remote_ref':'refs/heads/main'}
+    with patch('git_continuity.observe_bound_remote',return_value=observed):return verify_work_publication(root,work_sha=currentW,publication_sha=P,remote_ref='refs/heads/main',scope_paths=scope)
+   missing=tree(currentW,records,'missing-current-request')
+   with self.assertRaises(ValueError):verify(missing)
+   downgraded=copy.deepcopy(records);downgraded[closurepath]['framework_version']='2.12.0';downgraded[closurepath]['post_request']['framework_version']='2.12.0';downgraded[closurepath]['independent_post']['framework_version']='2.12.0'
+   with self.assertRaises(ValueError):verify(tree(currentW,downgraded,'caller-version-downgrade'))
+   records[postpath]=closure['post_request'];self.assertEqual(verify(tree(currentW,records,'exact-current-request'))['status'],'PASS')
 
 if __name__ == '__main__':
     unittest.main()

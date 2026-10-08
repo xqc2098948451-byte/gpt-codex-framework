@@ -130,12 +130,12 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
     from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
                                   validate_review_result, validate_instruction_authority,
                                   validate_committed_candidate_scope, _resolve_work_unit_at_ref, validate_review_lifecycle, _git_json_at_path)
-    from publication_contract import validate_completion_evidence
+    from publication_contract import validate_completion_evidence, validate_result_authority
     root = Path(root).resolve()
     if not isinstance(post_request, Mapping) or not isinstance(post_result, Mapping):
         raise ValueError('INDEPENDENT_POST_REQUIRED')
     if (validate_instruction_envelope_contract(post_request) or validate_result_envelope_contract(post_result)
-            or validate_review_result(post_result) or validate_completion_evidence(post_result) or post_request.get('instruction_type') != 'REVIEW_REQUEST'
+            or validate_review_result(post_result) or validate_completion_evidence(post_result) or validate_result_authority(post_result) or post_request.get('instruction_type') != 'REVIEW_REQUEST'
             or post_request.get('executor_role') != 'CODEX_REVIEWER' or post_result.get('responder_role') != 'CODEX_REVIEWER'
             or post_request.get('return_role') != 'GPT_ORCHESTRATOR' or post_result.get('return_role') != 'GPT_ORCHESTRATOR'
             or post_result.get('status') != 'PASS' or post_result.get('result_message_type') != 'REVIEW_RESULT'
@@ -254,11 +254,29 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
     result = json.loads(git('show', f'{publication_sha}:{result_ref}'))
     if validate_state_authority(state, {result_ref: result}):
         raise ValueError('RECONCILIATION_REQUIRED:PUBLICATION_RESULT_INVALID')
+    # The immutable execution at W determines the current contract. Caller
+    # closure versions cannot downgrade it or omit the durable POST bytes.
+    from instruction_envelope import instruction_artifact_relative_path
+    from validate_project import _git_json_at_path, validate_committed_candidate_scope
+    try:
+        source_execution = _git_json_at_path(root, work_sha, instruction_artifact_relative_path(result.get('response_to_instruction_id')))
+    except (OSError, ValueError, subprocess.SubprocessError):
+        raise ValueError('PUBLICATION_SCOPE_DENIED')
+    if (not isinstance(source_execution, Mapping)
+            or source_execution.get('instruction_type') not in {'EXECUTION_INSTRUCTION', 'FIX_INSTRUCTION'}
+            or source_execution.get('target_work_unit') != result.get('work_unit_id')
+            or validate_committed_candidate_scope(root, work_sha, publication_sha, set(source_execution.get('scope_paths', [])), set())):
+        raise ValueError('PUBLICATION_SCOPE_DENIED')
+    def current_contract(record):
+        version = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", str((record or {}).get('framework_version', '')))
+        return version is not None and tuple(map(int, version.groups())) >= (2, 13, 0)
+    if (current_contract(source_execution) or current_contract(result) or current_contract(result.get('post_request'))) and not request_changes:
+        raise ValueError('PUBLICATION_SCOPE_DENIED')
     if request_changes:
         # Only the pre-reserved exact-W POST request may be finalized in P.
         # EXEC/FIX, foreign requests and all other Instruction changes stay denied.
         from instruction_envelope import canonical_instruction_bytes, instruction_artifact_relative_path
-        from publication_contract import validate_completion_evidence
+        from publication_contract import validate_completion_evidence, validate_result_authority
         from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
                                       validate_review_result, validate_instruction_authority, validate_review_lifecycle,
                                       _git_json_at_path, _resolve_work_unit_at_ref)
@@ -285,6 +303,7 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
                 or request.get('target_work_unit') != unit.get('work_unit_id') or execution.get('target_work_unit') != unit.get('work_unit_id')
                 or request.get('instruction_type') != 'REVIEW_REQUEST' or request.get('executor_role') != 'CODEX_REVIEWER'
                 or request.get('return_role') != 'GPT_ORCHESTRATOR' or post.get('return_role') != 'GPT_ORCHESTRATOR'
+                or request.get('in_response_to_instruction_id') != result.get('response_to_instruction_id')
                 or request.get('target_work_unit_ref') != execution.get('target_work_unit_ref')
                 or request.get('scope_paths') != execution.get('scope_paths')
                 or request.get('expected_base_sha') != work_sha or request.get('expected_remote_head_sha') != work_sha
@@ -293,7 +312,7 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
                 or post.get('review_target_revision') != work_sha or request.get('review_target_revision') != work_sha
                 or post.get('response_to_instruction_id') != request.get('instruction_id')
                 or validate_instruction_envelope_contract(request) or validate_result_envelope_contract(post)
-                or validate_review_result(post) or validate_completion_evidence(post)
+                or validate_review_result(post) or validate_completion_evidence(post) or validate_result_authority(post)
                 or validate_instruction_authority(execution, original['revision'], set(unit['scope']['owned_paths']), set(unit['scope'].get('excluded_paths', [])))
                 or validate_instruction_authority(request, original['revision'], set(unit['scope']['owned_paths']), set(unit['scope'].get('excluded_paths', [])))):
             raise ValueError('PUBLICATION_SCOPE_DENIED')

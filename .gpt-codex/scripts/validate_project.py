@@ -1108,6 +1108,7 @@ def validate_review_lifecycle(
                 if full:
                     errors.extend(validate_result_envelope_contract(re_review_result))
                     errors.extend(validate_completion_evidence(re_review_result))
+                    errors.extend(validate_result_authority(re_review_result))
                     bindings = {"source_project_name": "target_project_name", "source_project_context_id": "target_project_context_id",
                                 "source_github_repository_id": "target_github_repository_id", "source_github_repository_full_name": "target_github_repository_full_name",
                                 "work_unit_id": "target_work_unit", "state_revision": "expected_state_revision"}
