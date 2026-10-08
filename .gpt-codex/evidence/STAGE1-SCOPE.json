@@ -1,0 +1,104 @@
+{
+  "accepted": true,
+  "authority": "EXPLICIT_USER_STAGE1_EXECUTION_REQUEST_2026-10-08",
+  "baseline_sha": "a3ff7a0c79633e20758859d9af854b044a933407",
+  "capability_before_design": {
+    "classification": "PARTIAL",
+    "minimum_delta": "Extend existing owners; no new subsystem/store/registry/schema/transport.",
+    "reuse": [
+      "build_instruction_envelope",
+      "canonical_instruction_bytes",
+      "validate_governed_mutation_entry",
+      "validate_pre_execution_review",
+      "validate_review_lifecycle",
+      "render_compact_gpt_return",
+      "evaluate_attestation_chain"
+    ]
+  },
+  "consumer": {
+    "head": "313b024d302b3e3baba0582a4deaf6657dc6d1f8",
+    "mode": "isolated worktree, existing private remote, bounded governance/doc-only acceptance; no infra or personal data",
+    "repository": "xqc2098948451-byte/price-action-learning",
+    "repository_id": "1394745962",
+    "revision": 22,
+    "root": "D:\\Price Action\\price-action-learning"
+  },
+  "design": [
+    "Extract request-only PRE validation reused by native PRE and machine builder; never create reviewer PASS.",
+    "Build Work Unit candidate from predecessor and explicit semantic decision, bind CONTROL/STATE, check current schema/scope; canonical bytes/hashes computed after generation; no implementation authorization.",
+    "Build Finding Result and FIX Instruction with current schemas and explicit accepted adjudication; no automatic adjudication.",
+    "Restricted management entry requires existing WU/Instruction/native PRE, one PRE plus independent POST for bounded metadata bundle, no successor cleanup branch/WU; source changes, refs deletion and authority drift denied.",
+    "Risk-tiered recommendation preserves focused safety/affected validators plus real reproduction; full suite once for release; no cached authority reuse.",
+    "Single compact human handoff includes immutable locator, identity/role/scope and stop conditions; implementer proof cannot replace independent reviewer."
+  ],
+  "prohibited": [
+    "Stage2",
+    "Connector automation",
+    "second STATE/authority/store/registry",
+    "force push",
+    "mechanical test expansion"
+  ],
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "repository": "xqc2098948451-byte/gpt-codex-framework",
+  "repository_id": "1366213495",
+  "review_focus": [
+    "Candidate WU does not authorize or broaden scope",
+    "Builder cannot invent reviewer PASS",
+    "Management denies source changes, stale identity/revision or remote drift",
+    "Finding needs explicit durable adjudication plus fresh FIX context",
+    "Released Consumer behavior must match actual remote observed facts"
+  ],
+  "scope": [
+    ".gpt-codex/scripts/instruction_envelope.py",
+    ".gpt-codex/scripts/result_return.py",
+    ".gpt-codex/scripts/validate_project.py",
+    ".gpt-codex/scripts/git_continuity.py",
+    ".gpt-codex/tests/test_instruction_envelope.py",
+    ".gpt-codex/tests/test_result_return.py",
+    ".gpt-codex/tests/test_git_continuity.py",
+    ".gpt-codex/tests/test_pre_execution_review.py",
+    "AGENTS.md",
+    ".gpt-codex/KERNEL.md",
+    ".gpt-codex/README.md",
+    ".gpt-codex/BOOTSTRAP_PROMPT.md",
+    ".gpt-codex/CHANGELOG.md",
+    ".gpt-codex/builtins/INDEX.json",
+    ".gpt-codex/framework-modules/REGISTRY.json",
+    ".gpt-codex/release/consumer-projection-manifest.json",
+    "VERSION",
+    "releases/INDEX.json",
+    "releases/records/v2.9.0.json",
+    ".gpt-codex/evidence/STAGE1-SCOPE.json",
+    ".gpt-codex/evidence/STAGE1-ACCEPTANCE.json",
+    ".gpt-codex/evidence/STAGE1-REMOTE-VERIFICATION.json",
+    ".gpt-codex/work-units/issue17-stage1-workflow-simplification-001.json",
+    ".gpt-codex/evidence/instructions/a81ec402-95d6-4821-9346-fd2be6ed50df.json",
+    ".gpt-codex/evidence/instructions/5e1acdfb-0f25-4186-90ab-8557c2a324c7.json",
+    ".gpt-codex/evidence/results/RESULT-STAGE1-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-STAGE1-POST.json",
+    ".gpt-codex/evidence/results/RESULT-STAGE1-CLOSURE.json",
+    ".gpt-codex/STATE.json"
+  ],
+  "scope_expansion_rule": "real user-path blocker, authority/fail-closed break, or compounding debt only",
+  "state_revision": 43,
+  "subject": "ISSUE17_STAGE1_SCOPE_AND_PLAN",
+  "target_version": "2.9.0",
+  "tasks": [
+    {
+      "deliverable": "machine-built PRE/WorkUnit/Finding/FIX candidates",
+      "id": 1,
+      "validation": "minimal new behavior/stale/scope tests and affected envelope/lifecycle validators"
+    },
+    {
+      "deliverable": "management entry/validation strategy/compact handoff",
+      "id": 2,
+      "validation": "real Consumer management and real Finding remediation; old flow, core fail-closed/conflict checks"
+    },
+    {
+      "deliverable": "independent POST/durable closure/v2.9.0 release",
+      "id": 3,
+      "validation": "one release full suite, clean artifact, remote tag/release/assets verification"
+    }
+  ]
+}
