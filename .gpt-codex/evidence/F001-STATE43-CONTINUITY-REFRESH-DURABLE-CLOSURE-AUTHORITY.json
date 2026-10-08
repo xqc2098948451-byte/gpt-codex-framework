@@ -1,0 +1,410 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "USER_ASSERTED",
+  "subject": "GOVERNANCE_ONLY_CONTINUITY_REFRESH_DURABLE_CLOSURE_AUTHORITY",
+  "state_revision": 42,
+  "result": "AUTHORIZED",
+  "source_directive_sha256": "5d7995c4928eb4f69e42e95b8ceaa0bfcf900100884262e00f48e4d26dcdac7c",
+  "source_directive_scope": "Reuse prior STATE43/authority/Work Unit candidates. One independent PRE; stop on any new Finding. After PASS perform exact governance-only STATE43 durable closure, normal non-force push, one remote readback then RETURN_TO_GPT.",
+  "basis_state_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "path": ".gpt-codex/STATE.json",
+    "blob_sha": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de"
+  },
+  "control_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "path": ".gpt-codex/CONTROL.json",
+    "blob_sha": "1730badbd9787ffe5c82ac0909c32cada26485a3"
+  },
+  "expected_authority_base": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+  "expected_remote_main_tree": "fc8940929dcd85461f8d5f00750c48370aaf5f94",
+  "proposed_transition": {
+    "before": 42,
+    "after": 43,
+    "state": "AUTHORIZED",
+    "next_action": "AWAIT_GPT_ORCHESTRATION",
+    "sync_status": "SYNC_PENDING",
+    "latest_synced_state_revision": 42,
+    "latest_verified_remote_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04"
+  },
+  "proposed_scope": [
+    ".gpt-codex/STATE.json",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+    ".gpt-codex/work-units/f001-state43-continuity-refresh-durable-closure-001.json",
+    ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+    ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+    ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE-PRE.json",
+    ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json"
+  ],
+  "excluded_scope": [
+    ".gpt-codex/CONTROL.json",
+    ".gpt-codex/scripts/",
+    ".gpt-codex/schemas/",
+    ".gpt-codex/tests/",
+    ".gpt-codex/KERNEL.md",
+    ".gpt-codex/kernel/",
+    ".gpt-codex/builtins/",
+    ".gpt-codex/framework-modules/",
+    ".gpt-codex/release/",
+    "plugins/",
+    "VERSION",
+    "releases/",
+    "docs/",
+    "tests/",
+    "dist/",
+    "AGENTS.md"
+  ],
+  "native_authority_patterns": [
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-AUTHORITY.json",
+      "blob_sha": "d0d45b108ebf13e2ccde855d3d4947a6bb99e43c"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "path": ".gpt-codex/evidence/G001-STATE40-CANONICAL-RETRY-ATTESTATION.json",
+      "blob_sha": "4fd833bc18caf02d5f69cfe49f5e9795a0afd47c"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "path": ".gpt-codex/evidence/F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-AUTHORITY.json",
+      "blob_sha": "2597b5c4fe53b5fb9aa69b123f6f769afd8f0e71"
+    },
+    {
+      "repository": "xqc2098948451-byte/gpt-codex-framework",
+      "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "path": ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-AUTHORITY.json",
+      "blob_sha": "a966fee22cd9ff5ad92623c6d55f57545b1648be"
+    }
+  ],
+  "pre_sync_exception": {
+    "phase": "STATE_TRANSITION_PUBLICATION_PRE_SYNC",
+    "candidate_revision": 43,
+    "sync_status": "SYNC_PENDING",
+    "allowed_only_reason": "LOCAL_UNSYNCED_STATE",
+    "post_sync_exception_allowed": false,
+    "does_not_waive_next_action_authority": true
+  },
+  "native_attestation_semantics": {
+    "native_function": "git_continuity.evaluate_attestation_chain",
+    "work_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "work_verified": true,
+    "publication_sha": null,
+    "self_reference": false,
+    "later_publication_requirements": [
+      "Actual separately authorized management-only publication P",
+      "P references integration W=4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "Generic source/test tree preserved between W and P",
+      "Fresh remote verification and correlated native Result",
+      "Fresh native independent PRE before execution"
+    ],
+    "latest_synced_state_revision_remains": 42,
+    "last_verified_result_ref_retained_as_prior_state42_gate_only": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json"
+  },
+  "next_action_authority": {
+    "status": "RESOLVED",
+    "exact_post_f001_next_action": "AWAIT_GPT_ORCHESTRATION",
+    "candidate_blockers": [],
+    "exact_token_records": [
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+          "blob_sha": "58e2277dcb5de1a803d671f429ad09401cfbb4a7"
+        },
+        "exact_next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+        "state_revision": 38
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/FRAMEWORK-REMEDIATION-CAUSAL-BASE-LIVENESS-STATE39-GATE-REMOTE-VERIFICATION.json",
+          "blob_sha": "116f8ee78b3146c3f3886f7aaa9dbb5c317f051e"
+        },
+        "exact_next_action": "FRAMEWORK_REMEDIATION_CAUSAL_BASE_LIVENESS_CORRECTION_REQUIRED",
+        "state_revision": 39
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-REMOTE-VERIFICATION.json",
+          "blob_sha": "94dd9113a9391a5c7e5d5a030d0bcb0fa1a368b0"
+        },
+        "exact_next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+        "state_revision": 38
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/FRAMEWORK-V2.8.0-RELEASE-PUBLICATION-NEXT-ACTION-ADJUDICATION.json",
+          "blob_sha": "38957c0f161dfad3ba440969f96f6997db93df4d"
+        },
+        "exact_next_action": "FRAMEWORK_2_8_0_RELEASE_PUBLICATION_REQUIRED",
+        "state_revision": 35
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/LOCAL-WORKSPACE-CONSOLIDATION-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "blob_sha": "939adf965c44753745168fd7a0dff664a2c852eb"
+        },
+        "exact_next_action": "LOCAL_WORKSPACE_CONSOLIDATION_L8_LOCAL_WORKSPACE_FREEZE_REQUIRED",
+        "state_revision": 29
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/POST-DOCUMENTATION-CANONICALIZATION-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "blob_sha": "e68391522638047330011f2b9c2c76cf6e3b96bb"
+        },
+        "exact_next_action": "POST_CANONICALIZATION_REPOSITORY_STRUCTURE_FREEZE_REQUIRED",
+        "state_revision": 33
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/POST-L8-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "blob_sha": "b1bef68feb9547aad5ce46f38ef790f9ac580a7b"
+        },
+        "exact_next_action": "DOCUMENTATION_CANONICALIZATION_REQUIRED",
+        "state_revision": 30
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/POST-STRUCTURE-FREEZE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "blob_sha": "1a1e68291a86bae8807670add8cf1b13d78e150d"
+        },
+        "exact_next_action": "FRAMEWORK_2_8_0_RELEASE_PREPARATION_REQUIRED",
+        "state_revision": 34
+      },
+      {
+        "locator": {
+          "repository": "xqc2098948451-byte/gpt-codex-framework",
+          "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+          "path": ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+          "blob_sha": "86b131176d98e2ae22c27035c23fc9c72a139417"
+        },
+        "exact_next_action": "POST_RELEASE_PLUGIN_SYNC_AND_REAL_WORLD_ACCEPTANCE_REQUIRED",
+        "state_revision": 36
+      }
+    ],
+    "relevant_result_hints": [
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-METADATA-PRE.json",
+        "result_id": "d4f906b8-fc8c-413d-a1d4-b06ada77e17b",
+        "next_gpt_action": "Proceed only with the reviewed bounded management publication through actual native W/P and post-sync handoff; stop after STATE41 remote PASS before source FIX.",
+        "status": "PASS",
+        "work_unit_id": "f001-current-baseline-authority-state41-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-POST.json",
+        "result_id": "191c5208-bfc0-4391-9d9f-e1caac7c5aab",
+        "next_gpt_action": "Proceed only with the reviewed bounded management publication through actual native W/P and post-sync handoff; stop after STATE41 remote PASS before source FIX.",
+        "status": "PASS",
+        "work_unit_id": "f001-current-baseline-authority-state41-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE-PRE.json",
+        "result_id": "ce2ac828-d9f6-4660-bd5e-0de32d1b518f",
+        "next_gpt_action": "Only the reviewed STATE41 governance transition may proceed through current native authority. Source FIX remains unauthorized by this PRE.",
+        "status": "PASS",
+        "work_unit_id": "f001-current-baseline-authority-state41-gate-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-CURRENT-BASELINE-AUTHORITY-STATE41-GATE.json",
+        "result_id": "be83b94f-cb47-43c3-aee0-568b1febedc4",
+        "next_gpt_action": "RETURN_TO_GPT. A future fresh F001 source FIX requires a new Work Unit, FIX Instruction and exact execution-base independent PRE. Stop at STATE41.",
+        "status": "PASS",
+        "work_unit_id": "f001-current-baseline-authority-state41-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-FINDING.json",
+        "result_id": "ced6271d-ed14-4a12-bb6a-4765829d54b7",
+        "next_gpt_action": "Register this formal REVIEW_FINDING and its concrete failing regression basis in STATE38. Future remediation needs a fresh STATE38 FIX Work Unit and FIX Instruction; source mutation remains unauthorized in this gate.",
+        "status": "FAIL",
+        "work_unit_id": "framework-v2.8.0-f001-local-project-identity-remediation-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-OPTIONAL-GITHUB-CONTRACT-STATE40-CURRENT-BASELINE-FINDING.json",
+        "result_id": "d4117c57-5fcc-4b8b-8675-ad6f5bcea1ff",
+        "next_gpt_action": "Interpret this freshly reproduced current-baseline Finding and register current remediation authority through the existing decision lifecycle; no source FIX Instruction or implementation is authorized by this Result.",
+        "status": "FAIL",
+        "work_unit_id": "f001-current-baseline-authority-state41-gate-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-METADATA-PRE.json",
+        "result_id": "29e6c284-d1ad-4358-bb61-595ab60e4da0",
+        "next_gpt_action": "Proceed only with reviewed governance metadata publication, remote readback and native attestation then handoff. Stop before any Round2 FIX.",
+        "status": "PASS",
+        "work_unit_id": "f001-round2-remediation-authority-state42-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-POST.json",
+        "result_id": "9cb70dae-988b-4efd-b9fd-974e66965eaa",
+        "next_gpt_action": "Proceed only with reviewed governance metadata publication, remote readback and native attestation then handoff. Stop before any Round2 FIX.",
+        "status": "PASS",
+        "work_unit_id": "f001-round2-remediation-authority-state42-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-PRE.json",
+        "result_id": "f00f7d8f-fd8e-4246-adb5-3b951148907f",
+        "next_gpt_action": "Proceed only with exact governance STATE41 to42 Instruction after native entry accepts this independent PRE; no Round2 source FIX authorized.",
+        "status": "PASS",
+        "work_unit_id": "f001-round2-remediation-authority-state42-gate-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
+        "result_id": "c75276ed-d241-4e28-b2cd-ac59b271ece2",
+        "next_gpt_action": "RETURN_TO_GPT. Ready for a future fresh Round2 FIX_INSTRUCTION and independent PRE; no Round2 FIX authorized by this gate.",
+        "status": "PASS",
+        "work_unit_id": "f001-round2-remediation-authority-state42-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-POST.json",
+        "result_id": "de22c997-aa28-4452-b46b-65c2f924854b",
+        "next_gpt_action": "F001 Round2 exact candidate has passed independent POST and is ready for GPT final integration decision. Keep AUTHORIZED@42 and existing remote main/review ref; no PUSH, publication, version bump, plugin work or Work Unit COMPLETE declaration authorized by this review.",
+        "status": "PASS",
+        "work_unit_id": "f001-explicit-github-unbound-round2-state42-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-PRE.json",
+        "result_id": "9dffeda1-bead-4044-927c-3018b1e9dc0c",
+        "next_gpt_action": "Bounded F001 Round2 source correction may proceed under exact FIX a105f966-96a9-4df7-bd99-4ac84c636b2b after byte-exact PRE Result admission. Restrict production edits to _project_identity_decision in validate_project.py and existing test_continuity_resume regression assertions. Require exact candidate independent POST; STOP on Finding. No push, STATE, schema, VERSION, release or plugin authority.",
+        "status": "PASS",
+        "work_unit_id": "f001-explicit-github-unbound-round2-state42-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42-SCOPE-PRE.json",
+        "result_id": "dfea23de-fd89-455e-9a36-62c54a80236c",
+        "next_gpt_action": "After byte-exact supplemental PRE admission, the implementer may apply only the specified one-line partial-GitHub fixture correction under FIX 1fbb1306-1ce3-46a5-910a-566d0ed72587. Retain existing assertions, zero new files/methods, exact STATE42, and the original PRE-authorized helper/continuity changes. Run the required affected validation and obtain independent POST of an exact candidate. STOP on Finding. No push or publication authority.",
+        "status": "PASS",
+        "work_unit_id": "f001-explicit-github-unbound-round2-state42-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-STATE42.json",
+        "result_id": "2a2ee7ad-1866-4dee-a8cd-5c4f8ac20d73",
+        "next_gpt_action": "Run fresh independent POST against exact candidate d96f4dc0bb19898f9df6d5f2669ae3678f487d25 through the POST immutable locator; STOP on Finding; no push or STATE mutation.",
+        "status": "LOCAL_COMPLETE",
+        "work_unit_id": "f001-explicit-github-unbound-round2-state42-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-POST.json",
+        "result_id": "b137445b-7f3f-4833-a29f-aca6eb234144",
+        "next_gpt_action": "STOP / RETURN_TO_GPT. Adjudicate the POST Finding through the existing lifecycle; any remediation requires a fresh FIX_INSTRUCTION and re-review. No repair, integration, push, STATE/version/release/Plugin change or formal Mini Task CLI acceptance is authorized by this review.",
+        "status": "FAIL",
+        "work_unit_id": "f001-optional-github-source-fix-state41-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41-PRE.json",
+        "result_id": "9b34f6bf-9e0d-41df-96a7-2c318a7a4b7c",
+        "next_gpt_action": "Materialize this independent PRE unchanged, then execute only the final immutable FIX scope; seal an exact local candidate and obtain independent POST. Stop on POST Finding. No push, STATE42, version/release/plugin mutation or Mini Task formal acceptance.",
+        "status": "PASS",
+        "work_unit_id": "f001-optional-github-source-fix-state41-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-F001-SOURCE-FRESH-STATE41.json",
+        "result_id": "087729cd-eded-4d96-9be1-01e8a207ab92",
+        "next_gpt_action": "STOP / RETURN_TO_GPT: adjudicate the independent POST Finding. No self-repair; a subsequent correction requires separately authorized fresh FIX and review. No integration, push, STATE42, version, release, tag, asset, Plugin, or formal Mini Task CLI acceptance.",
+        "status": "FAIL",
+        "work_unit_id": "f001-optional-github-source-fix-state41-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-POST.json",
+        "result_id": "81c6a27d-98a2-405a-bf75-6ff78ad7f2cc",
+        "next_gpt_action": "Proceed only with reviewed governance metadata finalization, normal fast-forward main, exact remote readback and real synchronized STATE38 native/Plugin handoff; retain LOCAL_COMPLETE until those checks pass, then stop and RETURN_TO_GPT. Do not begin source FIX.",
+        "status": "PASS",
+        "work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-continuity-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE-PRE.json",
+        "result_id": "389d61bb-c7af-4036-af6e-3075bd8f91f4",
+        "next_gpt_action": "Proceed only with reviewed governance registration and STATE37 to STATE38 gate; stop after verified durable STATE38 PASS and return to GPT.",
+        "status": "PASS",
+        "work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-gate-001"
+      },
+      {
+        "path": ".gpt-codex/evidence/results/RESULT-FRAMEWORK-V2.8.0-F001-REMEDIATION-AUTHORITY-STATE38-GATE.json",
+        "result_id": "d5cf2bb2-0c55-4f32-b955-6d9a874979d8",
+        "next_gpt_action": "Create a fresh STATE38 FIX Work Unit and fresh FIX Instruction expected_state_revision=38, remediation_decision_ref=F001-OPTIONAL-GITHUB-CONTRACT-REMEDIATION-ADJUDICATION. Do not reuse STATE37 authority or directly continue the rejected candidate. This gate stops without FIX execution.",
+        "status": "PASS",
+        "work_unit_id": "framework-v2.8.0-f001-remediation-authority-state38-continuity-001"
+      }
+    ],
+    "authority_sources": [
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+        "path": ".gpt-codex/evidence/F001-OPTIONAL-GITHUB-CONTRACT-NEXT-ACTION-ADJUDICATION.json",
+        "blob_sha": "58e2277dcb5de1a803d671f429ad09401cfbb4a7"
+      },
+      {
+        "repository": "xqc2098948451-byte/gpt-codex-framework",
+        "commit_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+        "path": ".gpt-codex/evidence/POST-V2.8.0-RELEASE-NEXT-ACTION-TOKEN-ADJUDICATION.json",
+        "blob_sha": "86b131176d98e2ae22c27035c23fc9c72a139417"
+      }
+    ],
+    "reason": "F001 completed; await subsequent GPT orchestration. Do not restore historical operational action or start release/plugin/P1/P2/other work.",
+    "authority_source": "CURRENT_GPT_ADJUDICATION"
+  },
+  "execution_authority": "CURRENT_GPT_ADJUDICATION_CONDITIONAL_ON_ONE_INDEPENDENT_PRE_PASS",
+  "publication_authority": "PUBLICATION_CANDIDATE_ONLY",
+  "durable_closure_execution_ready": true,
+  "work_unit_complete_declared": false,
+  "stop_boundary": "Any independent PRE Finding: STOP / RETURN_TO_GPT. PRE PASS: exact STATE43 governance-only closure, normal non-force push, one remote readback, STOP / RETURN_TO_GPT.",
+  "current_gpt_adjudication": {
+    "source": "CURRENT_GPT_ADJUDICATION",
+    "issuer_role": "GPT_ORCHESTRATOR",
+    "basis_remote_main": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "basis_state_revision": 42,
+    "next_action": "AWAIT_GPT_ORCHESTRATION",
+    "meaning": "F001 completed; await subsequent GPT orchestration. Do not restore historical operational action or start release/plugin/P1/P2/other work.",
+    "authorization": "Reuse prior STATE43/authority/Work Unit candidates. One independent PRE; stop on any new Finding. After PASS perform exact governance-only STATE43 durable closure, normal non-force push, one remote readback then RETURN_TO_GPT.",
+    "required_final_state": {
+      "revision": 43,
+      "state": "AUTHORIZED",
+      "reconciliation": null,
+      "sync_status": "SYNCED",
+      "latest_synced_state_revision": 43,
+      "latest_verified_remote_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "next_action": "AWAIT_GPT_ORCHESTRATION"
+    },
+    "forbidden": [
+      "force push",
+      "rebase",
+      "source/test/CONTROL mutation",
+      "historical evidence rewrite",
+      "version/release/plugin work",
+      "next phase"
+    ],
+    "rerun_counts": {
+      "full_suite": 0,
+      "affected_tests": 0,
+      "real_smoke": 0,
+      "sealed_unchanged_validations": 0
+    },
+    "sha256": "5d7995c4928eb4f69e42e95b8ceaa0bfcf900100884262e00f48e4d26dcdac7c"
+  },
+  "preparation_directive_sha256": "ba6ab6a5275e777efcad46d4099e9c756abbf36eed4998c8d4c03cfffde3b501"
+}
