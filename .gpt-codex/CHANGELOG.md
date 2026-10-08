@@ -5,6 +5,7 @@
 - Audited 25 active mechanisms: 23 KEEP, 2 SIMPLIFY, 0 RETIRE. Unproven native/app substitutes and management-only plugin paths stay KEEP.
 - Re-export Result metadata validation from its existing role authority owner; thin Handoff formatting instructions delegate to the existing full renderer. Public APIs, complete return sections, old snapshots and immutable artifacts remain readable.
 - Preserve Stage 1 builders, Stage 2 process-local authority reuse and W/P finalization, Stage 3 bounded context/recovery, independent PRE/POST, live remote verification and fail-closed authority.
+- Restore stable Handoff navigation/return labels, update the existing 1.3.1 version assertion and its exact role owner after genuine Finding/decision/FIX/PRE; semantic assertions remain intact.
 - Register the existing Bootstrap prompt's exact framework-core owner to unblock required release version metadata routing; no new module or permission.
 - Real Consumer acceptance uses a dedicated branch; business main is unchanged. No new store, registry, schema, synthetic test matrix or Stage 5 work.
 
