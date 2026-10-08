@@ -1,4 +1,6 @@
 import json
+import subprocess
+from unittest.mock import patch
 import sys
 import tempfile
 import unittest
@@ -164,6 +166,125 @@ class ContextWindowResumeTests(unittest.TestCase):
             self.assertEqual(result["invalidated_context"], [".gpt-codex/navigation/PROJECT_MAP.json"])
             self.assertEqual(result["module_map_reads"], [])
             self.assertEqual(result["required_reads"], [".gpt-codex/navigation/PROJECT_MAP.json"])
+
+
+class MachineContextRoutingTests(unittest.TestCase):
+    def test_machine_route_handles_real_unicode_git_root(self):
+        from continuity_resume import route_project_context
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)/'中文路由';root.mkdir()
+            self.git(root,'init','-b','main')
+            result=route_project_context(root,None)
+            self.assertEqual(result['route'],'UNBOUND')
+
+    def git(self,root,*args):
+        return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.DEVNULL,text=True,encoding='utf-8').strip()
+
+    def fixture(self,directory,management=False):
+        root=Path(directory);GovernedProjectFixture.write(root)
+        control=json.loads((root/'.gpt-codex/CONTROL.json').read_text());control.pop('github')
+        if management:
+            control.update(framework_management_only=True,governance_profile='FRAMEWORK_MANAGEMENT')
+            control['roots']['framework_role']='SELF_MANAGED'
+        GovernedProjectFixture.write_json(root,'.gpt-codex/CONTROL.json',control)
+        for relative in ('.gpt-codex/navigation/PROJECT_MAP.json','.gpt-codex/continuity/RESUME.json'):
+            payload=json.loads((root/relative).read_text());payload['repository_id']=None
+            GovernedProjectFixture.write_json(root,relative,payload)
+        self.git(root,'init','-b','main');self.git(root,'config','user.name','Routing test');self.git(root,'config','user.email','routing@example.invalid')
+        self.git(root,'add','.');self.git(root,'commit','-m','governed fixture')
+        return root
+
+    def test_default_resume_skips_history_bytes_and_explicit_history_is_bounded(self):
+        from continuity_resume import load_continuity_resume
+        with tempfile.TemporaryDirectory() as d:
+            fixture=GovernedProjectFixture.write(Path(d));root=fixture.root
+            checkpoint=json.loads((root/'.gpt-codex/continuity/RESUME.json').read_text())
+            history='.gpt-codex/history/HISTORY_CONTEXT.json'
+            GovernedProjectFixture.write_json(root,history,{'old':'history'})
+            checkpoint['context_sources'] += [{'path':history,'context_class':'HISTORY_CONTEXT','fingerprint':'old'}]*100
+            checkpoint['working_set']['next_required_reads']=[history]
+            GovernedProjectFixture.write_json(root,'.gpt-codex/continuity/RESUME.json',checkpoint)
+            reads=[];original=Path.read_bytes
+            def observed(path):
+                reads.append(path);return original(path)
+            with patch.object(Path,'read_bytes',observed):
+                result=load_continuity_resume(root,'repo-a')
+            self.assertEqual(sum(p==root/history for p in reads),0)
+            self.assertNotIn(history,result['required_reads'])
+            result=load_continuity_resume(root,'repo-a',history_context_refs=[history])
+            self.assertEqual(result['required_reads'],[history])
+
+    def test_local_modes_and_stale_identity_routes_are_deterministic(self):
+        from continuity_resume import route_project_context
+        for management,want in ((False,'CONSUMER'),(True,'FRAMEWORK_MANAGEMENT')):
+            with self.subTest(mode=want),tempfile.TemporaryDirectory() as d:
+                root=self.fixture(d,management)
+                result=route_project_context(root,None)
+                self.assertEqual(result['route'],'NORMAL_BOUND');self.assertEqual(result['context_mode'],want)
+                self.assertFalse(result['mutation_authorized']);self.assertEqual(result,route_project_context(root,None))
+                self.assertEqual(route_project_context(root,None,expected_state_revision=99)['route'],'STALE_STATE_OR_REMOTE')
+                self.assertEqual(route_project_context(root,None,expected_project_context_id='foreign')['route'],'IDENTITY_MISMATCH')
+                self.assertIn(result['route'],result['human_handoff'])
+                control=json.loads((root/'.gpt-codex/CONTROL.json').read_text());control['governance_profile']='FRAMEWORK_MANAGEMENT' if not management else 'STANDARD'
+                GovernedProjectFixture.write_json(root,'.gpt-codex/CONTROL.json',control)
+                self.assertEqual(route_project_context(root,None)['route'],'IDENTITY_MISMATCH')
+                control.update(framework_management_only=True,governance_profile='FRAMEWORK_MANAGEMENT')
+                control['roots']['framework_role']='ADVISORY'
+                GovernedProjectFixture.write_json(root,'.gpt-codex/CONTROL.json',control)
+                self.assertEqual(route_project_context(root,None)['route'],'IDENTITY_MISMATCH')
+
+    def test_fresh_git_unbound_partial_governance_and_ambiguous_root_fail_closed(self):
+        from continuity_resume import route_project_context
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d);self.git(root,'init','-b','main')
+            result=route_project_context(root,None)
+            self.assertEqual(result['route'],'UNBOUND');self.assertEqual(result['next_gate'],'BOOTSTRAP_CHALLENGE_REQUIRED')
+            self.assertFalse(result['mutation_authorized']);self.assertFalse(result['continuation_allowed'])
+            nested=root/'nested';nested.mkdir()
+            self.assertEqual(route_project_context(nested,None)['route'],'IDENTITY_MISMATCH')
+            GovernedProjectFixture.write_json(root,'.gpt-codex/STATE.json',{'project_id':'existing'})
+            self.assertEqual(route_project_context(root,None)['route'],'RECONCILIATION_REQUIRED')
+
+    def test_current_named_finding_uses_existing_remediation_gate(self):
+        from continuity_resume import route_project_context
+        from result_return import build_finding_result
+        with tempfile.TemporaryDirectory() as d:
+            root=self.fixture(d);control=json.loads((root/'.gpt-codex/CONTROL.json').read_text());state=json.loads((root/'.gpt-codex/STATE.json').read_text())
+            control['project_name']='Fixture'
+            finding=build_finding_result(control,state,framework_version='2.10.0',review_target_revision=self.git(root,'rev-parse','HEAD'),finding_ids=['F-ROUTE'],evidence_refs=['.gpt-codex/STATE.json'])
+            ref='.gpt-codex/evidence/results/RESULT-FINDING.json'
+            GovernedProjectFixture.write_json(root,ref,finding)
+            state['blockers']=['F-ROUTE'];state['next_action']='AWAIT_REMEDIATION_AUTHORIZATION';state['continuity']['last_verified_result_ref']=ref
+            GovernedProjectFixture.write_json(root,'.gpt-codex/STATE.json',state)
+            self.git(root,'add','.');self.git(root,'commit','-m','record current finding and blocker')
+            result=route_project_context(root,None)
+            self.assertEqual(result['route'],'REVIEW_FINDING');self.assertEqual(result['next_gate'],'GPT_USER_DECISION_THEN_FIX_INSTRUCTION')
+            self.assertEqual(result['recovery_evidence_refs'],[ref]);self.assertFalse(result['continuation_allowed'])
+            finding['source_project_context_id']='foreign';GovernedProjectFixture.write_json(root,ref,finding)
+            self.assertEqual(route_project_context(root,None)['route'],'IDENTITY_MISMATCH')
+
+    def test_program_context_is_explicit_and_foreign_dependency_is_denied(self):
+        from continuity_resume import route_project_context
+        with tempfile.TemporaryDirectory() as d:
+            root=self.fixture(d)
+            ref='docs/roadmap/program.json';GovernedProjectFixture.write_json(root,ref,{'project_id':'P','project_context_id':'11111111-1111-4111-8111-111111111111','task':'only current child'})
+            result=route_project_context(root,None)
+            self.assertNotIn(ref,result['context_plan']['required_reads'])
+            result=route_project_context(root,None,program_context_refs=[ref])
+            self.assertEqual(result['context_plan']['program_context_refs'],[ref]);self.assertIn(ref,result['context_plan']['required_reads'])
+            GovernedProjectFixture.write_json(root,ref,{'project_id':'FOREIGN','project_context_id':'foreign'})
+            self.assertEqual(route_project_context(root,None,program_context_refs=[ref])['route'],'IDENTITY_MISMATCH')
+
+    def test_context_marker_change_invalidates_stage2_process_local_reuse(self):
+        from continuity_resume import capture_authority_snapshot,reuse_authority_snapshot
+        with tempfile.TemporaryDirectory() as d:
+            root=self.fixture(d);scope=['.gpt-codex/STATE.json']
+            snapshot=capture_authority_snapshot(root,None,scope_paths=scope)
+            self.assertEqual(reuse_authority_snapshot(root,None,snapshot,scope_paths=scope)['state']['revision'],4)
+            checkpoint=json.loads((root/'.gpt-codex/continuity/RESUME.json').read_text());checkpoint['working_set']['next_required_reads']=['current-task.md']
+            GovernedProjectFixture.write_json(root,'.gpt-codex/continuity/RESUME.json',checkpoint)
+            with self.assertRaisesRegex(ValueError,'STALE_AUTHORITY'):
+                reuse_authority_snapshot(root,None,snapshot,scope_paths=scope)
 
 
 if __name__ == "__main__":

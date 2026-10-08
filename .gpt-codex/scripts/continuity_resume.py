@@ -6,10 +6,11 @@ import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
+from types import MappingProxyType
 from typing import Any, Mapping, Sequence
 
 from context_binding import evaluate_cross_project_resource_boundary, load_project_identity
-from kernel_rules import validate_slot_state_revision
+from kernel_rules import STATES, validate_slot_state_revision
 from publication_contract import validate_completion_evidence
 from role_communication import validate_evolution_metadata_authority
 
@@ -731,6 +732,7 @@ def _canonical_worktree_identity(root: Path) -> Path | None:
             ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
             capture_output=True,
             text=True,
+            encoding="utf-8",
             check=False,
         )
     except OSError:
@@ -1273,13 +1275,82 @@ def fingerprint_file(path: Path) -> str | None:
     return "sha256:" + hashlib.sha256(source.read_bytes()).hexdigest()
 
 
-def compare_context_sources(root: Path, checkpoint: dict[str, Any]) -> tuple[list[str], list[str]]:
+# These are references to existing gates, never facts, permissions or a registry.
+RECOVERY_INDEX = MappingProxyType({
+    "NORMAL_BOUND": ("load_continuity_resume", "NATIVE_GOVERNED_ENTRY"),
+    "FRAMEWORK_MANAGEMENT": ("load_continuity_resume", "NATIVE_GOVERNED_ENTRY"),
+    "CONSUMER_BOUND": ("load_continuity_resume", "NATIVE_GOVERNED_ENTRY"),
+    "UNBOUND": ("context_binding.create_bootstrap_challenge", "BOOTSTRAP_CHALLENGE_REQUIRED"),
+    "STALE_STATE_OR_REMOTE": ("git_continuity.evaluate_sync_preflight", "RECONCILIATION_REQUIRED"),
+    "IDENTITY_MISMATCH": ("context_binding.evaluate_project_identity", "RECONCILIATION_REQUIRED"),
+    "REVIEW_FINDING": ("block_for_remediation/resume_authorized_remediation", "GPT_USER_DECISION_THEN_FIX_INSTRUCTION"),
+    "RECONCILIATION_REQUIRED": ("validate_governed_mutation_entry", "RECONCILIATION_REQUIRED"),
+})
+_CONTEXT_CLASSES = frozenset({"CORE_AUTHORITY", "TASK_CONTEXT", "HISTORY_CONTEXT", "PROGRAM_CONTEXT", "FRAMEWORK_MANAGEMENT"})
+
+
+def classify_project_context(control: Mapping[str, Any]) -> str:
+    identity = load_project_identity(control)
+    profile = control.get("governance_profile")
+    if ("framework_management_only" in control and not isinstance(control["framework_management_only"], bool)
+            or identity.management and identity.framework_role != "SELF_MANAGED"
+            or identity.management and profile not in {None, "FRAMEWORK_MANAGEMENT"}
+            or not identity.management and profile == "FRAMEWORK_MANAGEMENT"):
+        raise ValueError("PROJECT_CONTEXT_MODE_CONFLICT")
+    return "FRAMEWORK_MANAGEMENT" if identity.management else "CONSUMER"
+
+
+def _context_class(path: str, source: Mapping[str, Any] | None = None) -> str:
+    path = normalise_relative_path(path)
+    _bounded_paths([path])
+    parts = path.lower().split("/")
+    if path in {".gpt-codex/CONTROL.json", ".gpt-codex/STATE.json"}:
+        inferred = "CORE_AUTHORITY"
+    elif "history" in parts or "history_context" in Path(path).stem.lower():
+        inferred = "HISTORY_CONTEXT"
+    elif "roadmap" in parts or "program" in parts or "program_context" in Path(path).stem.lower():
+        inferred = "PROGRAM_CONTEXT"
+    elif path.startswith((".gpt-codex/framework-modules/", "docs/framework-management/")):
+        inferred = "FRAMEWORK_MANAGEMENT"
+    else:
+        inferred = "TASK_CONTEXT"
+    declared = (source or {}).get("context_class", inferred)
+    if declared not in _CONTEXT_CLASSES or inferred != "TASK_CONTEXT" and declared != inferred:
+        raise ValueError("CONTEXT_CLASS_AMBIGUOUS")
+    return declared
+
+
+def _context_requests(task: Sequence[str], program: Sequence[str], history: Sequence[str]) -> dict[str, tuple[str, ...]]:
+    refs = {"TASK_CONTEXT": _bounded_paths(task), "PROGRAM_CONTEXT": _bounded_paths(program),
+            "HISTORY_CONTEXT": _bounded_paths(history)}
+    flattened = [p for paths in refs.values() for p in paths]
+    if len(flattened) != len(set(flattened)):
+        raise ValueError("CONTEXT_SELECTION_AMBIGUOUS")
+    return refs
+
+
+def _selected_context(path: str, mode: str, requests: Mapping[str, Sequence[str]],
+                      source: Mapping[str, Any] | None = None) -> bool:
+    kind = _context_class(path, source)
+    explicit = any(path in paths for paths in requests.values())
+    if kind == "FRAMEWORK_MANAGEMENT" and mode != "FRAMEWORK_MANAGEMENT":
+        if explicit:
+            raise ValueError("PROJECT_AUTHORITY_BOUNDARY_VIOLATION")
+        return False
+    return kind not in {"HISTORY_CONTEXT", "PROGRAM_CONTEXT"} or explicit
+
+
+def compare_context_sources(root: Path, checkpoint: dict[str, Any], *,
+                            context_mode: str = "CONSUMER",
+                            context_requests: Mapping[str, Sequence[str]] | None = None) -> tuple[list[str], list[str]]:
     context_sources = checkpoint.get("context_sources", {})
     if not isinstance(context_sources, list):
         return [], []
     invalidated_context: list[str] = []
     required_reads: list[str] = []
     resolved_root = Path(root).resolve()
+    requests = context_requests or _context_requests((), (), ())
+    seen: dict[str, tuple[Any, Any]] = {}
     for source in context_sources:
         if not isinstance(source, dict):
             continue
@@ -1295,6 +1366,14 @@ def compare_context_sources(root: Path, checkpoint: dict[str, Any]) -> tuple[lis
             candidate.relative_to(resolved_root)
         except ValueError as exc:
             raise ValueError(f"RESUME_CONTEXT_SOURCE_PATH_INVALID:{relative_path}") from exc
+        if not _selected_context(relative_path, context_mode, requests, source):
+            continue
+        marker = (source.get("context_class"), expected_fingerprint)
+        if relative_path in seen:
+            if seen[relative_path] != marker:
+                raise ValueError("CONTEXT_SOURCE_AMBIGUOUS")
+            continue
+        seen[relative_path] = marker
         current_fingerprint = fingerprint_file(candidate)
         if current_fingerprint is None:
             required_reads.append(relative_path)
@@ -1317,6 +1396,9 @@ def load_continuity_resume(
     execution_slot_id: str | None = None,
     execution_slot_binding: Mapping | None = None,
     authoritative_facts: Mapping | None = None,
+    task_context_refs: Sequence[str] = (),
+    program_context_refs: Sequence[str] = (),
+    history_context_refs: Sequence[str] = (),
 ) -> dict[str, Any]:
     root = Path(repo_root)
     gov = root / ".gpt-codex"
@@ -1326,6 +1408,8 @@ def load_continuity_resume(
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError("CONTINUITY_MACHINE_STATE_INVALID") from exc
     identity = load_project_identity(control)
+    context_mode = classify_project_context(control)
+    context_requests = _context_requests(task_context_refs, program_context_refs, history_context_refs)
     local_only = identity.repository_id is None
     if local_only and (selected_repository_id is not None or observed_remote_head_sha is not None):
         raise ValueError("GITHUB_REPOSITORY_UNBOUND")
@@ -1363,6 +1447,8 @@ def load_continuity_resume(
             **_non_optimization_resume_fields(),
         }
 
+    if state.get("project_id") != identity.project_id:
+        raise ValueError("CROSS_PROJECT_CONTEXT_MISMATCH")
     if execution_slot_id is not None:
         return _execution_slot_recovery(
             root,
@@ -1387,13 +1473,25 @@ def load_continuity_resume(
         checkpoint_working_set = checkpoint.get("working_set")
         if not isinstance(checkpoint_working_set, dict):
             checkpoint_working_set = {}
-        detected_invalidated, missing_context = compare_context_sources(root, checkpoint)
+        detected_invalidated, missing_context = compare_context_sources(
+            root, checkpoint, context_mode=context_mode, context_requests=context_requests)
         invalidated_context = [
             path
             for path in checkpoint_working_set.get("invalidated_context", [])
             if isinstance(path, str)
         ] + detected_invalidated
 
+    context_sources = checkpoint.get("context_sources", []) if checkpoint else []
+    source_by_path = {}
+    for source in context_sources if isinstance(context_sources, list) else []:
+        if isinstance(source, Mapping) and isinstance(source.get("path"), str):
+            path = source["path"]
+            if path in source_by_path and _context_class(path, source_by_path[path]) != _context_class(path, source):
+                raise ValueError("CONTEXT_CLASS_AMBIGUOUS")
+            source_by_path[path] = source
+    def selected(path: str) -> bool:
+        return _selected_context(path, context_mode, context_requests, source_by_path.get(path))
+    invalidated_context = [p for p in invalidated_context if selected(p)]
     hot_modules = [
         module_id
         for module_id in checkpoint_working_set.get("hot_modules", [])
@@ -1402,12 +1500,12 @@ def load_continuity_resume(
     hot_files = [
         path
         for path in checkpoint_working_set.get("hot_files", [])
-        if isinstance(path, str)
+        if isinstance(path, str) and selected(path)
     ]
     next_required_reads = [
         path
         for path in checkpoint_working_set.get("next_required_reads", [])
-        if isinstance(path, str)
+        if isinstance(path, str) and selected(path)
     ]
     changed = [path for path in changed_paths or [] if isinstance(path, str)]
     candidate_module_inputs = [
@@ -1446,7 +1544,8 @@ def load_continuity_resume(
         ]
         + module_map_reads
     ))
-    required_reads = list(dict.fromkeys(invalidating_reads + next_required_reads))
+    explicit_reads = [p for paths in context_requests.values() for p in paths if selected(p)]
+    required_reads = list(dict.fromkeys(p for p in invalidating_reads + next_required_reads + explicit_reads if selected(p)))
     invalidated_context = list(dict.fromkeys(invalidated_context))
     if checkpoint is None or project_map is None:
         resume_mode = "COLD_RESUME"
@@ -1457,6 +1556,8 @@ def load_continuity_resume(
 
     return {
         "status": "LOCAL_PROJECT_STATE" if local_only else "LATEST_SYNCED_REMOTE_STATE",
+        "context_mode": context_mode,
+        "context_route": "FRAMEWORK_MANAGEMENT" if identity.management else "CONSUMER_BOUND",
         "repository_id": identity.repository_id,
         "project_context_id": control.get("project_context_id"),
         "control": control,
@@ -1476,6 +1577,15 @@ def load_continuity_resume(
         "hot_modules": hot_modules,
         "hot_files": hot_files,
         "invalidated_context": invalidated_context,
+        "context_plan": {
+            "authority": "DERIVED_READ_PLAN",
+            "core_authority_refs": [".gpt-codex/CONTROL.json", ".gpt-codex/STATE.json"],
+            "task_context_refs": list(context_requests["TASK_CONTEXT"]),
+            "program_context_refs": list(context_requests["PROGRAM_CONTEXT"]),
+            "history_context_refs": list(context_requests["HISTORY_CONTEXT"]),
+            "required_reads": required_reads,
+            "default_history_context_load": 0,
+        },
     }
 
 
@@ -1599,3 +1709,183 @@ def reference_verified_evidence(root: Path, selected_repository_id: str | None,
         raise ValueError('STALE_AUTHORITY:EVIDENCE_NOT_COMMITTED')
     return {'repository': (resume['control'].get('github') or {}).get('repository_full_name'),
             'commit_sha': commit, 'path': evidence_path, 'blob_sha': blob}
+
+
+def _route_view(route: str, *, mode: str | None = None, facts: Mapping | None = None,
+                plan: Mapping | None = None, references: Sequence[str] = (), reason: str | None = None) -> dict[str, Any]:
+    entry, gate = RECOVERY_INDEX[route]
+    context_route = "CONSUMER_BOUND" if mode == "CONSUMER" else mode
+    view = {"authority": "DERIVED_ROUTING_INDEX", "route": route, "context_mode": mode,
+            "context_route": context_route, "entry_point": entry, "next_gate": gate,
+            "mutation_authorized": False, "continuation_allowed": route == "NORMAL_BOUND",
+            "authority_facts": dict(facts or {}), "context_plan": dict(plan or {}),
+            "recovery_evidence_refs": list(references), "reason": reason,
+            "routing_decisions_requiring_human_input": 0, "recovery_route_selection_steps": 1}
+    view["human_handoff"] = (f"[INFO] route={route}; context_mode={mode}; context_route={context_route}; "
+                             f"project={view['authority_facts'].get('project_id')}; "
+                             f"state_revision={view['authority_facts'].get('state_revision')}; "
+                             f"next_gate={gate}; mutation_authorized=NO")
+    return view
+
+
+def _read_task_reference(root: Path, reference: str, control: Mapping) -> Any:
+    _bounded_paths([reference])
+    path = root / reference
+    if path.is_symlink() or not path.resolve().is_relative_to(root):
+        raise ValueError("CONTEXT_PATH_ESCAPE")
+    if not path.is_file():
+        raise ValueError("CONTEXT_REFERENCE_MISSING")
+    if path.suffix.lower() != ".json":
+        return None  # Plain project-local documents stay references.
+    record = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(record, Mapping):
+        github = control.get("github") or {}
+        for key, expected in (("project_id", control["project_id"]),
+                              ("project_context_id", control["project_context_id"]),
+                              ("repository_id", github.get("repository_id")),
+                              ("repository_full_name", github.get("repository_full_name"))):
+            if key in record and record[key] != expected:
+                raise ValueError("CROSS_PROJECT_CONTEXT_MISMATCH")
+    return record
+
+
+def route_project_context(
+    repo_root: Path, selected_repository_id: str | None, *,
+    expected_project_context_id: str | None = None, expected_state_revision: int | None = None,
+    task_context_refs: Sequence[str] = (), program_context_refs: Sequence[str] = (),
+    history_context_refs: Sequence[str] = (),
+) -> dict[str, Any]:
+    """Fresh compact read-only routing; every executable action still uses Core.
+
+    No history scan, result-ID search, registry, bootstrap write or permission.
+    """
+    root = Path(repo_root).resolve()
+    if _canonical_worktree_identity(root) != root:
+        return _route_view("IDENTITY_MISMATCH", reason="AMBIGUOUS_PROJECT_ROOT")
+    gov = root / ".gpt-codex"
+    if gov.is_symlink() or not gov.resolve().is_relative_to(root):
+        return _route_view("IDENTITY_MISMATCH", reason="CONTEXT_PATH_ESCAPE")
+    if not gov.exists():
+        if expected_project_context_id is not None or expected_state_revision is not None:
+            return _route_view("IDENTITY_MISMATCH", mode="UNBOUND", reason="EXPECTED_GOVERNED_IDENTITY_MISSING")
+        try:
+            _context_requests(task_context_refs, program_context_refs, history_context_refs)
+            if task_context_refs or program_context_refs or history_context_refs:
+                raise ValueError("UNBOUND_CONTEXT_SELECTION_DENIED")
+            facts = {"repository_root": str(root), "project_id": None, "state_revision": None}
+            if selected_repository_id is not None:
+                from github_repository_binding import canonicalize_remote_url
+                remote = subprocess.check_output(["git", "-C", str(root), "remote", "get-url", "origin"],
+                                                 text=True, stderr=subprocess.DEVNULL, timeout=30).strip()
+                canonical = canonicalize_remote_url(remote)
+                if not canonical.startswith("github:"):
+                    raise ValueError("GITHUB_REPOSITORY_MISMATCH")
+                repository = canonical.removeprefix("github:")
+                metadata = json.loads(subprocess.check_output(["gh", "api", "repos/" + repository],
+                                                              timeout=30).decode("utf-8"))
+                if str(metadata["id"]) != str(selected_repository_id) or metadata["full_name"] != repository:
+                    raise ValueError("GITHUB_REPOSITORY_MISMATCH")
+                facts.update(repository_id=str(metadata["id"]), repository=repository)
+            return _route_view("UNBOUND", mode="UNBOUND", facts=facts,
+                               plan={"authority": "DERIVED_READ_PLAN", "required_reads": [], "default_history_context_load": 0},
+                               reason="BOOTSTRAP_PHASE_1_READ_ONLY;PHASE_2_REQUIRES_CHALLENGE_AND_PROJECT_STRUCTURE_APPROVAL")
+        except (ValueError, OSError, subprocess.SubprocessError, KeyError) as exc:
+            return _route_view("IDENTITY_MISMATCH", mode="UNBOUND", reason=str(exc))
+    if not all((gov / p).is_file() for p in ("CONTROL.json", "STATE.json")):
+        return _route_view("RECONCILIATION_REQUIRED", reason="PARTIAL_DURABLE_GOVERNANCE")
+    mode = None
+    facts: dict[str, Any] = {}
+    try:
+        if any((gov / p).is_symlink() for p in ("CONTROL.json", "STATE.json")):
+            raise ValueError("CONTEXT_PATH_ESCAPE")
+        resume = load_continuity_resume(root, selected_repository_id, task_context_refs=task_context_refs,
+                                        program_context_refs=program_context_refs, history_context_refs=history_context_refs)
+        if resume["status"] not in {"LATEST_SYNCED_REMOTE_STATE", "LOCAL_PROJECT_STATE"}:
+            return _route_view("STALE_STATE_OR_REMOTE", reason=resume["status"], references=[".gpt-codex/STATE.json"])
+        control, state = resume["control"], resume["state"]
+        mode, plan = resume["context_mode"], resume["context_plan"]
+        identity = load_project_identity(control)
+        facts = {"project_id": identity.project_id, "project_context_id": identity.project_context_id,
+                 "repository_id": identity.repository_id, "repository": identity.repository_full_name,
+                 "repository_root": str(root), "state_revision": state.get("revision"), "state": state.get("state"),
+                 "active_work_unit": state.get("active_work_unit")}
+        if expected_project_context_id is not None and expected_project_context_id != identity.project_context_id:
+            raise ValueError("CROSS_PROJECT_CONTEXT_MISMATCH")
+        if (type(state.get("revision")) is not int or expected_state_revision is not None
+                and (type(expected_state_revision) is not int or expected_state_revision != state["revision"])):
+            return _route_view("STALE_STATE_OR_REMOTE", mode=mode, facts=facts, reason="STALE_STATE_REVISION")
+        if state["revision"] < 0 or state.get("state") not in STATES:
+            raise ValueError("CONTINUITY_MACHINE_STATE_INVALID")
+        continuity = state.get("continuity", {})
+        if identity.repository_id is not None:
+            from git_continuity import observe_bound_remote, verify_work_publication
+            if continuity.get("latest_synced_state_revision") != state["revision"]:
+                return _route_view("STALE_STATE_OR_REMOTE", mode=mode, facts=facts, reason="STALE_STATE_REVISION")
+            observed = observe_bound_remote(root, control, continuity.get("current_remote_ref"))
+            head = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+            if head != observed["remote_head_sha"]:
+                return _route_view("STALE_STATE_OR_REMOTE", mode=mode, facts=facts, reason="REMOTE_HEAD_MISMATCH")
+            work = continuity.get("latest_verified_remote_sha")
+            if work != head:
+                delta = subprocess.check_output(["git", "-C", str(root), "diff", "--name-only", work, head], text=True).splitlines()
+                verified = verify_work_publication(root, work_sha=work, publication_sha=head,
+                                                   remote_ref=observed["remote_ref"], scope_paths=delta)
+                if verified["status"] != "PASS":
+                    raise ValueError("RECONCILIATION_REQUIRED")
+            facts.update(local_head_sha=head, remote_ref=observed["remote_ref"], remote_head_sha=observed["remote_head_sha"],
+                         remote_verification="VERIFIED", verified_work_sha=work)
+        if state.get("reconciliation") is not None or validate_execution_slots(state):
+            return _route_view("RECONCILIATION_REQUIRED", mode=mode, facts=facts, references=[".gpt-codex/STATE.json"])
+        slots = state.get("active_execution_slots") or []
+        active_units = {s.get("work_unit_id") for s in slots if s.get("status") != "IDLE"}
+        if len(active_units) > 1 or any(s.get("project_context_id") != identity.project_context_id for s in slots):
+            raise ValueError("CROSS_PROJECT_CONTEXT_MISMATCH")
+        blockers = state.get("blockers", [])
+        if blockers or state.get("state") == "BLOCKED" or any(s.get("finding_ref") for s in slots):
+            reference = continuity.get("last_verified_result_ref")
+            if not isinstance(reference, str) or not reference.startswith(".gpt-codex/evidence/results/"):
+                raise ValueError("RECOVERY_EVIDENCE_REFERENCE_REQUIRED")
+            record = _read_task_reference(root, reference, control)
+            from validate_project import validate_result_envelope_contract, validate_review_result
+            if (record.get("project_id") != identity.project_id
+                    or record.get("source_project_context_id") != identity.project_context_id
+                    or record.get("source_github_repository_id") != identity.repository_id
+                    or record.get("source_github_repository_full_name") != identity.repository_full_name):
+                raise ValueError("CROSS_PROJECT_CONTEXT_MISMATCH")
+            if (validate_result_envelope_contract(record) or validate_review_result(record)
+                    or record.get("result_message_type") != "REVIEW_FINDING"
+                    or record.get("state_revision") != state["revision"]
+                    or record.get("work_unit_id") != state.get("active_work_unit")
+                    or not isinstance(blockers, list) or not set(blockers).issubset(record.get("finding_ids", []))):
+                raise ValueError("RECOVERY_EVIDENCE_INVALID")
+            committed = json.loads(subprocess.check_output(["git", "-C", str(root), "show", "HEAD:" + reference],
+                                                           stderr=subprocess.DEVNULL).decode("utf-8"))
+            if committed != record:
+                raise ValueError("RECOVERY_EVIDENCE_NOT_COMMITTED")
+            return _route_view("REVIEW_FINDING", mode=mode, facts=facts, references=[reference])
+        for paths in _context_requests(task_context_refs, program_context_refs, history_context_refs).values():
+            for reference in paths:
+                _read_task_reference(root, reference, control)
+        return _route_view("NORMAL_BOUND", mode=mode, facts=facts, plan=plan)
+    except (ValueError, OSError, subprocess.SubprocessError, KeyError, TypeError, AttributeError) as exc:
+        reason = str(exc)
+        mismatch = any(code in reason for code in ("MISMATCH", "IDENTITY", "MODE_CONFLICT", "PATH_ESCAPE", "AUTHORITY_BOUNDARY"))
+        return _route_view("IDENTITY_MISMATCH" if mismatch else "RECONCILIATION_REQUIRED", mode=mode,
+                           facts=facts, reason=reason, references=[".gpt-codex/CONTROL.json", ".gpt-codex/STATE.json"])
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Read-only machine-first project/context/recovery route")
+    parser.add_argument("--root", type=Path, required=True)
+    parser.add_argument("--repository-id")
+    parser.add_argument("--project-context-id")
+    parser.add_argument("--state-revision", type=int)
+    parser.add_argument("--task-context-ref", action="append", default=[])
+    parser.add_argument("--program-context-ref", action="append", default=[])
+    parser.add_argument("--history-context-ref", action="append", default=[])
+    args = parser.parse_args()
+    result = route_project_context(args.root, args.repository_id, expected_project_context_id=args.project_context_id,
+                                   expected_state_revision=args.state_revision, task_context_refs=args.task_context_ref,
+                                   program_context_refs=args.program_context_ref, history_context_refs=args.history_context_ref)
+    print(json.dumps(result, ensure_ascii=True, sort_keys=True))
