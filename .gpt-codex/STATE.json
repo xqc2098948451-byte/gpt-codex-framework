@@ -5,8 +5,8 @@
     "current_remote_ref": "refs/heads/main",
     "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
     "latest_synced_state_revision": 42,
-    "latest_verified_remote_sha": "17b2985cf9d9f2b24bff46fcf375799c4f5a18fc",
-    "sync_status": "SYNCED"
+    "latest_verified_remote_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "sync_status": "SYNC_PENDING"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -273,10 +273,10 @@
     ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json"
   ],
   "kernel_version": "2.0.0",
-  "next_action": "FRAMEWORK_V2_8_0_F001_OPTIONAL_GITHUB_CONTRACT_REMEDIATION_REQUIRED",
+  "next_action": "AWAIT_GPT_ORCHESTRATION",
   "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
   "reconciliation": null,
-  "revision": 42,
+  "revision": 43,
   "schema_version": 1,
   "state": "AUTHORIZED"
 }
