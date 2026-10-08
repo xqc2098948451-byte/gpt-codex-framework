@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.11.0
+# GPT–Codex Framework v2.12.0
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
@@ -214,7 +214,7 @@ The existing native scripts offer `capture_authority_snapshot`, `reuse_authority
 Evidence reuse returns immutable references, not a copied authority store. W/P finalization builds a candidate only after independent POST and real remote W; explicit closure and actual remote P verification are separate steps. The real `price-action-learning` acceptance branch records successful reuse and invalidation, unchanged business regression, truthful measured counts and retained remote checks. That Stage 2 release added no daemon, generic cache or Connector.
 
 
-### Machine-first bounded context (v2.11.0)
+### Machine-first bounded context (v2.12.0)
 
 The existing `continuity_resume.py` now offers a read-only CLI and `route_project_context`. It derives Framework management / Consumer / Unbound modes from native identity and the actual Git root, verifies live bound remote identity and W/P continuity, and returns one deterministic route, minimal read plan and matching human handoff. NORMAL_BOUND enters existing Core gates; all routes report `mutation_authorized: false`.
 

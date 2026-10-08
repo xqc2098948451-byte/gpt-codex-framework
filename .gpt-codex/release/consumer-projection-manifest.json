@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "framework_version": "2.11.0",
+  "framework_version": "2.12.0",
   "projection": "CONSUMER_BOOTSTRAP",
   "prefix_defaults": {
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",

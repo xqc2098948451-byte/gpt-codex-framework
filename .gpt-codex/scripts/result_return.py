@@ -21,8 +21,8 @@ _REQUIRED_SECTIONS = (
 )
 
 
-def validate_result_evolution_metadata(metadata: Mapping[str, Any] | None) -> list[str]:
-    return validate_evolution_metadata_authority(metadata)
+# Compatibility export; role_communication remains the sole validator owner.
+validate_result_evolution_metadata = validate_evolution_metadata_authority
 
 
 def required_return_sections() -> tuple[str, ...]:

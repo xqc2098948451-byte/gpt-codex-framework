@@ -1,5 +1,13 @@
 # GPT–Codex Framework Changelog
 
+## v2.12.0 — Issue #17 Stage 4: Native Capability Substitution / Framework Slimming
+
+- Audited 25 active mechanisms: 23 KEEP, 2 SIMPLIFY, 0 RETIRE. Unproven native/app substitutes and management-only plugin paths stay KEEP.
+- Re-export Result metadata validation from its existing role authority owner; thin Handoff formatting instructions delegate to the existing full renderer. Public APIs, complete return sections, old snapshots and immutable artifacts remain readable.
+- Preserve Stage 1 builders, Stage 2 process-local authority reuse and W/P finalization, Stage 3 bounded context/recovery, independent PRE/POST, live remote verification and fail-closed authority.
+- Register the existing Bootstrap prompt's exact framework-core owner to unblock required release version metadata routing; no new module or permission.
+- Real Consumer acceptance uses a dedicated branch; business main is unchanged. No new store, registry, schema, synthetic test matrix or Stage 5 work.
+
 ## v2.11.0 — Machine-first Context / Recovery Routing
 
 - Extend existing bounded resume with deterministic Framework management / Consumer / Unbound classification, a compact read plan and matching human handoff. Default history/program loads are zero; explicit task references remain bounded and identity-checked.
