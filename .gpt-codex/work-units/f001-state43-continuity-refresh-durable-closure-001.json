@@ -1,0 +1,91 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "work_unit_id": "f001-state43-continuity-refresh-durable-closure-001",
+  "basis_state_revision": 42,
+  "state": "AUTHORIZED",
+  "goal": "Execute reused STATE43 continuity refresh and native F001 durable closure after one independent PRE PASS; stop after one remote readback.",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "default_branch": "main",
+  "scope": {
+    "owned_paths": [
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+      ".gpt-codex/work-units/f001-state43-continuity-refresh-durable-closure-001.json",
+      ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+      ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+      ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json"
+    ],
+    "excluded_paths": [
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/scripts/",
+      ".gpt-codex/schemas/",
+      ".gpt-codex/tests/",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/kernel/",
+      ".gpt-codex/builtins/",
+      ".gpt-codex/framework-modules/",
+      ".gpt-codex/release/",
+      "plugins/",
+      "VERSION",
+      "releases/",
+      "docs/",
+      "tests/",
+      "dist/",
+      "AGENTS.md"
+    ]
+  },
+  "permissions": {
+    "authorized_actions": [
+      "READ",
+      "VALIDATE",
+      "REPORT",
+      "MUTATE_APPROVED_SCOPE"
+    ],
+    "forbidden_actions": [
+      "AUTHORIZE",
+      "SCOPE_EXPANSION"
+    ]
+  },
+  "selected_extensions": {},
+  "directory_creations": [],
+  "acceptance": [
+    "Exact STATE42 input and CONTROL identity",
+    "STATE43 minimal delta; AUTHORIZED preserved",
+    "Verified integration baseline exact 4496bf38; native SYNC_PENDING before actual publication",
+    "Post-F001 next_action requires unique durable or explicit GPT authority",
+    "Independent reviewer context reviews frozen candidate bytes",
+    "No source/test/CONTROL/history/ref mutation, release/plugin work or Work Unit COMPLETE claim"
+  ],
+  "module_route": {
+    "outcome": "MODULE_ROUTE",
+    "primary_module": "framework-core",
+    "responsibility": "framework governance"
+  },
+  "expected_authority_base": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+  "candidate_only": false,
+  "execution_authority": "CURRENT_GPT_ADJUDICATION_CONDITIONAL_ON_ONE_INDEPENDENT_PRE_PASS",
+  "blockers": [],
+  "authority_source_ref": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "bf834e6ff61581c68bc5f2694abc56458445b043",
+    "path": ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+    "blob_sha": "012e2a32a3ee2029ee09800ee264e46e15387a75"
+  },
+  "authority_source_ref_status": "Immutable current GPT adjudication; no Work Unit COMPLETE claim",
+  "artifact_refs": {
+    "design": {
+      "path": ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+      "sha": "bf834e6ff61581c68bc5f2694abc56458445b043"
+    },
+    "plan": {
+      "path": ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+      "sha": "bf834e6ff61581c68bc5f2694abc56458445b043"
+    }
+  }
+}
