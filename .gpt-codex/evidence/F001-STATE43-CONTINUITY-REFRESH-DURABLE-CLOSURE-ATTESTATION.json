@@ -1,0 +1,52 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "evidence_id": "F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "repository_id": "1366213495",
+  "repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "source": "TOOL_OBSERVED",
+  "subject": "NATIVE_BOUNDED_W_P_SYNC_ATTESTATION",
+  "state_revision": 43,
+  "result": "PASS",
+  "native_function": "git_continuity.evaluate_attestation_chain",
+  "native_chain": {
+    "status": "PASS",
+    "sync_status": "SYNCED",
+    "remote_verification": "VERIFIED",
+    "publication_authority": "CONFIRMED_PUBLICATION",
+    "verified_baseline_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "publication_sha": "94034e8f9eb2f815a405cfe4396b9a893c555d88"
+  },
+  "facts": {
+    "work_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "verified_work": true,
+    "publication_sha": "94034e8f9eb2f815a405cfe4396b9a893c555d88",
+    "publication_references_work": true,
+    "publication_references_self": false,
+    "publication_is_management_only": true,
+    "generic_tree_matches": true
+  },
+  "verified_work_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+  "latest_synced_state_revision": 43,
+  "sync_status": "SYNCED",
+  "self_reference": false,
+  "baseline_remote_readback": {
+    "refs": {
+      "refs/heads/main": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+      "refs/heads/review/f001-optional-github-post-state41-661ff5f1": "c53a2019d88678bd5a64ec3f525a835d7bc98b70",
+      "refs/heads/review/f001-round2-final-d5060981": "d506098100b0b86d00ee1b2c0bae3ae4c838088b"
+    },
+    "main_tree": "fc8940929dcd85461f8d5f00750c48370aaf5f94",
+    "state_blob": "a66554b1ee1f78c7a58a6f5ba4f8810718d8a1de",
+    "control_blob": "1730badbd9787ffe5c82ac0909c32cada26485a3",
+    "state_sha256": "2d457a33d51ca773c4fefb38c17a87e0a8146c0f7841942266a3029ea1fffd0e",
+    "control_sha256": "6e3e0e9a010be1397b20d41e4f6bb4946a75839be1809f803894194c5f176c52",
+    "observed_utc": "2026-10-08T03:57:52.104324+00:00"
+  },
+  "publication_observation": "P is an exact local governance-only publication object referencing remotely verified W. P is published as an ancestor of final closure C. C requires the single post-push readback; no pre-push remote C claim.",
+  "source_bytes_changed": false,
+  "test_bytes_changed": false,
+  "control_bytes_changed": false
+}

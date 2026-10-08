@@ -1,0 +1,152 @@
+{
+  "kernel_version": "2.0.0",
+  "schema_version": 1,
+  "result_id": "f2b3e50b-3c25-4a43-9f7b-f60c00e609ad",
+  "project_id": "PRJ-FRAMEWORK-MANAGEMENT",
+  "work_unit_id": "f001-state43-continuity-refresh-durable-closure-001",
+  "extension": null,
+  "status": "PASS",
+  "result_message_type": "REVIEW_RESULT",
+  "responder_role": "CODEX_REVIEWER",
+  "return_role": "GPT_ORCHESTRATOR",
+  "response_to_instruction_id": "7d842304-4444-4fc2-94bb-8edda39c64de",
+  "source_project_context_id": "cb1e0450-df32-4ff6-8a33-35187b69a866",
+  "source_project_name": "通用开发框架管理",
+  "source_github_repository_id": "1366213495",
+  "source_github_repository_full_name": "xqc2098948451-byte/gpt-codex-framework",
+  "framework_version": "2.8.0",
+  "state_revision": 42,
+  "review_target_revision": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+  "target_work_unit_ref": {
+    "path": ".gpt-codex/work-units/f001-state43-continuity-refresh-durable-closure-001.json",
+    "sha": "85ee6acf663e1ca47bfc8c2c742dbb579e7f5ec8"
+  },
+  "current_remote_ref": "refs/heads/main",
+  "remote_head_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+  "remote_verification": "VERIFIED",
+  "sync_status": null,
+  "publication_authority": null,
+  "push_status": "NOT_ATTEMPTED",
+  "completion_gate": "GPT_DECISION",
+  "return_to_gpt_required": true,
+  "evidence_refs": [
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+    ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json"
+  ],
+  "finding_ids": [],
+  "findings": [],
+  "blockers": [],
+  "review_stage": "PRE_EXECUTION",
+  "pre_attempt_count": 1,
+  "frozen_payload_hashes": {
+    ".gpt-codex/STATE.json": "6a1d6fa1c3ce1459262a0858aa0555193c0a706ab345a8b2e0aaba09a7c72031",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json": "d802edce655b58f917dfe6b0181791879f05fb81a9d0c10e523642b12bde8f7d",
+    ".gpt-codex/work-units/f001-state43-continuity-refresh-durable-closure-001.json": "a0a8ccc04f251f3ce5f43cc58fc9e9a59ff2808c25766611ef50a9e6bb466d7e",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json": "88bcf3fbd7b427a24e5186934d792381b1a55137c94004f7e4cd48c394a8f0ce",
+    ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json": "f2cd44ad79b1a101107965f73b0176e0afbda8f61c19a49d1c9d918125c63ade"
+  },
+  "original_candidate_hashes": {
+    "state": "9b16be9c607db9717a0dd268f681026df2a088392e0e7c420b741f6a528680d1",
+    "authority": "1780b9aaff082423f547f8cdf54d445795c0be6e3abfde588e78c04c46b36337",
+    "work_unit": "7b3348192818b9b9322ab2a2eb6a6d34b393652babf5807d59ec233ea7caaf45"
+  },
+  "instruction_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f17d5aac90a85cfe6f68a0893ef3561ee0d2e0d8",
+    "path": ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+    "blob_sha": "162c61a0bea3d171e078bbad4e848788f3fa49b8"
+  },
+  "execution_locator": {
+    "repository": "xqc2098948451-byte/gpt-codex-framework",
+    "commit_sha": "f17d5aac90a85cfe6f68a0893ef3561ee0d2e0d8",
+    "path": ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+    "blob_sha": "ad281abfd8cee587d9e3fa11c709bb6b48ae87da"
+  },
+  "reviewer_context": {
+    "implementer_root": "C:\\Users\\xqc\\AppData\\Local\\Temp\\f001-state43-closure-20261008-ae28\\execution-r2",
+    "reviewer_root": "C:\\Users\\xqc\\AppData\\Local\\Temp\\f001-state43-closure-20261008-ae28\\independent-review-rerun\\reviewer-worktree",
+    "distinct_roots": true,
+    "agent": "/root/state43_independent_pre_retry",
+    "clean_before_pre": true,
+    "autocrlf_changed_after_checkout": false,
+    "autocrlf": "false",
+    "implementation_performed": false
+  },
+  "publication_semantics": "Remote W is verified. P is local-only. This PRE assesses the byte-exact proposed payload; final C remote publication is established only by the authorized post-push readback. No remote C or Work Unit COMPLETE claim.",
+  "next_gpt_action": "This single PRE permits only the current-authorized byte-exact STATE43 governance-only closure. Stop on any later failure; one normal push and one final remote readback, then RETURN_TO_GPT. No next phase.",
+  "completion_evidence": {
+    "execution_state": "COMPLETED",
+    "process_completed": true,
+    "exit_code": 0,
+    "intended_scope": [
+      "one independent PRE of frozen F001 STATE43 governance-only continuity refresh and durable closure"
+    ],
+    "executed_scope": [
+      "one independent PRE of frozen F001 STATE43 governance-only continuity refresh and durable closure"
+    ],
+    "test_files_expected": 0,
+    "test_files_executed": 0,
+    "test_count": 0,
+    "failure_count": 0,
+    "error_count": 0,
+    "validators_expected": [
+      "FROZEN_INPUT_BINDINGS",
+      "IMMUTABLE_INSTRUCTION_BINDINGS",
+      "GENERIC_BYTE_PRESERVATION",
+      "DIRECTORY_SCOPE",
+      "STATE_RESULT_ATTESTATION",
+      "REPORT_ENVELOPE",
+      "GOVERNED_MUTATION_ENTRY"
+    ],
+    "validators_completed": [
+      "FROZEN_INPUT_BINDINGS",
+      "IMMUTABLE_INSTRUCTION_BINDINGS",
+      "GENERIC_BYTE_PRESERVATION",
+      "DIRECTORY_SCOPE",
+      "STATE_RESULT_ATTESTATION",
+      "REPORT_ENVELOPE",
+      "GOVERNED_MUTATION_ENTRY"
+    ],
+    "blocker_evidence_refs": []
+  },
+  "role_observation": {
+    "role": "CODEX_REVIEWER",
+    "instruction_id": "7d842304-4444-4fc2-94bb-8edda39c64de",
+    "work_unit": "f001-state43-continuity-refresh-durable-closure-001",
+    "reviewed_revision": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
+    "executed_revision": null,
+    "files_read": [
+      "AGENTS.md",
+      ".gpt-codex/KERNEL.md",
+      ".gpt-codex/CONTROL.json",
+      ".gpt-codex/framework-modules/REGISTRY.json",
+      ".gpt-codex/framework-modules/modules/framework-core.json",
+      ".gpt-codex/STATE.json",
+      ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+      ".gpt-codex/work-units/f001-state43-continuity-refresh-durable-closure-001.json",
+      ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+      ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+      ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE-PRE.json",
+      ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json",
+      ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json"
+    ],
+    "files_changed": [],
+    "tests_run": [],
+    "findings": [],
+    "fix_round": 0,
+    "agent_spawns": 0,
+    "result": "REVIEW_RESULT"
+  },
+  "verify": {
+    "native_governed_entry": "PASS",
+    "frozen_payload": "PASS",
+    "generic_bytes": "PASS",
+    "directory_scope": "PASS",
+    "state_result_attestation": "PASS",
+    "current_semantic_authority": "PASS",
+    "report_schema_protocol_authority": "PASS",
+    "test_and_sealed_reruns": 0
+  }
+}

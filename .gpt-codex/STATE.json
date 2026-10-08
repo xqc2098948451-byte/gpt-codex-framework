@@ -3,10 +3,10 @@
   "blockers": [],
   "continuity": {
     "current_remote_ref": "refs/heads/main",
-    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE.json",
-    "latest_synced_state_revision": 42,
+    "last_verified_result_ref": ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json",
+    "latest_synced_state_revision": 43,
     "latest_verified_remote_sha": "4496bf38a2a35540c53e22fb713ba79f6b095c04",
-    "sync_status": "SYNC_PENDING"
+    "sync_status": "SYNCED"
   },
   "evidence_refs": [
     ".gpt-codex/evidence/CORRECTIVE-V2.2.1-LOCAL-RECONCILIATION.json",
@@ -270,7 +270,13 @@
     ".gpt-codex/evidence/instructions/098c4f66-2ba5-495a-8d87-970d717ff5aa.json",
     ".gpt-codex/evidence/instructions/8660e5ef-7668-408b-af0b-461a630903de.json",
     ".gpt-codex/evidence/instructions/f336a02e-20b2-4c90-9086-21f66331773b.json",
-    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json"
+    ".gpt-codex/evidence/F001-ROUND2-REMEDIATION-AUTHORITY-STATE42-GATE-HANDOFF-VERIFICATION.json",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-AUTHORITY.json",
+    ".gpt-codex/evidence/instructions/8ee6f96c-8b06-41ee-832f-5c94ccc14df8.json",
+    ".gpt-codex/evidence/instructions/7d842304-4444-4fc2-94bb-8edda39c64de.json",
+    ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE-PRE.json",
+    ".gpt-codex/evidence/F001-STATE43-CONTINUITY-REFRESH-DURABLE-CLOSURE-ATTESTATION.json",
+    ".gpt-codex/evidence/results/RESULT-F001-STATE43-DURABLE-CLOSURE.json"
   ],
   "kernel_version": "2.0.0",
   "next_action": "AWAIT_GPT_ORCHESTRATION",
