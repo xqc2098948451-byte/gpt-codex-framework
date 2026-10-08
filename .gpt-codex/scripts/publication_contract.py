@@ -43,7 +43,11 @@ def classify_release_phase(facts: Mapping[str, Any]) -> str:
     result = facts.get("publication_result")
     if not isinstance(result, Mapping):
         return phase
-    if result.get("remote_head_sha") not in {candidate_sha, result.get("verified_baseline_sha")}:
+    if not (result.get("remote_head_sha") == candidate_sha or (
+        result.get("verified_baseline_sha") == candidate_sha
+        and result.get("publication_sha") == result.get("remote_head_sha")
+        and bool(result.get("publication_sha"))
+    )):
         return "RECONCILIATION_REQUIRED"
     if result.get("publication_authority") != VERIFIED_AUTHORITY or validate_result_authority(result):
         return phase
@@ -83,11 +87,13 @@ def validate_completion_evidence(result: Mapping[str, Any]) -> list[str]:
     if result.get("status") == "PASS":
         required = (
             state == "COMPLETED", evidence.get("process_completed") is True,
-            evidence.get("exit_code") == 0,
+            type(evidence.get("exit_code")) is int and evidence.get("exit_code") == 0,
             isinstance(evidence.get("intended_scope"), list) and evidence.get("intended_scope") == evidence.get("executed_scope"),
-            isinstance(evidence.get("test_files_expected"), int) and evidence.get("test_files_expected") == evidence.get("test_files_executed"),
-            isinstance(evidence.get("test_count"), int), evidence.get("failure_count") == 0,
-            evidence.get("error_count") == 0,
+            type(evidence.get("test_files_expected")) is int and evidence.get("test_files_expected") >= 0
+            and type(evidence.get("test_files_executed")) is int and evidence.get("test_files_expected") == evidence.get("test_files_executed"),
+            type(evidence.get("test_count")) is int and evidence.get("test_count") >= 0,
+            type(evidence.get("failure_count")) is int and evidence.get("failure_count") == 0,
+            type(evidence.get("error_count")) is int and evidence.get("error_count") == 0,
             isinstance(evidence.get("validators_expected"), list) and isinstance(evidence.get("validators_completed"), list)
             and evidence.get("validators_expected") == evidence.get("validators_completed"),
         )
@@ -175,6 +181,10 @@ def validate_state_authority(
                 errors.append("SYNCED state cannot use intrinsic approval Result")
             if result.get("remote_verification") != "VERIFIED":
                 errors.append("SYNCED state requires verified publication evidence")
-            if latest_sha and result.get("remote_head_sha") not in {latest_sha, result.get("verified_baseline_sha")}:
+            if latest_sha and not (result.get("remote_head_sha") == latest_sha or (
+                result.get("verified_baseline_sha") == latest_sha
+                and result.get("publication_sha") == result.get("remote_head_sha")
+                and bool(result.get("publication_sha"))
+            )):
                 errors.append("latest_verified_remote_sha does not match verified Result")
     return errors

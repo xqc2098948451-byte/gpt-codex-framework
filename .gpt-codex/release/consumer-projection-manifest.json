@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "framework_version": "2.12.0",
+  "framework_version": "2.13.0",
   "projection": "CONSUMER_BOOTSTRAP",
   "prefix_defaults": {
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
@@ -207,6 +207,7 @@
     "releases/README.md": "RELEASE_METADATA",
     "dist/gpt-codex-framework-v2.8.0-bootstrap.zip": "GENERATED_ARTIFACT",
     "dist/gpt-codex-framework-v2.8.0-bootstrap.zip.sha256": "GENERATED_ARTIFACT",
-    "dist/gpt-codex-framework-v2.8.0-release.json": "GENERATED_ARTIFACT"
+    "dist/gpt-codex-framework-v2.8.0-release.json": "GENERATED_ARTIFACT",
+    ".gpt-codex/tests/test_authority_artifact_contract.py": "DEVELOPMENT_HISTORY"
   }
 }

@@ -1,4 +1,4 @@
-# AGENTS.md — GPT–Codex Framework v2.12.0
+# AGENTS.md — GPT–Codex Framework v2.13.0
 
 This repository is the **universal framework root**, not a business-project root.
 
@@ -157,4 +157,4 @@ Normal resume loads CORE and referenced TASK context. HISTORY_CONTEXT and PROGRA
 
 `RECOVERY_INDEX` is an immutable derived mapping to existing gates, not a project registry, memory store or new authority. STALE_STATE_OR_REMOTE requires existing live continuity verification, IDENTITY_MISMATCH hard-stops, REVIEW_FINDING reads only the exact STATE-owned committed Result and returns to GPT/User decision before the existing FIX chain, and RECONCILIATION_REQUIRED uses the existing reconciliation gate. UNBOUND returns the read-only bootstrap challenge gate; existing phase-two identity verification and business hard-stop remain mandatory. No project file is created by routing.
 
-Retain Stage 1 native builders and Stage 2 process-local authority reuse. Context/checkpoint/routing or named evidence markers participate in existing candidate fingerprints; changed markers reject stale supplied proof and require fresh native verification. Use exact owned scope, focused safety tests, real Consumer/Unbound acceptance and independent PRE/POST. Stage 5 remains unauthorized.
+Retain Stage 1 native builders and Stage 2 process-local authority reuse. Context/checkpoint/routing or named evidence markers participate in existing candidate fingerprints; changed markers reject stale supplied proof and require fresh native verification. Use exact owned scope, focused safety tests, real Consumer/Unbound acceptance and independent PRE/POST. Stage 6 remains unauthorized.

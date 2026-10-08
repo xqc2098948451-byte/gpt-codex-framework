@@ -243,7 +243,30 @@ def _design_authorized_directory_paths(root: Path, work_unit: Mapping[str, Any],
                             capture_output=True)
     if result.returncode:
         return set()
-    content = result.stdout.decode("utf-8", "replace")
+    # Current machine authority is the existing accepted immutable Design record.
+    # A JSON Design never falls back to interpreting its human explanation.
+    if str(design['path']).endswith('.json'):
+        try:
+            from continuity_resume import _unique_json_object
+            record = json.loads(result.stdout, object_pairs_hook=_unique_json_object)
+        except (ValueError, UnicodeError):
+            return set()
+        if (not isinstance(record, Mapping) or record.get('accepted') is not True
+                or record.get('project_id') != work_unit.get('project_id')
+                or type(record.get('state_revision')) is not int or record['state_revision'] < 0
+                or type(work_unit.get('basis_state_revision')) is not int
+                or record.get('state_revision') != work_unit.get('basis_state_revision')
+                or not isinstance(record.get('directory_creations'), list)):
+            return set()
+        entries = record['directory_creations']
+        if any(not isinstance(item, Mapping) for item in entries):
+            return set()
+        paths = [item.get('path') for item in entries]
+        if any(not isinstance(path, str) for path in paths) or len(paths) != len(set(paths)):
+            return set()
+        return {path for path, item in zip(paths, entries)
+                if path in declarations and dict(item) == dict(declarations[path])}
+    content = result.stdout.decode("utf-8", "strict")
     lines: list[str] = []
     fence: str | None = None
     for line in content.splitlines():
@@ -257,6 +280,9 @@ def _design_authorized_directory_paths(root: Path, work_unit: Mapping[str, Any],
         else:
             lines.append("" if fence is not None else line)
     headings: list[tuple[int, str]] = []
+    approved: set[str] = set()
+    claimed: set[str] = set()
+    ambiguous: set[str] = set()
     for index, line in enumerate(lines):
         heading = re.match(r"^\s{0,3}(#{1,6})\s+(.+?)\s*$", line)
         if heading is not None:
@@ -294,20 +320,29 @@ def _design_authorized_directory_paths(root: Path, work_unit: Mapping[str, Any],
         separator = [cell.strip() for cell in lines[row_index].strip().strip("|").split("|")] if row_index < len(lines) else []
         if len(separator) != 4 or any(re.fullmatch(r":?-{3,}:?", cell) is None for cell in separator):
             continue
-        approved: set[str] = set()
         for row in lines[row_index + 1:]:
             if not row.strip().startswith("|") or not row.strip().endswith("|"):
                 break
             cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
-            if (len(cells) != 4 or not all(cells) or not _is_safe_scope_selector(cells[0])
-                    or _has_non_authorizing_semantics(cells[3])):
+            if len(cells) != 4 or not _is_safe_scope_selector(cells[0]):
                 continue
             path = cells[0].rstrip("/")
+            if path in claimed:
+                ambiguous.add(path)
+            claimed.add(path)
             declaration = declarations.get(path)
-            if declaration is not None and cells[1] == declaration.get("purpose", "").strip():
+            if not all(cells) or _has_non_authorizing_semantics(cells[3]):
+                ambiguous.add(path)
+                continue
+            if (declaration is not None and cells[1] == declaration.get("purpose", "").strip()
+                    and (cells[2] == declaration.get("content_type", "").strip()
+                         or (cells[2] == "Source" and declaration.get("content_type", "").endswith(" source")))
+                    and (cells[3] == declaration.get("authority_type", "").strip()
+                         or cells[3] in {"Accepted Design", "Accepted Design/Decision", "Advisory navigation", "Governed plan", "Development history"})):
                 approved.add(path)
-        return approved
-    return set()
+            else:
+                ambiguous.add(path)
+    return approved - ambiguous
 
 
 def validate_candidate_directory_creation(
@@ -750,8 +785,11 @@ def validate_instruction_authority(
         errors.extend(["ROLE_AUTHORITY_CONFLICT", "REVIEWER_MUTATION_DENIED"])
 
     expected_revision = instruction.get("expected_state_revision")
-    if current_state_revision is not None and expected_revision is not None and expected_revision != current_state_revision:
-        errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
+    if current_state_revision is not None and instruction_type != "INFORMATION_ONLY":
+        if (type(current_state_revision) is not int or current_state_revision < 0
+                or type(expected_revision) is not int or expected_revision < 0
+                or expected_revision != current_state_revision):
+            errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
 
     requested_scope = instruction.get("scope_paths")
     if approved_scope is not None and requested_scope is not None:
@@ -945,6 +983,7 @@ def validate_review_lifecycle(
     resulting_revision: str | None = None,
     authoritative_review_context: Mapping[str, Any] | None = None,
     repository_root: Path | None = None,
+    re_review_request: Mapping[str, Any] | None = None,
 ) -> list[str]:
     """Validate finding evidence, explicit remediation, fix causality, and re-review."""
 
@@ -954,7 +993,7 @@ def validate_review_lifecycle(
         return ["INVALID_INSTRUCTION"]
     errors = validate_review_result(finding_result)
     if finding_result.get("result_message_type") != "REVIEW_FINDING":
-        return errors
+        return list(dict.fromkeys(errors + ["FINDING_RESULT_REQUIRED"]))
     if instruction is None or instruction.get("instruction_type") != "FIX_INSTRUCTION":
         errors.append("FIX_INSTRUCTION_REQUIRED")
     effective_decision = remediation_decision
@@ -1005,7 +1044,7 @@ def validate_review_lifecycle(
         errors.extend(validate_instruction_authority(instruction, current_state_revision))
         if instruction.get("in_response_to_result_id") != finding_result.get("result_id"):
             errors.append("FINDING_CORRELATION_REQUIRED")
-        if not set(instruction.get("finding_ids") or []).intersection(finding_result.get("finding_ids") or []):
+        if not set(instruction.get("finding_ids") or []) or not set(instruction.get("finding_ids") or []).issubset(finding_result.get("finding_ids") or []):
             errors.append("FINDING_CORRELATION_REQUIRED")
         if instruction.get("expected_base_sha") != finding_result.get("review_target_revision"):
             if not (durable_bridge_authorized and _review_revision_matches_or_management_bridge(
@@ -1014,6 +1053,8 @@ def validate_review_lifecycle(
                 errors.extend(["RECONCILIATION_REQUIRED", "REVIEW_TARGET_REVISION_MISMATCH"])
         if instruction.get("review_target_revision") is not None and instruction.get("review_target_revision") != finding_result.get("review_target_revision"):
             errors.append("REVIEW_TARGET_REVISION_MISMATCH")
+        if "work_unit_id" in finding_result and finding_result.get("work_unit_id") != instruction.get("target_work_unit"):
+            errors.append("FINDING_WORK_UNIT_MISMATCH")
         if instruction.get("fix_round") != (finding_result.get("fix_round") or 0) + 1:
             errors.append("FIX_ROUND_MISMATCH")
         if (
@@ -1043,7 +1084,23 @@ def validate_review_lifecycle(
             errors.append("RESULTING_REVISION_REQUIRED")
         elif re_review_result.get("review_target_revision") != resulting_revision:
             errors.append("RE_REVIEW_REVISION_MISMATCH")
-        if instruction is not None and re_review_result.get("response_to_instruction_id") != instruction.get("instruction_id"):
+        response_id = instruction.get("instruction_id") if instruction is not None else None
+        if re_review_request is not None:
+            if (not isinstance(re_review_request, Mapping) or instruction is None
+                    or re_review_request.get("instruction_type") != "REVIEW_REQUEST"
+                    or re_review_request.get("in_response_to_instruction_id") != instruction.get("instruction_id")
+                    or re_review_request.get("target_work_unit") != instruction.get("target_work_unit")
+                    or re_review_request.get("target_work_unit_ref") != instruction.get("target_work_unit_ref")
+                    or re_review_request.get("scope_paths") != instruction.get("scope_paths")
+                    or re_review_request.get("expected_state_revision") != instruction.get("expected_state_revision")
+                    or re_review_request.get("review_target_revision") != resulting_revision):
+                errors.append("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED")
+            else:
+                errors.extend(validate_instruction_authority(re_review_request, current_state_revision))
+                response_id = re_review_request.get("instruction_id")
+                if re_review_result.get("fix_round") != instruction.get("fix_round"):
+                    errors.append("FIX_ROUND_MISMATCH")
+        if re_review_result.get("response_to_instruction_id") != response_id:
             errors.append("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED")
         if not set(finding_result.get("evidence_refs") or []).issubset(set(re_review_result.get("evidence_refs") or [])):
             errors.append("ORIGINAL_EVIDENCE_NOT_RETAINED")
@@ -1082,6 +1139,14 @@ def validate_pre_execution_review_request(
             "expected_remote_ref": "expected_remote_ref",
         },
     ))
+    version = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", str(mutation_instruction.get("framework_version", "")))
+    current = version is not None and tuple(map(int, version.groups())) >= (2, 13, 0)
+    # Pre-2.13 helper inputs did not carry full durable bindings. They retain
+    # their pure helper contract; complete governed Results are checked below.
+    if current:
+        for field in ("target_project_name", "expected_base_sha", "expected_remote_head_sha", "target_work_unit_ref", "scope_paths"):
+            if review_request.get(field) != mutation_instruction.get(field):
+                errors.append("PRE_EXECUTION_REVIEW_BINDING_MISMATCH:" + field)
     if review_request.get("expected_state_revision") != mutation_instruction.get("expected_state_revision"):
         errors.extend(["RECONCILIATION_REQUIRED", "STALE_STATE_REVISION"])
     if review_request.get("review_target_revision") != expected_base:
@@ -1122,6 +1187,23 @@ def validate_pre_execution_review(
         or review_result.get("status") != "PASS"
     ):
         errors.append("PRE_EXECUTION_REVIEW_NOT_APPROVED")
+    # Minimal historical pure-helper records are not durable mutation authority.
+    # Full governed Results must bind every existing identity/revision field.
+    full_result = bool({"kernel_version", "framework_version", "schema_version", "project_id", "work_unit_id", "evidence_refs", "completion_evidence", "completion_gate"}.intersection(review_result))
+    if full_result:
+        for field in ("target_project_name", "expected_base_sha", "expected_remote_head_sha", "target_work_unit_ref", "scope_paths"):
+            if review_request.get(field) != mutation_instruction.get(field):
+                errors.append("PRE_EXECUTION_REVIEW_BINDING_MISMATCH:" + field)
+    bindings = {"work_unit_id": "target_work_unit", "source_project_name": "target_project_name",
+                "source_project_context_id": "target_project_context_id",
+                "source_github_repository_id": "target_github_repository_id",
+                "source_github_repository_full_name": "target_github_repository_full_name",
+                "current_remote_ref": "expected_remote_ref", "state_revision": "expected_state_revision"}
+    for source, target in bindings.items():
+        if (full_result or source in review_result) and review_result.get(source) != mutation_instruction.get(target):
+            errors.append("PRE_EXECUTION_REVIEW_RESULT_BINDING_MISMATCH")
+    if full_result or "completion_evidence" in review_result:
+        errors.extend(validate_completion_evidence(review_result))
     if review_result.get("response_to_instruction_id") != review_request.get("instruction_id"):
         errors.append("PRE_EXECUTION_REVIEW_RESULT_CORRELATION_REQUIRED")
     if review_result.get("review_target_revision") != expected_base:
@@ -1295,6 +1377,9 @@ def validate_governed_mutation_entry(
     if not isinstance(project_control, Mapping) or not isinstance(state, Mapping) or not isinstance(work_unit, Mapping):
         return ["RECONCILIATION_REQUIRED"]
     management = project_control.get("framework_management_only") is True
+    if isinstance(review_result, Mapping) and {"kernel_version", "framework_version", "schema_version", "project_id", "work_unit_id", "evidence_refs", "completion_evidence", "completion_gate"}.intersection(review_result):
+        if review_result.get("project_id") != project_control.get("project_id"):
+            errors.append("PRE_EXECUTION_REVIEW_RESULT_BINDING_MISMATCH")
     errors.extend(validate_project_identity_boundary(project_control, consumer=not management))
     identity = _project_identity_decision(project_control, mutation_instruction)
     if identity.decision != "ALLOW":
@@ -1450,6 +1535,8 @@ def validate_incremental_governed_entry(
     root: Path, selected_repository_id: str, *, instruction_locator: Mapping[str, str],
     review_request_path: str, review_result_path: str, evidence_paths: tuple[str, ...] = (),
     attestation: ReusableAuthorityAttestation | None = None,
+    review_request_locator: Mapping[str, str] | None = None,
+    review_result_locator: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     """Reuse only an exact native entry outcome; every executable call checks live remote.
 
@@ -1457,14 +1544,15 @@ def validate_incremental_governed_entry(
     Call again without it for explicit native revalidation. FIX/reconciliation keep
     their existing dedicated entry until their complete durable inputs are bound.
     """
-    from continuity_resume import capture_authority_snapshot, reuse_authority_snapshot, _bounded_paths
+    from continuity_resume import capture_authority_snapshot, reuse_authority_snapshot, _bounded_paths, read_immutable_governed_artifact
     from instruction_envelope import resolve_durable_instruction, canonical_instruction_bytes
     from git_continuity import observe_bound_remote
     root = Path(root).resolve()
     paths = _bounded_paths((review_request_path, review_result_path, *evidence_paths))
     bindings = canonical_instruction_bytes({'repository_id': selected_repository_id,
         'instruction_locator': dict(instruction_locator), 'review_request_path': review_request_path,
-        'review_result_path': review_result_path, 'evidence_paths': sorted(evidence_paths)})
+        'review_result_path': review_result_path, 'evidence_paths': sorted(evidence_paths),
+        'review_request_locator': review_request_locator, 'review_result_locator': review_result_locator})
     if attestation is not None:
         if (not isinstance(attestation, ReusableAuthorityAttestation) or attestation._seal is not _ATTESTATION_SEAL
                 or attestation.bindings != bindings):
@@ -1488,8 +1576,25 @@ def validate_incremental_governed_entry(
             scope_paths=instruction['scope_paths'], evidence_paths=paths)
         resume = reuse_authority_snapshot(root, selected_repository_id, snapshot,
             scope_paths=instruction['scope_paths'], evidence_paths=paths)
-        request = json.loads((root / review_request_path).read_text(encoding='utf-8'))
-        result = json.loads((root / review_result_path).read_text(encoding='utf-8'))
+        exact_pre = review_request_locator is not None or review_result_locator is not None
+        version = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", str(instruction.get("framework_version", "")))
+        current = version is not None and tuple(map(int, version.groups())) >= (2, 13, 0)
+        if not exact_pre and current:
+            raise ValueError("DURABLE_PRE_LOCATORS_REQUIRED")
+        records = []
+        for path, locator in ((review_request_path, review_request_locator), (review_result_path, review_result_locator)):
+            if exact_pre:
+                observed = read_immutable_governed_artifact(root, locator, control['github']['repository_full_name'])
+                if observed.get('status') != 'ALLOW' or locator.get('path') != path:
+                    raise ValueError('STALE_OR_AMBIGUOUS:PRE_REFERENCE')
+                raw = subprocess.check_output(['git', '-C', str(root), 'show', f"{locator['commit_sha']}:{path}"])
+                if (root / path).read_bytes() != raw:
+                    raise ValueError('STALE_OR_AMBIGUOUS:PRE_BYTES_CHANGED')
+                records.append(observed['record'])
+            else:
+                from continuity_resume import _unique_json_object
+                records.append(json.loads((root / path).read_bytes(), object_pairs_hook=_unique_json_object))
+        request, result = records
         errors = validate_instruction_envelope_contract(request) + validate_result_envelope_contract(result)
         errors += validate_result_protocol(result) + validate_completion_evidence(result)
         errors += validate_governed_mutation_entry(resume['control'], resume['state'], resolved['work_unit'],
@@ -1622,8 +1727,10 @@ def _git_json_at_path(root: Path, sha: object, path: object) -> Mapping[str, Any
     if not isinstance(root, Path) or not _is_sha(sha) or not isinstance(path, str) or not _is_safe_repository_relative_path(path): return None
     result = subprocess.run(["git", "-C", str(root), "show", f"{sha}:{path}"], capture_output=True)
     if result.returncode: return None
-    try: value=json.loads(result.stdout)
-    except json.JSONDecodeError: return None
+    try:
+        from continuity_resume import _unique_json_object
+        value=json.loads(result.stdout, object_pairs_hook=_unique_json_object)
+    except (ValueError, UnicodeError): return None
     return value if isinstance(value, Mapping) else None
 
 def _immutable_artifact_refs_resolve(root: Path, refs: object) -> bool:

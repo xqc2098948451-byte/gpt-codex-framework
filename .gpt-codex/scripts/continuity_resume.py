@@ -102,7 +102,11 @@ def classify_execution_progress(
         if side_effect_state == "AMBIGUOUS":
             return "RECONCILIATION_REQUIRED"
         return "READY_TO_CONTINUE" if continuation_authorized else "PARTIAL"
-    if result.get("status") == "PASS" and safe_postcondition and not validate_completion_evidence(result):
+    if (result.get("status") == "PASS" and (
+            (result.get("result_message_type") == "IMPLEMENTATION_RESULT" and result.get("responder_role") == "CODEX_IMPLEMENTER")
+            or ("result_message_type" not in result and "responder_role" not in result
+                and "kernel_version" not in result and "framework_version" not in result))
+            and safe_postcondition and not validate_completion_evidence(result)):
         return "ALREADY_COMPLETE"
     return "RECONCILIATION_REQUIRED"
 
@@ -871,6 +875,42 @@ def resolve_immutable_artifact(root: Path, locator: Mapping[str, Any], expected_
     return {"status": "ALLOW", "locator": {"repository": locator["repository"], "commit_sha": commit, "path": path, "blob_sha": blob}}
 
 
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    record: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in record:
+            raise ValueError("AMBIGUOUS_JSON_KEY")
+        record[key] = value
+    return record
+
+
+def read_immutable_governed_artifact(root: Path, locator: Mapping[str, Any], expected_repository: str) -> dict[str, Any]:
+    """Read exact immutable bytes with compatibility classification; grants no authority.
+
+    Semantic envelope, current STATE/WU and role gates still apply at consumers.
+    No legacy bytes are normalized; duplicate keys cannot be guessed.
+    """
+    failure = {"status": "FAIL", "contract_status": "STALE_OR_AMBIGUOUS"}
+    resolved = resolve_immutable_artifact(root, locator, expected_repository)
+    if resolved.get("status") != "ALLOW":
+        return {**failure, "reason": resolved.get("reason")}
+    try:
+        raw = subprocess.check_output(['git', '-C', str(root), 'show', f"{locator['commit_sha']}:{locator['path']}"])
+        record = json.loads(raw, object_pairs_hook=_unique_json_object)
+        if not isinstance(record, Mapping):
+            return {**failure, "reason": "ARTIFACT_RECORD_INVALID"}
+        from instruction_envelope import canonical_instruction_bytes
+        version = re.match(r"^(\d+)\.(\d+)\.(\d+)", str(record.get('framework_version', '')))
+        current = version is not None and tuple(map(int, version.groups())) >= (2, 13, 0)
+        canonical = raw == canonical_instruction_bytes(record)
+        if current and not canonical:
+            return {**failure, "reason": "CURRENT_CANONICAL_BYTES_REQUIRED"}
+        classification = "CURRENT_VALID" if current or (version is None and canonical) else "LEGACY_VALID"
+        return {"status": "ALLOW", "contract_status": classification, "record": record, "locator": resolved['locator']}
+    except (OSError, subprocess.SubprocessError, ValueError, UnicodeError):
+        return {**failure, "reason": "ARTIFACT_BYTES_AMBIGUOUS"}
+
+
 def _artifact_locators(root: Path, repository: str, refs: Mapping[str, Any]) -> dict[str, Any] | None:
     locators: dict[str, Any] = {"design": None, "plan": None}
     for name, ref in refs.items():
@@ -1199,7 +1239,11 @@ def build_repository_handoff(
     result_path, result = matches[0]
     from publication_contract import validate_result_authority
     from validate_project import validate_result_envelope_contract
-    result_sha = (result.get("git") or {}).get("implementation_sha") or result.get("implementation_sha")
+    nested_sha = (result.get("git") or {}).get("implementation_sha")
+    top_sha = result.get("implementation_sha")
+    if nested_sha is not None and top_sha is not None and nested_sha != top_sha:
+        return _recovery_result()
+    result_sha = nested_sha or top_sha
     if (
         validate_result_envelope_contract(result) or validate_result_authority(result)
         or result.get("project_id") != control.get("project_id")

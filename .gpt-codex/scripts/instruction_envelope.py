@@ -235,12 +235,13 @@ def resolve_durable_instruction(
     excluded_scope: set[str] | None = None,
 ) -> dict[str, Any]:
     """Resolve immutable Instruction bytes and recheck current Core authority."""
-    from continuity_resume import load_continuity_resume, resolve_immutable_artifact
+    from continuity_resume import load_continuity_resume, read_immutable_governed_artifact
     from github_repository_binding import canonicalize_remote_url
     from validate_project import validate_instruction_authority, validate_instruction_envelope_contract
 
     root = Path(root)
-    if resolve_immutable_artifact(root, locator, expected_repository).get("status") != "ALLOW":
+    artifact = read_immutable_governed_artifact(root, locator, expected_repository)
+    if artifact.get("status") != "ALLOW":
         return {"status": "RECONCILIATION_REQUIRED"}
     try:
         origin = subprocess.run(
@@ -249,14 +250,10 @@ def resolve_durable_instruction(
         )
         if origin.returncode != 0 or canonicalize_remote_url(origin.stdout) != f"github:{expected_repository}":
             return {"status": "RECONCILIATION_REQUIRED"}
-        completed = subprocess.run(
-            ["git", "-C", str(root), "show", f"{locator['commit_sha']}:{locator['path']}"],
-            capture_output=True, check=False,
-        )
-        if completed.returncode != 0:
-            return {"status": "RECONCILIATION_REQUIRED"}
-        envelope = json.loads(completed.stdout)
-        if completed.stdout != canonical_instruction_bytes(envelope):
+        envelope = artifact["record"]
+        # Legacy readability is separate from permission to execute an Instruction.
+        raw = subprocess.check_output(["git", "-C", str(root), "show", f"{locator['commit_sha']}:{locator['path']}"])
+        if raw != canonical_instruction_bytes(envelope):
             return {"status": "RECONCILIATION_REQUIRED"}
         instruction_id = envelope["instruction_id"]
         if locator["path"] != instruction_artifact_relative_path(instruction_id):
@@ -276,7 +273,8 @@ def resolve_durable_instruction(
         )
         if work_blob.returncode != 0:
             return {"status": "RECONCILIATION_REQUIRED"}
-        work_unit = json.loads(work_blob.stdout)
+        from continuity_resume import _unique_json_object
+        work_unit = json.loads(work_blob.stdout, object_pairs_hook=_unique_json_object)
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
         return {"status": "RECONCILIATION_REQUIRED"}
     work_scope = set((work_unit.get("scope") or {}).get("owned_paths") or [])
@@ -305,7 +303,7 @@ def resolve_durable_instruction(
     ):
         return {"status": "RECONCILIATION_REQUIRED"}
     return {
-        "status": "INSTRUCTION_RESOLVED", "instruction_id": instruction_id,
+        "status": "INSTRUCTION_RESOLVED", "contract_status": artifact["contract_status"], "instruction_id": instruction_id,
         "instruction_locator": dict(locator),
         "target_work_unit_id": envelope["target_work_unit"],
         "target_work_unit_ref": dict(work_ref),

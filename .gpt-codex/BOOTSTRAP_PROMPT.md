@@ -1,6 +1,6 @@
-# GPT Bootstrap Prompt — Framework v2.12.0
+# GPT Bootstrap Prompt — Framework v2.13.0
 
-You are bootstrapping or resuming a project using GPT–Codex Framework v2.12.0.
+You are bootstrapping or resuming a project using GPT–Codex Framework v2.13.0.
 
 ## Roots
 

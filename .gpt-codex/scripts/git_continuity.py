@@ -128,7 +128,7 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
     from copy import deepcopy
     from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
                                   validate_review_result, validate_instruction_authority,
-                                  validate_committed_candidate_scope, _resolve_work_unit_at_ref)
+                                  validate_committed_candidate_scope, _resolve_work_unit_at_ref, validate_review_lifecycle, _git_json_at_path)
     root = Path(root).resolve()
     if not isinstance(post_request, Mapping) or not isinstance(post_result, Mapping):
         raise ValueError('INDEPENDENT_POST_REQUIRED')
@@ -169,10 +169,13 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
         raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION')
     execution_path = root / f'.gpt-codex/evidence/instructions/{execution_id}.json'
     try:
-        execution = json.loads(execution_path.read_bytes())
+        execution = _git_json_at_path(root, work_sha, execution_path.relative_to(root).as_posix())
+        raw = subprocess.check_output(["git", "-C", str(root), "show", f"{work_sha}:{execution_path.relative_to(root).as_posix()}"])
+        if not isinstance(execution, Mapping) or execution_path.read_bytes() != raw:
+            raise ValueError("INSTRUCTION_BYTES_CHANGED")
     except (OSError, ValueError) as exc:
         raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION') from exc
-    if (execution.get('instruction_id') != execution_id or execution.get('instruction_type') != 'EXECUTION_INSTRUCTION'
+    if (execution.get('instruction_id') != execution_id or execution.get('instruction_type') not in {'EXECUTION_INSTRUCTION', 'FIX_INSTRUCTION'}
             or execution.get('target_work_unit_ref') != post_request.get('target_work_unit_ref')
             or execution.get('target_work_unit') != unit['work_unit_id']
             or validate_instruction_envelope_contract(execution)
@@ -180,6 +183,14 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
             or validate_instruction_authority(post_request, expected_state_revision, set(owned), set(unit['scope'].get('excluded_paths', [])))
             or validate_committed_candidate_scope(root, execution.get('expected_base_sha'), work_sha, set(execution['scope_paths']), set())):
         raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION')
+    if execution.get('instruction_type') == 'FIX_INSTRUCTION':
+        findings = [_git_json_at_path(root, work_sha, path) for path in state.get('evidence_refs', [])]
+        matches = [record for record in findings if isinstance(record, Mapping)
+                   and record.get('result_id') == execution.get('in_response_to_result_id')]
+        if len(matches) != 1 or validate_review_lifecycle(execution, matches[0],
+                current_state_revision=expected_state_revision, repository_root=root,
+                re_review_result=post_result, re_review_request=post_request, resulting_revision=work_sha):
+            raise ValueError('RECONCILIATION_REQUIRED:FIX_LINEAGE')
     head = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
     dirty = subprocess.check_output(['git', '-C', str(root), 'status', '--porcelain=v1', '--untracked-files=all'])
     if head != work_sha or dirty:

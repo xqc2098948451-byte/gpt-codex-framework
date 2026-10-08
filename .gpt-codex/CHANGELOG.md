@@ -1,5 +1,14 @@
 # GPT–Codex Framework Changelog
 
+## v2.13.0 — Issue #17 Stage 5: Authority / Artifact Contract Normalization
+
+- Normalize only demonstrated directory, baseline, PRE/reference, completion, FIX and legacy-byte ambiguities. Keep existing schema versions, field names and historical artifact bytes.
+- Use accepted structured Design declarations for current directory authority; retain bounded unique legacy Markdown interpretation and reject conflicting declaration semantics.
+- Bind exact Work Unit/PRE scope, Result identity/revision and remote baselines; require exact immutable PRE locators for current incremental entry. Separate execution completion, independent review, published W, verified P and explicit Work Unit closure.
+- Preserve existing typed Finding/adjudication/FIX lineage and support its exact request-bound independent re-review in native W/P finalization without a duplicate execution chain.
+- Classify immutable inputs as LEGACY_VALID, CURRENT_VALID or STALE_OR_AMBIGUOUS; reject duplicate JSON keys, wrong locators and changed exact bytes. Retain bounded process-local raw-byte fingerprints and observational-only timestamps.
+- Validate new, historical and mixed-version paths on an independent real Consumer acceptance branch. Stage 1–4 mechanisms remain; Stage 6 is not started.
+
 ## v2.12.0 — Issue #17 Stage 4: Native Capability Substitution / Framework Slimming
 
 - Audited 25 active mechanisms: 23 KEEP, 2 SIMPLIFY, 0 RETIRE. Unproven native/app substitutes and management-only plugin paths stay KEEP.
