@@ -12,6 +12,42 @@ if str(SCRIPTS) not in sys.path:
 
 
 class GitContinuityTests(unittest.TestCase):
+    def test_state_sync_candidate_requires_exact_independent_post(self):
+        from git_continuity import build_state_sync_finalization
+        work = subprocess.check_output(['git', '-C', str(ROOT.parent), 'rev-parse', 'HEAD'], text=True).strip()
+        before = (ROOT / 'STATE.json').read_bytes()
+        with self.assertRaisesRegex(ValueError, 'INDEPENDENT_POST_REQUIRED'):
+            build_state_sync_finalization(ROOT.parent, work_sha=work, remote_ref='refs/heads/main',
+                expected_state_revision=44, result_ref='.gpt-codex/evidence/results/closure.json',
+                post_request=None, post_result=None)
+        self.assertEqual((ROOT / 'STATE.json').read_bytes(), before)
+
+    def test_low_risk_correction_remains_advice_and_denies_authority_changes(self):
+        from git_continuity import plan_low_risk_correction
+        path = '.gpt-codex/evidence/acceptance.json'
+        plan = plan_low_risk_correction([path], {path})
+        self.assertTrue(plan['native_entry_required'])
+        self.assertTrue(plan['candidate_reverification_required'])
+        self.assertTrue(plan['independent_review_required'])
+        self.assertFalse(plan['full_suite_required'])
+        with self.assertRaisesRegex(ValueError, 'LOW_RISK_CORRECTION_DENIED'):
+            plan_low_risk_correction(['.gpt-codex/STATE.json'], {'.gpt-codex/STATE.json'})
+
+    def test_native_wp_rejects_source_delta_before_remote_claim(self):
+        from git_continuity import verify_work_publication
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            def git(*args):
+                return subprocess.check_output(['git', '-C', str(root), *args], stderr=subprocess.DEVNULL, text=True).strip()
+            git('init'); git('config', 'user.email', 'test@example.invalid'); git('config', 'user.name', 'test')
+            (root / 'source.py').write_text('value = 1\n', encoding='utf-8')
+            git('add', 'source.py'); git('commit', '-m', 'W'); work = git('rev-parse', 'HEAD')
+            (root / 'source.py').write_text('value = 2\n', encoding='utf-8')
+            git('add', 'source.py'); git('commit', '-m', 'invalid P'); publication = git('rev-parse', 'HEAD')
+            with self.assertRaisesRegex(ValueError, 'PUBLICATION_SCOPE_DENIED'):
+                verify_work_publication(root, work_sha=work, publication_sha=publication,
+                    remote_ref='refs/heads/main', scope_paths=['source.py'])
+
     def test_management_entry_keeps_native_pre_and_actual_scope_fail_closed(self):
         from validate_project import validate_lightweight_management_transaction
         import json

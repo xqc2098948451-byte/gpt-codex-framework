@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "framework_version": "2.9.0",
+  "framework_version": "2.10.0",
   "projection": "CONSUMER_BOOTSTRAP",
   "prefix_defaults": {
     ".gpt-codex/evidence/": "MANAGEMENT_ONLY",
@@ -163,6 +163,7 @@
     ".gpt-codex/tests/test_continuity_envelopes.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_continuity_resume.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_git_continuity.py": "MANAGEMENT_ONLY",
+    ".gpt-codex/tests/test_pre_execution_review.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_github_continuity_validator.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_github_repository_binding.py": "MANAGEMENT_ONLY",
     ".gpt-codex/tests/test_handoff_navigation_contract.py": "MANAGEMENT_ONLY",

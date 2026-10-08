@@ -77,6 +77,186 @@ def _is_safe_evidence_path(value: object) -> bool:
     )
 
 
+def observe_bound_remote(root: Path, control: Mapping[str, Any], remote_ref: str) -> dict[str, Any]:
+    """Live canonical remote and GitHub ID observation; never cached by attestation."""
+    from github_repository_binding import canonicalize_remote_url, compare_repository_binding, ObservedRepository
+    if not isinstance(remote_ref, str) or not re.fullmatch(r'refs/heads/[A-Za-z0-9_./-]+', remote_ref):
+        raise ValueError('REMOTE_REF_MISMATCH')
+    root = Path(root)
+    def run(*args: str) -> str:
+        return subprocess.check_output(list(args), text=True, stderr=subprocess.DEVNULL, timeout=30).strip()
+    try:
+        github = control['github']
+        canonical = canonicalize_remote_url(run('git', '-C', str(root), 'remote', 'get-url', 'origin'))
+        if canonical != 'github:' + github['repository_full_name']:
+            raise ValueError('GITHUB_REPOSITORY_MISMATCH')
+        metadata = json.loads(run('gh', 'api', 'repos/' + github['repository_full_name']))
+        observed = ObservedRepository(str(metadata['id']), metadata['full_name'], 'origin', canonical)
+        decision = compare_repository_binding(control, observed)
+        if decision.decision != 'ALLOW':
+            raise ValueError(decision.reason)
+        lines = run('git', '-C', str(root), 'ls-remote', 'origin', remote_ref).splitlines()
+        if len(lines) != 1 or lines[0].split() != [lines[0].split()[0], remote_ref] or not _SHA_RE.fullmatch(lines[0].split()[0]):
+            raise ValueError('REMOTE_UNAVAILABLE')
+        return {'repository_id': observed.repository_id, 'repository': observed.repository_full_name,
+                'remote_ref': remote_ref, 'remote_head_sha': lines[0].split()[0], 'evidence_type': 'TOOL_OBSERVED'}
+    except (OSError, subprocess.SubprocessError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        raise ValueError('REMOTE_UNAVAILABLE') from exc
+
+
+def plan_low_risk_correction(changed_paths: list[str], approved_scope: set[str]) -> dict[str, Any]:
+    """Focused validation advice under existing authorization; never an execution gate."""
+    if (not isinstance(changed_paths, list) or not changed_paths or len(set(changed_paths)) != len(changed_paths)
+            or any(not _is_safe_evidence_path(p) or p not in approved_scope
+                   or not (p.startswith('docs/') or re.fullmatch(r'\.gpt-codex/evidence/[A-Za-z0-9_.-]+\.json', p))
+                   for p in changed_paths)):
+        raise ValueError('LOW_RISK_CORRECTION_DENIED')
+    return {**build_validation_plan(changed_paths, finding=True), 'authority': 'DERIVED_PLAN_ONLY',
+            'existing_work_unit_reused': True, 'native_entry_required': True,
+            'candidate_reverification_required': True, 'pre_post_required': True}
+
+
+def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
+                                 expected_state_revision: int, result_ref: str,
+                                 post_request: Mapping[str, Any] | None,
+                                 post_result: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Build, never write, a STATE sync candidate after exact-W independent POST.
+
+    Caller must separately authorize/apply closure, persist and validate Result,
+    then publish P. Result PASS never changes a Work Unit to COMPLETE here.
+    """
+    from copy import deepcopy
+    from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
+                                  validate_review_result, validate_instruction_authority,
+                                  validate_committed_candidate_scope, _resolve_work_unit_at_ref)
+    root = Path(root).resolve()
+    if not isinstance(post_request, Mapping) or not isinstance(post_result, Mapping):
+        raise ValueError('INDEPENDENT_POST_REQUIRED')
+    if (validate_instruction_envelope_contract(post_request) or validate_result_envelope_contract(post_result)
+            or validate_review_result(post_result) or post_request.get('instruction_type') != 'REVIEW_REQUEST'
+            or post_request.get('executor_role') != 'CODEX_REVIEWER' or post_result.get('responder_role') != 'CODEX_REVIEWER'
+            or post_result.get('status') != 'PASS' or post_result.get('result_message_type') != 'REVIEW_RESULT'
+            or post_result.get('response_to_instruction_id') != post_request.get('instruction_id')
+            or post_result.get('review_target_revision') != work_sha or post_request.get('review_target_revision') != work_sha):
+        raise ValueError('INDEPENDENT_POST_REQUIRED')
+    control = json.loads((root / '.gpt-codex/CONTROL.json').read_bytes())
+    state = json.loads((root / '.gpt-codex/STATE.json').read_bytes())
+    if type(expected_state_revision) is not int or state.get('revision') != expected_state_revision:
+        raise ValueError('STALE_STATE_REVISION')
+    github = control['github']
+    for source, target, value in (
+        ('source_project_name', 'target_project_name', control['project_name']),
+        ('source_project_context_id', 'target_project_context_id', control['project_context_id']),
+        ('source_github_repository_id', 'target_github_repository_id', github['repository_id']),
+        ('source_github_repository_full_name', 'target_github_repository_full_name', github['repository_full_name']),
+        ('current_remote_ref', 'expected_remote_ref', remote_ref),
+        ('state_revision', 'expected_state_revision', expected_state_revision),
+    ):
+        if post_result.get(source) != value or post_request.get(target) != value:
+            raise ValueError('RECONCILIATION_REQUIRED:POST_BINDING_MISMATCH')
+    unit = _resolve_work_unit_at_ref(root, post_request.get('target_work_unit_ref'))
+    owned = ((unit or {}).get('scope') or {}).get('owned_paths', [])
+    if (not isinstance(unit, Mapping) or unit.get('state') != 'AUTHORIZED'
+            or unit.get('project_id') != control['project_id'] or unit.get('basis_state_revision') != expected_state_revision
+            or post_result.get('project_id') != control['project_id']
+            or unit.get('work_unit_id') != post_result.get('work_unit_id')
+            or unit.get('work_unit_id') != post_request.get('target_work_unit')
+            or '.gpt-codex/STATE.json' not in owned or result_ref not in owned
+            or not re.fullmatch(r'\.gpt-codex/evidence/(?:results/)?[A-Za-z0-9_.-]+\.json', result_ref)):
+        raise ValueError('FINALIZATION_SCOPE_DENIED')
+    execution_id = post_request.get('in_response_to_instruction_id')
+    if not isinstance(execution_id, str) or not re.fullmatch(r'[0-9a-fA-F-]{36}', execution_id):
+        raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION')
+    execution_path = root / f'.gpt-codex/evidence/instructions/{execution_id}.json'
+    try:
+        execution = json.loads(execution_path.read_bytes())
+    except (OSError, ValueError) as exc:
+        raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION') from exc
+    if (execution.get('instruction_id') != execution_id or execution.get('instruction_type') != 'EXECUTION_INSTRUCTION'
+            or execution.get('target_work_unit_ref') != post_request.get('target_work_unit_ref')
+            or execution.get('target_work_unit') != unit['work_unit_id']
+            or validate_instruction_envelope_contract(execution)
+            or validate_instruction_authority(execution, expected_state_revision, set(owned), set(unit['scope'].get('excluded_paths', [])))
+            or validate_instruction_authority(post_request, expected_state_revision, set(owned), set(unit['scope'].get('excluded_paths', [])))
+            or validate_committed_candidate_scope(root, execution.get('expected_base_sha'), work_sha, set(execution['scope_paths']), set())):
+        raise ValueError('RECONCILIATION_REQUIRED:INSTRUCTION_CORRELATION')
+    head = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+    dirty = subprocess.check_output(['git', '-C', str(root), 'status', '--porcelain=v1', '--untracked-files=all'])
+    if head != work_sha or dirty:
+        raise ValueError('STALE_AUTHORITY:WORK_CANDIDATE_CHANGED')
+    observed = observe_bound_remote(root, control, remote_ref)
+    if observed['remote_head_sha'] != work_sha:
+        raise ValueError('REMOTE_HEAD_MISMATCH')
+    candidate = deepcopy(state)
+    candidate['revision'] = expected_state_revision + 1
+    candidate.setdefault('continuity', {}).update(current_remote_ref=remote_ref, latest_verified_remote_sha=work_sha,
+        latest_synced_state_revision=candidate['revision'], last_verified_result_ref=result_ref, sync_status='SYNCED')
+    if result_ref not in candidate.setdefault('evidence_refs', []):
+        candidate['evidence_refs'].append(result_ref)
+    return {'authority': 'DERIVED_FINALIZATION_CANDIDATE', 'state': candidate,
+            'work_unit_completed': False, 'publication_verification_required': True, 'remote_observation': observed}
+
+
+def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
+                            remote_ref: str, scope_paths: list[str]) -> dict[str, Any]:
+    """Observe an actual exact metadata-only W/P chain; no caller-supplied booleans."""
+    from publication_contract import validate_state_authority
+    root = Path(root).resolve()
+    def git(*args: str) -> str:
+        return subprocess.check_output(['git', '-C', str(root), *args], text=True, encoding='utf-8',
+                                       stderr=subprocess.DEVNULL).strip()
+    if not _SHA_RE.fullmatch(work_sha) or not _SHA_RE.fullmatch(publication_sha):
+        raise ValueError('RECONCILIATION_REQUIRED')
+    parents = git('rev-list', '--parents', '-n', '1', publication_sha).split()[1:]
+    if parents != [work_sha]:
+        raise ValueError('RECONCILIATION_REQUIRED:PUBLICATION_PARENT_MISMATCH')
+    changed = git('diff', '--name-only', work_sha, publication_sha, '--').splitlines()
+    if (not changed or not isinstance(scope_paths, list) or len(scope_paths) != len(set(scope_paths))
+            or not set(changed).issubset(scope_paths) or any(not _is_safe_evidence_path(p)
+            or not (p == '.gpt-codex/STATE.json' or re.fullmatch(r'\.gpt-codex/(?:evidence/(?:results/)?|work-units/)[A-Za-z0-9_.-]+\.json', p)) for p in changed)):
+        raise ValueError('PUBLICATION_SCOPE_DENIED')
+    control = json.loads(git('show', f'{work_sha}:.gpt-codex/CONTROL.json'))
+    original = json.loads(git('show', f'{work_sha}:.gpt-codex/STATE.json'))
+    state = json.loads(git('show', f'{publication_sha}:.gpt-codex/STATE.json'))
+    continuity = state.get('continuity', {})
+    result_ref = continuity.get('last_verified_result_ref')
+    if (not _is_safe_evidence_path(result_ref) or result_ref not in scope_paths
+            or continuity.get('latest_verified_remote_sha') != work_sha or continuity.get('sync_status') != 'SYNCED'
+            or continuity.get('current_remote_ref') != remote_ref or state.get('revision') != original.get('revision', -1) + 1
+            or state.get('project_id') != control.get('project_id')):
+        raise ValueError('RECONCILIATION_REQUIRED:STATE_FINALIZATION_MISMATCH')
+    result = json.loads(git('show', f'{publication_sha}:{result_ref}'))
+    if validate_state_authority(state, {result_ref: result}):
+        raise ValueError('RECONCILIATION_REQUIRED:PUBLICATION_RESULT_INVALID')
+    for path in changed:
+        if path.startswith('.gpt-codex/work-units/'):
+            before = json.loads(git('show', f'{work_sha}:{path}'))
+            after = json.loads(git('show', f'{publication_sha}:{path}'))
+            allowed = {'state', 'authorization', 'implementation_authorized', 'implementation_start_allowed', 'next_gate', 'closure', 'evidence_refs'}
+            closure = after.get('closure', {})
+            authorization = after.get('authorization', {})
+            if (before.get('work_unit_id') != result.get('work_unit_id')
+                    or after.get('state') != 'COMPLETE' or after.get('implementation_authorized') is not False
+                    or after.get('implementation_start_allowed') is not False or after.get('next_gate') != 'COMPLETE'
+                    or authorization.get('implementation_authorized') is not False
+                    or authorization.get('implementation_start_allowed') is not False or authorization.get('status') != 'COMPLETE'
+                    or closure.get('verified_work_sha') != work_sha or not closure.get('independent_post_result_id')
+                    or any(before.get(k) != after.get(k) for k in set(before) | set(after) if k not in allowed)):
+                raise ValueError('PUBLICATION_SCOPE_DENIED')
+    observed = observe_bound_remote(root, control, remote_ref)
+    if observed['remote_head_sha'] != publication_sha:
+        raise ValueError('REMOTE_HEAD_MISMATCH')
+    verified = verify_remote_publication(remote_ref, publication_sha, observed['repository_id'],
+        control['github']['repository_id'], True, observed_remote_ref=remote_ref,
+        observed_remote_head=observed['remote_head_sha'])
+    if verified['status'] != 'VERIFIED':
+        raise ValueError(verified['reason'])
+    return {**evaluate_attestation_chain({'work_sha': work_sha, 'publication_sha': publication_sha,
+        'verified_work': True, 'publication_references_work': True, 'publication_references_self': False,
+        'publication_is_management_only': True, 'generic_tree_matches': True}),
+        'changed_paths': changed, 'remote_observation': observed}
+
+
 def resolve_approval_evidence_locator(
     repository_root: Path,
     locator: Mapping[str, str],

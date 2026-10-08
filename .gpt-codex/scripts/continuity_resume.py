@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
@@ -1476,3 +1477,125 @@ def load_continuity_resume(
         "hot_files": hot_files,
         "invalidated_context": invalidated_context,
     }
+
+
+# Process-local proof objects are deliberately not a serialized authority store.
+_AUTHORITY_SEAL = object()
+
+
+def _runtime_source_fingerprint() -> str:
+    scripts = Path(__file__).resolve().parent
+    paths = sorted([*scripts.glob('*.py'), *scripts.parent.joinpath('schemas').glob('*.json')])
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(str(path).encode('utf-8')); digest.update(path.read_bytes())
+    return digest.hexdigest()
+
+
+_LOADED_AUTHORITY_SOURCE = _runtime_source_fingerprint()
+
+
+def _bounded_paths(values: Sequence[str]) -> tuple[str, ...]:
+    if isinstance(values, (str, bytes)) or not isinstance(values, (list, tuple)):
+        raise ValueError('AUTHORITY_SCOPE_INVALID')
+    paths = []
+    for value in values:
+        if (not isinstance(value, str) or not value or '\\' in value
+                or value.startswith('/') or re.match(r'^[A-Za-z]:', value)
+                or any(part in {'', '.', '..'} for part in value.rstrip('/').split('/'))):
+            raise ValueError('AUTHORITY_SCOPE_INVALID')
+        paths.append(value)
+    if len(paths) != len(set(paths)):
+        raise ValueError('AUTHORITY_SCOPE_INVALID')
+    return tuple(sorted(paths))
+
+
+def candidate_fingerprint(root: Path, *, scope_paths: Sequence[str], evidence_paths: Sequence[str] = ()) -> str:
+    """Hash exact local candidate inputs, including staged and untracked changes.
+
+    Byte freshness checks are not semantic authority loads or validation results.
+    A changed running validator requires a fresh process, never old-code revalidation.
+    """
+    root = Path(root).resolve()
+    scope, evidence = _bounded_paths(scope_paths), _bounded_paths(evidence_paths)
+    if not scope:
+        raise ValueError('AUTHORITY_SCOPE_INVALID')
+    if _runtime_source_fingerprint() != _LOADED_AUTHORITY_SOURCE:
+        raise ValueError('AUTHORITY_RUNTIME_RESTART_REQUIRED')
+    def git(*args: str) -> bytes:
+        return subprocess.check_output(['git', '-C', str(root), *args], stderr=subprocess.DEVNULL)
+    digest = hashlib.sha256()
+    for value in (str(root), json.dumps([scope, evidence]), _LOADED_AUTHORITY_SOURCE):
+        digest.update(value.encode('utf-8')); digest.update(b'\0')
+    for args in [('rev-parse', 'HEAD'), ('ls-files', '--stage', '-z'),
+                 ('status', '--porcelain=v1', '-z', '--untracked-files=all'), ('remote', '-v')]:
+        digest.update(git(*args)); digest.update(b'\0')
+    tracked = git('ls-files', '--cached', '--others', '--exclude-standard', '-z').decode('utf-8').split('\0')
+    paths = set(scope + evidence + ('.gpt-codex/CONTROL.json', '.gpt-codex/STATE.json', 'AGENTS.md', '.gpt-codex/KERNEL.md', 'VERSION'))
+    for path in tracked:
+        if path and (any(path.startswith(p.rstrip('/') + '/') for p in scope)
+                     or path.startswith(('.gpt-codex/extensions/', '.gpt-codex/navigation/', '.gpt-codex/continuity/'))):
+            paths.add(path)
+    for args in [('diff', '--name-only', '-z', 'HEAD', '--'), ('ls-files', '--others', '--exclude-standard', '-z')]:
+        paths.update(p for p in git(*args).decode('utf-8').split('\0') if p)
+    for relative in sorted(paths):
+        path = root / relative
+        if path.is_symlink() or not path.resolve().is_relative_to(root):
+            raise ValueError('AUTHORITY_PATH_ESCAPE')
+        data = path.read_bytes() if path.is_file() else b'DIRECTORY' if path.is_dir() else b'MISSING'
+        digest.update(relative.encode('utf-8')); digest.update(b'\0'); digest.update(hashlib.sha256(data).digest())
+    return digest.hexdigest()
+
+
+@dataclass(frozen=True)
+class AuthoritySnapshot:
+    """DERIVED / REBUILDABLE, valid only in the verifying process and exact root."""
+    root: str
+    repository_id: str | None
+    scope_paths: tuple[str, ...]
+    evidence_paths: tuple[str, ...]
+    fingerprint: str
+    resume_bytes: bytes
+    _seal: object
+
+
+def capture_authority_snapshot(root: Path, selected_repository_id: str | None, *,
+                               scope_paths: Sequence[str], evidence_paths: Sequence[str] = ()) -> AuthoritySnapshot:
+    root = Path(root).resolve()
+    scope, evidence = _bounded_paths(scope_paths), _bounded_paths(evidence_paths)
+    before = candidate_fingerprint(root, scope_paths=scope, evidence_paths=evidence)
+    resume = load_continuity_resume(root, selected_repository_id)
+    if resume.get('status') not in {'LATEST_SYNCED_REMOTE_STATE', 'LOCAL_PROJECT_STATE'}:
+        raise ValueError('STALE_AUTHORITY:RECONCILIATION_REQUIRED')
+    if candidate_fingerprint(root, scope_paths=scope, evidence_paths=evidence) != before:
+        raise ValueError('STALE_AUTHORITY:INPUT_CHANGED_DURING_VERIFICATION')
+    return AuthoritySnapshot(str(root), selected_repository_id, scope, evidence, before,
+                             json.dumps(resume, sort_keys=True).encode('utf-8'), _AUTHORITY_SEAL)
+
+
+def reuse_authority_snapshot(root: Path, selected_repository_id: str | None, snapshot: AuthoritySnapshot, *,
+                             scope_paths: Sequence[str], evidence_paths: Sequence[str] = ()) -> dict[str, Any]:
+    if (not isinstance(snapshot, AuthoritySnapshot) or snapshot._seal is not _AUTHORITY_SEAL
+            or snapshot.root != str(Path(root).resolve()) or snapshot.repository_id != selected_repository_id
+            or snapshot.scope_paths != _bounded_paths(scope_paths) or snapshot.evidence_paths != _bounded_paths(evidence_paths)
+            or snapshot.fingerprint != candidate_fingerprint(root, scope_paths=scope_paths, evidence_paths=evidence_paths)):
+        raise ValueError('STALE_AUTHORITY:RECONCILIATION_REQUIRED')
+    # A fresh detached value cannot mutate the verified object. Remote requirement survives.
+    return json.loads(snapshot.resume_bytes)
+
+
+def reference_verified_evidence(root: Path, selected_repository_id: str | None,
+                                snapshot: AuthoritySnapshot, evidence_path: str) -> dict[str, str]:
+    """Return an immutable locator; a reference alone never establishes Result PASS."""
+    resume = reuse_authority_snapshot(root, selected_repository_id, snapshot,
+                                     scope_paths=snapshot.scope_paths, evidence_paths=snapshot.evidence_paths)
+    if evidence_path not in snapshot.evidence_paths:
+        raise ValueError('AUTHORITY_EVIDENCE_OUT_OF_SCOPE')
+    root = Path(root)
+    commit = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
+    blob = subprocess.check_output(['git', '-C', str(root), 'rev-parse', f'{commit}:{evidence_path}'], text=True).strip()
+    data = (root / evidence_path).read_bytes()
+    if hashlib.sha1(b'blob ' + str(len(data)).encode('ascii') + b'\0' + data).hexdigest() != blob:
+        raise ValueError('STALE_AUTHORITY:EVIDENCE_NOT_COMMITTED')
+    return {'repository': (resume['control'].get('github') or {}).get('repository_full_name'),
+            'commit_sha': commit, 'path': evidence_path, 'blob_sha': blob}

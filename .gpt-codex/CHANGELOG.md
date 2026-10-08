@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.10.0 — Incremental Governance Verification / Authority Reuse
+
+- Add bounded native resume snapshots and reusable exact-Instruction authority attestation. Derived process-local proofs invalidate on relevant candidate, SHA, revision, scope or evidence changes; executable live remote checks remain required.
+- Return committed evidence by immutable reference and build native STATE/W/P finalization candidates without automatically completing Work Units. Verify actual metadata-only publication with preserved generic bytes and explicit closure.
+- Keep Stage 1 builders/management flow, focused affected safety validation, independent PRE/POST and one release full suite. Real Consumer acceptance covers unchanged reuse, actual durable-marker invalidation and stale fail-closed behavior with observed before/after counts.
+- No second authority store, cache service, Connector, or Stage 3 work.
+
 ## v2.9.0 — Issue #17 Stage 1 workflow simplification
 
 - Reuse native Instruction/Result owners for local Work Unit materialization, correlated machine-built PRE, evidence-grounded Finding/FIX and compact immutable-locator handoff.

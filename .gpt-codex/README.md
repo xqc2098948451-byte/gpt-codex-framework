@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.9.0
+# GPT–Codex Framework v2.10.0
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
@@ -206,3 +206,9 @@ A lightweight management bundle uses the already-authorized Work Unit and Instru
 For Findings retain the original reproduction and immutable target; record the explicit accepted adjudication in STATE-registered evidence before FIX execution. A fresh implementer fixes the bounded path, then the reviewer checks original reproduction, related regression and touched invariants. Nonblocking issues may be recorded as ACCEPTED_LIMITATION with their practical effect.
 
 Count review gates, newly required governance artifacts, human-mediated dispatches and repeated unchanged validation within a named comparable flow boundary. Report measured values separately from contract-derived baseline estimates. Do not imply that local Consumer acceptance is an adoption or verified publication of the Consumer business main.
+
+### Bounded authority reuse (v2.10.0)
+
+The existing native scripts offer `capture_authority_snapshot`, `reuse_authority_snapshot`, `reference_verified_evidence`, `validate_incremental_governed_entry`, `build_state_sync_finalization`, `verify_work_publication` and `plan_low_risk_correction`. Snapshots/attestations are immutable process-local derived objects. Supply the exact immutable EXEC Instruction locator, canonical PRE request/result paths and named evidence; no implicit active-Work-Unit discovery is used. An unchanged attestation avoids repeated authority parsing and native validation while still checking candidate freshness and live remote identity/head. A changed input rejects the old proof; re-enter without it to perform fresh native validation. FIX and reconciliation continue through their existing complete lifecycle entry.
+
+Evidence reuse returns immutable references, not a copied authority store. W/P finalization builds a candidate only after independent POST and real remote W; explicit closure and actual remote P verification are separate steps. The real `price-action-learning` acceptance branch records successful reuse and invalidation, unchanged business regression, truthful measured counts and retained remote checks. No daemon, generic cache, Connector, or Stage 3 behavior is added.

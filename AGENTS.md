@@ -1,4 +1,4 @@
-# AGENTS.md — GPT–Codex Framework v2.9.0
+# AGENTS.md — GPT–Codex Framework v2.10.0
 
 This repository is the **universal framework root**, not a business-project root.
 
@@ -140,3 +140,11 @@ Use the existing native builders in `instruction_envelope.py` and `result_return
 For existing-authority metadata bundles use the Kernel Lightweight Management Transaction policy and `validate_lightweight_management_transaction`. Reuse one Work Unit and one PRE/POST pair; closure does not recursively create another cleanup Work Unit. Use risk-based focused/affected checks and actual user-path acceptance before release's single full suite. Include Codex self-proof for independent review; machine-built requests never issue PASS.
 
 Deliver one self-contained human-readable Codex copy block with project/context, role, Work Unit, STATE revision, immutable Instruction locator, goal, scope, STOP conditions and return requirement. The block is presentation only; fresh resume and native gate still determine authority.
+
+### Stage 2 incremental governance verification
+
+Use `capture_authority_snapshot` / `reuse_authority_snapshot` for bounded verified resume facts and `validate_incremental_governed_entry` for an exact existing EXECUTION_INSTRUCTION plus genuine PRE. First verification uses the accepted native resolver, envelope/completion contracts, mutation entry and live bound GitHub remote. Reuse is process-local, DERIVED and REBUILDABLE; persisted JSON is never accepted as proof. The exact repository root/ID, HEAD, index, actual candidate bytes, CONTROL/STATE, relevant scope, extension/navigation sources, validator source and named evidence must match. Stale supplied proof fails closed; explicitly call fresh native verification to rebuild it. Changed running validator code requires a fresh process.
+
+Executable entry always performs live remote identity and head verification, including reuse. `reference_verified_evidence` returns an immutable locator for committed unchanged named evidence; it grants no PASS or completion decision. Record local validation evidence once per exact relevant input and reuse its reference only while those inputs remain unchanged. Keep focused affected safety checks, real acceptance and independent POST; release still requires one full suite.
+
+`build_state_sync_finalization` generates a STATE candidate only after exact-W independent POST and live verified W. It does not write STATE or complete a Work Unit. Apply explicit authorized closure to the same Work Unit, validate the resulting metadata bundle, publish P with a normal push, then call `verify_work_publication` for actual remote P and preserved W/P boundaries. Low-risk correction planning is advice for already owned docs/named evidence; candidate changes still invalidate proof and require native verification. There is no Stage 3 authority.

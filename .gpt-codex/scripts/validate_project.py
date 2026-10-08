@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse, json, os, subprocess, sys, uuid
 from collections.abc import Mapping
 from pathlib import Path
+from dataclasses import make_dataclass
 import re
 from typing import Any
 
@@ -1431,6 +1432,81 @@ def validate_governed_mutation_entry(
                 authoritative_review_context=authoritative_review_context, repository_root=repository_root,
             ))
     return list(dict.fromkeys(errors))
+
+
+# Concrete field types also support the existing importlib-based native loaders,
+# which intentionally do not register their temporary modules in sys.modules.
+ReusableAuthorityAttestation = make_dataclass(
+    'ReusableAuthorityAttestation',
+    [('snapshot', object), ('bindings', bytes), ('instruction_bytes', bytes), ('_seal', object)],
+    frozen=True,
+)
+
+
+_ATTESTATION_SEAL = object()
+
+
+def validate_incremental_governed_entry(
+    root: Path, selected_repository_id: str, *, instruction_locator: Mapping[str, str],
+    review_request_path: str, review_result_path: str, evidence_paths: tuple[str, ...] = (),
+    attestation: ReusableAuthorityAttestation | None = None,
+) -> dict[str, Any]:
+    """Reuse only an exact native entry outcome; every executable call checks live remote.
+
+    A stale supplied proof raises instead of silently succeeding or auto-rebuilding.
+    Call again without it for explicit native revalidation. FIX/reconciliation keep
+    their existing dedicated entry until their complete durable inputs are bound.
+    """
+    from continuity_resume import capture_authority_snapshot, reuse_authority_snapshot, _bounded_paths
+    from instruction_envelope import resolve_durable_instruction, canonical_instruction_bytes
+    from git_continuity import observe_bound_remote
+    root = Path(root).resolve()
+    paths = _bounded_paths((review_request_path, review_result_path, *evidence_paths))
+    bindings = canonical_instruction_bytes({'repository_id': selected_repository_id,
+        'instruction_locator': dict(instruction_locator), 'review_request_path': review_request_path,
+        'review_result_path': review_result_path, 'evidence_paths': sorted(evidence_paths)})
+    if attestation is not None:
+        if (not isinstance(attestation, ReusableAuthorityAttestation) or attestation._seal is not _ATTESTATION_SEAL
+                or attestation.bindings != bindings):
+            raise ValueError('STALE_AUTHORITY:ATTESTATION_BINDING_MISMATCH')
+        instruction = json.loads(attestation.instruction_bytes)
+        snapshot = attestation.snapshot
+        resume = reuse_authority_snapshot(root, selected_repository_id, snapshot,
+            scope_paths=instruction['scope_paths'], evidence_paths=paths)
+    else:
+        # The immutable Instruction is resolved by the current accepted native code.
+        control = json.loads((root / '.gpt-codex/CONTROL.json').read_text(encoding='utf-8'))
+        state = json.loads((root / '.gpt-codex/STATE.json').read_text(encoding='utf-8'))
+        resolved = resolve_durable_instruction(root, instruction_locator, control['github']['repository_full_name'],
+                                              current_state_revision=state['revision'])
+        if resolved.get('status') != 'INSTRUCTION_RESOLVED' or resolved.get('repository_id') != selected_repository_id:
+            raise ValueError('RECONCILIATION_REQUIRED')
+        instruction = resolved['envelope']
+        if instruction.get('instruction_type') != 'EXECUTION_INSTRUCTION':
+            raise ValueError('INCREMENTAL_ENTRY_USE_EXISTING_LIFECYCLE')
+        snapshot = capture_authority_snapshot(root, selected_repository_id,
+            scope_paths=instruction['scope_paths'], evidence_paths=paths)
+        resume = reuse_authority_snapshot(root, selected_repository_id, snapshot,
+            scope_paths=instruction['scope_paths'], evidence_paths=paths)
+        request = json.loads((root / review_request_path).read_text(encoding='utf-8'))
+        result = json.loads((root / review_result_path).read_text(encoding='utf-8'))
+        errors = validate_instruction_envelope_contract(request) + validate_result_envelope_contract(result)
+        errors += validate_result_protocol(result) + validate_completion_evidence(result)
+        errors += validate_governed_mutation_entry(resume['control'], resume['state'], resolved['work_unit'],
+            instruction, request, result, current_state_revision=resume['state']['revision'], repository_root=root)
+        if errors:
+            return {'errors': errors, 'attestation': None, 'reused': False}
+    observed = observe_bound_remote(root, resume['control'], instruction['expected_remote_ref'])
+    if (observed['repository_id'] != selected_repository_id
+            or observed['repository'] != instruction['target_github_repository_full_name']):
+        raise ValueError('GITHUB_REPOSITORY_MISMATCH')
+    if observed['remote_head_sha'] != instruction['expected_remote_head_sha']:
+        raise ValueError('REMOTE_HEAD_MISMATCH')
+    reuse_authority_snapshot(root, selected_repository_id, snapshot,
+        scope_paths=instruction['scope_paths'], evidence_paths=paths)
+    proof = attestation or ReusableAuthorityAttestation(snapshot, bindings, canonical_instruction_bytes(instruction), _ATTESTATION_SEAL)
+    return {'errors': [], 'attestation': proof, 'reused': attestation is not None,
+            'authority': 'DERIVED_REBUILDABLE_NATIVE_ATTESTATION', 'remote_observation': observed}
 
 
 def validate_lightweight_management_transaction(
