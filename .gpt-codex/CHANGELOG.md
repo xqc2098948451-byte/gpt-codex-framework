@@ -1,5 +1,12 @@
 # GPT–Codex Framework Changelog
 
+## v2.11.0 — Machine-first Context / Recovery Routing
+
+- Extend existing bounded resume with deterministic Framework management / Consumer / Unbound classification, a compact read plan and matching human handoff. Default history/program loads are zero; explicit task references remain bounded and identity-checked.
+- Add an immutable derived RECOVERY_INDEX targeting existing continuity, identity, review/FIX, reconciliation and bootstrap gates. Ambiguity fails closed; no routing output authorizes mutation or replaces repository durable authority.
+- Preserve Stage 1 native workflow and Stage 2 process-local authority reuse with context/routing marker invalidation. Verify real Consumer and fresh GitHub Unbound paths, controlled unsafe scenarios, truthful before/after metrics and independent PRE/POST.
+- No second registry, database, daemon, Connector, broad capability deletion or Stage 4 work.
+
 ## v2.10.0 — Incremental Governance Verification / Authority Reuse
 
 - Add bounded native resume snapshots and reusable exact-Instruction authority attestation. Derived process-local proofs invalidate on relevant candidate, SHA, revision, scope or evidence changes; executable live remote checks remain required.
@@ -14,16 +21,26 @@
 - Make focused affected checks and real Consumer reproduction the first validation path, preserve touched fail-closed boundaries and independent review, and run the full release suite once.
 - Acceptance and publication facts are retained in Stage1 evidence. Stage2, Connector automation and a second authority/store are excluded.
 
-## v2.8.0
-
-- Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.
-- Hardens Work Unit scope and directory-creation declarations, actual Git directory checks, and the independent review/mutation entry contract.
-- Unifies current release-version validation across source, release archive, and publication preflight while retaining metadata-only historical release records and the consumer projection boundary.
-- Records the completed repository and local-workspace consolidation and documentation canonicalization; current architecture/decisions/navigation are separated from development history with durable closure evidence.
-- Records the post-canonicalization repository structure freeze and the STATE35 release-preparation gate; the frozen runtime, schemas, tests, plugin files, and canonical documentation remain unchanged by this release preparation.
-- The management repository contains the native plugin governance adapter and package (plugin version 0.1.0). They remain outside the consumer bootstrap; P41 Plugin Public Release = DEFERRED_BY_USER. Plugin public release and post-release synchronization are not complete and have not started in this preparation.
-- KERNEL_VERSION remains 2.0.0; SCHEMA_VERSION remains 1. This preparation does not create a tag, GitHub Release, asset upload, or STATE transition.
-
+## v2.8.0
+
+
+
+- Carries the frozen governance and continuity/handoff contract evolution: repository-derived durable Instruction/Result binding, bounded plugin handoff views, legacy Result-ID compatibility, and durable Result classification with Evidence/publication validation preserved.
+
+- Hardens Work Unit scope and directory-creation declarations, actual Git directory checks, and the independent review/mutation entry contract.
+
+- Unifies current release-version validation across source, release archive, and publication preflight while retaining metadata-only historical release records and the consumer projection boundary.
+
+- Records the completed repository and local-workspace consolidation and documentation canonicalization; current architecture/decisions/navigation are separated from development history with durable closure evidence.
+
+- Records the post-canonicalization repository structure freeze and the STATE35 release-preparation gate; the frozen runtime, schemas, tests, plugin files, and canonical documentation remain unchanged by this release preparation.
+
+- The management repository contains the native plugin governance adapter and package (plugin version 0.1.0). They remain outside the consumer bootstrap; P41 Plugin Public Release = DEFERRED_BY_USER. Plugin public release and post-release synchronization are not complete and have not started in this preparation.
+
+- KERNEL_VERSION remains 2.0.0; SCHEMA_VERSION remains 1. This preparation does not create a tag, GitHub Release, asset upload, or STATE transition.
+
+
+
 ## v2.7.4
 
 - Prepares the minimum release-source candidate with the accepted C8 feedback and clean-room validation connection.

@@ -1,4 +1,4 @@
-# GPT–Codex Framework v2.10.0
+# GPT–Codex Framework v2.11.0
 
 v2.0 is a **minimal Kernel + curated Built-ins + project extensions + evidence-based Harvest** framework.
 
@@ -211,4 +211,13 @@ Count review gates, newly required governance artifacts, human-mediated dispatch
 
 The existing native scripts offer `capture_authority_snapshot`, `reuse_authority_snapshot`, `reference_verified_evidence`, `validate_incremental_governed_entry`, `build_state_sync_finalization`, `verify_work_publication` and `plan_low_risk_correction`. Snapshots/attestations are immutable process-local derived objects. Supply the exact immutable EXEC Instruction locator, canonical PRE request/result paths and named evidence; no implicit active-Work-Unit discovery is used. An unchanged attestation avoids repeated authority parsing and native validation while still checking candidate freshness and live remote identity/head. A changed input rejects the old proof; re-enter without it to perform fresh native validation. FIX and reconciliation continue through their existing complete lifecycle entry.
 
-Evidence reuse returns immutable references, not a copied authority store. W/P finalization builds a candidate only after independent POST and real remote W; explicit closure and actual remote P verification are separate steps. The real `price-action-learning` acceptance branch records successful reuse and invalidation, unchanged business regression, truthful measured counts and retained remote checks. No daemon, generic cache, Connector, or Stage 3 behavior is added.
+Evidence reuse returns immutable references, not a copied authority store. W/P finalization builds a candidate only after independent POST and real remote W; explicit closure and actual remote P verification are separate steps. The real `price-action-learning` acceptance branch records successful reuse and invalidation, unchanged business regression, truthful measured counts and retained remote checks. That Stage 2 release added no daemon, generic cache or Connector.
+
+
+### Machine-first bounded context (v2.11.0)
+
+The existing `continuity_resume.py` now offers a read-only CLI and `route_project_context`. It derives Framework management / Consumer / Unbound modes from native identity and the actual Git root, verifies live bound remote identity and W/P continuity, and returns one deterministic route, minimal read plan and matching human handoff. NORMAL_BOUND enters existing Core gates; all routes report `mutation_authorized: false`.
+
+Normal resume excludes HISTORY_CONTEXT and PROGRAM_CONTEXT before reading their bytes. Pass only exact task-needed references with `--task-context-ref`, `--program-context-ref` or `--history-context-ref`; Consumer cannot select management-only context. `RECOVERY_INDEX` maps known problems to existing gates and carries no independent facts or authority. Findings require the exact committed STATE-owned Result; unresolved or conflicting identities fail closed. Unbound routing returns the existing read-only bootstrap challenge and preserves phase-two business hard-stop without enrolling a project.
+
+Real GitHub-bound Consumer and fresh Unbound paths, controlled stale/finding/reconciliation fixtures, bounded history-growth measurements and genuine independent reviews are recorded in Stage 3 evidence. Historical counters unavailable before this work are NOT_OBSERVABLE. Stage 1 builders and Stage 2 process-local proof reuse remain valid; changed context/routing markers invalidate old proof. No registry, database, daemon, Connector or Stage 4 feature is added.

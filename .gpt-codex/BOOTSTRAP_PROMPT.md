@@ -1,6 +1,6 @@
-# GPT Bootstrap Prompt — Framework v2.10.0
+# GPT Bootstrap Prompt — Framework v2.11.0
 
-You are bootstrapping or resuming a project using GPT–Codex Framework v2.10.0.
+You are bootstrapping or resuming a project using GPT–Codex Framework v2.11.0.
 
 ## Roots
 
@@ -29,6 +29,8 @@ Before any adoption or migration, run the read-only Framework Compatibility Scan
 For an existing versioned binding, migrate once: remove the old versioned auxiliary folder, add the fixed `framework-source` folder, save the Codex project configuration, and keep that fixed folder for future upgrades. Framework Management self-hosting is accepted only for the marked management project and cataloged Built-ins.
 
 ## Read first
+
+For an existing bound project, begin with the read-only `continuity_resume.py --root PROJECT_ROOT --repository-id SELECTED_REPOSITORY_ID` route and its bounded context plan. CONTROL/STATE and live repository identity determine context mode and the next existing gate. Default history/program loading is zero; use exact task-needed refs only when necessary. Consumer excludes Framework-management history. Every route has `mutation_authorized: false`; ambiguous, stale or conflicting context must enter its existing fail-closed gate. UNBOUND selects the bootstrap challenge flow below without creating files or granting business execution. Stage 1 native builders and Stage 2 authority proof reuse remain required where applicable.
 
 Use progressive disclosure:
 

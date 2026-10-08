@@ -1,4 +1,4 @@
-# AGENTS.md — GPT–Codex Framework v2.10.0
+# AGENTS.md — GPT–Codex Framework v2.11.0
 
 This repository is the **universal framework root**, not a business-project root.
 
@@ -147,4 +147,14 @@ Use `capture_authority_snapshot` / `reuse_authority_snapshot` for bounded verifi
 
 Executable entry always performs live remote identity and head verification, including reuse. `reference_verified_evidence` returns an immutable locator for committed unchanged named evidence; it grants no PASS or completion decision. Record local validation evidence once per exact relevant input and reuse its reference only while those inputs remain unchanged. Keep focused affected safety checks, real acceptance and independent POST; release still requires one full suite.
 
-`build_state_sync_finalization` generates a STATE candidate only after exact-W independent POST and live verified W. It does not write STATE or complete a Work Unit. Apply explicit authorized closure to the same Work Unit, validate the resulting metadata bundle, publish P with a normal push, then call `verify_work_publication` for actual remote P and preserved W/P boundaries. Low-risk correction planning is advice for already owned docs/named evidence; candidate changes still invalidate proof and require native verification. There is no Stage 3 authority.
+`build_state_sync_finalization` generates a STATE candidate only after exact-W independent POST and live verified W. It does not write STATE or complete a Work Unit. Apply explicit authorized closure to the same Work Unit, validate the resulting metadata bundle, publish P with a normal push, then call `verify_work_publication` for actual remote P and preserved W/P boundaries. Low-risk correction planning is advice for already owned docs/named evidence; candidate changes still invalidate proof and require native verification. Stage 2 reuse alone grants no permission to enter a later stage.
+
+### Stage 3 machine-first context and recovery routing
+
+Start a bounded read-only resume with `python FRAMEWORK_ROOT/.gpt-codex/scripts/continuity_resume.py --root PROJECT_ROOT --repository-id SELECTED_REPOSITORY_ID`. For bound projects, use the selected numeric GitHub identity; optional expected context ID/revision must agree with durable CONTROL/STATE. Framework management, Consumer and Unbound modes are derived from the actual Git root and native authority, never folder names or chat memory. A nested or ambiguous root, identity conflict, stale STATE/remote, partial governance or unresolved recovery evidence fails closed.
+
+Normal resume loads CORE and referenced TASK context. HISTORY_CONTEXT and PROGRAM_CONTEXT are excluded by default; load an exact task-needed reference only through `--history-context-ref`, `--program-context-ref` or `--task-context-ref`. Consumer never loads Framework-management context. The compact `context_plan` and `human_handoff` describe the same selected route and next existing gate. No route authorizes mutation: NORMAL_BOUND still enters Core lifecycle/Instruction/PRE gates.
+
+`RECOVERY_INDEX` is an immutable derived mapping to existing gates, not a project registry, memory store or new authority. STALE_STATE_OR_REMOTE requires existing live continuity verification, IDENTITY_MISMATCH hard-stops, REVIEW_FINDING reads only the exact STATE-owned committed Result and returns to GPT/User decision before the existing FIX chain, and RECONCILIATION_REQUIRED uses the existing reconciliation gate. UNBOUND returns the read-only bootstrap challenge gate; existing phase-two identity verification and business hard-stop remain mandatory. No project file is created by routing.
+
+Retain Stage 1 native builders and Stage 2 process-local authority reuse. Context/checkpoint/routing or named evidence markers participate in existing candidate fingerprints; changed markers reject stale supplied proof and require fresh native verification. Use exact owned scope, focused safety tests, real Consumer/Unbound acceptance and independent PRE/POST. Stage 4 remains unauthorized.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "archive_policy": "METADATA_ONLY",
-  "latest_recorded_version": "2.10.0",
+  "latest_recorded_version": "2.11.0",
   "releases": [
     {
       "version": "1.0",
@@ -219,6 +219,14 @@
       "artifact": "gpt-codex-framework-v2.10.0-bootstrap.zip",
       "record": "records/v2.10.0.json",
       "artifact_sha256": "24bb1276d801d98759f09fe7649b1be6877cda8fca45b23749a44ef0ea9d5721",
+      "archive_policy": "METADATA_ONLY",
+      "record_status": "FRAMEWORK_RELEASE"
+    },
+    {
+      "version": "2.11.0",
+      "artifact": "gpt-codex-framework-v2.11.0-bootstrap.zip",
+      "record": "records/v2.11.0.json",
+      "artifact_sha256": "587edabc1e783e5da060cd28b264e977aba5acc664d0d393ff902286557386bf",
       "archive_policy": "METADATA_ONLY",
       "record_status": "FRAMEWORK_RELEASE"
     }
