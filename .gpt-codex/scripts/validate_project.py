@@ -1093,6 +1093,8 @@ def validate_review_lifecycle(
                     or re_review_request.get("target_work_unit_ref") != instruction.get("target_work_unit_ref")
                     or re_review_request.get("scope_paths") != instruction.get("scope_paths")
                     or re_review_request.get("expected_state_revision") != instruction.get("expected_state_revision")
+                    or any(re_review_request.get(key) != instruction.get(key) for key in
+                           ("in_response_to_result_id", "finding_ids", "fix_round", "remediation_decision_ref"))
                     or re_review_request.get("review_target_revision") != resulting_revision):
                 errors.append("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED")
             else:
@@ -1100,6 +1102,23 @@ def validate_review_lifecycle(
                 response_id = re_review_request.get("instruction_id")
                 if re_review_result.get("fix_round") != instruction.get("fix_round"):
                     errors.append("FIX_ROUND_MISMATCH")
+                if re_review_result.get("finding_ids") not in ([], instruction.get("finding_ids")):
+                    errors.append("FINDING_CORRELATION_REQUIRED")
+                full = bool({"kernel_version", "framework_version", "schema_version", "project_id", "work_unit_id", "completion_evidence"}.intersection(re_review_result))
+                if full:
+                    errors.extend(validate_result_envelope_contract(re_review_result))
+                    errors.extend(validate_completion_evidence(re_review_result))
+                    bindings = {"source_project_name": "target_project_name", "source_project_context_id": "target_project_context_id",
+                                "source_github_repository_id": "target_github_repository_id", "source_github_repository_full_name": "target_github_repository_full_name",
+                                "work_unit_id": "target_work_unit", "state_revision": "expected_state_revision"}
+                    if (re_review_result.get("project_id") != finding_result.get("project_id")
+                            or validate_instruction_envelope_contract(re_review_request)
+                            or re_review_request.get("return_role") != "GPT_ORCHESTRATOR" or re_review_result.get("return_role") != "GPT_ORCHESTRATOR"
+                            or re_review_result.get("current_remote_ref") != re_review_request.get("expected_remote_ref")
+                            or any(re_review_request.get(key) != instruction.get(key) for key in
+                                   ("target_project_name", "target_project_context_id", "target_github_repository_id", "target_github_repository_full_name"))
+                            or any(re_review_result.get(key) != instruction.get(target) for key, target in bindings.items())):
+                        errors.append("RE_REVIEW_IDENTITY_MISMATCH")
         if re_review_result.get("response_to_instruction_id") != response_id:
             errors.append("RE_REVIEW_INSTRUCTION_CORRELATION_REQUIRED")
         if not set(finding_result.get("evidence_refs") or []).issubset(set(re_review_result.get("evidence_refs") or [])):

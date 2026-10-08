@@ -119,7 +119,8 @@ def plan_low_risk_correction(changed_paths: list[str], approved_scope: set[str])
 def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
                                  expected_state_revision: int, result_ref: str,
                                  post_request: Mapping[str, Any] | None,
-                                 post_result: Mapping[str, Any] | None) -> dict[str, Any]:
+                                 post_result: Mapping[str, Any] | None,
+                                 post_request_locator: Mapping[str, Any] | None = None) -> dict[str, Any]:
     """Build, never write, a STATE sync candidate after exact-W independent POST.
 
     Caller must separately authorize/apply closure, persist and validate Result,
@@ -129,12 +130,14 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
     from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
                                   validate_review_result, validate_instruction_authority,
                                   validate_committed_candidate_scope, _resolve_work_unit_at_ref, validate_review_lifecycle, _git_json_at_path)
+    from publication_contract import validate_completion_evidence
     root = Path(root).resolve()
     if not isinstance(post_request, Mapping) or not isinstance(post_result, Mapping):
         raise ValueError('INDEPENDENT_POST_REQUIRED')
     if (validate_instruction_envelope_contract(post_request) or validate_result_envelope_contract(post_result)
-            or validate_review_result(post_result) or post_request.get('instruction_type') != 'REVIEW_REQUEST'
+            or validate_review_result(post_result) or validate_completion_evidence(post_result) or post_request.get('instruction_type') != 'REVIEW_REQUEST'
             or post_request.get('executor_role') != 'CODEX_REVIEWER' or post_result.get('responder_role') != 'CODEX_REVIEWER'
+            or post_request.get('return_role') != 'GPT_ORCHESTRATOR' or post_result.get('return_role') != 'GPT_ORCHESTRATOR'
             or post_result.get('status') != 'PASS' or post_result.get('result_message_type') != 'REVIEW_RESULT'
             or post_result.get('response_to_instruction_id') != post_request.get('instruction_id')
             or post_result.get('review_target_revision') != work_sha or post_request.get('review_target_revision') != work_sha):
@@ -144,6 +147,17 @@ def build_state_sync_finalization(root: Path, *, work_sha: str, remote_ref: str,
     if type(expected_state_revision) is not int or state.get('revision') != expected_state_revision:
         raise ValueError('STALE_STATE_REVISION')
     github = control['github']
+    from continuity_resume import read_immutable_governed_artifact
+    from instruction_envelope import instruction_artifact_relative_path
+    version = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", str(post_request.get("framework_version", "")))
+    current = version is not None and tuple(map(int, version.groups())) >= (2, 13, 0)
+    if post_request_locator is not None:
+        resolved = read_immutable_governed_artifact(root, post_request_locator, github['repository_full_name'])
+        if (resolved.get('status') != 'ALLOW' or resolved.get('record') != dict(post_request)
+                or post_request_locator.get('path') != instruction_artifact_relative_path(post_request.get('instruction_id'))):
+            raise ValueError('STALE_OR_AMBIGUOUS:POST_REQUEST_REFERENCE')
+    elif current:
+        raise ValueError('DURABLE_POST_REQUEST_LOCATOR_REQUIRED')
     for source, target, value in (
         ('source_project_name', 'target_project_name', control['project_name']),
         ('source_project_context_id', 'target_project_context_id', control['project_context_id']),
@@ -222,9 +236,10 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
     if parents != [work_sha]:
         raise ValueError('RECONCILIATION_REQUIRED:PUBLICATION_PARENT_MISMATCH')
     changed = git('diff', '--name-only', work_sha, publication_sha, '--').splitlines()
-    if (not changed or not isinstance(scope_paths, list) or len(scope_paths) != len(set(scope_paths))
+    request_changes = [p for p in changed if re.fullmatch(r'\.gpt-codex/evidence/instructions/[0-9a-f-]{36}\.json', p)]
+    if (len(request_changes) > 1 or not changed or not isinstance(scope_paths, list) or len(scope_paths) != len(set(scope_paths))
             or not set(changed).issubset(scope_paths) or any(not _is_safe_evidence_path(p)
-            or not (p == '.gpt-codex/STATE.json' or re.fullmatch(r'\.gpt-codex/(?:evidence/(?:results/)?|work-units/)[A-Za-z0-9_.-]+\.json', p)) for p in changed)):
+            or not (p in request_changes or p == '.gpt-codex/STATE.json' or re.fullmatch(r'\.gpt-codex/(?:evidence/(?:results/)?|work-units/)[A-Za-z0-9_.-]+\.json', p)) for p in changed)):
         raise ValueError('PUBLICATION_SCOPE_DENIED')
     control = json.loads(git('show', f'{work_sha}:.gpt-codex/CONTROL.json'))
     original = json.loads(git('show', f'{work_sha}:.gpt-codex/STATE.json'))
@@ -239,6 +254,73 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
     result = json.loads(git('show', f'{publication_sha}:{result_ref}'))
     if validate_state_authority(state, {result_ref: result}):
         raise ValueError('RECONCILIATION_REQUIRED:PUBLICATION_RESULT_INVALID')
+    if request_changes:
+        # Only the pre-reserved exact-W POST request may be finalized in P.
+        # EXEC/FIX, foreign requests and all other Instruction changes stay denied.
+        from instruction_envelope import canonical_instruction_bytes, instruction_artifact_relative_path
+        from publication_contract import validate_completion_evidence
+        from validate_project import (validate_instruction_envelope_contract, validate_result_envelope_contract,
+                                      validate_review_result, validate_instruction_authority, validate_review_lifecycle,
+                                      _git_json_at_path, _resolve_work_unit_at_ref)
+        request, post = result.get('post_request'), result.get('independent_post')
+        if not isinstance(request, Mapping) or not isinstance(post, Mapping):
+            raise ValueError('PUBLICATION_SCOPE_DENIED')
+        try:
+            request_path = instruction_artifact_relative_path(request.get('instruction_id'))
+            raw = subprocess.check_output(['git', '-C', str(root), 'show', f'{publication_sha}:{request_path}'])
+            prior = _git_json_at_path(root, work_sha, request_path)
+            execution = _git_json_at_path(root, work_sha, instruction_artifact_relative_path(request.get('in_response_to_instruction_id')))
+            unit = _resolve_work_unit_at_ref(root, request.get('target_work_unit_ref'))
+        except (OSError, ValueError, subprocess.SubprocessError):
+            raise ValueError('PUBLICATION_SCOPE_DENIED')
+        if (request_changes != [request_path] or raw != canonical_instruction_bytes(request)
+                or not isinstance(prior, Mapping) or prior.get('instruction_type') != 'REVIEW_REQUEST'
+                or prior.get('instruction_id') != request.get('instruction_id')
+                or prior.get('in_response_to_instruction_id') != request.get('in_response_to_instruction_id')
+                or not isinstance(execution, Mapping) or execution.get('instruction_type') not in {'EXECUTION_INSTRUCTION', 'FIX_INSTRUCTION'}
+                or validate_instruction_envelope_contract(execution)
+                or not isinstance(unit, Mapping) or unit.get('state') != 'AUTHORIZED'
+                or unit.get('work_unit_id') != result.get('work_unit_id')
+                or unit.get('project_id') != control.get('project_id') or unit.get('basis_state_revision') != original.get('revision')
+                or request.get('target_work_unit') != unit.get('work_unit_id') or execution.get('target_work_unit') != unit.get('work_unit_id')
+                or request.get('instruction_type') != 'REVIEW_REQUEST' or request.get('executor_role') != 'CODEX_REVIEWER'
+                or request.get('return_role') != 'GPT_ORCHESTRATOR' or post.get('return_role') != 'GPT_ORCHESTRATOR'
+                or request.get('target_work_unit_ref') != execution.get('target_work_unit_ref')
+                or request.get('scope_paths') != execution.get('scope_paths')
+                or request.get('expected_base_sha') != work_sha or request.get('expected_remote_head_sha') != work_sha
+                or post.get('project_id') != control.get('project_id') or post.get('work_unit_id') != unit.get('work_unit_id')
+                or post.get('status') != 'PASS' or post.get('result_message_type') != 'REVIEW_RESULT'
+                or post.get('review_target_revision') != work_sha or request.get('review_target_revision') != work_sha
+                or post.get('response_to_instruction_id') != request.get('instruction_id')
+                or validate_instruction_envelope_contract(request) or validate_result_envelope_contract(post)
+                or validate_review_result(post) or validate_completion_evidence(post)
+                or validate_instruction_authority(execution, original['revision'], set(unit['scope']['owned_paths']), set(unit['scope'].get('excluded_paths', [])))
+                or validate_instruction_authority(request, original['revision'], set(unit['scope']['owned_paths']), set(unit['scope'].get('excluded_paths', [])))):
+            raise ValueError('PUBLICATION_SCOPE_DENIED')
+        for source, target, value in (
+                ('source_project_name', 'target_project_name', control['project_name']),
+                ('source_project_context_id', 'target_project_context_id', control['project_context_id']),
+                ('source_github_repository_id', 'target_github_repository_id', control['github']['repository_id']),
+                ('source_github_repository_full_name', 'target_github_repository_full_name', control['github']['repository_full_name']),
+                ('current_remote_ref', 'expected_remote_ref', remote_ref),
+                ('state_revision', 'expected_state_revision', original['revision'])):
+            if post.get(source) != value or request.get(target) != value:
+                raise ValueError('PUBLICATION_SCOPE_DENIED')
+            if target.startswith('target_project_') or target.startswith('target_github_') or target == 'expected_state_revision':
+                if execution.get(target) != value:
+                    raise ValueError('PUBLICATION_SCOPE_DENIED')
+        if execution.get('instruction_type') == 'FIX_INSTRUCTION':
+            records = [_git_json_at_path(root, work_sha, path) for path in original.get('evidence_refs', [])]
+            def unique(key, value):
+                matches = [record for record in records if isinstance(record, Mapping) and record.get(key) == value]
+                return matches[0] if len(matches) == 1 else None
+            finding = unique('result_id', execution.get('in_response_to_result_id'))
+            decision = unique('evidence_id', execution.get('remediation_decision_ref'))
+            bases = {ref: unique('evidence_id', ref) for ref in (decision or {}).get('basis_refs', [])}
+            if not isinstance(finding, Mapping) or validate_review_lifecycle(execution, finding,
+                    current_state_revision=original['revision'], remediation_decision=decision, resolved_basis=bases,
+                    re_review_request=request, re_review_result=post, resulting_revision=work_sha):
+                raise ValueError('PUBLICATION_SCOPE_DENIED')
     for path in changed:
         if path.startswith('.gpt-codex/work-units/'):
             before = json.loads(git('show', f'{work_sha}:{path}'))
@@ -252,6 +334,7 @@ def verify_work_publication(root: Path, *, work_sha: str, publication_sha: str,
                     or authorization.get('implementation_authorized') is not False
                     or authorization.get('implementation_start_allowed') is not False or authorization.get('status') != 'COMPLETE'
                     or closure.get('verified_work_sha') != work_sha or not closure.get('independent_post_result_id')
+                    or (request_changes and closure.get('independent_post_result_id') != result['independent_post'].get('result_id'))
                     or any(before.get(k) != after.get(k) for k in set(before) | set(after) if k not in allowed)):
                 raise ValueError('PUBLICATION_SCOPE_DENIED')
     observed = observe_bound_remote(root, control, remote_ref)

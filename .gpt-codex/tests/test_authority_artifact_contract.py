@@ -135,5 +135,63 @@ class AuthorityArtifactContractTests(unittest.TestCase):
             unit['artifact_refs'] = {key: {'path': 'design.md', 'sha': conflictsha} for key in ('design', 'plan')}
             self.assertEqual(_design_authorized_directory_paths(root, unit, {'semantic': declaration}), set())
 
+from unittest.mock import patch
+from instruction_envelope import canonical_instruction_bytes,build_pre_execution_review_request
+from git_continuity import build_state_sync_finalization,verify_work_publication
+from validate_project import validate_review_lifecycle
+def git(root,*args):return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.DEVNULL).decode().strip()
+def load(path):return json.loads((ROOT/path).read_bytes())
+class BoundaryRegressions(unittest.TestCase):
+ def fixture(self):
+  closed=load('.gpt-codex/evidence/results/RESULT-STAGE4-FRAMEWORK-CLOSURE.json');state=json.loads(subprocess.check_output(['git','-C',str(ROOT),'show','f018563a98e4f637652a1dd1182360d9a93ad9c1:.gpt-codex/STATE.json']));return closed,state,state['continuity']['latest_verified_remote_sha']
+ def clone(self,folder,W):
+  git(ROOT,'clone','--shared','--no-checkout',str(ROOT),str(folder));git(folder,'config','core.autocrlf','false');git(folder,'checkout','--detach',W);git(folder,'remote','set-url','origin',git(ROOT,'remote','get-url','origin'))
+ def test_real_stage4_finalizer_rejects_unfinished_post_completion(self):
+  closed,_,W=self.fixture();req=closed['post_request'];post=closed['independent_post']
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t)/'review';self.clone(root,W)
+   args=dict(work_sha=W,remote_ref='refs/heads/main',expected_state_revision=46,result_ref='.gpt-codex/evidence/results/RESULT-STAGE4-FRAMEWORK-CLOSURE.json',post_request=req)
+   observed={'remote_head_sha':W,'repository_id':'1366213495','repository':'xqc2098948451-byte/gpt-codex-framework','remote_ref':'refs/heads/main'}
+   with patch('git_continuity.observe_bound_remote',return_value=observed):
+    self.assertFalse(build_state_sync_finalization(root,post_result=post,**args)['work_unit_completed'])
+    for change in ({'exit_code':None},{'process_completed':False},{'executed_scope':[]},{'validators_completed':[]}):
+     bad=copy.deepcopy(post);bad['completion_evidence'].update(change)
+     with self.subTest(change=change),self.assertRaises(ValueError):build_state_sync_finalization(root,post_result=bad,**args)
+ def test_real_stage4_request_bound_fix_rejects_foreign_lineage(self):
+  finding=load('.gpt-codex/evidence/results/RESULT-STAGE4-FRAMEWORK-FINDING.json');decision=load('.gpt-codex/evidence/STAGE4-FRAMEWORK-REMEDIATION.json');basis=load('.gpt-codex/evidence/STAGE4-FRAMEWORK-REGRESSION.json')
+  fixes=[load(p.relative_to(ROOT).as_posix()) for p in (ROOT/'.gpt-codex/evidence/instructions').glob('*.json')]
+  fix=next(x for x in fixes if x.get('instruction_type')=='FIX_INSTRUCTION' and x.get('in_response_to_result_id')==finding['result_id'])
+  # Pure bounded lineage fixture uses the original reviewed subject directly;
+  # actual management-bridge and live W/P execution remain Consumer acceptance.
+  fix={**fix,'expected_base_sha':finding['review_target_revision']}
+  req=build_pre_execution_review_request(fix,current_state_revision=46,approved_scope=set(fix['scope_paths']),runtime_fresh_context_verified=True,runtime_input_source_kinds=['REPOSITORY_CONTENT'])
+  post=load('.gpt-codex/evidence/results/RESULT-STAGE4-FRAMEWORK-FIX-RE-REVIEW.json');post={**post,'response_to_instruction_id':req['instruction_id'],'fix_round':fix['fix_round'],'finding_ids':[]};req['review_target_revision']=post['review_target_revision']
+  def validate(r=req,p=post):return validate_review_lifecycle(fix,finding,current_state_revision=46,remediation_decision=decision,resolved_basis={basis['evidence_id']:basis},re_review_request=r,re_review_result=p,resulting_revision=post['review_target_revision'])
+  self.assertEqual(validate(),[])
+  for change in ({'in_response_to_result_id':'00000000-0000-4000-8000-000000000000'},{'fix_round':2},{'finding_ids':['FOREIGN']},{'remediation_decision_ref':'FOREIGN'}):
+   with self.subTest(change=change):self.assertTrue(validate({**req,**change}))
+  self.assertTrue(validate(p={**post,'finding_ids':['FOREIGN']}))
+  for change in ({'target_project_context_id':'foreign-context'},{'target_github_repository_id':'foreign-repository'},{'expected_remote_ref':'refs/heads/foreign'}):
+   with self.subTest(change=change):self.assertTrue(validate({**req,**change}))
+  self.assertTrue(validate(p={**post,'current_remote_ref':'refs/heads/foreign'}))
+ def test_real_stage4_publication_accepts_only_correlated_post_request(self):
+  closed,state,W=self.fixture();scope=closed['publication_authorization']['scope_paths'] if 'publication_authorization' in closed else closed['post_request']['scope_paths'];closed=copy.deepcopy(closed);req=closed['post_request'];foreign=req['instruction_id'];req['instruction_id']='ef5c9407-1cf2-4cd6-93c0-8d7945a1e73c';closed['independent_post']['response_to_instruction_id']=req['instruction_id'];postpath=f".gpt-codex/evidence/instructions/{req['instruction_id']}.json"
+  prior=json.loads(subprocess.check_output(['git','-C',str(ROOT),'show',W+':'+postpath]));self.assertEqual(prior['artifact_stage'],'IMPLEMENTATION');self.assertEqual(prior['in_response_to_instruction_id'],req['in_response_to_instruction_id'])
+  original='f018563a98e4f637652a1dd1182360d9a93ad9c1';paths=git(ROOT,'diff','--name-only',W,original).splitlines()
+  with tempfile.TemporaryDirectory() as t:
+   root=Path(t)/'review';self.clone(root,W)
+   for p in paths:(root/p).write_bytes(subprocess.check_output(['git','-C',str(ROOT),'show',original+':'+p]))
+   closurepath=state['continuity']['last_verified_result_ref'];(root/closurepath).write_bytes(canonical_instruction_bytes(closed))
+   (root/postpath).write_bytes(canonical_instruction_bytes(req));git(root,'add','--',*paths,postpath);git(root,'-c','user.name=ContractTests','-c','user.email=contract@example.invalid','commit','-m','exact request metadata fixture');P=git(root,'rev-parse','HEAD')
+   observed={'remote_head_sha':P,'repository_id':'1366213495','repository':'xqc2098948451-byte/gpt-codex-framework','remote_ref':'refs/heads/main'}
+   with patch('git_continuity.observe_bound_remote',return_value=observed):self.assertEqual(verify_work_publication(root,work_sha=W,publication_sha=P,remote_ref='refs/heads/main',scope_paths=scope)['status'],'PASS')
+   for change in ({'target_work_unit':'foreign-work-unit'},{'return_role':'INFORMATION_ONLY'}):
+    altered=copy.deepcopy(closed);altered['post_request'].update(change)
+    index=Path(t)/('negative-'+next(iter(change))+'.index');env=dict(__import__('os').environ,GIT_INDEX_FILE=str(index));subprocess.check_call(['git','-C',str(root),'read-tree',P],env=env,stdout=subprocess.DEVNULL)
+    for path,record in ((closurepath,altered),(postpath,altered['post_request'])):
+     blob=subprocess.check_output(['git','-C',str(root),'hash-object','-w','--stdin'],input=canonical_instruction_bytes(record)).decode().strip();subprocess.check_call(['git','-C',str(root),'update-index','--add','--cacheinfo',f'100644,{blob},{path}'],env=env,stdout=subprocess.DEVNULL)
+    tree=subprocess.check_output(['git','-C',str(root),'write-tree'],env=env).decode().strip();bad=git(root,'-c','user.name=ContractTests','-c','user.email=contract@example.invalid','commit-tree',tree,'-p',W,'-m','negative publication binding')
+    with self.subTest(change=change),patch('git_continuity.observe_bound_remote',return_value={**observed,'remote_head_sha':bad}),self.assertRaises(ValueError):verify_work_publication(root,work_sha=W,publication_sha=bad,remote_ref='refs/heads/main',scope_paths=scope)
+
 if __name__ == '__main__':
     unittest.main()
