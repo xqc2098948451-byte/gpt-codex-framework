@@ -154,6 +154,8 @@ gate 要求实现者测试和 Reviewer 独立测试都退出 0 且绑定相同�
 
 本试点使用 `gpt-6-astra`、`codex-cli 0.154.0`，同一账号、不同工作目录和逻辑隔离，没有强制 OS 边界。保留 CLI 原有正常认证，不读取或复制凭据文件，不另设账号、ACL、VM，也不迁移 `CODEX_HOME`。本机 `codex exec --help` 已核对以下开关；`--ignore-user-config` 和 `--ignore-rules` 属于 `exec` 参数。[官方 CLI 文档](https://learn.chatgpt.com/docs/developer-commands?surface=cli)说明前者跳过用户配置但继续使用现有认证，`--ephemeral` 不持久化会话文件，`--json` 输出事件。
 
+以下参数对齐用户已授权、已由真实原生会话验证的同账号试点：`-s danger-full-access` 与 `-c approval_policy="never"` 显式选择本次执行和审批模式；关闭 chronicle、multi_agent 并跳过宿主技能发现，与其余禁用记忆及上下文导入的参数共同对齐已测试的上下文加载防护。Implementer 与 Reviewer 仍以不同工作目录和全新会话保持逻辑分离。这些是单次启动参数，不修改系统权限、持久配置或 ACL，也不引入新的权限框架。
+
 启动者在前述原生 Git A/B 目录分别就绪后运行对应片段。A 的外部公开提示词写明 Implementer、六部分需求、授权路径、基线和测试命令；B 的提示词写明 Reviewer、精确候选 SHA、独立检查/测试要求和外部评审输出位置。两份提示词只引用公开任务、Git 和客观证据，不包含其他会话或项目私有上下文。因为 `project_doc_max_bytes=0`，需在各自提示词中明确允许读取的 README、需求和代码路径。
 
 ```powershell
@@ -161,7 +163,11 @@ $codexNative = 'C:/Users/xqc/AppData/Local/Programs/OpenAI/Codex/bin/codex.exe'
 $freshNative = @(
     'exec', '--ignore-user-config', '--ignore-rules', '--ephemeral', '--json',
     '-m', 'gpt-6-astra',
+    '-s', 'danger-full-access', '-c', 'approval_policy="never"',
     '-c', 'project_doc_max_bytes=0',
+    '-c', 'features.chronicle=false',
+    '-c', 'features.multi_agent=false',
+    '-c', 'features.skip_host_skill_discovery=true',
     '-c', 'features.memories=false',
     '-c', 'memories.use_memories=false',
     '-c', 'memories.generate_memories=false',
