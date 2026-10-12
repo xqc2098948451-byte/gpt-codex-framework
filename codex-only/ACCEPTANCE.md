@@ -1,4 +1,6 @@
-# 合成试点验收与 Framework 接入
+# 合成试点验收与 Framework 接入（历史记录）
+
+本文记录先前原型及接入阶段，文中的“本次”、磁盘路径、允许差异和通过结果均属于该历史阶段，不构成本轮清理或发行 ZIP 的验收。本轮已移除的旧资料从固定 Git 历史取得，方法与 ZIP 边界见 [README.md](README.md#收敛候选与最小-zip)。
 
 这是 synthetic / test-only 验收，只涉及合成 Consumer，不代表真实业务规则验收或生产迁移。Framework 接入基线为 `300dfd48167954e1179f821f23157d6a917cd47b`，专用分支为 `refactor/codex-only-pilot-20261012`。本目录接入已有验收原型；本次 Framework 候选的独立 Reviewer 结论须在提交后另外绑定精确 SHA，本文件不预先声明该候选 PASS。
 
@@ -53,7 +55,7 @@ Consumer Reviewer 使用独立目录 `consumer-fault-B2`，独立测试证据为
 | 根 AGENTS | 160 行 | 短入口索引 |
 | 任务授权 | 旧日常人工批准次数未测量 | 本合成任务 1 次，额外内部人工批准 0 次 |
 
-这是日常依赖移除，不是物理删除。旧文件保留在当前树中；被替换的根 AGENTS 原文可从基线 Git 历史取得。没有正式 STATE/VERSION 变更，没有真实 Consumer 迁移。首次接入还需 `init + authorize`、显式原生 Git A/B 目录设置及独立会话启动，不能把操作步骤数混同于批准次数，也不能编造旧/新批准次数对比。
+这是日常依赖移除，不是物理删除。原接入时旧文件保留在当时树中；被替换的根 AGENTS 原文可从基线 Git 历史取得。没有正式 STATE/VERSION 变更，没有真实 Consumer 迁移。首次接入还需 `init + authorize`、显式原生 Git A/B 目录设置及独立会话启动，不能把操作步骤数混同于批准次数，也不能编造旧/新批准次数对比。
 
 ## 本次接入验证与交接
 

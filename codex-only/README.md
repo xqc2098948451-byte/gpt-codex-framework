@@ -213,4 +213,11 @@ if (-not $implSession -or -not $reviewSession -or $implSession -eq $reviewSessio
 
 Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢复的瞬间变化。工作流假设顺序操作，不为并发写入、恶意 hooks、replace refs、损坏仓库或恶意进程提供事务/隔离保证。测试无超时策略；调用者可中断挂起的测试，此时缺失证据必须重跑。初始化中断可能留下未提交身份文件，需检查后手动处理。目标分支基线在任务中固定并逐次核对，但不是不可改写的 Git ref 锁。
 
-不读取私有上下文，不设置账号/ACL，不增加编排角色，不做 push、发布、清理旧资产或独立批准。本次 Framework 候选仅修改根 AGENTS.md 和约定的六个 codex-only 文件；运行工作流生成的项目身份属于用户选定的测试/目标仓库。旧资产继续保留，日常入口不再依赖旧治理流程；不改正式 STATE/VERSION，不迁移真实 Consumer。
+不读取私有上下文，不设置账号/ACL，不增加编排角色，不做 push、发布、清理旧资产或独立批准。原 Framework 接入候选仅修改根 AGENTS.md 和约定的六个 codex-only 文件；运行工作流生成的项目身份属于用户选定的测试/目标仓库。原接入时旧资产继续保留。后续源码收敛候选会把旧管理证据移至 Git 历史；新日常入口不依赖旧治理流程，不迁移真实 Consumer。
+
+
+## 收敛候选与最小 ZIP
+
+本轮源码候选保留兼容性尚未决定的旧 Consumer 导出、公开脚本/插件及必要依赖；这些不是新日常入口。8 文件最小 ZIP 仅面向新 Codex-only 项目，不包含旧 Consumer 运行时、VERSION、历史文档或 Git 数据，不适合作为旧框架的原地升级包。CLI 和 22 个测试保持基线字节及语义。
+
+完整切换前树可在完整仓库中用 `git show 8839ce90f9f541b4b2fe5ac577ebdd0a26f8c194:<path>` 读取；旧根入口与完整旧治理使用 `git show 300dfd48167954e1179f821f23157d6a917cd47b:AGENTS.md`。仓库地址为 `https://github.com/xqc2098948451-byte/gpt-codex-framework`；仅持有 ZIP 时须另取得包含这些提交的完整 Git clone，ZIP 自身无法恢复历史。需要完整旧运行环境时，在独立目录检出对应历史提交，不把旧状态或入口混入新项目。历史原型的验收结果仅见 ACCEPTANCE 的历史说明，本轮测试与独立评审须重新绑定实际候选 SHA。
