@@ -7,4 +7,6 @@
 - 合成试点验收、证据和边界：[codex-only/ACCEPTANCE.md](codex-only/ACCEPTANCE.md)。
 - 用户拥有六部分需求；一次任务授权覆盖范围内的实现、修复和复评，无额外内部人工批准。
 - Implementer 与 Reviewer 使用独立工作目录、全新原生会话；不得向 Reviewer 恢复、派生或导入 Implementer 历史。
-- 旧资产保留；原入口见基线 `300dfd48167954e1179f821f23157d6a917cd47b:AGENTS.md`。本试点不改 `.gpt-codex/`、`VERSION`、`STATE`，不迁移真实 Consumer，不推送、发布或合并 main。
+- **正式日常入口已切换为 Codex-only**；新任务以实际 Git SHA 确认代码版本，使用 `init / authorize / gate / deliver` 管理本任务的授权与交付，不读取旧 `STATE@48` 作为新任务许可。
+- 旧 `.gpt-codex/**`、`VERSION=2.13.0` 及历史 STATE 仅为旧 GPT–Codex 框架的保留资料与回退依据，不是新 Codex-only 的当前版本或权威状态；旧入口见基线 `300dfd48167954e1179f821f23157d6a917cd47b:AGENTS.md`。
+- Issue #19 本地修复、Stage6、历史证据与其他 Consumer 保留，不自动迁移或删除；正式 Release、跨项目变更、危险操作及旧资产清理须另获用户明确授权。README 中的试点高权限启动参数不作为所有项目的默认运行权限。
