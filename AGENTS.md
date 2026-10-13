@@ -2,6 +2,7 @@
 
 默认使用简体中文，依据用户公开需求、Git 候选和实际测试证据工作。
 
+- 首次文件发现前，先按字面路径核对用户授权的精确项目根，再解析该根并确认无越界 symlink/junction；发现命令必须显式绑定同一根和工作目录。未通过检查即拒绝，不执行 `rg --files`、目录枚举或 Git 文件枚举；管理工作区父目录和历史 Consumer 即使只列文件名也不在授权内。启动示例见 [地图用法](codex-only/README.md#project-map)。
 - Map-first：先对当前目标项目运行 `codex-only/project_map.py locate --root <项目根> --module <模块名>`，按地图与 Git 增量只读相关入口、测试和依赖。缺图或过期时按 [地图用法](codex-only/README.md#project-map) 有界补充；地图不是授权或评审证明，写入前必须已有精确地图文件 scope，不对 Framework 自动 init/authorize。
 
 - 日常流程与全新会话启动：[codex-only/README.md](codex-only/README.md)。

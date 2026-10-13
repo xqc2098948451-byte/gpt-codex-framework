@@ -228,6 +228,38 @@ Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢�
 
 独立入口 `project_map.py` 只依赖同目录 `codex_only.py`、Python 标准库和 Git；原七命令不变。每个项目保存 `.codex-only/project-map.json`，身份复用 `.codex-only/project.json` 的 UUID/genesis。地图仅导航，不授权、不证明代码真实性或独立评审通过。
 
+首次发现前，调用者必须先核对用户授权的精确根；不能从管理工作区、盘符根或历史项目父目录探索。先用字面参数拒绝不一致、`..` 和相对路径，再仅对已匹配的根做解析及 symlink/junction 核验；发现命令的 cwd 和显式目标都绑定该根。拒绝发生在 OS 枚举之前，负向测试也只检查参数，不实际探索非法根。只读目录名/文件名同样受此边界约束。
+
+以下 PowerShell 检查应在任何首次 `rg --files`、目录/glob 遍历或 Git 文件枚举之前执行。`$authorizedRoot` 必须来自用户授权，不能根据当前 cwd 推断。后续正常任务直接使用 locate，不重复全量文件发现。
+
+```powershell
+$authorizedRoot = 'D:/demo/implementer' # 用户已授权的精确根
+$requestedRoot = 'D:/demo/implementer'  # 将传给工具的根
+if (-not [IO.Path]::IsPathFullyQualified($requestedRoot) -or
+    ($requestedRoot -split '[/\\]') -contains '..' -or
+    -not [string]::Equals([IO.Path]::GetFullPath($requestedRoot),
+        [IO.Path]::GetFullPath($authorizedRoot), [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'DISCOVERY_ROOT_DENIED' # 尚未调用 OS 解析或枚举
+}
+$checkedRoot = [IO.Path]::GetFullPath($requestedRoot)
+$node = Get-Item -LiteralPath $checkedRoot -Force
+while ($null -ne $node) { # 只核验精确根及其祖先的元数据，不枚举内容
+    if (($node.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+        throw 'DISCOVERY_ROOT_DENIED: symlink/junction'
+    }
+    $node = $node.Parent
+}
+Push-Location -LiteralPath $checkedRoot
+try {
+    # 仅首次有界发现时执行；名单留在工具内，不把完整清单注入模型。
+    $firstNames = & git -C $checkedRoot ls-files --cached --others --exclude-standard
+    if ($LASTEXITCODE -ne 0) { throw 'Git discovery failed' }
+    Write-Output ('Discovered file count: ' + @($firstNames).Count)
+} finally { Pop-Location }
+```
+
+Project Map 的首次 build 自行完成上述 Git 名单发现；不需要先运行示例发现命令再 build。该启动检查约束调用者的根选择；地图写入仍须通过原任务的身份和精确 scope 校验。任何实际越界应保留原事件为 FAIL，新的有界验证不能追认历史执行。
+
 第一次先准备仓库外的 `description.json`。以下是一个模块的完整最小示例；多模块按相同格式加入数组，目录边界不能重叠，`depends_on` 引用模块名。接口和职责由维护者根据实际代码核对，工具不猜测语义。
 
 ```json
