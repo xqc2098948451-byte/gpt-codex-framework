@@ -256,7 +256,7 @@ $mapTool = 'D:/framework/codex-only/project_map.py'
 $root = 'D:/demo/implementer'
 $task = 'D:/demo/public/task.json'
 $description = 'D:/demo/public/description.json'
-& $py -B $mapTool build --root $root --task $task --description $description
+& $py -B $mapTool build --root $root --task $task --description $description --audit 'D:/demo/public/build-audit.json'
 & $py -B $mapTool locate --root $root --module pricing
 & $py -B $mapTool update --root $root --task $task --description $description --module pricing
 ```
@@ -279,7 +279,7 @@ $description = 'D:/demo/public/description.json'
 
 这是结构示意，示例占位值不能直接作为有效地图。anchor 指向建图时已存在的 HEAD，地图本身与身份文件不参与源码快照，不要求地图引用包含自己的提交。随后用 Git 的 committed、staged、working 和 untracked delta，加上上次 dirty 路径核对：dirty 内容提交后不误判；撤销已入图的 dirty 内容会失效。普通 locate 不重新枚举完整已跟踪源码名单、不读无关模块源码；工具内部 Git 查找路径与读取源码是两种指标。
 
-`locate --module` 可重复，输出所选模块和直接依赖的描述，变化的提供者会使传递消费者失效。输出字段 `validity` 只表示相对快照的导航有效性：
+`locate --module` 可重复，输出所选模块和必要依赖闭包的描述（二跳及环均去重），变化的提供者会使传递消费者失效。入口、关键文件、测试和配置的显式引用也参与归属与失效判断，可引用集中目录或其他模块文件；更新时必须包含文件目录所属模块及显式引用模块。输出字段 `validity` 只表示相对快照的导航有效性：
 
 - `MAP_HIT`：所选模块及必要依赖当前可用，继续读取返回的 key/entry/test/config 文件。
 - `MAP_PARTIAL`：相关变化或未知归属，先核对受影响文件、入口和依赖，再 update；错误时也返回非零 `ok:false`，不能当命中。
@@ -290,7 +290,9 @@ update 必须提供经过核对的完整 description，以及所有受影响旧/
 
 地图损坏、身份错配、非法路径、symlink、Git symlink/submodule 和 Windows reparse/junction 会拒绝。锚点不在当前历史时要求明确有界重建；工具不自动覆盖坏地图。先保存现场并在原任务授权范围内人工核对/修复地图；需要全量重基线时必须明确其理由。读取与原子替换之间不提供 OS 并发攻击隔离，运行期间不要由其他进程更换项目路径或内容。未跟踪且被 Git ignore 的输入不在地图覆盖内；有影响的生成配置应显式纳入版本管理。大型项目单 JSON 仍有大小成本，本版本不引入分片系统。
 
-度量：每个命令返回 `metrics.source_reads` 的路径和实际读取字节、文件读取次数、`full_discovery`。此处 source 泛指参与项目快照的文件，包含测试/配置，排除身份、地图、外部描述及工具自身；不包括 Git 内部实现读取量。CLI stdout/stderr UTF-8 文本字节由验收驱动外部记录，不折算 token。`map_acceptance.py --prepare <全新外部目录>` 创建 108 文件四模块项目并保留 `evidence/raw.json`、必要文件 payload、task 和 delivery/scenarios。不要对已有目录重复 prepare。它不是全新原生会话或独立 Reviewer。
+默认所有列表最多输出 20 项，并附同名 `_count` 总数和 `_truncated` 标记，包括模块列表、模块内路径和 `metrics.source_reads`。`changed_paths` 仅列必要范围内的变化；无关变化仅给 `unrelated_changed_paths_count`，未知归属仅给 `unknown_paths_count` 并返回 PARTIAL。无关变化未读源码，数量表示 Git/dirty 候选数，不保证内容已改变。列表截断不影响完整依赖核验；需要剩余导航或复核时，显式传 `--audit <仓库外新JSON文件>`（build/locate/update 均支持，不覆盖已有文件）。成功审计文件保留未截断结果、完整 `metrics.source_reads`、内部 `delta_paths`、命令和根路径；delta_paths 包含未核验的无关候选。
+
+度量：`metrics.source_files` 和 `source_bytes` 始终按实际完整读取轨迹计算，不统计截断后的列表；同时返回 `full_discovery`。此处 source 泛指参与项目快照的文件，包含测试/配置，排除身份、地图、外部描述及工具自身；不包括 Git 内部实现读取量。CLI stdout/stderr UTF-8 文本字节由验收驱动外部记录，不折算 token。`map_acceptance.py --prepare <全新外部目录>` 创建 108 文件四模块项目并保留 `evidence/raw.json`、各成功命令的 `*-audit.json`（初建完整 108 文件读取轨迹）、必要文件 payload、task 和 delivery/scenarios。不要对已有目录重复 prepare。它不是全新原生会话或独立 Reviewer。
 
 ```powershell
 & $py -B 'D:/framework/codex-only/tests/map_acceptance.py' --prepare 'D:/demo/new-map-trial'

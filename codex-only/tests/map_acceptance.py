@@ -78,7 +78,8 @@ def prepare(base):
         return rec.run(action, [sys.executable, '-B', BASE / 'codex_only.py', action, '--root', root, *args], expected)
 
     def maprun(label, action, modules=(), expected=0):
-        argv = [sys.executable, '-B', BASE / 'project_map.py', action, '--root', scenario]
+        argv = [sys.executable, '-B', BASE / 'project_map.py', action, '--root', scenario,
+                '--audit', rec.output / (label + '-audit.json')]
         if action != 'locate':
             argv += ['--task', task, '--description', desc]
         for m in modules:
@@ -111,13 +112,37 @@ def prepare(base):
         '--scope', 'pricing/api.py', '--test-command-json',
         json.dumps([sys.executable, '-B', str(Path(__file__).resolve()), '--verify-root', '{root}']), '--task-id', 'issue28-synthetic')
     git(delivery, 'worktree', 'add', '-b', 'map-scenarios', str(scenario))
-    maprun('initial-build', 'build')
+    initial = maprun('initial-build', 'build')
+    assert initial['metrics']['source_files'] == 108
+    assert initial['metrics']['source_reads_truncated']
+    assert len(json.loads((rec.output / 'initial-build-audit.json').read_text(encoding='utf-8'))['metrics']['source_reads']) == 108
     maprun('subsequent-pricing-locate', 'locate', ['pricing'])
     rec.inject('subsequent-pricing', scenario, ['pricing/api.py', 'pricing/test_api.py', 'pricing/settings.json', 'shared/api.py'])
-    (scenario / 'catalog/part_00.py').write_text('VALUE = 2\n', encoding='utf-8')
+    for i in range(24):
+        (scenario / f'catalog/part_{i:02}.py').write_text('VALUE = 2\n', encoding='utf-8')
     result = maprun('unrelated-change', 'locate', ['pricing'])
     assert result['state'] == 'MAP_HIT' and result['metrics']['source_files'] == 0
-    git(scenario, 'restore', 'catalog/part_00.py')
+    assert result['changed_paths'] == [] and result['unrelated_changed_paths_count'] == 24
+    git(scenario, 'restore', 'catalog')
+    modules[0]['configuration'] = ['catalog/settings.json']
+    desc.write_text(json.dumps(description), encoding='utf-8')
+    maprun('cross-config-update', 'update', ['pricing'])
+    (scenario / 'catalog/settings.json').unlink()
+    assert maprun('cross-config-deleted', 'locate', ['pricing'])['state'] == 'MAP_PARTIAL'
+    maprun('cross-config-dangling-rejected', 'update', ['pricing', 'catalog'], expected=1)
+    git(scenario, 'restore', 'catalog/settings.json')
+    modules[0]['configuration'] = ['pricing/settings.json']
+    modules[0]['depends_on'] = ['catalog']
+    (scenario / 'shared/api.py').write_text('VALUE = 3\n', encoding='utf-8')
+    desc.write_text(json.dumps(description), encoding='utf-8')
+    maprun('multihop-update', 'update', ['pricing', 'shared'])
+    result = maprun('multihop-dirty-hit', 'locate', ['pricing'])
+    assert result['state'] == 'MAP_HIT' and result['metrics']['source_files'] == 1
+    git(scenario, 'restore', 'shared/api.py')
+    assert maprun('multihop-reverted', 'locate', ['pricing'])['state'] == 'MAP_PARTIAL'
+    modules[0]['depends_on'] = ['shared']
+    desc.write_text(json.dumps(description), encoding='utf-8')
+    maprun('multihop-restore-update', 'update', ['pricing', 'shared'])
     (scenario / 'pricing/api.py').write_text('VALUE = 2\n', encoding='utf-8')
     assert maprun('related-change', 'locate', ['pricing'])['state'] == 'MAP_PARTIAL'
     maprun('related-update', 'update', ['pricing'])

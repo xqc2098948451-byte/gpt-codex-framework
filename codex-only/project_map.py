@@ -9,6 +9,22 @@ import codex_only as core
 
 MAP = '.codex-only/project-map.json'
 FIELDS = ('entry_points', 'key_files', 'tests', 'configuration')
+DETAIL_LIMIT = 20
+
+
+def bounded(value):
+    """Cap every emitted list, retaining exact totals before truncation."""
+    if not isinstance(value, dict):
+        return value
+    result = {}
+    for key, item in value.items():
+        if isinstance(item, list):
+            result[key] = [bounded(x) for x in item[:DETAIL_LIMIT]]
+            result[key + '_count'] = len(item)
+            result[key + '_truncated'] = len(item) > DETAIL_LIMIT
+        else:
+            result[key] = bounded(item)
+    return result
 
 
 def safe(root, name):
@@ -76,7 +92,8 @@ def description(root, value):
 
 
 def owners(modules, path):
-    return {n for n, m in modules.items() if any(path == p or path.startswith(p + '/') for p in m['paths'])}
+    return {n for n, m in modules.items() if any(path == p or path.startswith(p + '/') for p in m['paths'])
+            or any(path in m[field] for field in FIELDS)}
 
 
 def delta(root, anchor):
@@ -141,8 +158,12 @@ def run(args, metrics):
     before = description(root, old) if old else {}
     selected = set(args.module or []) & before.keys()
     related = set(selected)
-    for n in selected:
-        related.update(before[n]['depends_on'])
+    pending = list(selected)
+    while pending:
+        for dependency in before[pending.pop()]['depends_on']:
+            if dependency not in related:
+                related.add(dependency)
+                pending.append(dependency)
     changed = {}
     if old:
         for p in sorted(delta(root, old['anchor']) | set(old['dirty_paths'])):
@@ -155,6 +176,7 @@ def run(args, metrics):
                 changed[p] = h
     affected = set().union(*(owners(before, p) for p in changed)) if changed else set()
     unknown = [p for p in changed if not owners(before, p)]
+    metrics['_delta_paths'] = sorted(changed)
     if args.command == 'locate':
         # Changed providers invalidate their consumers, including transitive consumers.
         stale = set(affected)
@@ -165,10 +187,12 @@ def run(args, metrics):
             stale.update(extra)
         state = 'MAP_MISS' if len(selected) != len(args.module or []) or not selected else (
             'MAP_PARTIAL' if related & stale or unknown else 'MAP_HIT')
+        relevant = sorted(p for p in changed if owners(before, p) & related)
         result = dict(state=state, architecture=old['architecture'], anchor=old['anchor'],
                       modules=[dict(before[n], validity='STALE' if n in stale or unknown else 'CURRENT') for n in sorted(related)],
-                      affected_modules=sorted(stale), unknown_paths=unknown,
-                      changed_paths=sorted(changed), next='Read selected key/entry/test/config files' if state == 'MAP_HIT' else 'Bound discovery and update reviewed module descriptions')
+                      affected_modules=sorted(stale & related), unknown_paths_count=len(unknown),
+                      unrelated_changed_paths_count=len(changed) - len(relevant) - len(unknown),
+                      changed_paths=relevant, next='Read selected key/entry/test/config files' if state == 'MAP_HIT' else 'Bound discovery and update reviewed module descriptions')
         return result
     supplied = core.read_json(core.external(args.description, root))
     after = description(root, supplied)
@@ -218,10 +242,22 @@ def main(argv=None):
             p = sub.add_parser(name)
             p.add_argument('--root', required=True)
             p.add_argument('--module', action='append')
+            p.add_argument('--audit', help='New external JSON file for complete reads and delta paths')
             if name != 'locate':
                 p.add_argument('--task', required=True)
                 p.add_argument('--description', required=True)
-        result = dict(ok=True, **run(parser.parse_args(argv), metrics))
+        args = parser.parse_args(argv)
+        audit = core.external(args.audit, core.root_path(args.root)) if args.audit else None
+        if audit:
+            core.require(not audit.exists(), 'OUTPUT_EXISTS', str(audit))
+        result = dict(ok=True, **run(args, metrics))
+        metrics['source_files'] = len(metrics['source_reads'])
+        metrics['source_bytes'] = sum(x['bytes'] for x in metrics['source_reads'])
+        delta_paths = metrics.pop('_delta_paths', [])
+        if audit:
+            core.write_json(audit, dict(result, metrics=metrics, delta_paths=delta_paths,
+                                       command=args.command, root=str(core.root_path(args.root))))
+            result['audit'] = str(audit)
         code = 0
     except core.Denied as exc:
         result = dict(ok=False, state='MAP_PARTIAL', error=exc.code, detail=exc.detail)
@@ -231,8 +267,9 @@ def main(argv=None):
         code = 1
     metrics['source_files'] = len(metrics['source_reads'])
     metrics['source_bytes'] = sum(x['bytes'] for x in metrics['source_reads'])
+    metrics.pop('_delta_paths', None)
     result['metrics'] = metrics
-    print(json.dumps(result, ensure_ascii=False))
+    print(json.dumps(bounded(result), ensure_ascii=False))
     return code
 
 
