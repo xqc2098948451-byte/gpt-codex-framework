@@ -2,6 +2,8 @@
 
 默认使用简体中文，依据用户公开需求、Git 候选和实际测试证据工作。
 
+- Map-first：先对当前目标项目运行 `codex-only/project_map.py locate --root <项目根> --module <模块名>`，按地图与 Git 增量只读相关入口、测试和依赖。缺图或过期时按 [地图用法](codex-only/README.md#project-map) 有界补充；地图不是授权或评审证明，写入前必须已有精确地图文件 scope，不对 Framework 自动 init/authorize。
+
 - 日常流程与全新会话启动：[codex-only/README.md](codex-only/README.md)。
 - CLI、测试入口与角色约束：[codex-only/AGENTS.md](codex-only/AGENTS.md)。
 - 合成试点验收、证据和边界：[codex-only/ACCEPTANCE.md](codex-only/ACCEPTANCE.md)。

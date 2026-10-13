@@ -223,3 +223,78 @@ Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢�
 本轮源码候选保留兼容性尚未决定的旧 Consumer 导出、公开脚本/插件及必要依赖；这些不是新日常入口。8 文件最小 ZIP 仅面向新 Codex-only 项目，不包含旧 Consumer 运行时、VERSION、历史文档或 Git 数据，不适合作为旧框架的原地升级包。CLI 和 22 个测试保持基线字节及语义。
 
 完整切换前树可在完整仓库中用 `git show 8839ce90f9f541b4b2fe5ac577ebdd0a26f8c194:<path>` 读取；旧根入口与完整旧治理使用 `git show 300dfd48167954e1179f821f23157d6a917cd47b:AGENTS.md`。仓库地址为 `https://github.com/xqc2098948451-byte/gpt-codex-framework`；仅持有 ZIP 时须另取得包含这些提交的完整 Git clone，ZIP 自身无法恢复历史。需要完整旧运行环境时，在独立目录检出对应历史提交，不把旧状态或入口混入新项目。历史原型的验收结果仅见 ACCEPTANCE 的历史说明，本轮测试与独立评审须重新绑定实际候选 SHA。
+
+## Project Map
+
+独立入口 `project_map.py` 只依赖同目录 `codex_only.py`、Python 标准库和 Git；原七命令不变。每个项目保存 `.codex-only/project-map.json`，身份复用 `.codex-only/project.json` 的 UUID/genesis。地图仅导航，不授权、不证明代码真实性或独立评审通过。
+
+第一次先准备仓库外的 `description.json`。以下是一个模块的完整最小示例；多模块按相同格式加入数组，目录边界不能重叠，`depends_on` 引用模块名。接口和职责由维护者根据实际代码核对，工具不猜测语义。
+
+```json
+{
+  "architecture": "Pricing service with explicit module boundaries",
+  "modules": [{
+    "name": "pricing",
+    "responsibility": "Calculate prices and discounts",
+    "paths": ["pricing"],
+    "entry_points": ["pricing/api.py"],
+    "key_files": ["pricing/api.py"],
+    "interfaces": ["quote(request)"],
+    "depends_on": [],
+    "tests": ["pricing/test_api.py"],
+    "configuration": [],
+    "read_when": ["Price or discount behavior changes"]
+  }]
+}
+```
+
+在项目正常 `init` 后、目标分支干净时，按原流程 `authorize`，scope **额外显式包含** `.codex-only/project-map.json` 以及本任务业务文件。任务仍在仓库外。随后在任务工作分支/worktree 建图；不要先写地图再扩大 scope。以下 PowerShell 示例中的路径需替换为已授权的目标项目：
+
+```powershell
+$py = 'C:/Python313/python.exe'
+$mapTool = 'D:/framework/codex-only/project_map.py'
+$root = 'D:/demo/implementer'
+$task = 'D:/demo/public/task.json'
+$description = 'D:/demo/public/description.json'
+& $py -B $mapTool build --root $root --task $task --description $description
+& $py -B $mapTool locate --root $root --module pricing
+& $py -B $mapTool update --root $root --task $task --description $description --module pricing
+```
+
+首次 build 允许一次 Git 文件名单发现，读取所有未忽略文件的字节建立 SHA-256 快照（含测试/配置），要求描述覆盖它们；已有地图拒绝 build。保存示意：
+
+```json
+{
+  "schema_version": 1,
+  "authority": "NAVIGATION_ONLY",
+  "project_id": "existing-project-uuid",
+  "genesis": "full-genesis-sha",
+  "anchor": "full-existing-commit-sha",
+  "architecture": "...",
+  "modules": ["上方完整模块对象"],
+  "dirty_paths": ["pricing/api.py"],
+  "snapshot": {"pricing/api.py": "sha256-of-working-file"}
+}
+```
+
+这是结构示意，示例占位值不能直接作为有效地图。anchor 指向建图时已存在的 HEAD，地图本身与身份文件不参与源码快照，不要求地图引用包含自己的提交。随后用 Git 的 committed、staged、working 和 untracked delta，加上上次 dirty 路径核对：dirty 内容提交后不误判；撤销已入图的 dirty 内容会失效。普通 locate 不重新枚举完整已跟踪源码名单、不读无关模块源码；工具内部 Git 查找路径与读取源码是两种指标。
+
+`locate --module` 可重复，输出所选模块和直接依赖的描述，变化的提供者会使传递消费者失效。输出字段 `validity` 只表示相对快照的导航有效性：
+
+- `MAP_HIT`：所选模块及必要依赖当前可用，继续读取返回的 key/entry/test/config 文件。
+- `MAP_PARTIAL`：相关变化或未知归属，先核对受影响文件、入口和依赖，再 update；错误时也返回非零 `ok:false`，不能当命中。
+- `MAP_MISS`：模块未找到，明确限定新模块范围并补充描述。
+- `MAP_MISSING`：没有地图，需要已授权首次 build。
+
+update 必须提供经过核对的完整 description，以及所有受影响旧/新模块的 `--module`。只哈希 Git delta 中的候选文件，复用其余快照；新增/删除/重命名由路径与字节快照检测。删除/移动后的入口、测试或配置仍被引用会拒绝。拆分/合并须在描述中明确新边界，并同时列出旧/新模块；未知路径没有归属、模块范围不足返回 `MAP_REBUILD_REQUIRED`，不自动全仓重建。更新描述是显式人工/模型语义核对，不能以原描述机械刷新来证明依赖没有变化。
+
+地图损坏、身份错配、非法路径、symlink、Git symlink/submodule 和 Windows reparse/junction 会拒绝。锚点不在当前历史时要求明确有界重建；工具不自动覆盖坏地图。先保存现场并在原任务授权范围内人工核对/修复地图；需要全量重基线时必须明确其理由。读取与原子替换之间不提供 OS 并发攻击隔离，运行期间不要由其他进程更换项目路径或内容。未跟踪且被 Git ignore 的输入不在地图覆盖内；有影响的生成配置应显式纳入版本管理。大型项目单 JSON 仍有大小成本，本版本不引入分片系统。
+
+度量：每个命令返回 `metrics.source_reads` 的路径和实际读取字节、文件读取次数、`full_discovery`。此处 source 泛指参与项目快照的文件，包含测试/配置，排除身份、地图、外部描述及工具自身；不包括 Git 内部实现读取量。CLI stdout/stderr UTF-8 文本字节由验收驱动外部记录，不折算 token。`map_acceptance.py --prepare <全新外部目录>` 创建 108 文件四模块项目并保留 `evidence/raw.json`、必要文件 payload、task 和 delivery/scenarios。不要对已有目录重复 prepare。它不是全新原生会话或独立 Reviewer。
+
+```powershell
+& $py -B 'D:/framework/codex-only/tests/map_acceptance.py' --prepare 'D:/demo/new-map-trial'
+& $py -B 'D:/framework/codex-only/tests/map_acceptance.py' --verify-root 'D:/demo/implementer'
+```
+
+合成 task 的可信测试 argv 指向 prepare 时使用的 acceptance 脚本；A/B 必须通过原 `codex_only.py test` 在各自候选目录、使用各自真实 session ID 执行并保存外部证据。B 的冷启动实际读取和最终 gate/deliver/recover/retry 由后续独立会话执行，prepare 不伪造这些证明。原测试内的评审 JSON 仅为协议夹具。
