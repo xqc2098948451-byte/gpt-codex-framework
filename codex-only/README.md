@@ -207,6 +207,8 @@ if (-not $implSession -or -not $reviewSession -or $implSession -eq $reviewSessio
 
 `A`、`B` 只是目录标签，不是 session ID。启动者在各自 `thread.started` 出现后提取 ID（可在另一终端读取当前角色的事件文件），作为该角色 `test --session` 和评审 `reviewer_session` 的绑定值；不得编造名称代替 ID。上面展示的是启动与提取命令，不是本次 Framework Reviewer 已执行的证明。事件文件留在仓库外，不提交、不嵌入文档、不传给对方。已有原型的真实 ID 见 ACCEPTANCE。
 
+会话证据路径也属于执行前白名单：启动前固定每个角色的 events.jsonl、stderr、result 和 session-id 绝对路径，直接在产出时保存；只从本轮预设事件文件提取 `thread.started.thread_id`，不搜索 `.codex/sessions`、HOME 或历史目录补取 ID。缺失事件或 ID 时报告证据缺口，不扩大文件发现范围。各角色不导入对方私有会话历史；公开复核只提供命令、退出码和必要的身份元数据。
+
 首次项目接入需要 `init`、一次 `authorize`，还需要显式创建 A/B Git 目录和分别启动两次原生会话。七个 CLI 命令不会自动启动这些会话；范围内修复和复评沿用同一任务授权。
 
 ## 边界
