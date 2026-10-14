@@ -45,6 +45,8 @@ Implementer 在 authorize 前逐条对照原文核对并补齐遗漏；只有实
 
 authorize 后不得修改 task 原始字节，也不得修改对应表暗中扩大权限；需求或范围变化须由用户确认，再通过现有 authorize 使用新任务文件，新任务不会自动撤销旧任务。CLI 不自动理解自然语言；公开可写 task 没有防恶意篡改能力，task 字节摘要变化会使旧证据失效，并不提供权限数据库。
 
+对原始字节敏感的验收（如 Project Map）须明确检出和换行策略；Git clean 不代表工作树原始字节与地图快照一致。Windows 冷克隆若要求匹配候选 Git blob 字节，可先 `git clone --no-checkout <源仓库> <独立目录>`，再在该目录执行 `git -c core.autocrlf=false checkout --detach <SHA>`，并由独立会话实际验证地图，不能将 `MAP_PARTIAL` 记为 `MAP_HIT`。合成交付仓库也须采用相同本地换行策略：仅在已授权测试仓库执行 `git config --local core.autocrlf false`，不修改全局或系统配置；框架不自动处理换行一致性。
+
 ## 精确调用示例
 
 以下是 Python 交互窗口或脚本中的调用，避免不同 PowerShell 版本对 JSON 引号的处理差异。路径是示例，需要换成实际路径。CLI 应位于候选工作树或其他可信位置。所有 `run()` 都是真实子进程调用，失败立即抛出异常。
