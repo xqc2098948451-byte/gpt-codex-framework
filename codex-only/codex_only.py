@@ -1,5 +1,6 @@
 """Small, local Git workflow. External review is data, never an implementer role."""
 import argparse
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -10,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import uuid
 
 IDENTITY = '.codex-only/project.json'
@@ -128,7 +130,7 @@ def safe_path(path):
     return path
 
 
-def load_task(path, root):
+def load_task(path, root, allow_revoked=False):
     path = external(path, root)
     task = read_json(path, 'AUTHORIZATION_MISSING')
     required = {'project_id', 'genesis', 'baseline', 'target_branch', 'common_dir',
@@ -150,7 +152,81 @@ def load_task(path, root):
             all(isinstance(x, str) and x and '\x00' not in x for x in task['test_argv']), 'INVALID_TASK')
     completion = external(task['completion_path'], root)
     require(completion != path, 'INVALID_TASK')
-    return task, digest(path)
+    task_digest = digest(path)
+    if not allow_revoked:
+        assert_not_revoked(root, task, task_digest)
+    return task, task_digest
+
+
+def task_control(task):
+    # Task identity survives a byte-for-byte copy to another external path.
+    identity = [task['project_id'], task['genesis'], task['task_id']]
+    key = hashlib.sha256(json.dumps(identity).encode('utf-8')).hexdigest()
+    common = Path(task['common_dir'])
+    require(common.is_absolute() and common.resolve() == common, 'INVALID_TASK')
+    require(common.is_dir(), 'REVOCATION_UNAVAILABLE', str(common))
+    control = common / 'codex-only-revocations'
+    require(control.resolve() == control, 'UNSAFE_PATH', str(control))
+    return control / key
+
+
+def revocation(task, task_digest):
+    path = task_control(task).with_suffix('.json')
+    require(path.resolve() == path, 'UNSAFE_PATH', str(path))
+    if not path.exists():
+        return None
+    record = read_json(path)
+    expected = dict(state='REVOKED', project_id=task['project_id'], genesis=task['genesis'],
+                    task_id=task['task_id'], task_digest=task_digest,
+                    baseline=task['baseline'], target_branch=task['target_branch'],
+                    common_dir=task['common_dir'], completion_path=task['completion_path'])
+    require(all(record.get(k) == v for k, v in expected.items()), 'REVOCATION_MISMATCH')
+    return dict(record=record, path=str(path))
+
+
+def assert_not_revoked(root, task, task_digest):
+    # Verify the calling project's identity before accessing the original project's marker.
+    identity = read_json(root / IDENTITY, 'WRONG_PROJECT')
+    require(identity == dict(project_id=task['project_id'], genesis=task['genesis']), 'WRONG_PROJECT')
+    require(revocation(task, task_digest) is None, 'TASK_REVOKED')
+
+
+@contextmanager
+def task_lock(task):
+    path = task_control(task).with_suffix('.lock')
+    require(path.resolve() == path, 'UNSAFE_PATH', str(path))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # Kernel locks are released when a process exits, including a killed process.
+    with path.open('a+b') as stream:
+        if os.name == 'nt':
+            import msvcrt
+            if stream.seek(0, os.SEEK_END) == 0:
+                stream.write(b'\0')
+                stream.flush()
+            def lock():
+                stream.seek(0)
+                msvcrt.locking(stream.fileno(), msvcrt.LK_NBLCK, 1)
+            def unlock():
+                stream.seek(0)
+                msvcrt.locking(stream.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            def lock():
+                fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            def unlock():
+                fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+        deadline = time.monotonic() + 30
+        while True:
+            try:
+                lock()
+                break
+            except OSError:
+                require(time.monotonic() < deadline, 'TASK_BUSY')
+                time.sleep(0.05)
+        try:
+            yield
+        finally:
+            unlock()
 
 
 def project(root, task, clone=False):
@@ -175,10 +251,12 @@ def target(root, task):
     return gout(root, 'rev-parse', 'refs/heads/' + task['target_branch'])
 
 
-def validate(root, task, candidate, clone=False, delivered=False):
+def validate(root, task, candidate, clone=False, delivered=False, task_digest=None):
     require(isinstance(candidate, str) and re.fullmatch(r'[0-9a-f]{40}|[0-9a-f]{64}', candidate),
             'CANDIDATE_MISMATCH', 'Use a full commit SHA')
     project(root, task, clone)
+    if task_digest is not None:
+        assert_not_revoked(root, task, task_digest)
     require(head(root) == candidate, 'CANDIDATE_MISMATCH')
     require(not dirty(root), 'DIRTY_WORKTREE')
     require(git(root, 'merge-base', '--is-ancestor', task['baseline'], candidate,
@@ -261,7 +339,7 @@ def bindings(task, task_digest, candidate):
 
 
 def test_candidate(root, task, task_digest, args):
-    validate(root, task, args.candidate, clone=True)
+    validate(root, task, args.candidate, clone=True, task_digest=task_digest)
     output = external(args.output, root)
     require(not output.exists(), 'OUTPUT_EXISTS', str(output))
     require(args.session.strip(), 'INVALID_SESSION')
@@ -277,7 +355,7 @@ def test_candidate(root, task, task_digest, args):
         exit_code, stdout, stderr = 127, '', str(exc)
     validation_error = None
     try:
-        validate(root, task, args.candidate, clone=True)
+        validate(root, task, args.candidate, clone=True, task_digest=task_digest)
     except Denied as exc:
         validation_error = exc.code
     evidence = dict(**bindings(task, task_digest, args.candidate), session=args.session,
@@ -305,7 +383,7 @@ def verify_evidence(path, root, task, task_digest, candidate):
 
 
 def gate(root, task, task_digest, args, delivered=False):
-    validate(root, task, args.candidate, delivered=delivered)
+    validate(root, task, args.candidate, delivered=delivered, task_digest=task_digest)
     implementer = verify_evidence(args.test_evidence, root, task, task_digest, args.candidate)
     review = read_json(external(args.review, root), 'REVIEW_MISSING')
     require(all(review.get(k) == v for k, v in bindings(task, task_digest, args.candidate).items()),
@@ -341,6 +419,13 @@ def delivery_marker(root, task, task_digest, candidate):
 
 
 def deliver(root, task, task_digest, args):
+    project(root, task)
+    with task_lock(task):
+        assert_not_revoked(root, task, task_digest)
+        return deliver_locked(root, task, task_digest, args)
+
+
+def deliver_locked(root, task, task_digest, args):
     source = root_path(args.source_root)
     completion = external(task['completion_path'], root)
     previous = read_json(completion) if completion.exists() else None
@@ -371,6 +456,32 @@ def deliver(root, task, task_digest, args):
     return record
 
 
+def revoke(root, task, task_digest):
+    project(root, task)
+    with task_lock(task):
+        current = target(root, task)
+        completion = external(task['completion_path'], root)
+        if completion.exists():
+            completed = read_json(completion)
+            require(completion_matches(completed, task, task_digest, completed.get('candidate')),
+                    'COMPLETION_MISMATCH')
+            raise Denied('ALREADY_DELIVERED', 'Completion proof is preserved; revoke does not undo Git')
+        require(not delivery_marker(root, task, task_digest, current), 'ALREADY_DELIVERED')
+        previous = revocation(task, task_digest)
+        if previous:
+            return dict(state='REVOKED', revocation=previous['path'], task_digest=task_digest)
+        require(current == task['baseline'], 'STALE_BASELINE')
+        path = task_control(task).with_suffix('.json')
+        record = dict(state='REVOKED', project_id=task['project_id'], genesis=task['genesis'],
+                      task_id=task['task_id'], task_digest=task_digest,
+                      baseline=task['baseline'], target_branch=task['target_branch'],
+                      common_dir=task['common_dir'], completion_path=task['completion_path'],
+                      revoked_at=datetime.now(timezone.utc).isoformat())
+        # Atomic replace + fsync publishes the negative fact before lock release/success.
+        write_json(path, record, replace=True)
+        return dict(state='REVOKED', revocation=str(path), task_digest=task_digest)
+
+
 def recover(root, task, task_digest):
     project(root, task)
     current = target(root, task)
@@ -386,6 +497,10 @@ def recover(root, task, task_digest):
         result['state'] = 'DELIVERED' if completion_matches(record, task, task_digest, current) else 'STALE'
     elif current != task['baseline']:
         result['state'] = 'DELIVERED' if delivery_marker(root, task, task_digest, current) else 'STALE'
+    revoked = revocation(task, task_digest)
+    if revoked:
+        require(result['state'] != 'DELIVERED', 'REVOCATION_CONFLICT')
+        result.update(state='REVOKED', worktree_state=result['state'], revocation=revoked['path'])
     return result
 
 
@@ -397,7 +512,7 @@ class Parser(argparse.ArgumentParser):
 def main(argv=None):
     parser = Parser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
-    for name in ('init', 'authorize', 'check', 'test', 'gate', 'deliver', 'recover'):
+    for name in ('init', 'authorize', 'check', 'test', 'gate', 'deliver', 'recover', 'revoke'):
         command = sub.add_parser(name)
         command.add_argument('--root', required=True)
         if name != 'init':
@@ -425,15 +540,17 @@ def main(argv=None):
         elif args.command == 'authorize':
             result = authorize(root, args)
         else:
-            task, task_digest = load_task(args.task, root)
+            task, task_digest = load_task(args.task, root, allow_revoked=args.command in ('recover', 'revoke'))
             if args.command == 'check':
-                result = dict(changed_paths=validate(root, task, args.candidate))
+                result = dict(changed_paths=validate(root, task, args.candidate, task_digest=task_digest))
             elif args.command == 'test':
                 result = test_candidate(root, task, task_digest, args)
             elif args.command == 'gate':
                 result = gate(root, task, task_digest, args)
             elif args.command == 'deliver':
                 result = deliver(root, task, task_digest, args)
+            elif args.command == 'revoke':
+                result = revoke(root, task, task_digest)
             else:
                 result = recover(root, task, task_digest)
         print(json.dumps(dict(ok=True, **result), ensure_ascii=False))

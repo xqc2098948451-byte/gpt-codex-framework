@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 
@@ -55,6 +56,10 @@ class WorkflowTests(unittest.TestCase):
             for item in value if isinstance(value, list) else [value]:
                 argv.extend(['--' + key.replace('_', '-'), str(item)])
         p = subprocess.run(argv, capture_output=True, text=True, encoding='utf-8')
+        if os.environ.get('CODEX_ONLY_TEST_AUDIT'):
+            with Path(os.environ['CODEX_ONLY_TEST_AUDIT']).open('a', encoding='utf-8') as audit:
+                audit.write(json.dumps(dict(argv=argv, exit_code=p.returncode,
+                                            stdout=p.stdout, stderr=p.stderr)) + '\n')
         self.assertEqual(p.returncode == 0, ok, (argv, p.stdout, p.stderr))
         try:
             data = json.loads(p.stdout)
@@ -410,6 +415,268 @@ class WorkflowTests(unittest.TestCase):
         self.cli('test', root=self.impl, task=self.task, candidate=self.sha,
                  session='impl', output=self.ev, ok=False, error='OUTPUT_EXISTS')
         self.assertEqual(self.git(self.impl, 'status', '--porcelain'), '')
+
+    def test_revoke_cross_process_replay_and_old_evidence(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()  # Protocol fixtures, never an actual Reviewer PASS.
+        before = self.task.read_bytes()
+        result = self.cli('revoke', task=self.task)
+        self.assertEqual(result['state'], 'REVOKED')
+        marker = Path(result['revocation'])
+        persisted = marker.read_bytes()
+        self.cli('revoke', task=self.task)
+        self.assertEqual(marker.read_bytes(), persisted)
+        self.assertEqual(self.task.read_bytes(), before)
+        self.assertEqual(self.cli('recover', task=self.task)['state'], 'REVOKED')
+        copy = self.tmp / 'copied-task.json'
+        copy.write_bytes(before)
+        for task in (self.task, copy):
+            self.cli('check', root=self.impl, task=task, candidate=self.sha,
+                     ok=False, error='TASK_REVOKED')
+            self.cli('test', root=self.impl, task=task, candidate=self.sha,
+                     session='after-revoke', output=self.tmp / 'forbidden.json',
+                     ok=False, error='TASK_REVOKED')
+            self.cli('test', root=self.reviewer, task=task, candidate=self.sha,
+                     session='after-revoke-clone', output=self.tmp / 'clone-forbidden.json',
+                     ok=False, error='TASK_REVOKED')
+            self.cli('gate', root=self.impl, task=task, candidate=self.sha,
+                     test_evidence=self.ev, review=self.review, ok=False, error='TASK_REVOKED')
+            self.cli('deliver', task=task, source_root=self.impl, candidate=self.sha,
+                     test_evidence=self.ev, review=self.review, ok=False, error='TASK_REVOKED')
+        self.unchanged()
+        self.assertFalse((self.tmp / 'forbidden.json').exists())
+        self.assertFalse(Path(self.load(self.task)['completion_path']).exists())
+
+    def test_revoke_binding_corruption_and_wrong_project(self):
+        self.setup_task()
+        self.candidate()
+        other = self.tmp / 'other'
+        other.mkdir()
+        self.git(other, 'init', '-b', 'main')
+        self.cli('init', root=other)
+        self.cli('revoke', root=other, task=self.task, ok=False, error='WRONG_COMMON_DIRECTORY')
+        result = self.cli('revoke', task=self.task)
+        record = self.load(Path(result['revocation']))
+        for field, value in (('project_id', 'wrong'), ('task_digest', 'wrong'),
+                             ('completion_path', str(self.tmp / 'elsewhere.json'))):
+            self.save(Path(result['revocation']), dict(record, **{field: value}))
+            self.cli('check', root=self.impl, task=self.task, candidate=self.sha,
+                     ok=False, error='REVOCATION_MISMATCH')
+        self.save(Path(result['revocation']), record)
+        modified = self.tmp / 'modified-task.json'
+        modified.write_bytes(self.task.read_bytes() + b' ')
+        self.cli('check', root=self.impl, task=modified, candidate=self.sha,
+                 ok=False, error='REVOCATION_MISMATCH')
+        task = self.load(self.task)
+        self.save(modified, dict(task, completion_path=str(self.impl / 'completion.json')))
+        self.cli('check', root=self.impl, task=modified, candidate=self.sha,
+                 ok=False, error='PATH_NOT_EXTERNAL')
+        self.save(modified, dict(task, project_id='wrong'))
+        self.cli('check', root=self.impl, task=modified, candidate=self.sha,
+                 ok=False, error='WRONG_PROJECT')
+        self.unchanged()
+
+    def test_clone_cannot_ignore_unavailable_original_revocation_store(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()
+        self.cli('revoke', task=self.task)
+        metadata = self.repo / '.git'
+        moved = self.tmp / 'unavailable-original-git'
+        # Both exact paths are inside this test's new synthetic root.
+        metadata.rename(moved)
+        try:
+            self.cli('test', root=self.reviewer, task=self.task, candidate=self.sha,
+                     session='offline-clone', output=self.tmp / 'offline-pass.json',
+                     ok=False, error='REVOCATION_UNAVAILABLE')
+            self.assertFalse((self.tmp / 'offline-pass.json').exists())
+        finally:
+            moved.rename(metadata)
+
+    def test_revoke_preserves_delivery_and_crash_recovery(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()
+        self.deliver()
+        completion = Path(self.load(self.task)['completion_path'])
+        original = completion.read_bytes()
+        self.cli('revoke', task=self.task, ok=False, error='ALREADY_DELIVERED')
+        self.assertEqual(completion.read_bytes(), original)
+        self.assertEqual(self.cli('recover', task=self.task)['state'], 'DELIVERED')
+        completion.unlink()
+        self.cli('revoke', task=self.task, ok=False, error='ALREADY_DELIVERED')
+        self.assertEqual(self.cli('recover', task=self.task)['state'], 'DELIVERED')
+        self.deliver()
+        self.deliver()
+        self.assertEqual(completion.read_bytes(), original)
+
+    def test_revoke_stale_and_broken_completion_fail_closed(self):
+        self.setup_task()
+        completion = Path(self.load(self.task)['completion_path'])
+        completion.write_text('{')
+        self.cli('revoke', task=self.task, ok=False, error='INVALID_JSON')
+        completion.unlink()
+        self.git(self.repo, 'commit', '--allow-empty', '-m', 'Unexplained target move')
+        self.cli('revoke', task=self.task, ok=False, error='STALE_BASELINE')
+
+    def test_unrevoked_new_task_still_delivers_after_another_is_revoked(self):
+        self.setup_task()
+        self.candidate()
+        original = self.task
+        self.cli('revoke', task=original)
+        self.task = self.tmp / 'new-task.json'
+        self.cli('authorize', task=self.task, requirements=self.req,
+                 scope=['app.py', 'test_app.py'],
+                 test_command_json=json.dumps([sys.executable, '{root}/test_app.py']),
+                 task_id='new-task')
+        self.evidence()
+        self.gate()
+        self.deliver()
+        self.assertEqual(self.cli('recover', task=self.task)['state'], 'DELIVERED')
+        self.deliver()
+        self.assertEqual(self.cli('recover', task=original)['state'], 'REVOKED')
+        self.cli('check', root=self.impl, task=original, candidate=self.sha,
+                 ok=False, error='TASK_REVOKED')
+
+    def test_revoke_project_map_build_and_update_denied(self):
+        self.cli('init')
+        (self.repo / 'module').mkdir()
+        (self.repo / 'module/api.py').write_text('VALUE = 1\n')
+        self.git(self.repo, 'add', '.')
+        self.git(self.repo, 'commit', '-m', 'Module')
+        self.setup_task(scope=['.codex-only/project-map.json', 'module/api.py'])
+        desc = self.tmp / 'description.json'
+        self.save(desc, dict(architecture='Fixture', modules=[dict(
+            name='module', responsibility='Fixture', paths=['module'],
+            entry_points=['module/api.py'], key_files=['module/api.py'],
+            interfaces=['VALUE'], depends_on=[], tests=[], configuration=[], read_when=['Change'])]))
+        def nav(action, ok):
+            argv = [sys.executable, '-B', str(BASE / 'project_map.py'), action,
+                    '--root', str(self.impl), '--task', str(self.task), '--description', str(desc)]
+            if action == 'update':
+                argv += ['--module', 'module']
+            p = subprocess.run(argv, capture_output=True, encoding='utf-8')
+            self.assertEqual(p.returncode == 0, ok, (p.stdout, p.stderr))
+            if not ok:
+                self.assertEqual(json.loads(p.stdout)['error'], 'TASK_REVOKED')
+        nav('build', True)
+        mapfile = self.impl / '.codex-only/project-map.json'
+        before = mapfile.read_bytes()
+        self.cli('revoke', task=self.task)
+        nav('update', False)
+        self.assertEqual(mapfile.read_bytes(), before)
+        mapfile.unlink()
+        nav('build', False)
+        self.assertFalse(mapfile.exists())
+        self.unchanged()
+
+    def actor(self, command, pause=None):
+        argv = [command, '--root', str(self.repo), '--task', str(self.task)]
+        if command == 'deliver':
+            argv += ['--source-root', str(self.impl), '--candidate', self.sha,
+                     '--test-evidence', str(self.ev), '--review', str(self.review)]
+        ready, release = self.tmp / 'ready', self.tmp / 'release'
+        # Pause the real operation while holding its OS lock; real Git still runs.
+        script = (
+            'import sys,time\nfrom pathlib import Path\n'
+            f'sys.path.insert(0, {str(BASE)!r})\nimport codex_only as m\n'
+            f'mode={pause!r}; ready=Path({str(ready)!r}); release=Path({str(release)!r})\n'
+            'original=m.write_json\n'
+            'def write(path,data,*a,**kw):\n'
+            ' if data.get("state")==mode:\n'
+            '  ready.write_text("locked")\n'
+            '  deadline=time.monotonic()+20\n'
+            '  while not release.exists():\n'
+            '   if time.monotonic()>deadline: raise RuntimeError("Barrier timeout")\n'
+            '   time.sleep(0.02)\n'
+            ' return original(path,data,*a,**kw)\n'
+            'm.write_json=write\n'
+            f'raise SystemExit(m.main({argv!r}))\n')
+        p = subprocess.Popen([sys.executable, '-B', '-c', script],
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
+        self.addCleanup(lambda: p.kill() if p.poll() is None else None)
+        return p
+
+    def wait_barrier(self, process):
+        deadline = time.monotonic() + 20
+        while not (self.tmp / 'ready').exists():
+            self.assertIsNone(process.poll(), 'Actor exited before acquiring the lock')
+            self.assertLess(time.monotonic(), deadline, 'Barrier timeout')
+            time.sleep(0.02)
+
+    def actor_result(self, process, expected_exit):
+        out, err = process.communicate(timeout=30)
+        self.assertEqual(process.returncode, expected_exit, (out, err))
+        return json.loads(out)
+
+    def test_concurrent_revoke_first_blocks_delivery_and_duplicate_revoke(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()
+        revoker = self.actor('revoke', 'REVOKED')
+        self.wait_barrier(revoker)
+        delivery = self.actor('deliver')
+        duplicate = self.actor('revoke')
+        time.sleep(0.25)
+        self.assertIsNone(delivery.poll())
+        self.assertIsNone(duplicate.poll())
+        (self.tmp / 'release').write_text('continue')
+        self.assertEqual(self.actor_result(revoker, 0)['state'], 'REVOKED')
+        self.assertEqual(self.actor_result(delivery, 1)['error'], 'TASK_REVOKED')
+        self.assertEqual(self.actor_result(duplicate, 0)['state'], 'REVOKED')
+        self.unchanged()
+
+    def test_concurrent_delivery_first_refuses_revoke(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()
+        delivery = self.actor('deliver', 'DELIVERED')
+        self.wait_barrier(delivery)  # Actual FF completed, completion not yet written.
+        self.assertEqual(self.git(self.repo, 'rev-parse', 'main'), self.sha)
+        revoker = self.actor('revoke')
+        time.sleep(0.25)
+        self.assertIsNone(revoker.poll())
+        (self.tmp / 'release').write_text('continue')
+        self.assertEqual(self.actor_result(delivery, 0)['state'], 'DELIVERED')
+        self.assertEqual(self.actor_result(revoker, 1)['error'], 'ALREADY_DELIVERED')
+        self.deliver()
+
+    def test_crashed_delivery_releases_lock_without_allowing_revoke(self):
+        self.setup_task()
+        self.candidate()
+        self.evidence()
+        delivery = self.actor('deliver', 'DELIVERED')
+        self.wait_barrier(delivery)
+        delivery.kill()
+        delivery.communicate(timeout=10)
+        self.assertFalse(Path(self.load(self.task)['completion_path']).exists())
+        self.cli('revoke', task=self.task, ok=False, error='ALREADY_DELIVERED')
+        self.assertEqual(self.cli('recover', task=self.task)['state'], 'DELIVERED')
+        self.deliver()
+
+    def test_test_running_during_revoke_cannot_produce_valid_pass(self):
+        ready, release = self.tmp / 'testing', self.tmp / 'continue-test'
+        code = (f'from pathlib import Path; import time; p=Path({str(ready)!r}); '
+                f'p.write_text("running"); q=Path({str(release)!r}); '
+                '\nwhile not q.exists(): time.sleep(0.02)\n')
+        self.setup_task(command=[sys.executable, '-c', code])
+        self.candidate()
+        process = subprocess.Popen([sys.executable, str(CLI), 'test', '--root', str(self.impl),
+                                   '--task', str(self.task), '--candidate', self.sha,
+                                   '--session', 'in-flight', '--output', str(self.ev)],
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
+        self.addCleanup(lambda: process.kill() if process.poll() is None else None)
+        deadline = time.monotonic() + 20
+        while not ready.exists():
+            self.assertIsNone(process.poll())
+            self.assertLess(time.monotonic(), deadline)
+            time.sleep(0.02)
+        self.cli('revoke', task=self.task)
+        release.write_text('continue')
+        self.assertEqual(self.actor_result(process, 1)['error'], 'TEST_WORKTREE_CHANGED')
+        self.assertEqual(self.load(self.ev)['validation_error'], 'TASK_REVOKED')
+        self.assertFalse(self.load(self.ev)['worktree_unchanged'])
 
 
 if __name__ == '__main__':

@@ -47,6 +47,24 @@ authorize 后不得修改 task 原始字节，也不得修改对应表暗中扩�
 
 对原始字节敏感的验收（如 Project Map）须明确检出和换行策略；Git clean 不代表工作树原始字节与地图快照一致。Windows 冷克隆若要求匹配候选 Git blob 字节，可先 `git clone --no-checkout <源仓库> <独立目录>`，再在该目录执行 `git -c core.autocrlf=false checkout --detach <SHA>`，并由独立会话实际验证地图，不能将 `MAP_PARTIAL` 记为 `MAP_HIT`。合成交付仓库也须采用相同本地换行策略：仅在已授权测试仓库执行 `git config --local core.autocrlf false`，不修改全局或系统配置；框架不自动处理换行一致性。
 
+## 任务级撤销
+
+用户取消尚未交付的指定任务时，在原项目或其关联 worktree 中执行：
+
+```powershell
+& 'C:/Python313/python.exe' -B 'D:/framework/codex-only/codex_only.py' revoke --root 'D:/demo/project' --task 'D:/demo/public/task.json'
+```
+
+成功退出 0，返回 `state=REVOKED`、原任务摘要和 `revocation` 路径。重复撤销保持原记录字节不变。原七命令的参数与任务/完成记录格式不变；任务文件不改写，完成记录仍只证明交付。撤销要求原项目 UUID/genesis 与 Git common directory 匹配，独立 Reviewer clone 可以读取撤销事实，但不能代替原项目执行 revoke。
+
+撤销记录位于任务原 `common_dir/codex-only-revocations/<身份摘要>.json`，不进入源码 scope；按项目 UUID、genesis、任务 ID 定位，绑定原任务字节 SHA-256、授权 baseline、目标分支、common directory 和原 completion_path。复制旧 task 到另一外部路径或在独立 clone 中使用也会拒绝；同一任务 ID 的字节或绑定不匹配返回 `REVOCATION_MISMATCH`。任务 ID 在项目内应唯一；撤销后如有新需求，使用原 authorize 和新的任务 ID，不复用旧 ID。撤销标记只是否定事实，不产生授权，也不自动撤销其他任务。
+
+撤销后，新进程 `check/test/gate/deliver` 和使用 task 的 Project Map `build/update` 返回 `TASK_REVOKED`（退出 1）。旧测试、Reviewer PASS 和旧文件不能绕过此检查。独立 clone 也须能访问任务记录的原 Git common directory；原存储不可用返回 `REVOCATION_UNAVAILABLE`，不能把无法查询当作未撤销。运行中测试在结束时再次检查，撤销后产生的记录标明验证失败，不能用于 gate。`recover` 仍只读，返回 `REVOKED` 及原工作树诊断 `worktree_state`；标记损坏/绑定冲突 fail-closed，不伪造交付证明。
+
+同一任务的 revoke 与 deliver 使用原 Git common directory 内同一 OS 文件锁：Windows 用标准库 msvcrt，POSIX 用 fcntl，等待最多 30 秒，超时返回 `TASK_BUSY`。交付持锁后重查撤销，锁覆盖 gate、真实 Git 快进、复核和 completion 原子写入；撤销持锁核对完成证明/reflog并原子持久化标记后才报告成功。撤销先取得锁则交付拒绝；交付先完成则 revoke 返回 `ALREADY_DELIVERED`，保留 Git 和 completion。进程被终止会释放 OS 锁；merge 后写记录前中断仍由原 reflog 识别真实交付，拒绝撤销并允许原 deliver 重试补写 completion。完成记录损坏或目标移动无法解释时拒绝撤销，不能声称回滚成功。
+
+这只为同一任务的 revoke/deliver 定序；已经启动的测试或地图操作不会被强行终止，任意其他 Git 写入不受该锁协调。标记是本机可写数据，无签名或访问隔离；任意写权限的进程删除标记、替换整个项目或伪造一整套任务不在此非密码学协议的保证内。保留任务、撤销标记、Git 元数据和交付证据；不要为恢复而删除撤销标记。
+
 ## 精确调用示例
 
 以下是 Python 交互窗口或脚本中的调用，避免不同 PowerShell 版本对 JSON 引号的处理差异。路径是示例，需要换成实际路径。CLI 应位于候选工作树或其他可信位置。所有 `run()` 都是真实子进程调用，失败立即抛出异常。
@@ -157,6 +175,7 @@ gate 要求实现者测试和 Reviewer 独立测试都退出 0 且绑定相同�
 - `DELIVERED`：完成记录匹配当前目标；或本任务交付的最新 Git reflog 标记确认 merge 已完成但记录缺失。
 - `DIRTY`：当前工作树不干净。
 - `STALE`：目标发生其他移动、当前工作树历史不继承授权基线，或完成记录不匹配。
+- `REVOKED`：准确绑定的撤销事实存在，旧任务后续操作拒绝；`worktree_state` 保留原 Git/工作树诊断。与真实交付事实同时存在则返回 `REVOCATION_CONFLICT`，需核对异常，不能自动消去任一记录。
 
 若 merge 后记录写入中断，`recover` 如实报告 `DELIVERED` 和缺失记录；保留原候选、评审与证据后重试相同 `deliver`，重新验证并补写记录，不再 merge。完成记录原子替换；记录损坏时返回 `INVALID_JSON`，不会推断成功。若 reflog 被删除/过期且完成记录也缺失，恢复保守报告 `STALE`，自动重试也会拒绝，需要人工根据真实 Git 记录诊断。普通 merge 即使将目标移到了同一候选，也不会被接受为交付重试。`gate` 在交付后因 baseline 已移动而拒绝是正常行为，只有有交付记录支持的重试允许目标等于候选。
 
@@ -225,7 +244,7 @@ if (-not $implSession -or -not $reviewSession -or $implSession -eq $reviewSessio
 
 这是同一 OS 账号下的逻辑约束，不是安全隔离。任务、证据、评审及其会话标识均为公开且可写数据，没有签名或不可伪造身份；摘要可检测意外变更，不能阻止恶意进程重写一整套数据。实际 Reviewer 独立性由用户安排全新会话保障。测试命令属于用户授权的可信代码，可以执行任意当前账号可执行操作；框架不沙箱化测试。
 
-Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢复的瞬间变化。工作流假设顺序操作，不为并发写入、恶意 hooks、replace refs、损坏仓库或恶意进程提供事务/隔离保证。测试无超时策略；调用者可中断挂起的测试，此时缺失证据必须重跑。初始化中断可能留下未提交身份文件，需检查后手动处理。目标分支基线在任务中固定并逐次核对，但不是不可改写的 Git ref 锁。
+Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢复的瞬间变化。除上述同一任务 revoke/deliver 的锁外，工作流假设顺序操作，不为其他并发写入、恶意 hooks、replace refs、损坏仓库或恶意进程提供事务/隔离保证。测试无超时策略；调用者可中断挂起的测试，此时缺失证据必须重跑。初始化中断可能留下未提交身份文件，需检查后手动处理。目标分支基线在任务中固定并逐次核对，但不是不可改写的 Git ref 锁。
 
 不读取私有上下文，不设置账号/ACL，不增加编排角色，不做 push、发布、清理旧资产或独立批准。原 Framework 接入候选仅修改根 AGENTS.md 和约定的六个 codex-only 文件；运行工作流生成的项目身份属于用户选定的测试/目标仓库。原接入时旧资产继续保留。后续源码收敛候选会把旧管理证据移至 Git 历史；新日常入口不依赖旧治理流程，不迁移真实 Consumer。
 
