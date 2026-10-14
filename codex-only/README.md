@@ -222,7 +222,11 @@ Git 的干净状态不包含忽略文件，也无法发现测试先修改后恢�
 
 ## 收敛候选与最小 ZIP
 
-本轮源码候选保留兼容性尚未决定的旧 Consumer 导出、公开脚本/插件及必要依赖；这些不是新日常入口。8 文件最小 ZIP 仅面向新 Codex-only 项目，不包含旧 Consumer 运行时、VERSION、历史文档或 Git 数据，不适合作为旧框架的原地升级包。CLI 和 22 个测试保持基线字节及语义。
+历史稳定发行 `codex-only-v1.0.0` 使用八文件最小 ZIP，不包含 Project Map。
+
+Project Map 后继发行候选使用十一文件 ZIP：原八文件加上 `codex-only/project_map.py`、`codex-only/tests/test_project_map.py` 和 `codex-only/tests/map_acceptance.py`。原七个 CLI 命令和 22 项测试保持基线字节及语义，另增加地图辅助入口和 12 项地图测试；本段不指定新的正式版本。
+
+两种包均仅面向新 Codex-only 项目，不包含旧 Consumer 运行时、VERSION、历史文档或 Git 数据，不适合作为旧 GPT–Codex Consumer 的原地升级包。源码仓库继续保留兼容性尚未决定的旧 Consumer 导出、公开脚本/插件及必要依赖；这些不是新日常入口。
 
 完整切换前树可在完整仓库中用 `git show 8839ce90f9f541b4b2fe5ac577ebdd0a26f8c194:<path>` 读取；旧根入口与完整旧治理使用 `git show 300dfd48167954e1179f821f23157d6a917cd47b:AGENTS.md`。仓库地址为 `https://github.com/xqc2098948451-byte/gpt-codex-framework`；仅持有 ZIP 时须另取得包含这些提交的完整 Git clone，ZIP 自身无法恢复历史。需要完整旧运行环境时，在独立目录检出对应历史提交，不把旧状态或入口混入新项目。历史原型的验收结果仅见 ACCEPTANCE 的历史说明，本轮测试与独立评审须重新绑定实际候选 SHA。
 
